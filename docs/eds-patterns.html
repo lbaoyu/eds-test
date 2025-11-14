@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDS Pattern Reference - Centralized Decorator & Viewport Change Listener</title>
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  color: #222;
+  margin: 40px;
+  max-width: 900px;
+}
+h1, h2, h3 {
+  color: #1473e6;
+}
+pre, code {
+  background-color: #f8f8f8;
+  padding: 6px 10px;
+  border-radius: 4px;
+  display: block;
+  white-space: pre-wrap;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background-color: #eef3f8;
+}
+a {
+  color: #1473e6;
+  text-decoration: none;
+}
+</style>
+</head>
+<body>
+
+<h1>EDS Pattern Reference</h1>
+<h2>Centralized Button Logic &amp; Responsive Carousel Behavior</h2>
+
+<h3>1️⃣ Centralized Decoration Pattern (Reusable Button Logic)</h3>
+<p><strong>Purpose:</strong> Avoid code duplication by creating one shared utility for decorating button elements — ensuring consistent classes, accessibility, and styling across all blocks.</p>
+
+<h4>File: <code>/scripts/utils/buttons.js</code></h4>
+<pre><code>export function decorateButtons(scope = document) {
+  // 🔑 Find all buttons in scope
+  const buttons = scope.querySelectorAll('a.button, button');
+
+  buttons.forEach((button) =&gt; {
+    // 🔑 Ensure the .button class exists
+    if (!button.classList.contains('button')) {
+      button.classList.add('button');
+    }
+
+    // Example variant handling
+    if (button.textContent.includes('Buy')) {
+      button.classList.add('button--primary');
+    }
+
+    // 🔑 Accessibility attribute
+    button.setAttribute('role', 'button');
+  });
+}
+</code></pre>
+
+<h4>Usage in <code>/blocks/hero/hero.js</code></h4>
+<pre><code>import { decorateButtons } from '../../scripts/utils/buttons.js';
+
+export default function decorate(block) {
+  // Hero-specific logic…
+  // 🔑 Apply shared button logic
+  decorateButtons(block);
+}
+</code></pre>
+
+<h4>File: <code>/styles/buttons.css</code></h4>
+<pre><code>.button {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 4px;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+}
+
+.button--primary {
+  background-color: #1473e6;
+  color: #fff;
+}
+</code></pre>
+
+<h3>Highlights — Part 1: Centralized Decoration Pattern</h3>
+<table>
+<thead>
+<tr><th>Goal</th><th>Key Line of Code</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>Locate button elements</td><td><code>const buttons = scope.querySelectorAll('a.button, button');</code></td><td>Scans block scope for button nodes</td></tr>
+<tr><td>Ensure style class consistency</td><td><code>button.classList.add('button');</code></td><td>Applies core button class uniformly</td></tr>
+<tr><td>Add accessibility</td><td><code>button.setAttribute('role', 'button');</code></td><td>Makes links accessible as button roles</td></tr>
+<tr><td>Apply logic to any block</td><td><code>decorateButtons(block);</code></td><td>Enables centralized, DRY pattern across EDS blocks</td></tr>
+</tbody>
+</table>
+
+<hr>
+
+<h3>2️⃣ Responsive Carousel with Viewport Change Listener</h3>
+<p><strong>Purpose:</strong> Transform a grid of cards into a carousel on mobile breakpoint, reverting back to normal layout on desktop—automatically updated via a Media Query listener.</p>
+
+<h4>File: <code>/scripts/utils/carousel.js</code></h4>
+<pre><code>export function makeCarousel(container) {
+  // 🔑 Initial mobile breakpoint observer
+  const isMobile = window.matchMedia('(max-width: 767px)');
+  let carouselInitialized = false;
+
+  function initCarousel() {
+    // 🔑 Switch ON carousel for mobile
+    if (isMobile.matches &amp;&amp; !carouselInitialized) {
+      container.classList.add('carousel');
+
+      const cards = container.querySelectorAll(':scope &gt; div');
+      const carouselInner = document.createElement('div');
+      carouselInner.classList.add('carousel-inner');
+
+      cards.forEach((card) =&gt; carouselInner.appendChild(card));
+      container.appendChild(carouselInner);
+
+      let startX = 0;
+      let scrollStart = 0;
+
+      carouselInner.addEventListener('touchstart', (e) =&gt; {
+        startX = e.touches[0].pageX - carouselInner.offsetLeft;
+        scrollStart = carouselInner.scrollLeft;
+      });
+
+      carouselInner.addEventListener('touchmove', (e) =&gt; {
+        const x = e.touches[0].pageX - carouselInner.offsetLeft;
+        carouselInner.scrollLeft = scrollStart - (x - startX);
+      });
+
+      carouselInitialized = true;
+
+    // 🔑 Switch OFF carousel for desktop
+    } else if (!isMobile.matches &amp;&amp; carouselInitialized) {
+      const carouselInner = container.querySelector('.carousel-inner');
+      if (carouselInner) {
+        const items = [...carouselInner.children];
+        items.forEach((item) =&gt; container.appendChild(item));
+        carouselInner.remove();
+      }
+      container.classList.remove('carousel');
+      carouselInitialized = false;
+    }
+  }
+
+  // 🔑 Run on load
+  initCarousel();
+
+  // 🔑 Event listener for viewport change
+  isMobile.addEventListener('change', initCarousel);
+}
+</code></pre>
+
+<h4>File: <code>/blocks/cards/cards.js</code></h4>
+<pre><code>import { makeCarousel } from '../../scripts/utils/carousel.js';
+
+export default function decorate(block) {
+  block.classList.add('cards-block');
+  const cards = block.querySelectorAll(':scope &gt; div');
+  cards.forEach((card) =&gt; card.classList.add('card-item'));
+
+  // 🔑 Initialize responsive carousel
+  makeCarousel(block);
+}
+</code></pre>
+
+<h4>File: <code>/blocks/cards/cards.css</code></h4>
+<pre><code>.cards-block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.card-item {
+  flex: 1 1 calc(33% - 16px);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* 🔑 Mobile carousel layout */
+.carousel {
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+}
+
+.carousel .carousel-inner {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.carousel .card-item {
+  flex: 0 0 80%;
+  margin-right: 10px;
+  scroll-snap-align: start;
+}
+
+@media (min-width: 768px) {
+  .carousel .card-item {
+    flex: 1 1 calc(33% - 16px);
+  }
+}
+</code></pre>
+
+<h3>Highlights — Part 2: Viewport Change Listener</h3>
+<table>
+<thead>
+<tr><th>Goal</th><th>Key Line of Code</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>Detect mobile viewport</td><td><code>const isMobile = window.matchMedia('(max-width: 767px)');</code></td><td>Creates a listener to track breakpoint dynamically</td></tr>
+<tr><td>React on viewport resize</td><td><code>isMobile.addEventListener('change', initCarousel);</code></td><td>Automatically toggles layout when screen size changes</td></tr>
+<tr><td>Initialize responsive behavior</td><td><code>initCarousel();</code></td><td>Runs carousel setup immediately and after changes</td></tr>
+<tr><td>Enter mobile layout</td><td><code>if (isMobile.matches &amp;&amp; !carouselInitialized) { ... }</code></td><td>Builds carousel wrapper dynamically</td></tr>
+<tr><td>Exit mobile layout</td><td><code>else if (!isMobile.matches &amp;&amp; carouselInitialized) { ... }</code></td><td>Restores grid layout when viewport is larger</td></tr>
+</tbody>
+</table>
+
+<hr>
+
+<h3>Summary</h3>
+<ul>
+<li><strong>No dependencies:</strong> pure ES modules and CSS.</li>
+<li><strong>Centralized:</strong> one reusable decorator for all buttons across blocks.</li>
+<li><strong>Responsive:</strong> cards container automatically switches between grid and carousel.</li>
+<li><strong>Author-friendly:</strong> compatible with Universal Editor block authoring.</li>
+<li><strong>Maintainable:</strong> changes applied once reflect everywhere.</li>
+</ul>
+
+<p>🔗 Official Reference:<br>
+<a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/edge-delivery/configuration/cfds" target="_blank">Edge Delivery | Block Development and Decoration</a></p>
+
+</body>
+</html>

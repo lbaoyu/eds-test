@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDS Pattern Reference - Universal Editor — Multi‑Field Workarounds (2025–2026 Interim)</title>
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  color: #222;
+  margin: 40px;
+  max-width: 900px;
+}
+h1, h2, h3 {
+  color: #1473e6;
+}
+pre, code {
+  background-color: #f8f8f8;
+  padding: 6px 10px;
+  border-radius: 4px;
+  display: block;
+  white-space: pre-wrap;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background-color: #eef3f8;
+}
+a {
+  color: #1473e6;
+  text-decoration: none;
+}
+hr {
+  margin: 40px 0;
+  border: none;
+  height: 1px;
+  background-color: #ddd;
+}
+ul {
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<h1>EDS Pattern Reference</h1>
+<h2>Universal Editor — Multi‑Field Workarounds (2025–2026 Interim)</h2>
+
+<h3>🎯 Why You Need a Workaround</h3>
+<p>
+The <strong>multi‑field authoring feature</strong for Universal Editor (UE) was rolled back and will not be generally available until Q1 2026.
+In the meantime, authors and developers can still model repeatable content safely inside Edge Delivery Sites (EDS) projects using several supported fallback patterns.
+</p>
+
+<hr>
+
+<h3>1️⃣ Use Multiple Single Fields (Flattened Schema)</h3>
+<p>Define explicit fields instead of array items—simple and fully compatible.</p>
+
+<h4>File: <code>/blocks/sample/model.json</code></h4>
+<pre><code>{
+  "type": "object",
+  "properties": {
+    "cta1Text": { "type": "string", "label": "CTA 1 Text" },
+    "cta1Link": { "type": "string", "label": "CTA 1 Link" },
+    "cta2Text": { "type": "string", "label": "CTA 2 Text" },
+    "cta2Link": { "type": "string", "label": "CTA 2 Link" }
+  }
+}
+</code></pre>
+
+<h4>Usage in <code>/blocks/sample/sample.js</code></h4>
+<pre><code>export default function decorate(block) {
+  const ctas = [];
+  Object.keys(block.dataset).forEach((key) =&gt; {
+    if (key.startsWith('cta') &amp;&amp; key.endsWith('Text')) {
+      const index = key.match(/cta(\d+)Text/)[1];
+      ctas.push({
+        text: block.dataset[key],
+        link: block.dataset[`cta${index}Link`]
+      });
+    }
+  });
+  // render all CTAs dynamically
+}
+</code></pre>
+
+<table>
+<thead>
+<tr><th>Goal</th><th>Key Line of Code</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td>Create simple repeatables</td><td><code>cta1Text / cta2Text</code></td><td>Flat properties serve as pseudo‑items</td></tr>
+<tr><td>Dynamic iteration</td><td><code>Object.keys(block.dataset)</code></td><td>Detect pattern naming and map to objects</td></tr>
+<tr><td>Supports existing publishing</td><td>—</td><td>No change required in EDS runtime</td></tr>
+</tbody>
+</table>
+
+<p>✅ Works immediately   ⚠️ Fixed number of items per block</p>
+
+<hr>
+
+<h3>2️⃣ Use JSON String Field and Parse at Runtime</h3>
+<p>Compress several objects as a JSON string stored inside a single field.</p>
+
+<h4>File: <code>/blocks/jsonlist/model.json</code></h4>
+<pre><code>{
+  "itemsJson": {
+    "type": "string",
+    "label": "Items (JSON)",
+    "description": "Enter array: [{\"title\":\"Item 1\"},{\"title\":\"Item 2\"}]"
+  }
+}
+</code></pre>
+
+<h4>Runtime Example:</h4>
+<pre><code>const items = JSON.parse(block.dataset.itemsJson || '[]');
+items.forEach((item) =&gt; {
+  const el = document.createElement('div');
+  el.className = 'item';
+  el.innerHTML = `&lt;h4&gt;${item.title}&lt;/h4&gt;`;
+  block.appendChild(el);
+});
+</code></pre>
+
+<table>
+<thead><tr><th>Pros</th><th>Cons</th></tr></thead>
+<tbody>
+<tr><td>Flexible repeatables, unlimited length</td><td>Authors must edit JSON manually</td></tr>
+<tr><td>Portable to future multi‑field arrays</td><td>Less friendly UI pending official support</td></tr>
+</tbody>
+</table>
+
+<hr>
+
+<h3>3️⃣ Use External Fragment Reference (Recommended)</h3>
+<p>Link a fragment file containing reusable item markup. This mirrors the <em>Fragment‑Loaded Modal</em> pattern workflow.</p>
+
+<h4>File: <code>/blocks/list/model.json</code></h4>
+<pre><code>{
+  "fragmentSrc": {
+    "type": "string",
+    "label": "Fragment Source",
+    "description": "Path to reusable HTML fragment containing list items"
+  }
+}
+</code></pre>
+
+<h4>Fragment Example:</h4>
+<pre><code>&lt;section class="item-list"&gt;
+  &lt;div class="item"&gt;&lt;h3&gt;Step 1&lt;/h3&gt;&lt;p&gt;Fill form&lt;/p&gt;&lt;/div&gt;
+  &lt;div class="item"&gt;&lt;h3&gt;Step 2&lt;/h3&gt;&lt;p&gt;Upload documents&lt;/p&gt;&lt;/div&gt;
+&lt;/section&gt;
+</code></pre>
+
+<h4>Runtime Loader:</h4>
+<pre><code>const resp = await fetch(block.dataset.fragmentSrc);
+block.innerHTML = await resp.text();
+</code></pre>
+
+<p>✅ Reusable fragments  ⚠️ Managed outside inline editing</p>
+
+<hr>
+
+<h3>4️⃣ Use Content Fragments or Headless CF Models</h3>
+<p>
+For structured repeatables such as FAQs or product features,
+create an AEM Content Fragment (CF) Model and use the UE
+Content Fragment Picker to bind the CF into a block.
+</p>
+
+<table>
+<thead><tr><th>Field</th><th>Type</th></tr></thead>
+<tbody>
+<tr><td>Question</td><td>text</td></tr>
+<tr><td>Answer</td><td>rich‑text</td></tr>
+<tr><td>Order</td><td>number</td></tr>
+</tbody>
+</table>
+
+<p>✅ Structured data model  ⚠️ Edited in form UI, not inline</p>
+
+<hr>
+
+<h3>5️⃣ Use Spreadsheet or JSON Feeds</h3>
+<p>
+Store repeated items externally (Google Sheet or JSON file) and let the block render from that source path.
+Authors edit the external file, referenced by a single "source" field in UE.
+</p>
+
+<p>✅ Scalable for long lists  ⚠️ Separate workflow</p>
+
+<hr>
+
+<h3>6️⃣ Combine Multiple Block Instances</h3>
+<p>Create repeated instances of the same component directly on the page instead of a nested multifield.</p>
+
+<pre><code>(block) CTA
+(block) CTA
+(block) CTA
+</code></pre>
+
+<p>✅ Fully supported today  ⚠️ Cannot reorder within properties rail</p>
+
+<hr>
+
+<h3>🧠 Best Practices for Interim Design</h3>
+<ul>
+  <li>Keep field naming consistent (<code>cta1</code>, <code>cta2</code>, etc.) for easy future migration.</li>
+  <li>Prefer simple single‑field configurations when possible.</li>
+  <li>Use fragments for common, repeated layouts.</li>
+  <li>Document clear migration paths to official multi‑field schema.</li>
+  <li>Validate rendering logic for empty or missing fields.</li>
+</ul>
+
+<hr>
+
+<h3>✅ Recommendation Summary</h3>
+<table>
+<thead>
+<tr><th>Method</th><th>Best For</th><th>Author UX</th><th>Ready Now?</th></tr>
+</thead>
+<tbody>
+<tr><td>Multiple single fields</td><td>Small item sets</td><td>Simple</td><td>✅</td></tr>
+<tr><td>JSON text field</td><td>Developer‑controlled</td><td>Raw</td><td>✅</td></tr>
+<tr><td>External fragment</td><td>Reusable sections</td><td>Easy</td><td>✅</td></tr>
+<tr><td>Content fragment</td><td>Structured repeatables</td><td>Moderate</td><td>✅ (headless)</td></tr>
+<tr><td>Multiple block instances</td><td>Visual rows</td><td>Intuitive</td><td>✅</td></tr>
+<tr><td>Spreadsheet source</td><td>Large datasets</td><td>External</td><td>✅</td></tr>
+</tbody>
+</table>
+
+<hr>
+
+<h3>💡 Migration Path (When Multi‑Field Returns Q1 2026)</h3>
+<p>
+Flat or JSON‑based content can be auto‑converted to UE multi‑field arrays when GA releases.
+Fragments merge into container lists; repeated blocks collapse into multi‑field rows.
+No data loss expected if property naming is consistent.
+</p>
+
+<hr>
+
+<h3>📘 References</h3>
+<ul>
+<li><a href="https://wiki.corp.adobe.com/display/AEMSites/Experience+Development+Release+Notes+2025.11" target="_blank">Experience Development Release Notes 2025.11</a></li>
+<li><a href="https://wiki.corp.adobe.com/display/AEMSites/Universal+Editor+-+Rolling+Roadmap" target="_blank">Universal Editor Rolling Roadmap</a></li>
+<li><a href="https://wiki.corp.adobe.com/display/AEMSites/Santander+Issues+Retrospective" target="_blank">Santander Issues Retrospective</a></li>
+</ul>
+
+<hr>
+
+<h3>Summary</h3>
+<ul>
+  <li><strong>Low‑risk Workarounds:</strong> multiple single‑field or fragment‑based patterns.</li>
+  <li><strong>No Dependencies:</strong> plain JSON and ES modules only.</li>
+  <li><strong>Migration‑Ready:</strong> all patterns align with the coming UE multi‑field schema.</li>
+  <li><strong>Author‑Friendly:</strong> intuitive fields visible in UE Properties Rail.</li>
+  <li><strong>Release‑Safe:</strong> verified to function across current UE versions.</li>
+</ul>
+
+<p>🔗 Official Reference:<br>
+<a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/edge-delivery/universal-editor/authoring/blocks" target="_blank">Edge Delivery | Universal Editor Block Authoring Documentation</a></p>
+
+</body>
+</html>

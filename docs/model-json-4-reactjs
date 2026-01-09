@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDS Pattern Reference – Embed AEM Page Model JSON into HTML for React</title>
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  color: #222;
+  margin: 40px;
+  max-width: 900px;
+}
+h1, h2, h3, h4 {
+  color: #1473e6;
+}
+pre {
+  background-color: #f8f8f8;
+  padding: 10px 12px;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+code {
+  background-color: #f8f8f8;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background-color: #eef3f8;
+}
+a {
+  color: #1473e6;
+  text-decoration: none;
+}
+hr {
+  margin: 40px 0;
+  border: none;
+  height: 1px;
+  background-color: #ddd;
+}
+ul {
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<h1>EDS Pattern Reference</h1>
+<h2>How‑to – Embed AEM Page Model JSON into HTML for React (No Extra API Call)</h2>
+
+<h3>🎯 What This Pattern Solves</h3>
+<p>
+You want to <strong>keep existing React-based components</strong> but <strong>stop calling</strong>
+<code>xyz-page.model.json</code> from the browser. Instead of a client-side
+<code>fetch('/xyz-page.model.json')</code>, the JSON is generated on the server (via a Sling Model)
+and embedded directly into the HTML that React boots from.
+</p>
+
+<table>
+<thead>
+<tr><th>Before</th><th>After</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>1 × HTML page + 1 × <code>xyz-page.model.json</code> HTTP call</td>
+  <td>1 × HTML page that already contains the page model JSON</td>
+</tr>
+</tbody>
+</table>
+
+<p>✅ Fewer HTTP calls  ✅ Faster first render  ✅ No change required in existing page models</p>
+
+<hr>
+
+<h3>1️⃣ High‑Level Pattern</h3>
+
+<ol>
+  <li>
+    <strong>Page Sling Model</strong>
+    <ul>
+      <li>Adapts the page resource (or request).</li>
+      <li>Uses <code>ModelFactory</code> to obtain the existing exported page model (what <code>.model.json</code> would produce).</li>
+      <li>Serializes that model to a JSON string.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>Page HTL</strong>
+    <ul>
+      <li>Uses the Sling Model’s getter to embed the JSON into the HTML, typically in a <code>&lt;script&gt;</code> block that sets <code>window.__PAGE_MODEL__</code>.</li>
+    </ul>
+  </li>
+  <li>
+    <strong>React bootstrap</strong>
+    <ul>
+      <li>Reads <code>window.__PAGE_MODEL__</code> and passes it into the React app instead of calling <code>fetch('/xyz-page.model.json')</code>.</li>
+    </ul>
+  </li>
+</ol>
+
+<hr>
+
+<h3>2️⃣ Prerequisites</h3>
+<ul>
+  <li>You are using AEM with React-based components rendered on the page.</li>
+  <li>Your page component resource type is <code>myproj/components/page</code> (adjust as needed).</li>
+  <li>The page already supports Sling Model Exporter (for example, a Core Components-based page model that powers <code>*.model.json</code>).</li>
+  <li>You can build and deploy Java Sling Models and your React bundle.</li>
+</ul>
+
+<hr>
+
+<h3>3️⃣ Step 1 – Sling Model: Embed the Page Model JSON</h3>
+
+<p>
+Create a Sling Model that adapts the page resource and produces a JSON string that is
+equivalent to what <code>xyz-page.model.json</code> returns.
+</p>
+
+<h4>3.1 Assumptions</h4>
+<ul>
+  <li>Page component resource type: <code>myproj/components/page</code></li>
+  <li>Existing page exporter model already used by <code>*.model.json</code></li>
+</ul>
+
+<h4>3.2 Java Sling Model Example</h4>
+
+<pre><code>package com.myproj.core.models;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.sling.api.resource.Resource;
+import org.apache.sling.models.annotations.*;
+import org.apache.sling.models.factory.ModelFactory;
+
+import javax.inject.Inject;
+
+@Model(
+    adaptables = Resource.class,
+    adapters = PageWithEmbeddedModel.class,
+    resourceType = "myproj/components/page"
+)
+public class PageWithEmbeddedModel {
+
+    @Inject
+    private Resource resource;
+
+    @Inject
+    private ModelFactory modelFactory;
+
+    @Inject
+    private ObjectMapper objectMapper;
+
+    /**
+     * Returns JSON string equivalent to what xyz-page.model.json would return.
+     */
+    public String getPageModelJson() {
+        try {
+            // Replace `Object.class` with your concrete page model interface if you have one,
+            // for example: com.adobe.cq.wcm.core.components.models.Page
+            Object pageModel = modelFactory.createModel(resource, Object.class);
+            if (pageModel == null) {
+                return "{}";
+            }
+            return objectMapper.writeValueAsString(pageModel);
+        } catch (Exception e) {
+            // Log in real code; fall back to empty JSON here
+            return "{}";
+        }
+    }
+}
+</code></pre>
+
+<h4>3.3 Notes</h4>
+<ul>
+  <li>The page’s resource must already adapt to the exported model used by <code>*.model.json</code>.</li>
+  <li><code>ModelFactory</code> lets you reuse the same model logic server-side without an HTTP request.</li>
+  <li>In real code, log the exception instead of silently swallowing it.</li>
+</ul>
+
+<hr>
+
+<h3>4️⃣ Step 2 – Page HTL: Inject JSON for the React App</h3>
+
+<p>
+Update the page component’s HTL to use the new Sling Model and expose the generated JSON as a global variable.
+</p>
+
+<h4>4.1 Example HTL Script</h4>
+<p>File: <code>apps/myproj/components/page/page.html</code></p>
+
+<pre><code>&lt;sly data-sly-use.pageModel="com.myproj.core.models.PageWithEmbeddedModel" /&gt;
+
+&lt;!-- React root --&gt;
+&lt;div id="app-root"&gt;&lt;/div&gt;
+
+&lt;!-- Inject JSON that React will use as initial model --&gt;
+&lt;script&gt;
+  window.__PAGE_MODEL__ = ${pageModel.pageModelJson @ context='unsafe'};
+&lt;/script&gt;
+
+&lt;!-- React bundle --&gt;
+&lt;script src="/etc.clientlibs/myproj/clientlibs/clientlib-react.js"&gt;&lt;/script&gt;
+</code></pre>
+
+<table>
+<thead>
+<tr><th>Goal</th><th>Key Line</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr>
+  <td>Expose page model JSON</td>
+  <td><code>window.__PAGE_MODEL__ = ${pageModel.pageModelJson}</code></td>
+  <td>Sets a global JS variable containing the server-generated page model JSON.</td>
+</tr>
+<tr>
+  <td>Connect to React root</td>
+  <td><code>&lt;div id="app-root"&gt;</code></td>
+  <td>DOM node where the React app will be hydrated/rendered.</td>
+</tr>
+<tr>
+  <td>Load React bundle</td>
+  <td><code>clientlib-react.js</code></td>
+  <td>Client library that bootstraps the React application.</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+<strong>Key point:</strong> The <code>&lt;script&gt;</code> snippet above replaces the need for a client-side
+<code>fetch('/xyz-page.model.json')</code> call. The model is already present in the initial HTML.
+</p>
+
+<hr>
+
+<h3>5️⃣ Step 3 – React Bootstrap: Consume Server‑Provided JSON</h3>
+
+<p>
+Change your React entry file to read from <code>window.__PAGE_MODEL__</code> instead of performing a network request.
+</p>
+
+<h4>5.1 Example React Entry (index.js)</h4>
+
+<pre><code>// index.js
+
+import React from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App";
+
+const container = document.getElementById("app-root");
+const root = createRoot(container);
+
+// Read initial page model from server-provided global
+const initialModelJson = window.__PAGE_MODEL__ || "{}";
+const initialModel = JSON.parse(initialModelJson);
+
+root.render(&lt;App initialModel={initialModel} /&gt;);
+</code></pre>
+
+<h4>5.2 Using the Model Inside React</h4>
+<ul>
+  <li>Pass <code>initialModel</code> down via props into your component tree, or provide it through React Context.</li>
+  <li>Remove or avoid calls to <code>fetch('xyz-page.model.json')</code> in your React components.</li>
+  <li>Optional: add schema validation or TypeScript types around <code>initialModel</code> to catch mismatches early.</li>
+</ul>
+
+<hr>
+
+<h3>6️⃣ Verification Checklist</h3>
+<ul>
+  <li>Open the page in a browser and view the HTML source.</li>
+  <li>Confirm there is a <code>&lt;script&gt;</code> block that defines <code>window.__PAGE_MODEL__</code> with JSON.</li>
+  <li>Open DevTools → Network tab and verify there is no request to <code>xyz-page.model.json</code>.</li>
+  <li>Ensure React renders as expected using the embedded data (try disabling the network to double‑check).</li>
+</ul>
+
+<hr>
+
+<h3>🧠 Best Practices & Considerations</h3>
+<ul>
+  <li>Keep the JSON reasonably sized; very large models can slow HTML download and parsing.</li>
+  <li>If you need only a subset of the model, consider trimming unnecessary data before serialization.</li>
+  <li>Ensure the JSON is safe to embed (respect any privacy/security constraints before exposing data to the browser).</li>
+  <li>If the page can be cached, this pattern works well with edge caching because the HTML is self‑contained.</li>
+</ul>
+
+<hr>
+
+<h3>Summary</h3>
+<ul>
+  <li><strong>Goal:</strong> Eliminate the extra <code>xyz-page.model.json</code> HTTP call.</li>
+  <li><strong>Server:</strong> Sling Model uses <code>ModelFactory</code> + <code>ObjectMapper</code> to generate the JSON.</li>
+  <li><strong>HTML/HTL:</strong> Embed JSON into <code>window.__PAGE_MODEL__</code> inside the initial HTML.</li>
+  <li><strong>Client:</strong> React bootstrap reads <code>window.__PAGE_MODEL__</code> and passes it into the app.</li>
+  <li><strong>Outcome:</strong> Faster, simpler bootstrap with no change to the underlying page exporter model.</li>
+</ul>
+
+</body>
+</html>

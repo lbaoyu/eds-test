@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>AEM 6.5 LTS Upgrade – Tools & Pre‑Upgrade Assessment (On‑Prem)</title>
+  <title>AEM 6.5 LTS Side‑by‑Side Upgrade – Tools & Pre‑Upgrade Assessment (On‑Prem)</title>
   <style>
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -91,84 +91,46 @@
 </head>
 <body>
 
-<h1>AEM 6.5 LTS Upgrade – Tools &amp; Pre‑Upgrade Assessment (On‑Prem)</h1>
+<h1>AEM 6.5 LTS Side‑by‑Side Upgrade – Tools &amp; Pre‑Upgrade Assessment (On‑Prem)</h1>
 <p class="small">
   This document summarizes the main tools and checks that an on‑premises AEM 6.5 customer should use when planning
-  and executing an upgrade to the AEM 6.5 Long‑Term Support (LTS) release.
+  and executing a <strong>side‑by‑side upgrade</strong> to the AEM 6.5 Long‑Term Support (LTS) release. In a side‑by‑side
+  approach, a new AEM 6.5 LTS environment is built and content/code are migrated into it, while the existing
+  6.5 environment remains online until cutover.
 </p>
 
 <div class="note">
-  <strong>Goal.</strong> Use these tools to understand upgrade risk, detect breaking changes early, and reduce downtime
-  by fixing issues before running the in‑place upgrade on a production‑clone environment.
+  <strong>Goal.</strong> Use these tools to validate compatibility, build a clean AEM 6.5 LTS target stack,
+  then safely migrate code and content from the existing AEM 6.5 environment with minimal risk and downtime.
 </div>
 
-<h2>1. Overview – Stages and Tooling</h2>
+<h2>1. Overview – Stages and Tooling for Side‑by‑Side</h2>
 
-<p>At a high level, we recommend using tools in three stages:</p>
+<p>For a side‑by‑side upgrade, we recommend the following stages:</p>
 
 <ul>
-  <li><strong>Pre‑upgrade assessment</strong>: analyze custom code, repository health, and deprecated features.</li>
-  <li><strong>Upgrade execution</strong>: perform the in‑place upgrade on a cloned environment using the LTS quickstart and Java 21.</li>
-  <li><strong>Post‑upgrade validation</strong>: verify bundles, indexes, performance, and business flows.</li>
+  <li><strong>Assessment on the current (source) AEM 6.5</strong>: analyze custom code, repository health, and deprecated features.</li>
+  <li><strong>Build &amp; harden the new (target) AEM 6.5 LTS stack</strong>: install AEM 6.5 LTS with Java 21 and apply configuration.</li>
+  <li><strong>Content &amp; code migration</strong>: migrate code and content using packages or repository tools, then validate.</li>
+  <li><strong>Cutover &amp; decommissioning</strong>: switch traffic to the new environment, then retire the old one.</li>
 </ul>
 
 <p>
-  Adobe’s official in‑place upgrade documentation is here:<br>
-  <a href="https://experienceleague.adobe.com/docs/experience-manager-65/deploying/upgrading/in-place-upgrade.html?lang=en" target="_blank" rel="noopener">
-    In‑place upgrade – AEM 6.5 documentation
-  </a>
+  Adobe’s official upgrade guidance (including side‑by‑side considerations) is here:<br>
+  <a href="https://experienceleague.adobe.com/docs/experience-manager-65/deploying/upgrading/in-place-upgrade.html?lang=en"
+     target="_blank" rel="noopener">
+    Upgrading to AEM 6.5 – official documentation
+  </a> (see the sections on planning and content migration).
 </p>
 
-<h2>2. Pre‑Upgrade Assessment – Key Tools</h2>
+<h2>2. Assessment Tools on the Existing AEM 6.5 Environment</h2>
 
-<h3>2.1 AEM Pre‑Upgrade Health Check / Pre‑Upgrade Tasks</h3>
-
-<p>
-  AEM 6.5 provides a set of pre‑upgrade checks that can be executed via the Web Console (JMX). These tasks verify that
-  the repository and configuration are in a good state for an in‑place upgrade.
-</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Purpose</th>
-      <th>What it checks</th>
-      <th>How to run it</th>
-      <th>What to do with results</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Pre‑Upgrade Health Check</strong></td>
-      <td>
-        Runs a predefined set of checks, typically including repository consistency, pending workflows,
-        revision cleanup prerequisites, and other safety conditions.
-      </td>
-      <td>
-        From the AEM Web Console (JMX) on a non‑production clone:
-        <ul>
-          <li>Open the AEM Web Console JMX: <code>/system/console/jmx</code>.</li>
-          <li>Locate the MBean for the pre‑upgrade tasks (name may vary slightly by version).</li>
-          <li>Run the operation that executes all pre‑upgrade checks (for example, <code>runAllPreUpgradeTasks()</code>).</li>
-        </ul>
-        See the “Preparation” section of the AEM in‑place upgrade docs:<br>
-        <a href="https://experienceleague.adobe.com/docs/experience-manager-65/deploying/upgrading/in-place-upgrade.html?lang=en#preparation" target="_blank" rel="noopener">
-          Preparation for in‑place upgrade
-        </a>
-      </td>
-      <td>
-        Review the reported status and messages; any failures or warnings should be addressed (for example,
-        fixing repository issues or cleaning up long‑running workflows) before attempting the upgrade.
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<h3>2.2 AEM Pattern Detector (Compatibility &amp; Deprecation Analysis)</h3>
+<h3>2.1 AEM Pattern Detector (Compatibility &amp; Deprecation Analysis)</h3>
 
 <p>
   The Pattern Detector is an Adobe‑provided analysis tool that inspects an AEM instance and reports usage of deprecated,
-  removed, or potentially incompatible features when upgrading between AEM baselines.
+  removed, or potentially incompatible features. This is critical even for side‑by‑side upgrades, because the target LTS
+  environment removes or changes certain features and libraries.
 </p>
 
 <p>
@@ -185,7 +147,8 @@
      target="_blank" rel="noopener">
     Adobe Software Distribution – AEM Packages
   </a><br>
-  Once logged in, search for “Pattern Detector” appropriate for AEM 6.5 and install it on a non‑production instance.
+  Once logged in, search for “Pattern Detector” appropriate for AEM 6.5 and install it on a non‑production environment
+  containing a copy of production content.
 </p>
 
 <table>
@@ -193,7 +156,7 @@
     <tr>
       <th>Purpose</th>
       <th>What it detects</th>
-      <th>Typical usage on‑prem</th>
+      <th>Typical usage (side‑by‑side)</th>
       <th>Outcome</th>
     </tr>
   </thead>
@@ -204,21 +167,21 @@
         <ul>
           <li>Use of deprecated APIs and libraries.</li>
           <li>Overlays and customizations under <code>/libs</code>.</li>
-          <li>Usage of legacy features that will be removed or unsupported in LTS.</li>
+          <li>Usage of legacy features removed or unsupported in LTS (e.g., classic Communities, Screens, old commerce).</li>
           <li>Repository structures or nodes that are no longer recommended.</li>
         </ul>
       </td>
       <td>
         <ul>
-          <li>Install the Pattern Detector package on a clone of the production environment.</li>
-          <li>Run it against the author (and optionally publish) repository as described in the documentation.</li>
-          <li>Export the report (HTML/JSON) for development and architecture review.</li>
+          <li>Install Pattern Detector on a staging or cloned copy of the current AEM 6.5 production repo.</li>
+          <li>Run it against author (and optionally publish) to get a full compatibility report.</li>
+          <li>Use outputs to refine the new LTS architecture and migration scope.</li>
         </ul>
       </td>
       <td>
         <ul>
-          <li>Produce a list of required code changes (e.g., replacing removed APIs or overlays).</li>
-          <li>Identify and plan removal or migration of legacy features (such as classic Communities or Screens configurations).</li>
+          <li>A list of required code changes (e.g., replacing removed APIs or overlays) before deploying to the LTS environment.</li>
+          <li>A list of content/feature areas that should be excluded or refactored as part of the migration.</li>
         </ul>
       </td>
     </tr>
@@ -226,15 +189,15 @@
 </table>
 
 <div class="warn">
-  <strong>Best practice.</strong> Always run the Pattern Detector on a clone or staging environment that contains a copy of
-  real production content, not on a minimal development repository. This reveals real‑world usage of deprecated features.
+  <strong>Best practice.</strong> Run Pattern Detector on a production‑like copy of the repository to see real‑world usage,
+  not just on a dev instance with limited content.
 </div>
 
-<h3>2.3 Custom Code Static Analysis (Build‑Time)</h3>
+<h3>2.2 Custom Code Static Analysis (Build‑Time)</h3>
 
 <p>
-  In addition to AEM‑specific analyzers, standard Java static analysis tools should be used to validate
-  custom code for Java 21 compatibility and removal of legacy dependencies.
+  Standard Java static analysis tools should be used to validate custom code for <strong>Java 21 compatibility</strong>
+  and removal of legacy dependencies that are no longer provided by AEM LTS (for example, platform‑bundled Guava).
 </p>
 
 <table>
@@ -250,15 +213,15 @@
       <td><strong>Java 21 Readiness</strong></td>
       <td>
         <ul>
-          <li>Custom code compiles and tests successfully using Java 21.</li>
+          <li>Code compiles and tests successfully with Java 21.</li>
           <li>No usage of removed or internal JDK APIs.</li>
-          <li>No reliance on Java 8/11‑specific JVM options (for example, PermGen‑related flags).</li>
+          <li>Removal of PermGen‑related options (no longer valid in newer JVMs).</li>
         </ul>
       </td>
       <td>
         <ul>
-          <li>Maven or Gradle builds targeting Java 21 (<code>maven-compiler-plugin</code> or equivalent set to source/target 21).</li>
-          <li>Static analysis tools (for example, SpotBugs, PMD, Checkstyle) configured with up‑to‑date JDK rules.</li>
+          <li>Maven/Gradle builds targeting Java 21 (<code>source</code>/<code>target</code> set to 21).</li>
+          <li>Static analysis (SpotBugs, PMD, Checkstyle) with up‑to‑date rules.</li>
         </ul>
       </td>
     </tr>
@@ -266,29 +229,29 @@
       <td><strong>Dependency Cleanup</strong></td>
       <td>
         <ul>
-          <li>Replace platform‑provided Guava and legacy commons‑collections 3.x with explicitly managed dependencies.</li>
-          <li>Ensure dependency versions are supported on Java 21 and do not conflict with the LTS baseline.</li>
+          <li>No reliance on platform‑bundled Guava or commons‑collections 3.x.</li>
+          <li>Dependencies declared explicitly and kept at supported versions.</li>
         </ul>
       </td>
       <td>
         <ul>
-          <li>Maven / Gradle dependency tree reports (for example, <code>mvn dependency:tree</code>).</li>
-          <li>Software Composition Analysis (SCA) / vulnerability scanners to highlight outdated libraries.</li>
+          <li><code>mvn dependency:tree</code> or equivalent to inspect dependencies.</li>
+          <li>Software Composition Analysis (SCA) / vulnerability scanning tools.</li>
         </ul>
       </td>
     </tr>
   </tbody>
 </table>
 
-<h3>2.4 Repository Health &amp; Maintenance Tools (On‑Prem)</h3>
+<h3>2.3 Repository Health &amp; Maintenance on the Source Environment</h3>
 
 <p>
-  Before upgrading, the repository should be in a clean and compact state. This reduces upgrade time and lowers risk,
-  especially for large on‑prem repositories.
+  Even in a side‑by‑side scenario, it is important to ensure the source environment is in good health
+  before content is exported or migrated.
 </p>
 
 <p>
-  Relevant AEM maintenance documentation:<br>
+  Maintenance documentation:<br>
   <a href="https://experienceleague.adobe.com/docs/experience-manager-65/administering/operations/maintenance.html?lang=en"
      target="_blank" rel="noopener">
     Maintenance tasks – AEM 6.5 documentation
@@ -300,49 +263,48 @@
     <tr>
       <th>Purpose</th>
       <th>Tool / Mechanism</th>
-      <th>What to run</th>
+      <th>What to run (on source)</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><strong>Reduce Repository Size</strong></td>
-      <td>AEM built‑in maintenance tasks and workflow tools.</td>
+      <td><strong>Reduce Repository Size Before Export</strong></td>
+      <td>Built‑in maintenance tasks.</td>
       <td>
         <ul>
           <li>Workflow purge for completed and outdated workflow instances.</li>
-          <li>Audit log purge according to the organization’s retention policy.</li>
-          <li>Version purge to remove very old or unnecessary version history.</li>
+          <li>Audit log purge in line with retention policies.</li>
+          <li>Version purge to prune very old or unnecessary version history.</li>
         </ul>
       </td>
     </tr>
     <tr>
-      <td><strong>Segment Store / Node Store Cleanup</strong></td>
-      <td>Offline Revision Cleanup (for TarMK repositories).</td>
+      <td><strong>Ensure Repository Consistency</strong></td>
+      <td>Offline Revision Cleanup (TarMK) / consistency checks.</td>
       <td>
         <ul>
-          <li>Schedule and run offline revision cleanup when AEM is stopped, as described in the maintenance documentation.</li>
-          <li>Ensure that sufficient disk space is available for the process.</li>
+          <li>Run offline revision cleanup where appropriate.</li>
+          <li>Check logs for any repository consistency issues before export.</li>
         </ul>
       </td>
     </tr>
     <tr>
-      <td><strong>Data Store Cleanup</strong></td>
-      <td>Datastore Garbage Collection (FileDataStore / S3 / Azure Blob).</td>
+      <td><strong>Data Store Cleanliness</strong></td>
+      <td>Datastore Garbage Collection.</td>
       <td>
         <ul>
-          <li>Run datastore garbage collection for your datastore type, following Adobe’s guidance.</li>
-          <li>Monitor logs for warnings and ensure that no active binaries are incorrectly removed.</li>
+          <li>Run datastore garbage collection to remove unreferenced binaries (FileDataStore / S3 / Azure Blob).</li>
         </ul>
       </td>
     </tr>
   </tbody>
 </table>
 
-<h3>2.5 Index and Query Assessment</h3>
+<h3>2.4 Index and Query Assessment (Source)</h3>
 
 <p>
-  Custom Oak indexes and query patterns should be reviewed before the upgrade, as Oak is upgraded as part of the LTS
-  release and index behavior can evolve.
+  Understanding how the current application uses queries and indexes will help size and configure indices properly on
+  the new LTS environment.
 </p>
 
 <p>
@@ -358,22 +320,21 @@
     <tr>
       <th>Purpose</th>
       <th>What to examine</th>
-      <th>How to proceed</th>
+      <th>How to use it for side‑by‑side</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td><strong>Index Definition Review</strong></td>
+      <td><strong>Index Definitions</strong></td>
       <td>
         <ul>
-          <li>Custom index definitions under <code>/oak:index</code> in the repository.</li>
-          <li>Async indexers and their current health/performance.</li>
+          <li>Custom index definitions under <code>/oak:index</code>.</li>
         </ul>
       </td>
       <td>
         <ul>
-          <li>Inspect custom indexes and confirm they align with current AEM 6.5 best practices.</li>
-          <li>Document indexes known to be heavy or problematic for special attention during and after the upgrade.</li>
+          <li>Document all custom indexes to be recreated or adjusted on the target LTS environment.</li>
+          <li>Plan any index redesigns in line with best practices.</li>
         </ul>
       </td>
     </tr>
@@ -381,97 +342,154 @@
       <td><strong>Query Hotspots</strong></td>
       <td>
         <ul>
-          <li>Frequently used queries (e.g., search components, listings, reports).</li>
-          <li>Any queries known to be slow or resource intensive.</li>
+          <li>Frequently used or slow queries (search, listings, reporting).</li>
         </ul>
       </td>
       <td>
         <ul>
-          <li>Capture baseline performance metrics for key queries before the upgrade.</li>
-          <li>Use AEM’s query explanation tools (for example, the Query Performance or Explain Query tools in the operations console) to confirm that proper indexes are being used.</li>
+          <li>Capture baseline performance metrics prior to migration.</li>
+          <li>Use AEM’s query tools (for example, explain query) to understand index usage; ensure equivalent or improved indexing on LTS.</li>
         </ul>
       </td>
     </tr>
   </tbody>
 </table>
 
-<h3>2.6 Functional Test Suites &amp; Smoke Tests</h3>
+<h2>3. Building the New AEM 6.5 LTS Target Environment</h2>
+
+<h3>3.1 AEM 6.5 LTS Quickstart &amp; Java 21</h3>
 
 <p>
-  Automated tests are not strictly an “upgrade tool”, but they are essential for turning assessment findings into a practical
-  validation strategy on‑prem.
-</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Type</th>
-      <th>Role in the upgrade</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><strong>Unit &amp; Integration Tests</strong></td>
-      <td>
-        Run as part of the build pipeline to ensure the codebase works correctly on Java 21 and with updated dependencies
-        and AEM APIs.
-      </td>
-    </tr>
-    <tr>
-      <td><strong>End‑to‑End / UI Tests</strong></td>
-      <td>
-        Executed on the upgraded on‑prem clone to verify the main authoring and publishing flows:
-        page creation and editing, asset upload, workflows, and public‑site navigation.
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<h2>3. Tools During Upgrade Execution (On‑Prem)</h2>
-
-<p>
-  Once pre‑upgrade assessment is complete and issues are addressed, the in‑place upgrade itself is typically carried
-  out on a clone of the production environment. Key tools and artifacts at this stage include:
+  The new environment is built as a fresh AEM 6.5 LTS installation running on Java 21.
 </p>
 
 <ul>
-  <li><strong>AEM 6.5 LTS Quickstart Jar</strong> – the updated AEM 6.5 quickstart JAR used to perform the in‑place upgrade, downloaded from Adobe Software Distribution:
-    <br>
+  <li><strong>AEM 6.5 LTS Quickstart download</strong> (requires login):<br>
     <a href="https://experience.adobe.com/#/downloads/content/software-distribution/en/aem.html"
        target="_blank" rel="noopener">
       Adobe Software Distribution – AEM 6.5
     </a>
   </li>
-  <li><strong>Java 21 Runtime</strong> – installed and configured on the on‑premises AEM servers using the vendor’s standard distribution (for example, Oracle, Eclipse Temurin).</li>
-  <li><strong>Backup &amp; Snapshot Tools</strong> – virtual machine snapshots, filesystem backups, and datastore backups to enable rapid rollback.</li>
-  <li><strong>System Logs</strong> – especially <code>upgrade.log</code>, <code>error.log</code>, and GC logs during the first startup on the LTS baseline.</li>
+  <li><strong>Java 21</strong> from your preferred vendor (e.g., Oracle, Eclipse Temurin, Red Hat) installed on all AEM nodes.</li>
 </ul>
 
-<h2>4. Post‑Upgrade Validation Tools</h2>
-
-<p>After the upgrade completes on the clone (and later on production), the following tools and checks should be used:</p>
-
+<p>
+  Use the standard AEM 6.5 installation and hardening guides to build the new author/publish tiers with the desired topology,
+  ensuring:
+</p>
 <ul>
-  <li><strong>OSGi Console</strong> – verify that all relevant bundles are in the <em>Active</em> state and that no critical bundles are stuck in <em>Installed</em> or <em>Resolved</em>.</li>
-  <li><strong>JMX / Monitoring</strong> – check repository index status, last indexing times, and queue health using the JMX console.</li>
-  <li><strong>Log Review</strong> – examine logs for repeated errors or warnings related to removed features, missing libraries, or failed index operations.</li>
-  <li><strong>Functional and Performance Tests</strong> – run the same test suites and smoke tests used in pre‑upgrade assessment to confirm behavior and compare baseline performance metrics.</li>
+  <li>Correct runmodes and port assignments.</li>
+  <li>Dispatcher/web server configured for the new environment.</li>
+  <li>Security and networking aligned with organizational standards.</li>
 </ul>
 
-<h2>5. Summary – Recommended Pre‑Upgrade Checklist (On‑Prem)</h2>
+<h3>3.2 Deploying Updated Code &amp; Index Definitions</h3>
+
+<p>
+  Once the base AEM 6.5 LTS environment is running:</p>
+<ul>
+  <li>Deploy the <strong>updated application code</strong> that has been made Java 21 and LTS‑compatible.</li>
+  <li>Deploy required <strong>index definitions</strong> and configurations (ideally in code, via content packages and OSGi configs).</li>
+  <li>Run smoke tests to confirm the application behaves correctly in the new environment before content migration.</li>
+</ul>
+
+<h2>4. Content Migration Tools &amp; Options (Side‑by‑Side)</h2>
+
+<p>
+  For AEM 6.5 to AEM 6.5 LTS on‑prem, common content migration approaches include:
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Approach</th>
+      <th>Tooling</th>
+      <th>Usage &amp; notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Content Packages</strong></td>
+      <td>
+        AEM Package Manager (<code>/crx/packmgr</code>), with packages created via:
+        <ul>
+          <li>AEM Package Manager UI</li>
+          <li>FileVault / vlt‑rcp</li>
+        </ul>
+      </td>
+      <td>
+        <ul>
+          <li>Suitable when the content structure is stable and compatible.</li>
+          <li>Typically done in batches (sites, DAM folders, configurations).</li>
+          <li>Requires careful testing to ensure no versioning / node type conflicts when importing into LTS.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Repository Copy / Oak Tools</strong></td>
+      <td>
+        Oak tooling such as <code>oak-run</code> and <code>oak-upgrade</code> (for advanced scenarios).<br>
+        Oak documentation:<br>
+        <a href="https://jackrabbit.apache.org/oak/docs/oak-run.html"
+           target="_blank" rel="noopener">
+          Oak-run documentation
+        </a>
+      </td>
+      <td>
+        <ul>
+          <li>Used in more specialized cases where large volumes of content or specific node store layouts are involved.</li>
+          <li>Requires strong familiarity with Oak and AEM repository internals.</li>
+        </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p class="warn">
+  <strong>Important.</strong> For each migration path (packages or oak tools), test on non‑production first,
+  and consider a dry‑run migration to the LTS environment to measure timing and uncover structural issues.
+</p>
+
+<h2>5. Post‑Migration Validation Tools</h2>
+
+<p>After content and code have been migrated into the AEM 6.5 LTS environment, use the following tools and checks:</p>
 
 <ul>
-  <li>Run AEM’s <strong>pre‑upgrade health checks</strong> on a production‑clone and address all reported issues.</li>
-  <li>Install and run the <strong>Pattern Detector</strong> to identify deprecated features, overlays, and APIs in use.</li>
-  <li>Perform <strong>code analysis</strong> for Java 21 compatibility and dependency cleanup (for example, Guava and commons‑collections 3.x).</li>
-  <li>Clean and compact the repository (workflow/audit/version purge, offline revision cleanup, datastore garbage collection).</li>
-  <li>Review and document <strong>custom indexes</strong> and <strong>query hotspots</strong>.</li>
-  <li>Prepare and run <strong>automated tests</strong> and smoke tests against an upgraded on‑prem clone.</li>
+  <li><strong>OSGi Console</strong> – verify all relevant bundles are in the <em>Active</em> state.</li>
+  <li><strong>JMX / Monitoring</strong> – check repository index status, async indexers, and queues.</li>
+  <li><strong>Log Review</strong> – watch for errors related to missing content, node types, or removed features.</li>
+  <li><strong>Functional &amp; Performance Tests</strong> – run automated tests and smoke tests:
+    <ul>
+      <li>Authoring (create/edit/publish pages, manage assets).</li>
+      <li>Public site usage (key user journeys, search, navigation).</li>
+    </ul>
+  </li>
+</ul>
+
+<h2>6. Summary – Side‑by‑Side Upgrade Tool Checklist</h2>
+
+<ul>
+  <li>On the <strong>current AEM 6.5</strong>:
+    <ul>
+      <li>Run <strong>Pattern Detector</strong> and review compatibility findings.</li>
+      <li>Perform <strong>code static analysis</strong> for Java 21 and dependency cleanup.</li>
+      <li>Run repository <strong>maintenance tasks</strong> (purges, cleanup, datastore GC).</li>
+      <li>Document <strong>custom indexes</strong> and <strong>query hotspots</strong>.</li>
+    </ul>
+  </li>
+  <li>On the <strong>new AEM 6.5 LTS</strong>:
+    <ul>
+      <li>Install AEM 6.5 LTS (quickstart) with <strong>Java 21</strong>.</li>
+      <li>Deploy updated application code and index definitions.</li>
+      <li>Migrate content using packages or repository tools.</li>
+      <li>Run <strong>OSGi/JMX checks</strong>, log review, and full test suites.</li>
+    </ul>
+  </li>
 </ul>
 
 <p class="small">
-  With these tools and checks in place on‑prem, the actual in‑place upgrade to AEM 6.5 LTS becomes a controlled
-  execution step rather than a discovery exercise on production.
+  With these tools and practices, a side‑by‑side upgrade to AEM 6.5 LTS becomes a controlled migration into a
+  clean, modernized environment, rather than a risky in‑place change to the existing system.
 </p>
 
 </body>

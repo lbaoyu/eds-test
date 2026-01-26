@@ -62,6 +62,13 @@
       padding-left: 20px;
       margin: 8px 0 16px;
     }
+    a {
+      color: #1d6fba;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
     .note {
       background: #effcf6;
       border-left: 4px solid #2f855a;
@@ -105,7 +112,12 @@
   <li><strong>Post‑upgrade validation</strong>: verify bundles, indexes, performance, and business flows.</li>
 </ul>
 
-<p>This document focuses on the <strong>pre‑upgrade assessment</strong> tools, with a brief overview of execution and validation tools at the end.</p>
+<p>
+  Adobe’s official in‑place upgrade documentation is here:<br>
+  <a href="https://experienceleague.adobe.com/docs/experience-manager-65/deploying/upgrading/in-place-upgrade.html?lang=en" target="_blank" rel="noopener">
+    In‑place upgrade – AEM 6.5 documentation
+  </a>
+</p>
 
 <h2>2. Pre‑Upgrade Assessment – Key Tools</h2>
 
@@ -135,10 +147,14 @@
       <td>
         From the AEM Web Console (JMX) on a non‑production clone:
         <ul>
-          <li>Open the AEM Web Console (for example, <code>/system/console/jmx</code>).</li>
-          <li>Locate the MBean for the pre‑upgrade tasks.</li>
+          <li>Open the AEM Web Console JMX: <code>/system/console/jmx</code>.</li>
+          <li>Locate the MBean for the pre‑upgrade tasks (name may vary slightly by version).</li>
           <li>Run the operation that executes all pre‑upgrade checks (for example, <code>runAllPreUpgradeTasks()</code>).</li>
         </ul>
+        See the “Preparation” section of the AEM in‑place upgrade docs:<br>
+        <a href="https://experienceleague.adobe.com/docs/experience-manager-65/deploying/upgrading/in-place-upgrade.html?lang=en#preparation" target="_blank" rel="noopener">
+          Preparation for in‑place upgrade
+        </a>
       </td>
       <td>
         Review the reported status and messages; any failures or warnings should be addressed (for example,
@@ -153,6 +169,23 @@
 <p>
   The Pattern Detector is an Adobe‑provided analysis tool that inspects an AEM instance and reports usage of deprecated,
   removed, or potentially incompatible features when upgrading between AEM baselines.
+</p>
+
+<p>
+  <strong>Documentation:</strong><br>
+  <a href="https://experienceleague.adobe.com/docs/experience-manager-65/deploying/upgrading/pattern-detector.html?lang=en"
+     target="_blank" rel="noopener">
+    Using the AEM Pattern Detector
+  </a>
+</p>
+
+<p>
+  <strong>Download:</strong> the Pattern Detector is distributed as an AEM package from Adobe Software Distribution (requires login).<br>
+  <a href="https://experience.adobe.com/#/downloads/content/software-distribution/en/aemcloud.html"
+     target="_blank" rel="noopener">
+    Adobe Software Distribution – AEM Packages
+  </a><br>
+  Once logged in, search for “Pattern Detector” appropriate for AEM 6.5 and install it on a non‑production instance.
 </p>
 
 <table>
@@ -177,8 +210,8 @@
       </td>
       <td>
         <ul>
-          <li>Install and configure the Pattern Detector on a clone of the production environment.</li>
-          <li>Run it against the author (and optionally publish) repository.</li>
+          <li>Install the Pattern Detector package on a clone of the production environment.</li>
+          <li>Run it against the author (and optionally publish) repository as described in the documentation.</li>
           <li>Export the report (HTML/JSON) for development and architecture review.</li>
         </ul>
       </td>
@@ -224,7 +257,7 @@
       </td>
       <td>
         <ul>
-          <li>Maven or Gradle builds targeting Java 21.</li>
+          <li>Maven or Gradle builds targeting Java 21 (<code>maven-compiler-plugin</code> or equivalent set to source/target 21).</li>
           <li>Static analysis tools (for example, SpotBugs, PMD, Checkstyle) configured with up‑to‑date JDK rules.</li>
         </ul>
       </td>
@@ -239,7 +272,7 @@
       </td>
       <td>
         <ul>
-          <li>Maven / Gradle dependency tree reports.</li>
+          <li>Maven / Gradle dependency tree reports (for example, <code>mvn dependency:tree</code>).</li>
           <li>Software Composition Analysis (SCA) / vulnerability scanners to highlight outdated libraries.</li>
         </ul>
       </td>
@@ -252,6 +285,14 @@
 <p>
   Before upgrading, the repository should be in a clean and compact state. This reduces upgrade time and lowers risk,
   especially for large on‑prem repositories.
+</p>
+
+<p>
+  Relevant AEM maintenance documentation:<br>
+  <a href="https://experienceleague.adobe.com/docs/experience-manager-65/administering/operations/maintenance.html?lang=en"
+     target="_blank" rel="noopener">
+    Maintenance tasks – AEM 6.5 documentation
+  </a>
 </p>
 
 <table>
@@ -279,7 +320,7 @@
       <td>Offline Revision Cleanup (for TarMK repositories).</td>
       <td>
         <ul>
-          <li>Schedule and run offline revision cleanup when AEM is stopped.</li>
+          <li>Schedule and run offline revision cleanup when AEM is stopped, as described in the maintenance documentation.</li>
           <li>Ensure that sufficient disk space is available for the process.</li>
         </ul>
       </td>
@@ -289,7 +330,7 @@
       <td>Datastore Garbage Collection (FileDataStore / S3 / Azure Blob).</td>
       <td>
         <ul>
-          <li>Run datastore garbage collection per Adobe’s recommended procedures.</li>
+          <li>Run datastore garbage collection for your datastore type, following Adobe’s guidance.</li>
           <li>Monitor logs for warnings and ensure that no active binaries are incorrectly removed.</li>
         </ul>
       </td>
@@ -302,6 +343,14 @@
 <p>
   Custom Oak indexes and query patterns should be reviewed before the upgrade, as Oak is upgraded as part of the LTS
   release and index behavior can evolve.
+</p>
+
+<p>
+  Query and indexing documentation:<br>
+  <a href="https://experienceleague.adobe.com/docs/experience-manager-65/deploying/bestpractices/best-practices-for-queries-and-indexing.html?lang=en"
+     target="_blank" rel="noopener">
+    Best practices for queries and indexing – AEM 6.5
+  </a>
 </p>
 
 <table>
@@ -339,7 +388,7 @@
       <td>
         <ul>
           <li>Capture baseline performance metrics for key queries before the upgrade.</li>
-          <li>Use AEM’s query explanation tools to confirm that proper indexes are being used.</li>
+          <li>Use AEM’s query explanation tools (for example, the Query Performance or Explain Query tools in the operations console) to confirm that proper indexes are being used.</li>
         </ul>
       </td>
     </tr>
@@ -386,8 +435,14 @@
 </p>
 
 <ul>
-  <li><strong>AEM 6.5 LTS Quickstart Jar</strong> – the updated AEM 6.5 quickstart JAR used to perform the in‑place upgrade.</li>
-  <li><strong>Java 21 Runtime</strong> – installed and configured on the on‑premises AEM servers.</li>
+  <li><strong>AEM 6.5 LTS Quickstart Jar</strong> – the updated AEM 6.5 quickstart JAR used to perform the in‑place upgrade, downloaded from Adobe Software Distribution:
+    <br>
+    <a href="https://experience.adobe.com/#/downloads/content/software-distribution/en/aem.html"
+       target="_blank" rel="noopener">
+      Adobe Software Distribution – AEM 6.5
+    </a>
+  </li>
+  <li><strong>Java 21 Runtime</strong> – installed and configured on the on‑premises AEM servers using the vendor’s standard distribution (for example, Oracle, Eclipse Temurin).</li>
   <li><strong>Backup &amp; Snapshot Tools</strong> – virtual machine snapshots, filesystem backups, and datastore backups to enable rapid rollback.</li>
   <li><strong>System Logs</strong> – especially <code>upgrade.log</code>, <code>error.log</code>, and GC logs during the first startup on the LTS baseline.</li>
 </ul>
@@ -398,7 +453,7 @@
 
 <ul>
   <li><strong>OSGi Console</strong> – verify that all relevant bundles are in the <em>Active</em> state and that no critical bundles are stuck in <em>Installed</em> or <em>Resolved</em>.</li>
-  <li><strong>JMX / Monitoring</strong> – check repository index status, last indexing times, and queue health.</li>
+  <li><strong>JMX / Monitoring</strong> – check repository index status, last indexing times, and queue health using the JMX console.</li>
   <li><strong>Log Review</strong> – examine logs for repeated errors or warnings related to removed features, missing libraries, or failed index operations.</li>
   <li><strong>Functional and Performance Tests</strong> – run the same test suites and smoke tests used in pre‑upgrade assessment to confirm behavior and compare baseline performance metrics.</li>
 </ul>
@@ -407,7 +462,7 @@
 
 <ul>
   <li>Run AEM’s <strong>pre‑upgrade health checks</strong> on a production‑clone and address all reported issues.</li>
-  <li>Execute the <strong>Pattern Detector</strong> to identify deprecated features, overlays, and APIs in use.</li>
+  <li>Install and run the <strong>Pattern Detector</strong> to identify deprecated features, overlays, and APIs in use.</li>
   <li>Perform <strong>code analysis</strong> for Java 21 compatibility and dependency cleanup (for example, Guava and commons‑collections 3.x).</li>
   <li>Clean and compact the repository (workflow/audit/version purge, offline revision cleanup, datastore garbage collection).</li>
   <li>Review and document <strong>custom indexes</strong> and <strong>query hotspots</strong>.</li>

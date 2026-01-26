@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AEM 6.5 LTS Upgrade – Technical Component Change Catalog</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      color: #1f2933;
+      padding: 24px;
+      max-width: 980px;
+      margin: 0 auto;
+      background: #fafbfc;
+    }
+    h1, h2, h3 {
+      color: #102a43;
+    }
+    h1 {
+      border-bottom: 2px solid #d8e2ec;
+      padding-bottom: 8px;
+      margin-bottom: 16px;
+    }
+    h2 {
+      margin-top: 32px;
+      border-bottom: 1px solid #e1e7f0;
+      padding-bottom: 4px;
+    }
+    h3 {
+      margin-top: 24px;
+    }
+    p {
+      margin: 8px 0 12px;
+    }
+    strong {
+      color: #102a43;
+    }
+    code {
+      font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      background: #f0f4f8;
+      padding: 1px 4px;
+      border-radius: 3px;
+      font-size: 0.95em;
+    }
+    .tagline {
+      font-size: 0.96em;
+      color: #52606d;
+      margin-bottom: 16px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 12px 0 20px;
+      font-size: 0.95em;
+    }
+    th, td {
+      border: 1px solid #d8e2ec;
+      padding: 8px 10px;
+      vertical-align: top;
+    }
+    th {
+      background: #f0f4f8;
+      font-weight: 600;
+      text-align: left;
+    }
+    ul {
+      padding-left: 20px;
+      margin: 8px 0 16px;
+    }
+    .note {
+      background: #fff7e6;
+      border-left: 4px solid #f6ad55;
+      padding: 8px 10px;
+      font-size: 0.92em;
+      margin: 12px 0 20px;
+    }
+    .small {
+      font-size: 0.9em;
+      color: #616e7c;
+    }
+  </style>
+</head>
+<body>
+
+<h1>AEM 6.5 LTS Upgrade – Technical Component Change Catalog</h1>
+<p class="tagline">
+  This document summarizes the main technical changes when upgrading from an existing Adobe Experience Manager (AEM) 6.5 deployment
+  (using standard service packs) to the current AEM 6.5 Long-Term Support (LTS) release.
+</p>
+
+<div class="note">
+  <strong>Scope.</strong> This overview focuses on platform and runtime changes – Java, servlet engine, repository, dispatcher, and key AEM
+  feature deprecations. It is intended as customer‑facing upgrade background, not as a step‑by‑step runbook.
+</div>
+
+<h2>1. High‑Level Overview</h2>
+
+<p><strong>What this LTS upgrade is:</strong></p>
+<ul>
+  <li>A modernization of the AEM 6.5 runtime, not a new functional major version.</li>
+  <li>Moves AEM to a newer long‑term‑support Java (Java 21) and servlet engine.</li>
+  <li>Upgrades core repository components (Oak, Sling, OSGi) and dispatcher.</li>
+  <li>Removes deprecated features and vulnerable 3rd‑party libraries.</li>
+</ul>
+
+<p><strong>Typical goals:</strong></p>
+<ul>
+  <li>Extend the supported lifetime of the existing 6.5 codebase.</li>
+  <li>Improve security posture and performance (JDK + dependency updates).</li>
+  <li>Align with Adobe’s forward‑looking authoring and headless capabilities.</li>
+</ul>
+
+<h2>2. Runtime & Operating System Layer</h2>
+
+<p>Operating systems themselves do not fundamentally change with the LTS upgrade, but the Java version and some low‑level expectations do.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Before (typical AEM 6.5)</th>
+      <th>After (AEM 6.5 LTS)</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Operating System</strong></td>
+      <td>Enterprise Linux / Windows versions as per original 6.5 system requirements.</td>
+      <td>Same OS families, provided they support Java 21.</td>
+      <td>Most changes are at the JVM and application layer. OS must meet current AEM 6.5 LTS system requirements.</td>
+    </tr>
+    <tr>
+      <td><strong>Java (JDK / JVM)</strong></td>
+      <td>Java 8 or Java 11 (depending on initial deployment).</td>
+      <td><strong>Java 21 (LTS)</strong>.</td>
+      <td>
+        AEM LTS is designed to run on Java 21. Old flags such as <code>-XX:PermSize</code> / <code>-XX:MaxPermSize</code> must be removed.
+        Runtime and GC behavior are those of Java 21.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>JVM GC & Tuning</strong></td>
+      <td>Older GC defaults (e.g., Parallel GC / CMS) and tuning practices.</td>
+      <td>Modern GC options such as G1 or ZGC are recommended.</td>
+      <td>Heap usage profiles often improve; GC logs and tuning should be revisited post‑upgrade.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>3. AEM Core & Repository Stack</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Before (standard AEM 6.5)</th>
+      <th>After (AEM 6.5 LTS)</th>
+      <th>Impact / Considerations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>AEM Distribution</strong></td>
+      <td>6.5 GA + one or more service packs (e.g., 6.5.10, 6.5.16, etc.).</td>
+      <td>6.5 LTS (also delivered as an updated 6.5 quickstart).</td>
+      <td>Consolidates multiple years of service pack fixes plus compatibility and security updates into a single long‑term‑support baseline.</td>
+    </tr>
+    <tr>
+      <td><strong>Servlet Container (Quickstart)</strong></td>
+      <td>Earlier Jetty‑based servlet engine (e.g., Jetty 9.x).</td>
+      <td>Updated Jetty‑based servlet engine (Jetty 11.x line).</td>
+      <td>Improved TLS/security and HTTP behavior; low‑level servlet and filter behavior should be regression tested.</td>
+    </tr>
+    <tr>
+      <td><strong>Apache Sling & OSGi (Felix)</strong></td>
+      <td>Versions aligned with the existing 6.5 service pack.</td>
+      <td>Newer Sling and Felix versions.</td>
+      <td>Generally transparent; uncommon OSGi wiring patterns may need attention.</td>
+    </tr>
+    <tr>
+      <td><strong>Oak (JCR Repository)</strong></td>
+      <td>Oak 1.4x line (exact version depends on SP).</td>
+      <td>Higher Oak 1.6x line.</td>
+      <td>Brings fixes and performance improvements. Custom indexes should be re‑validated; some definitions may evolve.</td>
+    </tr>
+    <tr>
+      <td><strong>Node Store</strong></td>
+      <td>TarMK (segment store) for most 6.5 deployments.</td>
+      <td>TarMK remains the standard.</td>
+      <td>No structural change; the upgrade runs repository migration tasks in place.</td>
+    </tr>
+    <tr>
+      <td><strong>Data Store</strong></td>
+      <td>FileDataStore, Amazon S3, or Azure Blob Store using older connector bundles.</td>
+      <td>Same storage options, using updated connector bundles.</td>
+      <td>Connector versions for S3 / Blob are updated; configuration should be checked, but data layout remains compatible.</td>
+    </tr>
+    <tr>
+      <td><strong>Quickstart Size & Layout</strong></td>
+      <td>Larger quickstart including several legacy libraries.</td>
+      <td>Smaller quickstart; unused and deprecated libraries removed.</td>
+      <td>Reflects removal of old dependencies such as Guava and legacy collections libraries from the platform image.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>4. Web Tier, Dispatcher, and External Integrations</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Before</th>
+      <th>After</th>
+      <th>Impact / Considerations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Dispatcher Module</strong></td>
+      <td>Previous 4.3.x dispatcher version.</td>
+      <td>Dispatcher 4.3.x updated to the latest available line.</td>
+      <td>Includes security and compatibility improvements and an updated SSL module. Dispatcher configuration should be re‑validated.</td>
+    </tr>
+    <tr>
+      <td><strong>Web Server</strong></td>
+      <td>Apache HTTP Server 2.4.x (or equivalent supported servers).</td>
+      <td>Same generation, with updated configuration recommendations.</td>
+      <td>Existing virtual host and module configurations should be reviewed and regression‑tested with the updated dispatcher.</td>
+    </tr>
+    <tr>
+      <td><strong>Cloud Storage Connectors</strong></td>
+      <td>Older S3 / Azure Blob connector versions.</td>
+      <td>Newer S3 / Azure Blob connector versions.</td>
+      <td>Configuration model is similar, but connector bundle versions change; this should be part of upgrade testing.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>5. AEM Product & Feature Layer</h2>
+
+<h3>5.1 Enhancements and Modern Capabilities</h3>
+
+<p>The LTS line consolidates existing 6.5 features and prepares for newer authoring and headless scenarios. Typical benefits include:</p>
+<ul>
+  <li>Improved performance and stability from newer Java, Oak, and servlet engine.</li>
+  <li>Better security posture due to updated platform libraries and removal of vulnerable ones.</li>
+  <li>Alignment with modern AEM authoring experiences (such as Universal Editor and headless content delivery) where licensed and applicable.</li>
+</ul>
+
+<h3>5.2 Deprecated and Removed Features</h3>
+
+<p>The LTS upgrade explicitly discontinues or removes several older feature sets and modules:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Status in AEM 6.5 LTS</th>
+      <th>Impact on Implementation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Communities / Social</strong></td>
+      <td>No longer supported; related bundles and content are removed or deprecated.</td>
+      <td>Any custom code, components, or integrations that relied on legacy Communities APIs or JCR structures must be refactored or retired.</td>
+    </tr>
+    <tr>
+      <td><strong>Screens</strong></td>
+      <td>No longer supported.</td>
+      <td>Screen‑based experiences built on the legacy Screens framework must be replaced with other approaches.</td>
+    </tr>
+    <tr>
+      <td><strong>Classic Commerce / Older CIF Integrations</strong></td>
+      <td>Deprecated or removed in favor of newer commerce approaches.</td>
+      <td>Classic AEM commerce nodes, overlays, and resource types should be migrated, replaced, or removed before or as part of the upgrade.</td>
+    </tr>
+    <tr>
+      <td><strong>Older SPA Editor Flows</strong></td>
+      <td>Superseded by the Universal Editor direction.</td>
+      <td>Existing SPA Editor integrations may need to be validated and adjusted to ensure they continue working or to migrate to newer patterns.</td>
+    </tr>
+    <tr>
+      <td><strong>Legacy Portal / Portal Director</strong></td>
+      <td>No longer supported.</td>
+      <td>Custom portal‑style integrations built on these features should be considered for redesign.</td>
+    </tr>
+    <tr>
+      <td><strong>Various Legacy DAM/Utility Bundles</strong></td>
+      <td>Removed where superseded or unused.</td>
+      <td>If custom code directly referenced these bundles, alternate approaches or APIs will be required.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>6. Third‑Party Libraries & API Changes</h2>
+
+<p>One of the important aspects of the LTS upgrade is cleaning up third‑party library dependencies that are outdated or have known vulnerabilities.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Library / API</th>
+      <th>Change in LTS</th>
+      <th>Impact on Custom Code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Google Guava</strong></td>
+      <td>The Guava library is no longer shipped as a platform‑wide dependency within AEM.</td>
+      <td>
+        Any custom bundles that relied on the Guava version previously embedded in AEM should declare and include their
+        own Guava dependency at a supported version. This should be updated and managed as part of the customer’s build.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Apache Commons‑Collections 3.x</strong></td>
+      <td>Legacy commons‑collections 3.x APIs are removed due to vulnerability and obsolescence.</td>
+      <td>
+        Custom code using these APIs should migrate to newer collections APIs or alternate libraries. Compilation and runtime
+        testing should be used to ensure no remaining references.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Servlet API</strong></td>
+      <td>Servlet API alignment with the newer Jetty version (Jakarta‑aligned APIs).</td>
+      <td>
+        Custom servlets and filters that assume older or tightly version‑pinned servlet APIs should be checked and, if necessary,
+        adjusted to match the newer servlet container behavior.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Java SE APIs</strong></td>
+      <td>
+        Running on Java 21 means some older Java APIs and practices are discouraged or no longer available. Certain internal or
+        removed APIs may no longer be usable.
+      </td>
+      <td>
+        Custom code should be compiled and tested on Java 21. Static analysis and migration guides should be used to identify any
+        use of removed or strongly discouraged Java APIs.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Legacy Scene7 APIs</strong></td>
+      <td>Some older Scene7‑specific Java APIs are treated as deprecated or unsupported.</td>
+      <td>Custom Scene7 integrations may need to align to newer integration points or APIs.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>7. Indexing & Repository Behavior</h2>
+
+<p>The underlying indexing model (Oak indexes in the repository) remains the same, but versions and behavior are updated.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Aspect</th>
+      <th>Before</th>
+      <th>After</th>
+      <th>Impact / Considerations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Oak Version & Index Implementation</strong></td>
+      <td>Oak 1.4x line with corresponding index behavior.</td>
+      <td>Oak 1.6x line with updated index behavior.</td>
+      <td>
+        Newer Oak versions can introduce optimizations and subtle behavior changes. Custom indexes under <code>/oak:index</code> should
+        be validated and workloads that rely heavily on queries should be performance‑tested after upgrade.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Index Definitions</strong></td>
+      <td>Customer‑managed definitions under <code>/oak:index</code>.</td>
+      <td>Same model, with updated core index definitions from AEM.</td>
+      <td>Some indexes may be added or adjusted by the upgrade. It is recommended to check for any <code>reindex</code> flags and resolve them.</td>
+    </tr>
+    <tr>
+      <td><strong>Text Extraction & DAM Indexing</strong></td>
+      <td>Indexing of assets via the existing Tika/Oak pipeline.</td>
+      <td>Same approach, with updated libraries.</td>
+      <td>For large DAM implementations, indexing performance and timings should be monitored closely after upgrade.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>8. Operational Behavior & Tooling</h2>
+
+<p>The LTS release also formalizes and emphasizes certain operational practices around AEM upgrades.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Area</th>
+      <th>Before</th>
+      <th>After</th>
+      <th>Impact / Considerations</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Upgrade Tooling</strong></td>
+      <td>In‑place upgrade procedure, pre‑upgrade checks, and basic pattern detection.</td>
+      <td>Same tools, plus more formalized compatibility checks and analyzer reports.</td>
+      <td>
+        It is recommended to run AEM’s pre‑upgrade health checks, pattern detectors, and any code analyzers against the customer
+        codebase to identify deprecated feature usage and incompatible APIs before upgrading.
+      </td>
+    </tr>
+    <tr>
+      <td><strong>Monitoring & Logging</strong></td>
+      <td>Logback‑based logging and GC logs for Java 8/11.</td>
+      <td>Same logging model, but with Java 21 runtime characteristics.</td>
+      <td>GC behavior and heap profiles may differ; operations teams should review and tune JVM options post‑upgrade.</td>
+    </tr>
+    <tr>
+      <td><strong>Maintenance Tasks</strong></td>
+      <td>Offline revision cleanup, datastore garbage collection, workflow/audit/version purges.</td>
+      <td>These remain required and are explicitly called out as pre‑upgrade and ongoing best practices.</td>
+      <td>Running these tasks prior to upgrade typically reduces upgrade time and risk, especially on large repositories.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>9. How to Use This Catalog</h2>
+
+<p>
+  This document is intended as a structured reference for planning and risk assessment. In practice, we recommend:
+</p>
+<ul>
+  <li>Using these tables as a checklist of areas to validate (Java 21 readiness, use of removed features, dependency cleanup).</li>
+  <li>Capturing which items apply to your implementation (for example, whether social, Screens, or legacy commerce were ever used).</li>
+  <li>Feeding this into an upgrade test plan and communication plan for development, operations, and business stakeholders.</li>
+</ul>
+
+<p class="small">
+  For a detailed, environment‑specific runbook (commands, exact versions, and timelines), this catalog should be combined
+  with an assessment of your current AEM version, custom codebase, and integrations.
+</p>
+
+</body>
+</html>

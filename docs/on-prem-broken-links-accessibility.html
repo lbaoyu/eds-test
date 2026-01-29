@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AEM On‑Prem – Broken Links & Accessibility Approach</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+      color: #222;
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    h1, h2, h3 {
+      color: #0b4f82;
+    }
+    h1 {
+      border-bottom: 2px solid #eee;
+      padding-bottom: .3rem;
+      margin-bottom: 1rem;
+    }
+    h2 {
+      margin-top: 1.8rem;
+    }
+    strong {
+      font-weight: 600;
+    }
+    ul {
+      margin-top: .4rem;
+    }
+    .section {
+      margin-bottom: 1.8rem;
+    }
+    .highlight {
+      background: #f5f9ff;
+      border-left: 4px solid #0b4f82;
+      padding: .75rem 1rem;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Handling Broken Links & Accessibility on On‑Prem AEM (without Sites Optimizer)</h1>
+
+  <p>
+    For an <strong>on‑prem AEM 6.5</strong> customer, AEM Sites Optimizer is not available. 
+    Instead, we can combine AEM’s built‑in capabilities with external tooling to improve both 
+    <strong>broken‑link handling</strong> and <strong>accessibility</strong> directly in the authoring flow and 
+    before the first publish.
+  </p>
+
+  <div class="section">
+    <h2>1. Broken Links – From Manual to Tool‑Assisted</h2>
+
+    <h3>What AEM Provides</h3>
+    <ul>
+      <li>
+        AEM’s built‑in <strong>Link Checker</strong> (on author):
+        <ul>
+          <li>Validates <strong>internal links</strong> as authors add them. If a target page is removed, the link is stripped from publish HTML and shown as broken in author.</li>
+          <li>Tracks and validates <strong>external links</strong> asynchronously and lists them in the External Link Checker console.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <h3>Recommended Pattern for On‑Prem</h3>
+    <ul>
+      <li>
+        <strong>Keep Link Checker enabled on author, tuned for performance</strong>
+        <ul>
+          <li>Configure via <code>/system/console/configMgr</code> (Day CQ Link Checker Service / Task / Transformer).</li>
+          <li>Use override patterns or <code>x-cq-linkchecker="skip"</code> for domains that cause false positives or slow checks.</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Disable or minimize Link Checker on publish</strong>
+        <ul>
+          <li>Avoid performance overhead on the public site; rely on author‑time checks plus external crawlers.</li>
+        </ul>
+      </li>
+      <li>
+        <strong>Introduce a scheduled external crawler for the live site</strong>
+        <ul>
+          <li>Use a crawler (e.g. Screaming Frog or an internal tool) to regularly scan the public URLs.</li>
+          <li>Generate reports of <strong>4xx / 5xx</strong> broken links and their referring pages for content teams to fix.</li>
+        </ul>
+      </li>
+    </ul>
+
+    <div class="highlight">
+      <strong>Result:</strong> Authors catch most broken links during authoring, and SEO/ops teams 
+      find any remaining issues via automated live‑site scans instead of manual clicking.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>2. Accessibility – Closer to “Compliant on First Publish”</h2>
+
+    <p>AEM on‑prem does not include a full WCAG validator, but we can push accessibility earlier into the process:</p>
+
+    <h3>(a) Accessibility‑Aware Components & Templates</h3>
+    <ul>
+      <li>Prefer and update <strong>Core Components</strong> to output semantic, accessible HTML.</li>
+      <li>Enforce a proper heading hierarchy and landmarks (single <code>&lt;h1&gt;</code>, clear <code>&lt;main&gt;</code>, <code>&lt;nav&gt;</code>, etc.) at the template level.</li>
+    </ul>
+
+    <h3>(b) Author‑Time Rules Inside AEM</h3>
+    <ul>
+      <li>Make <strong>alt text mandatory</strong> on image components, or provide an explicit “decorative image” toggle.</li>
+      <li>Use policies and dialog validation to require labels, descriptions, and other fields that impact accessibility.</li>
+      <li>Restrict risky styling (e.g. free‑form colors that could break contrast) via the Style System/policies.</li>
+    </ul>
+
+    <h3>(c) Self‑Service Accessibility Checks in Authoring</h3>
+    <ul>
+      <li>Standardize on browser tools (e.g. <strong>axe</strong>, <strong>WAVE</strong>, <strong>Lighthouse</strong>) that authors run on AEM’s Preview/View‑as‑Published URLs.</li>
+      <li>Turn this into a simple <strong>pre‑publish checklist</strong> for important page types: run scan → fix issues → then request activation.</li>
+    </ul>
+
+    <h3>(d) Optional: Automated Checks in CI/CD</h3>
+    <ul>
+      <li>If they have Jenkins/GitLab/etc., integrate <strong>Pa11y</strong>, <strong>axe‑core CLI</strong> or <strong>Lighthouse CI</strong> to scan a small set of critical URLs.</li>
+      <li>Fail the build or flag it whenever accessibility violations exceed an agreed threshold.</li>
+    </ul>
+
+    <div class="highlight">
+      <strong>Result:</strong> Most accessibility problems are prevented by design 
+      (components/templates), visible to authors during editing, and reinforced by automated checks 
+      on key journeys.
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>3. How to Position This to the Customer</h2>
+    <p>
+      Since they are on‑prem and cannot use AEM Sites Optimizer, position the solution as:
+    </p>
+    <ul>
+      <li><strong>Broken links:</strong> use AEM Link Checker on author plus a scheduled external crawler on publish to remove manual, ad‑hoc checking.</li>
+      <li><strong>Accessibility:</strong> design accessible components/templates, enforce key fields in AEM dialogs, and require quick accessibility scans in preview before first publish, optionally backed by CI‑level checks.</li>
+    </ul>
+
+    <p>
+      Together, these changes move both broken‑link handling and accessibility into the authoring 
+      and deployment flow, giving them much closer to a <strong>“correct on first publish”</strong> experience 
+      on on‑prem AEM.
+    </p>
+  </div>
+</body>
+</html>

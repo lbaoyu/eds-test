@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Content Transfer Tool (CTT) – When to Use and When Not To</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      line-height: 1.6;
+      margin: 2rem auto;
+      max-width: 900px;
+      padding: 0 1.5rem;
+      color: #222;
+      background-color: #fff;
+    }
+    h1, h2, h3, h4 {
+      font-weight: 600;
+      line-height: 1.25;
+      color: #111;
+    }
+    h1 {
+      font-size: 1.9rem;
+      margin-bottom: 0.2rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.25rem;
+    }
+    h3 {
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+    }
+    p {
+      margin: 0.5rem 0 0.75rem;
+    }
+    strong {
+      font-weight: 600;
+    }
+    em {
+      font-style: italic;
+    }
+    a {
+      color: #005fcc;
+      text-decoration: none;
+    }
+    a:hover, a:focus {
+      text-decoration: underline;
+    }
+    ul {
+      padding-left: 1.3rem;
+      margin: 0.5rem 0 0.75rem;
+    }
+    li {
+      margin: 0.25rem 0;
+    }
+    blockquote {
+      margin: 0.75rem 0;
+      padding: 0.75rem 1rem;
+      border-left: 3px solid #ccc;
+      background: #fafafa;
+      font-size: 0.95rem;
+    }
+    code {
+      font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+      font-size: 0.95em;
+      background: #f5f5f5;
+      padding: 0.1rem 0.25rem;
+      border-radius: 3px;
+    }
+    table {
+      border-collapse: collapse;
+      margin: 0.75rem 0 1.25rem;
+      width: 100%;
+      font-size: 0.95rem;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.5rem 0.6rem;
+      vertical-align: top;
+    }
+    th {
+      background: #f6f6f6;
+      font-weight: 600;
+      text-align: left;
+    }
+    .subtitle {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+    .section-number {
+      color: #666;
+      font-weight: 500;
+      margin-right: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Content Transfer Tool (CTT): When You Should and Should Not Use It</h1>
+  <p class="subtitle">
+    This guide summarizes common <strong>CTT (Content Transfer Tool)</strong> scenarios for migrations
+    to <strong>AEM as a Cloud Service (AEM CS)</strong>, including where CTT is
+    recommended, constrained, or explicitly out of scope.
+  </p>
+
+  <h2><span class="section-number">1.</span>Scenarios where you <em>should</em> use CTT</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Scenario</th>
+        <th>Use CTT?</th>
+        <th>Why / preferred approach</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>On-prem → AEM CS (initial migration)</td>
+        <td>Yes</td>
+        <td>
+          <strong>Primary CTT use case:</strong> migrate from AEM 6.3+ on-prem to AEM CS, including
+          pages, assets, users/groups, and (within limits) versions. Plan a full migration plus
+          top-ups using the <strong>Content Transfer Tool</strong>.
+        </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>On-prem → AEM CS (incremental / top-up)</td>
+        <td>Yes</td>
+        <td>
+          Fully supported via CTT “top-up extraction” and “top-up ingestion”
+          (<code>wipe=false</code>) on the same source instance and migration set.
+          Used to shorten the final content-freeze.
+          <br />
+          <em>Reference: Overview to Content Transfer Tool – Top-Up</em>
+        </td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>AMS → AEM CS (initial migration)</td>
+        <td>Yes</td>
+        <td>
+          Officially recommended for AMS → CS: install CTT on AMS Author/Publish and migrate
+          Author→Author and Publish→Publish.
+          <br />
+          <em>Reference: Migration - AEMaaCS - Content Transfer Tool - AEM on-premise to AEMaaCS (CTT)</em>
+        </td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>AMS → AEM CS (incremental / top-up during cut-over)</td>
+        <td>Yes</td>
+        <td>
+          Supported and recommended: frequent CTT top-ups from AMS Author to CS Author
+          (<code>wipe=false</code>) until final cut-over.
+          <br />
+          <em>Reference: AEM as a Cloud Service content migration FAQ</em>
+        </td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>On-prem/AMS → multiple AEM CS envs (Dev, Stage, Prod)</td>
+        <td>Yes</td>
+        <td>
+          One extraction, many ingestions: CTT + CAM migration sets can be ingested into several
+          AEM CS environments from the same source run.
+          <br />
+          <em>Reference: Implementation Phase in Cloud Acceleration Manager</em>
+        </td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>On-prem/AMS → AEM CS Publish only</td>
+        <td>Yes (with care)</td>
+        <td>
+          Supported to install CTT on source Publish and ingest directly to CS Publish, but CTT does
+          not distinguish “published vs unpublished” content. Plan Author and Publish migrations
+          carefully (often Author→Author plus replication is safer).
+          <br />
+          <em>Reference: Running the Content Transfer Tool on a Publish Instance</em>
+        </td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>On-prem/AMS → AEM CS, moving only DAM assets (from AEM)</td>
+        <td>Yes (often best)</td>
+        <td>
+          If assets already live in AEM, CTT is fine and preserves metadata, renditions, and versions
+          where supported. For non‑AEM sources, prefer <strong>Assets Bulk Import Service</strong>.
+          <br />
+          <em>Reference: AEM as a Cloud Service content migration FAQ</em>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span class="section-number">2.</span>Edge / constrained CTT usage</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Scenario</th>
+        <th>Use CTT?</th>
+        <th>Why / notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>8</td>
+        <td>On-prem/AMS → AEM CS, &gt;~10 TB total repository</td>
+        <td>“Yes, but only with engineering oversight”</td>
+        <td>
+          CTT can technically work, but documentation flags &gt;~10 TB as a risk zone; you’re expected
+          to engage Adobe before attempting. May require content slicing, special infrastructure,
+          and very careful planning.
+          <br />
+          <em>Reference: CTT :: Questionnaire to determine usability</em>
+        </td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>On-prem/AMS → AEM CS, content under immutable paths (<code>/etc</code>, <code>/apps</code>, <code>/libs</code>)</td>
+        <td>“Partially, but generally No for those paths”</td>
+        <td>
+          CTT doesn’t move immutable areas; those must be restructured (e.g. repository restructuring)
+          and deployed as code. Use CTT for mutable content only; use deployment and refactoring
+          for code and legacy <code>/etc</code>.
+          <br />
+          <em>Reference: CTT :: Questionnaire to determine usability</em>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span class="section-number">3.</span>Scenarios where you should <em>not</em> use CTT</h2>
+
+  <p>
+    Everything in this section is explicitly out of scope for CTT.
+  </p>
+
+  <blockquote>
+    <p>
+      <strong>Key reference:</strong> Does CTT (Content Transfer Tool) work between cloud instances?
+      “For CTT to migrate existing content to the target AEM Cloud Service instance,
+      there must be a non‑cloud AEM source instance… therefore, no, CTT does not work
+      between cloud instances.”
+    </p>
+  </blockquote>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Scenario</th>
+        <th>Use CTT?</th>
+        <th>Why / alternative</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>10</td>
+        <td>Stage → Prod (AEM CS → AEM CS, same program)</td>
+        <td>No</td>
+        <td>
+          CTT cannot run on AEM as a Cloud Service nor perform CS→CS copies. Stage→Prod promotion
+          is intentionally not a standard pattern. Use AEM packages (scripted/automated) or a
+          one‑off CSME/engineering‑led operation for large moves; target a steady state where
+          authors work directly in Prod.
+        </td>
+      </tr>
+      <tr>
+        <td>11</td>
+        <td>Dev → Stage (AEM CS → AEM CS, same program)</td>
+        <td>No (CTT)</td>
+        <td>
+          CTT doesn’t support CS→CS. A limited Dev→Stage flow is supported via the
+          <strong>Content Copy Tool</strong> (forward flow) for mutable paths only.
+          <br />
+          <em>Reference: The Content Copy Tool</em>
+        </td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>Prod → Stage / Dev / RDE (AEM CS → AEM CS, same program)</td>
+        <td>No (CTT)</td>
+        <td>
+          Supported route is <strong>Content Copy Tool</strong> via Cloud Manager (Prod→lower),
+          not CTT. CTT cannot be installed on AEM CS as a source.
+          <br />
+          <em>Reference: The Content Copy Tool</em>
+        </td>
+      </tr>
+      <tr>
+        <td>13</td>
+        <td>CS → CS across programs (Program A → Program B)</td>
+        <td>No</td>
+        <td>
+          CTT only works from on‑prem/AMS; there is no built‑in cross‑program CTT or Content Copy.
+          Internal guidance is that packages (plus custom tooling or CSME help) are the only general
+          option today.
+          <br />
+          <em>Reference: Cloud Service to Cloud Service Migrations</em>
+        </td>
+      </tr>
+      <tr>
+        <td>14</td>
+        <td>CS Dev/Stage → CS Prod using CTT</td>
+        <td>No</td>
+        <td>
+          Same limitation: CTT cannot be used CS→CS. For lower→Prod population you’re back to
+          packages or bespoke services. Product guidance remains:
+          “author in Prod, use Content Copy only for Prod→lower.”
+        </td>
+      </tr>
+      <tr>
+        <td>15</td>
+        <td>Non‑AEM source (S3/Azure) → AEM CS</td>
+        <td>No (CTT)</td>
+        <td>
+          CTT expects an AEM repository as source. For S3/Azure buckets, use
+          <strong>Assets Bulk Import Service</strong>.
+          <br />
+          <em>Reference: How to ingest and process assets into Experience Manager Assets as a Cloud Service</em>
+        </td>
+      </tr>
+      <tr>
+        <td>16</td>
+        <td>Local filesystem / 3rd‑party CMS → AEM CS directly</td>
+        <td>No (CTT)</td>
+        <td>
+          This is not an AEM→AEM migration. Use Bulk Import Service, the
+          <code>aem-upload</code> client, or custom ingestion via HTTP APIs.
+        </td>
+      </tr>
+      <tr>
+        <td>17</td>
+        <td>Prod → Stage on AMS (not CS)</td>
+        <td>No (CTT)</td>
+        <td>
+          CTT is intended for AMS/on‑prem → AEM CS, not intra‑AMS moves. For AMS Prod→Stage,
+          use Cloud Manager Content Copy for AMS (where available) or AMS‑documented
+          package/VLT patterns.
+        </td>
+      </tr>
+      <tr>
+        <td>18</td>
+        <td>Consolidation / split of CS programs (e.g., “move from normal to Enhanced Security program”)</td>
+        <td>No</td>
+        <td>
+          This is a known tooling gap. Multiple customers have done this only via packages,
+          backflow prototypes, or offsite restore. CTT is explicitly “not supported on Cloud to Cloud”.
+          <br />
+          <em>Reference: Deloitte – Cloud Service to Cloud Service Migration</em>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2><span class="section-number">4.</span>Summary</h2>
+  <ul>
+    <li><strong>Use CTT</strong> for on‑prem/AMS → AEM CS migrations of mutable content (pages, assets, users, groups).</li>
+    <li><strong>Use with caution</strong> for very large repositories (&gt;~10 TB) and remember it doesn’t handle immutable paths.</li>
+    <li><strong>Do not use CTT</strong> for any <strong>Cloud→Cloud</strong> moves or non‑AEM sources; rely on
+      Content Copy Tool, packages, or Bulk Import instead.</li>
+  </ul>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>LLM Optimizer – What “Deploy optimization” Does (Now and Next)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      line-height: 1.6;
+      margin: 2rem auto;
+      max-width: 900px;
+      padding: 0 1.5rem;
+      color: #222;
+      background-color: #fff;
+    }
+    h1, h2, h3, h4 {
+      font-weight: 600;
+      line-height: 1.25;
+      color: #111;
+    }
+    h1 {
+      font-size: 1.9rem;
+      margin-bottom: 0.2rem;
+    }
+    h2 {
+      font-size: 1.5rem;
+      margin-top: 2rem;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 0.25rem;
+    }
+    h3 {
+      font-size: 1.2rem;
+      margin-top: 1.5rem;
+    }
+    p {
+      margin: 0.5rem 0 0.75rem;
+    }
+    strong {
+      font-weight: 600;
+    }
+    em {
+      font-style: italic;
+    }
+    a {
+      color: #005fcc;
+      text-decoration: none;
+    }
+    a:hover, a:focus {
+      text-decoration: underline;
+    }
+    ul {
+      padding-left: 1.3rem;
+      margin: 0.5rem 0 0.75rem;
+    }
+    li {
+      margin: 0.25rem 0;
+    }
+    blockquote {
+      margin: 0.75rem 0;
+      padding: 0.75rem 1rem;
+      border-left: 3px solid #ccc;
+      background: #fafafa;
+      font-size: 0.95rem;
+    }
+    code {
+      font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+      font-size: 0.95em;
+      background: #f5f5f5;
+      padding: 0.1rem 0.25rem;
+      border-radius: 3px;
+    }
+    .subtitle {
+      font-size: 0.95rem;
+      color: #666;
+      margin-bottom: 1.5rem;
+    }
+    .section-number {
+      color: #666;
+      font-weight: 500;
+      margin-right: 0.25rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>LLM Optimizer: What “Deploy optimization” Does (Today and in the Future)</h1>
+  <p class="subtitle">
+    This note explains, at a high level, what
+    <strong>“Deploy optimization”</strong> in
+    <strong>Adobe LLM Optimizer (LLMO)</strong> does <em>today</em>, how the
+    CDN/edge flow works for AI traffic, and what is planned
+    longer‑term for <strong>AEM integration</strong>.
+  </p>
+
+  <h2><span class="section-number">1.</span>What “Deploy optimization” is (current behavior)</h2>
+  <p>
+    In the current product, <strong>Deploy optimization</strong> turns a
+    recommendation inside LLMO into a <strong>live, AI‑only change at the
+    CDN edge</strong>, using the <em>Optimize at Edge</em> capability.
+  </p>
+  <ul>
+    <li>
+      It runs <strong>at the CDN/edge</strong>, not inside AEM or your CMS.
+    </li>
+    <li>
+      It affects only <strong>AI/LLM user‑agents</strong> that you have
+      explicitly configured and routed to Optimize at Edge
+      (for example <code>GPTBot</code>, <code>ChatGPT-User</code>,
+      <code>PerplexityBot</code>, etc.).
+    </li>
+    <li>
+      <strong>Human visitors and search engines</strong> continue to receive the
+      original site from your origin; their experience is unchanged.
+    </li>
+    <li>
+      It is always <strong>human‑in‑the‑loop</strong>: a user in LLMO must
+      review the suggestion, optionally edit the text, and explicitly click
+      <strong>Deploy optimization</strong>. Nothing is auto‑deployed without
+      that step.
+    </li>
+  </ul>
+  <p>
+    Conceptually, you can think of it as a
+    <strong>safe “AI overlay” for your existing site</strong>:
+    AI agents see a clearer, fully rendered, optimized version of the page,
+    while your underlying CMS, AEM content, and code remain untouched.
+  </p>
+  <p>
+    Public reference:
+    <a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/resources/optimize-at-edge" target="_blank" rel="noreferrer">
+      Optimize at Edge – Overview
+    </a>
+  </p>
+
+  <h2><span class="section-number">2.</span>What happens when you click “Deploy optimization”</h2>
+  <p>
+    When someone clicks <strong>Deploy optimization</strong> in LLMO for a
+    particular opportunity (for example, adding a summary, fixing headings, or
+    injecting FAQs), the following flow occurs:
+  </p>
+
+  <h3>2.1 Change is sent to the Optimize at Edge service</h3>
+  <p>
+    LLMO sends the approved optimization (the final text after any manual edits)
+    to the <strong>Optimize at Edge backend</strong>, an HTTP service that sits
+    behind a dedicated endpoint used only for AI traffic.
+  </p>
+  <p>
+    As part of onboarding, your CDN has already been configured so that
+    selected domains/paths and AI user‑agents can be routed to this service
+    instead of directly to your origin.
+  </p>
+  <p>
+    See “Onboarding” in
+    <a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/resources/optimize-at-edge#onboarding"
+       target="_blank" rel="noreferrer">
+      Optimize at Edge
+    </a>.
+  </p>
+
+  <h3>2.2 AI/LLM traffic is routed to Optimize at Edge</h3>
+  <p>
+    Once routing is in place:
+  </p>
+  <ul>
+    <li>
+      Requests from <strong>configured AI/LLM user‑agents</strong> that match
+      the allowed paths are forwarded by the CDN to the Optimize at Edge
+      service.
+    </li>
+    <li>
+      <strong>All other traffic</strong> (human visitors, search bots, tools
+      that are not on the AI list) continues to hit your existing origin
+      infrastructure exactly as before.
+    </li>
+  </ul>
+
+  <h3>2.3 Page is pre‑rendered and modified for AI</h3>
+  <p>
+    For AI traffic, the Optimize at Edge service:
+  </p>
+  <ul>
+    <li>
+      <strong>Pre‑renders the page</strong> – it loads the page, allows
+      JavaScript and client‑side data calls to complete, and captures the
+      final, fully assembled HTML snapshot. This goes beyond traditional
+      SSR by including content that normally appears only after client‑side
+      execution.
+    </li>
+    <li>
+      <strong>Applies the deployed change</strong> – it injects or rewrites
+      specific pieces of HTML (for example, headings, summaries, FAQ blocks, or
+      simplified explanations) based on what you approved in LLMO.
+    </li>
+    <li>
+      Returns a <strong>fully rendered, AI‑optimized HTML response</strong>
+      that is easier for agents to read, understand, and cite.
+    </li>
+  </ul>
+  <p>
+    For a comparison with traditional server‑side rendering, see:
+    <em>“How is Optimize at Edge pre‑rendering different from traditional SSR?”</em> in
+    <a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/resources/optimize-at-edge"
+       target="_blank" rel="noreferrer">
+      Optimize at Edge
+    </a>.
+  </p>
+
+  <h3>2.4 Response is cached at the edge with a low TTL</h3>
+  <p>
+    The AI‑optimized HTML is then cached at the CDN edge with a
+    <strong>short time‑to‑live</strong> (typically on the order of minutes):
+  </p>
+  <ul>
+    <li>
+      The first AI requests for a given page trigger a fresh pre‑render and
+      optimization.
+    </li>
+    <li>
+      Subsequent requests during the TTL window are served from this edge cache,
+      which:
+      <ul>
+        <li>
+          Protects your origin from spiky AI traffic, and
+        </li>
+        <li>
+          Keeps what AI agents see <strong>consistent</strong> but also
+          <strong>quickly refreshed</strong> when the underlying page changes.
+        </li>
+      </ul>
+    </li>
+  </ul>
+  <p>
+    See “What happens when the content is updated at source?” in
+    <a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/resources/optimize-at-edge"
+       target="_blank" rel="noreferrer">
+      Optimize at Edge
+    </a>.
+  </p>
+
+  <h3>2.5 Human control: preview, edit, deploy, rollback</h3>
+  <p>
+    Throughout this flow, you retain full control from the LLMO UI:
+  </p>
+  <ul>
+    <li>
+      <strong>Preview</strong> – inspect how the suggestion would affect the
+      page before anything is deployed.
+    </li>
+    <li>
+      <strong>Edit (optional)</strong> – refine or completely rewrite the
+      suggested text in a structured editor so the final content matches
+      brand voice, regulatory constraints, and your preferred tone.
+    </li>
+    <li>
+      <strong>Deploy</strong> – send the approved optimization to the edge
+      so it goes live for qualifying AI traffic.
+    </li>
+    <li>
+      <strong>View Live</strong> – see a rendered version of the page as AI
+      agents see it (the AI‑only variant).
+    </li>
+    <li>
+      <strong>Rollback</strong> – revert a previously deployed optimization;
+      the AI‑only view typically returns to its prior state within minutes.
+    </li>
+  </ul>
+  <p>
+    All of these steps are documented in the workflow section of
+    <a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/resources/optimize-at-edge"
+       target="_blank" rel="noreferrer">
+      Optimize at Edge
+    </a>.
+  </p>
+
+  <h2><span class="section-number">3.</span>What “Deploy optimization” does <em>not</em> do today</h2>
+  <p>
+    For clarity, the current <strong>edge‑only</strong> behavior also implies
+    several things that <strong>do not happen</strong> when you deploy:
+  </p>
+  <ul>
+    <li>
+      It <strong>does not edit AEM content</strong>:
+      no changes are written into AEM Author or Publish. The canonical page
+      content remains under your existing authoring, review, and publishing
+      workflows.
+    </li>
+    <li>
+      It <strong>does not change AEM code or CI/CD</strong>:
+      Deploy optimization does not create pull requests, modify your AEM Git
+      repository, or trigger Cloud Manager pipelines. Any template or code
+      changes still flow through your standard Dev–Stage–Prod process.
+    </li>
+    <li>
+      It <strong>does not affect human or SEO traffic</strong>:
+      only traffic that you explicitly identify and route as AI/LLM is served
+      the optimized HTML; everyone else continues to see the unmodified site
+      from your origin.
+    </li>
+  </ul>
+
+  <h2><span class="section-number">4.</span>Future direction: deeper AEM integration</h2>
+  <p>
+    Beyond the current edge‑only model, the LLMO roadmap includes a complementary
+    <strong>“optimize at source (AEM)”</strong> capability. The goal is to let
+    customers use LLMO not just to overlay AI‑only fixes at the edge, but also
+    to drive <strong>long‑lived improvements directly in AEM</strong> where that
+    makes sense.
+  </p>
+  <p>
+    While details and timing are still subject to change, the intended direction
+    is:
+  </p>
+  <ul>
+    <li>
+      For <strong>content changes</strong>, selected suggestions in LLMO would be
+      pushed into <strong>AEM Author</strong>, where they appear as edits that
+      can go through your existing editorial review, approval, and publish
+      workflows.
+    </li>
+    <li>
+      For <strong>code or structural changes</strong>, LLMO would generate
+      patches or pull requests against your AEM code repository and let your
+      normal Cloud Manager pipelines build, test, and promote those changes to
+      higher environments.
+    </li>
+    <li>
+      AEM would remain the <strong>single source of truth</strong> for what is
+      ultimately served to all users, while Optimize at Edge continues to be
+      the fastest, lowest‑risk way to adapt content specifically for AI agents.
+    </li>
+  </ul>
+  <p>
+    This AEM‑level integration is <strong>not yet generally available</strong>
+    at the time of writing. The <strong>only supported deployment behavior
+    today</strong> for the <em>Deploy optimization</em> button is the
+    edge‑based, AI‑only flow described in sections 1–3, as documented in:
+    <a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/resources/optimize-at-edge"
+       target="_blank" rel="noreferrer">
+      Optimize at Edge
+    </a>.
+  </p>
+
+  <h2><span class="section-number">5.</span>Key takeaways</h2>
+  <ul>
+    <li>
+      <strong>Today:</strong> Deploy optimization is an
+      <strong>AI‑only, edge‑only</strong> mechanism that pre‑renders and
+      rewrites HTML at the CDN edge for selected AI user‑agents, without
+      changing AEM content or code.
+    </li>
+    <li>
+      <strong>Control &amp; safety:</strong> All deployments are
+      human‑approved, reversible, and scoped away from human and SEO traffic.
+    </li>
+    <li>
+      <strong>Future:</strong> LLMO is planned to support an
+      <strong>“optimize at source (AEM)”</strong> path that feeds selected
+      changes back into AEM content and code via your existing governance and
+      Cloud Manager pipelines.
+    </li>
+  </ul>
+</body>
+</html>

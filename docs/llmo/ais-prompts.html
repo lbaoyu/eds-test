@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Design High‑Value LLMO Prompts for AIS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+      margin: 2rem auto;
+      max-width: 900px;
+      color: #111;
+    }
+    h1, h2, h3, h4 {
+      color: #0b3c5d;
+    }
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      margin-top: 2rem;
+      border-top: 1px solid #ddd;
+      padding-top: 1rem;
+    }
+    h3 {
+      margin-top: 1.5rem;
+    }
+    h4 {
+      margin-top: 1rem;
+      margin-bottom: 0.25rem;
+    }
+    ul, ol {
+      margin-left: 1.5rem;
+    }
+    strong {
+      font-weight: 600;
+    }
+    .subtitle {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+    }
+    .callout {
+      border-left: 4px solid #0b3c5d;
+      padding-left: 0.75rem;
+      margin: 1rem 0;
+      background: #f8fafc;
+    }
+    .small {
+      font-size: 0.9rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Design High‑Value LLMO Prompts for AIS</h1>
+  <p class="subtitle">
+    Using a 4‑step framework to turn real AIS customer questions into a curated prompt catalog and a scalable LLM Optimizer footprint.
+  </p>
+
+  <h2>1. What This Session Is (and Isn’t)</h2>
+
+  <h3>1.1 This session is about</h3>
+  <ul>
+    <li>Using a <strong>4‑step framework</strong> to design Categories, Topics and Prompts for AIS.</li>
+    <li>Turning <strong>real AIS customer questions</strong> from search, app and support into a curated prompt catalog.</li>
+    <li>Landing a <strong>Phase‑1 prompt footprint (~1,500 prompts)</strong> across key AIS journeys (mobile, AIS Fibre, roaming, billing, rewards).</li>
+  </ul>
+
+  <h3>1.2 This session is not about</h3>
+  <ul>
+    <li>Deep technical details of <strong>LLM Optimizer configuration</strong> or model tuning.</li>
+    <li><strong>GEO architecture, integration</strong> or analytics dashboard training.</li>
+    <li>Choosing or evaluating specific LLMs, search engines or ranking algorithms.</li>
+  </ul>
+
+  <h2>2. Why Prompt Design Matters for AIS</h2>
+
+  <p>Even with the right tool like LLM Optimizer, GEO outcomes for AIS depend heavily on the design of Topics and Prompts:</p>
+
+  <ul>
+    <li><strong>What we track</strong> – the Categories, Topics and Prompts we choose, which define the scope of optimisation.</li>
+    <li><strong>How well prompts reflect real questions</strong> AIS customers actually ask across channels (Google, ais.th, myAIS app, contact centre).</li>
+    <li><strong>Whether prompts focus on high‑demand, high‑impact intents</strong> (e.g. bills, data usage, roaming, fibre installation) rather than every theoretical question.</li>
+    <li><strong>How clearly we map prompts</strong> to owners (Mobile, AIS Fibre, Digital, Care), journeys and KPIs (call deflection, app self‑service, NPS, complaint reduction).</li>
+    <li><strong>How efficiently we use prompts</strong> – LLMO charges by prompt volume, so unfocused lists increase cost, noise and maintenance effort without adding insight.</li>
+  </ul>
+
+  <div class="callout">
+    <strong>Key idea:</strong> Good prompt design makes GEO insights explainable, actionable and tied to AIS’ real customer journeys and KPIs.
+  </div>
+
+  <h2>3. Agenda</h2>
+
+  <ol>
+    <li>
+      <strong>Foundations</strong><br>
+      Data constraints and where we see real question patterns<br>
+      Shared vocabulary: <strong>Category → Topic → (optional Intent Theme) → Prompt</strong>
+    </li>
+    <li>
+      <strong>4‑Step Topic &amp; Prompt Framework (applied to AIS)</strong><br>
+      Start from Topics<br>
+      Harvest real questions<br>
+      Normalise into Prompts and score user demand &amp; business impact (1–3)<br>
+      Iterate using LLMO insights and scale towards ~1,500 prompts
+    </li>
+    <li>
+      <strong>From Framework to Execution</strong><br>
+      Phase‑1 Categories, Topics and (optional) Intent Themes<br>
+      Practical execution steps<br>
+      Governance &amp; review cadence
+    </li>
+  </ol>
+
+  <h2>4. Foundations: Constraints &amp; Shared Vocabulary</h2>
+
+  <h3>4.1 Constraint: We Don’t See AI Conversations</h3>
+
+  <p>Tools like ChatGPT, Gemini, Perplexity and Copilot:</p>
+  <ul>
+    <li>Do <strong>not</strong> expose brand‑specific chat histories for AIS.</li>
+    <li>Do <strong>not</strong> offer a feed like “all prompts about AIS mobile plans this month”.</li>
+  </ul>
+
+  <h4>Implications for AIS</h4>
+  <ul>
+    <li>We <strong>cannot</strong> build prompts by exporting AI chat logs.</li>
+    <li>We <strong>must base</strong> Categories, Topics and Prompts on:
+      <ul>
+        <li>Google Search and other search data where AIS appears.</li>
+        <li>On‑site search on <strong>ais.th</strong> and the <strong>myAIS app</strong>.</li>
+        <li>Support, chatbot and contact centre logs.</li>
+        <li>Internal expertise from product, network, digital and care teams.</li>
+      </ul>
+    </li>
+    <li>LLM Optimizer gives AIS a <strong>new lens on AI answer quality</strong>, so prompts should reflect:
+      <ul>
+        <li>Real customer questions, in context (e.g. prepaid vs postpaid, AIS Fibre vs mobile).</li>
+        <li>End‑to‑end journeys (e.g. sign‑up, usage, billing, cancellation).</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>4.2 Where We See Real Question Patterns</h3>
+
+  <h4>Google Search Console (GSC) &amp; external search</h4>
+  <ul>
+    <li>Queries where <strong>“AIS”</strong> or <strong>ais.th</strong> appears in search results.</li>
+    <li>Strong signal of what people type into Google/Bing, including:
+      <ul>
+        <li>“ais roaming charges japan”, “ais fibre installation time”, “ais prepaid add data”.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h4>On‑site and in‑app search</h4>
+  <ul>
+    <li>Searches on <strong>ais.th</strong> and within the <strong>myAIS app</strong>.</li>
+    <li>Often more <strong>product‑ and account‑specific</strong>, e.g. package names, add‑ons, data rollover, billing cycles.</li>
+  </ul>
+
+  <h4>Support &amp; chatbot logs, FAQ &amp; Help content</h4>
+  <ul>
+    <li>Contact centre and chat logs reveal <strong>recurring complaints and confusion points</strong>.</li>
+    <li>FAQ and Help content reflect <strong>curated, official answers</strong> and are useful for:
+      <ul>
+        <li>Validating prompt wording.</li>
+        <li>Checking coverage across journeys (e.g. SIM activation → usage → bill payment).</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>4.3 Shared Vocabulary: Category → Topic → Prompt</h3>
+
+  <p>To stay organised and scalable, we use this hierarchy:</p>
+  <ul>
+    <li><strong>Category</strong> – high‑level AIS business domain.
+      <ul>
+        <li>Examples: <em>Mobile plans &amp; usage</em>, <em>AIS Fibre broadband</em>, <em>Roaming &amp; international</em>, <em>Billing &amp; payments</em>, <em>Rewards &amp; loyalty</em>.</li>
+      </ul>
+    </li>
+    <li><strong>Topic</strong> – cluster of related customer intents within a Category.
+      <ul>
+        <li>Examples: “Prepaid top‑up &amp; data packages”, “Fibre installation &amp; appointment booking”, “Roaming rates &amp; activation”.</li>
+      </ul>
+    </li>
+    <li><strong>Prompt</strong> – one canonical natural‑language question representing a <strong>realistic customer intent</strong>.
+      <ul>
+        <li>Each Prompt in LLMO stands for a <strong>cluster of similar ways</strong> customers ask the same thing.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h4>Example</h4>
+  <ul>
+    <li><strong>Category:</strong> Mobile plans &amp; usage</li>
+    <li><strong>Topic:</strong> Prepaid top‑up &amp; data packages</li>
+    <li><strong>Prompt:</strong> “How can I check my AIS prepaid data balance and buy more data in the app?”</li>
+  </ul>
+
+  <h3>4.4 Intent Themes in Design (Optional)</h3>
+
+  <p><strong>Intent Themes</strong> are recurring question patterns within a Topic:</p>
+
+  <ul>
+    <li><strong>Category:</strong> Roaming &amp; international</li>
+    <li><strong>Topic:</strong> Roaming rates &amp; activation</li>
+    <li><strong>Intent Theme (examples):</strong>
+      <ul>
+        <li>Activation &amp; eligibility.</li>
+        <li>Rates by destination.</li>
+        <li>Bill shock &amp; usage control.</li>
+      </ul>
+    </li>
+    <li><strong>Prompts:</strong> individual questions mapped under each Intent Theme.</li>
+  </ul>
+
+  <h4>Why use Intent Themes in the design phase?</h4>
+  <ul>
+    <li><strong>Reduce long, overlapping, noisy prompt lists</strong> (a single AIS Topic can easily span 60–200 prompts).</li>
+    <li>Make it easier to <strong>organise prompts</strong> by grouping them into clear Intent Themes.</li>
+    <li>Ensure we cover the full set of <strong>“jobs to be done”</strong> within each Topic.</li>
+    <li>Provide a clean way to <strong>prioritise</strong> which questions enter Phase‑1 vs later phases.</li>
+  </ul>
+
+  <h3>4.5 Branded vs Non‑Branded Prompts (AIS)</h3>
+
+  <h4>Branded prompts</h4>
+  <ul>
+    <li>Include “AIS”, “AIS Fibre”, “myAIS”, specific plan or package names.</li>
+    <li>Best for:
+      <ul>
+        <li><strong>Policy clarity</strong> (fees, contract terms, speed, fair use, cancellation conditions).</li>
+        <li><strong>Brand and safety</strong> (network quality, security, spam, fraud).</li>
+        <li><strong>Product‑specific comparisons</strong> (e.g. between AIS packages or AIS vs competitors).</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h4>Non‑branded prompts</h4>
+  <ul>
+    <li>Generic but relevant, e.g. “unlimited mobile data plan thailand”, “how to avoid roaming bill shock”.</li>
+    <li>Useful where AI answers often <strong>compare multiple operators</strong> and we want AIS to be correctly represented.</li>
+  </ul>
+
+  <h2>5. The 4‑Step Prompt Design Framework</h2>
+
+  <p>We’ll use a simple, repeatable loop tailored to AIS:</p>
+
+  <ol>
+    <li><strong>Start from Topics</strong><br>Use Categories to define clear, customer‑facing Topics as hypotheses.</li>
+    <li><strong>Harvest real questions</strong><br>For each Topic, pull questions from GSC, on‑site search, myAIS search, support/chat logs, FAQ &amp; Help.</li>
+    <li><strong>Normalise into Prompts</strong><br>Clean, tag, cluster and score questions (user demand and business impact, 1–3). Promote the best into a curated prompt set per Topic.</li>
+    <li><strong>Iterate using LLMO insights</strong><br>Watch how prompts perform; add, adjust, retire and refine prompts over time.</li>
+  </ol>
+
+  <h2>6. Step 1 – Start from Topics</h2>
+
+  <h3>6.1 Sample Topics for AIS</h3>
+
+  <p><strong>Goal:</strong> define Topics that reflect AIS journeys and organisation. We start from Categories and propose Topics as hypotheses.</p>
+
+  <h4>Illustrative Categories &amp; Topics</h4>
+  <ul>
+    <li><strong>Category: Mobile plans &amp; usage</strong>
+      <ul>
+        <li>Topic: Prepaid top‑up &amp; data packages.</li>
+        <li>Topic: Postpaid bills, data usage &amp; limits.</li>
+        <li>Topic: SIM activation, number transfer (MNP) &amp; new sign‑ups.</li>
+      </ul>
+    </li>
+    <li><strong>Category: AIS Fibre broadband</strong>
+      <ul>
+        <li>Topic: Availability, speed options &amp; eligibility.</li>
+        <li>Topic: Installation, appointment booking &amp; rescheduling.</li>
+        <li>Topic: Connection issues, speed problems &amp; troubleshooting.</li>
+      </ul>
+    </li>
+    <li><strong>Category: Roaming &amp; international</strong>
+      <ul>
+        <li>Topic: Roaming package selection &amp; activation.</li>
+        <li>Topic: Roaming rates, bill shock &amp; usage monitoring.</li>
+      </ul>
+    </li>
+    <li><strong>Category: Billing &amp; payments</strong>
+      <ul>
+        <li>Topic: Understanding bills, charges &amp; due dates.</li>
+        <li>Topic: Payment methods, auto‑pay &amp; failed payments.</li>
+        <li>Topic: Refunds, adjustments &amp; disputes.</li>
+      </ul>
+    </li>
+    <li><strong>Category: Rewards &amp; loyalty</strong>
+      <ul>
+        <li>Topic: AIS Points earning &amp; redemption.</li>
+        <li>Topic: Promotions, bundles &amp; special offers.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>6.2 Why Topics Come Before Prompts</h3>
+
+  <p>If we jump straight to prompts:</p>
+  <ul>
+    <li>Lists get <strong>long, overlapping and noisy</strong>.</li>
+    <li>It’s hard to know if we’ve <strong>covered the full journey</strong> (e.g. only focusing on billing but not on upgrades or cancellation).</li>
+    <li><strong>Ownership and KPIs</strong> per area become unclear (who owns which prompts?).</li>
+  </ul>
+
+  <p>Starting from Topics ensures:</p>
+  <ul>
+    <li>Prompts are <strong>anchored in AIS customer journeys</strong> (e.g. sign up, use, pay, troubleshoot, renew).</li>
+    <li>We can <strong>assign owners, attach KPIs and plan depth</strong> per Topic.</li>
+    <li>Later prompt lists are <strong>manageable, explainable and easier to govern</strong>.</li>
+  </ul>
+
+  <h3>6.3 Designing “Good” Topics</h3>
+
+  <p><strong>Good Topics are:</strong></p>
+
+  <ul>
+    <li><strong>Aligned to customer journeys</strong> – they reflect what customers are trying to do:
+      <ul>
+        <li>“Fix my slow home internet.”</li>
+        <li>“Understand and pay my mobile bill.”</li>
+        <li>“Use roaming without risk of bill shock.”</li>
+      </ul>
+    </li>
+    <li><strong>Ownable by a team</strong> – one area (e.g. Mobile Postpaid, AIS Fibre, Roaming, Digital, Care) can own content, policy and KPIs for the Topic.</li>
+    <li><strong>Mid‑level in granularity</strong> – big enough for multiple related intents, but small enough to be meaningful in dashboards and reviews.</li>
+  </ul>
+
+  <h2>7. Step 2 – Harvest Real Questions</h2>
+
+  <h3>7.1 Harvest Real Questions per Topic</h3>
+
+  <p>For each Topic, we collect question patterns from:</p>
+  <ul>
+    <li><strong>GSC / external search</strong> – queries for that Topic where AIS or ais.th appears.</li>
+    <li><strong>On‑site &amp; in‑app search</strong> – internal search terms in ais.th and myAIS.</li>
+    <li><strong>Support &amp; chatbot logs</strong> – repeated phrases and complaint patterns.</li>
+    <li><strong>FAQ &amp; Help</strong> – Q&amp;A pages mapped to the Topic, used to validate wording and coverage.</li>
+  </ul>
+
+  <h3>7.2 Example Harvest – “Roaming rates &amp; activation”</h3>
+
+  <p><strong>Category:</strong> Roaming &amp; international<br>
+    <strong>Topic:</strong> Roaming rates &amp; activation
+  </p>
+
+  <p>From data (and optionally PAA/LLM) we might see questions like:</p>
+  <ul>
+    <li>“How do I activate AIS roaming before travelling abroad?”</li>
+    <li>“What are AIS roaming charges for Japan?”</li>
+    <li>“Can I limit my roaming data to avoid bill shock?”</li>
+    <li>“Can I buy AIS roaming packages from the myAIS app?”</li>
+    <li>“Why is my roaming not working when I arrive?”</li>
+  </ul>
+
+  <h3>7.3 Validate and Refine Topics Using Real Questions</h3>
+
+  <p>Once questions are harvested, we validate and refine our Topics:</p>
+  <ul>
+    <li><strong>Review Topics from Step 1</strong> – compare against key journeys and owner teams.</li>
+    <li><strong>Test with real questions</strong> – do GSC / onsite / support / FAQ questions fit naturally under this Topic?</li>
+    <li><strong>Split or merge as needed</strong>:
+      <ul>
+        <li>If a Topic feels crowded or messy → split into 2–3 clearer Topics.</li>
+        <li>If two Topics always share questions → merge them.</li>
+      </ul>
+    </li>
+    <li><strong>Use customer‑friendly names</strong> – name Topics using phrases AIS customers would recognise, not internal jargon.</li>
+  </ul>
+
+  <h2>8. Step 3 – Normalise into Prompts</h2>
+
+  <h3>8.1 Clean, Tag and Cluster</h3>
+
+  <h4>1. Clean the pool</h4>
+  <p>Remove:</p>
+  <ul>
+    <li>Obvious noise (test strings, junk queries).</li>
+    <li>Out‑of‑scope questions (other brands, other countries, non‑telecom topics).</li>
+    <li>Pure navigation (e.g. “ais login”, “myais app download”).</li>
+  </ul>
+
+  <h4>2. Tag and cluster</h4>
+  <ul>
+    <li>Tag each question with:
+      <ul>
+        <li><strong>Source</strong> (GSC, onsite search, app search, support, chatbot).</li>
+        <li><strong>Frequency</strong> (High / Medium / Low).</li>
+        <li><strong>Journey stage</strong> (Pre‑purchase, Onboarding, Usage, Support, Renewal/Churn).</li>
+      </ul>
+    </li>
+    <li>Cluster similar questions into <strong>single intents</strong>.</li>
+  </ul>
+
+  <h3>8.2 Canonical Prompts with Evidence</h3>
+
+  <p>For each cluster of questions with the same intent, define one canonical prompt in AIS customer language, plus evidence behind it.</p>
+
+  <p><strong>Example</strong></p>
+  <ul>
+    <li><strong>Category:</strong> AIS Fibre broadband</li>
+    <li><strong>Topic:</strong> Installation, appointment booking &amp; rescheduling</li>
+    <li><strong>Canonical prompt:</strong> “How long does AIS Fibre installation take and can I reschedule my appointment?”</li>
+    <li><strong>Evidence tags (internal):</strong>
+      <ul>
+        <li>Sources: GSC + Contact centre + myAIS search.</li>
+        <li>Frequency: High.</li>
+        <li>Journey: Onboarding · Installation.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>8.3 Scoring User Demand &amp; Business Impact</h3>
+
+  <p><strong>Goal:</strong> decide how frequently each intent comes up, and how important it is for AIS.</p>
+
+  <h4>Demand score (1–3)</h4>
+  <ul>
+    <li><strong>3 – High demand</strong>
+      <ul>
+        <li>High frequency in GSC and/or on‑site/app search, and/or</li>
+        <li>Recurs clearly in support/chat logs.</li>
+      </ul>
+    </li>
+    <li><strong>2 – Medium demand</strong>
+      <ul>
+        <li>Shows up repeatedly, but not at the very top.</li>
+      </ul>
+    </li>
+    <li><strong>1 – Low demand</strong>
+      <ul>
+        <li>Rare / niche, only occasional mentions.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h4>Impact score (1–3)</h4>
+  <ul>
+    <li>Based on:
+      <ul>
+        <li>Risk (bill shock, churn, regulatory exposure).</li>
+        <li>Value (ARPU, upsell/cross‑sell, AIS Points engagement).</li>
+        <li>Experience (NPS, complaints, repeat contacts).</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>8.4 Selecting Curated Prompt Sets per Topic</h3>
+
+  <p>Use <strong>Demand × Impact</strong> to prioritise:</p>
+
+  <ul>
+    <li>Focus Phase‑1 on prompts with:
+      <ul>
+        <li><strong>Demand ≥ 2</strong> and <strong>Impact ≥ 2</strong>, especially the 3×3 cluster (high demand, high impact).</li>
+      </ul>
+    </li>
+    <li>Defer or exclude low‑demand, low‑impact prompts to keep the Phase‑1 footprint focused and manageable.</li>
+  </ul>
+
+  <h3>8.5 Internal Design Sheet vs LLMO Sheet</h3>
+
+  <p><strong>Internal design sheet (for AIS teams)</strong></p>
+  <ul>
+    <li>Fields: Category · Topic · Intent Theme (optional) · Prompt · Demand · Impact · Sources · Notes.</li>
+  </ul>
+
+  <p><strong>LLMO CSV (upload‑ready)</strong></p>
+  <ul>
+    <li>Fields: <strong>Category · Topic · Prompt · Market (e.g. TH)</strong>.</li>
+    <li>Demand/impact scores and Intent Themes stay in internal design sheets, not as LLMO fields.</li>
+  </ul>
+
+  <h2>9. Step 4 – Iterate using LLMO Insights</h2>
+
+  <h3>9.1 Using LLMO to Refine Topics &amp; Prompts</h3>
+
+  <p>Once prompts are live, LLMO shows for each prompt:</p>
+  <ul>
+    <li><strong>Visibility</strong> – how often AIS appears in AI answers across models.</li>
+    <li><strong>Citations</strong> – which URLs are referenced (ais.th vs competitors vs third‑party sites).</li>
+    <li><strong>Trends</strong> – whether AIS’ presence is improving, flat or declining.</li>
+  </ul>
+
+  <p>We use these signals to:</p>
+  <ul>
+    <li>Confirm which prompts are <strong>working well</strong>.</li>
+    <li>Identify <strong>high‑impact prompts with weak visibility or weak citations</strong>.</li>
+    <li>Spot <strong>new question patterns</strong> that may deserve new prompts or Topic refinements.</li>
+  </ul>
+
+  <h3>9.2 Prompt Lifecycle: Protect, Optimise, Retire</h3>
+
+  <ul>
+    <li><strong>Protect</strong>
+      <ul>
+        <li>High demand, high impact prompts with strong visibility and accurate AIS citations.</li>
+      </ul>
+    </li>
+    <li><strong>Optimise</strong>
+      <ul>
+        <li>High demand/high impact prompts where:
+          <ul>
+            <li>AIS is not cited as often as competitors or third‑party sites.</li>
+            <li>Answers are incomplete, outdated or unclear.</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><strong>Retire</strong>
+      <ul>
+        <li>Low demand/low impact prompts, or prompts where:
+          <ul>
+            <li>LLMO repeatedly shows stable, strong coverage and we want to reduce noise.</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>9.3 When to Add New Prompts (Inside Existing Topics)</h3>
+
+  <ul>
+    <li><strong>Uncaptured high‑demand queries</strong> – strong volume in search/support logs not yet added as prompts.</li>
+    <li><strong>Distinct intents hidden in one prompt</strong> – LLM answers look confused or mix journeys (e.g. roaming activation + billing) → split into separate prompts.</li>
+    <li><strong>New ways to ask about existing journeys</strong> – new channels, devices, payment methods or propositions that appear often enough to matter (e.g. e‑wallet payments, 5G‑specific questions, new AIS bundles).</li>
+  </ul>
+
+  <h3>9.4 When to Add or Split Topics</h3>
+
+  <ul>
+    <li><strong>Overloaded Topics with mixed behaviour</strong>
+      <ul>
+        <li>A Topic carries 60–200 prompts with very different answer patterns.</li>
+        <li>Clear sub‑clusters by intent, owner or journey (e.g. delivery vs refunds vs billing in one Topic).</li>
+      </ul>
+    </li>
+    <li><strong>High‑impact clusters buried inside a broad Topic</strong>
+      <ul>
+        <li>A group of prompts shares language, journeys and KPIs, and shows high demand/impact.</li>
+        <li>That cluster has different risk or ownership (e.g. financial hardship, fraud/scams, network outages).</li>
+      </ul>
+    </li>
+    <li><strong>New strategic or product areas</strong>
+      <ul>
+        <li>LLMO shows rising demand around new AIS propositions (e.g. new 5G packages, converged offers, new loyalty benefits).</li>
+        <li>These questions need their own Topic for tracking and clear ownership.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h2>10. From Framework to Execution</h2>
+
+  <h3>10.1 Phase‑1 Prompt Footprint</h3>
+
+  <p><strong>Phase‑1 prompt footprint (proposal, not a standard):</strong></p>
+  <ul>
+    <li>Target <strong>~1,500 prompts</strong> across all Topics.</li>
+    <li>For a large telco like AIS, ~1,500 prompts is a sensible starting point; range ~1,200–2,000 depending on capacity and ambition.</li>
+  </ul>
+
+  <h4>Illustrative Phase‑1 allocation (to be adapted with AIS)</h4>
+  <ul>
+    <li><strong>Mobile plans &amp; usage:</strong> ~500–700 prompts.</li>
+    <li><strong>AIS Fibre broadband:</strong> ~300–450 prompts.</li>
+    <li><strong>Roaming &amp; international:</strong> ~200–300 prompts.</li>
+    <li><strong>Billing &amp; payments:</strong> ~150–250 prompts.</li>
+    <li><strong>Rewards &amp; loyalty + other journeys:</strong> remaining prompts.</li>
+  </ul>
+
+  <h3>10.2 Applying the 4‑Step Framework in Phase‑1</h3>
+
+  <p>To deliver Phase‑1:</p>
+  <ul>
+    <li><strong>Confirm scope and ownership</strong>
+      <ul>
+        <li>Agree Categories, Topics and optional Intent Themes.</li>
+        <li>Assign owners per Topic (Mobile, AIS Fibre, Roaming, Billing, Digital, Care, etc.).</li>
+      </ul>
+    </li>
+    <li><strong>Build and validate the design sheet</strong>
+      <ul>
+        <li>Harvest questions, cluster into prompts, score Demand &amp; Impact.</li>
+        <li>Review with Topic owners and refine.</li>
+      </ul>
+    </li>
+    <li><strong>Prepare the LLMO CSV</strong>
+      <ul>
+        <li>Keep Category/Topic names consistent.</li>
+        <li>One clear question per row; remove duplicates.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>10.3 Practical Configuration &amp; Governance</h3>
+
+  <h4>Configuration (what goes into LLMO)</h4>
+  <ul>
+    <li>Each prompt in LLMO has: <strong>Category · Topic · Prompt · Market (e.g. TH)</strong>.</li>
+    <li>Demand/impact scores and Intent Themes stay in internal design sheets, not as LLMO fields.</li>
+  </ul>
+
+  <h4>CSV / sheet hygiene</h4>
+  <ul>
+    <li>Keep Category/Topic names <strong>consistent</strong> across design and upload sheets.</li>
+    <li>If using Intent Themes, keep them in a <strong>separate column</strong> (design sheet only).</li>
+    <li>Remove duplicates and ensure <strong>one clear question per row</strong>.</li>
+  </ul>
+
+  <h3>10.4 Scaling Beyond Phase‑1</h3>
+
+  <ul>
+    <li><strong>Depth before breadth</strong>
+      <ul>
+        <li>First, add prompts to high‑value Topics (e.g. bills, roaming, AIS Fibre issues) where LLMO shows gaps.</li>
+      </ul>
+    </li>
+    <li><strong>Data‑led expansion</strong>
+      <ul>
+        <li>Use LLMO visibility, citations and trends, plus demand/impact scores, to decide:
+          <ul>
+            <li>Which intents need more coverage.</li>
+            <li>Which new Topics deserve prompts.</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+
+  <h2>11. Recap &amp; Decisions</h2>
+
+  <h3>11.1 Recap</h3>
+
+  <ul>
+    <li><strong>Shared vocabulary</strong>: Category → Topic → (optional Intent Theme) → Prompt.</li>
+    <li><strong>4‑step Topic &amp; Prompt framework</strong>:
+      <ol>
+        <li>Start from Topics.</li>
+        <li>Harvest real questions (GSC, onsite/app search, support, chatbot; FAQ/Help as curated inputs; PAA/LLM as optional enrichers).</li>
+        <li>Normalise into prompts and score user demand and business impact (1–3).</li>
+        <li>Iterate using LLMO insights and scale towards ~1,500 prompts for AIS.</li>
+      </ol>
+    </li>
+  </ul>
+
+  <h3>11.2 Suggested Decisions for AIS</h3>
+
+  <ul>
+    <li>Agree initial <strong>Categories &amp; Topics</strong> to include in Phase‑1.</li>
+    <li>Nominate <strong>Topic owners</strong> across AIS teams.</li>
+    <li>Align on a <strong>Phase‑1 target footprint</strong> (e.g. ~1,500 prompts) and a timeline.</li>
+    <li>Define a <strong>governance and review cadence</strong> (e.g. quarterly prompt review using LLMO insights).</li>
+  </ul>
+
+  <p class="small">
+    Next steps can include: building the first AIS design sheet, defining owners per Category/Topic, and running a pilot upload into LLMO for 1–2 journeys.
+  </p>
+
+</body>
+</html>

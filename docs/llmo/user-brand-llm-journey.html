@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>User–Brand–LLM Journey</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      line-height: 1.6;
+      color: #222;
+      background-color: #fafafa;
+      margin: 0;
+      padding: 40px 12vw;
+    }
+    h1, h2, h3, h4 {
+      font-weight: 650;
+      line-height: 1.3;
+      color: #111;
+    }
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: 1.6rem;
+      margin-top: 2.5rem;
+      margin-bottom: 0.5rem;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 1.6rem;
+    }
+    h3 {
+      font-size: 1.25rem;
+      margin-top: 1.6rem;
+      margin-bottom: 0.4rem;
+    }
+    h4 {
+      font-size: 1.05rem;
+      margin-top: 1.1rem;
+      margin-bottom: 0.2rem;
+    }
+    p {
+      margin: 0.5rem 0;
+    }
+    ul {
+      margin: 0.4rem 0 0.6rem 1.3rem;
+      padding: 0;
+    }
+    li {
+      margin: 0.15rem 0;
+    }
+    strong {
+      font-weight: 650;
+    }
+    em {
+      font-style: italic;
+    }
+    code {
+      font-family: "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono",
+        "Courier New", monospace;
+      font-size: 0.9rem;
+      background: #f1f1f1;
+      padding: 0.1rem 0.25rem;
+      border-radius: 3px;
+    }
+    .tagline {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 1.6rem;
+    }
+    .step-summary {
+      background: #ffffff;
+      border-radius: 8px;
+      border: 1px solid #e5e5e5;
+      padding: 1rem 1.2rem;
+      margin: 1.4rem 0;
+    }
+    .step-summary h3 {
+      margin-top: 0.4rem;
+      margin-bottom: 0.4rem;
+    }
+    .callout {
+      border-left: 4px solid #4b7bec;
+      background: #f5f8ff;
+      padding: 0.75rem 1rem;
+      margin: 1rem 0;
+      border-radius: 4px;
+      font-size: 0.97rem;
+    }
+    .inline-heading {
+      font-weight: 650;
+    }
+    .section-intro {
+      font-size: 0.98rem;
+      color: #444;
+    }
+    .list-tight li {
+      margin: 0.05rem 0;
+    }
+    .footer-note {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 2.5rem;
+      border-top: 1px solid #e0e0e0;
+      padding-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>User–Brand–LLM Journey</h1>
+  <p class="tagline">
+    How your content, large language models, and user behavior interact end‑to‑end.
+  </p>
+
+  <div class="step-summary">
+    <h3>High‑Level Flow</h3>
+    <p>The journey we’ll explore:</p>
+    <ul>
+      <li><strong>Step 1:</strong> Brand publishes content on its site (products, docs, support).</li>
+      <li><strong>Step 2:</strong> LLMs crawl and ingest that content as part of their knowledge.</li>
+      <li><strong>Step 3:</strong> Users ask questions in AI assistants instead of going directly to the site.</li>
+      <li><strong>Step 4:</strong> LLMs answer using brand content and sometimes link back to brand pages.</li>
+      <li><strong>Step 5:</strong> Some users click through, visit the site, and may or may not convert.</li>
+    </ul>
+    <p>
+      Each step affects the next. Weakness in any step can show up downstream as
+      missing, misleading, or low‑quality AI answers and degraded business outcomes.
+    </p>
+  </div>
+
+  <!-- STEP 1 -->
+
+  <h2>Step 1 – Brand Publishes Content on Its Site</h2>
+  <p class="section-intro">
+    This looks like “business as usual” (publish pages, docs, support articles), but in an
+    AI‑assistant world it’s the foundation of everything LLMs can say about your brand.
+  </p>
+
+  <h3>1.1 What “publishes content” means in this context</h3>
+  <p>
+    When we say a brand publishes content, we’re talking about several layers of material, all of
+    which can become input to LLMs:
+  </p>
+  <ul>
+    <li><strong>Product &amp; marketing content</strong>
+      <ul class="list-tight">
+        <li>Product overview and feature pages</li>
+        <li>Pricing, packaging, and plan comparisons</li>
+        <li>Use‑case pages and campaign landing pages</li>
+      </ul>
+    </li>
+    <li><strong>Documentation &amp; technical content</strong>
+      <ul class="list-tight">
+        <li>User guides and admin guides</li>
+        <li>API references and developer docs</li>
+        <li>Integration guides, architectures, release notes</li>
+      </ul>
+    </li>
+    <li><strong>Support &amp; troubleshooting content</strong>
+      <ul class="list-tight">
+        <li>Knowledge base articles and FAQs</li>
+        <li>“How do I fix…” guides, known issues, workarounds</li>
+        <li>Forum posts and community Q&amp;A</li>
+      </ul>
+    </li>
+    <li><strong>Educational &amp; thought leadership content</strong>
+      <ul class="list-tight">
+        <li>Tutorials, recipes, templates</li>
+        <li>Whitepapers, case studies</li>
+        <li>Best‑practice and “how to choose” guides</li>
+      </ul>
+    </li>
+  </ul>
+  <p>
+    From an LLM’s perspective, all of these are potential <strong>knowledge sources</strong>, each
+    tuned to a different type of user question: “What is this?”, “How do I do that?”, “How does X
+    compare to Y?”, “What’s wrong and how do I fix it?”.
+  </p>
+
+  <h3>1.2 How LLMs “see” your site: structure and semantics</h3>
+  <p>
+    LLMs rely on underlying systems that crawl, parse, and chunk web pages. These systems benefit
+    enormously from <strong>structure</strong> and <strong>semantic clarity</strong>.
+  </p>
+
+  <h4>Structural signals</h4>
+  <ul>
+    <li><span class="inline-heading">Titles and headings:</span> clear, descriptive titles and well‑nested
+      headings (<code>h1</code>, <code>h2</code>, <code>h3</code>) help identify what each section is about.</li>
+    <li><span class="inline-heading">Lists, tables, and steps:</span> bulleted lists for features or
+      requirements, numbered lists for procedures, tables for comparisons and parameters.</li>
+    <li><span class="inline-heading">Consistent templates:</span> common patterns for product pages, doc pages,
+      FAQ pages make it easier to infer where to find definitions, steps, edge cases, etc.</li>
+  </ul>
+
+  <h4>Semantic signals</h4>
+  <ul>
+    <li><span class="inline-heading">Entity‑rich language:</span> consistent use of brand names, product names,
+      feature names, plans, partner names, and core concepts.</li>
+    <li><span class="inline-heading">Canonical phrasing:</span> 1–3 sentence definitions reused across key
+      pages instead of many slightly different descriptions.</li>
+    <li><span class="inline-heading">Intent‑aligned phrasing:</span> content framed around user questions and
+      tasks, e.g., “How to set up…”, “How to troubleshoot…”, “Compare X vs Y for scenario Z”.</li>
+    <li><span class="inline-heading">Explicit constraints:</span> clear statements of what is <em>not</em>
+      supported or recommended, and under what conditions instructions apply.</li>
+  </ul>
+
+  <div class="callout">
+    The more your content looks like a set of clearly labeled “answerable units”, the easier it is
+    for LLM pipelines to ingest it and for assistants to reuse it accurately.
+  </div>
+
+  <h3>1.3 Content types that matter most</h3>
+
+  <h4>Canonical reference content</h4>
+  <p>
+    These define the “official story” for key entities and policies:
+  </p>
+  <ul>
+    <li>“What is [product]?” definitions</li>
+    <li>Capabilities, limits, supported platforms</li>
+    <li>Licensing, security, compliance, data handling policies</li>
+  </ul>
+  <p>
+    These pages heavily influence how models describe your brand and products in definitions and
+    comparisons.
+  </p>
+
+  <h4>Task and procedure content</h4>
+  <p>
+    These explain <em>how</em> to do things:
+  </p>
+  <ul>
+    <li>Step‑by‑step how‑to guides</li>
+    <li>Configuration flows and setup checklists</li>
+    <li>Runbooks and troubleshooting flows</li>
+  </ul>
+  <p>
+    LLMs lean on these when users ask “How do I…” or “What should I do next when…”.
+  </p>
+
+  <h4>Explain‑and‑compare content</h4>
+  <p>
+    These put your offerings in context:
+  </p>
+  <ul>
+    <li>Product/plan comparisons</li>
+    <li>Pros/cons and trade‑offs between approaches</li>
+    <li>“When to use X vs Y” or “How to choose for scenario Z” content</li>
+  </ul>
+  <p>
+    These strongly influence how AI assistants frame recommendations and competitive positioning.
+  </p>
+
+  <h3>1.4 Common pitfalls at Step 1</h3>
+  <ul>
+    <li><strong>Ambiguous or inconsistent naming:</strong> multiple names for the same product or feature;
+      legacy names left in circulation with no mapping.</li>
+    <li><strong>Thin or purely promotional pages:</strong> heavy on slogans, light on actual capabilities,
+      constraints, and examples.</li>
+    <li><strong>Fragmented answers:</strong> one user question’s answer scattered across many disconnected
+      pages with no canonical “home”.</li>
+    <li><strong>Outdated content left live:</strong> old instructions and policies not marked as obsolete or
+      redirected to newer versions.</li>
+    <li><strong>Implicit assumptions:</strong> missing prerequisites and constraints; docs assume background
+      knowledge many users don’t have.</li>
+  </ul>
+
+  <h3>1.5 GEO‑style best practices for Step 1</h3>
+  <p><strong>GEO (Generative AI Engine Optimisation)</strong> at this layer is about making content as usable
+    as possible for both humans and LLMs.</p>
+  <ul>
+    <li><strong>Define an intent and entity map:</strong> list top user questions and key entities
+      (products, features, concepts) and ensure each has clear, consistent coverage.</li>
+    <li><strong>Create canonical answers:</strong> choose one page/section as the authoritative answer for
+      each important question and make it robust.</li>
+    <li><strong>Standardize structures:</strong> templates for product pages, docs, and support articles with
+      predictable sections.</li>
+    <li><strong>Make versioning explicit:</strong> mark which product versions content applies to, and flag
+      deprecated or legacy material.</li>
+    <li><strong>Write in “answerable units”:</strong> each section or FAQ should be able to stand alone as a
+      coherent answer to a specific question.</li>
+  </ul>
+
+  <div class="callout">
+    If you would be uncomfortable with an assistant quoting a section of your site as “the answer”
+    to a key question, that section probably needs work before it’s ready for the AI era.
+  </div>
+
+  <!-- STEP 2 -->
+
+  <h2>Step 2 – LLMs Crawl and Ingest That Content</h2>
+  <p class="section-intro">
+    Step 2 is where your web presence becomes part of the LLM ecosystem’s internal knowledge. It
+    covers discovery, parsing, chunking, embedding, and indexing.
+  </p>
+
+  <h3>2.1 Discovery and crawling</h3>
+  <p>
+    Before content can influence answers, it has to be found. Discovery typically happens via:
+  </p>
+  <ul>
+    <li><strong>Web crawling infrastructure:</strong> similar to search engines, following links on your site
+      and from other sites.</li>
+    <li><strong>Sitemaps and feeds:</strong> XML sitemaps and RSS/Atom feeds listing your key URLs.</li>
+    <li><strong>Direct submissions or integrations:</strong> in some setups, brands provide URLs or document
+      feeds explicitly.</li>
+  </ul>
+  <p>
+    Crawlers generally respect <code>robots.txt</code>, <code>noindex</code>, and authentication boundaries.
+    Public, crawlable content is what typically makes it into:
+  </p>
+  <ul>
+    <li>Training corpora (for some providers)</li>
+    <li>Retrieval indexes used at answer time</li>
+    <li>Source pools for citations</li>
+  </ul>
+
+  <h3>2.2 Parsing and chunking into units of meaning</h3>
+  <p>
+    Once a page is fetched, it is parsed to separate signal from noise and then split into
+    <strong>chunks</strong>.
+  </p>
+  <ul>
+    <li><strong>Parsing:</strong> remove boilerplate (navigation, footers, ads), extract main content (titles,
+      headings, paragraphs, lists, tables, code).</li>
+    <li><strong>Chunking:</strong> break content into smaller, coherent segments—often based on headings or
+      FAQ entries—so each chunk can act as a self‑contained answer unit.</li>
+  </ul>
+  <p>
+    Good chunking is easier when your original content is structured and avoids very long,
+    multi‑topic, unbroken text.
+  </p>
+
+  <h3>2.3 Embeddings and indexes</h3>
+  <p>
+    Each chunk is then converted into an <strong>embedding</strong>—a high‑dimensional numeric vector that
+    captures its meaning. These embeddings are stored in specialized indexes that support semantic
+    search.
+  </p>
+  <p>At answer time, a typical retrieval‑augmented generation (RAG) pipeline does this:</p>
+  <ul>
+    <li>Convert the user’s question into an embedding.</li>
+    <li>Search the index for the most similar chunks (by meaning).</li>
+    <li>Pass those chunks to the LLM along with the original question.</li>
+    <li>Let the LLM generate a response grounded in those chunks.</li>
+  </ul>
+  <p>
+    Chunks that are focused and clearly labeled are more likely to be retrieved accurately for
+    relevant questions.
+  </p>
+
+  <h3>2.4 Training vs. retrieval</h3>
+  <p>
+    Your content can affect LLM behavior via:
+  </p>
+  <ul>
+    <li><strong>Training:</strong>
+      <ul class="list-tight">
+        <li>Content is part of the model’s training corpus.</li>
+        <li>Influence is diffuse and mixed with many sources.</li>
+        <li>Updates require retraining or fine‑tuning to show up.</li>
+      </ul>
+    </li>
+    <li><strong>Retrieval:</strong>
+      <ul class="list-tight">
+        <li>Content is stored in indexes and retrieved at answer time.</li>
+        <li>Influence is more direct and easier to adjust by updating docs.</li>
+        <li>Updates can be reflected quickly once the index is refreshed.</li>
+      </ul>
+    </li>
+  </ul>
+  <p>
+    Modern assistants rely heavily on retrieval for current, niche, and technical information,
+    making your live docs and support content especially important.
+  </p>
+
+  <h3>2.5 What determines whether your content is used</h3>
+  <p>Not all ingested content is used equally. Key factors include:</p>
+  <ul>
+    <li><strong>Authority and reliability:</strong> reputable domains, internally consistent content, and
+      alignment with other trusted sources.</li>
+    <li><strong>Topical relevance and depth:</strong> clear association between your pages and specific
+      intents (“how to do X with Y”, “troubleshoot error Z”).</li>
+    <li><strong>Freshness:</strong> up‑to‑date docs and clearly marked versioning; obvious deprecation of
+      obsolete material.</li>
+    <li><strong>Technical hygiene:</strong> crawlable URLs, parsable HTML, important information in text rather
+      than images or hard‑to‑parse widgets.</li>
+  </ul>
+
+  <h3>2.6 Common failure modes in ingestion</h3>
+  <ul>
+    <li><strong>Important content not discovered:</strong> missing sitemaps, unlinked pages, or heavy reliance
+      on dynamic loading that crawlers can’t traverse.</li>
+    <li><strong>Noisy parsing:</strong> key content buried in boilerplate or non‑semantic structures, making
+      it hard to isolate important chunks.</li>
+    <li><strong>Overlarge or incoherent chunks:</strong> pages that cover many unrelated topics with no clear
+      structure, yielding messy retrieval units.</li>
+    <li><strong>Conflicting or duplicated content:</strong> multiple pages assert different facts with no
+      canonical signal, increasing the risk of mixed or outdated answers.</li>
+  </ul>
+
+  <div class="callout">
+    Step 2 is about whether AI systems actually “hear” what you say in Step 1. If discovery,
+    parsing, or chunking fail, your best content may never meaningfully influence AI answers.
+  </div>
+
+  <!-- STEP 3 -->
+
+  <h2>Step 3 – Users Ask Questions in AI Assistants</h2>
+  <p class="section-intro">
+    In this step, user intent moves from search boxes and site navigation into conversational
+    interfaces. The assistant, not your homepage, becomes the default starting point.
+  </p>
+
+  <h3>3.1 The behavioral shift</h3>
+  <p>
+    Traditional path:
+    <br />
+    <em>User has a need → opens a search engine → scans results → chooses a link → lands on a site.</em>
+  </p>
+  <p>
+    New pattern:
+    <br />
+    <em>User has a need → opens an assistant → asks in natural language → gets a synthesized answer →
+      maybe sees links, maybe not.</em>
+  </p>
+  <p>Key differences:</p>
+  <ul>
+    <li><strong>Less scanning, more trusting:</strong> users see one or a few answers instead of a long list
+      of links.</li>
+    <li><strong>Richer queries:</strong> users describe context, goals, and constraints rather than just
+      keywords.</li>
+    <li><strong>Assistant as front door:</strong> the assistant stands between the user and all brands; the
+      user may not intentionally search for you at all.</li>
+  </ul>
+
+  <h3>3.2 Types of questions users ask assistants</h3>
+  <ul>
+    <li><strong>Exploratory:</strong> “What tools can help me do X?”, “What are options for Y?”</li>
+    <li><strong>Evaluative / comparative:</strong> “Compare Product A vs B for scenario Z”, “Is Brand X good
+      for regulated industries?”</li>
+    <li><strong>Task / how‑to:</strong> “How do I implement X in Product Y?”, “How do I migrate from system A
+      to B?”</li>
+    <li><strong>Troubleshooting:</strong> “I see error 1234 when doing this; what should I do?”</li>
+    <li><strong>Policy / risk:</strong> “Is this compliant with regulation R?”, “What are security risks if I
+      set this up like that?”</li>
+  </ul>
+  <p>
+    Each category taps into different parts of your content and the broader ecosystem (competitor
+    docs, reviews, forums).
+  </p>
+
+  <h3>3.3 How assistants interpret and expand questions</h3>
+  <ul>
+    <li><strong>Intent detection:</strong> classify the question as definition, comparison, how‑to,
+      troubleshooting, policy, etc.</li>
+    <li><strong>Context usage:</strong> use conversation history and any available user context (role, goals,
+      environment) to refine interpretation.</li>
+    <li><strong>Query expansion:</strong> expand the user’s wording with synonyms, related terms, and
+      recognized entities (brands, product categories, technologies).</li>
+  </ul>
+  <p>
+    This allows your brand to be surfaced even if the user never types your name—but also allows
+    you to be omitted if your content isn’t strongly associated with relevant contexts.
+  </p>
+
+  <h3>3.4 Brand visibility and competition in answers</h3>
+  <p>
+    Step 3 is where brands compete for <strong>presence inside AI answers</strong>, rather than
+    for search ranking positions.
+  </p>
+  <ul>
+    <li>In a single answer, the assistant may:
+      <ul class="list-tight">
+        <li>Mention several tools as options.</li>
+        <li>Recommend one or two more strongly.</li>
+        <li>Explain trade‑offs.</li>
+      </ul>
+    </li>
+    <li>Your brand might:
+      <ul class="list-tight">
+        <li>Be included as a main option.</li>
+        <li>Be mentioned briefly as an alternative.</li>
+        <li>Not be mentioned at all.</li>
+      </ul>
+    </li>
+  </ul>
+  <p>
+    This is your <em>answer share</em>: how often, and how prominently, you appear in relevant
+    assistant answers.
+  </p>
+
+  <h3>3.5 Multi‑turn conversation patterns</h3>
+  <p>
+    Assistant interactions often unfold over multiple turns, for example:
+  </p>
+  <ul>
+    <li>“What tools can I use for X?” → shortlist of tools.</li>
+    <li>“Tell me more about option A.” → deeper explanation of a chosen tool.</li>
+    <li>“How do I implement this for my specific scenario?” → configuration or how‑to guidance.</li>
+    <li>“What are the exact steps, and what should I avoid?” → practical checklist and caveats.</li>
+  </ul>
+  <p>Implications:</p>
+  <ul>
+    <li>If you aren’t in the initial shortlist, you are unlikely to appear later.</li>
+    <li>If you are selected, the assistant may continue to rely on your content in subsequent turns
+      as it guides the user through implementation or troubleshooting.</li>
+  </ul>
+
+  <h3>3.6 Risks at Step 3</h3>
+  <ul>
+    <li><strong>Invisibility in unbranded queries:</strong> assistant suggests solutions for your category but
+      never mentions you.</li>
+    <li><strong>Mispositioning:</strong> assistant uses an outdated or incorrect narrative (e.g., “basic” vs
+      “enterprise‑ready”, or incorrect industries/segments).</li>
+    <li><strong>Over‑generalized recommendations:</strong> assistant suggests your product for cases where
+      you’re not a great fit, leading to misaligned expectations.</li>
+    <li><strong>Bias toward popular incumbents:</strong> assistants may over‑suggest well‑known brands if
+      your content hasn’t clearly and consistently claimed relevant territory.</li>
+  </ul>
+
+  <div class="callout">
+    Step 3 is where users decide which brands to consider at all. If your content and ecosystem
+    signals don’t place you in the right conversations, you never get a chance in later steps.
+  </div>
+
+  <!-- STEP 4 -->
+
+  <h2>Step 4 – LLMs Answer Using Brand Content</h2>
+  <p class="section-intro">
+    At this step, assistants actually respond to users, using a mix of your content, other
+    sources, and their internal knowledge. Sometimes they visibly link back to your site;
+    other times, they don’t.
+  </p>
+
+  <h3>4.1 How an LLM composes an answer</h3>
+  <p>
+    When answering, an assistant typically:
+  </p>
+  <ul>
+    <li><strong>Understands the question:</strong> identifies intent (define, compare, configure, fix) and
+      relevant constraints.</li>
+    <li><strong>Retrieves context:</strong> fetches relevant chunks from indexes (which may include your docs,
+      support content, and others).</li>
+    <li><strong>Generates a response:</strong> synthesizes the information into a coherent answer, optionally
+      including steps, examples, warnings, and sometimes citations.</li>
+  </ul>
+  <p>
+    Your content is rarely used in isolation; it is one piece of a broader mosaic of sources.
+  </p>
+
+  <h3>4.2 Mixing your content with other sources</h3>
+  <p>
+    In many real‑world assistants, the model:
+  </p>
+  <ul>
+    <li><strong>Fuses multiple sources:</strong> your official docs, competitor docs, independent tutorials,
+      reviews, forums, and general knowledge.</li>
+    <li><strong>Distills and compresses:</strong> summarizes many pages or chunks into a small answer, leaving
+      out details it deems less central.</li>
+    <li><strong>Follows system‑level instructions:</strong> internal prompts encourage it to be neutral,
+      helpful, and safe, sometimes softening strong marketing language.</li>
+  </ul>
+  <p>
+    If your content is clear, consistent, and fact‑rich, it can anchor the answer. If it is weak,
+    outdated, or conflicting, other sources can dominate.
+  </p>
+
+  <h3>4.3 Citations and links back to brand pages</h3>
+  <p>
+    Some assistants expose the sources they used:
+  </p>
+  <ul>
+    <li>Inline citations next to specific statements</li>
+    <li>“Sources” blocks listing URLs and snippets</li>
+    <li>Expandable sections showing the underlying documents</li>
+  </ul>
+  <p>Whether your site is shown depends on:</p>
+  <ul>
+    <li>If your content was retrieved and considered relevant.</li>
+    <li>How many sources the UI chooses to display.</li>
+    <li>Whether the answer is treated as “common knowledge” that doesn’t require explicit citation.</li>
+  </ul>
+  <p>
+    Importantly, your content can influence the answer even if your URL is not visibly credited in
+    the interface.
+  </p>
+
+  <h3>4.4 How content affects answer style and stance</h3>
+  <p>Your content shapes not just facts, but framing:</p>
+  <ul>
+    <li><strong>Definitions and positioning:</strong> consistent, crisp definitions of your products and
+      concepts lead to accurate AI descriptions of what you do and who you’re for.</li>
+    <li><strong>Strengths and trade‑offs:</strong> honest comparison content informs balanced AI
+      recommendations, showing where you’re a good fit and where you aren’t.</li>
+    <li><strong>Safety and constraints:</strong> explicit warnings, limits, and “do not do X” language make it
+      more likely the AI will include caveats and safe guidance.</li>
+  </ul>
+  <p>
+    If your docs are vague or overly “salesy,” the AI may fall back on third‑party narratives and
+    generic patterns when describing you.
+  </p>
+
+  <h3>4.5 Failure modes and risks in answers</h3>
+  <ul>
+    <li><strong>Hallucinated capabilities:</strong> the AI says you support features, integrations, or use
+      cases you don’t.</li>
+    <li><strong>Outdated guidance:</strong> mixed instructions from old and new docs produce procedures that
+      used to work but no longer do.</li>
+    <li><strong>Incorrect policy/compliance statements:</strong> AI over‑ or under‑states how compliant or
+      secure you are, based on confusing or outdated content.</li>
+    <li><strong>Shaky troubleshooting:</strong> the AI suggests fixes that only apply in some scenarios, or
+      that skip critical diagnostic steps.</li>
+  </ul>
+  <p>
+    These issues can erode trust and create legal or operational risk. They usually trace back to
+    gaps or contradictions in available content, plus the LLM’s tendency to generalize.
+  </p>
+
+  <h3>4.6 Changing user expectations</h3>
+  <p>
+    Under classic search, users saw multiple links and judged for themselves. Under AI answers,
+    they see one synthesized narrative. That has two big consequences:
+  </p>
+  <ul>
+    <li><strong>Higher perceived authority:</strong> many users treat AI answers as expert summaries that
+      integrate “everything important.”</li>
+    <li><strong>Less incentive to click:</strong> if the answer feels sufficient, users may not visit any
+      underlying site at all.</li>
+  </ul>
+
+  <div class="callout">
+    Step 4 is where the assistant effectively becomes your spokesperson. The more grounded it is
+    in clear, current, official content, the more likely it is to represent you accurately and
+    safely.
+  </div>
+
+  <!-- STEP 5 -->
+
+  <h2>Step 5 – Users Click Through and May or May Not Convert</h2>
+  <p class="section-intro">
+    Finally, some users move from the assistant to your site. They bring expectations shaped by
+    AI, and their onsite experience determines whether that influence becomes adoption, success, or
+    lost potential.
+  </p>
+
+  <h3>5.1 Who clicks through (and who doesn’t)</h3>
+  <p>From Step 4, users tend to fall into two groups:</p>
+  <ul>
+    <li><strong>Non‑clickers:</strong>
+      <ul class="list-tight">
+        <li>The AI answer felt “good enough.”</li>
+        <li>They don’t seek more detail or official confirmation.</li>
+        <li>They may act on the answer without ever visiting your site.</li>
+      </ul>
+    </li>
+    <li><strong>Clickers:</strong>
+      <ul class="list-tight">
+        <li>They want more detail (full docs, configuration matrices, edge cases).</li>
+        <li>They need official confirmation (compliance, security, pricing, legal).</li>
+        <li>They need a place to act (sign up, purchase, download, log in, open a ticket).</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>5.2 What AI‑influenced visitors look like</h3>
+  <p>Compared to typical search visitors, AI‑influenced visitors often:</p>
+  <ul>
+    <li>Arrive with a <strong>pre‑formed mental model</strong> of your product and value.</li>
+    <li>Are more <strong>task‑driven</strong>, looking for specific details or actions.</li>
+    <li>Are less tolerant of high‑level fluff and repeated messaging.</li>
+  </ul>
+  <p>They expect your site to:</p>
+  <ul>
+    <li>Confirm or refine what the assistant told them.</li>
+    <li>Provide concrete implementation details, not just restate benefits.</li>
+    <li>Help them move forward quickly (sign up, configure, resolve, or learn).</li>
+  </ul>
+
+  <h3>5.3 How their onsite journeys differ</h3>
+  <ul>
+    <li><strong>Deeper entry points:</strong> they often land directly on docs, support articles, or specific
+      feature pages instead of your homepage.</li>
+    <li><strong>Skipped overviews:</strong> they may skip your high‑level overview content because they feel
+      AI already gave them that.</li>
+    <li><strong>Cross‑checking AI vs your site:</strong> they may compare AI instructions with your official
+      docs; alignment builds trust, misalignment breaks it.</li>
+  </ul>
+
+  <h3>5.4 Conversion, partial conversion, and non‑conversion</h3>
+  <p>Outcomes for AI‑influenced visitors include:</p>
+  <ul>
+    <li><strong>Conversions:</strong>
+      <ul class="list-tight">
+        <li>Trials started, purchases made, demos booked.</li>
+        <li>Integrations completed, key features successfully configured.</li>
+        <li>Problems resolved without human support.</li>
+      </ul>
+    </li>
+    <li><strong>Partial conversions:</strong>
+      <ul class="list-tight">
+        <li>Better understanding of your product but no immediate action.</li>
+        <li>Trials started but not fully onboarded (yet).</li>
+        <li>Problems partially mitigated or deferred.</li>
+      </ul>
+    </li>
+    <li><strong>Non‑conversions:</strong>
+      <ul class="list-tight">
+        <li>Users decide you’re not a fit (sometimes a healthy outcome vs misaligned adoption).</li>
+        <li>They choose a competitor instead.</li>
+        <li>They postpone a decision.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>5.5 Support and self‑serve impact</h3>
+  <p>AI influences support journeys both before and after users reach your site:</p>
+  <ul>
+    <li><strong>Before arrival:</strong> good AI answers (grounded in your docs) can resolve some issues
+      entirely within the assistant, reducing tickets you ever see.</li>
+    <li><strong>After arrival:</strong> users may arrive with a likely diagnosis and partial steps from the
+      assistant; your content either confirms and completes the fix, or conflicts and amplifies
+      confusion.</li>
+    <li><strong>Edge cases:</strong> AI helps users articulate unusual scenarios; without long‑tail docs,
+      models may guess, leading to brittle or unsafe guidance.</li>
+  </ul>
+
+  <h3>5.6 Measuring impact (at a high level)</h3>
+  <p>Attribution is imperfect, but there are practical ways to gauge impact:</p>
+  <ul>
+    <li><strong>Direct signals:</strong> clicks from AI citations where referrers or tagged links are visible;
+      these can be treated as an “AI / assistant” channel in analytics.</li>
+    <li><strong>Content‑centric signals:</strong> trends in traffic and outcomes for pages you know are
+      frequently surfaced in AI answers (from your own evaluation and testing).</li>
+    <li><strong>Survey and qualitative signals:</strong> asking new users or buyers whether AI assistants
+      played a role in their research or decision.</li>
+    <li><strong>Cohort and lift analysis:</strong> comparing before/after metrics when you improve content
+      quality and AI alignment for specific journeys or topics.</li>
+  </ul>
+
+  <div class="callout">
+    Step 5 is where AI‑shaped intent meets your actual experience. The goal is less about perfect
+    attribution and more about ensuring that when AI does send people to you, they can succeed
+    quickly and confidently.
+  </div>
+
+  <!-- WRAP-UP -->
+
+  <h2>Putting the Five Steps Together</h2>
+  <p>
+    Across all five steps, you can think of the journey like this:
+  </p>
+  <ul>
+    <li><strong>Step 1 – What you say:</strong> your public content defines what’s even possible for AI to
+      learn from you.</li>
+    <li><strong>Step 2 – Whether AI hears you:</strong> crawling, parsing, and indexing determine how much of
+      that content actually enters LLM knowledge and retrieval.</li>
+    <li><strong>Step 3 – Whether AI brings you into the conversation:</strong> assistants decide if and how
+      often to mention and recommend you when users ask questions.</li>
+    <li><strong>Step 4 – How AI speaks on your behalf:</strong> LLMs blend your content with others to craft
+      answers, sometimes citing you, sometimes not.</li>
+    <li><strong>Step 5 – What happens when users arrive:</strong> AI‑primed users land on your site with
+      expectations; your experience either confirms, deepens, and converts that intent—or loses it.</li>
+  </ul>
+  <p>
+    Taken together, this journey is a practical framework for thinking about how to design,
+    maintain, and evolve your content and experiences for an AI‑assistant–centric world.
+  </p>
+
+  <p class="footer-note">
+    You can extend this document with your own metrics, ownership (which teams influence which
+    steps), and concrete projects under each step to turn the model into a living roadmap.
+  </p>
+
+</body>
+</html>

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AEM AMS 到 AEM as a Cloud Service 升級說明（可直接分享給客戶）</title>
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  color: #222;
+  margin: 40px;
+  max-width: 900px;
+}
+h1, h2, h3, h4 {
+  color: #1473e6;
+}
+pre {
+  background-color: #f8f8f8;
+  padding: 10px 12px;
+  border-radius: 4px;
+  white-space: pre-wrap;
+  overflow-x: auto;
+}
+code {
+  background-color: #f8f8f8;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+th {
+  background-color: #eef3f8;
+}
+a {
+  color: #1473e6;
+  text-decoration: none;
+}
+hr {
+  margin: 40px 0;
+  border: none;
+  height: 1px;
+  background-color: #ddd;
+}
+ul {
+  margin-top: 10px;
+}
+</style>
+</head>
+<body>
+
+<h1>AEM AMS 到 AEM as a Cloud Service 升級說明</h1>
+<h2>提供給已從 AMS 遷移或正在遷移到 AEM CS 的客戶</h2>
+
+<p>
+本說明是為了協助您在遷移到 <strong>Adobe Experience Manager as a Cloud Service（AEM CS）</strong> 的過程中，更清楚理解：
+</p>
+<ul>
+  <li>平台升級的<strong>頻率與方式</strong></li>
+  <li>Dev / Stage / Production 各環境的<strong>升級節奏與順序</strong></li>
+  <li>您可以、以及無法<strong>直接控制的部分</strong></li>
+  <li><strong>在 Dev 測試時發現問題應該怎麼做</strong>、會不會影響 Stage / Prod</li>
+  <li>平台與自家程式碼各自有哪些<strong>風險控管與 rollback 機制</strong></li>
+  <li>在新模式下，<strong>Adobe 與貴公司的責任分工</strong></li>
+</ul>
+
+<hr>
+
+<h2>1. 從 AMS 到 AEM CS：升級模式的根本改變</h2>
+
+<h3>1.1 在 AMS 的典型升級模式</h3>
+<p>在 <strong>AMS</strong> 或自管（on‑prem）環境中，升級通常是少數幾次的大事件：</p>
+<ul>
+  <li>每隔一段時間（例如半年、一年甚至更久）才考慮升級一次 AEM 版本</li>
+  <li>升級需要：
+    <ul>
+      <li>預先協調停機時間（通常選深夜或週末）</li>
+      <li>安排測試（UAT / SIT）、準備回滾（rollback）計畫</li>
+      <li>協調 IT、業務與 AMS/合作夥伴多方資源</li>
+    </ul>
+  </li>
+  <li>經常演變成一個完整的「升級專案」，有專案計畫、里程碑與風險控管</li>
+</ul>
+<p>
+換句話說，在 AMS 時代，<strong>升級是一件「大事」，風險集中在少數幾天</strong>。
+</p>
+
+<h3>1.2 AEM CS 的設計理念：Evergreen / Always Current</h3>
+<p>
+在 <strong>AEM as a Cloud Service</strong> 中，設計理念完全不同：
+</p>
+<ul>
+  <li>目標是讓平台<strong>隨時保持在支援且安全的狀態（Evergreen / Always Current）</strong></li>
+  <li>不再依賴「一兩年一次的大型升級專案」</li>
+  <li>而是將升級拆解為<strong>頻繁但幅度較小的更新</strong>，由 Adobe 持續負責</li>
+</ul>
+<p>
+可以用一個比喻：
+</p>
+<ul>
+  <li>過去：像「一年去做一次大手術」。</li>
+  <li>現在：改為「經常做小檢查與日常保養」。</li>
+</ul>
+<p>
+在這個模式下：
+</p>
+<ul>
+  <li><strong>平台升級</strong>由 Adobe 負責：包含版本推廣、安全更新與基礎架構維護。</li>
+  <li><strong>貴公司</strong>則專注在：
+    <ul>
+      <li>自家程式碼品質與相容性</li>
+      <li>自動化測試與流程驗證</li>
+      <li>設定不適合升級的時間窗，降低對業務的影響</li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
+
+<h2>2. AEM CS 的升級頻率與類型：會不會一直被「強迫升級」？</h2>
+
+<h3>2.1 兩種主要更新類型：Feature Release 與 Maintenance Release</h3>
+<p>在 AEM CS 中，平台更新大致分為兩大類：</p>
+
+<h4>功能版本（Feature Release）</h4>
+<ul>
+  <li><strong>頻率：</strong>大約每月一次</li>
+  <li><strong>內容：</strong>新功能、體驗提升、產品能力強化等</li>
+  <li><strong>例子：</strong>
+    <ul>
+      <li>新的內容搜尋或資產瀏覽體驗</li>
+      <li>更直覺的頁面編輯介面</li>
+      <li>新增或改善與其他 Adobe 產品 / 第三方服務的整合能力</li>
+    </ul>
+  </li>
+</ul>
+
+<h4>維護版本（Maintenance Release）</h4>
+<ul>
+  <li><strong>頻率：</strong>每月可能多次，視實際需求而定</li>
+  <li><strong>內容：</strong>
+    <ul>
+      <li>Bug 修正</li>
+      <li>效能與穩定性優化</li>
+      <li>安全性修補（Security Patches）</li>
+    </ul>
+  </li>
+  <li><strong>特點：</strong>
+    <ul>
+      <li>每次變更範圍相對小</li>
+      <li>設計原則偏向<strong>向下相容（backward‑compatible）</strong>，降低意外行為改變的風險</li>
+    </ul>
+  </li>
+</ul>
+
+<p>
+更多平台概念與更新模式說明可參考：
+<a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/overview/what-is-new-and-different">What is New and What is Different</a>、
+<a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/deploying/aem-version-updates">AEM Version Updates</a>。
+</p>
+
+<h3>2.2 實際月份的例子</h3>
+<p>以某一個月為例：</p>
+<ul>
+  <li>月初：推出一個 <strong>Feature Release</strong>，改善作者介面與內容搜尋功能。</li>
+  <li>月中：釋出一個 <strong>Maintenance Release</strong>，修正已知 bug、優化效能。</li>
+  <li>月底：若發現新的安全弱點，再推出另一個 <strong>Maintenance Release</strong> 自動套用安全修補。</li>
+</ul>
+<p><strong>對貴公司而言：</strong></p>
+<ul>
+  <li>不需要再像 AMS 時期那樣，為安全 hotfix 另外安排專案與停機窗口。</li>
+  <li>平台會隨這些 release 自動保持在有最新修補的狀態。</li>
+</ul>
+
+<hr>
+
+<h2>3. Dev / Stage / Production 的升級順序與責任切分</h2>
+
+<h3>3.1 一般升級順序</h3>
+<p>在 AEM CS 中，平台升級在各環境的順序通常是：</p>
+<ol>
+  <li>
+    <strong>Development / Sandbox</strong>
+    <ul>
+      <li>通常最先拿到新版本。</li>
+      <li>用途：
+        <ul>
+          <li>提早驗證自家程式碼與設定。</li>
+          <li>執行自動化測試（CI / UI / E2E）。</li>
+          <li>人工做 exploratory testing（探索性測試）。</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <strong>Stage / Production</strong>
+    <ul>
+      <li>在 Adobe 內部與 clone 環境通過回歸測試後，才由 <strong>Release Orchestrator</strong> 分批滾動升級。</li>
+      <li>Stage / Prod 的升級不是同時發生，而是以漸進式方式 rollout，降低風險。</li>
+    </ul>
+  </li>
+</ol>
+
+<h3>3.2 與 AMS 的差異</h3>
+<p><strong>在 AMS：</strong></p>
+<ul>
+  <li>貴公司可以與 AMS 團隊共同協調：「何時讓 Prod 升級到哪個版本」。</li>
+  <li>升級時間點更偏向個別客戶協議。</li>
+</ul>
+
+<p><strong>在 AEM CS：</strong></p>
+<ul>
+  <li><strong>平台升級節奏</strong>由 Adobe 的雲端平台統一管理，考量所有客戶的安全性與穩定性。</li>
+  <li>貴公司的重點從「決定何時升級到哪版」轉為：
+    <ul>
+      <li>透過 <strong>Cloud Manager</strong> 管理自己的程式碼部署。</li>
+      <li>建立<strong>自動化測試</strong>來驗證業務流程在新版本下是否正常。</li>
+      <li>設定 <code>Quiet Hours</code> 與 <code>Update‑Free Periods</code>，避開不適合維護的時間。</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>一句話總結：</strong></p>
+<p>
+<strong>Adobe 管「平台版本」，貴公司管「自家程式碼與業務流程」。</strong>
+</p>
+
+<hr>
+
+<h2>4. 升級時間控制：不能指定「幾點升級」，但能指定「什麼時候不能升級」</h2>
+
+<h3>4.1 結論先說</h3>
+<ul>
+  <li>在 AEM CS，您<strong>無法再像 AMS 一樣</strong>，精準指定：
+    <ul>
+      <li>「某年某月某日 凌晨 1:00–3:00 請幫我升級 Production 到某一版」。</li>
+    </ul>
+  </li>
+  <li>但是，您可以非常清楚地告訴系統：
+    <ul>
+      <li>「每天這些時間<strong>不能做維護更新</strong>」</li>
+      <li>「某一週是<strong>維護凍結期</strong>，完全不做自動維護更新」</li>
+    </ul>
+  </li>
+</ul>
+<p>這是透過兩個機制實現：</p>
+<ul>
+  <li><code>Quiet Hours</code>（每日安靜時段）</li>
+  <li><code>Update‑Free Periods</code>（維護凍結週）</li>
+</ul>
+<p>
+詳細說明可參考：
+<a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/deploying/quiet-hours-update-free-periods">Quiet hours and Update Free Periods</a>。
+</p>
+
+<h3>4.2 Quiet Hours：每日「不能動我」的時段</h3>
+<p><strong>Quiet Hours 的特性：</strong></p>
+<ul>
+  <li>以每個 <strong>program</strong> 為單位設定。</li>
+  <li>每天最多可設定 <strong>8 小時</strong> 的「禁止自動維護更新時段」。</li>
+  <li>在這些時段內：
+    <ul>
+      <li>平台不會對該 program 執行自動 Maintenance 更新。</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>常見設定方式：</strong></p>
+<ul>
+  <li>上班時間（例如 09:00–18:00）。</li>
+  <li>夜間大型批次作業或結算時間。</li>
+  <li>重要報表匯整或對外服務尖峰時段。</li>
+</ul>
+
+<p><strong>實務效果：</strong></p>
+<p>
+您可以確保「在這些時間內，不會發生自動維護更新」，讓平台在其他時間（例如深夜）再進行更新，降低對營運的直接影響。
+</p>
+
+<h3>4.3 Update‑Free Periods：關鍵活動週的維護凍結期</h3>
+<p><strong>Update‑Free Periods 的特性：</strong></p>
+<ul>
+  <li>同樣以每個 <strong>program</strong> 為單位設定。</li>
+  <li>每個凍結期長度為 <strong>7 天</strong>。</li>
+  <li>在該 7 天期間：
+    <ul>
+      <li>不會對該 program 執行自動 Maintenance 更新。</li>
+    </ul>
+  </li>
+  <li>一年可設定的凍結期數量有上限（例如最多三個 7 天凍結期，請以最新產品政策為準）。</li>
+</ul>
+
+<p><strong>典型使用場景：</strong></p>
+<ul>
+  <li>大型網站改版上線前後一週。</li>
+  <li>電商大促期間（例如雙 11、黑五、年終檔期）。</li>
+  <li>重要稽核週、內部系統切換週等。</li>
+</ul>
+
+<p><strong>綜合來看：</strong></p>
+<p>
+在 AEM CS 中，您並不是自己「挑某一晚升級」，而是<strong>標示哪些時段與週不可升級</strong>，其餘時間由 Adobe 自動選擇最合適的空檔完成維護更新。
+</p>
+
+<hr>
+
+<h2>5. Dev 環境測試：若發現問題，會怎樣影響 Stage / Prod？</h2>
+
+<h3>5.1 常見問題：Dev 測出問題時，Stage / Prod 還會升級嗎？</h3>
+<p>從 AMS 遷移到 AEM CS 的客戶常問：</p>
+<ul>
+  <li>「Dev 升級後，我們測到問題，需要時間修 code，Stage / Prod 的升級會不會照樣發生？」</li>
+  <li>「能不能在 Dev 測試完後，通知 Adobe：我們 OK 才讓 Stage / Prod 升級？」</li>
+</ul>
+
+<h3>5.2 Dev 測試中可能遇到的兩種情況</h3>
+
+<h4>情況 A：問題來自自家程式碼（最常見）</h4>
+<ul>
+  <li>例子：
+    <ul>
+      <li>自訂元件依賴某些在新版本中行為有細微變化的 API。</li>
+      <li>JavaScript 依賴舊版本的 DOM 結構，而新版本 UI 調整後造成行為不同。</li>
+    </ul>
+  </li>
+  <li>處理方式：
+    <ul>
+      <li>在 Dev 修正程式碼與設定。</li>
+      <li>更新並重跑自動化測試（單元測試、API、UI 測試）。</li>
+      <li>測試通過後，再透過 <strong>Cloud Manager pipeline</strong> 將新版本程式碼依序部署到 Stage → Prod。</li>
+    </ul>
+  </li>
+</ul>
+<p>
+在這種情況下，「平台升級本身」是正常且必要的，您是在 Dev 上把自家程式碼調整到與新版本相容。
+</p>
+
+<h4>情況 B：問題疑似來自 Adobe 平台本身</h4>
+<ul>
+  <li>例子：
+    <ul>
+      <li>完全相同的程式碼在舊版本與其他環境都正常，唯獨 Dev 新版本出現異常。</li>
+      <li>透過很簡單的操作就能重現某個內建功能失效，看起來不像自家程式碼的問題。</li>
+    </ul>
+  </li>
+  <li>處理方式：
+    <ol>
+      <li>在 Dev 整理完整資訊：
+        <ul>
+          <li>詳細重現步驟。</li>
+          <li>預期結果 vs 實際結果。</li>
+          <li>相關錯誤訊息與 log（例如 stack trace、error code、關鍵日誌片段）。</li>
+          <li>影響範圍（僅限作者端？還是影響前台訪客與關鍵流程？）。</li>
+        </ul>
+      </li>
+      <li>透過 Adobe 支援管道或客戶經理回報疑似平台問題。</li>
+      <li>Adobe 會：
+        <ul>
+          <li>驗證是否為平台問題。</li>
+          <li>必要時暫停該版本對更多客戶環境的 rollout。</li>
+          <li>視情況對已受影響環境進行回滾，並在後續 Maintenance Release 中提供修正。</li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+</ul>
+
+<h3>5.3 Dev 測試結果能不能「直接卡住」 Stage / Prod 的平台升級？</h3>
+<p><strong>目前設計上：不會直接卡住。</strong></p>
+<ul>
+  <li>平台升級（AEM 產品本身的版本升級與維護更新）由 Adobe 的 <strong>Release Orchestrator</strong> 管理。</li>
+  <li>Dev 測試結果<strong>不會</strong>自動變成 Stage / Prod 升級的「硬性關卡」。</li>
+</ul>
+
+<p>但是，貴公司依然保有以下重要控制權：</p>
+<ul>
+  <li><strong>自家程式碼是否部署到 Stage / Prod：</strong>
+    <ul>
+      <li>若 Dev 測試不通過，您可以選擇不將有風險的程式碼版本推上 Stage / Prod。</li>
+      <li>您的 Cloud Manager pipeline 測試失敗時，部署會自動 fail，阻擋程式碼上線。</li>
+    </ul>
+  </li>
+  <li><strong>設定維護時間窗口：</strong>
+    <ul>
+      <li>透過 <code>Quiet Hours</code> 避免在上班時間或批次作業期間進行維護更新。</li>
+      <li>透過 <code>Update‑Free Periods</code> 避免在關鍵檔期或大改版週進行維護更新。</li>
+    </ul>
+  </li>
+  <li><strong>例外狀況時與 Adobe 協調：</strong>
+    <ul>
+      <li>在 Dev 測試中若確認為平台問題，可透過支援管道與 Adobe 協作，視情況調整該版本 rollout 或安排修正。</li>
+    </ul>
+  </li>
+</ul>
+
+<p><strong>一句話說明：</strong></p>
+<p>
+Dev 測試是讓您<strong>提早看見新平台版本對自家系統的影響</strong>，  
+但平台升級節奏仍由 Adobe 管理；您則透過<strong>程式碼部署決策 + 測試 + 時間窗口設定</strong>控制風險。
+</p>
+
+<hr>
+
+<h2>6. 風險控管與 Rollback：平台層級與自家程式碼層級</h2>
+
+<h3>6.1 平台層級：Adobe 如何降低升級風險？</h3>
+
+<h4>小步快跑：降低每次變更的風險範圍</h4>
+<ul>
+  <li>AEM CS 將改動拆成多個較小的 Feature / Maintenance Release。</li>
+  <li>每次變更的範圍相對 AMS 那種「跨多版本升級」要小得多。</li>
+  <li>一旦某批次有問題，受影響的客戶數量與範圍會相對有限。</li>
+</ul>
+
+<h4>多層自動化測試與漸進式 rollout</h4>
+<ul>
+  <li>在 rollout 到客戶環境之前，Adobe 會在內部與 clone 環境：
+    <ul>
+      <li>執行 API 測試。</li>
+      <li>執行 UI / 視覺回歸測試。</li>
+      <li>檢查效能與穩定性。</li>
+    </ul>
+  </li>
+  <li>新版本會以漸進式方式 rollout，而非一次對全部客戶升級。</li>
+</ul>
+
+<h4>一旦發現問題：停更與回滾</h4>
+<ul>
+  <li>若在某些客戶或環境上發現 regression 或重大問題：
+    <ul>
+      <li>會立即暫停該版本對其他客戶的後續 rollout。</li>
+      <li>視嚴重程度，對已升級的環境執行回滾，恢復到前一個穩定版本。</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>6.2 安全更新：隨維護版本自動套用</h3>
+<ul>
+  <li>AEM CS 的安全修補（security updates）會透過 Maintenance Release 自動佈署。</li>
+  <li>貴公司不需再手動下載、安裝 security hotfix，也不必額外安排安全升級專案。</li>
+</ul>
+<p>
+可參考最新安全公告示例：
+<a href="https://helpx.adobe.com/security/products/experience-manager/apsb25-48.html">Security updates available for Adobe Experience Manager | APSB25-48</a>。
+</p>
+
+<h3>6.3 自家程式碼層級：Cloud Manager 的 Rollback 能力</h3>
+<p>如果問題不是來自平台，而是<strong>剛部署的自家程式碼</strong>，AEM CS 提供的關鍵工具是：</p>
+
+<p><strong>Cloud Manager 的「回復上一版程式碼」功能（Restore previous code deployed）</strong></p>
+<ul>
+  <li>功能說明：
+    <ul>
+      <li>在 Cloud Manager 中，可以針對某個環境（例如 Production）執行「回復上一個成功部署的版本」。</li>
+      <li>這個動作通常可以在<strong>數秒到數分鐘</strong>內完成。</li>
+    </ul>
+  </li>
+  <li>適用情境：
+    <ul>
+      <li>剛部署的新版本導致部分頁面錯誤、轉換率驟降或關鍵功能失效。</li>
+    </ul>
+  </li>
+</ul>
+<p>
+詳細說明可參考：
+<a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/operations/restore-previous-code-deployed">Restore the previous source code deployed in AEM as a Cloud Service</a>。
+</p>
+
+<p><strong>實際例子：</strong></p>
+<ol>
+  <li>晚間，貴公司團隊部署新前端版本到 Production。</li>
+  <li>不久後發現：
+    <ul>
+      <li>行動版結帳頁面出現錯誤或空白。</li>
+      <li>訂單量顯著下降。</li>
+    </ul>
+  </li>
+  <li>緊急處理方式：
+    <ul>
+      <li>在 Cloud Manager 針對 Production 執行「回復上一版程式碼」。</li>
+      <li>Production 很快回到上一個穩定版本，網站恢復正常營運。</li>
+      <li>之後在 Dev / Stage 慢慢分析新版本的問題並修正。</li>
+    </ul>
+  </li>
+</ol>
+
+<hr>
+
+<h2>7. 責任分工：Adobe 與貴公司各自負責什麼？</h2>
+
+<h3>7.1 Adobe 的責任</h3>
+<ul>
+  <li>負責 <strong>AEM 平台本身的版本與更新</strong>：
+    <ul>
+      <li>Feature Releases（功能版本）</li>
+      <li>Maintenance Releases（維護與安全更新）</li>
+    </ul>
+  </li>
+  <li>提供並維護：
+    <ul>
+      <li><strong>Release Orchestrator</strong>：管理版本 rollout 節奏與策略。</li>
+      <li>內部與 clone 環境的自動化回歸測試。</li>
+      <li>對問題版本的暫停與平台層級的 rollback 機制。</li>
+    </ul>
+  </li>
+  <li>確保整體平台：
+    <ul>
+      <li>安全（Security）</li>
+      <li>穩定（Stability）</li>
+      <li>可用（Availability）</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>7.2 貴公司的責任</h3>
+<ul>
+  <li>管理<strong>自家程式碼與設定</strong>：
+    <ul>
+      <li>自訂元件（Components）、模板（Templates）、服務（Services）、前端程式碼等。</li>
+      <li>與其他系統（SSO、支付、搜尋、後端 API 等）的整合。</li>
+    </ul>
+  </li>
+  <li>建立與維護：
+    <ul>
+      <li><strong>CI/CD pipeline（Cloud Manager）</strong></li>
+      <li>單元測試、整合測試、UI / E2E 測試。</li>
+      <li>Dev / Stage / Prod 的標準操作流程（Runbook）。</li>
+    </ul>
+  </li>
+  <li>設定：
+    <ul>
+      <li><code>Quiet Hours</code>：每日「不適合維護」的時段。</li>
+      <li><code>Update‑Free Periods</code>：關鍵活動週的維護凍結期。</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>7.3 實際上誰決定什麼時候可以上線？</h3>
+<ul>
+  <li><strong>平台版本升級（AEM 本身）：</strong>
+    <ul>
+      <li>由 Adobe 的 Release Orchestrator 依照整體策略與排程決定。</li>
+      <li>會遵守您為該 program 設定的 <code>Quiet Hours</code> 與 <code>Update‑Free Periods</code>。</li>
+    </ul>
+  </li>
+  <li><strong>自家程式碼何時部署到 Stage / Prod：</strong>
+    <ul>
+      <li>完全由貴公司透過 Cloud Manager pipeline 控制。</li>
+      <li>若 pipeline 測試未通過，該版本程式碼就不會被部署到 Stage / Prod。</li>
+    </ul>
+  </li>
+  <li><strong>遇到例外（疑似平台問題）：</strong>
+    <ul>
+      <li>由貴公司透過支援管道回報，Adobe 依照嚴重程度與影響範圍調整 rollout 或提供修正。</li>
+    </ul>
+  </li>
+</ul>
+
+<hr>
+
+<h2>8. 建議總結：給決策者與技術團隊的重點</h2>
+
+<h3>8.1 給決策者（主管／業務）的三個重點</h3>
+<ol>
+  <li>
+    <strong>升級從「專案」變成「日常」</strong><br>
+    過去每次升級都是專案，牽涉大量協調與風險。  
+    在 AEM CS，由 Adobe 持續小步更新平台，貴公司更能專注在業務與功能本身。
+  </li>
+  <li>
+    <strong>控制從「選升級日」變成「設定不能升級的時間」</strong><br>
+    不再需要指定「哪一天升級」，而是透過 <code>Quiet Hours</code> 與 <code>Update‑Free Periods</code>，  
+    清楚標示「哪些時段與週不能升級」，例如營業尖峰與大促週。
+  </li>
+  <li>
+    <strong>品質保證從「大量人工驗證」變成「自動化測試＋快速 rollback」</strong><br>
+    把驗證重心從人工點測轉移到自動化測試，  
+    搭配 Cloud Manager 的程式碼 rollback 機制，在出現問題時快速恢復服務。
+  </li>
+</ol>
+
+<h3>8.2 給技術團隊（架構師／開發／Ops）的實務建議</h3>
+<ol>
+  <li>
+    <strong>優先投資自動化測試與 CI/CD 建設</strong>
+    <ul>
+      <li>在 Dev / Stage 建立完整的回歸測試套件：
+        <ul>
+          <li>內容建立／編輯／發佈流程</li>
+          <li>關鍵 API 與整合點（SSO、支付、搜尋等）</li>
+          <li>主要使用者旅程（登入、搜尋、下單、填表等）</li>
+        </ul>
+      </li>
+      <li>讓 pipeline fail 成為擋住有風險程式碼上線的第一道防線。</li>
+    </ul>
+  </li>
+  <li>
+    <strong>善用 Quiet Hours 與 Update‑Free Periods 當作「技術護城河」</strong>
+    <ul>
+      <li>明確標記每日不適合維護的時段（例如 09:00–18:00）。</li>
+      <li>為大型活動週、改版週設定維護凍結期，避免任何非必要變更。</li>
+    </ul>
+  </li>
+  <li>
+    <strong>建立標準 Runbook，清楚定義出事時的動作</strong>
+    <ul>
+      <li>Dev 測試失敗時：誰負責分析？多久內要給初步結論？</li>
+      <li>Production 發現問題時：什麼條件下啟用程式碼 rollback？誰有權下決策？</li>
+      <li>何時判定為疑似平台問題，如何快速收集資訊並向 Adobe 支援回報？</li>
+    </ul>
+  </li>
+</ol>
+
+<hr>
+
+<h2>9. 參考文件（Experience League / Security Bulletin）</h2>
+<ul>
+  <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/overview/what-is-new-and-different">What is New and What is Different</a></li>
+  <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/deploying/aem-version-updates">AEM Version Updates</a></li>
+  <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/deploying/quiet-hours-update-free-periods">Quiet hours and Update Free Periods</a></li>
+  <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/operations/restore-previous-code-deployed">Restore the previous source code deployed in AEM as a Cloud Service</a></li>
+  <li><a href="https://helpx.adobe.com/security/products/experience-manager/apsb25-48.html">Security updates available for Adobe Experience Manager | APSB25-48</a></li>
+</ul>
+
+</body>
+</html>

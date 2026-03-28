@@ -250,6 +250,30 @@ Position 是 Visibility Score 的一個內部構成因子；畫面上的 Market 
 實務建議是：<strong>不要只追某一項，而是先修技術（讓 LLM 看得懂）、再從內容與外部聲量切入。</strong>
 </p>
 
+<h3>1-3. 結合 GEO Opportunities 的實際用法</h3>
+
+<p>
+在新一代的工作坊設計中，Visibility 等指標不會單獨看，而是搭配 <strong>GEO Opportunities（LLMO 提供的優化機會）</strong> 一起使用：
+</p>
+
+<ul>
+  <li>先在 <strong>Brand Presence</strong> 鎖定 Visibility 低、但商業價值高的 Topic / Prompt。</li>
+  <li>再到 <strong>Opportunities / LLM Optimizer</strong> 檢視：
+    <ul>
+      <li>Recover content visibility（恢復內容可見性）</li>
+      <li>Add LLM-friendly summaries / FAQs（為 AI 加上摘要與常見問答）</li>
+      <li>Simplify complex content（簡化難讀內容）</li>
+      <li>Unblock agent access（解除 bot 存取問題）</li>
+      <li>Fix error pages（修正 4xx / 5xx）等建議</li>
+    </ul>
+  </li>
+  <li>把這些建議變成一個「優化待辦（opportunity backlog）」，再依 impact / risk / effort 等維度排優先順序。</li>
+</ul>
+
+<p>
+這樣做的好處是：<strong>指標 → 儀表板 → 機會 → 待辦 → 實際變更 → 再回到指標</strong>，形成一個完整的 GEO 迴圈，而不是只看分數高低。
+</p>
+
 <hr>
 
 <h2>二、Sentiment distribution：Positive 合理值？Gemini 比較正向、GPT 比較中立怎麼看？</h2>
@@ -271,7 +295,7 @@ Position 是 Visibility Score 的一個內部構成因子；畫面上的 Market 
   </li>
 </ul>
 
-<h3>2. 為什麼 Gemini Positive 普遍較高，而 GPT (paid) 較多 Neutral？</h3>
+<h3>2. 為什麼 Gemini Positive 普遍較高，而 GPT (paid) 較多 Neutral 怎麼看？</h3>
 
 <p>
 這多半反映不同 LLM 的「回覆風格與安全政策」：
@@ -384,6 +408,17 @@ Position 是 Visibility Score 的一個內部構成因子；畫面上的 Market 
   </li>
 </ol>
 
+<p>
+在實際的 GEO 工作坊與 deck 設計裡，這些步驟通常會被包裝成一個固定的「<strong>GEO 變更循環</strong>」：
+</p>
+
+<ul>
+  <li>Observe：從 Brand Presence / Agentic / Referral / URL Inspector 觀察指標與問題。</li>
+  <li>Triage &amp; Prioritize：透過 Opportunities 將問題轉成待辦，依 impact / risk / effort 排序。</li>
+  <li>Design &amp; Decide：決定要改內容（CMS）、改程式／CDN，或用 Optimize at Edge 先做 AI 專用調整。</li>
+  <li>Deploy &amp; Monitor：實作後，再回到同一組儀表板觀察 Visibility / Citations / Sentiment 是否改善。</li>
+</ul>
+
 <hr>
 
 <h2>四、Prompts 設計與 popularity</h2>
@@ -411,6 +446,10 @@ Position 是 Visibility Score 的一個內部構成因子；畫面上的 Market 
       <li>信用卡：核卡資格、年費與免年費條件、點數與回饋、海外刷卡 / 手續費、權益比較（機場接送、保險等）。</li>
       <li>數位帳戶：開戶資格、利率與門檻、轉帳與跨行手續費、綁定行動支付。</li>
     </ul>
+    <p>
+      在最近的 LLMO 工作坊中，會刻意把 Topic 定義為「<strong>一個明確的 job-to-be-done / 迷你旅程</strong>」，例如：
+      「了解數位帳戶利率與門檻」、「了解信用卡海外刷卡費用」，方便之後用同一個 Topic 去看 Visibility、機會與試點成效。
+    </p>
   </li>
   <li>
     <strong>Prompts（具體問句）</strong>
@@ -511,6 +550,23 @@ Position 是 Visibility Score 的一個內部構成因子；畫面上的 Market 
     </ul>
   </li>
 </ol>
+
+<h3>4-4. Prompt「健康管理」：避免 prompt bloat</h3>
+
+<p>
+在較新的 LLMO 實作與工作坊中，會把 prompts 當成一個需要定期維護的「資產」，而不是一路只加不減。建議：
+</p>
+
+<ul>
+  <li>定期檢視每個 Topic 底下的 prompts：
+    <ul>
+      <li>保留：高 popularity 或高商業價值、且 Visibility / 答案品質重要的問句。</li>
+      <li>優化：寫法太「內部話」、與實際搜尋習慣有落差的問句。</li>
+      <li>合併或退休：完全無需求、重複或已過時的問句。</li>
+    </ul>
+  </li>
+  <li>把這個過程設計成每季或每半年一次的小型 review（可由 GEO / 內容 + 業務部門共同參與），避免 prompt 清單變成難以維護的長表。</li>
+</ul>
 
 <hr>
 
@@ -654,6 +710,77 @@ Position 是 Visibility Score 的一個內部構成因子；畫面上的 Market 
 目前已可在介面中看到「所有模型加總」的指標；跨模型匯總與高階報表能力也會持續優化與擴充。
 </blockquote>
 
+<h3>5-3. 哪裡改？Edge vs 內容 vs 程式碼的三分法</h3>
+
+<p>
+在實作層面，除了「要不要改」之外，還要決定「<strong>在哪裡改</strong>」。可用下列表當作簡化版參考，對齊 deck 中的做法：
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>問題情境</th>
+      <th>適合用 Optimize at Edge（AI 專用）</th>
+      <th>適合改 CMS / 內容</th>
+      <th>適合工程 / CDN / 程式碼</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>JS 隱藏或難以被爬到的內容</td>
+      <td>使用 Recover content visibility，在 Edge 端預先展開內容給 LLM</td>
+      <td>—</td>
+      <td>若是整體前端架構問題，長期仍需工程調整</td>
+    </tr>
+    <tr>
+      <td>需要更清楚的摘要與 FAQ</td>
+      <td>在 Edge 端增加 AI 專用摘要 / FAQ 區塊</td>
+      <td>若也希望人類使用者看到，則在頁面中新增 FAQ / 摘要</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>內容對人與 AI 都偏難讀、過長</td>
+      <td>可先在 Edge 端提供較精簡的 AI 摘要</td>
+      <td>調整原文結構與文案，真正提升可讀性</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>標題階層不清楚、缺少關鍵 H 標題</td>
+      <td>Edge 端補上 AI 專用 heading 結構</td>
+      <td>調整頁面標題與小標，讓人類與搜尋都更易理解</td>
+      <td>若是 template 系統性問題，可在模板層修正</td>
+    </tr>
+    <tr>
+      <td>文字內容本身過時或有錯</td>
+      <td>不建議只在 Edge 上覆蓋，應以來源更新為主</td>
+      <td><strong>更新 CMS 內的正式內容</strong>，再讓 LLM 重新學習</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>LLM bots 被擋（robots / WAF / CDN 設定）</td>
+      <td>—</td>
+      <td>—</td>
+      <td>調整 robots.txt、CDN / WAF 規則或 bot allowlist</td>
+    </tr>
+    <tr>
+      <td>重要頁面經常 404 / 403 / 5xx</td>
+      <td>—</td>
+      <td>—</td>
+      <td>修正路由、redirect、後端穩定性</td>
+    </tr>
+    <tr>
+      <td>需要 FAQ schema / 結構化內容</td>
+      <td>—</td>
+      <td>在 CMS 中實作 FAQ / 結構化區塊</td>
+      <td>若 schema 由模板輸出，需工程調整 template</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+簡單原則是：<strong>Edge 用來做「快、可回滾、AI 專用」的調整；內容與程式碼負責「長期、所有使用者都受益」的修正。</strong>
+</p>
+
 <hr>
 
 <h2>六、系統操作／介面問題</h2>
@@ -724,6 +851,36 @@ Position 是 Visibility Score 的一個內部構成因子；畫面上的 Market 
 即使在 200 prompts 的試用階段，也建議盡快把 Search Console 串接起來（目前尚未啟用的情況下），這樣在選題與調整 Category / Topic / prompt 時，就能根據真實搜尋需求做決策，而不是只靠體感。
 </blockquote>
 
+<h3>6-3. GEO 營運模式與小型 Pilot：把這些指標變成固定節奏</h3>
+
+<p>
+在較成熟的使用情境下，很多銀行會用一個 <strong>8–12 週的試點（pilot）</strong>，把上述指標與動作變成可重複的營運節奏，而不是一次性的專案。建議做法：
+</p>
+
+<ul>
+  <li><strong>先選 1–3 個「旅程型」Topic</strong>（例如：了解數位帳戶費用、了解信用卡年費和回饋、解決網銀登入問題）。</li>
+  <li><strong>組一個小組合團隊</strong>，包含：產品／業務、數位／CX、內容／SEO、合規／風控、工程／CDN 代表。</li>
+  <li><strong>定義清楚的 Pilot 指標</strong>：
+    <ul>
+      <li>AI answer quality：Visibility、Mentions / Citations、錯誤或模糊回答是否下降。</li>
+      <li>Journey impact：解決率、自助成功率、重複詢問是否下降。</li>
+      <li>Risk &amp; trust：費率、風險、權益相關回答是否更清楚、更一致。</li>
+      <li>Capability &amp; process：從「發現問題 → 上線修正」平均花多久、團隊是否有固定檢視節奏。</li>
+    </ul>
+  </li>
+  <li><strong>每 1–2 週開短會</strong>：
+    <ul>
+      <li>檢視 LLMO 儀表板與 Opportunities。</li>
+      <li>決定本週要做的 Edge / 內容 / 工程變更。</li>
+      <li>記錄實驗結果與學習。</li>
+    </ul>
+  </li>
+</ul>
+
+<p>
+這樣可以讓 CUB 用一個可控的範圍實際驗證：<strong>GEO + LLMO 的改善，是否真的提升旅程品質與風險可控度</strong>，也幫助之後擴展到更多 Topic 時，有一套可複製的流程與治理模式。
+</p>
+
 <hr>
 
 <h2>最後小結：建議的「下一步行動」</h2>
@@ -757,6 +914,14 @@ Position 是 Visibility Score 的一個內部構成因子；畫面上的 Market 
     <ul>
       <li>維持現行的 Optimize at Edge 試用與實驗設定，在流量與風險可控的前提下，逐步擴大涵蓋的頁面與體驗。</li>
       <li>觀察 Edge 端優化對 LLM Visibility、SEO 與轉換率的實際影響，優先保留表現佳的版本作為長期方案。</li>
+    </ul>
+  </li>
+  <li>
+    <strong>考慮規劃一個 8–12 週的 GEO + LLMO 小型 Pilot</strong>
+    <ul>
+      <li>選定 1–3 個具有代表性的旅程 Topic。</li>
+      <li>設定清楚的指標（Visibility、回答品質、旅程成效、風險）。</li>
+      <li>用固定節奏（每 1–2 週）運行「觀察 → 排序 → 決策 → 上線 → 回看」的迴圈。</li>
     </ul>
   </li>
 </ol>

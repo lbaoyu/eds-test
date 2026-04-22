@@ -59,218 +59,177 @@ ul {
 <body>
 
 <h1>AEM as a Cloud Service – Google Tag Gateway / First-Party GTM Implementation</h1>
-<h2>Customer Technical Implementation Note</h2>
+<h2>Technical Implementation Guide</h2>
 
 <p>
-This document describes how to implement <strong>Google Tag Gateway / first-party Google Tag Manager delivery</strong> on 
-<strong>AEM as a Cloud Service</strong> using a <strong>configuration-driven AEM integration</strong>.
+This document outlines a recommended implementation pattern for deploying
+<strong>Google Tag Gateway / first-party Google Tag Manager delivery</strong> on
+<strong>AEM as a Cloud Service</strong>.
 </p>
 
 <p>
-The implementation assumes the customer wants Google Tag Manager to load from a <strong>first-party path on the website domain</strong>
-(such as <code>/metrics</code>) rather than directly from a third-party Google endpoint.
+The goal is to load Google Tag Manager from a <strong>first-party path on the site domain</strong>
+rather than directly from a third-party Google endpoint. A typical example path is <code>/metrics</code>.
 </p>
 
 <hr>
 
-<h2>1. Executive Summary</h2>
+<h2>1. Solution Overview</h2>
 
 <p>
-The proposed setup is <strong>supported on AEM as a Cloud Service</strong>.
-From an implementation standpoint, this is primarily a <strong>CDN routing + frontend snippet integration</strong> pattern:
+The implementation has two parts:
 </p>
 
-<ul>
-  <li><strong>CDN / infrastructure layer</strong> handles the first-party routing to Google Tag Gateway.</li>
-  <li><strong>AEM</strong> renders the GTM bootstrap snippet and the noscript iframe using configuration-driven values.</li>
-  <li><strong>Analytics / tagging teams</strong> can then manage most future tags directly in Google Tag Manager.</li>
-</ul>
+<ol>
+  <li><strong>CDN / infrastructure routing</strong> to proxy a first-party website path to Google Tag Gateway.</li>
+  <li><strong>AEM page integration</strong> to load the GTM container from that first-party path.</li>
+</ol>
 
 <p>
-For AEM as a Cloud Service, traffic routing behavior such as <strong>request transformations</strong>, 
-<strong>header manipulation</strong>, and <strong>origin selectors</strong> is supported at the Adobe-managed CDN layer and deployed by
-<strong>Cloud Manager configuration pipeline</strong>
+On AEM as a Cloud Service, request routing behavior such as
+<strong>origin selectors</strong>, <strong>request transformations</strong>, and related CDN rules
+is configured at the Adobe-managed CDN layer and deployed through a configuration pipeline
 (<a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/content-delivery/cdn-configuring-traffic">Configuring Traffic at the CDN</a>).
 </p>
 
+<p>
+Google documents the first-party delivery model as <strong>Google tag gateway</strong>
+(<a href="https://developers.google.com/tag-platform/tag-gateway">Google tag gateway for advertisers</a>,
+<a href="https://developers.google.com/tag-platform/tag-gateway/setup">Set up Google tag gateway for advertisers</a>).
+</p>
+
 <hr>
 
-<h2>2. Scope and Responsibilities</h2>
+<h2>2. Architecture Summary</h2>
 
 <table>
   <tr>
-    <th>Area</th>
-    <th>Primary Owner</th>
+    <th>Layer</th>
+    <th>Responsibility</th>
     <th>Notes</th>
   </tr>
   <tr>
-    <td>Reserve first-party tag path (example: <code>/metrics</code>)</td>
-    <td>Infrastructure / CDN team</td>
-    <td>Must not conflict with existing site routes.</td>
+    <td>CDN / Infrastructure</td>
+    <td>Route first-party path such as <code>/metrics/*</code> to Google Tag Gateway origin</td>
+    <td>Includes required header handling and forwarding behavior.</td>
   </tr>
   <tr>
-    <td>Route <code>/metrics/*</code> to Google Tag Gateway origin</td>
-    <td>Infrastructure / CDN team</td>
-    <td>Implemented at CDN layer, not in AEM page code.</td>
+    <td>AEM</td>
+    <td>Render GTM script and noscript iframe using configuration-driven values</td>
+    <td>No hardcoded values in multiple templates.</td>
   </tr>
   <tr>
-    <td>Set required request headers</td>
-    <td>Infrastructure / CDN team</td>
-    <td>Includes <code>Host</code> override and <code>X-Gtg-Developer-Id</code> per the SOP.</td>
-  </tr>
-  <tr>
-    <td>Forward cookies and query strings</td>
-    <td>Infrastructure / CDN team</td>
-    <td>Required for correct gateway behavior.</td>
-  </tr>
-  <tr>
-    <td>Render GTM snippet in page HTML</td>
-    <td>AEM team</td>
-    <td>Implemented in HTL using AEM configuration.</td>
-  </tr>
-  <tr>
-    <td>Manage GTM container ID and first-party path</td>
-    <td>AEM team</td>
-    <td>Externalized through OSGi configuration.</td>
-  </tr>
-  <tr>
-    <td>Manage future tags, triggers, and rules</td>
-    <td>Customer analytics / tagging team</td>
-    <td>Usually done in GTM without AEM code changes.</td>
+    <td>Analytics / GTM Team</td>
+    <td>Manage tags, triggers, and rules in Google Tag Manager</td>
+    <td>Most future tag changes can be handled in GTM.</td>
   </tr>
 </table>
 
 <hr>
 
-<h2>3. Important Clarification</h2>
+<h2>3. Operational Outcome</h2>
 
 <p>
-This implementation covers <strong>how GTM is delivered</strong> through a first-party path.
-It does <strong>not</strong> by itself define the full analytics design, for example:
+After the base implementation is live, most ongoing changes can be managed directly in
+<strong>Google Tag Manager</strong> without updating AEM code.
+</p>
+
+<p>
+Examples that typically <strong>do not</strong> require AEM code changes:
 </p>
 
 <ul>
-  <li>event taxonomy</li>
-  <li>business variables</li>
-  <li>page naming conventions</li>
-  <li>custom interaction tracking</li>
-  <li>data layer design</li>
-  <li>consent logic</li>
+  <li>adding new marketing or advertising tags</li>
+  <li>changing trigger logic</li>
+  <li>updating firing rules based on URL patterns or existing DOM selectors</li>
+  <li>using values already available in the page or data layer</li>
 </ul>
 
 <p>
-If the customer later needs GTM to use data or events that are <strong>not already exposed by the website</strong>,
-then additional AEM development may still be required.
-</p>
-
-<hr>
-
-<h2>4. Direct Answer on Future GTM Changes</h2>
-
-<p>
-<strong>Yes</strong> — once this implementation is in place, the customer should generally be able to
-<strong>add or change tags in Google Tag Manager without modifying AEM code</strong>.
-</p>
-
-<p>
-That is true for cases where the new tags can rely on:
+Examples that <strong>do</strong> require AEM development:
 </p>
 
 <ul>
-  <li>existing page URLs</li>
-  <li>existing DOM structure</li>
-  <li>existing cookies</li>
-  <li>existing data layer values</li>
-  <li>existing click targets or selectors</li>
-</ul>
-
-<p>
-<strong>AEM changes are still required</strong> if future tag requirements depend on new site-side instrumentation, such as:
-</p>
-
-<ul>
-  <li>new page metadata not currently rendered</li>
-  <li>new business attributes not currently exposed</li>
-  <li>new component interaction events</li>
-  <li>new consent signals</li>
-  <li>new ecommerce payloads or structured product data</li>
+  <li>introducing new data points not currently rendered by the page</li>
+  <li>adding new interaction events not currently exposed</li>
+  <li>adding new business metadata for analytics</li>
+  <li>adding new consent or customer-state signals not already available</li>
 </ul>
 
 <table>
   <tr>
-    <th>Future Change Request</th>
-    <th>AEM Code Change Needed?</th>
+    <th>Change Type</th>
+    <th>AEM Change Needed?</th>
   </tr>
   <tr>
-    <td>Add a new marketing tag using existing page rules</td>
+    <td>Add a new tag using existing page conditions</td>
     <td>No, in most cases</td>
   </tr>
   <tr>
-    <td>Adjust GTM triggers or variables based on existing DOM/data layer</td>
+    <td>Adjust GTM trigger logic using existing DOM or data layer values</td>
     <td>No, in most cases</td>
   </tr>
   <tr>
-    <td>Switch GTM container ID</td>
-    <td>No code change, only configuration update</td>
+    <td>Change the GTM container ID</td>
+    <td>No code change; configuration update only</td>
   </tr>
   <tr>
-    <td>Change the first-party tag path</td>
-    <td>No code change, but AEM configuration and CDN rule update are needed</td>
+    <td>Change the first-party path</td>
+    <td>No code change; AEM configuration and CDN rule update only</td>
   </tr>
   <tr>
-    <td>Track a new interaction not currently exposed by the page</td>
+    <td>Track a new custom component interaction not currently instrumented</td>
     <td>Yes</td>
   </tr>
   <tr>
-    <td>Expose new metadata or business context to GTM</td>
+    <td>Expose new business metadata to GTM</td>
     <td>Yes</td>
   </tr>
 </table>
 
 <hr>
 
-<h2>5. Recommended AEM Pattern</h2>
+<h2>4. Recommended AEM Pattern</h2>
 
 <p>
-The recommended AEM implementation is a <strong>configuration-driven HTL integration</strong>:
+The recommended implementation pattern is:
 </p>
 
 <ul>
-  <li>A Java service exposes the GTM configuration.</li>
-  <li>A Sling Model makes the configuration available to HTL.</li>
-  <li><code>head.html</code> renders the GTM bootstrap script in the page head.</li>
-  <li><code>body-open.html</code> renders the GTM noscript iframe immediately after the opening body tag.</li>
-  <li>The snippet is only rendered on publish-facing output.</li>
+  <li><strong>OSGi configuration</strong> stores the GTM container ID and first-party path.</li>
+  <li><strong>A Java service</strong> reads the OSGi configuration.</li>
+  <li><strong>A Sling Model</strong> exposes the values to HTL.</li>
+  <li><strong><code>head.html</code></strong> renders the GTM bootstrap script.</li>
+  <li><strong><code>body-open.html</code></strong> renders the noscript iframe immediately after the opening body tag.</li>
+  <li>Rendering is enabled only on publish-facing output.</li>
 </ul>
 
 <p>
-HTL is Adobe's preferred server-side templating system for AEM
+Adobe's recommended server-side templating technology for AEM is HTL
 (<a href="https://experienceleague.adobe.com/en/docs/experience-manager-htl/content/getting-started">Getting Started with HTL</a>).
-Client-side assets in AEM as a Cloud Service are typically delivered using clientlibs
-(<a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/clientlibs">Using Client-Side Libraries on AEM as a Cloud Service</a>).
+Client-side assets and related packaging patterns are documented in
+<a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/developing/full-stack/clientlibs">Using Client-Side Libraries on AEM as a Cloud Service</a>.
 </p>
 
 <hr>
 
-<h2>6. Assumptions Used in This Example</h2>
+<h2>5. Example Assumptions</h2>
 
 <ul>
   <li>GTM container ID: <code>GTM-ABC1234</code></li>
   <li>First-party path: <code>/metrics</code></li>
-  <li>Page component includes separate <code>head.html</code> and <code>body-open.html</code> files</li>
+  <li>Expected first-party endpoints:
+    <ul>
+      <li><code>/metrics/gtm.js</code></li>
+      <li><code>/metrics/ns.html</code></li>
+      <li><code>/metrics/healthy</code></li>
+    </ul>
+  </li>
 </ul>
-
-<p>
-Once infrastructure routing is complete, the following first-party endpoints are expected to work from the customer domain:
-</p>
-
-<pre><code>/metrics/gtm.js
-/metrics/ns.html
-/metrics/healthy</code></pre>
 
 <hr>
 
-<h2>7. Java Service Interface</h2>
+<h2>6. Java Service Interface</h2>
 
 <h3><code>TrackingService.java</code></h3>
 
@@ -284,7 +243,7 @@ public interface TrackingService {
 
 <hr>
 
-<h2>8. OSGi Service Implementation</h2>
+<h2>7. OSGi Service Implementation</h2>
 
 <h3><code>TrackingServiceImpl.java</code></h3>
 
@@ -363,7 +322,7 @@ public class TrackingServiceImpl implements TrackingService {
 
 <hr>
 
-<h2>9. Sling Model for HTL</h2>
+<h2>8. Sling Model for HTL</h2>
 
 <h3><code>TrackingConfig.java</code></h3>
 
@@ -411,9 +370,9 @@ public class TrackingConfig {
 
 <hr>
 
-<h2>10. OSGi Configuration Files</h2>
+<h2>9. OSGi Configuration Files</h2>
 
-<h3>Publish Example</h3>
+<h3>Publish</h3>
 
 <p><code>ui.config/src/main/content/jcr_root/apps/myproj/osgiconfig/config.publish/com.myproj.core.services.impl.TrackingServiceImpl.cfg.json</code></p>
 
@@ -423,7 +382,7 @@ public class TrackingConfig {
   "firstPartyPath": "/metrics"
 }</code></pre>
 
-<h3>Stage Example</h3>
+<h3>Stage</h3>
 
 <p><code>ui.config/src/main/content/jcr_root/apps/myproj/osgiconfig/config.stage/com.myproj.core.services.impl.TrackingServiceImpl.cfg.json</code></p>
 
@@ -433,7 +392,7 @@ public class TrackingConfig {
   "firstPartyPath": "/metrics"
 }</code></pre>
 
-<h3>Author Example</h3>
+<h3>Author</h3>
 
 <p><code>ui.config/src/main/content/jcr_root/apps/myproj/osgiconfig/config.author/com.myproj.core.services.impl.TrackingServiceImpl.cfg.json</code></p>
 
@@ -445,7 +404,7 @@ public class TrackingConfig {
 
 <hr>
 
-<h2>11. HTL Integration</h2>
+<h2>10. HTL Integration</h2>
 
 <h3><code>head.html</code></h3>
 
@@ -510,33 +469,52 @@ public class TrackingConfig {
 
 <hr>
 
-<h2>12. Deployment Sequence</h2>
+<h2>11. CDN / Infrastructure Requirements</h2>
 
-<h3>Step 1 – CDN / Infrastructure</h3>
+<p>
+The AEM code above assumes the first-party route is already working at the CDN layer.
+The infrastructure configuration should:
+</p>
 
 <ul>
-  <li>Reserve a first-party path such as <code>/metrics</code>.</li>
-  <li>Route <code>/metrics/*</code> to the Google Tag Gateway origin.</li>
-  <li>Apply required request headers.</li>
-  <li>Forward cookies and query strings.</li>
-  <li>Validate the health endpoint.</li>
+  <li>reserve a first-party path such as <code>/metrics</code></li>
+  <li>route <code>/metrics/*</code> to the Google Tag Gateway origin</li>
+  <li>set the required request headers documented by Google</li>
+  <li>forward cookies and query strings</li>
+  <li>validate the health endpoint</li>
 </ul>
 
 <p>
-AEM as a Cloud Service supports these capabilities through CDN configuration, including
-<strong>request transformations</strong> and <strong>origin selectors</strong>
-(<a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/content-delivery/cdn-configuring-traffic">Configuring Traffic at the CDN</a>,
-<a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/content-delivery/cdn">CDN in AEM as a Cloud Service</a>).
+Relevant documentation:
 </p>
 
-<h3>Step 2 – AEM</h3>
-
 <ul>
-  <li>Deploy the Java service.</li>
-  <li>Deploy the Sling Model.</li>
-  <li>Deploy the OSGi configuration for each environment.</li>
+  <li><a href="https://developers.google.com/tag-platform/tag-gateway">Google tag gateway for advertisers</a></li>
+  <li><a href="https://developers.google.com/tag-platform/tag-gateway/setup">Set up Google tag gateway for advertisers</a></li>
+  <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/content-delivery/cdn-configuring-traffic">Configuring Traffic at the CDN</a></li>
+  <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/content-delivery/cdn">CDN in AEM as a Cloud Service</a></li>
+</ul>
+
+<hr>
+
+<h2>12. Deployment Sequence</h2>
+
+<h3>Step 1 – Configure CDN Routing</h3>
+<ul>
+  <li>Create the first-party route.</li>
+  <li>Point it to the Google Tag Gateway origin.</li>
+  <li>Apply the required header and forwarding logic.</li>
+  <li>Validate <code>/metrics/healthy</code>.</li>
+</ul>
+
+<h3>Step 2 – Deploy AEM Code</h3>
+<ul>
+  <li>Add the Java service interface.</li>
+  <li>Add the OSGi service implementation.</li>
+  <li>Add the Sling Model.</li>
+  <li>Add the OSGi configuration files per environment.</li>
   <li>Update <code>head.html</code> and <code>body-open.html</code>.</li>
-  <li>Deploy through the normal Cloud Manager application pipeline.</li>
+  <li>Deploy through the standard Cloud Manager application pipeline.</li>
 </ul>
 
 <hr>
@@ -544,29 +522,23 @@ AEM as a Cloud Service supports these capabilities through CDN configuration, in
 <h2>13. Validation Checklist</h2>
 
 <h3>HTML Validation</h3>
-
-<p>Confirm page source includes a first-party GTM script path such as:</p>
-
-<pre><code>/metrics/gtm.js?id=GTM-ABC1234</code></pre>
-
-<p>Confirm the noscript iframe uses:</p>
-
-<pre><code>/metrics/ns.html?id=GTM-ABC1234</code></pre>
+<ul>
+  <li>Confirm page source loads GTM from <code>/metrics/gtm.js?id=GTM-ABC1234</code>.</li>
+  <li>Confirm the noscript iframe points to <code>/metrics/ns.html?id=GTM-ABC1234</code>.</li>
+</ul>
 
 <h3>Network Validation</h3>
-
 <ul>
-  <li>Requests should be made to the <strong>customer domain</strong>.</li>
-  <li>Requests should use the first-party path, for example <code>/metrics/...</code>.</li>
-  <li>No direct bootstrap request to <code>googletagmanager.com</code> should remain.</li>
+  <li>Confirm requests are made to the site's own domain.</li>
+  <li>Confirm requests use the first-party path.</li>
+  <li>Confirm no direct GTM bootstrap request to <code>googletagmanager.com</code> remains.</li>
 </ul>
 
 <h3>Infrastructure Validation</h3>
-
 <ul>
-  <li>Confirm <code>https://www.customerdomain.com/metrics/healthy</code> responds correctly.</li>
-  <li>Confirm required gateway headers are present.</li>
-  <li>Confirm cookies and query strings are forwarded correctly.</li>
+  <li>Confirm <code>https://www.example.com/metrics/healthy</code> responds correctly.</li>
+  <li>Confirm required gateway headers are present at the proxy layer.</li>
+  <li>Confirm cookies and query strings are forwarded as expected.</li>
 </ul>
 
 <hr>
@@ -580,28 +552,28 @@ AEM as a Cloud Service supports these capabilities through CDN configuration, in
     <th>Mitigation</th>
   </tr>
   <tr>
-    <td>AEM path and CDN route do not match</td>
+    <td>AEM path does not match CDN path</td>
     <td>GTM fails to load</td>
-    <td>Keep OSGi configuration aligned with CDN configuration.</td>
+    <td>Keep OSGi configuration aligned with CDN routing.</td>
   </tr>
   <tr>
-    <td>Only the script is changed but not the noscript iframe</td>
-    <td>Incomplete implementation</td>
+    <td>Only the script is updated and not the noscript iframe</td>
+    <td>Implementation is incomplete</td>
     <td>Update both <code>head.html</code> and <code>body-open.html</code>.</td>
   </tr>
   <tr>
-    <td>Tracking enabled on author</td>
-    <td>Author-side noise and unexpected behavior</td>
-    <td>Disable via author configuration and publish-only rendering logic.</td>
+    <td>Tracking is enabled on author</td>
+    <td>Unwanted author-side requests and noise</td>
+    <td>Disable in author configuration and render only on publish-facing output.</td>
   </tr>
   <tr>
-    <td>Future tags require data not exposed by the page</td>
-    <td>Analytics team cannot implement independently</td>
-    <td>Add or improve a site data layer.</td>
+    <td>Future GTM use cases need data not currently exposed by the page</td>
+    <td>Analytics team becomes dependent on new development</td>
+    <td>Introduce or expand a structured site data layer.</td>
   </tr>
   <tr>
-    <td>Values hardcoded across multiple templates</td>
-    <td>High maintenance effort</td>
+    <td>Values are hardcoded in templates</td>
+    <td>Higher maintenance effort</td>
     <td>Use centralized OSGi configuration.</td>
   </tr>
 </table>
@@ -611,25 +583,28 @@ AEM as a Cloud Service supports these capabilities through CDN configuration, in
 <h2>15. Recommendation</h2>
 
 <p>
-For production implementation, the recommended approach is:
+A production-ready implementation should follow this pattern:
 </p>
 
 <ol>
-  <li><strong>Use CDN configuration</strong> for all first-party Google Tag Gateway routing behavior.</li>
-  <li><strong>Use AEM configuration-driven HTL</strong> to output the GTM snippet.</li>
-  <li><strong>Keep the GTM container ID and first-party path externalized</strong> through OSGi config.</li>
-  <li><strong>Optionally add or improve a site data layer</strong> if the customer expects more advanced tagging over time.</li>
+  <li>Use <strong>CDN configuration</strong> for all Google Tag Gateway routing behavior.</li>
+  <li>Use <strong>configuration-driven AEM HTL</strong> for rendering the GTM snippet.</li>
+  <li>Keep the GTM container ID and first-party path externalized in <strong>OSGi configuration</strong>.</li>
+  <li>Optionally add or strengthen a <strong>site data layer</strong> to support future analytics growth without repeated site changes.</li>
 </ol>
 
 <p>
-This approach keeps ongoing tag management largely outside the AEM release cycle while still allowing AEM to expose additional data when future analytics requirements demand it.
+This approach keeps day-to-day tag management in GTM while preserving a clean AEM implementation and a clear boundary between infrastructure, site code, and analytics operations.
 </p>
 
 <hr>
 
-<h2>16. References</h2>
+<h2>16. Public References</h2>
 
 <ul>
+  <li><a href="https://developers.google.com/tag-platform/tag-gateway">Google tag gateway for advertisers</a></li>
+  <li><a href="https://developers.google.com/tag-platform/tag-gateway/setup">Set up Google tag gateway for advertisers</a></li>
+  <li><a href="https://support.google.com/tagmanager/answer/13997230">Set up your Google tag in Google Tag Manager</a></li>
   <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/content-delivery/cdn-configuring-traffic">Configuring Traffic at the CDN</a></li>
   <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/implementing/content-delivery/cdn">CDN in AEM as a Cloud Service</a></li>
   <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-htl/content/getting-started">Getting Started with HTL</a></li>

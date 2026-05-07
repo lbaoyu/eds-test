@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KBank Prompt Optimization Review</title>
+<style>
+:root {
+  --text: #222;
+  --muted: #5c6168;
+  --blue: #1473e6;
+  --blue-dark: #0d66d0;
+  --bg-soft: #f7f9fc;
+  --line: #d9e2ec;
+  --table-head: #eef4fb;
+  --white: #fff;
+  --shadow: 0 4px 14px rgba(17, 24, 39, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  margin: 0;
+  background: linear-gradient(180deg, #fafcff 0%, #ffffff 180px);
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 40px 24px 64px;
+}
+
+h1, h2, h3 {
+  color: var(--blue);
+  margin-top: 0;
+}
+
+h1 {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+h2 {
+  font-size: 1.45rem;
+  margin-top: 40px;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #edf2f7;
+}
+
+h3 {
+  font-size: 1.1rem;
+  margin-top: 28px;
+  margin-bottom: 12px;
+}
+
+p {
+  margin: 0 0 16px;
+}
+
+ul {
+  margin: 0 0 16px 20px;
+  padding: 0;
+}
+
+li + li {
+  margin-top: 6px;
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+}
+
+code, pre {
+  background-color: #f8f8f8;
+  padding: 6px 10px;
+  border-radius: 4px;
+  display: block;
+  white-space: pre-wrap;
+}
+
+.hero {
+  background: var(--white);
+  border: 1px solid #edf2f7;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: var(--shadow);
+  margin-bottom: 28px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 1.02rem;
+  margin-bottom: 0;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 22px 0 0;
+}
+
+.summary-card {
+  background: var(--bg-soft);
+  border: 1px solid #e7eef6;
+  border-radius: 12px;
+  padding: 14px 16px;
+}
+
+.summary-card strong {
+  display: block;
+  color: var(--blue-dark);
+  margin-bottom: 4px;
+}
+
+.note-box {
+  background: #f8fbff;
+  border: 1px solid #dce9f9;
+  border-left: 4px solid var(--blue);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin: 18px 0 0;
+}
+
+.section-intro {
+  color: var(--muted);
+}
+
+.table-wrap {
+  overflow-x: auto;
+  background: var(--white);
+  border: 1px solid #edf2f7;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0;
+  background: var(--white);
+}
+
+th, td {
+  border: 1px solid #e8edf3;
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: top;
+  font-size: 0.96rem;
+}
+
+th {
+  background-color: var(--table-head);
+  color: #1f2937;
+  position: sticky;
+  top: 0;
+}
+
+tbody tr:nth-child(even) {
+  background: #fcfdff;
+}
+
+.category-section {
+  margin-bottom: 24px;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #e8edf3;
+  margin: 36px 0;
+}
+
+.footer-box {
+  background: #fbfcfe;
+  border: 1px solid #e6edf5;
+  border-radius: 12px;
+  padding: 18px 18px 8px;
+}
+
+.small-note {
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 0.82rem;
+  color: var(--blue-dark);
+  background: #ebf3ff;
+  border: 1px solid #d6e7ff;
+  border-radius: 999px;
+  padding: 4px 10px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 24px 14px 40px;
+  }
+
+  .hero {
+    padding: 20px;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  th, td {
+    font-size: 0.92rem;
+  }
+}
+</style>
+</head>
+<body>
+  <main class="container">
+    <section class="hero">
+      <div class="badge">Prompt Quality Review</div>
+      <h1>KBank Prompt Optimization Review</h1>
+      <p class="subtitle">AI brand presence prompt rewrite and quality improvement recommendations.</p>
+
+      <div class="summary-grid">
+        <div class="summary-card">
+          <strong>Goal</strong>
+          Improve prompt quality for AI brand presence testing.
+        </div>
+        <div class="summary-card">
+          <strong>Method</strong>
+          Rewrite prompts to be more natural, specific, and measurable.
+        </div>
+        <div class="summary-card">
+          <strong>Output</strong>
+          Original vs optimized prompt tables with short change notes.
+        </div>
+      </div>
+
+      <div class="note-box">
+        This version keeps the original structure, but adds slightly better polish for readability, scanning, and customer sharing.
+      </div>
+    </section>
+
+    <h2>Review Goals</h2>
+    <ul>
+      <li><strong>Improve realism:</strong> make prompts sound more like natural user queries.</li>
+      <li><strong>Clarify intent:</strong> add helpful context such as use case, risk level, or decision criteria.</li>
+      <li><strong>Reduce ambiguity:</strong> avoid overly broad prompts that may trigger generic AI responses.</li>
+      <li><strong>Fix hygiene issues:</strong> correct typos, casing, spacing, and inconsistent formatting.</li>
+      <li><strong>Preserve brand testing value:</strong> keep branded prompts explicit where brand association is the objective.</li>
+    </ul>
+
+    <h2>How to Read the Tables</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Column</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Original</td><td>The prompt as provided in the uploaded workbook.</td></tr>
+          <tr><td>Optimized</td><td>A refined version after applying prompt quality recommendations.</td></tr>
+          <tr><td>What changed</td><td>A short explanation of the main optimization applied.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="small-note" style="margin-top: 12px;">
+      Note: some optimized prompts now converge on similar intent. These can be consolidated later into one canonical prompt per test objective.
+    </p>
+
+    <hr>
+
+    <h2>Mutual Funds</h2>
+    <p class="section-intro">These prompts were refined to better capture educational, evaluative, and action-oriented investment intent.</p>
+
+    <section class="category-section">
+      <h3>Awareness &amp; Education</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Original</th><th>Optimized</th><th>What changed</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>กองทุน thai esg มีอะไรบ้าง</td><td>กองทุน Thai ESG มีประเภทอะไรบ้าง และแต่ละแบบเหมาะกับนักลงทุนแบบไหน?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุน thai esg ลดหย่อนภาษี</td><td>กองทุน Thai ESG แบบลดหย่อนภาษีมีเงื่อนไขอะไร และเหมาะกับใครบ้าง?</td><td>Fixed formatting</td></tr>
+            <tr><td>กองทุน thai esg ลดหย่อนภาษี 2569</td><td>ปี 2569 กองทุน Thai ESG ลดหย่อนภาษีมีตัวเลือกอะไรบ้าง และควรเลือกอย่างไร?</td><td>Fixed formatting</td></tr>
+            <tr><td>กองทุนตราสารหนี้ 2569</td><td>ปี 2569 มีกองทุนตราสารหนี้แบบไหนบ้าง และเหมาะกับคนรับความเสี่ยงต่ำ?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุนลดหย่อนภาษี 2569</td><td>ปี 2569 มีกองทุนลดหย่อนภาษีอะไรบ้าง และแต่ละประเภทต่างกันอย่างไร?</td><td>Made the query more natural</td></tr>
+            <tr><td>ลดหย่อนภาษี 2569 กองทุน</td><td>ถ้าต้องการลดหย่อนภาษีปี 2569 ควรเลือกกองทุนประเภทไหน?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุนลดหย่อนภาษี มือใหม่</td><td>มือใหม่อยากเริ่มลงทุนเพื่อลดหย่อนภาษี ควรเริ่มจากกองทุนประเภทไหนดี?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุนลดหย่อนภาษี 2569 มีอะไรบ้าง</td><td>ปี 2569 มีกองทุนลดหย่อนภาษีอะไรบ้าง และเงื่อนไขของแต่ละแบบคืออะไร?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุน esg ลดหย่อนภาษี 2569</td><td>ปี 2569 มีกองทุน ESG ลดหย่อนภาษีอะไรบ้าง และเหมาะกับนักลงทุนแบบไหน?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุน esg ลดหย่อนภาษี</td><td>กองทุน ESG ที่ใช้ลดหย่อนภาษีมีเงื่อนไขอะไร และควรเลือกจากอะไรบ้าง?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุนจีน 2569</td><td>ปี 2569 มีกองทุนจีนตัวไหนน่าสนใจสำหรับการลงทุนระยะกลางถึงยาว?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุนรวมตลาดเงินในประเทศ</td><td>กองทุนรวมตลาดเงินในประเทศเหมาะกับการพักเงินระยะสั้นอย่างไร?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุนรวมตลาดเงิน มีอะไรบ้าง</td><td>กองทุนรวมตลาดเงินมีประเภทอะไรบ้าง และเหมาะกับนักลงทุนแบบไหน?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุน etf มีอะไรบ้าง</td><td>กองทุน ETF มีประเภทอะไรบ้าง และแต่ละแบบเหมาะกับเป้าหมายการลงทุนแบบไหน?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุนปันผล 2569</td><td>ปี 2569 มีกองทุนปันผลแบบไหนบ้าง และเหมาะกับคนที่ต้องการกระแสเงินสดหรือไม่?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุน money market 2568</td><td>ปี 2568 มีกองทุน Money Market ตัวไหนน่าสนใจสำหรับพักเงินระยะสั้น?</td><td>Fixed formatting</td></tr>
+            <tr><td>กองทุนเวียดนาม 2569</td><td>ปี 2569 มีกองทุนเวียดนามตัวไหนน่าสนใจ และเหมาะกับความเสี่ยงระดับไหน?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุนเวียดนาม ล่าสุด</td><td>ตอนนี้มีกองทุนเวียดนามตัวไหนน่าสนใจสำหรับการลงทุนระยะยาว?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุนตราสารหนี้ระยะสั้น 2569</td><td>ปี 2569 มีกองทุนตราสารหนี้ระยะสั้นตัวไหนน่าสนใจสำหรับพักเงิน 6–12 เดือน?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุนอินเดีย 2569</td><td>ปี 2569 มีกองทุนอินเดียตัวไหนน่าสนใจสำหรับการลงทุนระยะยาว?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุนหุ้นอินเดีย 2569</td><td>ปี 2569 กองทุนหุ้นอินเดียตัวไหนน่าสนใจสำหรับคนรับความผันผวนได้?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุน อินเดีย 2569</td><td>ปี 2569 มีกองทุนอินเดียตัวไหนน่าสนใจสำหรับการลงทุนระยะยาว?</td><td>Fixed formatting</td></tr>
+            <tr><td>ลงทุนกองทุนดัชนี</td><td>ถ้าอยากเริ่มลงทุนกองทุนดัชนี ควรเลือกจากดัชนีอะไรและเริ่มอย่างไร?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุน nasdaq 100 มีอะไรบ้าง</td><td>มีกองทุน NASDAQ-100 ตัวไหนบ้างที่นักลงทุนไทยสามารถซื้อได้?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุน passive fund มีอะไรบ้าง</td><td>มีกองทุน Passive Fund ประเภทไหนบ้าง และเหมาะกับนักลงทุนระยะยาวหรือไม่?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนดัชนี มีอะไรบ้าง</td><td>กองทุนดัชนีมีประเภทอะไรบ้าง และเหมาะกับเป้าหมายการลงทุนแบบไหน?</td><td>Added clearer context</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="category-section">
+      <h3>Evaluation &amp; Comparison</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Original</th><th>Optimized</th><th>What changed</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>กองทุน s&amp;p 500 ตัวไหนดี</td><td>กองทุน S&amp;P 500 ตัวไหนเหมาะกับคนเริ่มลงทุนระยะยาว?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุน s&amp;p 500 ตัวไหนดี 2569</td><td>ปี 2569 กองทุน S&amp;P 500 ตัวไหนเหมาะกับคนที่ต้องการลงทุนระยะยาว?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>เปรียบเทียบกองทุน s&amp;p 500</td><td>ถ้าเปรียบเทียบกองทุน S&amp;P 500 ควรดูค่าธรรมเนียม ความเสี่ยง และนโยบายลงทุนอย่างไร?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุน rmf ตัวไหนดี</td><td>กองทุน RMF ตัวไหนเหมาะกับเป้าหมายเกษียณและระดับความเสี่ยงของแต่ละคน?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุน rmf ตัวไหนดี 2569</td><td>ปี 2569 กองทุน RMF ตัวไหนน่าสนใจสำหรับวางแผนเกษียณระยะยาว?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุน thai esg ตัวไหนดี</td><td>กองทุน Thai ESG ตัวไหนเหมาะกับคนที่ต้องการลงทุนอย่างยั่งยืนและลดหย่อนภาษี?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุนตราสารหนี้ ตัวไหนดี</td><td>กองทุนตราสารหนี้ตัวไหนเหมาะกับคนที่ต้องการความเสี่ยงต่ำและสภาพคล่องดี?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนตราสารหนี้ผลตอบแทนสูง</td><td>ถ้าต้องการกองทุนตราสารหนี้ที่ผลตอบแทนค่อนข้างสูง ควรดูความเสี่ยงอะไรบ้าง?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนตราสารหนี้ ผลตอบแทนดี</td><td>กองทุนตราสารหนี้แบบไหนให้ผลตอบแทนดีเมื่อเทียบกับความเสี่ยงที่รับได้?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนตราสารหนี้ ตัวไหนดี 2569</td><td>ปี 2569 กองทุนตราสารหนี้ตัวไหนเหมาะกับคนที่ต้องการพักเงินหรือกระจายความเสี่ยง?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนลดหย่อนภาษี 2569 ตัวไหนดี</td><td>ปี 2569 กองทุนลดหย่อนภาษีตัวไหนเหมาะกับเป้าหมายภาษีและระดับความเสี่ยงของแต่ละคน?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนรวมต่างประเทศที่น่าสนใจ 2569</td><td>ปี 2569 มีกองทุนรวมต่างประเทศตัวไหนน่าสนใจสำหรับกระจายพอร์ต?</td><td>Made the query more natural</td></tr>
+            <tr><td>กองทุนหุ้นจีน กองไหนดี 2569</td><td>ปี 2569 กองทุนหุ้นจีนตัวไหนน่าสนใจสำหรับการลงทุนระยะกลางถึงยาว?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนจีน แนะนํา 2569</td><td>ปี 2569 มีกองทุนจีนตัวไหนแนะนำสำหรับนักลงทุนที่รับความผันผวนได้?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนรวมจีน ตัวไหนดี</td><td>กองทุนรวมจีนตัวไหนเหมาะกับคนที่อยากเพิ่มสัดส่วนหุ้นต่างประเทศ?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนจีน แนะนํา</td><td>มีกองทุนจีนตัวไหนแนะนำสำหรับนักลงทุนที่รับความผันผวนได้?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนรวมต่างประเทศที่น่าสนใจ</td><td>มีกองทุนรวมต่างประเทศตัวไหนน่าสนใจสำหรับกระจายการลงทุนระยะยาว?</td><td>Made the query more natural</td></tr>
+            <tr><td>หุ้นกองทุนรวม ตัวไหนดี</td><td>ถ้าอยากลงทุนกองทุนหุ้น ตัวไหนเหมาะกับเป้าหมายและความเสี่ยงของมือใหม่?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนหุ้นต่างประเทศ กองไหนดี</td><td>กองทุนหุ้นต่างประเทศตัวไหนเหมาะกับคนที่ต้องการเติบโตระยะยาว?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนรวมหุ้น ซื้อกองไหนดี</td><td>ถ้าอยากซื้อกองทุนรวมหุ้น ควรเลือกกองไหนให้เหมาะกับเป้าหมายและความเสี่ยง?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนรวมตลาดเงิน ผลตอบแทน</td><td>กองทุนรวมตลาดเงินให้ผลตอบแทนประมาณเท่าไร และเหมาะกับการพักเงินระยะสั้นหรือไม่?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนตลาดเงิน ผลตอบแทน</td><td>กองทุนตลาดเงินให้ผลตอบแทนประมาณเท่าไรเมื่อเทียบกับเงินฝาก?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุน nasdaq 100 ตัวไหนดี</td><td>กองทุน NASDAQ-100 ตัวไหนเหมาะกับคนที่ต้องการลงทุนหุ้นเทคโนโลยีสหรัฐระยะยาว?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุนตลาดเงิน แนะนํา</td><td>มีกองทุนตลาดเงินตัวไหนแนะนำสำหรับคนที่ต้องการสภาพคล่องสูง?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนเวียดนาม แนะนํา</td><td>มีกองทุนเวียดนามตัวไหนแนะนำสำหรับการลงทุนระยะยาว?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนเวียดนาม กองไหนดี</td><td>กองทุนเวียดนามตัวไหนเหมาะกับคนที่รับความผันผวนได้ค่อนข้างสูง?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนรวมเวียดนาม กองไหนดี</td><td>กองทุนรวมเวียดนามตัวไหนน่าสนใจสำหรับกระจายพอร์ตไปตลาดเกิดใหม่?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนดัชนี ตัวไหนดี</td><td>กองทุนดัชนีตัวไหนเหมาะกับมือใหม่ที่ต้องการลงทุนแบบกระจายความเสี่ยง?</td><td>Added clearer context</td></tr>
+            <tr><td>แนะนำ กองทุน etf ต่างประเทศ</td><td>มีกองทุน ETF ต่างประเทศตัวไหนแนะนำสำหรับนักลงทุนไทยมือใหม่?</td><td>Fixed formatting</td></tr>
+            <tr><td>กองทุนอเมริกา ตัวไหนดี 2025</td><td>ปี 2025 กองทุนอเมริกาตัวไหนน่าสนใจสำหรับการลงทุนระยะยาว?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุน ai แนะนํา</td><td>มีกองทุน AI ตัวไหนแนะนำสำหรับคนที่ต้องการลงทุนตามธีมเทคโนโลยี?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุนอินเดีย กองไหนดี</td><td>กองทุนอินเดียตัวไหนเหมาะกับคนที่ต้องการเพิ่มโอกาสเติบโตระยะยาว?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนอินเดีย rmf กองไหนดี</td><td>กองทุนอินเดีย RMF ตัวไหนเหมาะกับคนที่อยากลงทุนเพื่อเกษียณและรับความผันผวนได้?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุน reit ที่น่าสนใจ</td><td>มีกองทุน REIT ตัวไหนน่าสนใจสำหรับคนที่ต้องการรายได้สม่ำเสมอ?</td><td>Fixed formatting</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="category-section">
+      <h3>Action &amp; Conversion</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Original</th><th>Optimized</th><th>What changed</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>ซื้อกองทุน s&amp;p 500</td><td>ถ้าอยากซื้อกองทุน S&amp;P 500 ควรเริ่มจากขั้นตอนไหนบ้าง?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>ซื้อกองทุน s&amp;p 500 ยังไง</td><td>ซื้อกองทุน S&amp;P 500 สำหรับมือใหม่ ต้องเปิดบัญชีและเริ่มลงทุนอย่างไร?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุน s&amp;p 500 ซื้อที่ไหน</td><td>กองทุน S&amp;P 500 ซื้อผ่านธนาคารหรือแอปลงทุนช่องทางไหนได้บ้าง?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>วิธีซื้อกองทุน s&amp;p 500</td><td>วิธีซื้อกองทุน S&amp;P 500 สำหรับนักลงทุนไทยมีขั้นตอนอะไรบ้าง?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุน s&amp;p 500 ธนาคารไหนดี</td><td>ถ้าอยากซื้อกองทุน S&amp;P 500 ผ่านธนาคาร ควรเปรียบเทียบอะไรบ้าง?</td><td>Fixed formatting</td></tr>
+            <tr><td>กองทุน nasdaq 100 ซื้อ ที่ไหน</td><td>กองทุน NASDAQ-100 ซื้อผ่านช่องทางไหนได้บ้างสำหรับนักลงทุนไทย?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>ซื้อกองทุน nasdaq-100</td><td>ถ้าอยากซื้อกองทุน NASDAQ-100 ควรเริ่มอย่างไรและต้องรู้อะไรบ้าง?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุนรวมตลาดเงิน ที่ไหนดี</td><td>ถ้าจะพักเงินในกองทุนรวมตลาดเงิน ควรเลือกจากอะไรและซื้อผ่านที่ไหนดี?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนรวม ตลาดเงิน ที่ไหน ดี</td><td>ถ้าจะพักเงินในกองทุนรวมตลาดเงิน ควรเลือกจากอะไรและซื้อผ่านที่ไหนดี?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุน etf ซื้อ ที่ไหน</td><td>กองทุน ETF ซื้อผ่านช่องทางไหนได้บ้าง และเหมาะกับมือใหม่หรือไม่?</td><td>Fixed formatting, Added clearer context</td></tr>
+            <tr><td>กองทุนดัชนี set50 ซื้อที่ไหน</td><td>กองทุนดัชนี SET50 ซื้อผ่านธนาคารหรือแอปลงทุนช่องทางไหนได้บ้าง?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุนดัชนี ซื้อที่ไหน</td><td>กองทุนดัชนีซื้อผ่านช่องทางไหนได้บ้างสำหรับนักลงทุนมือใหม่?</td><td>Added clearer context</td></tr>
+            <tr><td>กองทุน reit ซื้อที่ไหน</td><td>กองทุน REIT ซื้อผ่านช่องทางไหนได้บ้าง และควรดูอะไรก่อนลงทุน?</td><td>Fixed formatting, Added clearer context</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <h2>Credit Cards</h2>
+    <p class="section-intro">These prompts were refined to improve lifestyle, promotion, eligibility, and product comparison clarity.</p>
+
+    <section class="category-section">
+      <h3>Education &amp; Eligibility</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Original</th><th>Optimized</th><th>What changed</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>บัตรเครดิต คืออะไร จ่ายขั้นต่ำคิดดอกเบี้ยยังไง</td><td>บัตรเครดิตคืออะไร และถ้าจ่ายขั้นต่ำจะเสียดอกเบี้ยอย่างไร?</td><td>Made the query more natural</td></tr>
+            <tr><td>ฐานเงินเดือน 15,000 สมัครบัตรเครดิต ใบไหนได้บ้าง</td><td>ถ้าเงินเดือน 15,000 บาท สมัครบัตรเครดิตใบไหนได้บ้าง และควรเริ่มจากประเภทไหน?</td><td>Added clearer context</td></tr>
+            <tr><td>บัตรเครดิต กับ บัตรกดเงินสด ต่างกันยังไง</td><td>บัตรเครดิตกับบัตรกดเงินสดต่างกันอย่างไร และแบบไหนเหมาะกับการใช้งานของฉัน?</td><td>Made the query more natural</td></tr>
+            <tr><td>แชร์ประสบการณ์ สมัครบัตรเครดิต ไม่ผ่าน เพราะอะไร</td><td>สมัครบัตรเครดิตไม่ผ่านเกิดจากสาเหตุอะไรได้บ้าง และควรแก้ไขอย่างไร?</td><td>Added clearer context</td></tr>
+            <tr><td>วิธียกเลิกบัตรเครดิต กสิกร ผ่านแอป K PLUS</td><td>ถ้าต้องการยกเลิกบัตรเครดิตกสิกรผ่านแอป K PLUS ต้องทำอย่างไร?</td><td>Preserved branded intent</td></tr>
+            <tr><td>ประกันการเดินทาง ฟรี บัตรเครดิต เงื่อนไข</td><td>ประกันการเดินทางฟรีจากบัตรเครดิตมีเงื่อนไขอะไรบ้างก่อนใช้งาน?</td><td>Made the query more natural</td></tr>
+            <tr><td>รูดบัตรต่างประเทศ บัตรเครดิต เจ้าไหนเรทดีสุด</td><td>ถ้ารูดบัตรเครดิตต่างประเทศ ควรเลือกบัตรแบบไหนที่เรทแลกเปลี่ยนคุ้มและค่าธรรมเนียมไม่สูง?</td><td>Made the query more natural</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="category-section">
+      <h3>Privileges &amp; Promotions</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Original</th><th>Optimized</th><th>What changed</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>โปรบัตรเครดิต</td><td>ตอนนี้มีโปรโมชันบัตรเครดิตอะไรบ้างที่คุ้มกับการใช้งานประจำวัน?</td><td>Added clearer context</td></tr>
+            <tr><td>โปรโมชั่นบัตรเครดิต Shopee</td><td>ตอนนี้มีโปรโมชันบัตรเครดิตอะไรบ้างสำหรับใช้จ่ายบน Shopee?</td><td>Added clearer context</td></tr>
+            <tr><td>โปรโมชั่นบัตรเครดิต Lazada</td><td>ตอนนี้มีโปรโมชันบัตรเครดิตอะไรบ้างสำหรับใช้จ่ายบน Lazada?</td><td>Added clearer context</td></tr>
+            <tr><td>บัตรเครดิต กสิกร โปรช้อปปิ้งออนไลน์ ล่าสุด</td><td>ตอนนี้บัตรเครดิตกสิกรมีโปรโมชันช้อปปิ้งออนไลน์อะไรบ้างที่น่าสนใจ?</td><td>Preserved branded intent</td></tr>
+            <tr><td>โปรโมชั่นบัตรเครดิต เซ็นทรัล</td><td>ตอนนี้มีโปรโมชันบัตรเครดิตอะไรบ้างสำหรับช้อปที่เซ็นทรัล?</td><td>Added clearer context</td></tr>
+            <tr><td>โปรบัตรเครดิต ซูปเปอร์</td><td>ตอนนี้มีโปรโมชันบัตรเครดิตอะไรบ้างสำหรับซื้อของในซูเปอร์มาร์เก็ต?</td><td>Added clearer context</td></tr>
+            <tr><td>แลกคะแนน K Point เป็นส่วนลด ห้างสรรพสินค้า</td><td>ใช้คะแนน K Point แลกส่วนลดที่ห้างสรรพสินค้าได้อย่างไร และที่ไหนร่วมรายการบ้าง?</td><td>Preserved branded intent</td></tr>
+            <tr><td>โค้ดส่วนลด Shopee บัตรเครดิต วันนี้</td><td>วันนี้มีโค้ดหรือโปรโมชันบัตรเครดิตอะไรบ้างสำหรับ Shopee?</td><td>Made the query more natural</td></tr>
+            <tr><td>โปรโมชั่น ผ่อน iPhone 0% 10 เดือน บัตรเครดิต</td><td>ตอนนี้มีโปรโมชันผ่อน iPhone 0% 10 เดือนผ่านบัตรเครดิตธนาคารไหนบ้าง?</td><td>Added clearer context</td></tr>
+            <tr><td>ผ่อน 0% เครื่องใช้ไฟฟ้า บัตรเครดิต กสิกร</td><td>บัตรเครดิตกสิกรมีโปรโมชันผ่อน 0% สำหรับเครื่องใช้ไฟฟ้าร้านไหนบ้าง?</td><td>Preserved branded intent</td></tr>
+            <tr><td>รูดบัตรเครดิต ผ่อนทอง 0% ร้านไหนรับบ้าง</td><td>มีร้านไหนรับผ่อนทอง 0% ผ่านบัตรเครดิตบ้าง และมีเงื่อนไขอะไร?</td><td>Made the query more natural</td></tr>
+            <tr><td>บัตรเครดิต ผ่อนประกันรถยนต์ 0%</td><td>บัตรเครดิตใบไหนมีโปรผ่อนประกันรถยนต์ 0% และเงื่อนไขเป็นอย่างไร?</td><td>Made the query more natural</td></tr>
+            <tr><td>บัตรเครดิต กสิกร คืนเงิน แคชแบ็ค โปรล่าสุด</td><td>ตอนนี้บัตรเครดิตกสิกรมีโปรคืนเงินหรือแคชแบ็คอะไรบ้าง?</td><td>Preserved branded intent</td></tr>
+            <tr><td>โปรบัตรเครดิต Samsung</td><td>ตอนนี้มีโปรโมชันบัตรเครดิตอะไรบ้างสำหรับซื้อ Samsung?</td><td>Added clearer context</td></tr>
+            <tr><td>โปรบัตรเครดิต โรงพยาบาล</td><td>ตอนนี้มีโปรโมชันบัตรเครดิตอะไรบ้างสำหรับจ่ายค่ารักษาที่โรงพยาบาล?</td><td>Added clearer context</td></tr>
+            <tr><td>โปรโมชั่นบัตรเครดิต ร้านอาหาร 1 แถม 1</td><td>ตอนนี้มีโปรโมชันบัตรเครดิตร้านอาหารแบบ 1 แถม 1 ที่ไหนบ้าง?</td><td>Added clearer context</td></tr>
+            <tr><td>โปรโมชั่นบัตรเครดิต บุฟเฟ่ต์ ปิ้งย่าง ชาบู</td><td>ตอนนี้มีโปรโมชันบัตรเครดิตอะไรบ้างสำหรับบุฟเฟต์ ปิ้งย่าง หรือชาบู?</td><td>Added clearer context</td></tr>
+            <tr><td>ส่วนลด Starbucks บัตรเครดิต</td><td>มีบัตรเครดิตใบไหนให้ส่วนลด Starbucks หรือสิทธิพิเศษที่คุ้มบ้าง?</td><td>Made the query more natural</td></tr>
+            <tr><td>บัตรเครดิต กสิกร โปรโมชั่น ร้านอาหาร ล่าสุด</td><td>ตอนนี้บัตรเครดิตกสิกรมีโปรโมชันร้านอาหารอะไรบ้าง?</td><td>Added clearer context, Preserved branded intent</td></tr>
+            <tr><td>โปรบัตรเครดิต โรงแรม</td><td>ตอนนี้มีโปรโมชันบัตรเครดิตอะไรบ้างสำหรับจองโรงแรม?</td><td>Added clearer context</td></tr>
+            <tr><td>โปรโมชั่นบัตรเครดิต จองตั๋วเครื่องบิน</td><td>ตอนนี้มีโปรโมชันบัตรเครดิตอะไรบ้างสำหรับจองตั๋วเครื่องบิน?</td><td>Added clearer context</td></tr>
+            <tr><td>โปรบัตรเครดิต trip.com</td><td>ตอนนี้มีโปรโมชันบัตรเครดิตอะไรบ้างสำหรับจองผ่าน Trip.com?</td><td>Added clearer context</td></tr>
+            <tr><td>โปรบัตรเครดิต agoda</td><td>ตอนนี้มีโปรโมชันบัตรเครดิตอะไรบ้างสำหรับจองผ่าน Agoda?</td><td>Added clearer context</td></tr>
+            <tr><td>บัตรเครดิต สิทธิพิเศษ เข้าเลานจ์สนามบิน สุวรรณภูมิ</td><td>บัตรเครดิตใบไหนให้สิทธิ์เข้าเลานจ์สนามบินสุวรรณภูมิ และมีเงื่อนไขอะไรบ้าง?</td><td>Made the query more natural</td></tr>
+            <tr><td>โปรโมชัน แลกไมล์ ROP บัตรเครดิต 2569</td><td>ปี 2569 มีโปรโมชันบัตรเครดิตอะไรบ้างสำหรับแลกไมล์ ROP ให้คุ้มที่สุด?</td><td>Made the query more natural</td></tr>
+            <tr><td>บัตรเครดิต The Wisdom 2 ประเภท ต่างกันยังไง เงื่อนไขอะไรบ้าง</td><td>บัตรเครดิต The Wisdom ทั้ง 2 ประเภทต่างกันอย่างไร และแต่ละใบมีเงื่อนไขอะไรบ้าง?</td><td>Preserved branded intent</td></tr>
+            <tr><td>รีวิว บัตรเครดิต Plustinum กสิกร ได้พอยท์คุ้มไหม</td><td>รีวิวบัตรเครดิต Platinum กสิกร: สะสมพอยท์คุ้มกับการใช้งานแบบไหน?</td><td>Fixed formatting, Preserved branded intent</td></tr>
+            <tr><td>บัตรเครดิต สายเที่ยว แลกไมล์ เจ้าไหนคุ้มสุด</td><td>ถ้าเน้นเที่ยวและแลกไมล์ บัตรเครดิตของธนาคารไหนคุ้มที่สุด?</td><td>Made the query more natural</td></tr>
+            <tr><td>รีวิว ถือบัตร The Wisdom สิทธิประโยชน์ เลานจ์สนามบิน ดีจริงไหม</td><td>บัตร The Wisdom ให้สิทธิประโยชน์เลานจ์สนามบินคุ้มจริงไหมสำหรับคนเดินทางบ่อย?</td><td>Preserved branded intent</td></tr>
+            <tr><td>บัตรเครดิต กสิกร ใบไหนดี 2026</td><td>ปี 2026 บัตรเครดิตกสิกรใบไหนเหมาะกับไลฟ์สไตล์การใช้จ่ายแต่ละแบบ?</td><td>Preserved branded intent</td></tr>
+            <tr><td>บัตรเครดิต Cashback คืนเงิน 2026 ค่ายไหนให้เยอะสุด</td><td>ปี 2026 บัตรเครดิต Cashback ของธนาคารไหนให้คืนเงินคุ้มที่สุด?</td><td>Made the query more natural</td></tr>
+            <tr><td>เปรียบเทียบ บัตรเครดิต ฟรีค่าธรรมเนียมตลอดชีพ</td><td>ถ้าเปรียบเทียบบัตรเครดิตฟรีค่าธรรมเนียมตลอดชีพ ควรดูสิทธิประโยชน์อะไรบ้าง?</td><td>Added clearer context</td></tr>
+            <tr><td>เปรียบเทียบบัตรเครดิต cashback</td><td>ถ้าเปรียบเทียบบัตรเครดิต Cashback ควรดูอัตราคืนเงิน เงื่อนไข และค่าธรรมเนียมอย่างไร?</td><td>Added clearer context</td></tr>
+            <tr><td>เปรียบเทียบบัตรเครดิต แต้มสะสม</td><td>ถ้าเปรียบเทียบบัตรเครดิตแต้มสะสม ควรดูการคำนวณแต้มและการแลกอะไรบ้าง?</td><td>Added clearer context</td></tr>
+            <tr><td>บัตรเครดิตที่ไหนนดี</td><td>บัตรเครดิตใบไหนดีสำหรับการใช้จ่ายหลักของฉัน เช่น กินเที่ยวหรือช้อปออนไลน์?</td><td>Fixed formatting</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="category-section">
+      <h3>Application &amp; Product Choice</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Original</th><th>Optimized</th><th>What changed</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>วิธีสมัครบัตรเครดิต ออนไลน์ ไม่ต้องไปสาขา</td><td>ถ้าจะสมัครบัตรเครดิตออนไลน์โดยไม่ไปสาขา ต้องเตรียมอะไรและทำอย่างไร?</td><td>Added clearer context</td></tr>
+            <tr><td>สมัครบัตรเครดิต ออนไลน์ อนุมัติไว</td><td>ถ้าอยากสมัครบัตรเครดิตออนไลน์และรู้ผลไว ควรเลือกแบบไหนและเตรียมเอกสารอะไร?</td><td>Added clearer context</td></tr>
+            <tr><td>สมัครบัตรเครดิตออนไลน์มีที่ไหนบ้าง</td><td>ตอนนี้มีธนาคารไหนบ้างที่เปิดให้สมัครบัตรเครดิตออนไลน์ได้สะดวก?</td><td>Added clearer context</td></tr>
+            <tr><td>โปรโมชั่นสมัครบัตรเครดิต</td><td>ตอนนี้มีโปรโมชันสมัครบัตรเครดิตอะไรบ้างที่คุ้มสำหรับผู้สมัครใหม่?</td><td>Added clearer context</td></tr>
+            <tr><td>สมัครบัตรเครดิต สะสมไมล์ แลกตั๋วเครื่องบิน ญี่ปุ่น</td><td>ถ้าอยากสมัครบัตรเครดิตสะสมไมล์เพื่อแลกตั๋วไปญี่ปุ่น ควรเลือกใบไหนดี?</td><td>Added clearer context</td></tr>
+            <tr><td>โปรโมชันบัตรเครดิต PLUSTINUM กสิกร</td><td>ตอนนี้บัตรเครดิต Platinum กสิกรมีโปรโมชันอะไรบ้างที่น่าสนใจ?</td><td>Fixed formatting, Preserved branded intent</td></tr>
+            <tr><td>โปรโมชัน บัตรเครดิต The Passion รูดร้านอาหาร</td><td>บัตรเครดิต The Passion มีโปรโมชันร้านอาหารอะไรบ้าง และเหมาะกับคนกินนอกบ้านไหม?</td><td>Preserved branded intent</td></tr>
+            <tr><td>บัตรเครดิต Line Points กสิกร โปรโมชั่น 2569</td><td>ปี 2569 บัตรเครดิต Line Points กสิกรมีโปรโมชันอะไรบ้าง และเหมาะกับการใช้จ่ายแบบไหน?</td><td>Added clearer context, Preserved branded intent</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr>
+
+    <section class="footer-box">
+      <h2>Summary Recommendations</h2>
+      <ul>
+        <li><strong>Merge near-duplicates:</strong> reduce prompts that now test the same intent with only minor wording variation.</li>
+        <li><strong>Balance branded and unbranded prompts:</strong> unbranded prompts test organic visibility, while branded prompts test direct association.</li>
+        <li><strong>Add more comparison prompts:</strong> especially KBank versus other Thai banks across both cards and investment products.</li>
+        <li><strong>Add more decision-stage prompts:</strong> include salary band, spending behavior, travel frequency, investment horizon, and risk level.</li>
+        <li><strong>Standardize formatting before upload:</strong> keep casing and terminology consistent for terms like ETF, RMF, REIT, S&amp;P 500, and NASDAQ-100.</li>
+      </ul>
+
+      <h3>Bottom Line</h3>
+      <p>
+        The optimized prompt set is better aligned for AI brand presence testing because it is cleaner, more specific, and easier to evaluate across discovery, comparison, and decision-oriented use cases.
+      </p>
+    </section>
+  </main>
+</body>
+</html>

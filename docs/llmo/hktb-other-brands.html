@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HKTB Market Tracking – Recommended Other Brands</title>
+  <style>
+    :root {
+      --spectrum-blue-600:#1473e6;
+      --spectrum-blue-700:#0d66d0;
+      --spectrum-seafoam-700:#0f797d;
+      --spectrum-green-700:#12805c;
+      --spectrum-orange-700:#b85c00;
+      --spectrum-purple-700:#6b3fc7;
+      --spectrum-gray-50:#ffffff;
+      --spectrum-gray-75:#fcfcfd;
+      --spectrum-gray-100:#f8f8f8;
+      --spectrum-gray-200:#f1f1f1;
+      --spectrum-gray-300:#e8e8e8;
+      --spectrum-gray-500:#909090;
+      --spectrum-gray-700:#4b4b4b;
+      --spectrum-gray-800:#2c2c2c;
+      --spectrum-gray-900:#1d1d1d;
+      --radius-200:8px;
+      --radius-300:12px;
+      --radius-400:18px;
+      --shadow-card:0 1px 3px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      padding:32px;
+      background:linear-gradient(180deg,#f8fbff 0%, #ffffff 100%);
+      color:var(--spectrum-gray-900);
+      font:14px/1.55 "Adobe Clean","Segoe UI",Arial,sans-serif;
+    }
+
+    .container {
+      max-width:1280px;
+      margin:0 auto;
+    }
+
+    .hero,
+    .card {
+      background:var(--spectrum-gray-50);
+      border:1px solid var(--spectrum-gray-300);
+      border-radius:var(--radius-400);
+      box-shadow:var(--shadow-card);
+    }
+
+    .hero {
+      padding:28px 32px;
+      margin-bottom:24px;
+    }
+
+    .card {
+      padding:22px 24px;
+      margin-bottom:18px;
+    }
+
+    .eyebrow {
+      color:var(--spectrum-blue-700);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    h1 {
+      margin:0 0 10px;
+      font-size:30px;
+      line-height:1.2;
+      font-weight:700;
+    }
+
+    h2 {
+      margin:0 0 14px;
+      font-size:22px;
+      line-height:1.25;
+    }
+
+    h3 {
+      margin:0;
+      font-size:18px;
+      line-height:1.3;
+    }
+
+    p {
+      margin:0 0 12px;
+      color:var(--spectrum-gray-800);
+    }
+
+    .subtitle {
+      font-size:16px;
+      color:var(--spectrum-gray-700);
+    }
+
+    .callout {
+      margin-top:16px;
+      padding:14px 16px;
+      border-left:4px solid var(--spectrum-blue-600);
+      background:#f5f9ff;
+      border-radius:0 10px 10px 0;
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:16px;
+      margin:24px 0;
+    }
+
+    .stat {
+      background:var(--spectrum-gray-50);
+      border:1px solid var(--spectrum-gray-300);
+      border-radius:var(--radius-300);
+      padding:18px;
+      box-shadow:var(--shadow-card);
+    }
+
+    .stat-label {
+      color:var(--spectrum-gray-500);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      margin-bottom:6px;
+    }
+
+    .stat-value {
+      font-size:24px;
+      font-weight:700;
+      line-height:1.1;
+    }
+
+    .stat-meta {
+      margin-top:6px;
+      font-size:13px;
+      color:var(--spectrum-gray-700);
+    }
+
+    .section-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .badge {
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .badge-core {
+      color:var(--spectrum-green-700);
+      background:#e6f9f0;
+      border:1px solid #bce6d2;
+    }
+
+    .badge-optional {
+      color:var(--spectrum-orange-700);
+      background:#fff3e8;
+      border:1px solid #ffd7b8;
+    }
+
+    .badge-destination {
+      color:var(--spectrum-purple-700);
+      background:#f3ecff;
+      border:1px solid #dccfff;
+    }
+
+    .pill-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .pill {
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid var(--spectrum-gray-300);
+      background:var(--spectrum-gray-100);
+      color:var(--spectrum-gray-800);
+    }
+
+    table {
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      border:1px solid var(--spectrum-gray-300);
+      border-radius:14px;
+      overflow:hidden;
+    }
+
+    thead th {
+      background:var(--spectrum-gray-100);
+      color:var(--spectrum-gray-800);
+      text-align:left;
+      padding:12px 14px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      border-bottom:1px solid var(--spectrum-gray-300);
+    }
+
+    tbody td {
+      vertical-align:top;
+      padding:12px 14px;
+      border-bottom:1px solid var(--spectrum-gray-300);
+    }
+
+    tbody tr:nth-child(even) td {
+      background:var(--spectrum-gray-75);
+    }
+
+    tbody tr:last-child td {
+      border-bottom:none;
+    }
+
+    ul {
+      margin:0;
+      padding-left:18px;
+    }
+
+    li {
+      margin:0 0 8px;
+    }
+
+    .brand-list {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .brand-chip {
+      display:inline-flex;
+      align-items:center;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid var(--spectrum-gray-300);
+      background:var(--spectrum-gray-100);
+      color:var(--spectrum-gray-900);
+      font-size:13px;
+      font-weight:600;
+    }
+
+    .muted {
+      color:var(--spectrum-gray-700);
+      font-size:13px;
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      body { padding:16px; }
+      .grid { grid-template-columns:1fr; }
+      .section-header { flex-direction:column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <section class="hero">
+      <div class="eyebrow">HKTB LLMO Configuration</div>
+      <h1>Recommended "Other Brands" for Market Tracking</h1>
+      <p class="subtitle">
+        For HKTB, "Other Brands" should be configured by <strong>category / intent cluster</strong>, not as one flat list.
+        The prompt set spans planning, food, stay, culture, events, and city comparisons, so the comparator set should reflect that structure.
+      </p>
+
+      <div class="callout">
+        <strong>Recommendation:</strong> use a focused set of travel platforms for planning and discovery prompts,
+        and a separate destination-authority set for city-comparison prompts.
+      </div>
+
+      <div class="pill-row">
+        <span class="pill">Planning / attractions</span>
+        <span class="pill">Food / dining</span>
+        <span class="pill">Where to stay</span>
+        <span class="pill">Culture / heritage</span>
+        <span class="pill">Events / seasonal</span>
+        <span class="pill">Destination comparisons</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="stat">
+        <div class="stat-label">Recommended starter set</div>
+        <div class="stat-value">8 brands</div>
+        <div class="stat-meta">Focused first configuration</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Core platform brands</div>
+        <div class="stat-value">6</div>
+        <div class="stat-meta">Planning, food, stay, local discovery</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Destination authority brands</div>
+        <div class="stat-value">2–4</div>
+        <div class="stat-meta">Best for city-comparison prompts</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Setup principle</div>
+        <div class="stat-value">Keep it tight</div>
+        <div class="stat-meta">8–10 brands to start</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Category 1</div>
+          <h2>Travel Planning & Attractions</h2>
+        </div>
+        <span class="badge badge-core">Core</span>
+      </div>
+
+      <p>Use these for itinerary, things-to-do, attractions, transport, and practical planning prompts.</p>
+
+      <div class="brand-list">
+        <span class="brand-chip">Tripadvisor</span>
+        <span class="brand-chip">Klook</span>
+        <span class="brand-chip">Booking.com</span>
+        <span class="brand-chip">Agoda</span>
+      </div>
+
+      <p class="muted" style="margin-top:12px;">
+        These brands are most likely to appear in AI answers for trip planning, attractions, bookings, and visitor guidance.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Category 2</div>
+          <h2>Food & Dining</h2>
+        </div>
+        <span class="badge badge-core">Core</span>
+      </div>
+
+      <p>Use these for food discovery, local dishes, neighborhoods, bars, and dining recommendations.</p>
+
+      <div class="brand-list">
+        <span class="brand-chip">OpenRice</span>
+        <span class="brand-chip">Tripadvisor</span>
+        <span class="brand-chip">Time Out</span>
+        <span class="brand-chip">Michelin Guide</span>
+      </div>
+
+      <p class="muted" style="margin-top:12px;">
+        OpenRice is especially important for HK-specific food discovery; Tripadvisor and Time Out are strong broader food and local-discovery comparators.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Category 3</div>
+          <h2>Where to Stay / Neighborhoods</h2>
+        </div>
+        <span class="badge badge-core">Core</span>
+      </div>
+
+      <p>Use these for hotel-area, neighborhood, convenience, and stay-related prompts.</p>
+
+      <div class="brand-list">
+        <span class="brand-chip">Booking.com</span>
+        <span class="brand-chip">Agoda</span>
+        <span class="brand-chip">Tripadvisor</span>
+        <span class="brand-chip">Expedia</span>
+      </div>
+
+      <p class="muted" style="margin-top:12px;">
+        These brands dominate accommodation and area-selection journeys and are likely to surface in stay-related answers.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Category 4</div>
+          <h2>Culture, Heritage & Local Discovery</h2>
+        </div>
+        <span class="badge badge-core">Core</span>
+      </div>
+
+      <p>Use these for museums, cultural districts, heritage, and local exploration prompts.</p>
+
+      <div class="brand-list">
+        <span class="brand-chip">Tripadvisor</span>
+        <span class="brand-chip">Time Out</span>
+        <span class="brand-chip">Klook</span>
+      </div>
+
+      <p class="muted" style="margin-top:12px;">
+        These brands often surface in culture and experience discovery, especially for first-time visitors.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Category 5</div>
+          <h2>Events & Seasonal Travel</h2>
+        </div>
+        <span class="badge badge-core">Core</span>
+      </div>
+
+      <p>Use these for festivals, events, concerts, and seasonal activity prompts.</p>
+
+      <div class="brand-list">
+        <span class="brand-chip">Time Out</span>
+        <span class="brand-chip">Tripadvisor</span>
+        <span class="brand-chip">Klook</span>
+      </div>
+
+      <p class="muted" style="margin-top:12px;">
+        These brands are common sources for event discovery and visitor-facing recommendations.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Category 6</div>
+          <h2>Destination Comparisons</h2>
+        </div>
+        <span class="badge badge-destination">Destination authority set</span>
+      </div>
+
+      <p>Use these for prompts like Hong Kong vs Singapore / Tokyo / Seoul / Bangkok.</p>
+
+      <div class="brand-list">
+        <span class="brand-chip">Visit Singapore / Singapore Tourism Board</span>
+        <span class="brand-chip">GoTokyo / Tokyo tourism brand</span>
+        <span class="brand-chip">Visit Seoul / Seoul tourism brand</span>
+        <span class="brand-chip">Amazing Thailand / Tourism Authority of Thailand</span>
+      </div>
+
+      <p class="muted" style="margin-top:12px;">
+        These are the best like-for-like destination authority comparators for city-choice prompts.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Recommended Starter Set</div>
+          <h2>What to configure first</h2>
+        </div>
+        <span class="badge badge-core">Start here</span>
+      </div>
+
+      <div class="brand-list">
+        <span class="brand-chip">Tripadvisor</span>
+        <span class="brand-chip">Klook</span>
+        <span class="brand-chip">OpenRice</span>
+        <span class="brand-chip">Booking.com</span>
+        <span class="brand-chip">Agoda</span>
+        <span class="brand-chip">Time Out</span>
+        <span class="brand-chip">Visit Singapore</span>
+        <span class="brand-chip">GoTokyo</span>
+      </div>
+
+      <p class="muted" style="margin-top:12px;">
+        Then add <strong>Visit Seoul</strong> and <strong>Amazing Thailand</strong> if destination-comparison prompts remain important.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Setup Guidance</div>
+          <h2>How to configure the list well</h2>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Guidance</th>
+            <th>Recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Keep the list focused</strong></td>
+            <td>Start with around 8–10 brands, not a long tail.</td>
+          </tr>
+          <tr>
+            <td><strong>Use platform competitors where appropriate</strong></td>
+            <td>Use Tripadvisor, Klook, Booking.com, Agoda, OpenRice, and Time Out for planning, food, and stay prompts.</td>
+          </tr>
+          <tr>
+            <td><strong>Use destination authorities for comparison prompts</strong></td>
+            <td>Use Visit Singapore, GoTokyo, Visit Seoul, and Amazing Thailand for city-vs-city prompts.</td>
+          </tr>
+          <tr>
+            <td><strong>Keep entity types consistent</strong></td>
+            <td>Avoid mixing city entities and organization entities inconsistently in the same competitive logic.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Bottom Line</div>
+          <h2>Recommended Market Tracking structure for HKTB</h2>
+        </div>
+      </div>
+
+      <ul>
+        <li><strong>Planning / booking platforms:</strong> Tripadvisor, Klook, Booking.com, Agoda</li>
+        <li><strong>Food / local discovery:</strong> OpenRice, Time Out</li>
+        <li><strong>Destination authorities:</strong> Visit Singapore, GoTokyo, Visit Seoul</li>
+      </ul>
+
+      <p class="muted" style="margin-top:12px;">
+        This structure should produce cleaner, more actionable Brand Presence comparisons than one undifferentiated competitor list.
+      </p>
+    </section>
+
+  </div>
+</body>
+</html>

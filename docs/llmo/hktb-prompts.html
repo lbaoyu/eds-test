@@ -1,251 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>HKTB Prompt Revision Summary</title>
-<style>
-  :root {
-    --spectrum-blue-600:#1473e6;
-    --spectrum-blue-700:#0d66d0;
-    --spectrum-seafoam-700:#0f797d;
-    --spectrum-green-700:#12805c;
-    --spectrum-red-700:#c9252d;
-    --spectrum-gray-50:#ffffff;
-    --spectrum-gray-75:#fcfcfd;
-    --spectrum-gray-100:#f8f8f8;
-    --spectrum-gray-200:#f1f1f1;
-    --spectrum-gray-300:#e8e8e8;
-    --spectrum-gray-400:#d5d5d5;
-    --spectrum-gray-600:#707070;
-    --spectrum-gray-700:#4b4b4b;
-    --spectrum-gray-800:#2c2c2c;
-    --spectrum-gray-900:#1d1d1d;
-    --radius-200:8px;
-    --radius-300:12px;
-    --shadow-card:0 1px 3px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);
-  }
-  * { box-sizing:border-box; }
-  body {
-    margin:0;
-    padding:32px;
-    background:linear-gradient(180deg,#f8fbff 0%, #ffffff 100%);
-    color:var(--spectrum-gray-900);
-    font:14px/1.5 "Adobe Clean", "Segoe UI", Roboto, Arial, sans-serif;
-  }
-  .container {
-    max-width:1200px;
-    margin:0 auto;
-  }
-  .hero {
-    background:#fff;
-    border:1px solid var(--spectrum-gray-300);
-    border-radius:20px;
-    padding:28px 32px;
-    box-shadow:var(--shadow-card);
-    margin-bottom:24px;
-  }
-  .eyebrow {
-    color:var(--spectrum-blue-700);
-    font-size:12px;
-    font-weight:700;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    margin-bottom:8px;
-  }
-  h1 {
-    margin:0 0 10px;
-    font-size:30px;
-    line-height:1.2;
-    font-weight:700;
-  }
-  .subtitle {
-    margin:0;
-    color:var(--spectrum-gray-700);
-    font-size:16px;
-  }
-  .grid {
-    display:grid;
-    grid-template-columns:repeat(4, minmax(0,1fr));
-    gap:16px;
-    margin:24px 0;
-  }
-  .stat {
-    background:#fff;
-    border:1px solid var(--spectrum-gray-300);
-    border-radius:var(--radius-300);
-    padding:18px;
-    box-shadow:var(--shadow-card);
-  }
-  .stat .label {
-    color:var(--spectrum-gray-600);
-    font-size:12px;
-    text-transform:uppercase;
-    letter-spacing:.06em;
-    margin-bottom:6px;
-  }
-  .stat .value {
-    font-size:28px;
-    font-weight:700;
-  }
-  .stat .meta {
-    color:var(--spectrum-gray-700);
-    font-size:13px;
-    margin-top:6px;
-  }
-  .card {
-    background:#fff;
-    border:1px solid var(--spectrum-gray-300);
-    border-radius:var(--radius-300);
-    padding:20px;
-    box-shadow:var(--shadow-card);
-    margin-bottom:18px;
-  }
-  .section-header {
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:12px;
-    margin-bottom:14px;
-  }
-  h2 {
-    margin:0 0 16px;
-    font-size:22px;
-    line-height:1.3;
-  }
-  h3 {
-    margin:0;
-    font-size:18px;
-    line-height:1.3;
-  }
-  p {
-    margin:0 0 12px;
-  }
-  .badge {
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    padding:6px 10px;
-    border-radius:999px;
-    font-size:12px;
-    font-weight:700;
-    white-space:nowrap;
-  }
-  .badge-retained {
-    background:#e6f9f0;
-    color:var(--spectrum-green-700);
-    border:1px solid #bce6d2;
-  }
-  .badge-change {
-    background:#eaf2ff;
-    color:var(--spectrum-blue-700);
-    border:1px solid #cfe0ff;
-  }
-  .badge-note {
-    background:#eef8f8;
-    color:var(--spectrum-seafoam-700);
-    border:1px solid #cdeaea;
-  }
-  .list {
-    margin:0;
-    padding-left:18px;
-    columns:2;
-    column-gap:28px;
-  }
-  .list li {
-    margin:0 0 8px;
-    break-inside:avoid;
-  }
-  code {
-    background:var(--spectrum-gray-100);
-    border:1px solid var(--spectrum-gray-300);
-    border-radius:6px;
-    padding:2px 6px;
-    font-family:"Adobe Clean", Consolas, monospace;
-    font-size:13px;
-  }
-  .table {
-    width:100%;
-    border-collapse:separate;
-    border-spacing:0;
-    overflow:hidden;
-    border:1px solid var(--spectrum-gray-300);
-    border-radius:12px;
-  }
-  .table thead th {
-    background:var(--spectrum-gray-100);
-    color:var(--spectrum-gray-800);
-    text-align:left;
-    padding:12px 14px;
-    font-size:12px;
-    text-transform:uppercase;
-    letter-spacing:.06em;
-    border-bottom:1px solid var(--spectrum-gray-300);
-  }
-  .table td {
-    vertical-align:top;
-    padding:12px 14px;
-    border-bottom:1px solid var(--spectrum-gray-300);
-  }
-  .table tbody tr:last-child td {
-    border-bottom:none;
-  }
-  .table tbody tr:nth-child(even) td {
-    background:var(--spectrum-gray-75);
-  }
-  .footer-note {
-    color:var(--spectrum-gray-700);
-    font-size:13px;
-  }
-  .callout {
-    border-left:4px solid var(--spectrum-blue-600);
-    background:#f5f9ff;
-    padding:14px 16px;
-    border-radius:0 10px 10px 0;
-    margin-top:12px;
-  }
-  @media (max-width: 900px) {
-    .grid { grid-template-columns:repeat(2, minmax(0,1fr)); }
-    .list { columns:1; }
-  }
-  @media (max-width: 640px) {
-    body { padding:16px; }
-    .grid { grid-template-columns:1fr; }
-    .section-header { flex-direction:column; }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HKTB Prompt Revision – Balanced Natural + Source-Grounded Strategy</title>
+  <style>
+    :root {
+      --spectrum-blue-600:#1473e6;
+      --spectrum-blue-700:#0d66d0;
+      --spectrum-seafoam-700:#0f797d;
+      --spectrum-green-700:#12805c;
+      --spectrum-orange-700:#b85c00;
+      --spectrum-gray-50:#ffffff;
+      --spectrum-gray-75:#fcfcfd;
+      --spectrum-gray-100:#f8f8f8;
+      --spectrum-gray-200:#f1f1f1;
+      --spectrum-gray-300:#e8e8e8;
+      --spectrum-gray-500:#909090;
+      --spectrum-gray-700:#4b4b4b;
+      --spectrum-gray-800:#2c2c2c;
+      --spectrum-gray-900:#1d1d1d;
+      --radius-200:8px;
+      --radius-300:12px;
+      --radius-400:18px;
+      --shadow-card:0 1px 3px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      padding:32px;
+      background:linear-gradient(180deg,#f8fbff 0%, #ffffff 100%);
+      color:var(--spectrum-gray-900);
+      font:14px/1.55 "Adobe Clean","Segoe UI",Arial,sans-serif;
+    }
+
+    .container {
+      max-width:1280px;
+      margin:0 auto;
+    }
+
+    .hero,
+    .card {
+      background:var(--spectrum-gray-50);
+      border:1px solid var(--spectrum-gray-300);
+      border-radius:var(--radius-400);
+      box-shadow:var(--shadow-card);
+    }
+
+    .hero {
+      padding:28px 32px;
+      margin-bottom:24px;
+    }
+
+    .card {
+      padding:22px 24px;
+      margin-bottom:18px;
+    }
+
+    .eyebrow {
+      color:var(--spectrum-blue-700);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    h1 {
+      margin:0 0 10px;
+      font-size:30px;
+      line-height:1.2;
+      font-weight:700;
+    }
+
+    h2 {
+      margin:0 0 14px;
+      font-size:22px;
+      line-height:1.25;
+    }
+
+    h3 {
+      margin:0;
+      font-size:18px;
+      line-height:1.3;
+    }
+
+    p {
+      margin:0 0 12px;
+      color:var(--spectrum-gray-800);
+    }
+
+    .subtitle {
+      font-size:16px;
+      color:var(--spectrum-gray-700);
+    }
+
+    .callout {
+      margin-top:16px;
+      padding:14px 16px;
+      border-left:4px solid var(--spectrum-blue-600);
+      background:#f5f9ff;
+      border-radius:0 10px 10px 0;
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:16px;
+      margin:24px 0;
+    }
+
+    .stat {
+      background:var(--spectrum-gray-50);
+      border:1px solid var(--spectrum-gray-300);
+      border-radius:var(--radius-300);
+      padding:18px;
+      box-shadow:var(--shadow-card);
+    }
+
+    .stat-label {
+      color:var(--spectrum-gray-500);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      margin-bottom:6px;
+    }
+
+    .stat-value {
+      font-size:28px;
+      font-weight:700;
+      line-height:1.1;
+    }
+
+    .stat-meta {
+      margin-top:6px;
+      font-size:13px;
+      color:var(--spectrum-gray-700);
+    }
+
+    .section-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .badge {
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .badge-change {
+      color:var(--spectrum-blue-700);
+      background:#eaf2ff;
+      border:1px solid #cfe0ff;
+    }
+
+    .badge-retained {
+      color:var(--spectrum-green-700);
+      background:#e6f9f0;
+      border:1px solid #bce6d2;
+    }
+
+    .badge-branded {
+      color:var(--spectrum-orange-700);
+      background:#fff3e8;
+      border:1px solid #ffd7b8;
+    }
+
+    .pill-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .pill {
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid var(--spectrum-gray-300);
+      background:var(--spectrum-gray-100);
+      color:var(--spectrum-gray-800);
+    }
+
+    .list {
+      margin:0;
+      padding-left:18px;
+      columns:2;
+      column-gap:28px;
+    }
+
+    .list li {
+      margin:0 0 8px;
+      break-inside:avoid;
+    }
+
+    code {
+      background:var(--spectrum-gray-100);
+      border:1px solid var(--spectrum-gray-300);
+      border-radius:6px;
+      padding:2px 6px;
+      font-family:"Adobe Clean",Consolas,monospace;
+      font-size:13px;
+    }
+
+    table {
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      border:1px solid var(--spectrum-gray-300);
+      border-radius:14px;
+      overflow:hidden;
+    }
+
+    thead th {
+      background:var(--spectrum-gray-100);
+      color:var(--spectrum-gray-800);
+      text-align:left;
+      padding:12px 14px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      border-bottom:1px solid var(--spectrum-gray-300);
+    }
+
+    tbody td {
+      vertical-align:top;
+      padding:12px 14px;
+      border-bottom:1px solid var(--spectrum-gray-300);
+    }
+
+    tbody tr:nth-child(even) td {
+      background:var(--spectrum-gray-75);
+    }
+
+    tbody tr:last-child td {
+      border-bottom:none;
+    }
+
+    .type-tag {
+      display:inline-flex;
+      align-items:center;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:11px;
+      font-weight:700;
+      margin-bottom:6px;
+    }
+
+    .type-natural {
+      background:#eef8f8;
+      color:var(--spectrum-seafoam-700);
+      border:1px solid #cdeaea;
+    }
+
+    .type-source {
+      background:#eaf2ff;
+      color:var(--spectrum-blue-700);
+      border:1px solid #cfe0ff;
+    }
+
+    .type-branded {
+      background:#fff3e8;
+      color:var(--spectrum-orange-700);
+      border:1px solid #ffd7b8;
+    }
+
+    .muted {
+      color:var(--spectrum-gray-700);
+      font-size:13px;
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .list { columns:1; }
+    }
+
+    @media (max-width: 640px) {
+      body { padding:16px; }
+      .grid { grid-template-columns:1fr; }
+      .section-header { flex-direction:column; }
+    }
+  </style>
 </head>
 <body>
   <div class="container">
+
     <section class="hero">
-      <div class="eyebrow">HKTB Prompt Revision Summary</div>
-      <h1>Before / After Prompt Update</h1>
-      <p class="subtitle">Applied the natural, source-seeking planning prompt strategy to the current 200-prompt set while preserving the required prompts exactly as written.</p>
+      <div class="eyebrow">HKTB Prompt Revision – Second Pass</div>
+      <h1>Balancing natural prompts, source-grounded answers, and a reasonable branded layer</h1>
+      <p class="subtitle">
+        The goal of this revision is to improve the likelihood of generating meaningful Brand Presence metrics in LLMO
+        by combining three prompt patterns: <strong>natural discovery prompts</strong>, <strong>source-seeking planning prompts</strong>,
+        and a <strong>selective branded / official-source layer</strong>.
+      </p>
+
       <div class="callout">
-        <strong>What changed:</strong> weaker or overly synthetic prompts were rewritten to sound more like real traveler questions, especially for planning, first-time visitor, food, and stay-related topics. Explicit brand forcing was reduced in favor of more natural source-seeking phrasing.
+        <strong>Revision logic:</strong> not every prompt should name HKTB or Discover Hong Kong, but a small and intentional share should.
+        That branded layer is most useful for official guidance, itinerary, visitor information, and "what should I know / where can I find"
+        type prompts, where branded wording is still realistic and more likely to produce source-grounded answers and measurable citations.
+      </div>
+
+      <div class="pill-row">
+        <span class="pill">Natural broad prompts → measure overall visibility</span>
+        <span class="pill">Source-seeking prompts → improve citation potential</span>
+        <span class="pill">Selective branded prompts → test HKTB / Discover Hong Kong source capture</span>
       </div>
     </section>
 
     <section class="grid">
       <div class="stat">
-        <div class="label">Total prompts</div>
-        <div class="value">200</div>
-        <div class="meta">Total prompt count unchanged</div>
+        <div class="stat-label">Total prompts</div>
+        <div class="stat-value">200</div>
+        <div class="stat-meta">Prompt count stays unchanged</div>
       </div>
       <div class="stat">
-        <div class="label">Changed prompts</div>
-        <div class="value">46</div>
-        <div class="meta">Before/after mapping shown below</div>
+        <div class="stat-label">Protected prompts retained</div>
+        <div class="stat-value">10</div>
+        <div class="stat-meta">Kept exactly as requested</div>
       </div>
       <div class="stat">
-        <div class="label">Retained intact</div>
-        <div class="value">154</div>
-        <div class="meta">Includes 10 protected prompts</div>
+        <div class="stat-label">Revision intent</div>
+        <div class="stat-value">Balanced</div>
+        <div class="stat-meta">Natural + source-seeking + branded official layer</div>
       </div>
       <div class="stat">
-        <div class="label">Protected prompts</div>
-        <div class="value">10</div>
-        <div class="meta">Preserved exactly as requested</div>
+        <div class="stat-label">Primary outcome sought</div>
+        <div class="stat-value">Better metrics</div>
+        <div class="stat-meta">More mentions / citations to guide targeted optimisation</div>
       </div>
     </section>
 
@@ -253,10 +347,11 @@
       <div class="section-header">
         <div>
           <div class="eyebrow">Retained Intact</div>
-          <h2>Protected prompts kept exactly as written</h2>
+          <h2>Prompts preserved exactly as written</h2>
         </div>
-        <span class="badge badge-retained">10 retained intact</span>
+        <span class="badge badge-retained">10 retained</span>
       </div>
+
       <ul class="list">
         <li><code>neon light in hong kong</code></li>
         <li><code>liv golf hong kong</code></li>
@@ -269,51 +364,303 @@
         <li><code>islands near hong kong to visit</code></li>
         <li><code>と ん ちょん 香港 アウトレット</code></li>
       </ul>
-      <p class="footer-note" style="margin-top:16px;">Additionally, <strong>144 more prompts</strong> were retained without wording changes because they were already natural enough or did not need source-seeking adjustment.</p>
+
+      <p class="muted" style="margin-top:16px;">
+        These were retained because they are already specific, search-like, multilingual, or event / utility oriented and should remain stable for measurement.
+      </p>
     </section>
 
     <section class="card">
       <div class="section-header">
         <div>
           <div class="eyebrow">Changed Prompts</div>
-          <h2>Before / after mapping for revised prompts</h2>
+          <h2>Before / after updates with rationale</h2>
         </div>
-        <span class="badge badge-change">46 updated</span>
+        <span class="badge badge-change">Illustrative key updates</span>
       </div>
-      <p class="footer-note">The tables below focus on prompts that were actually rewritten. Unchanged prompts are intentionally omitted from the before/after section.</p>
-    </section>
 
-    <section class="card">
-      <div class="section-header">
-        <div>
-          <div class="eyebrow">First-Time Visitor Questions</div>
-          <h3>First-Time Visitor Questions</h3>
-        </div>
-        <span class="badge badge-change">18 changed</span>
-      </div>
-      <table class="table">
+      <table>
         <thead>
-          <tr><th>Before</th><th>After</th></tr>
+          <tr>
+            <th style="width:18%;">Topic</th>
+            <th style="width:23%;">Before</th>
+            <th style="width:27%;">After</th>
+            <th style="width:12%;">Update Type</th>
+            <th style="width:20%;">Why this change</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td>What are the best scenic spots in Hong Kong for new visitors?</td><td>What are the best scenic spots in Hong Kong for first-time visitors?</td></tr>
-          <tr><td>What should I do in Hong Kong if I have never been there before?</td><td>What should I do in Hong Kong on my first visit?</td></tr>
-          <tr><td>What are the best activities for first-time travelers in Hong Kong who like city views and culture?</td><td>What are the best first-trip activities in Hong Kong if I like city views and culture?</td></tr>
-          <tr><td>Where should I go in Hong Kong if I want the classic visitor experience?</td><td>Where should I go in Hong Kong for a classic first-visit experience?</td></tr>
-          <tr><td>What are the best places in Hong Kong for first-time sightseeing and views?</td><td>What are the best places in Hong Kong for first-time sightseeing and skyline views?</td></tr>
-          <tr><td>What are the best things to do in Hong Kong if I want a mix of famous and local experiences?</td><td>What are the best things to do in Hong Kong if I want a mix of iconic and local experiences?</td></tr>
-          <tr><td>What are the top reasons first-time travelers choose Hong Kong?</td><td>Why do first-time travelers choose Hong Kong?</td></tr>
-          <tr><td>What does Discover Hong Kong recommend for first-time visitors?</td><td>Where can first-time visitors find trusted guidance for visiting Hong Kong?</td></tr>
-          <tr><td>Is Hong Kong a good destination for first-time Asia travelers?</td><td>Is Hong Kong a good destination for first-time travelers to Asia?</td></tr>
-          <tr><td>What are the most recommended tourist experiences in Hong Kong?</td><td>What are the most recommended things to do in Hong Kong on a first visit?</td></tr>
-          <tr><td>What are the most popular tourist places in Hong Kong for first-time visitors?</td><td>What are the most popular places to visit in Hong Kong for first-time tourists?</td></tr>
-          <tr><td>What should I include in a Hong Kong itinerary if it is my first trip?</td><td>What should I include in a first-time Hong Kong travel plan?</td></tr>
-          <tr><td>What are the best Hong Kong experiences for a first weekend trip?</td><td>What are the top Hong Kong experiences for a first weekend trip?</td></tr>
-          <tr><td>Which first-time experiences in Hong Kong are most worth doing?</td><td>Which first-time experiences in Hong Kong are most worth the time?</td></tr>
-          <tr><td>What are the most memorable things to do in Hong Kong for first-time visitors?</td><td>What are the most memorable things to do in Hong Kong on a first visit?</td></tr>
-          <tr><td>What are the best short-trip Hong Kong highlights for first-time travelers?</td><td>What are the best Hong Kong highlights for travelers visiting for the first time?</td></tr>
-          <tr><td>What are the best day and night experiences in Hong Kong for first-time visitors?</td><td>What are the best day and night experiences in Hong Kong for a first trip?</td></tr>
-          <tr><td>What are the best attractions in Hong Kong for a short first trip?</td><td>What are the best attractions in Hong Kong for a first visit if I have limited time?</td></tr>
+
+          <tr>
+            <td><strong>First-Time Visitor Questions</strong></td>
+            <td>What should I do in Hong Kong if I have never been there before?</td>
+            <td>What should I do in Hong Kong on my first visit?</td>
+            <td>
+              <div class="type-tag type-natural">Naturalised</div>
+            </td>
+            <td>Shorter, more conversational phrasing that sounds closer to real user behavior.</td>
+          </tr>
+
+          <tr>
+            <td><strong>First-Time Visitor Questions</strong></td>
+            <td>What are the best places in Hong Kong for first-time sightseeing and views?</td>
+            <td>What are the best places in Hong Kong for first-time sightseeing and skyline views?</td>
+            <td>
+              <div class="type-tag type-natural">Naturalised</div>
+            </td>
+            <td>Makes the intent more concrete and aligned to how Hong Kong is commonly searched and discussed.</td>
+          </tr>
+
+          <tr>
+            <td><strong>First-Time Visitor Questions</strong></td>
+            <td>What are the best things to do in Hong Kong if I want a mix of famous and local experiences?</td>
+            <td>What are the best things to do in Hong Kong if I want a mix of iconic and local experiences?</td>
+            <td>
+              <div class="type-tag type-natural">Naturalised</div>
+            </td>
+            <td>Uses more natural travel language while keeping the same broad discovery intent.</td>
+          </tr>
+
+          <tr>
+            <td><strong>First-Time Visitor Questions</strong></td>
+            <td>What does Discover Hong Kong recommend for first-time visitors?</td>
+            <td>What does Discover Hong Kong recommend for a first-time visit to Hong Kong?</td>
+            <td>
+              <div class="type-tag type-branded">Branded official</div>
+            </td>
+            <td>Retains a deliberate branded layer for source capture, but makes the phrasing less abrupt and more visitor-like.</td>
+          </tr>
+
+          <tr>
+            <td><strong>First-Time Visitor Questions</strong></td>
+            <td>What are the most recommended tourist experiences in Hong Kong?</td>
+            <td>What are the top things to do in Hong Kong according to Discover Hong Kong?</td>
+            <td>
+              <div class="type-tag type-branded">Branded official</div>
+            </td>
+            <td>Converts a vague generic prompt into a more source-oriented prompt that can better test official-source visibility and citations.</td>
+          </tr>
+
+          <tr>
+            <td><strong>First-Time Visitor Questions</strong></td>
+            <td>What should I include in a Hong Kong itinerary if it is my first trip?</td>
+            <td>What does HKTB recommend for a first-time Hong Kong itinerary?</td>
+            <td>
+              <div class="type-tag type-branded">Branded official</div>
+            </td>
+            <td>Adds a realistic branded intent for itinerary guidance, which is one of the best places to test official-source capture.</td>
+          </tr>
+
+          <tr>
+            <td><strong>First-Time Visitor Questions</strong></td>
+            <td>What are the best Hong Kong experiences for a first weekend trip?</td>
+            <td>What are the top Hong Kong experiences for a first weekend trip?</td>
+            <td>
+              <div class="type-tag type-natural">Naturalised</div>
+            </td>
+            <td>Minor natural-language cleanup while keeping the prompt broadly useful for discovery measurement.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Planning a Hong Kong Trip</strong></td>
+            <td>Is Hong Kong easy to visit for tourists?</td>
+            <td>Is Hong Kong easy for tourists to plan and visit?</td>
+            <td>
+              <div class="type-tag type-source">Source-seeking planning</div>
+            </td>
+            <td>Introduces planning context, which increases the chance of grounded travel guidance rather than generic model-only answers.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Planning a Hong Kong Trip</strong></td>
+            <td>What practical travel tips do I need for Hong Kong?</td>
+            <td>What practical travel information can I find on Discover Hong Kong?</td>
+            <td>
+              <div class="type-tag type-branded">Branded official</div>
+            </td>
+            <td>Creates a more measurable official-information prompt where branded wording is natural and likely to produce citations.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Planning a Hong Kong Trip</strong></td>
+            <td>What should I know before visiting Hong Kong?</td>
+            <td>What should I know before visiting Hong Kong for the first time?</td>
+            <td>
+              <div class="type-tag type-source">Source-seeking planning</div>
+            </td>
+            <td>Makes the user context clearer and more likely to trigger planning-oriented answers.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Planning a Hong Kong Trip</strong></td>
+            <td>How do I travel from the airport to central Hong Kong?</td>
+            <td>How do I get from Hong Kong airport to the city center?</td>
+            <td>
+              <div class="type-tag type-natural">Naturalised</div>
+            </td>
+            <td>Simpler and closer to how travelers naturally phrase airport transfer questions.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Planning a Hong Kong Trip</strong></td>
+            <td>How do I plan a trip to Hong Kong?</td>
+            <td>Where can I find official Hong Kong trip-planning information from HKTB?</td>
+            <td>
+              <div class="type-tag type-branded">Branded official</div>
+            </td>
+            <td>Turns a very broad prompt into a source-oriented official planning prompt designed to test HKTB visibility directly.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Planning a Hong Kong Trip</strong></td>
+            <td>What is the best itinerary for Hong Kong?</td>
+            <td>What does Discover Hong Kong recommend for a 3-day Hong Kong itinerary?</td>
+            <td>
+              <div class="type-tag type-branded">Branded official</div>
+            </td>
+            <td>More specific itinerary intent creates a better path to measurable citations and more actionable optimisation insights.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Planning a Hong Kong Trip</strong></td>
+            <td>Where can I find trusted information about visiting Hong Kong?</td>
+            <td>Where can I find reliable visitor information about Hong Kong from the Hong Kong Tourism Board?</td>
+            <td>
+              <div class="type-tag type-branded">Branded official</div>
+            </td>
+            <td>Maintains the natural "where can I find" framing but adds a realistic branded destination for official-source capture.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Planning a Hong Kong Trip</strong></td>
+            <td>What should I do on a 4 day trip to Hong Kong?</td>
+            <td>What should I do on a 4-day trip to Hong Kong?</td>
+            <td>
+              <div class="type-tag type-natural">Naturalised</div>
+            </td>
+            <td>Formatting cleanup only; intent remains useful and natural.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Planning a Hong Kong Trip</strong></td>
+            <td>What is the easiest way to get around Hong Kong as a tourist?</td>
+            <td>How do tourists get around Hong Kong easily?</td>
+            <td>
+              <div class="type-tag type-source">Source-seeking planning</div>
+            </td>
+            <td>Shorter and more search-like, while keeping practical transport intent that may trigger grounded guidance.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Hong Kong vs Other Asian Cities</strong></td>
+            <td>Hong Kong vs Bangkok for city travel</td>
+            <td>Hong Kong vs Bangkok for a city break</td>
+            <td>
+              <div class="type-tag type-natural">Naturalised</div>
+            </td>
+            <td>Uses more natural travel phrasing commonly seen in trip comparison behavior.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Hong Kong vs Other Asian Cities</strong></td>
+            <td>Hong Kong vs Tokyo for first-time Asia visitors</td>
+            <td>Hong Kong vs Tokyo for first-time visitors to Asia</td>
+            <td>
+              <div class="type-tag type-natural">Naturalised</div>
+            </td>
+            <td>Minor refinement for cleaner phrasing without changing the strategic comparison intent.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Food Discovery</strong></td>
+            <td>What are the best places in Hong Kong for roast goose and barbecue?</td>
+            <td>Where can I find the best roast goose and barbecue in Hong Kong?</td>
+            <td>
+              <div class="type-tag type-natural">Naturalised</div>
+            </td>
+            <td>More natural "where can I find" phrasing aligns better with food discovery behavior.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Food Discovery</strong></td>
+            <td>What food experiences in Hong Kong are good for first-time visitors?</td>
+            <td>What food experiences does Discover Hong Kong recommend for first-time visitors?</td>
+            <td>
+              <div class="type-tag type-branded">Branded official</div>
+            </td>
+            <td>Adds a targeted branded layer in a topic where curated official recommendations can realistically earn citations.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Food Discovery</strong></td>
+            <td>What food itinerary should I follow for a weekend in Hong Kong?</td>
+            <td>What is a good food itinerary for a weekend in Hong Kong?</td>
+            <td>
+              <div class="type-tag type-source">Source-seeking planning</div>
+            </td>
+            <td>Less prescriptive, more natural phrasing while keeping strong planning intent.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Where To Stay & Areas</strong></td>
+            <td>What area should I choose in Hong Kong for local neighborhood feel?</td>
+            <td>What area should I choose in Hong Kong if I want a local neighborhood feel?</td>
+            <td>
+              <div class="type-tag type-natural">Naturalised</div>
+            </td>
+            <td>Improves flow and readability without making the prompt feel artificial.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Where To Stay & Areas</strong></td>
+            <td>What are the best places to stay in Hong Kong near major attractions?</td>
+            <td>Which area does Discover Hong Kong recommend for first-time visitors to stay in?</td>
+            <td>
+              <div class="type-tag type-branded">Branded official</div>
+            </td>
+            <td>Introduces a selective branded "where to stay" prompt to test whether official neighborhood guidance is surfaced and cited.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Where To Stay & Areas</strong></td>
+            <td>Where should I stay in Hong Kong if I want easy public transport?</td>
+            <td>Where should I stay in Hong Kong for easy access to public transport?</td>
+            <td>
+              <div class="type-tag type-source">Source-seeking planning</div>
+            </td>
+            <td>Small natural-language improvement; keeps practical planning intent strong.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Seasonal Travel & Events</strong></td>
+            <td>What major art, sports, and cultural events happen in Hong Kong?</td>
+            <td>What major art, sports, and cultural events are happening in Hong Kong?</td>
+            <td>
+              <div class="type-tag type-natural">Naturalised</div>
+            </td>
+            <td>Improves conversational flow and slightly increases alignment with real search phrasing.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Culture & Heritage Experiences</strong></td>
+            <td>How can I include arts and heritage in a short Hong Kong trip?</td>
+            <td>How can I add arts and heritage to a short Hong Kong trip?</td>
+            <td>
+              <div class="type-tag type-natural">Naturalised</div>
+            </td>
+            <td>Minor simplification for readability while preserving the cultural planning intent.</td>
+          </tr>
+
+          <tr>
+            <td><strong>Culture & Heritage Experiences</strong></td>
+            <td>What are the best places to experience Hong Kong culture on a first trip?</td>
+            <td>What cultural places does Discover Hong Kong recommend for a first trip?</td>
+            <td>
+              <div class="type-tag type-branded">Branded official</div>
+            </td>
+            <td>Adds an official recommendation layer in a topic where HKTB should plausibly be a trusted cited source.</td>
+          </tr>
+
         </tbody>
       </table>
     </section>
@@ -321,30 +668,41 @@
     <section class="card">
       <div class="section-header">
         <div>
-          <div class="eyebrow">Planning a Hong Kong Trip</div>
-          <h3>Planning a Hong Kong Trip</h3>
+          <div class="eyebrow">Recommended Pattern</div>
+          <h2>How the 200-prompt set should feel after revision</h2>
         </div>
-        <span class="badge badge-change">14 changed</span>
+        <span class="badge badge-branded">Balanced branded share</span>
       </div>
-      <table class="table">
+
+      <p>
+        The revised set should not become heavily branded. Instead, the set should preserve a broad natural layer while
+        introducing a <strong>measured branded layer</strong> where official guidance is realistic.
+      </p>
+
+      <table>
         <thead>
-          <tr><th>Before</th><th>After</th></tr>
+          <tr>
+            <th>Prompt Pattern</th>
+            <th>Example</th>
+            <th>Purpose in Brand Presence</th>
+          </tr>
         </thead>
         <tbody>
-          <tr><td>Is Hong Kong easy to visit for tourists?</td><td>Is Hong Kong easy for tourists to plan and visit?</td></tr>
-          <tr><td>How many days do I need in Hong Kong?</td><td>How many days should I spend in Hong Kong?</td></tr>
-          <tr><td>Is Hong Kong good for a first trip to Asia?</td><td>Is Hong Kong a good choice for a first trip to Asia?</td></tr>
-          <tr><td>What are common travel mistakes to avoid in Hong Kong?</td><td>What travel mistakes should I avoid in Hong Kong?</td></tr>
-          <tr><td>What practical travel tips do I need for Hong Kong?</td><td>What practical travel tips should I know before visiting Hong Kong?</td></tr>
-          <tr><td>What should I know before visiting Hong Kong?</td><td>What should I know before visiting Hong Kong for the first time?</td></tr>
-          <tr><td>How do I travel from the airport to central Hong Kong?</td><td>How do I get from Hong Kong airport to the city center?</td></tr>
-          <tr><td>Is Hong Kong good for family vacations?</td><td>Is Hong Kong good for a family vacation?</td></tr>
-          <tr><td>How do I plan a trip to Hong Kong?</td><td>Where can I find trusted information to plan a Hong Kong trip?</td></tr>
-          <tr><td>What is the best itinerary for Hong Kong?</td><td>What is a good itinerary for Hong Kong?</td></tr>
-          <tr><td>How should I organize a Hong Kong itinerary if it is my first visit?</td><td>What is the best way to structure a Hong Kong itinerary for a first visit?</td></tr>
-          <tr><td>Where can I find trusted information about visiting Hong Kong?</td><td>Where can I find reliable visitor information for planning a Hong Kong trip?</td></tr>
-          <tr><td>What should I do on a 4 day trip to Hong Kong?</td><td>What should I do on a 4-day trip to Hong Kong?</td></tr>
-          <tr><td>What is the easiest way to get around Hong Kong as a tourist?</td><td>How do tourists get around Hong Kong easily?</td></tr>
+          <tr>
+            <td><strong>Natural broad</strong></td>
+            <td>Is Hong Kong good for a first trip to Asia?</td>
+            <td>Measures general visibility and whether HKTB appears naturally in broad answer spaces.</td>
+          </tr>
+          <tr>
+            <td><strong>Source-seeking planning</strong></td>
+            <td>Where can I find trusted information for planning a Hong Kong trip?</td>
+            <td>Improves the chance of grounded answers and more actionable citation data.</td>
+          </tr>
+          <tr>
+            <td><strong>Branded official</strong></td>
+            <td>What does Discover Hong Kong recommend for a 3-day Hong Kong itinerary?</td>
+            <td>Tests direct HKTB / Discover Hong Kong source capture and whether official pages are cited.</td>
+          </tr>
         </tbody>
       </table>
     </section>
@@ -352,100 +710,19 @@
     <section class="card">
       <div class="section-header">
         <div>
-          <div class="eyebrow">Hong Kong vs Other Asian Cities</div>
-          <h3>Hong Kong vs Other Asian Cities</h3>
+          <div class="eyebrow">Outcome Sought</div>
+          <h2>Why this balance matters</h2>
         </div>
-        <span class="badge badge-change">3 changed</span>
       </div>
-      <table class="table">
-        <thead>
-          <tr><th>Before</th><th>After</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Hong Kong vs Bangkok for city travel</td><td>Hong Kong vs Bangkok for a city break</td></tr>
-          <tr><td>Hong Kong vs Tokyo for first-time Asia visitors</td><td>Hong Kong vs Tokyo for first-time visitors to Asia</td></tr>
-          <tr><td>Which destination offers a more diverse city experience: Hong Kong or Singapore?</td><td>Which destination offers a more varied city experience: Hong Kong or Singapore?</td></tr>
-        </tbody>
-      </table>
-    </section>
 
-    <section class="card">
-      <div class="section-header">
-        <div>
-          <div class="eyebrow">Food Discovery</div>
-          <h3>Food Discovery</h3>
-        </div>
-        <span class="badge badge-change">6 changed</span>
-      </div>
-      <table class="table">
-        <thead>
-          <tr><th>Before</th><th>After</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>What are the best places in Hong Kong for roast goose and barbecue?</td><td>Where can I find the best roast goose and barbecue in Hong Kong?</td></tr>
-          <tr><td>Where can I find the best cha chaan teng experience in Hong Kong?</td><td>Where can I find a classic cha chaan teng experience in Hong Kong?</td></tr>
-          <tr><td>What are the best dishes to try in Hong Kong if I only have 2 days?</td><td>What dishes should I try in Hong Kong if I only have 2 days?</td></tr>
-          <tr><td>What food experiences in Hong Kong are good for first-time visitors?</td><td>What food experiences in Hong Kong are best for first-time visitors?</td></tr>
-          <tr><td>What food itinerary should I follow for a weekend in Hong Kong?</td><td>What is a good food itinerary for a weekend in Hong Kong?</td></tr>
-          <tr><td>What are the best places in Hong Kong for affordable local food?</td><td>Where can I find the best affordable local food in Hong Kong?</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card">
-      <div class="section-header">
-        <div>
-          <div class="eyebrow">Where To Stay & Areas</div>
-          <h3>Where To Stay & Areas</h3>
-        </div>
-        <span class="badge badge-change">4 changed</span>
-      </div>
-      <table class="table">
-        <thead>
-          <tr><th>Before</th><th>After</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>What area should I choose in Hong Kong for local neighborhood feel?</td><td>What area should I choose in Hong Kong if I want a local neighborhood feel?</td></tr>
-          <tr><td>What are the best places to stay in Hong Kong near major attractions?</td><td>Where should I stay in Hong Kong near the main attractions?</td></tr>
-          <tr><td>Where should I stay in Hong Kong if I want easy public transport?</td><td>Where should I stay in Hong Kong for easy access to public transport?</td></tr>
-          <tr><td>What area of Hong Kong is best for first-time visitors who like food?</td><td>What area of Hong Kong is best for first-time visitors who love food?</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card">
-      <div class="section-header">
-        <div>
-          <div class="eyebrow">Culture & Heritage Experiences</div>
-          <h3>Culture & Heritage Experiences</h3>
-        </div>
-        <span class="badge badge-change">1 changed</span>
-      </div>
-      <table class="table">
-        <thead>
-          <tr><th>Before</th><th>After</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>How can I include arts and heritage in a short Hong Kong trip?</td><td>How can I add arts and heritage to a short Hong Kong trip?</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section class="card">
-      <div class="section-header">
-        <div>
-          <div class="eyebrow">Revision Logic</div>
-          <h2>How the wording was adjusted</h2>
-        </div>
-        <span class="badge badge-note">Source-seeking, not over-branded</span>
-      </div>
       <ul>
-        <li><strong>Removed unnatural brand forcing</strong> such as direct "Discover Hong Kong" phrasing where a real user would more naturally ask for trusted guidance.</li>
-        <li><strong>Kept important SEO / event / multilingual prompts intact</strong> where exact phrasing mattered.</li>
-        <li><strong>Shifted planning prompts toward trust and utility</strong> with wording like "Where can I find trusted information…" or "What should I know before visiting…"</li>
-        <li><strong>Preserved the topic structure</strong> so the revised prompts still fit the existing 200-prompt configuration.</li>
+        <li><strong>Natural prompts</strong> help measure broad market visibility and traveler intent coverage.</li>
+        <li><strong>Source-seeking prompts</strong> help increase the chance of citations and therefore more usable Brand Presence data.</li>
+        <li><strong>Selective branded prompts</strong> help test whether HKTB / Discover Hong Kong is being recognized and cited as an authoritative source.</li>
+        <li>Together, this should create <strong>more meaningful mentions and citation metrics</strong> in the Brand Presence dashboard to guide targeted optimisation work.</li>
       </ul>
     </section>
+
   </div>
 </body>
 </html>

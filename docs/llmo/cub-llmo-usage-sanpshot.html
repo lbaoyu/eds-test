@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cathay United Bank – LLMO Usage Snapshot</title>
+  <style>
+    :root {
+      --spectrum-blue-600:#1473e6;
+      --spectrum-blue-700:#0d66d0;
+      --spectrum-seafoam-700:#0f797d;
+      --spectrum-green-700:#12805c;
+      --spectrum-orange-700:#b85c00;
+      --spectrum-purple-700:#6b3fc7;
+      --spectrum-red-700:#c9252d;
+      --spectrum-gray-50:#ffffff;
+      --spectrum-gray-75:#fcfcfd;
+      --spectrum-gray-100:#f8f8f8;
+      --spectrum-gray-200:#f1f1f1;
+      --spectrum-gray-300:#e8e8e8;
+      --spectrum-gray-500:#909090;
+      --spectrum-gray-700:#4b4b4b;
+      --spectrum-gray-800:#2c2c2c;
+      --spectrum-gray-900:#1d1d1d;
+      --radius-200:8px;
+      --radius-300:12px;
+      --radius-400:18px;
+      --shadow-card:0 1px 3px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      padding:32px;
+      background:linear-gradient(180deg,#f8fbff 0%, #ffffff 100%);
+      color:var(--spectrum-gray-900);
+      font:14px/1.55 "Adobe Clean","Segoe UI",Arial,sans-serif;
+    }
+
+    .container {
+      max-width:1280px;
+      margin:0 auto;
+    }
+
+    .hero,
+    .card {
+      background:var(--spectrum-gray-50);
+      border:1px solid var(--spectrum-gray-300);
+      border-radius:var(--radius-400);
+      box-shadow:var(--shadow-card);
+    }
+
+    .hero {
+      padding:28px 32px;
+      margin-bottom:24px;
+    }
+
+    .card {
+      padding:22px 24px;
+      margin-bottom:18px;
+    }
+
+    .eyebrow {
+      color:var(--spectrum-blue-700);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    h1 {
+      margin:0 0 10px;
+      font-size:30px;
+      line-height:1.2;
+      font-weight:700;
+    }
+
+    h2 {
+      margin:0 0 14px;
+      font-size:22px;
+      line-height:1.25;
+    }
+
+    h3 {
+      margin:0;
+      font-size:18px;
+      line-height:1.3;
+    }
+
+    p {
+      margin:0 0 12px;
+      color:var(--spectrum-gray-800);
+    }
+
+    .subtitle {
+      font-size:16px;
+      color:var(--spectrum-gray-700);
+    }
+
+    .callout {
+      margin-top:16px;
+      padding:14px 16px;
+      border-left:4px solid var(--spectrum-blue-600);
+      background:#f5f9ff;
+      border-radius:0 10px 10px 0;
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:16px;
+      margin:24px 0;
+    }
+
+    .stat {
+      background:var(--spectrum-gray-50);
+      border:1px solid var(--spectrum-gray-300);
+      border-radius:var(--radius-300);
+      padding:18px;
+      box-shadow:var(--shadow-card);
+    }
+
+    .stat-label {
+      color:var(--spectrum-gray-500);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      margin-bottom:6px;
+    }
+
+    .stat-value {
+      font-size:24px;
+      font-weight:700;
+      line-height:1.1;
+    }
+
+    .stat-meta {
+      margin-top:6px;
+      font-size:13px;
+      color:var(--spectrum-gray-700);
+    }
+
+    .section-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .badge {
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .badge-priority {
+      color:var(--spectrum-red-700);
+      background:#fdebec;
+      border:1px solid #f7c7cb;
+    }
+
+    .badge-positive {
+      color:var(--spectrum-green-700);
+      background:#e6f9f0;
+      border:1px solid #bce6d2;
+    }
+
+    .badge-focus {
+      color:var(--spectrum-orange-700);
+      background:#fff3e8;
+      border:1px solid #ffd7b8;
+    }
+
+    .badge-summary {
+      color:var(--spectrum-purple-700);
+      background:#f3ecff;
+      border:1px solid #dccfff;
+    }
+
+    .pill-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .pill {
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid var(--spectrum-gray-300);
+      background:var(--spectrum-gray-100);
+      color:var(--spectrum-gray-800);
+    }
+
+    table {
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      border:1px solid var(--spectrum-gray-300);
+      border-radius:14px;
+      overflow:hidden;
+    }
+
+    thead th {
+      background:var(--spectrum-gray-100);
+      color:var(--spectrum-gray-800);
+      text-align:left;
+      padding:12px 14px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      border-bottom:1px solid var(--spectrum-gray-300);
+    }
+
+    tbody td {
+      vertical-align:top;
+      padding:12px 14px;
+      border-bottom:1px solid var(--spectrum-gray-300);
+    }
+
+    tbody tr:nth-child(even) td {
+      background:var(--spectrum-gray-75);
+    }
+
+    tbody tr:last-child td {
+      border-bottom:none;
+    }
+
+    ul {
+      margin:0;
+      padding-left:18px;
+    }
+
+    li {
+      margin:0 0 8px;
+    }
+
+    .chip-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .chip {
+      display:inline-flex;
+      align-items:center;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid var(--spectrum-gray-300);
+      background:var(--spectrum-gray-100);
+      color:var(--spectrum-gray-900);
+      font-size:13px;
+      font-weight:600;
+    }
+
+    .muted {
+      color:var(--spectrum-gray-700);
+      font-size:13px;
+    }
+
+    .two-col {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    @media (max-width: 1100px) {
+      .grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .two-col { grid-template-columns:1fr; }
+    }
+
+    @media (max-width: 640px) {
+      body { padding:16px; }
+      .grid { grid-template-columns:1fr; }
+      .section-header { flex-direction:column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <section class="hero">
+      <div class="eyebrow">Cathay United Bank LLMO</div>
+      <h1>Current Usage Snapshot</h1>
+      <p class="subtitle">
+        Cathay has already built a meaningful LLMO foundation. Usage signals are healthy, and the strongest performance is coming from prompts tied to real customer needs such as <strong>CUBE cards</strong>, <strong>overseas usage</strong>, <strong>annual fees</strong>, and <strong>app-related tasks</strong>.
+      </p>
+
+      <div class="callout">
+        <strong>Headline takeaway:</strong> the main opportunity is not adding more prompts. It is improving localization, tightening prompt quality, and scaling the themes that are already working.
+      </div>
+
+      <div class="pill-row">
+        <span class="pill">Card journeys</span>
+        <span class="pill">Overseas usage</span>
+        <span class="pill">Annual fee questions</span>
+        <span class="pill">App functionality</span>
+        <span class="pill">Prompt refinement</span>
+        <span class="pill">TW market alignment</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="stat">
+        <div class="stat-label">Prompts configured</div>
+        <div class="stat-value">268</div>
+        <div class="stat-meta">A strong starting library is already in place.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Completed prompts</div>
+        <div class="stat-value">254</div>
+        <div class="stat-meta">Most prompts are active and measurable.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Executions</div>
+        <div class="stat-value">1,008</div>
+        <div class="stat-meta">Enough activity to reveal clear patterns.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">AI interactions</div>
+        <div class="stat-value">98K+</div>
+        <div class="stat-meta">Recent agentic engagement is meaningful.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Referral visits</div>
+        <div class="stat-value">1,229</div>
+        <div class="stat-meta">Early downstream traffic impact is visible.</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Overall Assessment</div>
+          <h2>What the current usage tells us</h2>
+        </div>
+        <span class="badge badge-summary">Concise readout</span>
+      </div>
+
+      <p>
+        Cathay's current LLMO setup is generating real signal, but that signal is concentrated in a relatively small share of the total prompt library. This is encouraging: it shows Cathay already has a workable set of high-value prompts, and the next phase should focus on making the program <strong>more precise, more locally relevant, and easier to scale</strong>.
+      </p>
+
+      <p>
+        In practice, the strongest prompts are the ones that sound closest to genuine customer questions. They are specific, decision-oriented, and tied to clear service or product moments. The weaker areas are broader, more generic, or less consistently structured.
+      </p>
+    </section>
+
+    <section class="two-col">
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <div class="eyebrow">What is working</div>
+            <h2>Current strengths</h2>
+          </div>
+          <span class="badge badge-positive">Positive signals</span>
+        </div>
+
+        <ul>
+          <li><strong>High-intent prompts are performing best</strong>, especially those tied to card choice, card usage, fees, and app interactions.</li>
+          <li><strong>Brand and service-oriented prompts are driving the clearest visibility</strong>, which is a strong sign that Cathay can win where customer intent is well defined.</li>
+          <li><strong>The current level of usage is already sufficient to identify repeatable winners</strong> and create a focused optimization roadmap.</li>
+          <li><strong>Card-related journeys are a clear anchor</strong> for future expansion because they already show meaningful traction.</li>
+        </ul>
+
+        <div class="chip-row">
+          <span class="chip">CUBE card</span>
+          <span class="chip">Overseas card usage</span>
+          <span class="chip">Annual fee questions</span>
+          <span class="chip">CUBE app tasks</span>
+        </div>
+
+        <p class="muted" style="margin-top:12px;">
+          These are the clearest examples of where prompt specificity is already translating into measurable visibility.
+        </p>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <div class="eyebrow">What needs attention</div>
+            <h2>Highest-priority gaps</h2>
+          </div>
+          <span class="badge badge-priority">Priority fixes</span>
+        </div>
+
+        <ul>
+          <li><strong>Market setup is misaligned:</strong> the library is using <strong>US</strong> instead of <strong>TW</strong>.</li>
+          <li><strong>Performance is concentrated:</strong> only part of the completed prompt set is generating meaningful mentions.</li>
+          <li><strong>Prompt structure is inconsistent:</strong> taxonomy and labeling are not always clean enough for strong reporting discipline.</li>
+          <li><strong>Coverage is uneven:</strong> cards are well represented, while adjacent banking journeys have lighter coverage.</li>
+        </ul>
+
+        <div class="callout">
+          <strong>Most urgent action:</strong> correcting the market from US to TW should come first. It is foundational to improving relevance, customer language alignment, and competitive context.
+        </div>
+      </section>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Usage quality</div>
+          <h2>What the prompt mix suggests</h2>
+        </div>
+        <span class="badge badge-focus">Where to focus next</span>
+      </div>
+
+      <p>
+        Cathay does not appear to have a quantity problem. The prompt library is already large enough. The main issue is that the strongest results come from a narrower, better-shaped subset, while the rest of the library adds less signal than expected.
+      </p>
+
+      <p>
+        This points to a straightforward next step: move from <strong>prompt expansion</strong> to <strong>prompt refinement</strong>. The priority should be to keep the winning themes, improve prompt wording and structure, remove weaker or overly broad prompts, and then selectively expand into the next most important banking journeys.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Signal</th>
+            <th>What it indicates</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Meaningful visibility is concentrated in a subset of prompts</strong></td>
+            <td>The best-performing prompts are already directionally clear; the program should now optimize around them.</td>
+          </tr>
+          <tr>
+            <td><strong>Brand/service-oriented prompts outperform broader prompts</strong></td>
+            <td>Specific customer intent is the strongest path to higher-quality measurement.</td>
+          </tr>
+          <tr>
+            <td><strong>Card and app journeys lead current results</strong></td>
+            <td>These should remain the foundation for the next phase of refinement and expansion.</td>
+          </tr>
+          <tr>
+            <td><strong>Market localization is currently misconfigured</strong></td>
+            <td>Fixing this should improve the relevance of the entire prompt bank.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Recommended actions</div>
+          <h2>What Cathay should do next</h2>
+        </div>
+        <span class="badge badge-focus">Action plan</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Priority</th>
+            <th>Recommendation</th>
+            <th>Why it matters</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1</strong></td>
+            <td>Correct the market from <strong>US</strong> to <strong>TW</strong>.</td>
+            <td>This is the most important setup fix and will improve local relevance immediately.</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td>Refine the core prompt set around high-performing themes.</td>
+            <td>Cathay already has clear winners; they should be strengthened before expanding further.</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td>Clean up prompt taxonomy and labeling.</td>
+            <td>Better structure will make reporting, prioritization, and optimization much more reliable.</td>
+          </tr>
+          <tr>
+            <td><strong>4</strong></td>
+            <td>Retire or rewrite broad, repetitive, or low-signal prompts.</td>
+            <td>Reducing noise will make the overall program more actionable.</td>
+          </tr>
+          <tr>
+            <td><strong>5</strong></td>
+            <td>Expand selectively into adjacent banking journeys.</td>
+            <td>The next wave should build on current strengths rather than broaden indiscriminately.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Expansion priorities</div>
+          <h2>Where to build from here</h2>
+        </div>
+        <span class="badge badge-positive">Scalable next steps</span>
+      </div>
+
+      <p>After refining the current winners, the most logical next areas to strengthen are:</p>
+
+      <div class="chip-row">
+        <span class="chip">Card comparison and eligibility</span>
+        <span class="chip">Overseas spending guidance</span>
+        <span class="chip">Fees and benefits</span>
+        <span class="chip">Mobile app support</span>
+        <span class="chip">Account services</span>
+        <span class="chip">Service and trust scenarios</span>
+      </div>
+
+      <p class="muted" style="margin-top:12px;">
+        This approach keeps Cathay anchored in proven customer intent while broadening coverage in a disciplined way.
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">Bottom line</div>
+          <h2>Customer-facing summary</h2>
+        </div>
+        <span class="badge badge-summary">Final takeaway</span>
+      </div>
+
+      <p>
+        Cathay United Bank has already built a credible LLMO foundation with clear early wins. The immediate opportunity is to make the program <strong>more locally relevant, more structured, and more strategically focused</strong>.
+      </p>
+
+      <ul>
+        <li><strong>Keep and strengthen</strong> the prompts already working in cards, overseas usage, fees, and app tasks.</li>
+        <li><strong>Fix the market setup</strong> so the program reflects Taiwan rather than the US.</li>
+        <li><strong>Shift from volume to quality</strong> by refining the core prompt set and reducing noise.</li>
+      </ul>
+
+      <p class="muted" style="margin-top:12px;">
+        With those adjustments, Cathay should be well positioned to turn today's early traction into a stronger and more scalable visibility program.
+      </p>
+    </section>
+
+  </div>
+</body>
+</html>

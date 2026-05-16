@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>國泰世華銀行 – LLMO 使用概況</title>
+  <style>
+    :root {
+      --spectrum-blue-600:#1473e6;
+      --spectrum-blue-700:#0d66d0;
+      --spectrum-seafoam-700:#0f797d;
+      --spectrum-green-700:#12805c;
+      --spectrum-orange-700:#b85c00;
+      --spectrum-purple-700:#6b3fc7;
+      --spectrum-red-700:#c9252d;
+      --spectrum-gray-50:#ffffff;
+      --spectrum-gray-75:#fcfcfd;
+      --spectrum-gray-100:#f8f8f8;
+      --spectrum-gray-200:#f1f1f1;
+      --spectrum-gray-300:#e8e8e8;
+      --spectrum-gray-500:#909090;
+      --spectrum-gray-700:#4b4b4b;
+      --spectrum-gray-800:#2c2c2c;
+      --spectrum-gray-900:#1d1d1d;
+      --radius-200:8px;
+      --radius-300:12px;
+      --radius-400:18px;
+      --shadow-card:0 1px 3px rgba(0,0,0,.08),0 8px 24px rgba(0,0,0,.06);
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      padding:32px;
+      background:linear-gradient(180deg,#f8fbff 0%, #ffffff 100%);
+      color:var(--spectrum-gray-900);
+      font:14px/1.55 "Adobe Clean","Noto Sans TC","Microsoft JhengHei","PingFang TC",Arial,sans-serif;
+    }
+
+    .container {
+      max-width:1280px;
+      margin:0 auto;
+    }
+
+    .hero,
+    .card {
+      background:var(--spectrum-gray-50);
+      border:1px solid var(--spectrum-gray-300);
+      border-radius:var(--radius-400);
+      box-shadow:var(--shadow-card);
+    }
+
+    .hero {
+      padding:28px 32px;
+      margin-bottom:24px;
+    }
+
+    .card {
+      padding:22px 24px;
+      margin-bottom:18px;
+    }
+
+    .eyebrow {
+      color:var(--spectrum-blue-700);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    h1 {
+      margin:0 0 10px;
+      font-size:30px;
+      line-height:1.2;
+      font-weight:700;
+    }
+
+    h2 {
+      margin:0 0 14px;
+      font-size:22px;
+      line-height:1.25;
+    }
+
+    h3 {
+      margin:0;
+      font-size:18px;
+      line-height:1.3;
+    }
+
+    p {
+      margin:0 0 12px;
+      color:var(--spectrum-gray-800);
+    }
+
+    .subtitle {
+      font-size:16px;
+      color:var(--spectrum-gray-700);
+    }
+
+    .callout {
+      margin-top:16px;
+      padding:14px 16px;
+      border-left:4px solid var(--spectrum-blue-600);
+      background:#f5f9ff;
+      border-radius:0 10px 10px 0;
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:16px;
+      margin:24px 0;
+    }
+
+    .stat {
+      background:var(--spectrum-gray-50);
+      border:1px solid var(--spectrum-gray-300);
+      border-radius:var(--radius-300);
+      padding:18px;
+      box-shadow:var(--shadow-card);
+    }
+
+    .stat-label {
+      color:var(--spectrum-gray-500);
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      margin-bottom:6px;
+    }
+
+    .stat-value {
+      font-size:24px;
+      font-weight:700;
+      line-height:1.1;
+    }
+
+    .stat-meta {
+      margin-top:6px;
+      font-size:13px;
+      color:var(--spectrum-gray-700);
+    }
+
+    .section-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:14px;
+    }
+
+    .badge {
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .badge-priority {
+      color:var(--spectrum-red-700);
+      background:#fdebec;
+      border:1px solid #f7c7cb;
+    }
+
+    .badge-positive {
+      color:var(--spectrum-green-700);
+      background:#e6f9f0;
+      border:1px solid #bce6d2;
+    }
+
+    .badge-focus {
+      color:var(--spectrum-orange-700);
+      background:#fff3e8;
+      border:1px solid #ffd7b8;
+    }
+
+    .badge-summary {
+      color:var(--spectrum-purple-700);
+      background:#f3ecff;
+      border:1px solid #dccfff;
+    }
+
+    .pill-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .pill {
+      display:inline-flex;
+      align-items:center;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      border:1px solid var(--spectrum-gray-300);
+      background:var(--spectrum-gray-100);
+      color:var(--spectrum-gray-800);
+    }
+
+    table {
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      border:1px solid var(--spectrum-gray-300);
+      border-radius:14px;
+      overflow:hidden;
+    }
+
+    thead th {
+      background:var(--spectrum-gray-100);
+      color:var(--spectrum-gray-800);
+      text-align:left;
+      padding:12px 14px;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      border-bottom:1px solid var(--spectrum-gray-300);
+    }
+
+    tbody td {
+      vertical-align:top;
+      padding:12px 14px;
+      border-bottom:1px solid var(--spectrum-gray-300);
+    }
+
+    tbody tr:nth-child(even) td {
+      background:var(--spectrum-gray-75);
+    }
+
+    tbody tr:last-child td {
+      border-bottom:none;
+    }
+
+    ul {
+      margin:0;
+      padding-left:18px;
+    }
+
+    li {
+      margin:0 0 8px;
+    }
+
+    .chip-row {
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .chip {
+      display:inline-flex;
+      align-items:center;
+      padding:7px 12px;
+      border-radius:999px;
+      border:1px solid var(--spectrum-gray-300);
+      background:var(--spectrum-gray-100);
+      color:var(--spectrum-gray-900);
+      font-size:13px;
+      font-weight:600;
+    }
+
+    .muted {
+      color:var(--spectrum-gray-700);
+      font-size:13px;
+    }
+
+    .two-col {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+    }
+
+    @media (max-width: 1100px) {
+      .grid { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    }
+
+    @media (max-width: 980px) {
+      .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .two-col { grid-template-columns:1fr; }
+    }
+
+    @media (max-width: 640px) {
+      body { padding:16px; }
+      .grid { grid-template-columns:1fr; }
+      .section-header { flex-direction:column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <section class="hero">
+      <div class="eyebrow">Cathay United Bank LLMO</div>
+      <h1>目前使用概況</h1>
+      <p class="subtitle">
+        國泰世華銀行已建立具規模的 LLMO 基礎。整體使用訊號健康，且目前表現最強的主題集中在真實客戶需求明確的情境，例如 <strong>CUBE 卡</strong>、<strong>海外刷卡使用</strong>、<strong>年費問題</strong>，以及 <strong>App 相關操作</strong>。
+      </p>
+
+      <div class="callout">
+        <strong>重點結論：</strong>下一階段的重心不在於增加更多 prompts，而在於提升在地化、優化 prompt 品質，並擴大目前已證明有效的主題。
+      </div>
+
+      <div class="pill-row">
+        <span class="pill">卡片旅程</span>
+        <span class="pill">海外使用情境</span>
+        <span class="pill">年費相關問題</span>
+        <span class="pill">App 功能</span>
+        <span class="pill">Prompt 優化</span>
+        <span class="pill">TW 市場對齊</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <div class="stat">
+        <div class="stat-label">已建立 Prompts</div>
+        <div class="stat-value">268</div>
+        <div class="stat-meta">目前已具備不錯的 prompt 基礎規模。</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">已完成 Prompts</div>
+        <div class="stat-value">254</div>
+        <div class="stat-meta">大多數 prompts 已上線並可衡量。</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Executions</div>
+        <div class="stat-value">1,008</div>
+        <div class="stat-meta">已有足夠活動量可看出清楚趨勢。</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">AI 互動量</div>
+        <div class="stat-value">98K+</div>
+        <div class="stat-meta">近期 agentic engagement 已具一定規模。</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">Referral Visits</div>
+        <div class="stat-value">1,229</div>
+        <div class="stat-meta">已可看到初步的下游流量影響。</div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">整體判讀</div>
+          <h2>目前使用情況代表什麼</h2>
+        </div>
+        <span class="badge badge-summary">重點摘要</span>
+      </div>
+
+      <p>
+        國泰世華目前的 LLMO 設定已經產生真實訊號，但這些訊號主要集中在整體 prompt library 中相對較小的一部分。這其實是正向訊號：代表國泰世華已經擁有一組可行、且具價值的高品質 prompts；下一步應該聚焦於讓整體計畫 <strong>更精準、更貼近在地市場，也更容易持續擴大</strong>。
+      </p>
+
+      <p>
+        從目前表現來看，最有效的 prompts 通常最接近真實客戶會提出的問題。它們更具體、決策意圖更明確，也更貼近清楚的產品或服務情境。相對之下，較弱的部分通常過於寬泛、泛用，或結構不夠一致。
+      </p>
+    </section>
+
+    <section class="two-col">
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <div class="eyebrow">目前有效的部分</div>
+            <h2>現階段優勢</h2>
+          </div>
+          <span class="badge badge-positive">正向訊號</span>
+        </div>
+
+        <ul>
+          <li><strong>高意圖的 prompts 表現最佳</strong>，特別是與卡片選擇、卡片使用、費用與 App 操作相關的主題。</li>
+          <li><strong>品牌與服務導向的 prompts 帶來最清楚的可見度訊號</strong>，顯示只要客戶意圖明確，國泰世華就有機會建立優勢。</li>
+          <li><strong>目前的使用量已足以找出可重複成功的模式</strong>，並建立更聚焦的優化路線圖。</li>
+          <li><strong>卡片相關旅程已是清楚的成長支點</strong>，因為這些主題已經顯示出明顯 traction。</li>
+        </ul>
+
+        <div class="chip-row">
+          <span class="chip">CUBE 卡</span>
+          <span class="chip">海外刷卡使用</span>
+          <span class="chip">年費問題</span>
+          <span class="chip">CUBE App 操作</span>
+        </div>
+
+        <p class="muted" style="margin-top:12px;">
+          這些是目前最清楚顯示「prompt 越具體，能見度表現越好」的例子。
+        </p>
+      </section>
+
+      <section class="card">
+        <div class="section-header">
+          <div>
+            <div class="eyebrow">需要優先處理的部分</div>
+            <h2>最高優先缺口</h2>
+          </div>
+          <span class="badge badge-priority">優先修正</span>
+        </div>
+
+        <ul>
+          <li><strong>市場設定錯位：</strong>目前 library 使用的是 <strong>US</strong>，但應改為 <strong>TW</strong>。</li>
+          <li><strong>表現高度集中：</strong>已完成 prompts 中，只有部分 prompts 真正產生有意義的 mentions。</li>
+          <li><strong>Prompt 結構不夠一致：</strong>分類法與標籤仍有優化空間，影響後續報告與管理品質。</li>
+          <li><strong>覆蓋面不均：</strong>卡片主題相對完整，但相鄰的銀行旅程覆蓋較薄弱。</li>
+        </ul>
+
+        <div class="callout">
+          <strong>最緊急的行動：</strong>先將 market 從 US 改為 TW。這是提升相關性、在地語言對齊與競品語境準確度的基礎。
+        </div>
+      </section>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">使用品質</div>
+          <h2>目前 prompt 組合透露的訊號</h2>
+        </div>
+        <span class="badge badge-focus">下一步聚焦</span>
+      </div>
+
+      <p>
+        國泰世華目前並不是 prompt 數量不足，而是 prompt 品質分布不均。整體 library 規模已足夠，但最強的結果來自較小、結構更好的 subset，而其餘 prompts 帶來的有效訊號相對有限。
+      </p>
+
+      <p>
+        這表示下一步非常明確：從 <strong>prompt 擴張</strong> 轉向 <strong>prompt 精修</strong>。優先順序應該是保留已證明有效的主題、優化 prompt wording 與結構、移除過於寬泛或低訊號 prompts，接著再逐步擴展到下一批高價值銀行旅程。
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>訊號</th>
+            <th>代表意義</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>有意義的能見度集中在部分 prompts</strong></td>
+            <td>最佳表現的 prompts 已經相當清楚，下一步應圍繞這些勝出主題進行優化。</td>
+          </tr>
+          <tr>
+            <td><strong>品牌／服務導向 prompts 明顯優於泛用 prompts</strong></td>
+            <td>越貼近具體客戶意圖，越容易形成高品質的衡量結果。</td>
+          </tr>
+          <tr>
+            <td><strong>卡片與 App 旅程目前表現領先</strong></td>
+            <td>這些主題應持續作為下一階段精修與擴張的核心。</td>
+          </tr>
+          <tr>
+            <td><strong>市場在地化目前設定錯誤</strong></td>
+            <td>修正後將有機會提升整體 prompt bank 的相關性與準確度。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">建議行動</div>
+          <h2>國泰世華下一步該怎麼做</h2>
+        </div>
+        <span class="badge badge-focus">行動方向</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>優先順序</th>
+            <th>建議事項</th>
+            <th>重要原因</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>1</strong></td>
+            <td>將 market 從 <strong>US</strong> 改為 <strong>TW</strong>。</td>
+            <td>這是最重要的設定修正，可立即提升在地相關性。</td>
+          </tr>
+          <tr>
+            <td><strong>2</strong></td>
+            <td>圍繞高表現主題精修核心 prompt set。</td>
+            <td>國泰世華已經有明確的勝出主題，應先把這些優勢做深做強。</td>
+          </tr>
+          <tr>
+            <td><strong>3</strong></td>
+            <td>整理 prompt taxonomy 與 labeling。</td>
+            <td>更清楚的結構會讓報表、優先順序與後續優化更可靠。</td>
+          </tr>
+          <tr>
+            <td><strong>4</strong></td>
+            <td>移除或改寫過於寬泛、重複或低訊號的 prompts。</td>
+            <td>降低噪音後，整體計畫會更聚焦、更具可操作性。</td>
+          </tr>
+          <tr>
+            <td><strong>5</strong></td>
+            <td>有節奏地擴展到相鄰銀行旅程。</td>
+            <td>下一波擴張應建立在既有優勢上，而不是平均式擴張。</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">擴張方向</div>
+          <h2>接下來適合延伸的主題</h2>
+        </div>
+        <span class="badge badge-positive">可擴大方向</span>
+      </div>
+
+      <p>在先精修目前勝出主題後，最合理的下一波延伸方向包括：</p>
+
+      <div class="chip-row">
+        <span class="chip">卡片比較與申辦資格</span>
+        <span class="chip">海外消費與刷卡指引</span>
+        <span class="chip">費用與權益說明</span>
+        <span class="chip">行動 App 支援</span>
+        <span class="chip">帳戶服務</span>
+        <span class="chip">服務與信任情境</span>
+      </div>
+
+      <p class="muted" style="margin-top:12px;">
+        這樣的做法可讓國泰世華持續建立在已驗證的客戶意圖之上，同時用更有紀律的方式擴大覆蓋面。
+      </p>
+    </section>
+
+    <section class="card">
+      <div class="section-header">
+        <div>
+          <div class="eyebrow">總結</div>
+          <h2>客戶版本摘要</h2>
+        </div>
+        <span class="badge badge-summary">最終重點</span>
+      </div>
+
+      <p>
+        國泰世華銀行已經建立具說服力的 LLMO 基礎，並且已出現清楚的早期成效。當前最直接的機會，在於讓整體計畫 <strong>更貼近台灣市場、更有結構，也更具策略聚焦</strong>。
+      </p>
+
+      <ul>
+        <li><strong>保留並強化</strong> 目前在卡片、海外使用、費用與 App 任務上已經有效的 prompts。</li>
+        <li><strong>修正市場設定</strong>，讓整體計畫反映台灣，而不是美國。</li>
+        <li><strong>從量轉向質</strong>，以精修核心 prompt set、降低噪音為優先。</li>
+      </ul>
+
+      <p class="muted" style="margin-top:12px;">
+        完成這些調整後，國泰世華將更有機會把目前的早期成效，轉化為更穩定、更可擴張的 LLMO 能見度成果。
+      </p>
+    </section>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Semrush GEO / AIO Masterclass — Version 2</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --surface: #ffffff;
+      --surface-2: #fbfcfe;
+      --text: #1e1e1e;
+      --text-soft: #505050;
+      --text-faint: #6f6f6f;
+      --line: #e6e8eb;
+
+      --blue-900: #0f2a5f;
+      --blue-800: #0044a8;
+      --blue-700: #0054b6;
+      --blue-600: #0265dc;
+      --blue-500: #1473e6;
+      --blue-100: #eaf3ff;
+
+      --green-700: #12805c;
+      --green-100: #e8faf2;
+
+      --orange-700: #b24800;
+      --orange-100: #fff4e9;
+
+      --red-700: #c9252d;
+      --red-100: #fff1f0;
+
+      --purple-700: #6b3fc7;
+      --purple-100: #f3edff;
+
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 8px 30px rgba(16,24,40,0.08);
+      --shadow-lg: 0 20px 50px rgba(2,101,220,0.14);
+
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Adobe Clean", "Segoe UI", Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(20,115,230,0.08), transparent 28%),
+        linear-gradient(180deg, #fbfdff 0%, #f5f7fb 100%);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    a {
+      color: var(--blue-600);
+      text-decoration: none;
+    }
+    a:hover { text-decoration: underline; }
+
+    .shell {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: var(--space-8);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-lg);
+      padding: var(--space-16) var(--space-12) var(--space-12);
+      background:
+        radial-gradient(circle at 85% 20%, rgba(255,255,255,0.18), transparent 22%),
+        radial-gradient(circle at 100% 0%, rgba(255,255,255,0.12), transparent 30%),
+        linear-gradient(135deg, #091b3a 0%, #0e3570 52%, #1473e6 100%);
+      color: white;
+      box-shadow: var(--shadow-lg);
+      margin-bottom: var(--space-8);
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      right: -100px;
+      bottom: -120px;
+      background: rgba(255,255,255,0.08);
+      filter: blur(4px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.45rem 0.85rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      color: rgba(255,255,255,0.95);
+      font-size: 0.84rem;
+      margin-bottom: var(--space-4);
+      letter-spacing: 0.01em;
+    }
+
+    h1, h2, h3, h4 {
+      line-height: 1.2;
+      margin: 0 0 var(--space-4);
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 4vw, 3.5rem);
+      max-width: 950px;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-top: var(--space-10);
+    }
+
+    h3 {
+      font-size: 1.3rem;
+      margin-top: var(--space-8);
+    }
+
+    h4 {
+      font-size: 1.02rem;
+      margin-top: var(--space-5);
+    }
+
+    p { margin: 0 0 var(--space-4); }
+
+    .hero p.lede {
+      color: rgba(255,255,255,0.92);
+      max-width: 980px;
+      font-size: 1.08rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-top: var(--space-6);
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.13);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: white;
+      font-size: 0.92rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 290px minmax(0, 1fr);
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 16px;
+      display: grid;
+      gap: var(--space-6);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card.soft {
+      background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+    }
+
+    .toc a {
+      display: block;
+      padding: 0.55rem 0.65rem;
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      margin-bottom: 0.15rem;
+      font-size: 0.95rem;
+    }
+
+    .toc a:hover {
+      background: #f2f6fb;
+      text-decoration: none;
+    }
+
+    .section {
+      scroll-margin-top: 20px;
+      margin-bottom: var(--space-10);
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      margin-bottom: var(--space-5);
+    }
+
+    .badge-num {
+      min-width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, var(--blue-600), var(--blue-700));
+      color: white;
+      font-weight: 700;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .subtle {
+      color: var(--text-faint);
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      gap: var(--space-6);
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .callout {
+      border-left: 6px solid var(--blue-600);
+      background: var(--blue-100);
+      border-radius: var(--radius-md);
+      padding: var(--space-5);
+      margin: var(--space-6) 0;
+    }
+
+    .callout.success {
+      border-left-color: var(--green-700);
+      background: var(--green-100);
+    }
+
+    .callout.warning {
+      border-left-color: var(--orange-700);
+      background: var(--orange-100);
+    }
+
+    .callout.danger {
+      border-left-color: var(--red-700);
+      background: var(--red-100);
+    }
+
+    .callout.purple {
+      border-left-color: var(--purple-700);
+      background: var(--purple-100);
+    }
+
+    .metric-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-4);
+      margin-top: var(--space-6);
+    }
+
+    .metric {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.16);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.15rem;
+      margin-bottom: 0.2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: var(--space-4) 0 var(--space-6);
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 0.9rem;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f4f7fb;
+      font-weight: 700;
+    }
+
+    ul, ol {
+      margin: 0 0 var(--space-4) 1.15rem;
+      padding: 0;
+    }
+
+    li { margin-bottom: 0.45rem; }
+
+    .pill {
+      display: inline-block;
+      margin: 0 0.35rem 0.35rem 0;
+      padding: 0.25rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      background: #f3f5f7;
+      border: 1px solid var(--line);
+      color: var(--text-soft);
+    }
+
+    .example {
+      border: 1px dashed var(--blue-500);
+      border-radius: var(--radius-md);
+      background: #f8fbff;
+      padding: var(--space-5);
+      margin: var(--space-5) 0;
+    }
+
+    .instructor-note {
+      border: 1px solid #e7defd;
+      background: #faf7ff;
+      border-radius: var(--radius-md);
+      padding: var(--space-5);
+      margin: var(--space-5) 0;
+    }
+
+    .accordion {
+      display: grid;
+      gap: var(--space-4);
+      margin-top: var(--space-5);
+    }
+
+    details {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    summary {
+      list-style: none;
+      cursor: pointer;
+      padding: var(--space-5) var(--space-6);
+      font-weight: 700;
+      position: relative;
+      user-select: none;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::after {
+      content: "+";
+      position: absolute;
+      right: 1.25rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.2rem;
+      color: var(--blue-600);
+    }
+
+    details[open] summary::after {
+      content: "–";
+    }
+
+    .accordion-body {
+      padding: 0 var(--space-6) var(--space-6);
+      border-top: 1px solid var(--line);
+    }
+
+    .code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      background: #f4f6f8;
+      border-radius: 6px;
+      padding: 0.14rem 0.34rem;
+      font-size: 0.93em;
+    }
+
+    .check {
+      color: var(--green-700);
+      font-weight: 700;
+    }
+
+    .no {
+      color: var(--red-700);
+      font-weight: 700;
+    }
+
+    .footer {
+      margin-top: var(--space-12);
+      background: linear-gradient(180deg, #111827 0%, #0b1220 100%);
+      color: rgba(255,255,255,0.92);
+      border-radius: var(--radius-lg);
+      padding: var(--space-10);
+      box-shadow: var(--shadow-md);
+    }
+
+    .footer a { color: #a9d0ff; }
+
+    .tiny {
+      font-size: 0.88rem;
+      color: var(--text-faint);
+    }
+
+    @media (max-width: 1100px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar {
+        position: static;
+      }
+      .grid-2, .grid-3, .metric-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+
+    <section class="hero">
+      <div class="eyebrow">Version 2 · Adobe-style docs layout</div>
+      <h1>Semrush GEO / AIO Masterclass</h1>
+      <p class="lede">
+        A refined, expanded, and more teachable guide to Semrush's GEO / AIO capabilities, with LLMO as the primary interpretive lens.
+        This version is designed like a polished internal enablement page: cleaner structure, accordion modules, instructor notes,
+        practical examples, and direct talk tracks.
+      </p>
+      <div class="hero-meta">
+        <span class="chip">8 Modules</span>
+        <span class="chip">Operator-level</span>
+        <span class="chip">Semrush-focused</span>
+        <span class="chip">LLMO overlap clarified</span>
+      </div>
+
+      <div class="metric-strip">
+        <div class="metric">
+          <strong>Foundations</strong>
+          GEO, LLMO, AI visibility, prompts, citations
+        </div>
+        <div class="metric">
+          <strong>Core product</strong>
+          Toolkit, prompts, cited pages, competitors
+        </div>
+        <div class="metric">
+          <strong>Execution</strong>
+          Weekly GEO workflow and roadmap logic
+        </div>
+        <div class="metric">
+          <strong>Risk control</strong>
+          Common mistakes and interpretation traps
+        </div>
+      </div>
+    </section>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <section class="card soft toc">
+          <h3>Navigation</h3>
+          <a href="#scope">Scope & coverage</a>
+          <a href="#m1">Module 1 — Foundations</a>
+          <a href="#m2">Module 2 — Toolkit</a>
+          <a href="#m3">Module 3 — Prompt Research</a>
+          <a href="#m4">Module 4 — Prompt Tracking</a>
+          <a href="#m5">Module 5 — Cited Pages & competitors</a>
+          <a href="#m6">Module 6 — AI Search readiness</a>
+          <a href="#m7">Module 7 — Weekly GEO workflow</a>
+          <a href="#m8">Module 8 — Common mistakes</a>
+          <a href="#appendix">Appendix — Semrush vs LLMO</a>
+        </section>
+
+        <section class="card">
+          <h3>Coverage statement</h3>
+          <p class="tiny">
+            This guide fully covers the <strong>core Semrush GEO / AIO operating model</strong>, but not every adjacent GEO topic in the market.
+          </p>
+          <div class="callout warning" style="margin-bottom:0;">
+            <strong>Included:</strong> prompts, visibility, citations, competitors, AI Search readiness, workflow, overlap with LLMO
+          </div>
+        </section>
+      </aside>
+
+      <main>
+        <section id="scope" class="section card soft">
+          <h2>Scope & coverage</h2>
+          <p>
+            This course is <strong>fully complete for the main Semrush GEO / AIO workflow</strong>. It covers:
+          </p>
+          <ul>
+            <li>Foundational GEO / LLMO concepts</li>
+            <li>Semrush AI Visibility Toolkit mental model</li>
+            <li>Prompt Research and prompt-set design</li>
+            <li>Prompt Tracking and trend interpretation</li>
+            <li>Cited Pages and competitor gap analysis</li>
+            <li>AI Search technical readiness</li>
+            <li>Weekly, monthly, and quarterly operating rhythm</li>
+            <li>Common mistakes and overlap with Adobe LLM Optimizer</li>
+          </ul>
+
+          <div class="callout">
+            <strong>Best way to phrase scope:</strong><br />
+            This is a <strong>Semrush-centered GEO / AIO masterclass</strong>, not a complete encyclopedia of every GEO method, vendor, or offsite tactic.
+          </div>
+        </section>
+
+        <section id="m1" class="section">
+          <div class="section-head">
+            <span class="badge-num">1</span>
+            <div>
+              <h2>Foundations: GEO, LLMO, prompts, citations, and AI visibility</h2>
+              <div class="subtle">Build the mental model before the tooling model.</div>
+            </div>
+          </div>
+
+          <div class="accordion">
+            <details open>
+              <summary>What actually changes from SEO to GEO?</summary>
+              <div class="accordion-body">
+                <p>
+                  Traditional SEO asks: <strong>Do we rank in search results?</strong><br />
+                  GEO asks: <strong>Do AI systems mention, recommend, or cite us when users ask relevant questions?</strong>
+                </p>
+                <p>
+                  That change matters because AI answers can compress discovery, comparison, and evaluation into a single response.
+                  Instead of winning a click from a list of links, the brand now needs to win a place in the answer itself.
+                </p>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Old center of gravity</th>
+                      <th>New center of gravity</th>
+                      <th>What it implies</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Rankings</td>
+                      <td>Answer presence</td>
+                      <td>Need to track mentions, citations, and position inside AI answers</td>
+                    </tr>
+                    <tr>
+                      <td>Keywords</td>
+                      <td>Prompts</td>
+                      <td>Need to understand fuller buying questions, not just phrases</td>
+                    </tr>
+                    <tr>
+                      <td>Clicks from SERPs</td>
+                      <td>Citations and referrals from AI surfaces</td>
+                      <td>Need to care about retrievability and AI trust</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </details>
+
+            <details>
+              <summary>Key terms: GEO, LLMO, AI Visibility, ICP</summary>
+              <div class="accordion-body">
+                <p><span class="pill">GEO</span> Generative Engine Optimization — optimizing for visibility in AI-generated answers.</p>
+                <p><span class="pill">LLMO</span> Large Language Model Optimization — similar family of work, but more explicitly tied to LLM behavior.</p>
+                <p><span class="pill">AI Visibility</span> A practical measurement layer: are you present, how often, on which prompts, in what position, and with which citations?</p>
+                <p><span class="pill">ICP</span> Ideal Customer Profile — the type of customer you most want and are best suited to win.</p>
+
+                <div class="example">
+                  <h4>ICP example</h4>
+                  <p>
+                    If your product is enterprise CRM, then prompts like
+                    <span class="code">best free crm for freelancers</span> may be real,
+                    but they are probably <strong>low ICP fit</strong>.
+                  </p>
+                </div>
+              </div>
+            </details>
+
+            <details>
+              <summary>Prompts vs keywords: why prompts are usually the better unit</summary>
+              <div class="accordion-body">
+                <p>
+                  Keywords are shorter abstractions. Prompts are richer expressions of real user intent.
+                </p>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Keyword-style input</th>
+                      <th>Prompt-style input</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="code">best crm software</span></td>
+                      <td>"What CRM is best for a growing SaaS sales team?"</td>
+                    </tr>
+                    <tr>
+                      <td><span class="code">mailchimp alternative</span></td>
+                      <td>"What are the best Mailchimp alternatives for smaller ecommerce brands?"</td>
+                    </tr>
+                    <tr>
+                      <td><span class="code">project management tools</span></td>
+                      <td>"Which project management tool is easiest for client-facing agencies?"</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="callout success">
+                  <strong>Memory hook:</strong> prompts are usually closer to the moment of decision.
+                </div>
+              </div>
+            </details>
+
+            <details>
+              <summary>Mentions vs recommendations vs citations</summary>
+              <div class="accordion-body">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Level</th>
+                      <th>What it means</th>
+                      <th>Commercial value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Mention</td>
+                      <td>Your brand appears in the answer</td>
+                      <td>Useful, but often shallow</td>
+                    </tr>
+                    <tr>
+                      <td>Recommendation</td>
+                      <td>Your brand is suggested as an option</td>
+                      <td>Stronger</td>
+                    </tr>
+                    <tr>
+                      <td>Citation</td>
+                      <td>Your page is used as evidence or support</td>
+                      <td>Usually strongest</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="instructor-note">
+                  <strong>Instructor note:</strong> if someone remembers only one thing from Module 1, make it this:
+                  <strong>mentions are nice, citations are better.</strong>
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section id="m2" class="section">
+          <div class="section-head">
+            <span class="badge-num">2</span>
+            <div>
+              <h2>AI Visibility Toolkit: the product model</h2>
+              <div class="subtle">Understand the toolkit as a system of views around one problem.</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <p>
+              The AI Visibility Toolkit is easiest to understand as a control center for one question:
+            </p>
+            <div class="callout">
+              <strong>How visible are we in AI answers, why, and what should we do next?</strong>
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Main role</th>
+                  <th>Best question it answers</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Visibility Overview</td>
+                  <td>Top-level AI performance picture</td>
+                  <td>How visible are we overall?</td>
+                </tr>
+                <tr>
+                  <td>Prompt Research</td>
+                  <td>Prompt discovery</td>
+                  <td>What should we target?</td>
+                </tr>
+                <tr>
+                  <td>Prompt Tracking</td>
+                  <td>Ongoing monitoring</td>
+                  <td>Are we improving on chosen prompts?</td>
+                </tr>
+                <tr>
+                  <td>Cited Pages</td>
+                  <td>URL-level trust signal</td>
+                  <td>Which pages does AI actually use?</td>
+                </tr>
+                <tr>
+                  <td>Competitor views</td>
+                  <td>Gap analysis</td>
+                  <td>Who is beating us and where?</td>
+                </tr>
+                <tr>
+                  <td>Site Audit → AI Search</td>
+                  <td>Technical readiness</td>
+                  <td>Can AI systems access and interpret our content?</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="card">
+              <h3>Best way to teach Module 2</h3>
+              <p>
+                Don't teach it as six dashboards. Teach it as a flow:
+              </p>
+              <ol>
+                <li>Find the prompt landscape</li>
+                <li>Track the prompt portfolio</li>
+                <li>See which pages win citations</li>
+                <li>See which competitors own the gaps</li>
+                <li>Check whether technical blockers explain the misses</li>
+              </ol>
+            </div>
+            <div class="card">
+              <h3>Big misconception to correct</h3>
+              <p>
+                People often think the toolkit is "just another dashboard."
+                The stronger framing is:
+              </p>
+              <div class="callout purple">
+                <strong>It is a GEO decision system.</strong>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="m3" class="section">
+          <div class="section-head">
+            <span class="badge-num">3</span>
+            <div>
+              <h2>Prompt Research: from seed topic to usable prompt set</h2>
+              <div class="subtle">Where many GEO programs either become strategic — or become clutter.</div>
+            </div>
+          </div>
+
+          <div class="accordion">
+            <details open>
+              <summary>What "expand from a seed" really means</summary>
+              <div class="accordion-body">
+                <p>
+                  Seed expansion is not just finding longer versions of a keyword.
+                  It is expanding across <strong>intent, scenario, and decision context</strong>.
+                </p>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Seed</th>
+                      <th>Useful expansion path</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><span class="code">crm software</span></td>
+                      <td>best-for, alternatives, comparisons, roles, team size, implementation ease</td>
+                    </tr>
+                    <tr>
+                      <td><span class="code">endpoint security</span></td>
+                      <td>enterprise, remote workforce, deployment ease, vendor alternatives</td>
+                    </tr>
+                    <tr>
+                      <td><span class="code">retinol serum</span></td>
+                      <td>beginners, sensitive skin, anti-aging, alternatives, ingredient questions</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="callout">
+                  <strong>Simple definition:</strong> seed expansion = topic expansion + intent expansion + buying-context expansion
+                </div>
+              </div>
+            </details>
+
+            <details>
+              <summary>The four prompt buckets to build first</summary>
+              <div class="accordion-body">
+                <div class="grid grid-2">
+                  <div class="card">
+                    <h4>Category prompts</h4>
+                    <p>Define the broad market conversation.</p>
+                    <p class="tiny">Example: "What is the best CRM for small businesses?"</p>
+                  </div>
+                  <div class="card">
+                    <h4>Comparison / alternative prompts</h4>
+                    <p>Usually among the highest-intent and highest-value prompt types.</p>
+                    <p class="tiny">Example: "What are the best HubSpot alternatives for mid-market teams?"</p>
+                  </div>
+                  <div class="card">
+                    <h4>Use-case prompts</h4>
+                    <p>Map the product to a job-to-be-done.</p>
+                    <p class="tiny">Example: "Which payroll tool is best for remote startups?"</p>
+                  </div>
+                  <div class="card">
+                    <h4>Evaluation prompts</h4>
+                    <p>Surface buying criteria and differentiators.</p>
+                    <p class="tiny">Example: "Which CRM is easiest to implement?"</p>
+                  </div>
+                </div>
+              </div>
+            </details>
+
+            <details>
+              <summary>Research set vs tracking set</summary>
+              <div class="accordion-body">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Set</th>
+                      <th>Purpose</th>
+                      <th>Shape</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Research set</td>
+                      <td>Explore the market prompt universe</td>
+                      <td>Broad, messy, intentionally expansive</td>
+                    </tr>
+                    <tr>
+                      <td>Tracking set</td>
+                      <td>Run the operating program</td>
+                      <td>Narrow, curated, commercially important</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div class="callout warning">
+                  <strong>Rule:</strong> research wide, track narrow.
+                </div>
+              </div>
+            </details>
+
+            <details>
+              <summary>How to make prompt sets reflect real customers better</summary>
+              <div class="accordion-body">
+                <p>
+                  Semrush prompt discovery is best treated as <strong>market-grounded directional intelligence</strong>,
+                  not as a literal transcript of private LLM chats.
+                </p>
+                <p>Validate prompt candidates against:</p>
+                <ul>
+                  <li>sales calls</li>
+                  <li>support language</li>
+                  <li>site search</li>
+                  <li>first-party analytics</li>
+                  <li>known ICP priorities</li>
+                </ul>
+                <div class="callout success">
+                  <strong>Good teaching line:</strong> Semrush gives you candidate demand. First-party data gives you customer truth.
+                </div>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section id="m4" class="section">
+          <div class="section-head">
+            <span class="badge-num">4</span>
+            <div>
+              <h2>Prompt Tracking: interpreting movement correctly</h2>
+              <div class="subtle">The measurement layer that is easiest to misuse.</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>What it is for</h3>
+            <div class="callout">
+              <strong>Prompt Tracking is not "did we appear?"</strong><br />
+              It is <strong>"are we becoming more visible, more prominent, or more cite-worthy on the prompts that matter?"</strong>
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>What it roughly tells you</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>AI Visibility</td>
+                  <td>Overall strength across the prompt set</td>
+                </tr>
+                <tr>
+                  <td>Mentions</td>
+                  <td>Whether you show up at all</td>
+                </tr>
+                <tr>
+                  <td>Average Position</td>
+                  <td>How prominently you appear</td>
+                </tr>
+                <tr>
+                  <td>Trend lines</td>
+                  <td>Whether direction is improving or deteriorating over time</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="card">
+              <h3>False positives</h3>
+              <ul>
+                <li>One prompt improved, so the whole program works</li>
+                <li>Mentions went up, so success</li>
+                <li>One strong week means strategy shift</li>
+                <li>Branded prompts are up, so category GEO is healthy</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>Better reading habits</h3>
+              <ul>
+                <li>Track a portfolio, not vanity prompts</li>
+                <li>Review by cluster</li>
+                <li>Interpret monthly, not daily</li>
+                <li>Connect changes to known actions</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="example">
+            <h4>Cluster reading example</h4>
+            <table>
+              <thead>
+                <tr>
+                  <th>Cluster</th>
+                  <th>Observed trend</th>
+                  <th>Likely meaning</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Comparison</td>
+                  <td>Strong improvement</td>
+                  <td>New comparison content may be landing well</td>
+                </tr>
+                <tr>
+                  <td>Use case</td>
+                  <td>Moderate improvement</td>
+                  <td>Scenario-specific content is helping</td>
+                </tr>
+                <tr>
+                  <td>Category</td>
+                  <td>Flat</td>
+                  <td>Brand still weak in the broad market conversation</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="m5" class="section">
+          <div class="section-head">
+            <span class="badge-num">5</span>
+            <div>
+              <h2>Cited Pages and competitor analysis</h2>
+              <div class="subtle">Where Semrush becomes genuinely useful for content planning.</div>
+            </div>
+          </div>
+
+          <div class="accordion">
+            <details open>
+              <summary>What Cited Pages tells you</summary>
+              <div class="accordion-body">
+                <p>
+                  Cited Pages shows which of your URLs AI systems actually use as support.
+                  That makes it one of the strongest practical indicators of AI trust.
+                </p>
+                <div class="callout">
+                  <strong>Better question:</strong> not "which page should matter?" but "which page already matters to AI?"
+                </div>
+                <p>Common citation winners:</p>
+                <p>
+                  <span class="pill">comparison pages</span>
+                  <span class="pill">FAQ pages</span>
+                  <span class="pill">glossaries</span>
+                  <span class="pill">use-case pages</span>
+                  <span class="pill">buyer guides</span>
+                  <span class="pill">stats pages</span>
+                </p>
+              </div>
+            </details>
+
+            <details>
+              <summary>How to interpret competitor wins</summary>
+              <div class="accordion-body">
+                <p>Don't stop at "competitor X appears more." Ask:</p>
+                <ul>
+                  <li>Which prompts do they win?</li>
+                  <li>Which page types seem to support those wins?</li>
+                  <li>Are they winning by breadth or depth?</li>
+                  <li>Are they strongest in category, alternatives, use cases, or evaluation?</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>Does Semrush produce roadmap work items automatically?</summary>
+              <div class="accordion-body">
+                <div class="callout warning">
+                  <strong>Mostly no.</strong> Semrush surfaces the evidence, but customers still translate that evidence into work items.
+                </div>
+                <p>Semrush can show:</p>
+                <ul>
+                  <li>prompts you miss</li>
+                  <li>competitors that win them</li>
+                  <li>pages that are cited</li>
+                  <li>patterns in winning content</li>
+                </ul>
+                <p>But the team still decides:</p>
+                <ul>
+                  <li>create vs rewrite vs reformat</li>
+                  <li>which content cluster gets priority</li>
+                  <li>who owns execution</li>
+                </ul>
+              </div>
+            </details>
+
+            <details>
+              <summary>How to convert Module 5 into a roadmap</summary>
+              <div class="accordion-body">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Observed pattern</th>
+                      <th>Likely response</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Competitor wins alternatives prompts</td>
+                      <td>Create or strengthen alternatives pages</td>
+                    </tr>
+                    <tr>
+                      <td>Your glossary pages get cited, but evaluation pages do not</td>
+                      <td>Add buyer guides, pricing explainers, implementation FAQs</td>
+                    </tr>
+                    <tr>
+                      <td>Important page exists but is never cited</td>
+                      <td>Improve structure, proof, specificity, or format</td>
+                    </tr>
+                    <tr>
+                      <td>No asset exists for a high-intent cluster</td>
+                      <td>Create the missing asset</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </details>
+          </div>
+        </section>
+
+        <section id="m6" class="section">
+          <div class="section-head">
+            <span class="badge-num">6</span>
+            <div>
+              <h2>Site Audit for AI Search: technical readiness</h2>
+              <div class="subtle">The technical layer of GEO, without the hype.</div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="card">
+              <h3>What matters most</h3>
+              <ul>
+                <li><strong>Access</strong> — can AI bots reach the page?</li>
+                <li><strong>Discovery</strong> — can they find the page easily?</li>
+                <li><strong>Structure</strong> — is the content organized clearly?</li>
+                <li><strong>Clarity</strong> — is the meaning explicit enough to use?</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h3>What people over-focus on</h3>
+              <ul>
+                <li><span class="code">llms.txt</span> as a silver bullet</li>
+                <li>novelty checks over core crawlability</li>
+                <li>homepage readiness over high-value supporting pages</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="callout danger">
+            <strong>If AI crawlers cannot access important pages, content work gets undercut before it starts.</strong>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Priority</th>
+                <th>Technical issue type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>High</td>
+                <td>Important page blocked or inaccessible to AI agents</td>
+              </tr>
+              <tr>
+                <td>High</td>
+                <td>High-value page buried, orphaned, or poorly linked</td>
+              </tr>
+              <tr>
+                <td>Medium</td>
+                <td>Weak structure, ambiguous content layout, missing helpful schema</td>
+              </tr>
+              <tr>
+                <td>Low</td>
+                <td>Hygiene issues on low-value or non-supporting pages</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="instructor-note">
+            <strong>Instructor note:</strong> the right teaching tone here is calm.
+            Technical GEO is usually not about chasing every shiny AI-specific artifact.
+            It is mostly about making valuable content reachable, discoverable, and understandable.
+          </div>
+        </section>
+
+        <section id="m7" class="section">
+          <div class="section-head">
+            <span class="badge-num">7</span>
+            <div>
+              <h2>Practical weekly GEO workflow</h2>
+              <div class="subtle">How to operate Semrush without drowning in dashboards.</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="callout">
+              <strong>Operating loop:</strong> Discover → Measure → Diagnose → Fix → Review
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Cadence</th>
+                  <th>What to do</th>
+                  <th>Why it matters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Weekly</td>
+                  <td>Review prompt movement, citation changes, competitor shifts, technical blockers</td>
+                  <td>Stay current without overreacting</td>
+                </tr>
+                <tr>
+                  <td>Monthly</td>
+                  <td>Interpret cluster performance and roadmap impact</td>
+                  <td>Separate signal from noise</td>
+                </tr>
+                <tr>
+                  <td>Quarterly</td>
+                  <td>Refresh prompt universe and operating set</td>
+                  <td>Keep the program aligned to current demand</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <h3>Weekly GEO review format</h3>
+            <ol>
+              <li>What improved?</li>
+              <li>What worsened?</li>
+              <li>Which competitor moved?</li>
+              <li>Which page or prompt cluster matters most next?</li>
+              <li>What 1–2 actions will we take this week?</li>
+            </ol>
+
+            <div class="callout success">
+              <strong>Rule of thumb:</strong> one or two meaningful actions per cycle beats ten scattered tweaks.
+            </div>
+          </div>
+        </section>
+
+        <section id="m8" class="section">
+          <div class="section-head">
+            <span class="badge-num">8</span>
+            <div>
+              <h2>Common mistakes and how to avoid them</h2>
+              <div class="subtle">The main failure modes in Semrush GEO work.</div>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <div class="card">
+              <h3>The biggest mistakes</h3>
+              <ul>
+                <li>Confusing prompt research with literal prompt truth</li>
+                <li>Tracking everything you research</li>
+                <li>Watching mentions while ignoring citations</li>
+                <li>Assuming the homepage should be the citation winner</li>
+                <li>Turning every gap into "write a blog post"</li>
+                <li>Overvaluing <span class="code">llms.txt</span></li>
+                <li>Ignoring technical blockers</li>
+                <li>Spending more time monitoring than optimizing</li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <h3>The fix pattern</h3>
+              <ul>
+                <li>Validate with first-party reality</li>
+                <li>Track a curated prompt portfolio</li>
+                <li>Prioritize cited pages and prompt clusters</li>
+                <li>Choose the right page type</li>
+                <li>Fix access before polishing copy</li>
+                <li>Turn every review cycle into action</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="callout purple">
+            <strong>One-line summary:</strong> most Semrush GEO mistakes happen when teams confuse visibility intelligence with completed optimization.
+          </div>
+        </section>
+
+        <section id="appendix" class="section card soft">
+          <h2>Appendix — Semrush vs Adobe LLM Optimizer</h2>
+          <p>
+            The most honest explanation is not "there is no overlap." The overlap is real.
+          </p>
+
+          <div class="callout">
+            <strong>Best clean distinction:</strong><br />
+            <strong>Semrush = intelligence and discovery</strong><br />
+            <strong>Adobe LLM Optimizer = activation and optimization</strong>
+          </div>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Question</th>
+                <th>Semrush</th>
+                <th>LLMO</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>What prompts matter?</td>
+                <td>Strongest for broad prompt universe discovery</td>
+                <td>Better as the curated operating set</td>
+              </tr>
+              <tr>
+                <td>What is happening in the market?</td>
+                <td>Core strength</td>
+                <td>Secondary</td>
+              </tr>
+              <tr>
+                <td>What is happening on our owned properties?</td>
+                <td>Limited compared with Adobe</td>
+                <td>Core strength</td>
+              </tr>
+              <tr>
+                <td>What should we change next?</td>
+                <td>Signals and inferred priorities</td>
+                <td>Stronger prescriptive / activation story</td>
+              </tr>
+              <tr>
+                <td>Can we tie this to business outcomes?</td>
+                <td>Weaker</td>
+                <td>Stronger</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="callout warning">
+            <strong>Best prompt-overlap explanation:</strong><br />
+            In Semrush, prompts are mainly a <strong>discovery and benchmarking instrument</strong>.<br />
+            In LLMO, prompts are mainly an <strong>operating control set</strong>.
+          </div>
+        </section>
+
+        <section class="footer">
+          <h2 style="color:white;">How to use this Version 2</h2>
+          <p>
+            This version is better suited for:
+          </p>
+          <ul>
+            <li>internal enablement pages</li>
+            <li>customer-facing teaching with edits</li>
+            <li>sales and solutioning prep</li>
+            <li>wiki publishing</li>
+            <li>conversion into a docs portal or presentation</li>
+          </ul>
+
+          <p style="margin-top:1rem;">
+            If you want, the next best step is for me to create either:
+          </p>
+          <ol>
+            <li>a <strong>Version 3</strong> with true tabbed navigation and a cleaner docs-home landing page, or</li>
+            <li>a <strong>customer-facing trimmed version</strong> that removes the internal overlap nuance and reads like polished enablement collateral.</li>
+          </ol>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+</html>

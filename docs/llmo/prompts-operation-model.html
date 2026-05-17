@@ -3,39 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unified Prompt Operating Model | Dark Adobe Theme</title>
+  <title>Unified Prompt Operating Model | Adobe Light Theme</title>
 
   <!-- Spectrum Web Components bundle for quick prototype usage -->
   <script type="module" src="https://cdn.jsdelivr.net/npm/@spectrum-web-components/bundle/elements.js?module"></script>
 
   <style>
     :root {
-      --bg: #0b0c10;
-      --bg-elevated: #12141a;
-      --surface: #161922;
-      --surface-2: #1c212c;
-      --surface-3: #232936;
-      --text: #f4f6fb;
-      --text-soft: #c4ccda;
-      --text-muted: #98a3b8;
-      --border: rgba(255, 255, 255, 0.1);
+      --bg: #f6f7fb;
+      --surface: #ffffff;
+      --surface-2: #f8f9fc;
+      --surface-3: #eef2f8;
+      --text: #1d2433;
+      --text-soft: #4f5b70;
+      --text-muted: #6c7890;
+      --border: #d9e0ea;
 
-      --adobe-red: #ff375f;
-      --adobe-red-deep: #d92b4c;
-      --adobe-blue: #4da3ff;
-      --adobe-blue-deep: #1473e6;
+      --adobe-red: #eb1000;
+      --adobe-red-soft: #fff0ee;
+      --adobe-blue: #1473e6;
+      --adobe-blue-soft: #eaf3ff;
 
-      --success: #35c759;
-      --warning: #ff9f0a;
-      --danger: #ff5a5f;
+      --success: #12805c;
+      --warning: #b76800;
+      --danger: #c9252d;
 
-      --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.38);
-      --shadow-md: 0 14px 34px rgba(0, 0, 0, 0.28);
+      --shadow-lg: 0 18px 40px rgba(33, 45, 74, 0.08);
+      --shadow-md: 0 10px 24px rgba(33, 45, 74, 0.06);
+
       --radius-xl: 28px;
       --radius-lg: 20px;
       --radius-md: 14px;
       --radius-sm: 10px;
-      --max: 1280px;
+
+      --page-max: 1440px;
+      --sidebar-w: 270px;
     }
 
     * {
@@ -44,15 +46,16 @@
 
     html {
       scroll-behavior: smooth;
+      scroll-padding-top: 20px;
     }
 
     body {
       margin: 0;
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(255, 55, 95, 0.18), transparent 34%),
-        radial-gradient(circle at top right, rgba(77, 163, 255, 0.16), transparent 32%),
-        linear-gradient(180deg, #090a0d 0%, #0e1015 48%, #0b0c10 100%);
+        radial-gradient(circle at top left, rgba(235, 16, 0, 0.05), transparent 22%),
+        radial-gradient(circle at top right, rgba(20, 115, 230, 0.06), transparent 24%),
+        linear-gradient(180deg, #f9fbff 0%, #f5f7fb 100%);
       font-family: "Adobe Clean", "Segoe UI", Inter, Arial, sans-serif;
       line-height: 1.58;
     }
@@ -66,71 +69,148 @@
       text-decoration: underline;
     }
 
-    .page {
-      width: min(100%, var(--max));
+    .shell {
+      width: min(100%, var(--page-max));
       margin: 0 auto;
-      padding: 32px 24px 72px;
+      padding: 28px 20px 72px;
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 20px;
+      align-self: start;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow-md);
+      padding: 20px 18px;
+    }
+
+    .sidebar-brand {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-eyebrow {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--adobe-red-soft);
+      color: var(--adobe-red);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .sidebar h2 {
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .sidebar p {
+      margin: 8px 0 0;
+      color: var(--text-muted);
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .nav-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .nav-link {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 12px;
+      color: var(--text-soft);
+      font-size: 0.95rem;
+      font-weight: 600;
+      transition: background 120ms ease, color 120ms ease, transform 120ms ease;
+    }
+
+    .nav-link:hover {
+      background: var(--adobe-blue-soft);
+      color: var(--adobe-blue);
+      text-decoration: none;
+      transform: translateX(2px);
+    }
+
+    .content {
+      min-width: 0;
     }
 
     .hero {
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.09);
+      border: 1px solid var(--border);
       border-radius: 34px;
-      padding: 44px 42px;
-      margin-bottom: 28px;
+      padding: 42px 40px;
+      margin-bottom: 26px;
       background:
-        linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
-        linear-gradient(160deg, rgba(255,55,95,0.12), rgba(20,115,230,0.08) 52%, rgba(255,255,255,0.02));
+        linear-gradient(140deg, rgba(255,255,255,0.98), rgba(248,251,255,0.95)),
+        linear-gradient(90deg, rgba(235, 16, 0, 0.04), rgba(20, 115, 230, 0.05));
       box-shadow: var(--shadow-lg);
-      backdrop-filter: blur(10px);
     }
 
     .hero::before {
       content: "";
       position: absolute;
-      inset: auto -80px -120px auto;
-      width: 280px;
-      height: 280px;
+      right: -80px;
+      top: -40px;
+      width: 240px;
+      height: 240px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(77,163,255,0.28), transparent 68%);
+      background: radial-gradient(circle, rgba(20,115,230,0.10), transparent 68%);
       pointer-events: none;
     }
 
     .hero::after {
       content: "";
       position: absolute;
-      inset: -120px auto auto -100px;
-      width: 260px;
-      height: 260px;
+      left: -70px;
+      bottom: -70px;
+      width: 220px;
+      height: 220px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(255,55,95,0.22), transparent 68%);
+      background: radial-gradient(circle, rgba(235,16,0,0.08), transparent 68%);
       pointer-events: none;
     }
 
     .eyebrow {
       display: inline-block;
-      padding: 7px 12px;
-      border-radius: 999px;
       margin-bottom: 14px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.09);
-      color: #ffd7df;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: var(--adobe-blue-soft);
+      color: var(--adobe-blue);
       font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
     }
 
     h1 {
       margin: 0 0 14px;
-      font-size: clamp(2.1rem, 4.3vw, 3.9rem);
-      line-height: 1.05;
+      font-size: clamp(2.15rem, 4vw, 3.75rem);
+      line-height: 1.06;
       letter-spacing: -0.04em;
     }
 
     .lead {
-      max-width: 960px;
+      max-width: 940px;
       margin: 0 0 24px;
       color: var(--text-soft);
       font-size: 1.08rem;
@@ -143,21 +223,21 @@
     }
 
     .section {
-      margin-top: 28px;
+      margin-top: 24px;
     }
 
     .section-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.015));
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 26px;
       box-shadow: var(--shadow-md);
       padding: 28px;
-      backdrop-filter: blur(8px);
     }
 
-    h2 {
+    h2.section-title,
+    .section-card > h2 {
       margin: 0 0 14px;
-      font-size: 1.8rem;
+      font-size: 1.78rem;
       letter-spacing: -0.02em;
     }
 
@@ -167,17 +247,17 @@
       letter-spacing: -0.01em;
     }
 
-    h4 {
-      margin: 0 0 8px;
-      font-size: 1rem;
-    }
-
     p {
       margin: 0 0 14px;
     }
 
     .muted {
       color: var(--text-muted);
+    }
+
+    .section-anchor {
+      position: relative;
+      top: -6px;
     }
 
     .grid {
@@ -198,26 +278,24 @@
     }
 
     .card {
-      background: linear-gradient(180deg, var(--surface-2), var(--surface));
+      background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       padding: 20px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.03);
     }
 
     .card.soft {
-      background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.012));
+      background: linear-gradient(180deg, #ffffff 0%, #fafcff 100%);
     }
 
     .card.accent {
       background:
-        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)),
-        linear-gradient(135deg, rgba(255,55,95,0.08), rgba(77,163,255,0.08));
-      border-color: rgba(255,255,255,0.12);
+        linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      border-color: #cfe0f5;
     }
 
     .term-card {
-      min-height: 225px;
+      min-height: 230px;
     }
 
     .term-card .term {
@@ -229,7 +307,7 @@
     .term-card .meaning {
       display: inline-block;
       margin-bottom: 12px;
-      color: #8cc1ff;
+      color: var(--adobe-blue);
       font-weight: 700;
     }
 
@@ -243,14 +321,13 @@
     .pill {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
       padding: 8px 12px;
       border-radius: 999px;
       white-space: nowrap;
       font-size: 0.9rem;
       color: var(--text-soft);
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
+      background: #f2f6fb;
+      border: 1px solid var(--border);
     }
 
     .flow {
@@ -261,9 +338,7 @@
     }
 
     .flow-step {
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.012)),
-        linear-gradient(180deg, var(--surface-2), var(--surface));
+      background: linear-gradient(180deg, #ffffff 0%, #fafcff 100%);
       border: 1px solid var(--border);
       border-radius: 18px;
       padding: 18px;
@@ -278,10 +353,10 @@
       justify-content: center;
       border-radius: 999px;
       font-weight: 800;
-      color: white;
-      background: linear-gradient(135deg, var(--adobe-red), var(--adobe-blue-deep));
+      color: #fff;
+      background: linear-gradient(135deg, var(--adobe-red), var(--adobe-blue));
       margin-bottom: 12px;
-      box-shadow: 0 8px 18px rgba(20,115,230,0.28);
+      box-shadow: 0 8px 16px rgba(20, 115, 230, 0.18);
     }
 
     .callout {
@@ -289,23 +364,23 @@
       padding: 16px 18px;
       border-radius: 14px;
       border-left: 4px solid var(--adobe-blue);
-      background: rgba(77,163,255,0.08);
+      background: var(--adobe-blue-soft);
       color: var(--text-soft);
     }
 
     .callout.warning {
       border-left-color: var(--warning);
-      background: rgba(255,159,10,0.10);
+      background: #fff5e9;
     }
 
     .callout.success {
       border-left-color: var(--success);
-      background: rgba(53,199,89,0.10);
+      background: #edf9f4;
     }
 
     .callout.danger {
       border-left-color: var(--danger);
-      background: rgba(255,90,95,0.11);
+      background: #fff1f1;
     }
 
     .kpi-list,
@@ -339,8 +414,8 @@
     }
 
     th {
-      background: rgba(255,255,255,0.045);
-      color: #ffffff;
+      background: #f4f7fb;
+      color: var(--text);
       font-size: 0.93rem;
     }
 
@@ -361,11 +436,9 @@
 
     .sticky-note {
       position: sticky;
-      top: 24px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.012)),
-        linear-gradient(135deg, rgba(255,55,95,0.08), rgba(77,163,255,0.08));
-      border: 1px solid rgba(255,255,255,0.12);
+      top: 20px;
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      border: 1px solid #d3e1f2;
       border-radius: 18px;
       padding: 20px;
       box-shadow: var(--shadow-md);
@@ -376,7 +449,7 @@
       padding: 22px 24px;
       border-radius: 20px;
       border: 1px solid var(--border);
-      background: linear-gradient(180deg, var(--surface-2), var(--surface));
+      background: var(--surface);
       color: var(--text-muted);
     }
 
@@ -389,9 +462,8 @@
       margin: 12px 0 0;
       padding: 16px;
       border-radius: 14px;
-      background: #0a0d12;
-      border: 1px solid rgba(255,255,255,0.08);
-      color: #e9eef9;
+      background: #132033;
+      color: #f6f9ff;
       overflow: auto;
       font-size: 0.92rem;
     }
@@ -404,29 +476,37 @@
       font-weight: 700;
       margin-right: 6px;
       margin-bottom: 6px;
-      border: 1px solid rgba(255,255,255,0.08);
-      background: rgba(255,255,255,0.05);
+      background: #f1f5fb;
+      border: 1px solid var(--border);
       color: var(--text-soft);
     }
 
-    .tag.blue { color: #9fd0ff; }
-    .tag.green { color: #8ae9a1; }
-    .tag.orange { color: #ffc56e; }
-    .tag.red { color: #ff9aa7; }
+    .tag.blue { color: var(--adobe-blue); }
+    .tag.green { color: var(--success); }
+    .tag.orange { color: var(--warning); }
+    .tag.red { color: var(--danger); }
 
-    .gradient-text {
-      background: linear-gradient(90deg, #ffffff 0%, #ffdbe4 35%, #b8d8ff 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .micro {
+    .jump-top {
+      display: inline-block;
+      margin-top: 14px;
       font-size: 0.9rem;
-      color: var(--text-muted);
+      font-weight: 600;
     }
 
-    @media (max-width: 1080px) {
+    @media (max-width: 1180px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+      }
+
+      .nav-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
       .grid-4,
       .flow {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -441,517 +521,560 @@
       }
     }
 
-    @media (max-width: 740px) {
-      .page {
-        padding: 18px 14px 46px;
+    @media (max-width: 760px) {
+      .shell {
+        padding: 16px 12px 48px;
       }
 
       .hero,
-      .section-card {
-        padding: 22px;
+      .section-card,
+      .sidebar {
+        padding: 20px;
       }
 
       .grid-2,
       .grid-3,
       .grid-4,
-      .flow {
+      .flow,
+      .nav-list {
         grid-template-columns: 1fr;
       }
 
       h1 {
-        font-size: 2.25rem;
+        font-size: 2.2rem;
       }
     }
   </style>
 </head>
 <body>
-  <sp-theme color="dark" scale="medium" system="spectrum">
-    <main class="page">
+  <sp-theme color="light" scale="medium" system="spectrum">
+    <div class="shell" id="top">
 
-      <section class="hero">
-        <div class="eyebrow">Unified GEO Product Vision</div>
-        <h1><span class="gradient-text">Prompt Operating Model</span><br />for a Combined Semrush AIO + Adobe LLM Optimizer Product</h1>
-        <p class="lead">
-          This page remixes the core strategy into a single operating model where
-          <strong>Prompt Universe</strong>, <strong>Prompt Library</strong>, <strong>Research Set</strong>, and
-          <strong>Tracking Set</strong> all live inside one tool. The governing principle is:
-          <strong>one canonical prompt system, multiple lifecycle states</strong>.
-        </p>
-        <div class="hero-actions">
-          <sp-button variant="accent" href="#terms">See the 4 Sets</sp-button>
-          <sp-button variant="secondary" href="#workflow">View Workflow</sp-button>
-          <sp-button variant="secondary" href="#governance">Review Governance</sp-button>
-        </div>
-      </section>
-
-      <section class="section section-card" id="summary">
-        <h2>Executive Summary</h2>
-        <div class="grid grid-3">
-          <div class="card accent">
-            <h3>What the combined product should do</h3>
-            <p>
-              Unite <strong>market intelligence</strong>, <strong>prompt curation</strong>,
-              <strong>measurement</strong>, and <strong>optimization</strong> in one connected system.
-            </p>
-          </div>
-          <div class="card accent">
-            <h3>What changes conceptually</h3>
-            <p>
-              The four sets should be treated as <strong>states of one prompt lifecycle</strong>,
-              not disconnected prompt stores.
-            </p>
-          </div>
-          <div class="card accent">
-            <h3>Why it matters</h3>
-            <p>
-              It creates a closed loop from <strong>signal → curation → tracking → optimization → business impact</strong>.
-            </p>
-          </div>
+      <aside class="sidebar">
+        <div class="sidebar-brand">
+          <div class="sidebar-eyebrow">Adobe GEO Model</div>
+          <h2>Prompt Operating Model</h2>
+          <p>
+            Unified framework for Semrush AIO + Adobe LLM Optimizer in one connected system.
+          </p>
         </div>
 
-        <div class="callout">
-          <strong>Key design principle:</strong> every prompt should exist as a single canonical object with metadata,
-          provenance, lifecycle state, and governance history.
-        </div>
-      </section>
+        <nav class="nav-list" aria-label="Section navigation">
+          <a class="nav-link" href="#summary">Executive Summary</a>
+          <a class="nav-link" href="#terms">The 4 Prompt Sets</a>
+          <a class="nav-link" href="#alignment">Product Alignment</a>
+          <a class="nav-link" href="#lifecycle">Lifecycle Model</a>
+          <a class="nav-link" href="#principles">Core Principles</a>
+          <a class="nav-link" href="#sources">Universe Inputs</a>
+          <a class="nav-link" href="#workflow">Workflow</a>
+          <a class="nav-link" href="#metadata">Prompt Schema</a>
+          <a class="nav-link" href="#governance">Governance</a>
+          <a class="nav-link" href="#analytics">Analytics</a>
+          <a class="nav-link" href="#implementation">Capabilities</a>
+          <a class="nav-link" href="#final-model">Final Framing</a>
+        </nav>
+      </aside>
 
-      <section id="terms" class="section section-card">
-        <h2>The 4 Prompt Sets</h2>
-        <p class="muted">
-          These definitions work well for a combined Adobe product and align neatly to categories → topics → prompts.
-        </p>
+      <main class="content">
 
-        <div class="grid grid-4">
-          <div class="card term-card">
-            <div class="term">Prompt Universe</div>
-            <div class="meaning">Everything that could be relevant</div>
-            <p>The full opportunity space of prompts that matter to the market, the brand, the journey, and the competitive environment.</p>
-            <div class="pill-row">
-              <span class="pill">Broadest scope</span>
-              <span class="pill">Discovery layer</span>
-              <span class="pill">Market-facing</span>
+        <section class="hero">
+          <div class="eyebrow">Unified GEO Product Vision</div>
+          <h1>Prompt Operating Model for a Combined Semrush AIO + Adobe LLM Optimizer Product</h1>
+          <p class="lead">
+            This page remixes the core strategy into a single operating model where
+            <strong>Prompt Universe</strong>, <strong>Prompt Library</strong>, <strong>Research Set</strong>, and
+            <strong>Tracking Set</strong> all live inside one tool. The governing principle is:
+            <strong>one canonical prompt system, multiple lifecycle states</strong>.
+          </p>
+          <div class="hero-actions">
+            <sp-button variant="accent" href="#terms">See the 4 Sets</sp-button>
+            <sp-button variant="secondary" href="#workflow">View Workflow</sp-button>
+            <sp-button variant="secondary" href="#governance">Review Governance</sp-button>
+          </div>
+        </section>
+
+        <section id="summary" class="section section-card">
+          <h2>Executive Summary</h2>
+          <div class="grid grid-3">
+            <div class="card accent">
+              <h3>What the combined product should do</h3>
+              <p>
+                Unite <strong>market intelligence</strong>, <strong>prompt curation</strong>,
+                <strong>measurement</strong>, and <strong>optimization</strong> in one connected system.
+              </p>
+            </div>
+            <div class="card accent">
+              <h3>What changes conceptually</h3>
+              <p>
+                The four sets should be treated as <strong>states of one prompt lifecycle</strong>,
+                not disconnected prompt stores.
+              </p>
+            </div>
+            <div class="card accent">
+              <h3>Why it matters</h3>
+              <p>
+                It creates a closed loop from <strong>signal → curation → tracking → optimization → business impact</strong>.
+              </p>
             </div>
           </div>
 
-          <div class="card term-card">
-            <div class="term">Prompt Library</div>
-            <div class="meaning">Everything you've captured and stored</div>
-            <p>The governed repository of prompts that have been retained, normalized, tagged, deduplicated, and made reusable.</p>
-            <div class="pill-row">
-              <span class="pill">Canonical repository</span>
-              <span class="pill">Versioned</span>
-              <span class="pill">Searchable</span>
+          <div class="callout">
+            <strong>Key design principle:</strong> every prompt should exist as a single canonical object with metadata,
+            provenance, lifecycle state, and governance history.
+          </div>
+          <a class="jump-top" href="#top">↑ Back to top</a>
+        </section>
+
+        <section id="terms" class="section section-card">
+          <h2>The 4 Prompt Sets</h2>
+          <p class="muted">
+            These definitions work well for a combined Adobe product and align neatly to categories → topics → prompts.
+          </p>
+
+          <div class="grid grid-4">
+            <div class="card term-card">
+              <div class="term">Prompt Universe</div>
+              <div class="meaning">Everything that could be relevant</div>
+              <p>The full opportunity space of prompts that matter to the market, the brand, the journey, and the competitive environment.</p>
+              <div class="pill-row">
+                <span class="pill">Broadest scope</span>
+                <span class="pill">Discovery layer</span>
+                <span class="pill">Market-facing</span>
+              </div>
+            </div>
+
+            <div class="card term-card">
+              <div class="term">Prompt Library</div>
+              <div class="meaning">Everything you've captured and stored</div>
+              <p>The governed repository of prompts that have been retained, normalized, tagged, deduplicated, and made reusable.</p>
+              <div class="pill-row">
+                <span class="pill">Canonical repository</span>
+                <span class="pill">Versioned</span>
+                <span class="pill">Searchable</span>
+              </div>
+            </div>
+
+            <div class="card term-card">
+              <div class="term">Research Set</div>
+              <div class="meaning">What you're analyzing now</div>
+              <p>The working subset of prompts currently being evaluated, clustered, refined, or validated before promotion.</p>
+              <div class="pill-row">
+                <span class="pill">Editorial lab</span>
+                <span class="pill">Dynamic</span>
+                <span class="pill">Evaluation layer</span>
+              </div>
+            </div>
+
+            <div class="card term-card">
+              <div class="term">Tracking Set</div>
+              <div class="meaning">What you're actively monitoring</div>
+              <p>The stable production subset used for longitudinal visibility measurement, optimization baselines, and reporting.</p>
+              <div class="pill-row">
+                <span class="pill">Production measurement</span>
+                <span class="pill">Stable over time</span>
+                <span class="pill">Outcome-linked</span>
+              </div>
+            </div>
+          </div>
+          <a class="jump-top" href="#top">↑ Back to top</a>
+        </section>
+
+        <section id="alignment" class="section section-card">
+          <h2>How This Aligns to the Combined Product</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Layer</th>
+                <th>Natural Product Role</th>
+                <th>Main Job</th>
+                <th>What Good Looks Like</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Universe</strong></td>
+                <td>Semrush-heavy discovery and demand intelligence</td>
+                <td>Expose the full prompt opportunity space</td>
+                <td>Broad coverage across intent, competition, and market signals</td>
+              </tr>
+              <tr>
+                <td><strong>Library</strong></td>
+                <td>Unified Adobe system of record</td>
+                <td>Retain and govern prompts worth keeping</td>
+                <td>Deduped, tagged, versioned, reusable, owner-assigned</td>
+              </tr>
+              <tr>
+                <td><strong>Research Set</strong></td>
+                <td>Strategy and analysis workspace</td>
+                <td>Refine, score, compare, cluster, and validate</td>
+                <td>Focused workset with clear purpose and promotion criteria</td>
+              </tr>
+              <tr>
+                <td><strong>Tracking Set</strong></td>
+                <td>LLMO-style production measurement surface</td>
+                <td>Monitor over time and tie to optimization impact</td>
+                <td>Stable, intentional, high-confidence, business-priority prompts</td>
+              </tr>
+            </tbody>
+          </table>
+          <a class="jump-top" href="#top">↑ Back to top</a>
+        </section>
+
+        <section id="lifecycle" class="section section-card">
+          <h2>Recommended Lifecycle Model</h2>
+          <p>The cleanest way to implement the four sets is as a single lifecycle:</p>
+
+          <div class="flow">
+            <div class="flow-step">
+              <div class="num">1</div>
+              <h3>Discover</h3>
+              <p>Generate or ingest candidates from market, customer, and traffic signals.</p>
+              <div class="pill-row">
+                <span class="pill">Universe</span>
+              </div>
+            </div>
+
+            <div class="flow-step">
+              <div class="num">2</div>
+              <h3>Retain</h3>
+              <p>Keep useful prompts, normalize them, tag them, and store them centrally.</p>
+              <div class="pill-row">
+                <span class="pill">Library</span>
+              </div>
+            </div>
+
+            <div class="flow-step">
+              <div class="num">3</div>
+              <h3>Evaluate</h3>
+              <p>Compare variants, reduce overlap, check topic fit, and decide what deserves promotion.</p>
+              <div class="pill-row">
+                <span class="pill">Research Set</span>
+              </div>
+            </div>
+
+            <div class="flow-step">
+              <div class="num">4</div>
+              <h3>Track</h3>
+              <p>Move a stable subset into active monitoring and tie outcomes to optimization.</p>
+              <div class="pill-row">
+                <span class="pill">Tracking Set</span>
+              </div>
             </div>
           </div>
 
-          <div class="card term-card">
-            <div class="term">Research Set</div>
-            <div class="meaning">What you're analyzing now</div>
-            <p>The working subset of prompts currently being evaluated, clustered, refined, or validated before promotion.</p>
-            <div class="pill-row">
-              <span class="pill">Editorial lab</span>
-              <span class="pill">Dynamic</span>
-              <span class="pill">Evaluation layer</span>
+          <pre>discovered → retained → under_research → approved_for_tracking → actively_tracked → deprecated → archived</pre>
+
+          <div class="callout success">
+            <strong>Best implementation choice:</strong> model the four sets as prompt states and views, not four duplicated data pools.
+          </div>
+          <a class="jump-top" href="#top">↑ Back to top</a>
+        </section>
+
+        <section id="principles" class="section section-card">
+          <h2>Core Product Principles</h2>
+          <div class="grid grid-2">
+            <div class="card">
+              <h3>1. Prompts are test cases, not keywords</h3>
+              <p>Prompts should behave as <strong>repeatable measurement instruments</strong> rather than loose SEO-style phrases.</p>
+            </div>
+            <div class="card">
+              <h3>2. Discovery and tracking are different jobs</h3>
+              <p>The tool should allow broad discovery, but reserve tracking for <strong>fewer, more intentional prompts</strong>.</p>
+            </div>
+            <div class="card">
+              <h3>3. The library is an asset, not a dump</h3>
+              <p>A prompt library should preserve knowledge, provenance, ownership, and reuse value.</p>
+            </div>
+            <div class="card">
+              <h3>4. Stability matters for measurement</h3>
+              <p>Tracking sets should not churn constantly or the before/after optimization signal gets weaker.</p>
             </div>
           </div>
 
-          <div class="card term-card">
-            <div class="term">Tracking Set</div>
-            <div class="meaning">What you're actively monitoring</div>
-            <p>The stable production subset used for longitudinal visibility measurement, optimization baselines, and reporting.</p>
-            <div class="pill-row">
-              <span class="pill">Production measurement</span>
-              <span class="pill">Stable over time</span>
-              <span class="pill">Outcome-linked</span>
-            </div>
+          <div class="callout.warning">
+            <strong>Most important operating rule:</strong> do not let the tracking set become a brainstorming scratchpad.
           </div>
-        </div>
-      </section>
+          <a class="jump-top" href="#top">↑ Back to top</a>
+        </section>
 
-      <section id="alignment" class="section section-card">
-        <h2>How This Aligns to the Combined Product</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Layer</th>
-              <th>Natural Product Role</th>
-              <th>Main Job</th>
-              <th>What Good Looks Like</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Universe</strong></td>
-              <td>Semrush-heavy discovery and demand intelligence</td>
-              <td>Expose the full prompt opportunity space</td>
-              <td>Broad coverage across intent, competition, and market signals</td>
-            </tr>
-            <tr>
-              <td><strong>Library</strong></td>
-              <td>Unified Adobe system of record</td>
-              <td>Retain and govern prompts worth keeping</td>
-              <td>Deduped, tagged, versioned, reusable, owner-assigned</td>
-            </tr>
-            <tr>
-              <td><strong>Research Set</strong></td>
-              <td>Strategy and analysis workspace</td>
-              <td>Refine, score, compare, cluster, and validate</td>
-              <td>Focused workset with clear purpose and promotion criteria</td>
-            </tr>
-            <tr>
-              <td><strong>Tracking Set</strong></td>
-              <td>LLMO-style production measurement surface</td>
-              <td>Monitor over time and tie to optimization impact</td>
-              <td>Stable, intentional, high-confidence, business-priority prompts</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+        <section id="sources" class="section section-card">
+          <h2>What Should Feed the Prompt Universe</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Source Type</th>
+                <th>Examples</th>
+                <th>Why It Matters</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Market intelligence</strong></td>
+                <td>Semrush prompt corpus, trends, share of voice, competitor patterns</td>
+                <td>Captures broad market demand and competitive reality</td>
+              </tr>
+              <tr>
+                <td><strong>Search behavior</strong></td>
+                <td>Google Search Console, People Also Ask, site search</td>
+                <td>Grounds prompts in real user demand and phrasing</td>
+              </tr>
+              <tr>
+                <td><strong>Agentic signals</strong></td>
+                <td>Citation attempts, referral traffic, agentic traffic</td>
+                <td>Connects prompt strategy to AI-system behavior</td>
+              </tr>
+              <tr>
+                <td><strong>Content-derived signals</strong></td>
+                <td>Page content, product data, FAQs, support content</td>
+                <td>Identifies prompts the brand should plausibly win</td>
+              </tr>
+              <tr>
+                <td><strong>Human strategy inputs</strong></td>
+                <td>Brand experts, marketers, product teams, agencies</td>
+                <td>Adds judgment, nuance, and prioritization</td>
+              </tr>
+              <tr>
+                <td><strong>Synthetic expansion</strong></td>
+                <td>LLM-generated variants, personas, topic expansion</td>
+                <td>Useful for ideation, but should be curated before tracking</td>
+              </tr>
+            </tbody>
+          </table>
+          <a class="jump-top" href="#top">↑ Back to top</a>
+        </section>
 
-      <section id="lifecycle" class="section section-card">
-        <h2>Recommended Lifecycle Model</h2>
-        <p>The cleanest way to implement the four sets is as a single lifecycle:</p>
+        <section id="workflow" class="section">
+          <div class="two-col">
+            <div class="section-card">
+              <h2>Recommended End-to-End Workflow</h2>
 
-        <div class="flow">
-          <div class="flow-step">
-            <div class="num">1</div>
-            <h3>Discover</h3>
-            <p>Generate or ingest candidates from market, customer, and traffic signals.</p>
-            <div class="pill-row">
-              <span class="pill">Universe</span>
-            </div>
-          </div>
+              <div class="card soft">
+                <h3>Step 1 — Build the Universe</h3>
+                <p>Start broad using Semrush signals, GSC, AI visibility trends, site content, competitor language, and team input.</p>
+              </div>
 
-          <div class="flow-step">
-            <div class="num">2</div>
-            <h3>Retain</h3>
-            <p>Keep useful prompts, normalize them, tag them, and store them centrally.</p>
-            <div class="pill-row">
-              <span class="pill">Library</span>
-            </div>
-          </div>
+              <div class="card soft" style="margin-top: 14px;">
+                <h3>Step 2 — Curate into the Library</h3>
+                <p>Retain the prompts worth keeping. Deduplicate, tag, classify, assign topic and intent, and preserve source metadata.</p>
+              </div>
 
-          <div class="flow-step">
-            <div class="num">3</div>
-            <h3>Evaluate</h3>
-            <p>Compare variants, reduce overlap, check topic fit, and decide what deserves promotion.</p>
-            <div class="pill-row">
-              <span class="pill">Research Set</span>
-            </div>
-          </div>
+              <div class="card soft" style="margin-top: 14px;">
+                <h3>Step 3 — Create a Research Set</h3>
+                <p>Pull a focused subset into a working space where analysts can refine, cluster, score, compare, and decide what moves forward.</p>
+              </div>
 
-          <div class="flow-step">
-            <div class="num">4</div>
-            <h3>Track</h3>
-            <p>Move a stable subset into active monitoring and tie outcomes to optimization.</p>
-            <div class="pill-row">
-              <span class="pill">Tracking Set</span>
-            </div>
-          </div>
-        </div>
+              <div class="card soft" style="margin-top: 14px;">
+                <h3>Step 4 — Promote a Tracking Set</h3>
+                <p>Move only the strongest prompts into active monitoring for visibility trends, opportunity generation, and impact reporting.</p>
+              </div>
 
-        <pre>discovered → retained → under_research → approved_for_tracking → actively_tracked → deprecated → archived</pre>
+              <div class="card soft" style="margin-top: 14px;">
+                <h3>Step 5 — Review on Cadence</h3>
+                <p>Revisit prompts regularly but deliberately. Add or retire prompts based on evidence, not churn.</p>
+              </div>
 
-        <div class="callout success">
-          <strong>Best implementation choice:</strong> model the four sets as prompt states and views, not four duplicated data pools.
-        </div>
-      </section>
-
-      <section id="principles" class="section section-card">
-        <h2>Core Product Principles</h2>
-        <div class="grid grid-2">
-          <div class="card">
-            <h3>1. Prompts are test cases, not keywords</h3>
-            <p>Prompts should behave as <strong>repeatable measurement instruments</strong> rather than loose SEO-style phrases.</p>
-          </div>
-          <div class="card">
-            <h3>2. Discovery and tracking are different jobs</h3>
-            <p>The tool should allow broad discovery, but reserve tracking for <strong>fewer, more intentional prompts</strong>.</p>
-          </div>
-          <div class="card">
-            <h3>3. The library is an asset, not a dump</h3>
-            <p>A prompt library should preserve knowledge, provenance, ownership, and reuse value.</p>
-          </div>
-          <div class="card">
-            <h3>4. Stability matters for measurement</h3>
-            <p>Tracking sets should not churn constantly or the before/after optimization signal gets weaker.</p>
-          </div>
-        </div>
-
-        <div class="callout warning">
-          <strong>Most important operating rule:</strong> do not let the tracking set become a brainstorming scratchpad.
-        </div>
-      </section>
-
-      <section id="sources" class="section section-card">
-        <h2>What Should Feed the Prompt Universe</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Source Type</th>
-              <th>Examples</th>
-              <th>Why It Matters</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Market intelligence</strong></td>
-              <td>Semrush prompt corpus, trends, share of voice, competitor patterns</td>
-              <td>Captures broad market demand and competitive reality</td>
-            </tr>
-            <tr>
-              <td><strong>Search behavior</strong></td>
-              <td>Google Search Console, People Also Ask, site search</td>
-              <td>Grounds prompts in real user demand and phrasing</td>
-            </tr>
-            <tr>
-              <td><strong>Agentic signals</strong></td>
-              <td>Citation attempts, referral traffic, agentic traffic</td>
-              <td>Connects prompt strategy to AI-system behavior</td>
-            </tr>
-            <tr>
-              <td><strong>Content-derived signals</strong></td>
-              <td>Page content, product data, FAQs, support content</td>
-              <td>Identifies prompts the brand should plausibly win</td>
-            </tr>
-            <tr>
-              <td><strong>Human strategy inputs</strong></td>
-              <td>Brand experts, marketers, product teams, agencies</td>
-              <td>Adds judgment, nuance, and prioritization</td>
-            </tr>
-            <tr>
-              <td><strong>Synthetic expansion</strong></td>
-              <td>LLM-generated variants, personas, topic expansion</td>
-              <td>Useful for ideation, but should be curated before tracking</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="workflow" class="section">
-        <div class="two-col">
-          <div class="section-card">
-            <h2>Recommended End-to-End Workflow</h2>
-
-            <div class="card soft">
-              <h3>Step 1 — Build the Universe</h3>
-              <p>Start broad using Semrush signals, GSC, AI visibility trends, site content, competitor language, and team input.</p>
+              <a class="jump-top" href="#top">↑ Back to top</a>
             </div>
 
-            <div class="card soft" style="margin-top: 14px;">
-              <h3>Step 2 — Curate into the Library</h3>
-              <p>Retain the prompts worth keeping. Deduplicate, tag, classify, assign topic and intent, and preserve source metadata.</p>
+            <aside class="sticky-note">
+              <h3>In One Sentence</h3>
+              <p><strong>Discover widely, store carefully, research selectively, and track only what is strategic enough to measure over time.</strong></p>
+
+              <div style="margin-top: 18px;">
+                <span class="tag blue">Coverage</span>
+                <span class="tag green">Governance</span>
+                <span class="tag orange">Measurement</span>
+                <span class="tag red">Risk control</span>
+              </div>
+
+              <div class="callout" style="margin-top: 18px;">
+                <strong>Product framing:</strong><br />
+                Semrush supplies the <strong>intelligence layer</strong>.<br />
+                LLMO supplies the <strong>activation and measurement layer</strong>.
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="metadata" class="section section-card">
+          <h2>Canonical Prompt Object</h2>
+          <p class="muted">If all four sets exist in one product, every prompt should share one common schema.</p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Purpose</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><code>prompt_text</code></td><td>The actual user-like prompt string</td></tr>
+              <tr><td><code>canonical_intent</code></td><td>Normalized meaning across paraphrases</td></tr>
+              <tr><td><code>category</code></td><td>Business grouping</td></tr>
+              <tr><td><code>topic</code></td><td>Focused intent cluster</td></tr>
+              <tr><td><code>region</code></td><td>Market / locale</td></tr>
+              <tr><td><code>intent</code></td><td>Informational, comparative, transactional, support, etc.</td></tr>
+              <tr><td><code>type</code></td><td>Branded or unbranded</td></tr>
+              <tr><td><code>source</code></td><td>Semrush, GSC, citation attempts, manual, content-derived, persona, etc.</td></tr>
+              <tr><td><code>source_confidence</code></td><td>How direct and trustworthy the source signal is</td></tr>
+              <tr><td><code>lifecycle_state</code></td><td>Discovered, retained, under research, tracked, archived</td></tr>
+              <tr><td><code>owner</code></td><td>Person or team accountable</td></tr>
+              <tr><td><code>version</code></td><td>Tracks edits over time</td></tr>
+              <tr><td><code>last_reviewed_at</code></td><td>Governance timestamp</td></tr>
+            </tbody>
+          </table>
+          <a class="jump-top" href="#top">↑ Back to top</a>
+        </section>
+
+        <section id="governance" class="section section-card">
+          <h2>What to Encourage vs What to Prevent</h2>
+          <div class="grid grid-2">
+            <div class="card">
+              <h3>Encourage</h3>
+              <ul class="check-list">
+                <li>Ground prompts in real demand and real customer language</li>
+                <li>Group prompts by intent and topic</li>
+                <li>Keep the library broader than the tracking set</li>
+                <li>Use research sets for refinement before promotion</li>
+                <li>Maintain stable baselines for measurement windows</li>
+                <li>Version prompt changes and record rationale</li>
+              </ul>
             </div>
 
-            <div class="card soft" style="margin-top: 14px;">
-              <h3>Step 3 — Create a Research Set</h3>
-              <p>Pull a focused subset into a working space where analysts can refine, cluster, score, compare, and decide what moves forward.</p>
-            </div>
-
-            <div class="card soft" style="margin-top: 14px;">
-              <h3>Step 4 — Promote a Tracking Set</h3>
-              <p>Move only the strongest prompts into active monitoring for visibility trends, opportunity generation, and impact reporting.</p>
-            </div>
-
-            <div class="card soft" style="margin-top: 14px;">
-              <h3>Step 5 — Review on Cadence</h3>
-              <p>Revisit prompts regularly but deliberately. Add or retire prompts based on evidence, not churn.</p>
+            <div class="card">
+              <h3>Prevent</h3>
+              <ul class="check-list">
+                <li>Uploading every brainstormed prompt directly to tracking</li>
+                <li>Mixing unrelated intents into one topic</li>
+                <li>Frequent changes before or after optimization windows</li>
+                <li>Keyword-stuffed or robotic prompts</li>
+                <li>Over-indexing on branded prompts only</li>
+                <li>Treating the live prompt bank as a temporary scratchpad</li>
+              </ul>
             </div>
           </div>
 
-          <aside class="sticky-note">
-            <h3>In One Sentence</h3>
-            <p><strong>Discover widely, store carefully, research selectively, and track only what is strategic enough to measure over time.</strong></p>
+          <div class="callout danger">
+            <strong>Main platform risk:</strong> <strong>paraphrase inflation</strong> — library growth without distinct new signal.
+          </div>
+          <a class="jump-top" href="#top">↑ Back to top</a>
+        </section>
 
-            <div style="margin-top: 18px;">
-              <span class="tag blue">Coverage</span>
-              <span class="tag green">Governance</span>
-              <span class="tag orange">Measurement</span>
-              <span class="tag red">Risk control</span>
+        <section id="analytics" class="section section-card">
+          <h2>Analytics the Product Should Expose</h2>
+          <div class="grid grid-3">
+            <div class="card">
+              <h3>Library Composition</h3>
+              <ul class="kpi-list">
+                <li>Prompt origin mix</li>
+                <li>Branded vs unbranded ratio</li>
+                <li>Intent distribution</li>
+                <li>Region distribution</li>
+              </ul>
             </div>
 
-            <div class="callout" style="margin-top: 18px;">
-              <strong>Product framing:</strong><br />
-              Semrush supplies the <strong>intelligence layer</strong>.<br />
-              LLMO supplies the <strong>activation and measurement layer</strong>.
+            <div class="card">
+              <h3>Research Health</h3>
+              <ul class="kpi-list">
+                <li>Duplicate rate</li>
+                <li>Canonical intent overlap</li>
+                <li>Topic coverage gaps</li>
+                <li>Promotion rate to tracking</li>
+              </ul>
             </div>
-          </aside>
-        </div>
-      </section>
 
-      <section id="metadata" class="section section-card">
-        <h2>Canonical Prompt Object</h2>
-        <p class="muted">If all four sets exist in one product, every prompt should share one common schema.</p>
+            <div class="card">
+              <h3>Tracking Quality</h3>
+              <ul class="kpi-list">
+                <li>Set stability over time</li>
+                <li>Prompt-to-page opportunity alignment</li>
+                <li>Visibility trend confidence</li>
+                <li>Optimization impact comparability</li>
+              </ul>
+            </div>
+          </div>
+          <a class="jump-top" href="#top">↑ Back to top</a>
+        </section>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Field</th>
-              <th>Purpose</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td><code>prompt_text</code></td><td>The actual user-like prompt string</td></tr>
-            <tr><td><code>canonical_intent</code></td><td>Normalized meaning across paraphrases</td></tr>
-            <tr><td><code>category</code></td><td>Business grouping</td></tr>
-            <tr><td><code>topic</code></td><td>Focused intent cluster</td></tr>
-            <tr><td><code>region</code></td><td>Market / locale</td></tr>
-            <tr><td><code>intent</code></td><td>Informational, comparative, transactional, support, etc.</td></tr>
-            <tr><td><code>type</code></td><td>Branded or unbranded</td></tr>
-            <tr><td><code>source</code></td><td>Semrush, GSC, citation attempts, manual, content-derived, persona, etc.</td></tr>
-            <tr><td><code>source_confidence</code></td><td>How direct and trustworthy the source signal is</td></tr>
-            <tr><td><code>lifecycle_state</code></td><td>Discovered, retained, under research, tracked, archived</td></tr>
-            <tr><td><code>owner</code></td><td>Person or team accountable</td></tr>
-            <tr><td><code>version</code></td><td>Tracks edits over time</td></tr>
-            <tr><td><code>last_reviewed_at</code></td><td>Governance timestamp</td></tr>
-          </tbody>
-        </table>
-      </section>
+        <section id="implementation" class="section section-card">
+          <h2>Minimum Product Capabilities</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Capability</th>
+                <th>Why It Is Needed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Multi-source ingestion</strong></td>
+                <td>Supports imports from Semrush, GSC, traffic signals, content-derived prompts, and manual upload</td>
+              </tr>
+              <tr>
+                <td><strong>Intent normalization</strong></td>
+                <td>Prevents paraphrase inflation and library bloat</td>
+              </tr>
+              <tr>
+                <td><strong>Research workspace</strong></td>
+                <td>Lets teams validate and refine prompts before tracking</td>
+              </tr>
+              <tr>
+                <td><strong>Prompt analytics dashboard</strong></td>
+                <td>Shows composition, health, gaps, and drift</td>
+              </tr>
+              <tr>
+                <td><strong>Promotion workflow</strong></td>
+                <td>Moves prompts into tracking with approval and auditability</td>
+              </tr>
+              <tr>
+                <td><strong>Tracking freeze / baseline logic</strong></td>
+                <td>Protects fair before-and-after measurement windows</td>
+              </tr>
+              <tr>
+                <td><strong>Ownership and collaboration</strong></td>
+                <td>Supports cross-functional GEO work across SEO, content, marketing, and analytics</td>
+              </tr>
+            </tbody>
+          </table>
+          <a class="jump-top" href="#top">↑ Back to top</a>
+        </section>
 
-      <section id="governance" class="section section-card">
-        <h2>What to Encourage vs What to Prevent</h2>
-        <div class="grid grid-2">
-          <div class="card">
-            <h3>Encourage</h3>
-            <ul class="check-list">
-              <li>Ground prompts in real demand and real customer language</li>
-              <li>Group prompts by intent and topic</li>
-              <li>Keep the library broader than the tracking set</li>
-              <li>Use research sets for refinement before promotion</li>
-              <li>Maintain stable baselines for measurement windows</li>
-              <li>Version prompt changes and record rationale</li>
-            </ul>
+        <section id="final-model" class="section section-card">
+          <h2>Final Recommended Product Framing</h2>
+          <div class="grid grid-2">
+            <div class="card accent">
+              <h3>Positioning Statement</h3>
+              <p>
+                The combined product should function as a <strong>closed-loop prompt operating system</strong>:
+                it discovers what matters, stores what is worth keeping, refines what is promising,
+                tracks what is strategic, and ties optimization actions to measurable outcomes.
+              </p>
+            </div>
+            <div class="card accent">
+              <h3>One-Liner for Stakeholders</h3>
+              <p>
+                <strong>Prompt Universe</strong> defines scope.<br />
+                <strong>Prompt Library</strong> preserves knowledge.<br />
+                <strong>Research Set</strong> drives analysis.<br />
+                <strong>Tracking Set</strong> drives measurement.
+              </p>
+            </div>
           </div>
 
-          <div class="card">
-            <h3>Prevent</h3>
-            <ul class="check-list">
-              <li>Uploading every brainstormed prompt directly to tracking</li>
-              <li>Mixing unrelated intents into one topic</li>
-              <li>Frequent changes before or after optimization windows</li>
-              <li>Keyword-stuffed or robotic prompts</li>
-              <li>Over-indexing on branded prompts only</li>
-              <li>Treating the live prompt bank as a temporary scratchpad</li>
-            </ul>
+          <div class="callout success">
+            <strong>Best end-state:</strong> a single Adobe product where the four prompt sets are first-class lifecycle stages,
+            supported by market intelligence, prompt governance, research workflows, and longitudinal measurement.
           </div>
-        </div>
+          <a class="jump-top" href="#top">↑ Back to top</a>
+        </section>
 
-        <div class="callout danger">
-          <strong>Main platform risk:</strong> <strong>paraphrase inflation</strong> — library growth without distinct new signal.
-        </div>
-      </section>
+        <footer class="footer">
+          <strong>Prototype note:</strong> this light variant adds a sticky left navigation for easier scanning and section jumping.
+          For production, you could further enhance it with active-section highlighting, scrollspy behavior, and collapsible nav groups.
+        </footer>
 
-      <section id="analytics" class="section section-card">
-        <h2>Analytics the Product Should Expose</h2>
-        <div class="grid grid-3">
-          <div class="card">
-            <h3>Library Composition</h3>
-            <ul class="kpi-list">
-              <li>Prompt origin mix</li>
-              <li>Branded vs unbranded ratio</li>
-              <li>Intent distribution</li>
-              <li>Region distribution</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>Research Health</h3>
-            <ul class="kpi-list">
-              <li>Duplicate rate</li>
-              <li>Canonical intent overlap</li>
-              <li>Topic coverage gaps</li>
-              <li>Promotion rate to tracking</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>Tracking Quality</h3>
-            <ul class="kpi-list">
-              <li>Set stability over time</li>
-              <li>Prompt-to-page opportunity alignment</li>
-              <li>Visibility trend confidence</li>
-              <li>Optimization impact comparability</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="implementation" class="section section-card">
-        <h2>Minimum Product Capabilities</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Capability</th>
-              <th>Why It Is Needed</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Multi-source ingestion</strong></td>
-              <td>Supports imports from Semrush, GSC, traffic signals, content-derived prompts, and manual upload</td>
-            </tr>
-            <tr>
-              <td><strong>Intent normalization</strong></td>
-              <td>Prevents paraphrase inflation and library bloat</td>
-            </tr>
-            <tr>
-              <td><strong>Research workspace</strong></td>
-              <td>Lets teams validate and refine prompts before tracking</td>
-            </tr>
-            <tr>
-              <td><strong>Prompt analytics dashboard</strong></td>
-              <td>Shows composition, health, gaps, and drift</td>
-            </tr>
-            <tr>
-              <td><strong>Promotion workflow</strong></td>
-              <td>Moves prompts into tracking with approval and auditability</td>
-            </tr>
-            <tr>
-              <td><strong>Tracking freeze / baseline logic</strong></td>
-              <td>Protects fair before-and-after measurement windows</td>
-            </tr>
-            <tr>
-              <td><strong>Ownership and collaboration</strong></td>
-              <td>Supports cross-functional GEO work across SEO, content, marketing, and analytics</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="final-model" class="section section-card">
-        <h2>Final Recommended Product Framing</h2>
-        <div class="grid grid-2">
-          <div class="card accent">
-            <h3>Positioning Statement</h3>
-            <p>
-              The combined product should function as a <strong>closed-loop prompt operating system</strong>:
-              it discovers what matters, stores what is worth keeping, refines what is promising,
-              tracks what is strategic, and ties optimization actions to measurable outcomes.
-            </p>
-          </div>
-          <div class="card accent">
-            <h3>One-Liner for Stakeholders</h3>
-            <p>
-              <strong>Prompt Universe</strong> defines scope.<br />
-              <strong>Prompt Library</strong> preserves knowledge.<br />
-              <strong>Research Set</strong> drives analysis.<br />
-              <strong>Tracking Set</strong> drives measurement.
-            </p>
-          </div>
-        </div>
-
-        <div class="callout success">
-          <strong>Best end-state:</strong> a single Adobe product where the four prompt sets are first-class lifecycle stages,
-          supported by market intelligence, prompt governance, research workflows, and longitudinal measurement.
-        </div>
-      </section>
-
-      <footer class="footer">
-        <strong>Prototype note:</strong> this dark variant is tuned more like an internal strategy landing page or executive narrative surface.
-        For production, you would likely tighten typography, swap the bundle import for selective Spectrum components, and wire the sections to live data models.
-      </footer>
-
-    </main>
+      </main>
+    </div>
   </sp-theme>
 </body>
 </html>

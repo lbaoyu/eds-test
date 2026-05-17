@@ -101,8 +101,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 150px;
-      min-width: 150px;
+      width: 148px;
+      min-width: 148px;
     }
 
     .brand-logo {
@@ -157,7 +157,10 @@
         radial-gradient(circle at left bottom, rgba(31, 111, 116, 0.20), transparent 30%),
         linear-gradient(135deg, var(--kris-midnight), var(--kris-navy) 55%, var(--kris-royal));
       color: white;
-      padding: 72px 0 60px;
+      min-height: calc(100svh - 74px);
+      display: flex;
+      align-items: center;
+      padding: 40px 0 44px;
     }
 
     .hero-logo {
@@ -185,9 +188,9 @@
     }
 
     h1 {
-      font-size: clamp(2.2rem, 4.8vw, 4.0rem);
+      font-size: clamp(2.2rem, 4.8vw, 4rem);
       letter-spacing: -0.03em;
-      max-width: 840px;
+      max-width: 860px;
     }
 
     h2 {
@@ -208,14 +211,14 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.3fr 0.85fr;
+      grid-template-columns: 1.35fr 0.85fr;
       gap: var(--space-6);
-      align-items: start;
+      align-items: center;
     }
 
     .hero-copy p {
-      max-width: 800px;
-      font-size: 1.06rem;
+      max-width: 780px;
+      font-size: 1.04rem;
       color: rgba(255,255,255,0.94);
     }
 
@@ -263,7 +266,10 @@
       box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
     }
 
-    .hero-card h3 { color: white; margin-bottom: 12px; }
+    .hero-card h3 {
+      color: white;
+      margin-bottom: 12px;
+    }
 
     .hero-card ul {
       margin: 0;
@@ -271,10 +277,18 @@
       color: rgba(255,255,255,0.92);
     }
 
-    .hero-card li { margin: 0 0 8px; }
+    .hero-card li {
+      margin: 0 0 8px;
+    }
 
-    .section { padding: var(--space-9) 0; }
-    .section-tight { padding-top: var(--space-8); padding-bottom: var(--space-8); }
+    .section {
+      padding: var(--space-9) 0;
+    }
+
+    .section-tight {
+      padding-top: var(--space-8);
+      padding-bottom: var(--space-8);
+    }
 
     .section-header {
       max-width: 940px;
@@ -315,7 +329,10 @@
       box-shadow: var(--shadow-soft);
     }
 
-    .card-dark h2, .card-dark h3 { color: white; }
+    .card-dark h2,
+    .card-dark h3 {
+      color: white;
+    }
 
     .card-green {
       background: #edf8f5;
@@ -374,6 +391,11 @@
       background: linear-gradient(180deg, #faf8f4, #f4f0e9);
     }
 
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
     table {
       width: 100%;
       border-collapse: separate;
@@ -383,7 +405,8 @@
       background: var(--gray-50);
       border: 1px solid rgba(16, 34, 56, 0.08);
       box-shadow: var(--shadow-card);
-      table-layout: fixed;
+      table-layout: auto;
+      min-width: 860px;
     }
 
     th, td {
@@ -392,8 +415,8 @@
       vertical-align: top;
       border-bottom: 1px solid var(--gray-200);
       font-size: 0.98rem;
-      overflow-wrap: normal;
       word-break: normal;
+      overflow-wrap: normal;
       hyphens: none;
     }
 
@@ -405,11 +428,9 @@
 
     tr:last-child td { border-bottom: none; }
 
-    .nowrap { white-space: nowrap; }
-    .phase-col { width: 120px; white-space: nowrap; }
-    .layer-col { width: 170px; }
-    .need-col { width: 240px; }
-    .fit-col { width: 170px; }
+    .phase-col { white-space: nowrap; width: 120px; }
+    .solution-col { white-space: nowrap; width: 220px; }
+    .fit-col { width: 230px; }
 
     .compare {
       display: grid;
@@ -490,13 +511,6 @@
       .brand-subtitle {
         white-space: normal;
       }
-
-      .phase-col,
-      .layer-col,
-      .fit-col,
-      .need-col {
-        width: auto;
-      }
     }
 
     @media (max-width: 840px) {
@@ -513,8 +527,9 @@
       .nav { justify-content: flex-start; }
 
       .hero {
-        padding-top: 54px;
-        padding-bottom: 48px;
+        min-height: auto;
+        padding-top: 48px;
+        padding-bottom: 44px;
       }
 
       .hero-grid, .grid-2, .grid-3, .grid-4, .compare, .kpi-grid {
@@ -548,19 +563,6 @@
       .brand-title,
       .brand-subtitle {
         white-space: normal;
-      }
-
-      table {
-        display: block;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-
-      .phase-col,
-      .layer-col,
-      .fit-col,
-      .need-col {
-        white-space: nowrap;
       }
     }
 
@@ -657,7 +659,7 @@
             <h2>Why the storefront decision matters</h2>
             <p>
               KrisShop is not only deciding how pages are built. It is shaping how one storefront supports premium brand
-              presentation, product discovery, shopping journeys, rich account experiences, and future AI-driven discovery.
+              presentation, product discovery, shopping journeys, richer digital services, and future AI-driven discovery.
               The answer therefore needs to balance customer experience, content agility, commerce depth, and long-term flexibility.
             </p>
           </div>
@@ -689,49 +691,51 @@
             <h2>A clear solution approach</h2>
             <p>
               The most effective model is to match each part of the storefront to the capability it needs most.
-              This creates one consistent customer experience without forcing one technology to do every job.
+              This creates one consistent customer experience without forcing one technology pattern to do every job.
             </p>
           </div>
 
-          <table aria-label="Storefront approach table">
-            <thead>
-              <tr>
-                <th class="need-col">Experience need</th>
-                <th>Typical examples</th>
-                <th class="fit-col">Best-fit solution</th>
-                <th>Primary benefit</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Experience-led pages</strong></td>
-                <td>Homepage, campaigns, landing pages, editorial and storytelling pages</td>
-                <td><strong>Edge Delivery Services</strong></td>
-                <td>Fast page delivery, strong content agility, and cleaner publishing workflows</td>
-              </tr>
-              <tr>
-                <td><strong>Commerce-led journeys</strong></td>
-                <td>Search, PLP, PDP, minicart, cart, checkout</td>
-                <td><strong>Commerce Storefront</strong></td>
-                <td>Better product discovery, stronger shopping flows, and commerce-aware storefront behavior</td>
-              </tr>
-              <tr>
-                <td><strong>App-like modules</strong></td>
-                <td>Account tools, loyalty-linked modules, dashboards, utilities</td>
-                <td><strong>React</strong></td>
-                <td>Rich interaction and workflow support where the experience behaves more like an application than a page</td>
-              </tr>
-              <tr>
-                <td><strong>Discoverability-critical pages</strong></td>
-                <td>High-value product and category pages</td>
-                <td><strong>SSR / pre-render + Adobe LLM Optimizer</strong></td>
-                <td>Better search visibility, stronger rendered meaning, and better AI-readability</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table aria-label="Storefront approach table">
+              <thead>
+                <tr>
+                  <th>Experience need</th>
+                  <th>Typical examples</th>
+                  <th class="fit-col">Best-fit solution</th>
+                  <th>Primary benefit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Experience-led pages</strong></td>
+                  <td>Homepage, campaigns, landing pages, editorial and storytelling pages</td>
+                  <td><strong>Edge Delivery Services</strong></td>
+                  <td>Fast page delivery, strong content agility, and cleaner publishing workflows</td>
+                </tr>
+                <tr>
+                  <td><strong>Commerce-led journeys</strong></td>
+                  <td>Search, PLP, PDP, minicart, cart, checkout</td>
+                  <td><strong>Commerce Storefront</strong></td>
+                  <td>Better product discovery, stronger shopping flows, and commerce-aware storefront behavior</td>
+                </tr>
+                <tr>
+                  <td><strong>App-like modules</strong></td>
+                  <td>Account tools, loyalty-linked modules, dashboards, utilities</td>
+                  <td><strong>React</strong></td>
+                  <td>Rich interaction and workflow support where the experience behaves more like an application than a page</td>
+                </tr>
+                <tr>
+                  <td><strong>Discoverability-critical pages</strong></td>
+                  <td>High-value product and category pages</td>
+                  <td><strong>SSR / pre-render + Adobe LLM Optimizer</strong></td>
+                  <td>Better search visibility, stronger rendered meaning, and better AI-readability</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <div class="callout">
-            <strong>In simple terms:</strong> the recommendation is not "choose EDS or choose React."
+            <strong>In simple terms:</strong> the recommendation is not "choose one technology over another."
             It is to use the right solution for the right customer experience while keeping the storefront unified.
           </div>
         </div>
@@ -756,7 +760,7 @@
                 <li>Strong for campaigns, landing pages, storytelling, and fast-changing homepage content</li>
                 <li>Supports a lightweight, performance-first page model</li>
                 <li>Improves speed for content updates and iteration</li>
-                <li>Acts as the experience layer rather than the full commerce layer</li>
+                <li>Acts as the experience layer rather than the full shopping layer</li>
               </ul>
             </article>
 
@@ -821,7 +825,7 @@
 
             <article class="card">
               <h3>Alignment to commerce services</h3>
-              <p>It does not only render pages. It works with the services that shape product discovery and shopping experience quality.</p>
+              <p>It works with the services that shape product discovery and shopping experience quality.</p>
               <ul class="feature-list">
                 <li>Catalog-driven experiences</li>
                 <li>Search and discovery alignment</li>
@@ -848,7 +852,7 @@
                 <li>Less time spent recreating baseline shopping behavior</li>
                 <li>More time on differentiated brand and retail experiences</li>
                 <li>Cleaner focus on curated collections and premium merchandising</li>
-                <li>Lower pressure to solve every problem as a custom application build</li>
+                <li>Lower pressure to solve every commerce page as a custom application build</li>
               </ul>
             </article>
 
@@ -865,7 +869,7 @@
           </div>
 
           <div class="card card-dark" style="margin-top: 24px;">
-            <h3>Why Edge Delivery Services alone is not enough for shopping journeys</h3>
+            <h3>Why experience delivery alone is not enough for shopping journeys</h3>
             <p style="color: rgba(255,255,255,0.92); margin-bottom: 12px;">
               Edge Delivery Services is a strong answer for the experience layer, but shopping journeys need more than fast
               page delivery alone.
@@ -873,7 +877,7 @@
             <ul class="check-list" style="color: rgba(255,255,255,0.9);">
               <li>Commerce-led pages need product-aware composition, category-aware rendering, and shopper flow consistency</li>
               <li>They also need alignment to search, merchandising, recommendations, cart, and checkout behavior</li>
-              <li>That is why Commerce Storefront should be treated as a distinct part of the solution rather than assumed to be covered by Edge Delivery Services alone</li>
+              <li>That is why Commerce Storefront should be treated as a distinct part of the overall solution</li>
             </ul>
           </div>
         </div>
@@ -882,43 +886,45 @@
       <section class="section band">
         <div class="container">
           <div class="section-header">
-            <h2>Why this blended model is stronger than a single-pattern approach</h2>
+            <h2>Why a blended model is stronger than a single-pattern approach</h2>
             <p>
-              Each option becomes limiting when it is stretched beyond the problem it solves best. The blended model creates a better balance across customer experience, operational simplicity, and long-term flexibility.
+              Each option becomes limiting when it is stretched beyond the problem it solves best. A blended model creates a better balance across customer experience, operational simplicity, and long-term flexibility.
             </p>
           </div>
 
-          <table aria-label="Approach comparison">
-            <thead>
-              <tr>
-                <th class="fit-col">Approach</th>
-                <th>What it does well</th>
-                <th>Where it becomes limiting</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Experience-only</strong></td>
-                <td>Fast content-led publishing and strong campaign agility</td>
-                <td>Does not by itself provide the full shopping behavior needed for search, product discovery, and conversion</td>
-              </tr>
-              <tr>
-                <td><strong>Application-only</strong></td>
-                <td>Rich interaction and highly tailored workflows</td>
-                <td>Can become heavier to operate, harder to optimize for discoverability, and more developer-dependent for content changes</td>
-              </tr>
-              <tr>
-                <td><strong>Commerce-only</strong></td>
-                <td>Transactional and shopping flows</td>
-                <td>Can be too narrow for premium storytelling, fast campaign iteration, and experience-led publishing needs</td>
-              </tr>
-              <tr>
-                <td><strong>Blended model</strong></td>
-                <td>Uses the right capability for each experience type</td>
-                <td>Requires clearer planning up front, but creates a stronger long-term storefront architecture</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table aria-label="Approach comparison">
+              <thead>
+                <tr>
+                  <th class="fit-col">Approach</th>
+                  <th>What it does well</th>
+                  <th>Where it becomes limiting</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Experience-only</strong></td>
+                  <td>Fast content-led publishing and strong campaign agility</td>
+                  <td>Does not by itself provide the full shopping behavior needed for search, product discovery, and conversion</td>
+                </tr>
+                <tr>
+                  <td><strong>Application-only</strong></td>
+                  <td>Rich interaction and highly tailored workflows</td>
+                  <td>Can become heavier to operate, harder to optimize for discoverability, and more developer-dependent for content changes</td>
+                </tr>
+                <tr>
+                  <td><strong>Commerce-only</strong></td>
+                  <td>Transactional and shopping flows</td>
+                  <td>Can be too narrow for premium storytelling, fast campaign iteration, and experience-led publishing needs</td>
+                </tr>
+                <tr>
+                  <td><strong>Blended model</strong></td>
+                  <td>Uses the right capability for each experience type</td>
+                  <td>Requires clearer planning up front, but creates a stronger long-term storefront architecture</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
@@ -932,42 +938,44 @@
             </p>
           </div>
 
-          <table aria-label="Phased modernization">
-            <thead>
-              <tr>
-                <th class="phase-col">Phase</th>
-                <th>Focus</th>
-                <th class="layer-col">Recommended solution</th>
-                <th>Why this phase matters</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="phase-col"><strong>Phase&nbsp;1</strong></td>
-                <td>Homepage, campaign pages, landing pages</td>
-                <td class="layer-col"><strong>Edge Delivery Services</strong></td>
-                <td>Fastest way to improve speed, content agility, and visible brand experience without touching deeper shopping logic first</td>
-              </tr>
-              <tr>
-                <td class="phase-col"><strong>Phase&nbsp;2</strong></td>
-                <td>Search, product listing pages, product detail pages</td>
-                <td class="layer-col"><strong>Commerce Storefront</strong></td>
-                <td>Improves the highest-value product discovery surfaces where shoppers evaluate and compare products</td>
-              </tr>
-              <tr>
-                <td class="phase-col"><strong>Phase&nbsp;3</strong></td>
-                <td>Cart, checkout, and connected shopping journeys</td>
-                <td class="layer-col"><strong>Commerce Storefront</strong></td>
-                <td>Moves deeper into conversion-critical paths after the storefront foundation and key patterns are proven</td>
-              </tr>
-              <tr>
-                <td class="phase-col"><strong>Phase&nbsp;4</strong></td>
-                <td>Specialized tools, utilities, and richer account experiences</td>
-                <td class="layer-col"><strong>React where needed</strong></td>
-                <td>Adds advanced interaction without making the whole site heavy or application-like by default</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-scroll">
+            <table aria-label="Phased modernization">
+              <thead>
+                <tr>
+                  <th class="phase-col">Phase</th>
+                  <th>Focus</th>
+                  <th class="solution-col">Recommended solution</th>
+                  <th>Why this phase matters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="phase-col"><strong>Phase&nbsp;1</strong></td>
+                  <td>Homepage, campaign pages, landing pages</td>
+                  <td class="solution-col"><strong>Edge Delivery Services</strong></td>
+                  <td>Fastest way to improve speed, content agility, and visible brand experience without touching deeper shopping logic first</td>
+                </tr>
+                <tr>
+                  <td class="phase-col"><strong>Phase&nbsp;2</strong></td>
+                  <td>Search, product listing pages, product detail pages</td>
+                  <td class="solution-col"><strong>Commerce Storefront</strong></td>
+                  <td>Improves the highest-value product discovery surfaces where shoppers evaluate and compare products</td>
+                </tr>
+                <tr>
+                  <td class="phase-col"><strong>Phase&nbsp;3</strong></td>
+                  <td>Cart, checkout, and connected shopping journeys</td>
+                  <td class="solution-col"><strong>Commerce Storefront</strong></td>
+                  <td>Moves deeper into conversion-critical paths after the storefront foundation and key patterns are proven</td>
+                </tr>
+                <tr>
+                  <td class="phase-col"><strong>Phase&nbsp;4</strong></td>
+                  <td>Specialized tools, utilities, and richer account experiences</td>
+                  <td class="solution-col"><strong>React where needed</strong></td>
+                  <td>Adds advanced interaction without making the whole site heavy or application-like by default</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
           <div class="grid-3" style="margin-top: 24px;">
             <article class="card">
@@ -1012,15 +1020,15 @@
         <div class="container">
           <div class="card card-dark">
             <div class="section-header" style="margin-bottom: 32px; max-width: 920px;">
-              <h2>A clear way to present the commerce part of the solution</h2>
+              <h2>How the shopping capability fits into the full solution</h2>
               <p style="color: rgba(255,255,255,0.88);">
-                The conversation is strongest when it is framed around customer experience needs rather than around competing frontend technologies.
+                The recommendation becomes simpler and clearer when it is presented around the customer experience KrisShop wants to deliver rather than around competing technologies.
               </p>
             </div>
 
             <div class="compare">
               <div class="compare-block">
-                <h3 style="color: white;">Simple customer-facing story</h3>
+                <h3 style="color: white;">Simple solution story</h3>
                 <ul class="check-list" style="color: rgba(255,255,255,0.9);">
                   <li><strong>Edge Delivery Services</strong> supports the experience-led parts of the site</li>
                   <li><strong>Commerce Storefront</strong> supports the shopping journeys</li>
@@ -1029,24 +1037,23 @@
               </div>
 
               <div class="compare-block">
-                <h3 style="color: white;">Best fit when shopping capability is needed</h3>
+                <h3 style="color: white;">Best fit when full shopping capability is needed</h3>
                 <p style="color: rgba(255,255,255,0.9); margin-bottom: 10px;">
-                  If KrisShop needs a full commerce-facing storefront layer, the best fit is
-                  <strong>Adobe Commerce Optimizer</strong> because it brings together:
+                  If KrisShop wants a complete commerce-facing storefront layer, <strong>Adobe Commerce Optimizer</strong> is the strongest fit because it brings together:
                 </p>
                 <ul class="check-list" style="color: rgba(255,255,255,0.9);">
                   <li>Commerce Storefront</li>
                   <li>Catalog and merchandising services</li>
                   <li>Product discovery capabilities</li>
                   <li>Recommendations support</li>
-                  <li>Extensibility options for tailored experiences</li>
+                  <li>Extensibility for tailored experiences</li>
                 </ul>
               </div>
             </div>
 
             <p class="note" style="color: rgba(255,255,255,0.78);">
-              Commerce Storefront capability requires additional licensing. For this architecture, the strongest customer-facing story is
-              <strong>Edge Delivery Services for experience plus Commerce Optimizer for commerce</strong>.
+              In practical terms, this means a strong combined approach:
+              <strong>Edge Delivery Services for experience-led pages and Adobe Commerce Optimizer for shopping journeys.</strong>
             </p>
           </div>
         </div>
@@ -1085,40 +1092,42 @@
             </article>
           </div>
 
-          <table aria-label="Rendered discoverability requirements" style="margin-top: 24px;">
-            <thead>
-              <tr>
-                <th>What should exist in rendered HTML</th>
-                <th>Why it matters</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Title, meta description, canonical, hreflang</td>
-                <td>Supports page interpretation, deduplication, internationalization, and indexing</td>
-              </tr>
-              <tr>
-                <td>H1 and semantic section structure</td>
-                <td>Improves machine-readable clarity and content hierarchy</td>
-              </tr>
-              <tr>
-                <td>Product or category descriptions</td>
-                <td>Helps search systems and AI systems understand what the page is about</td>
-              </tr>
-              <tr>
-                <td>Breadcrumbs and internal navigation</td>
-                <td>Strengthens site structure, crawlability, and relationship between pages</td>
-              </tr>
-              <tr>
-                <td>Product names and image URLs</td>
-                <td>Improves relevance and discoverability in product-oriented experiences</td>
-              </tr>
-              <tr>
-                <td>Structured data for product, list, and breadcrumb entities</td>
-                <td>Supports search interpretation and machine-readable understanding of product context</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="table-scroll" style="margin-top: 24px;">
+            <table aria-label="Rendered discoverability requirements">
+              <thead>
+                <tr>
+                  <th>What should exist in rendered HTML</th>
+                  <th>Why it matters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Title, meta description, canonical, hreflang</td>
+                  <td>Supports page interpretation, deduplication, internationalization, and indexing</td>
+                </tr>
+                <tr>
+                  <td>H1 and semantic section structure</td>
+                  <td>Improves machine-readable clarity and content hierarchy</td>
+                </tr>
+                <tr>
+                  <td>Product or category descriptions</td>
+                  <td>Helps search systems and AI systems understand what the page is about</td>
+                </tr>
+                <tr>
+                  <td>Breadcrumbs and internal navigation</td>
+                  <td>Strengthens site structure, crawlability, and relationship between pages</td>
+                </tr>
+                <tr>
+                  <td>Product names and image URLs</td>
+                  <td>Improves relevance and discoverability in product-oriented experiences</td>
+                </tr>
+                <tr>
+                  <td>Structured data for product, list, and breadcrumb entities</td>
+                  <td>Supports search interpretation and machine-readable understanding of product context</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </section>
 
@@ -1170,36 +1179,39 @@
         <div class="container">
           <div class="card">
             <h2>Summary</h2>
-            <table aria-label="Final summary">
-              <thead>
-                <tr>
-                  <th class="need-col">Customer need</th>
-                  <th>Recommended approach</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>High-velocity content and campaigns</td>
-                  <td><strong>Edge Delivery Services</strong></td>
-                </tr>
-                <tr>
-                  <td>Commerce-led shopping journeys</td>
-                  <td><strong>Commerce Storefront via Adobe Commerce Optimizer</strong></td>
-                </tr>
-                <tr>
-                  <td>Richer tools and workflow-heavy experiences</td>
-                  <td><strong>React where needed</strong></td>
-                </tr>
-                <tr>
-                  <td>Search and machine-readable rendered meaning</td>
-                  <td><strong>SSR / pre-render</strong></td>
-                </tr>
-                <tr>
-                  <td>AI-era product visibility and discovery</td>
-                  <td><strong>Adobe LLM Optimizer + Optimize at Edge</strong></td>
-                </tr>
-              </tbody>
-            </table>
+
+            <div class="table-scroll">
+              <table aria-label="Final summary">
+                <thead>
+                  <tr>
+                    <th>Customer need</th>
+                    <th>Recommended approach</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>High-velocity content and campaigns</td>
+                    <td><strong>Edge Delivery Services</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Commerce-led shopping journeys</td>
+                    <td><strong>Commerce Storefront via Adobe Commerce Optimizer</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Richer tools and workflow-heavy experiences</td>
+                    <td><strong>React where needed</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Search and machine-readable rendered meaning</td>
+                    <td><strong>SSR / pre-render</strong></td>
+                  </tr>
+                  <tr>
+                    <td>AI-era product visibility and discovery</td>
+                    <td><strong>Adobe LLM Optimizer + Optimize at Edge</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
             <div class="grid-2" style="margin-top: 24px;">
               <article class="card card-muted">

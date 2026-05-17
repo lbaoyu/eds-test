@@ -3,940 +3,1277 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Unified Prompt Operating Model | Semrush AIO + Adobe LLM Optimizer</title>
-
-  <!-- Spectrum Web Components bundle for quick prototype usage -->
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@spectrum-web-components/bundle/elements.js?module"></script>
-
+  <title>KrisShop Storefront Architecture</title>
   <style>
     :root {
-      --bg: #f8f8f8;
-      --surface: #ffffff;
-      --surface-alt: #f3f3f3;
-      --text: #1e1e1e;
-      --muted: #5c5c5c;
-      --border: #d9d9d9;
-      --accent: #1473e6;
-      --accent-soft: #e8f2ff;
-      --success: #0a7f3f;
-      --warning: #b55d00;
-      --danger: #c9252d;
+      --kris-midnight: #102238;
+      --kris-navy: #193a5c;
+      --kris-royal: #27547e;
+      --kris-teal: #1f6f74;
+      --kris-gold: #b99146;
+      --kris-gold-soft: #e8d7b8;
+      --kris-ivory: #fbfaf7;
+
+      --gray-50: #ffffff;
+      --gray-75: #fcfcfb;
+      --gray-100: #f6f4ef;
+      --gray-200: #eeeae2;
+      --gray-300: #ddd7cd;
+      --gray-400: #c8c0b3;
+      --gray-500: #a79d8f;
+      --gray-700: #6d655c;
+      --gray-800: #4a443e;
+      --gray-900: #26221e;
+
+      --success: #2f8d6f;
+      --warning: #a86f1f;
+
+      --shadow-soft: 0 12px 34px rgba(17, 25, 40, 0.08);
+      --shadow-card: 0 8px 24px rgba(17, 25, 40, 0.06);
+
+      --radius-xl: 24px;
       --radius-lg: 18px;
-      --radius-md: 12px;
-      --radius-sm: 8px;
-      --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-      --max: 1240px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+
+      --max-width: 1220px;
+
+      --space-1: 8px;
+      --space-2: 12px;
+      --space-3: 16px;
+      --space-4: 20px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 40px;
+      --space-8: 56px;
+      --space-9: 72px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: "Adobe Clean", "Segoe UI", Inter, Arial, sans-serif;
-      line-height: 1.55;
+      font-family: "Adobe Clean", "Segoe UI", Roboto, Arial, sans-serif;
+      color: var(--gray-900);
+      background: linear-gradient(180deg, var(--gray-100) 0%, #faf8f4 100%);
+      line-height: 1.6;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
-    }
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
 
-    a:hover {
-      text-decoration: underline;
-    }
+    .page { min-height: 100vh; }
 
-    .page {
-      width: min(100%, var(--max));
+    .container {
+      width: min(var(--max-width), calc(100% - 32px));
       margin: 0 auto;
-      padding: 32px 24px 80px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(14px);
+      background: rgba(251, 250, 247, 0.88);
+      border-bottom: 1px solid rgba(16, 34, 56, 0.08);
+    }
+
+    .topbar-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      min-height: 74px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+      flex: 0 1 auto;
+    }
+
+    .brand-mark {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 148px;
+      min-width: 148px;
+    }
+
+    .brand-logo {
+      height: 23px;
+      width: auto;
+      display: block;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .brand-title {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: var(--kris-midnight);
+      white-space: nowrap;
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--gray-700);
+      white-space: nowrap;
+    }
+
+    .nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .nav a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--gray-800);
+      font-size: 14px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .nav a:hover {
+      background: var(--gray-200);
     }
 
     .hero {
-      background: linear-gradient(135deg, #ffffff 0%, #eef5ff 100%);
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-      padding: 40px;
-      margin-bottom: 28px;
+      background:
+        radial-gradient(circle at top right, rgba(232, 215, 184, 0.22), transparent 26%),
+        radial-gradient(circle at left bottom, rgba(31, 111, 116, 0.20), transparent 30%),
+        linear-gradient(135deg, var(--kris-midnight), var(--kris-navy) 55%, var(--kris-royal));
+      color: white;
+      min-height: calc(100svh - 74px);
+      display: flex;
+      align-items: center;
+      padding: 36px 0 40px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: var(--space-6);
+      align-items: center;
+    }
+
+    .hero-copy {
+      display: block;
+    }
+
+    .hero-logo {
+      height: 28px;
+      width: auto;
+      margin-bottom: 14px;
+      filter: brightness(0) invert(1);
+      opacity: 0.98;
     }
 
     .eyebrow {
       display: inline-block;
-      margin-bottom: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-weight: 700;
-      font-size: 12px;
-      letter-spacing: 0.04em;
+      margin-bottom: var(--space-3);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
+      color: var(--kris-gold-soft);
+    }
+
+    h1, h2, h3, h4 {
+      margin: 0 0 14px;
+      line-height: 1.15;
+      font-weight: 800;
     }
 
     h1 {
-      margin: 0 0 14px;
-      font-size: clamp(2rem, 4vw, 3.5rem);
-      line-height: 1.08;
+      font-size: clamp(2.2rem, 4.8vw, 4rem);
       letter-spacing: -0.03em;
-    }
-
-    .lead {
-      max-width: 920px;
-      margin: 0 0 24px;
-      color: var(--muted);
-      font-size: 1.08rem;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .section {
-      margin-top: 28px;
-    }
-
-    .section-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
-      padding: 28px;
+      max-width: 860px;
     }
 
     h2 {
-      margin: 0 0 14px;
-      font-size: 1.75rem;
+      font-size: clamp(1.85rem, 3vw, 2.5rem);
       letter-spacing: -0.02em;
+      color: var(--kris-midnight);
     }
 
     h3 {
-      margin: 0 0 10px;
-      font-size: 1.15rem;
-      letter-spacing: -0.01em;
+      font-size: clamp(1.08rem, 1.9vw, 1.28rem);
+      color: var(--kris-midnight);
     }
 
     h4 {
-      margin: 0 0 8px;
       font-size: 1rem;
+      color: var(--kris-midnight);
+      margin-bottom: 10px;
     }
 
     p {
-      margin: 0 0 14px;
+      margin: 0 0 16px;
+      font-size: 1rem;
     }
 
-    .muted {
-      color: var(--muted);
+    .hero-copy p {
+      max-width: 780px;
+      font-size: 1.04rem;
+      color: rgba(255,255,255,0.94);
     }
 
-    .grid {
-      display: grid;
-      gap: 18px;
-    }
-
-    .grid-2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .grid-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .grid-4 {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-    }
-
-    .card.soft {
-      background: #fcfcfc;
-    }
-
-    .card.accent {
-      background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
-      border-color: #bfd8fb;
-    }
-
-    .term-card {
-      min-height: 220px;
-    }
-
-    .term-card .term {
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .term-card .meaning {
-      display: inline-block;
-      margin-bottom: 12px;
-      color: var(--accent);
-      font-weight: 700;
-    }
-
-    .pill-row {
+    .button-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 10px;
+      gap: 14px;
+      margin-top: var(--space-4);
     }
 
-    .pill {
+    .button {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      border: 1px solid var(--border);
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 18px;
       border-radius: 999px;
-      background: var(--surface-alt);
-      color: var(--muted);
-      font-size: 0.92rem;
+      font-weight: 800;
+      font-size: 15px;
+      transition: 0.2s ease;
       white-space: nowrap;
     }
 
-    .flow {
+    .button-primary {
+      background: linear-gradient(135deg, #fff7ea, #f0dfbb);
+      color: var(--kris-midnight);
+    }
+
+    .button-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .button-secondary {
+      border: 1px solid rgba(255,255,255,0.28);
+      color: white;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .hero-card {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--radius-xl);
+      padding: 26px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+      min-height: 320px;
+      align-self: center;
+    }
+
+    .hero-card h3 {
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .hero-card p {
+      color: rgba(255,255,255,0.88);
+      margin-bottom: 14px;
+    }
+
+    .hero-card ul {
+      margin: 0;
+      padding-left: 20px;
+      color: rgba(255,255,255,0.92);
+    }
+
+    .hero-card li {
+      margin: 0 0 8px;
+    }
+
+    .section {
+      padding: var(--space-9) 0;
+    }
+
+    .section-tight {
+      padding-top: var(--space-8);
+      padding-bottom: var(--space-8);
+    }
+
+    .section-header {
+      max-width: 940px;
+      margin-bottom: var(--space-7);
+    }
+
+    .section-header p {
+      color: var(--gray-800);
+      font-size: 1.05rem;
+    }
+
+    .grid-2, .grid-3, .grid-4 {
       display: grid;
-      gap: 14px;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      margin-top: 16px;
-      align-items: stretch;
+      gap: var(--space-5);
     }
 
-    .flow-step {
-      position: relative;
-      background: linear-gradient(180deg, #ffffff 0%, #fafafa 100%);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 18px;
-      min-height: 180px;
+    .grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+    .card {
+      background: var(--gray-50);
+      border: 1px solid rgba(16, 34, 56, 0.07);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-card);
     }
 
-    .flow-step .num {
+    .card-muted {
+      background: linear-gradient(180deg, #f8f6f1 0%, #f2eee6 100%);
+      border-color: rgba(185, 145, 70, 0.20);
+    }
+
+    .card-dark {
+      background: linear-gradient(135deg, #10253b, #173455);
+      color: white;
+      border: none;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card-dark h2,
+    .card-dark h3 {
+      color: white;
+    }
+
+    .card-green {
+      background: #edf8f5;
+      border-color: rgba(47, 141, 111, 0.18);
+    }
+
+    .tag {
       display: inline-flex;
-      width: 32px;
-      height: 32px;
       align-items: center;
-      justify-content: center;
+      gap: 8px;
+      padding: 8px 12px;
       border-radius: 999px;
-      background: var(--accent);
-      color: #fff;
+      background: #f3ecde;
+      border: 1px solid rgba(185, 145, 70, 0.22);
+      color: #7d5d20;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 14px;
+      white-space: nowrap;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .pill {
+      background: var(--gray-200);
+      border: 1px solid var(--gray-300);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 14px;
       font-weight: 700;
-      margin-bottom: 12px;
+      color: var(--gray-800);
+      white-space: nowrap;
     }
 
-    .flow-arrow {
-      display: none;
+    .feature-list, .check-list, .summary-list {
+      padding-left: 20px;
+      margin: 0;
     }
 
-    .callout {
-      border-left: 4px solid var(--accent);
-      background: #f8fbff;
-      border-radius: 0 12px 12px 0;
-      padding: 16px 18px;
-      margin: 16px 0 0;
+    .feature-list li, .check-list li, .summary-list li {
+      margin-bottom: 10px;
     }
 
-    .callout.warning {
-      border-left-color: var(--warning);
-      background: #fff8ef;
+    .band {
+      background: linear-gradient(180deg, #f4f2ed, #faf9f6);
+      border-top: 1px solid rgba(16, 34, 56, 0.04);
+      border-bottom: 1px solid rgba(16, 34, 56, 0.04);
     }
 
-    .callout.success {
-      border-left-color: var(--success);
-      background: #f4fbf6;
+    .subtle-band {
+      background: linear-gradient(180deg, #faf8f4, #f4f0e9);
     }
 
-    .callout.danger {
-      border-left-color: var(--danger);
-      background: #fff5f5;
-    }
-
-    .kpi-list,
-    .check-list {
-      padding-left: 18px;
-      margin: 10px 0 0;
-    }
-
-    .kpi-list li,
-    .check-list li {
-      margin-bottom: 8px;
+    .table-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     table {
       width: 100%;
-      border-collapse: collapse;
-      margin-top: 12px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      border-radius: 14px;
+      border-collapse: separate;
+      border-spacing: 0;
       overflow: hidden;
+      border-radius: var(--radius-lg);
+      background: var(--gray-50);
+      border: 1px solid rgba(16, 34, 56, 0.08);
+      box-shadow: var(--shadow-card);
+      table-layout: auto;
+      min-width: 860px;
     }
 
-    th,
-    td {
-      padding: 14px 14px;
+    th, td {
+      padding: 18px 18px;
       text-align: left;
       vertical-align: top;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 0.98rem;
+      word-break: normal;
+      overflow-wrap: normal;
+      hyphens: none;
     }
 
     th {
-      background: #f5f5f5;
-      font-size: 0.93rem;
+      background: linear-gradient(180deg, #f9f6ef, #f3eee2);
+      color: var(--kris-midnight);
+      font-weight: 800;
     }
 
-    tr:last-child td {
-      border-bottom: none;
-    }
+    tr:last-child td { border-bottom: none; }
 
-    .two-col {
+    .phase-col { white-space: nowrap; width: 120px; }
+    .solution-col { white-space: nowrap; width: 220px; }
+    .fit-col { width: 230px; }
+
+    .compare {
       display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
-      gap: 18px;
-      align-items: start;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-5);
+      margin-top: 20px;
     }
 
-    .sticky-note {
-      position: sticky;
-      top: 24px;
-      background: linear-gradient(180deg, #ffffff 0%, #f7fbff 100%);
-      border: 1px solid #cfe1fb;
-      border-radius: 18px;
+    .compare-block {
+      border-radius: var(--radius-md);
+      padding: 22px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .callout {
+      margin-top: 24px;
+      padding: 22px 24px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #fff9ef, #f7f1e5);
+      border: 1px solid rgba(185, 145, 70, 0.18);
+      color: var(--gray-900);
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+      margin-top: 10px;
+    }
+
+    .kpi {
+      background: var(--gray-50);
+      border: 1px solid rgba(16, 34, 56, 0.07);
+      border-radius: var(--radius-md);
       padding: 20px;
+      box-shadow: var(--shadow-card);
     }
 
-    .micro {
-      font-size: 0.9rem;
-      color: var(--muted);
+    .kpi strong {
+      display: block;
+      font-size: 1.1rem;
+      color: var(--kris-midnight);
+      margin-bottom: 8px;
+    }
+
+    .note {
+      margin-top: 18px;
+      font-size: 0.92rem;
+      color: var(--gray-700);
     }
 
     .footer {
-      margin-top: 28px;
-      padding: 22px 24px;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      background: var(--surface);
-      color: var(--muted);
+      padding: 36px 0 48px;
+      color: var(--gray-700);
+      font-size: 14px;
     }
 
-    code,
-    pre {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 14px;
+      border-top: 1px solid var(--gray-300);
+      padding-top: 20px;
     }
-
-    pre {
-      margin: 12px 0 0;
-      padding: 16px;
-      background: #101010;
-      color: #f5f5f5;
-      border-radius: 14px;
-      overflow: auto;
-      font-size: 0.92rem;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      margin-right: 6px;
-      margin-bottom: 6px;
-      background: #efefef;
-      color: #444;
-    }
-
-    .tag.blue { background: #e8f2ff; color: #0d66d0; }
-    .tag.green { background: #edf9f0; color: #0a7f3f; }
-    .tag.orange { background: #fff3e6; color: #b55d00; }
-    .tag.red { background: #fff1f1; color: #c9252d; }
 
     @media (max-width: 1080px) {
-      .grid-4,
-      .flow {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+      .hero-grid, .grid-3, .grid-4, .compare, .kpi-grid {
+        grid-template-columns: 1fr 1fr;
       }
 
-      .two-col {
+      .brand-mark {
+        width: 132px;
+        min-width: 132px;
+      }
+
+      .brand-subtitle {
+        white-space: normal;
+      }
+    }
+
+    @media (max-width: 840px) {
+      .topbar {
+        position: static;
+      }
+
+      .topbar-inner {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 14px 0;
+      }
+
+      .nav { justify-content: flex-start; }
+
+      .hero {
+        min-height: auto;
+        padding-top: 48px;
+        padding-bottom: 44px;
+      }
+
+      .hero-grid, .grid-2, .grid-3, .grid-4, .compare, .kpi-grid {
         grid-template-columns: 1fr;
       }
 
-      .sticky-note {
-        position: static;
-      }
-    }
-
-    @media (max-width: 740px) {
-      .page {
-        padding: 18px 14px 50px;
+      .section, .section-tight {
+        padding-top: 52px;
+        padding-bottom: 52px;
       }
 
-      .hero,
-      .section-card {
+      .card, .hero-card {
         padding: 22px;
       }
 
-      .grid-2,
-      .grid-3,
-      .grid-4,
-      .flow {
-        grid-template-columns: 1fr;
+      .hero-card {
+        min-height: auto;
       }
 
-      h1 {
-        font-size: 2.2rem;
+      th, td {
+        padding: 14px;
+        font-size: 0.95rem;
       }
+
+      .brand {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .brand-mark {
+        width: auto;
+        min-width: 0;
+      }
+
+      .brand-title,
+      .brand-subtitle {
+        white-space: normal;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .container {
+        width: min(var(--max-width), calc(100% - 20px));
+      }
+
+      .nav a {
+        padding: 8px 12px;
+        font-size: 13px;
+      }
+
+      .button-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .button { width: 100%; }
+      .hero-card { padding: 20px; }
+      .brand-logo { height: 21px; }
+      .hero-logo { height: 24px; }
+      h1 { font-size: 2rem; }
+      .hero-copy p { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
-  <sp-theme color="light" scale="medium" system="spectrum">
-    <main class="page">
+  <div class="page">
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <div class="brand">
+          <div class="brand-mark" aria-label="KrisShop logo">
+            <img
+              src="https://main--eds-test--lbaoyu.aem.live/icons/krisshop.svg"
+              alt="KrisShop"
+              class="brand-logo"
+            />
+          </div>
+          <div class="brand-text">
+            <div class="brand-title">KrisShop Storefront Architecture</div>
+            <div class="brand-subtitle">Customer-facing view of the recommended storefront approach</div>
+          </div>
+        </div>
 
+        <nav class="nav" aria-label="Section navigation">
+          <a href="#framing">Overview</a>
+          <a href="#approach">Approach</a>
+          <a href="#storefront">Storefront</a>
+          <a href="#modernization">Phased Plan</a>
+          <a href="#discoverability">AI Readiness</a>
+          <a href="#summary">Summary</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
       <section class="hero">
-        <div class="eyebrow">Unified GEO Product Vision</div>
-        <h1>Prompt Operating Model for a Combined <br />Semrush AIO + Adobe LLM Optimizer Product</h1>
-        <p class="lead">
-          This page remixes the key ideas into a single operating model where
-          <strong>Prompt Universe</strong>, <strong>Prompt Library</strong>, <strong>Research Set</strong>, and
-          <strong>Tracking Set</strong> all live inside one tool. The central design principle is simple:
-          <strong>prompts are managed as a lifecycle, not as disconnected lists</strong>.
-        </p>
-        <div class="hero-actions">
-          <sp-button variant="accent" href="#terms">See the 4 Sets</sp-button>
-          <sp-button variant="secondary" href="#workflow">View Workflow</sp-button>
-          <sp-button variant="secondary" href="#governance">Review Governance</sp-button>
-        </div>
-      </section>
-
-      <section id="summary" class="section section-card">
-        <h2>Executive Summary</h2>
-        <div class="grid grid-3">
-          <div class="card accent">
-            <h3>What the combined product should do</h3>
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <img
+              src="https://main--eds-test--lbaoyu.aem.live/icons/krisshop.svg"
+              alt="KrisShop"
+              class="hero-logo"
+            />
+            <div class="eyebrow">Storefront Strategy</div>
+            <h1>A modern storefront designed for speed, discovery, and flexibility</h1>
             <p>
-              Unite <strong>market intelligence</strong>, <strong>prompt curation</strong>,
-              <strong>measurement</strong>, and <strong>optimization</strong> in one connected system.
+              For KrisShop, the strongest path is not one frontend pattern for every page. It is one cohesive storefront
+              built from the right capabilities for each experience:
+              <strong>Edge Delivery Services for experience-led pages, Commerce Storefront for shopping journeys,
+              React for app-like tools, server-side rendering for discoverability, and Adobe LLM Optimizer support for AI-era product visibility.</strong>
             </p>
+            <div class="button-row">
+              <a class="button button-primary" href="#approach">View the recommended approach</a>
+              <a class="button button-secondary" href="#storefront">See what Commerce Storefront adds</a>
+            </div>
           </div>
-          <div class="card accent">
-            <h3>What changes conceptually</h3>
+
+          <aside class="hero-card" aria-label="Key outcomes">
+            <h3>What this approach delivers</h3>
             <p>
-              The four sets should be treated as <strong>states of one prompt lifecycle</strong>,
-              not separate silos or disconnected prompt banks.
+              The recommended model gives KrisShop a practical way to improve customer experience now while creating a stronger
+              foundation for future growth.
             </p>
-          </div>
-          <div class="card accent">
-            <h3>Why it matters</h3>
-            <p>
-              It creates a closed loop from <strong>signal → curation → tracking → optimization → business impact</strong>.
-            </p>
-          </div>
-        </div>
-
-        <div class="callout">
-          <strong>Key design principle:</strong> every prompt should exist as a single canonical object with metadata,
-          lineage, and state transitions. The sets are mostly <strong>views</strong> and <strong>statuses</strong>,
-          not separate duplicated records.
-        </div>
-      </section>
-
-      <section id="terms" class="section section-card">
-        <h2>The 4 Prompt Sets</h2>
-        <p class="muted">
-          These definitions work well for a combined Adobe product and align cleanly to the categories → topics → prompts execution model.
-        </p>
-
-        <div class="grid grid-4">
-          <div class="card term-card">
-            <div class="term">Prompt Universe</div>
-            <div class="meaning">Everything that could be relevant</div>
-            <p>
-              The full opportunity space of prompts that matter to the market, brand, customer journey, and competitive landscape.
-            </p>
-            <div class="pill-row">
-              <span class="pill">Broadest scope</span>
-              <span class="pill">Discovery layer</span>
-              <span class="pill">Market-facing</span>
-            </div>
-          </div>
-
-          <div class="card term-card">
-            <div class="term">Prompt Library</div>
-            <div class="meaning">Everything you've captured and stored</div>
-            <p>
-              The governed repository of prompts that have been retained, normalized, tagged, deduplicated, and made reusable.
-            </p>
-            <div class="pill-row">
-              <span class="pill">Canonical repository</span>
-              <span class="pill">Versioned</span>
-              <span class="pill">Searchable</span>
-            </div>
-          </div>
-
-          <div class="card term-card">
-            <div class="term">Research Set</div>
-            <div class="meaning">What you're analyzing now</div>
-            <p>
-              The working subset of prompts currently being evaluated, clustered, refined, or validated before promotion.
-            </p>
-            <div class="pill-row">
-              <span class="pill">Editorial lab</span>
-              <span class="pill">Dynamic</span>
-              <span class="pill">Evaluation layer</span>
-            </div>
-          </div>
-
-          <div class="card term-card">
-            <div class="term">Tracking Set</div>
-            <div class="meaning">What you're actively monitoring</div>
-            <p>
-              The stable production subset used for longitudinal visibility measurement, optimization baselines, and reporting.
-            </p>
-            <div class="pill-row">
-              <span class="pill">Production measurement</span>
-              <span class="pill">Stable over time</span>
-              <span class="pill">Outcome-linked</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section id="alignment" class="section section-card">
-        <h2>How This Aligns to the Combined Product</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Layer</th>
-              <th>Natural Product Role</th>
-              <th>Main Job</th>
-              <th>What Good Looks Like</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Universe</strong></td>
-              <td>Semrush-heavy discovery and demand intelligence</td>
-              <td>Expose the full prompt opportunity space</td>
-              <td>Broad coverage across intent, competition, and market signals</td>
-            </tr>
-            <tr>
-              <td><strong>Library</strong></td>
-              <td>Unified Adobe system of record</td>
-              <td>Retain and govern prompts worth keeping</td>
-              <td>Deduped, tagged, versioned, reusable, owner-assigned</td>
-            </tr>
-            <tr>
-              <td><strong>Research Set</strong></td>
-              <td>Strategy and analysis workspace</td>
-              <td>Refine, score, compare, cluster, and validate</td>
-              <td>Focused workset with clear purpose and promotion criteria</td>
-            </tr>
-            <tr>
-              <td><strong>Tracking Set</strong></td>
-              <td>LLMO-style production measurement surface</td>
-              <td>Monitor over time and tie to optimization impact</td>
-              <td>Stable, intentional, high-confidence, business-priority prompts</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="lifecycle" class="section section-card">
-        <h2>Recommended Lifecycle Model</h2>
-        <p>
-          The cleanest way to implement the four sets is as a single lifecycle:
-        </p>
-
-        <div class="flow">
-          <div class="flow-step">
-            <div class="num">1</div>
-            <h3>Discover</h3>
-            <p>Generate or ingest candidates from market, customer, and traffic signals.</p>
-            <div class="pill-row">
-              <span class="pill">Universe</span>
-            </div>
-          </div>
-
-          <div class="flow-step">
-            <div class="num">2</div>
-            <h3>Retain</h3>
-            <p>Keep the useful prompts, normalize them, tag them, and store them centrally.</p>
-            <div class="pill-row">
-              <span class="pill">Library</span>
-            </div>
-          </div>
-
-          <div class="flow-step">
-            <div class="num">3</div>
-            <h3>Evaluate</h3>
-            <p>Compare variants, reduce overlap, check topic fit, and decide what deserves promotion.</p>
-            <div class="pill-row">
-              <span class="pill">Research Set</span>
-            </div>
-          </div>
-
-          <div class="flow-step">
-            <div class="num">4</div>
-            <h3>Track</h3>
-            <p>Move a stable subset into active measurement and tie outcomes to optimization.</p>
-            <div class="pill-row">
-              <span class="pill">Tracking Set</span>
-            </div>
-          </div>
-        </div>
-
-        <pre>discovered → retained → under_research → approved_for_tracking → actively_tracked → deprecated → archived</pre>
-
-        <div class="callout success">
-          <strong>Best implementation choice:</strong> model the four sets as prompt states and saved views, not four unrelated databases.
-        </div>
-      </section>
-
-      <section id="principles" class="section section-card">
-        <h2>Core Product Principles</h2>
-        <div class="grid grid-2">
-          <div class="card">
-            <h3>1. Prompts are test cases, not keywords</h3>
-            <p>
-              In Adobe LLM Optimizer, prompts should function as
-              <strong>repeatable measurement instruments</strong>. They should be realistic, specific,
-              and stable enough to produce meaningful trend lines.
-            </p>
-          </div>
-          <div class="card">
-            <h3>2. Discovery and tracking are different jobs</h3>
-            <p>
-              The system should encourage broad discovery, but reserve tracking for
-              <strong>fewer, more intentional prompts</strong> tied to business goals and reliable measurement.
-            </p>
-          </div>
-          <div class="card">
-            <h3>3. The library is an asset, not a dump</h3>
-            <p>
-              A prompt library should preserve knowledge, provenance, ownership, and structure.
-              It should be broader than the tracking set, but much cleaner than the universe.
-            </p>
-          </div>
-          <div class="card">
-            <h3>4. Stability matters for before/after measurement</h3>
-            <p>
-              Tracking sets should not churn constantly. Frequent prompt changes reduce comparability
-              and weaken confidence in optimization impact.
-            </p>
-          </div>
-        </div>
-
-        <div class="callout warning">
-          <strong>Most important operating rule:</strong> do not let the tracking set become a brainstorming scratchpad.
-        </div>
-      </section>
-
-      <section id="sources" class="section section-card">
-        <h2>What Should Feed the Prompt Universe</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Source Type</th>
-              <th>Examples</th>
-              <th>Why It Matters</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Market intelligence</strong></td>
-              <td>Semrush AIO prompt corpus, market trends, share of voice, competitor patterns</td>
-              <td>Captures broad market demand and competitive reality</td>
-            </tr>
-            <tr>
-              <td><strong>Search behavior</strong></td>
-              <td>Google Search Console, People Also Ask, site search</td>
-              <td>Grounds prompts in real user demand and phrasing</td>
-            </tr>
-            <tr>
-              <td><strong>Agentic signals</strong></td>
-              <td>Citation attempts, referral traffic, agentic traffic, AI crawler behavior</td>
-              <td>Links prompt strategy to what AI systems are already touching</td>
-            </tr>
-            <tr>
-              <td><strong>Content-derived signals</strong></td>
-              <td>Page content, product data, FAQs, support content</td>
-              <td>Finds prompts the brand should plausibly win</td>
-            </tr>
-            <tr>
-              <td><strong>Human strategy inputs</strong></td>
-              <td>Brand experts, marketers, product teams, agencies</td>
-              <td>Adds judgment, nuance, and priority</td>
-            </tr>
-            <tr>
-              <td><strong>Synthetic expansion</strong></td>
-              <td>LLM-generated variants, personas, topic expansion</td>
-              <td>Useful for ideation, but should remain curated before tracking</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="workflow" class="section">
-        <div class="two-col">
-          <div class="section-card">
-            <h2>Recommended End-to-End Workflow</h2>
-
-            <div class="card soft">
-              <h3>Step 1 — Build the Universe</h3>
-              <p>
-                Start broad. Pull candidates from Semrush signals, GSC, AI visibility trends,
-                site content, product themes, competitor language, and team input.
-              </p>
-            </div>
-
-            <div class="card soft" style="margin-top: 14px;">
-              <h3>Step 2 — Curate into the Library</h3>
-              <p>
-                Retain the prompts worth keeping. Deduplicate, tag, classify, assign topic and intent,
-                and preserve source metadata.
-              </p>
-            </div>
-
-            <div class="card soft" style="margin-top: 14px;">
-              <h3>Step 3 — Create a Research Set</h3>
-              <p>
-                Pull a focused subset into a working space where analysts can refine, cluster, score,
-                compare, and decide what should move forward.
-              </p>
-            </div>
-
-            <div class="card soft" style="margin-top: 14px;">
-              <h3>Step 4 — Promote a Tracking Set</h3>
-              <p>
-                Move only the strongest prompts into active monitoring. This should be the set used for
-                visibility trends, optimization opportunities, and impact reporting.
-              </p>
-            </div>
-
-            <div class="card soft" style="margin-top: 14px;">
-              <h3>Step 5 — Review on Cadence</h3>
-              <p>
-                Revisit prompts regularly, but deliberately. Add or retire prompts based on evidence,
-                not on impulse or weekly experimentation.
-              </p>
-            </div>
-          </div>
-
-          <aside class="sticky-note">
-            <h3>In One Sentence</h3>
-            <p>
-              <strong>Discover widely, store carefully, research selectively, and track only what is strategic enough to measure over time.</strong>
-            </p>
-
-            <div style="margin-top: 18px;">
-              <span class="tag blue">Coverage</span>
-              <span class="tag green">Governance</span>
-              <span class="tag orange">Measurement</span>
-              <span class="tag red">Risk control</span>
-            </div>
-
-            <div class="callout" style="margin-top: 18px;">
-              <strong>Product framing:</strong><br />
-              Semrush supplies the <strong>intelligence layer</strong>.<br />
-              LLMO supplies the <strong>activation and measurement layer</strong>.
-            </div>
+            <ul>
+              <li>Faster campaign and brand experiences</li>
+              <li>Stronger product discovery across search, listing, and detail pages</li>
+              <li>A safer phased path to modernize the storefront</li>
+              <li>Better readiness for AI-assisted product discovery</li>
+            </ul>
           </aside>
         </div>
       </section>
 
-      <section id="metadata" class="section section-card">
-        <h2>Canonical Prompt Object</h2>
-        <p class="muted">
-          If all four sets exist in one product, every prompt should share one common schema.
-        </p>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Field</th>
-              <th>Purpose</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td><code>prompt_text</code></td><td>The actual user-like prompt string</td></tr>
-            <tr><td><code>canonical_intent</code></td><td>Normalized meaning across paraphrases</td></tr>
-            <tr><td><code>category</code></td><td>Business grouping</td></tr>
-            <tr><td><code>topic</code></td><td>Focused intent cluster</td></tr>
-            <tr><td><code>region</code></td><td>Market / locale for the prompt</td></tr>
-            <tr><td><code>intent</code></td><td>Informational, comparative, transactional, support, etc.</td></tr>
-            <tr><td><code>type</code></td><td>Branded or unbranded</td></tr>
-            <tr><td><code>source</code></td><td>Semrush, GSC, citation attempts, manual, content-derived, persona, etc.</td></tr>
-            <tr><td><code>source_confidence</code></td><td>How trustworthy or direct the originating signal is</td></tr>
-            <tr><td><code>lifecycle_state</code></td><td>Discovered, retained, under research, tracked, archived</td></tr>
-            <tr><td><code>owner</code></td><td>Person or team accountable for the prompt</td></tr>
-            <tr><td><code>version</code></td><td>Helps track edits over time</td></tr>
-            <tr><td><code>last_reviewed_at</code></td><td>Governance and refresh timestamp</td></tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="guardrails" class="section section-card">
-        <h2>What to Encourage vs What to Prevent</h2>
-        <div class="grid grid-2">
-          <div class="card">
-            <h3>Encourage</h3>
-            <ul class="check-list">
-              <li>Ground prompts in real demand and real customer language</li>
-              <li>Group prompts by intent and topic</li>
-              <li>Keep the library broader than the tracking set</li>
-              <li>Use research sets for refinement before promotion</li>
-              <li>Maintain stable baselines for measurement windows</li>
-              <li>Version prompt changes and record rationale</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>Prevent</h3>
-            <ul class="check-list">
-              <li>Uploading every brainstormed prompt directly to tracking</li>
-              <li>Mixing unrelated intents into one topic</li>
-              <li>Frequent changes to active tracking immediately before or after optimization</li>
-              <li>Keyword-stuffed or robotic prompts</li>
-              <li>Over-indexing on branded prompts only</li>
-              <li>Treating the live prompt bank as a temporary scratchpad</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="callout danger">
-          <strong>Main platform risk:</strong> <strong>paraphrase inflation</strong> — the library grows in size without adding distinct signal,
-          because multiple prompts say the same thing in slightly different ways.
-        </div>
-      </section>
-
-      <section id="analytics" class="section section-card">
-        <h2>Analytics the Product Should Expose</h2>
-        <div class="grid grid-3">
-          <div class="card">
-            <h3>Library Composition</h3>
-            <ul class="kpi-list">
-              <li>Prompt origin mix</li>
-              <li>Branded vs unbranded ratio</li>
-              <li>Intent distribution</li>
-              <li>Region distribution</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>Research Health</h3>
-            <ul class="kpi-list">
-              <li>Duplicate rate</li>
-              <li>Canonical intent overlap</li>
-              <li>Topic coverage gaps</li>
-              <li>Promotion rate to tracking</li>
-            </ul>
-          </div>
-
-          <div class="card">
-            <h3>Tracking Quality</h3>
-            <ul class="kpi-list">
-              <li>Set stability over time</li>
-              <li>Prompt-to-page opportunity alignment</li>
-              <li>Visibility trend confidence</li>
-              <li>Optimization impact comparability</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section id="implementation" class="section section-card">
-        <h2>Minimum Product Capabilities for the Unified Tool</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Capability</th>
-              <th>Why It Is Needed</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Multi-source ingestion</strong></td>
-              <td>Supports imports from Semrush, GSC, traffic signals, content-derived prompts, and manual upload</td>
-            </tr>
-            <tr>
-              <td><strong>Intent normalization</strong></td>
-              <td>Prevents paraphrase inflation and library bloat</td>
-            </tr>
-            <tr>
-              <td><strong>Research workspace</strong></td>
-              <td>Lets teams validate and refine prompts before tracking</td>
-            </tr>
-            <tr>
-              <td><strong>Prompt analytics dashboard</strong></td>
-              <td>Shows composition, health, gaps, and drift</td>
-            </tr>
-            <tr>
-              <td><strong>Promotion workflow</strong></td>
-              <td>Moves prompts from library/research into tracking with approval and auditability</td>
-            </tr>
-            <tr>
-              <td><strong>Tracking freeze / baseline logic</strong></td>
-              <td>Protects fair before-and-after measurement windows</td>
-            </tr>
-            <tr>
-              <td><strong>Ownership and collaboration</strong></td>
-              <td>Supports cross-functional GEO work across SEO, content, marketing, and analytics</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section id="final-model" class="section section-card">
-        <h2>Final Recommended Product Framing</h2>
-        <div class="grid grid-2">
-          <div class="card accent">
-            <h3>Positioning Statement</h3>
+      <section id="framing" class="section section-tight">
+        <div class="container">
+          <div class="section-header">
+            <h2>Why the storefront decision matters</h2>
             <p>
-              The combined product should function as a <strong>closed-loop prompt operating system</strong>:
-              it discovers what matters, stores what is worth keeping, refines what is promising,
-              tracks what is strategic, and ties optimization actions to measurable outcomes.
+              KrisShop is not only deciding how pages are built. It is shaping how one storefront supports premium brand
+              presentation, product discovery, shopping journeys, richer digital services, and future AI-driven discovery.
+              The answer therefore needs to balance customer experience, content agility, commerce depth, and long-term flexibility.
             </p>
           </div>
-          <div class="card accent">
-            <h3>One-Liner for Stakeholders</h3>
-            <p>
-              <strong>Prompt Universe</strong> defines scope.<br />
-              <strong>Prompt Library</strong> preserves knowledge.<br />
-              <strong>Research Set</strong> drives analysis.<br />
-              <strong>Tracking Set</strong> drives measurement.
-            </p>
-          </div>
-        </div>
 
-        <div class="callout success">
-          <strong>Best end-state:</strong> a single Adobe product where the four prompt sets are first-class lifecycle stages,
-          supported by market intelligence, prompt governance, research workflows, and longitudinal measurement.
+          <div class="kpi-grid">
+            <article class="kpi">
+              <strong>Brand and campaign agility</strong>
+              Editorial pages, seasonal launches, and premium retail moments need fast publishing and lightweight delivery.
+            </article>
+            <article class="kpi">
+              <strong>Commerce performance</strong>
+              Search, category, product, cart, and checkout pages need commerce-aware behavior and strong shopper flow.
+            </article>
+            <article class="kpi">
+              <strong>Richer digital services</strong>
+              Account tools, loyalty-linked experiences, and utility flows need application-style interaction only where it adds value.
+            </article>
+            <article class="kpi">
+              <strong>Future discovery readiness</strong>
+              High-value pages need to be understandable by both search engines and AI-driven discovery systems.
+            </article>
+          </div>
         </div>
       </section>
 
-      <footer class="footer">
-        <strong>Prototype note:</strong> This HTML is structured as a presentation-ready internal page and uses
-        Spectrum Web Components for Adobe-aligned theming. For production, you would typically replace the bundled import
-        with a more selective component strategy and connect the sections to live product data.
-      </footer>
+      <section id="approach" class="section band">
+        <div class="container">
+          <div class="section-header">
+            <h2>A clear solution approach</h2>
+            <p>
+              The most effective model is to match each part of the storefront to the capability it needs most.
+              This creates one consistent customer experience without forcing one technology pattern to do every job.
+            </p>
+          </div>
 
+          <div class="table-scroll">
+            <table aria-label="Storefront approach table">
+              <thead>
+                <tr>
+                  <th>Experience need</th>
+                  <th>Typical examples</th>
+                  <th class="fit-col">Best-fit solution</th>
+                  <th>Primary benefit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Experience-led pages</strong></td>
+                  <td>Homepage, campaigns, landing pages, editorial and storytelling pages</td>
+                  <td><strong>Edge Delivery Services</strong></td>
+                  <td>Fast page delivery, strong content agility, and cleaner publishing workflows</td>
+                </tr>
+                <tr>
+                  <td><strong>Commerce-led journeys</strong></td>
+                  <td>Search, PLP, PDP, minicart, cart, checkout</td>
+                  <td><strong>Commerce Storefront</strong></td>
+                  <td>Better product discovery, stronger shopping flows, and commerce-aware storefront behavior</td>
+                </tr>
+                <tr>
+                  <td><strong>App-like modules</strong></td>
+                  <td>Account tools, loyalty-linked modules, dashboards, utilities</td>
+                  <td><strong>React</strong></td>
+                  <td>Rich interaction and workflow support where the experience behaves more like an application than a page</td>
+                </tr>
+                <tr>
+                  <td><strong>Discoverability-critical pages</strong></td>
+                  <td>High-value product and category pages</td>
+                  <td><strong>SSR / pre-render + Adobe LLM Optimizer</strong></td>
+                  <td>Better search visibility, stronger rendered meaning, and better AI-readability</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout">
+            <strong>In simple terms:</strong> the recommendation is not "choose one technology over another."
+            It is to use the right solution for the right customer experience while keeping the storefront unified.
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2>What each part of the solution contributes</h2>
+            <p>
+              The model works because each capability solves a different customer-facing problem well. The goal is not one
+              universal implementation pattern. The goal is to create a storefront that is easier to operate, easier to grow,
+              and better aligned to the job each page needs to perform.
+            </p>
+          </div>
+
+          <div class="grid-3">
+            <article class="card">
+              <div class="tag">Edge Delivery Services</div>
+              <h3>Best for experience-led publishing</h3>
+              <ul class="check-list">
+                <li>Strong for campaigns, landing pages, storytelling, and fast-changing homepage content</li>
+                <li>Supports a lightweight, performance-first page model</li>
+                <li>Improves speed for content updates and iteration</li>
+                <li>Acts as the experience layer rather than the full shopping layer</li>
+              </ul>
+            </article>
+
+            <article class="card card-muted">
+              <div class="tag">Commerce Storefront</div>
+              <h3>Best for shopping journeys</h3>
+              <ul class="check-list">
+                <li>Supports search, product listing, product detail, cart, and checkout behavior</li>
+                <li>Aligns the storefront to products, categories, pricing, and merchandising</li>
+                <li>Creates more consistency across discovery and purchase paths</li>
+                <li>Provides a stronger modernization path than rebuilding every commerce page from scratch</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <div class="tag">React</div>
+              <h3>Best for app-like interaction</h3>
+              <ul class="check-list">
+                <li>Useful for dashboards, loyalty flows, profile centers, and utility-rich modules</li>
+                <li>Well suited to local state, task flows, and richer interaction</li>
+                <li>Strong where the experience behaves like a tool or service</li>
+                <li>Not necessary as the default answer for every storefront page</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="storefront" class="section subtle-band">
+        <div class="container">
+          <div class="section-header">
+            <h2>What Commerce Storefront adds</h2>
+            <p>
+              Commerce Storefront is more than a visual layer. It brings structured shopping behavior, product-aware rendering,
+              and a clearer route to modernize the most valuable commerce journeys.
+            </p>
+          </div>
+
+          <div class="grid-3">
+            <article class="card">
+              <h3>Ready-made shopping foundations</h3>
+              <p>It gives KrisShop a structured starting point for core shopping journeys instead of requiring every flow to be custom-built.</p>
+              <ul class="feature-list">
+                <li>Product listing pages</li>
+                <li>Product detail pages</li>
+                <li>Minicart and cart behavior</li>
+                <li>Checkout flows</li>
+                <li>Authentication and related account journeys</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>Product-aware rendering</h3>
+              <p>It is designed around the mechanics of shopping rather than generic page presentation.</p>
+              <ul class="feature-list">
+                <li>Category and product-driven layouts</li>
+                <li>Pricing-aware rendering</li>
+                <li>Search and discovery behavior</li>
+                <li>Merchandising-aligned experience patterns</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>Alignment to commerce services</h3>
+              <p>It works with the services that shape product discovery and shopping experience quality.</p>
+              <ul class="feature-list">
+                <li>Catalog-driven experiences</li>
+                <li>Search and discovery alignment</li>
+                <li>Recommendations support</li>
+                <li>Merchandising integration</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>More flexibility without full reinvention</h3>
+              <p>KrisShop can adapt storefront behavior without turning every commerce page into a fully custom build.</p>
+              <ul class="feature-list">
+                <li>Extension points for tailored journeys</li>
+                <li>Styling flexibility</li>
+                <li>Content enrichment options</li>
+                <li>Room for differentiated retail experiences</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>Better use of delivery effort</h3>
+              <p>Using storefront foundations changes where engineering effort goes.</p>
+              <ul class="feature-list">
+                <li>Less time spent recreating baseline shopping behavior</li>
+                <li>More time on differentiated brand and retail experiences</li>
+                <li>Cleaner focus on curated collections and premium merchandising</li>
+                <li>Lower pressure to solve every commerce page as a custom application build</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>A stronger route to modernization</h3>
+              <p>It lets KrisShop improve commerce-facing surfaces without redesigning the whole digital estate at once.</p>
+              <ul class="feature-list">
+                <li>Supports phased rollout</li>
+                <li>Improves high-value discovery surfaces first</li>
+                <li>Preserves flexibility for future backend evolution</li>
+                <li>Creates a clearer target architecture over time</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="card card-dark" style="margin-top: 24px;">
+            <h3>Why experience delivery alone is not enough for shopping journeys</h3>
+            <p style="color: rgba(255,255,255,0.92); margin-bottom: 12px;">
+              Edge Delivery Services is a strong answer for the experience layer, but shopping journeys need more than fast
+              page delivery alone.
+            </p>
+            <ul class="check-list" style="color: rgba(255,255,255,0.9);">
+              <li>Commerce-led pages need product-aware composition, category-aware rendering, and shopper flow consistency</li>
+              <li>They also need alignment to search, merchandising, recommendations, cart, and checkout behavior</li>
+              <li>That is why Commerce Storefront should be treated as a distinct part of the overall solution</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section band">
+        <div class="container">
+          <div class="section-header">
+            <h2>Why a blended model is stronger than a single-pattern approach</h2>
+            <p>
+              Each option becomes limiting when it is stretched beyond the problem it solves best. A blended model creates a better balance across customer experience, operational simplicity, and long-term flexibility.
+            </p>
+          </div>
+
+          <div class="table-scroll">
+            <table aria-label="Approach comparison">
+              <thead>
+                <tr>
+                  <th class="fit-col">Approach</th>
+                  <th>What it does well</th>
+                  <th>Where it becomes limiting</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Experience-only</strong></td>
+                  <td>Fast content-led publishing and strong campaign agility</td>
+                  <td>Does not by itself provide the full shopping behavior needed for search, product discovery, and conversion</td>
+                </tr>
+                <tr>
+                  <td><strong>Application-only</strong></td>
+                  <td>Rich interaction and highly tailored workflows</td>
+                  <td>Can become heavier to operate, harder to optimize for discoverability, and more developer-dependent for content changes</td>
+                </tr>
+                <tr>
+                  <td><strong>Commerce-only</strong></td>
+                  <td>Transactional and shopping flows</td>
+                  <td>Can be too narrow for premium storytelling, fast campaign iteration, and experience-led publishing needs</td>
+                </tr>
+                <tr>
+                  <td><strong>Blended model</strong></td>
+                  <td>Uses the right capability for each experience type</td>
+                  <td>Requires clearer planning up front, but creates a stronger long-term storefront architecture</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section id="modernization" class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Why phased modernization works best</h2>
+            <p>
+              Frontend modernization works best as a phased journey by surface area, not as a big-bang rewrite.
+              That creates faster visible value, lowers delivery risk, and allows the storefront to improve without unnecessary disruption.
+            </p>
+          </div>
+
+          <div class="table-scroll">
+            <table aria-label="Phased modernization">
+              <thead>
+                <tr>
+                  <th class="phase-col">Phase</th>
+                  <th>Focus</th>
+                  <th class="solution-col">Recommended solution</th>
+                  <th>Why this phase matters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="phase-col"><strong>Phase&nbsp;1</strong></td>
+                  <td>Homepage, campaign pages, landing pages</td>
+                  <td class="solution-col"><strong>Edge Delivery Services</strong></td>
+                  <td>Fastest way to improve speed, content agility, and visible brand experience without touching deeper shopping logic first</td>
+                </tr>
+                <tr>
+                  <td class="phase-col"><strong>Phase&nbsp;2</strong></td>
+                  <td>Search, product listing pages, product detail pages</td>
+                  <td class="solution-col"><strong>Commerce Storefront</strong></td>
+                  <td>Improves the highest-value product discovery surfaces where shoppers evaluate and compare products</td>
+                </tr>
+                <tr>
+                  <td class="phase-col"><strong>Phase&nbsp;3</strong></td>
+                  <td>Cart, checkout, and connected shopping journeys</td>
+                  <td class="solution-col"><strong>Commerce Storefront</strong></td>
+                  <td>Moves deeper into conversion-critical paths after the storefront foundation and key patterns are proven</td>
+                </tr>
+                <tr>
+                  <td class="phase-col"><strong>Phase&nbsp;4</strong></td>
+                  <td>Specialized tools, utilities, and richer account experiences</td>
+                  <td class="solution-col"><strong>React where needed</strong></td>
+                  <td>Adds advanced interaction without making the whole site heavy or application-like by default</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="grid-3" style="margin-top: 24px;">
+            <article class="card">
+              <h3>Why phased is stronger</h3>
+              <ul class="check-list">
+                <li>Lowers delivery risk</li>
+                <li>Accelerates visible value</li>
+                <li>Allows side-by-side progress</li>
+                <li>Avoids forcing every team into one migration timeline</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>What it avoids</h3>
+              <ul class="check-list">
+                <li>A full rewrite mentality</li>
+                <li>Unnecessary rebuilding of stable areas</li>
+                <li>Over-using React where simpler solutions already fit better</li>
+                <li>Delaying value until the whole estate is replaced</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>What it enables</h3>
+              <ul class="check-list">
+                <li>Incremental learning</li>
+                <li>Cleaner planning by experience type</li>
+                <li>Easier performance tuning</li>
+                <li>Better alignment between content and commerce teams</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="callout">
+            <strong>Practical implication:</strong> KrisShop does not need to modernize every area at once.
+            The strongest path is to improve the highest-value surfaces first, prove the model, and deepen the rollout over time.
+          </div>
+        </div>
+      </section>
+
+      <section class="section subtle-band">
+        <div class="container">
+          <div class="card card-dark">
+            <div class="section-header" style="margin-bottom: 32px; max-width: 920px;">
+              <h2>How the shopping solution completes the storefront experience</h2>
+              <p style="color: rgba(255,255,255,0.88);">
+                KrisShop will benefit most from a solution that combines fast experience-led pages with a dedicated commerce layer
+                for product discovery and shopping journeys.
+              </p>
+            </div>
+
+            <div class="compare">
+              <div class="compare-block">
+                <h3 style="color: white;">A simpler overall solution</h3>
+                <ul class="check-list" style="color: rgba(255,255,255,0.9);">
+                  <li><strong>Edge Delivery Services</strong> supports experience-led pages</li>
+                  <li><strong>Commerce Storefront</strong> supports shopping journeys</li>
+                  <li><strong>React</strong> is used only where richer utility or workflow experiences are needed</li>
+                </ul>
+              </div>
+
+              <div class="compare-block">
+                <h3 style="color: white;">When full shopping capability is needed</h3>
+                <p style="color: rgba(255,255,255,0.9); margin-bottom: 10px;">
+                  <strong>Adobe Commerce Optimizer</strong> is the strongest fit when KrisShop wants a complete commerce-facing storefront layer with:
+                </p>
+                <ul class="check-list" style="color: rgba(255,255,255,0.9);">
+                  <li>Commerce Storefront</li>
+                  <li>Catalog and merchandising services</li>
+                  <li>Product discovery capabilities</li>
+                  <li>Recommendations support</li>
+                  <li>Extensibility for tailored experiences</li>
+                </ul>
+              </div>
+            </div>
+
+            <p class="note" style="color: rgba(255,255,255,0.78);">
+              In practical terms, this supports a strong combined approach:
+              <strong>Edge Delivery Services for experience-led pages and Adobe Commerce Optimizer for shopping journeys.</strong>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section id="discoverability" class="section band">
+        <div class="container">
+          <div class="section-header">
+            <h2>Why discoverability needs to be designed in from the start</h2>
+            <p>
+              For high-value commerce pages, discoverability should be treated as part of the architecture rather than as a later optimization.
+              Important page meaning needs to be present in the first response, not only after browser execution.
+            </p>
+          </div>
+
+          <div class="grid-2">
+            <article class="card">
+              <h3>Why server-side rendering matters</h3>
+              <ul class="check-list">
+                <li>Improves search engine understanding</li>
+                <li>Supports crawlability and indexing reliability</li>
+                <li>Exposes product and category meaning earlier</li>
+                <li>Creates stronger semantic output for AI-driven discovery</li>
+                <li>Reduces reliance on hydration for basic discoverability</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <h3>How it fits this approach</h3>
+              <ul class="check-list">
+                <li>Edge Delivery Services already supports strong server-rendered delivery for experience-led pages</li>
+                <li>Commerce Storefront pages should SSR or pre-render critical product and listing content</li>
+                <li>Client hydration should be reserved for personalization, cart interaction, and richer utility logic</li>
+                <li>The guiding principle is: <strong>render the meaning first, hydrate the behavior second</strong></li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="table-scroll" style="margin-top: 24px;">
+            <table aria-label="Rendered discoverability requirements">
+              <thead>
+                <tr>
+                  <th>What should exist in rendered HTML</th>
+                  <th>Why it matters</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Title, meta description, canonical, hreflang</td>
+                  <td>Supports page interpretation, deduplication, internationalization, and indexing</td>
+                </tr>
+                <tr>
+                  <td>H1 and semantic section structure</td>
+                  <td>Improves machine-readable clarity and content hierarchy</td>
+                </tr>
+                <tr>
+                  <td>Product or category descriptions</td>
+                  <td>Helps search systems and AI systems understand what the page is about</td>
+                </tr>
+                <tr>
+                  <td>Breadcrumbs and internal navigation</td>
+                  <td>Strengthens site structure, crawlability, and relationship between pages</td>
+                </tr>
+                <tr>
+                  <td>Product names and image URLs</td>
+                  <td>Improves relevance and discoverability in product-oriented experiences</td>
+                </tr>
+                <tr>
+                  <td>Structured data for product, list, and breadcrumb entities</td>
+                  <td>Supports search interpretation and machine-readable understanding of product context</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="container">
+          <div class="section-header">
+            <h2>How Adobe LLM Optimizer changes the target</h2>
+            <p>
+              Adobe LLM Optimizer changes the question from "Can the page load fast?" to "Can the page be understood correctly by AI systems?"
+              That makes rendered product meaning, metadata quality, and catalog enrichment part of the storefront design conversation.
+            </p>
+          </div>
+
+          <div class="grid-3">
+            <article class="card">
+              <div class="tag">Agent-ready product pages</div>
+              <h3>Rendered product meaning</h3>
+              <p>The product page should expose enough structured, rendered information for AI systems to understand, compare, and accurately reference the product.</p>
+            </article>
+
+            <article class="card">
+              <div class="tag">Agent-ready catalog</div>
+              <h3>Catalog enrichment</h3>
+              <p>The catalog should contain stronger names, descriptions, and metadata so products can be found through conversational and attribute-led discovery.</p>
+            </article>
+
+            <article class="card card-green">
+              <div class="tag">Optimize at Edge</div>
+              <h3>AI-facing output</h3>
+              <p>Optimize at Edge complements the model by improving AI-facing output without forcing changes to the human-facing storefront experience.</p>
+            </article>
+          </div>
+
+          <div class="card" style="margin-top: 24px;">
+            <h3>What this means in practice</h3>
+            <div class="pill-list">
+              <span class="pill">Stable semantic HTML</span>
+              <span class="pill">Complete product meaning</span>
+              <span class="pill">Useful rendered metadata</span>
+              <span class="pill">Recoverable product details</span>
+              <span class="pill">Catalog enrichment</span>
+              <span class="pill">Machine-readable clarity</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="summary" class="section">
+        <div class="container">
+          <div class="card">
+            <h2>Summary</h2>
+
+            <div class="table-scroll">
+              <table aria-label="Final summary">
+                <thead>
+                  <tr>
+                    <th>Customer need</th>
+                    <th>Recommended approach</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>High-velocity content and campaigns</td>
+                    <td><strong>Edge Delivery Services</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Commerce-led shopping journeys</td>
+                    <td><strong>Commerce Storefront via Adobe Commerce Optimizer</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Richer tools and workflow-heavy experiences</td>
+                    <td><strong>React where needed</strong></td>
+                  </tr>
+                  <tr>
+                    <td>Search and machine-readable rendered meaning</td>
+                    <td><strong>SSR / pre-render</strong></td>
+                  </tr>
+                  <tr>
+                    <td>AI-era product visibility and discovery</td>
+                    <td><strong>Adobe LLM Optimizer + Optimize at Edge</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="grid-2" style="margin-top: 24px;">
+              <article class="card card-muted">
+                <h3>Recommended solution narrative</h3>
+                <ul class="summary-list">
+                  <li><strong>Edge Delivery Services</strong> for experience-led pages</li>
+                  <li><strong>Commerce Storefront</strong>, best delivered through <strong>Adobe Commerce Optimizer</strong>, for shopping journeys</li>
+                  <li><strong>React</strong> only where the experience is genuinely app-like</li>
+                  <li><strong>Server-side rendering</strong> as a discoverability rule for high-value commerce pages</li>
+                  <li><strong>Adobe LLM Optimizer</strong> for AI-era product visibility</li>
+                </ul>
+              </article>
+
+              <article class="card">
+                <h3>Why this is stronger for KrisShop</h3>
+                <ul class="summary-list">
+                  <li>Faster experience-led surfaces</li>
+                  <li>Stronger product discovery and shopping flows</li>
+                  <li>Clearer separation between content, commerce, and utility experiences</li>
+                  <li>A safer phased modernization path</li>
+                  <li>Better readiness for both classic search and AI-driven discovery</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
-  </sp-theme>
+
+    <footer class="footer">
+      <div class="container footer-inner">
+        <div>KrisShop Storefront Architecture</div>
+        <div>Customer-facing single-page HTML presentation</div>
+      </div>
+    </footer>
+  </div>
 </body>
 </html>

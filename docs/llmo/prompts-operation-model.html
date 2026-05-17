@@ -37,7 +37,6 @@
       --radius-sm: 10px;
 
       --page-max: 1440px;
-      --sidebar-w: 270px;
     }
 
     * {
@@ -74,7 +73,7 @@
       margin: 0 auto;
       padding: 28px 20px 72px;
       display: grid;
-      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      grid-template-columns: 230px minmax(0, 1fr);
       gap: 24px;
       align-items: start;
     }
@@ -83,17 +82,17 @@
       position: sticky;
       top: 20px;
       align-self: start;
-      background: rgba(255, 255, 255, 0.78);
+      background: rgba(255, 255, 255, 0.82);
       backdrop-filter: blur(10px);
       border: 1px solid var(--border);
-      border-radius: 24px;
+      border-radius: 22px;
       box-shadow: var(--shadow-md);
-      padding: 20px 18px;
+      padding: 18px 16px;
     }
 
     .sidebar-brand {
-      margin-bottom: 18px;
-      padding-bottom: 14px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
       border-bottom: 1px solid var(--border);
     }
 
@@ -112,7 +111,7 @@
 
     .sidebar h2 {
       margin: 0;
-      font-size: 1.05rem;
+      font-size: 1rem;
       line-height: 1.25;
       letter-spacing: -0.01em;
     }
@@ -120,23 +119,23 @@
     .sidebar p {
       margin: 8px 0 0;
       color: var(--text-muted);
-      font-size: 0.92rem;
-      line-height: 1.45;
+      font-size: 0.88rem;
+      line-height: 1.4;
     }
 
-    .nav-list {
+    .nav-list.compact {
       display: flex;
       flex-direction: column;
-      gap: 6px;
-      margin-top: 8px;
+      gap: 4px;
+      margin-top: 6px;
     }
 
     .nav-link {
       display: block;
-      padding: 10px 12px;
-      border-radius: 12px;
+      padding: 9px 10px;
+      border-radius: 10px;
       color: var(--text-soft);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       font-weight: 600;
       transition: background 120ms ease, color 120ms ease, transform 120ms ease;
     }
@@ -234,7 +233,6 @@
       padding: 28px;
     }
 
-    h2.section-title,
     .section-card > h2 {
       margin: 0 0 14px;
       font-size: 1.78rem;
@@ -253,11 +251,6 @@
 
     .muted {
       color: var(--text-muted);
-    }
-
-    .section-anchor {
-      position: relative;
-      top: -6px;
     }
 
     .grid {
@@ -289,8 +282,7 @@
     }
 
     .card.accent {
-      background:
-        linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
       border-color: #cfe0f5;
     }
 
@@ -502,9 +494,10 @@
         position: static;
       }
 
-      .nav-list {
+      .nav-list.compact {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 6px;
       }
 
       .grid-4,
@@ -536,7 +529,7 @@
       .grid-3,
       .grid-4,
       .flow,
-      .nav-list {
+      .nav-list.compact {
         grid-template-columns: 1fr;
       }
 
@@ -555,22 +548,16 @@
           <div class="sidebar-eyebrow">Adobe GEO Model</div>
           <h2>Prompt Operating Model</h2>
           <p>
-            Unified framework for Semrush AIO + Adobe LLM Optimizer in one connected system.
+            Unified framework for Semrush AIO + Adobe LLM Optimizer.
           </p>
         </div>
 
-        <nav class="nav-list" aria-label="Section navigation">
-          <a class="nav-link" href="#summary">Executive Summary</a>
-          <a class="nav-link" href="#terms">The 4 Prompt Sets</a>
-          <a class="nav-link" href="#alignment">Product Alignment</a>
-          <a class="nav-link" href="#lifecycle">Lifecycle Model</a>
-          <a class="nav-link" href="#principles">Core Principles</a>
-          <a class="nav-link" href="#sources">Universe Inputs</a>
+        <nav class="nav-list compact" aria-label="Section navigation">
+          <a class="nav-link" href="#summary">Overview</a>
+          <a class="nav-link" href="#terms">Prompt Sets</a>
+          <a class="nav-link" href="#alignment">Product Model</a>
           <a class="nav-link" href="#workflow">Workflow</a>
-          <a class="nav-link" href="#metadata">Prompt Schema</a>
           <a class="nav-link" href="#governance">Governance</a>
-          <a class="nav-link" href="#analytics">Analytics</a>
-          <a class="nav-link" href="#implementation">Capabilities</a>
           <a class="nav-link" href="#final-model">Final Framing</a>
         </nav>
       </aside>
@@ -791,7 +778,7 @@
             </div>
           </div>
 
-          <div class="callout.warning">
+          <div class="callout warning">
             <strong>Most important operating rule:</strong> do not let the tracking set become a brainstorming scratchpad.
           </div>
           <a class="jump-top" href="#top">↑ Back to top</a>
@@ -1069,8 +1056,7 @@
         </section>
 
         <footer class="footer">
-          <strong>Prototype note:</strong> this light variant adds a sticky left navigation for easier scanning and section jumping.
-          For production, you could further enhance it with active-section highlighting, scrollspy behavior, and collapsible nav groups.
+          <strong>Prototype note:</strong> this version keeps the left rail intentionally compact so it acts as a story map rather than a full table of contents. For production, the next best enhancement would be active-section highlighting via scrollspy.
         </footer>
 
       </main>

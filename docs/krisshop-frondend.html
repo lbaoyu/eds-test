@@ -27,6 +27,7 @@
 
       --success: #2f8d6f;
       --warning: #a86f1f;
+      --danger: #b44b37;
 
       --shadow-soft: 0 12px 34px rgba(17, 25, 40, 0.08);
       --shadow-card: 0 8px 24px rgba(17, 25, 40, 0.06);
@@ -98,12 +99,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 170px;
-      min-width: 170px;
+      width: 164px;
+      min-width: 164px;
     }
 
     .brand-logo {
-      height: 26px;
+      height: 25px;
       width: auto;
       display: block;
     }
@@ -275,7 +276,7 @@
     .section-tight { padding-top: var(--space-8); padding-bottom: var(--space-8); }
 
     .section-header {
-      max-width: 920px;
+      max-width: 940px;
       margin-bottom: var(--space-7);
     }
 
@@ -420,6 +421,28 @@
       color: var(--gray-900);
     }
 
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-4);
+      margin-top: 10px;
+    }
+
+    .kpi {
+      background: var(--gray-50);
+      border: 1px solid rgba(16, 34, 56, 0.07);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .kpi strong {
+      display: block;
+      font-size: 1.1rem;
+      color: var(--kris-midnight);
+      margin-bottom: 8px;
+    }
+
     .note {
       margin-top: 18px;
       font-size: 0.92rem;
@@ -442,10 +465,9 @@
     }
 
     @media (max-width: 1080px) {
-      .hero-grid, .grid-3, .grid-4, .compare {
+      .hero-grid, .grid-3, .grid-4, .compare, .kpi-grid {
         grid-template-columns: 1fr 1fr;
       }
-
       .brand-mark {
         width: 140px;
         min-width: 140px;
@@ -466,7 +488,7 @@
         padding-bottom: 56px;
       }
 
-      .hero-grid, .grid-2, .grid-3, .grid-4, .compare {
+      .hero-grid, .grid-2, .grid-3, .grid-4, .compare, .kpi-grid {
         grid-template-columns: 1fr;
       }
 
@@ -522,7 +544,11 @@
       <div class="container topbar-inner">
         <div class="brand">
           <div class="brand-mark" aria-label="KrisShop logo">
-            <img src="Picture 1.png" alt="KrisShop" class="brand-logo" />
+            <img
+              src="https://main--eds-test--lbaoyu.aem.live/icons/krisshop.svg"
+              alt="KrisShop"
+              class="brand-logo"
+            />
           </div>
           <div class="brand-text">
             <div class="brand-title">KrisShop Storefront Architecture</div>
@@ -545,7 +571,11 @@
       <section class="hero">
         <div class="container hero-grid">
           <div class="hero-copy">
-            <img src="Picture 1.png" alt="KrisShop" class="hero-logo" />
+            <img
+              src="https://main--eds-test--lbaoyu.aem.live/icons/krisshop.svg"
+              alt="KrisShop"
+              class="hero-logo"
+            />
             <div class="eyebrow">Storefront Strategy</div>
             <h1>A modern storefront architecture designed for speed, discovery, and flexibility</h1>
             <p>
@@ -579,34 +609,27 @@
             <p>
               KrisShop is not only evaluating how pages are built. It is deciding how one storefront should support
               different customer experiences while staying performant, scalable, and adaptable over time. The architecture
-              therefore needs to support four things at once: rich experience-led publishing, strong commerce execution,
-              room for application-like tools, and increasingly machine-readable product meaning.
+              needs to support rich experience-led publishing, strong commerce execution, room for application-like tools,
+              and increasingly machine-readable product meaning.
             </p>
           </div>
 
-          <div class="grid-4">
-            <article class="card">
-              <div class="tag">Experience-led</div>
-              <h3>Content and campaign agility</h3>
-              <p>Landing pages, seasonal stories, curated brand moments, and homepage modules need fast publishing and lightweight delivery.</p>
+          <div class="kpi-grid">
+            <article class="kpi">
+              <strong>Experience-led pages</strong>
+              Landing pages, seasonal stories, curated brand moments, and homepage modules need fast publishing and lightweight delivery.
             </article>
-
-            <article class="card">
-              <div class="tag">Commerce-led</div>
-              <h3>Product discovery and conversion</h3>
-              <p>Search, category pages, product detail pages, cart, and checkout need commerce-aware storefront behavior and structured shopper journeys.</p>
+            <article class="kpi">
+              <strong>Commerce-led journeys</strong>
+              Search, PLP, PDP, cart, and checkout need commerce-aware behavior, structured shopper flow, and product discovery depth.
             </article>
-
-            <article class="card">
-              <div class="tag">App-like</div>
-              <h3>Rich interaction where needed</h3>
-              <p>Utilities, loyalty-linked tools, account surfaces, and workflow-heavy modules need stronger client-side interaction patterns.</p>
+            <article class="kpi">
+              <strong>App-like modules</strong>
+              Utilities, loyalty-linked tools, account surfaces, and workflow-heavy modules need stronger client-side interaction patterns.
             </article>
-
-            <article class="card">
-              <div class="tag">AI-era</div>
-              <h3>Machine-readable visibility</h3>
-              <p>High-value pages need to be understandable not only by people, but also by search crawlers and AI agents.</p>
+            <article class="kpi">
+              <strong>AI-era visibility</strong>
+              High-value pages need to be understandable not only by people, but also by search crawlers and AI agents.
             </article>
           </div>
         </div>
@@ -628,7 +651,7 @@
                 <th>Experience area</th>
                 <th>Typical examples</th>
                 <th>Best-fit layer</th>
-                <th>Why it fits</th>
+                <th>What that layer is optimizing for</th>
               </tr>
             </thead>
             <tbody>
@@ -636,25 +659,25 @@
                 <td><strong>Experience-led</strong></td>
                 <td>Homepage, seasonal campaigns, branded landing pages, editorial and storytelling pages</td>
                 <td><strong>EDS</strong></td>
-                <td>Best for speed, content velocity, rapid authoring, and experience-rich publishing</td>
+                <td>Speed, content velocity, rapid authoring, and experience-rich publishing</td>
               </tr>
               <tr>
                 <td><strong>Commerce-led</strong></td>
                 <td>Search, PLP, PDP, minicart, cart, checkout</td>
                 <td><strong>Commerce Storefront</strong></td>
-                <td>Best for product discovery, storefront behavior, shopper flow consistency, and conversion support</td>
+                <td>Product discovery, storefront behavior, shopper flow consistency, and conversion support</td>
               </tr>
               <tr>
                 <td><strong>App-like</strong></td>
                 <td>Loyalty tools, account utilities, custom dashboards, workflow-heavy modules</td>
                 <td><strong>React</strong></td>
-                <td>Best for local state, task flows, authenticated interaction, and application-style UX</td>
+                <td>Local state, task flows, authenticated interaction, and application-style UX</td>
               </tr>
               <tr>
                 <td><strong>Discoverability-critical</strong></td>
                 <td>High-value PDP and PLP rendering for search and AI interpretation</td>
                 <td><strong>SSR / pre-render + LLMO</strong></td>
-                <td>Best for semantic visibility, rendered product meaning, and machine readability</td>
+                <td>Semantic visibility, rendered product meaning, and machine readability</td>
               </tr>
             </tbody>
           </table>
@@ -671,8 +694,8 @@
           <div class="section-header">
             <h2>What each layer contributes</h2>
             <p>
-              The hybrid model works because each layer solves a different problem well. The goal is not to find one
-              universal framework. The goal is to avoid asking the wrong technology to solve the wrong problem.
+              The hybrid model works because each layer solves a different problem well. The goal is not one universal
+              framework. The goal is to avoid asking the wrong technology to solve the wrong problem.
             </p>
           </div>
 
@@ -776,7 +799,7 @@
                 <li>Less time spent recreating baseline shopping behavior</li>
                 <li>More time spent on differentiated journeys</li>
                 <li>Cleaner focus on premium merchandising and curated retail moments</li>
-                <li>Lower tendency to solve every page as a custom React project</li>
+                <li>Lower tendency to solve every commerce page as a custom React build</li>
               </ul>
             </article>
 
@@ -793,10 +816,10 @@
           </div>
 
           <div class="card card-dark" style="margin-top: 24px;">
-            <h3>Why EDS alone is not enough</h3>
+            <h3>Why EDS alone is not enough for commerce-led pages</h3>
             <p style="color: rgba(255,255,255,0.92); margin-bottom: 12px;">
-              EDS is strong for the <strong>experience layer</strong>, but it does not by itself provide the full
-              commerce operating model needed for product discovery and purchase journeys.
+              EDS is strong for the <strong>experience layer</strong>, but it does not by itself provide the full commerce
+              operating model needed for product discovery and purchase journeys.
             </p>
             <ul class="check-list" style="color: rgba(255,255,255,0.9);">
               <li>Commerce-led pages need product-aware composition, catalog-aware rendering, and storefront flow consistency</li>
@@ -930,8 +953,9 @@
           </div>
 
           <div class="callout">
-            <strong>Practical implication:</strong> KrisShop does not need to modernize every area at once. The strongest approach is to
-            modernize the highest-value surfaces first, prove the model, and deepen the rollout as storefront services and UX patterns mature.
+            <strong>Practical implication:</strong> KrisShop does not need to modernize every area at once.
+            The strongest approach is to modernize the highest-value surfaces first, prove the model, and deepen the rollout
+            as storefront services and UX patterns mature.
           </div>
         </div>
       </section>
@@ -1153,10 +1177,6 @@
                 </ul>
               </article>
             </div>
-
-            <p class="note">
-              Replace the logo path if needed. This markup assumes the uploaded logo file sits alongside the HTML file as <strong>Picture 1.png</strong>.
-            </p>
           </div>
         </div>
       </section>

@@ -3,115 +3,102 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>LLMO Agentic Traffic Filters — Agent Type and User Agent</title>
-  <meta name="description" content="Reference for LLMO Agentic Traffic dashboard filters: Agent Type and User Agent, with Adobe-style visual design." />
+  <title>Understanding the Agent Type and User Agent Filters</title>
+  <meta name="description" content="Customer-friendly guide to the Agent Type and User Agent filters in an Agentic Traffic dashboard." />
   <style>
     :root {
-      --spectrum-global-color-gray-50: #ffffff;
-      --spectrum-global-color-gray-75: #fcfcfd;
-      --spectrum-global-color-gray-100: #f8f8f8;
-      --spectrum-global-color-gray-200: #e8e8e8;
-      --spectrum-global-color-gray-300: #d5d5d5;
-      --spectrum-global-color-gray-400: #b8b8b8;
-      --spectrum-global-color-gray-500: #909090;
-      --spectrum-global-color-gray-700: #4b4b4b;
-      --spectrum-global-color-gray-800: #323232;
-      --spectrum-global-color-gray-900: #1d1d1d;
+      --gray-50: #ffffff;
+      --gray-75: #fcfcfd;
+      --gray-100: #f8f8f8;
+      --gray-200: #e8e8e8;
+      --gray-300: #d5d5d5;
+      --gray-500: #909090;
+      --gray-700: #4b4b4b;
+      --gray-800: #323232;
+      --gray-900: #1d1d1d;
 
-      --spectrum-global-color-blue-400: #1473e6;
-      --spectrum-global-color-blue-500: #0d66d0;
-      --spectrum-global-color-blue-600: #095aba;
-      --spectrum-global-color-green-400: #2d9d78;
-      --spectrum-global-color-orange-400: #e68619;
-      --spectrum-global-color-red-400: #d7373f;
-      --spectrum-global-color-purple-400: #9256d9;
+      --blue-400: #1473e6;
+      --blue-500: #0d66d0;
+      --blue-600: #095aba;
+      --green-400: #2d9d78;
+      --orange-400: #e68619;
+      --purple-400: #9256d9;
 
-      --spectrum-font-family: adobe-clean, "Adobe Clean", "Segoe UI", Roboto, Arial, sans-serif;
-      --spectrum-font-size-75: 12px;
-      --spectrum-font-size-100: 14px;
-      --spectrum-font-size-200: 16px;
-      --spectrum-font-size-300: 18px;
-      --spectrum-font-size-500: 22px;
-      --spectrum-font-size-700: 32px;
+      --font-family: adobe-clean, "Adobe Clean", "Segoe UI", Roboto, Arial, sans-serif;
+      --font-size-75: 12px;
+      --font-size-100: 14px;
+      --font-size-200: 16px;
+      --font-size-300: 18px;
+      --font-size-500: 22px;
+      --font-size-700: 32px;
 
-      --spectrum-line-height-100: 1.4;
-      --spectrum-line-height-200: 1.5;
-      --spectrum-line-height-300: 1.6;
+      --space-100: 8px;
+      --space-200: 12px;
+      --space-300: 16px;
+      --space-400: 20px;
+      --space-500: 24px;
+      --space-600: 32px;
+      --space-800: 48px;
 
-      --spectrum-space-100: 8px;
-      --spectrum-space-200: 12px;
-      --spectrum-space-300: 16px;
-      --spectrum-space-400: 20px;
-      --spectrum-space-500: 24px;
-      --spectrum-space-600: 32px;
-      --spectrum-space-800: 48px;
+      --radius-100: 6px;
+      --radius-200: 10px;
+      --radius-300: 16px;
 
-      --spectrum-radius-100: 6px;
-      --spectrum-radius-200: 10px;
-      --spectrum-radius-300: 14px;
-
-      --spectrum-shadow-card: 0 1px 2px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
-      --spectrum-border-color: var(--spectrum-global-color-gray-200);
-      --spectrum-text-color: var(--spectrum-global-color-gray-900);
-      --spectrum-text-color-muted: var(--spectrum-global-color-gray-700);
-      --spectrum-bg: #f5f5f7;
-      --spectrum-card-bg: #ffffff;
-      --spectrum-code-bg: #f3f3f3;
+      --border-color: var(--gray-200);
+      --text-color: var(--gray-900);
+      --text-muted: var(--gray-700);
+      --bg: #f5f5f7;
+      --card-bg: #ffffff;
+      --code-bg: #f3f3f3;
+      --shadow: 0 1px 2px rgba(0,0,0,0.06), 0 8px 24px rgba(0,0,0,0.06);
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: var(--spectrum-font-family);
-      font-size: var(--spectrum-font-size-200);
-      line-height: var(--spectrum-line-height-300);
-      color: var(--spectrum-text-color);
+      font-family: var(--font-family);
+      font-size: var(--font-size-200);
+      line-height: 1.6;
+      color: var(--text-color);
       background:
         radial-gradient(circle at top right, rgba(20,115,230,0.08), transparent 30%),
         radial-gradient(circle at top left, rgba(146,86,217,0.05), transparent 25%),
-        var(--spectrum-bg);
+        var(--bg);
     }
 
     .page {
       max-width: 1240px;
       margin: 0 auto;
-      padding: var(--spectrum-space-800) var(--spectrum-space-500);
+      padding: var(--space-800) var(--space-500);
     }
 
     .hero {
       background: linear-gradient(135deg, #ffffff 0%, #f8fbff 60%, #f6f3ff 100%);
-      border: 1px solid var(--spectrum-border-color);
+      border: 1px solid var(--border-color);
       border-radius: 20px;
-      box-shadow: var(--spectrum-shadow-card);
-      padding: var(--spectrum-space-800);
-      margin-bottom: var(--spectrum-space-600);
+      box-shadow: var(--shadow);
+      padding: var(--space-800);
+      margin-bottom: var(--space-600);
     }
 
     .eyebrow {
       display: inline-block;
-      font-size: var(--spectrum-font-size-75);
+      font-size: var(--font-size-75);
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
-      color: var(--spectrum-global-color-blue-600);
+      color: var(--blue-600);
       background: rgba(20,115,230,0.08);
       border: 1px solid rgba(20,115,230,0.18);
       border-radius: 999px;
       padding: 6px 10px;
-      margin-bottom: var(--spectrum-space-300);
+      margin-bottom: var(--space-300);
     }
 
     h1, h2, h3 {
       line-height: 1.2;
-      margin: 0 0 var(--spectrum-space-300);
-      color: var(--spectrum-global-color-gray-900);
+      margin: 0 0 var(--space-300);
     }
 
     h1 {
@@ -121,123 +108,116 @@
 
     h2 {
       font-size: 28px;
-      margin-top: var(--spectrum-space-600);
+      margin-top: var(--space-600);
     }
 
     h3 {
       font-size: 22px;
-      margin-top: var(--spectrum-space-500);
+      margin-top: var(--space-500);
     }
 
     p {
-      margin: 0 0 var(--spectrum-space-300);
-      color: var(--spectrum-text-color-muted);
+      margin: 0 0 var(--space-300);
+      color: var(--text-muted);
     }
 
     .hero p {
       max-width: 920px;
-      font-size: var(--spectrum-font-size-300);
+      font-size: var(--font-size-300);
     }
 
     .grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      gap: var(--spectrum-space-500);
+      gap: var(--space-500);
     }
 
     .col-12 { grid-column: span 12; }
     .col-8 { grid-column: span 8; }
-    .col-4 { grid-column: span 4; }
     .col-6 { grid-column: span 6; }
+    .col-4 { grid-column: span 4; }
 
     @media (max-width: 960px) {
-      .col-8, .col-6, .col-4 {
-        grid-column: span 12;
-      }
-      .hero {
-        padding: var(--spectrum-space-600);
-      }
+      .col-8, .col-6, .col-4 { grid-column: span 12; }
+      .hero { padding: var(--space-600); }
     }
 
     .card {
-      background: var(--spectrum-card-bg);
-      border: 1px solid var(--spectrum-border-color);
-      border-radius: var(--spectrum-radius-300);
-      box-shadow: var(--spectrum-shadow-card);
-      padding: var(--spectrum-space-500);
-    }
-
-    .toc ul, .notes ul, .sources ul {
-      margin: 0;
-      padding-left: 20px;
-    }
-
-    .toc a {
-      color: var(--spectrum-global-color-blue-500);
-      text-decoration: none;
-    }
-
-    .toc a:hover,
-    a:hover {
-      text-decoration: underline;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-300);
+      box-shadow: var(--shadow);
+      padding: var(--space-500);
     }
 
     .pill-row {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: var(--spectrum-space-300);
+      margin-top: var(--space-300);
     }
 
     .pill {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
       border-radius: 999px;
       padding: 8px 12px;
-      font-size: var(--spectrum-font-size-100);
+      font-size: var(--font-size-100);
       font-weight: 600;
-      border: 1px solid var(--spectrum-border-color);
+      border: 1px solid var(--border-color);
       background: #fff;
-      color: var(--spectrum-global-color-gray-800);
+      color: var(--gray-800);
     }
 
-    .pill.blue { background: rgba(20,115,230,0.08); color: var(--spectrum-global-color-blue-600); border-color: rgba(20,115,230,0.18); }
-    .pill.green { background: rgba(45,157,120,0.08); color: var(--spectrum-global-color-green-400); border-color: rgba(45,157,120,0.18); }
-    .pill.orange { background: rgba(230,134,25,0.08); color: var(--spectrum-global-color-orange-400); border-color: rgba(230,134,25,0.2); }
-    .pill.red { background: rgba(215,55,63,0.08); color: var(--spectrum-global-color-red-400); border-color: rgba(215,55,63,0.18); }
-    .pill.purple { background: rgba(146,86,217,0.08); color: var(--spectrum-global-color-purple-400); border-color: rgba(146,86,217,0.18); }
+    .pill.blue { background: rgba(20,115,230,0.08); color: var(--blue-600); border-color: rgba(20,115,230,0.18); }
+    .pill.green { background: rgba(45,157,120,0.08); color: var(--green-400); border-color: rgba(45,157,120,0.18); }
+    .pill.orange { background: rgba(230,134,25,0.08); color: var(--orange-400); border-color: rgba(230,134,25,0.20); }
+    .pill.purple { background: rgba(146,86,217,0.08); color: var(--purple-400); border-color: rgba(146,86,217,0.18); }
+
+    .toc ul, .sources ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    .toc a, a {
+      color: var(--blue-500);
+      text-decoration: none;
+    }
+
+    .toc a:hover, a:hover {
+      text-decoration: underline;
+    }
 
     .table-wrap {
       overflow-x: auto;
-      margin-top: var(--spectrum-space-300);
-      border-radius: var(--spectrum-radius-200);
-      border: 1px solid var(--spectrum-border-color);
+      margin-top: var(--space-300);
+      border-radius: var(--radius-200);
+      border: 1px solid var(--border-color);
       background: #fff;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 780px;
+      min-width: 760px;
       background: #fff;
     }
 
     thead th {
       background: #fafafa;
-      color: var(--spectrum-global-color-gray-800);
-      font-size: var(--spectrum-font-size-100);
+      color: var(--gray-800);
+      font-size: var(--font-size-100);
       text-align: left;
       padding: 14px 16px;
-      border-bottom: 1px solid var(--spectrum-border-color);
+      border-bottom: 1px solid var(--border-color);
       vertical-align: top;
     }
 
     tbody td {
       padding: 14px 16px;
-      border-top: 1px solid var(--spectrum-border-color);
+      border-top: 1px solid var(--border-color);
       vertical-align: top;
-      color: var(--spectrum-global-color-gray-800);
+      color: var(--gray-800);
     }
 
     tbody tr:nth-child(even) {
@@ -247,38 +227,33 @@
     code {
       font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       font-size: 0.93em;
-      background: var(--spectrum-code-bg);
+      background: var(--code-bg);
       padding: 2px 6px;
       border-radius: 6px;
-      color: var(--spectrum-global-color-gray-900);
+      color: var(--gray-900);
     }
 
     .callout {
-      border-left: 4px solid var(--spectrum-global-color-blue-500);
+      border-left: 4px solid var(--blue-500);
       background: #f7fbff;
-      border-radius: 0 var(--spectrum-radius-200) var(--spectrum-radius-200) 0;
-      padding: var(--spectrum-space-400) var(--spectrum-space-500);
-      margin: var(--spectrum-space-400) 0;
+      border-radius: 0 var(--radius-200) var(--radius-200) 0;
+      padding: var(--space-400) var(--space-500);
+      margin: var(--space-400) 0;
     }
 
     .callout strong {
-      color: var(--spectrum-global-color-gray-900);
-    }
-
-    .mini-note {
-      font-size: var(--spectrum-font-size-100);
-      color: var(--spectrum-global-color-gray-700);
+      color: var(--gray-900);
     }
 
     .definition-list {
       display: grid;
-      gap: var(--spectrum-space-300);
+      gap: var(--space-300);
     }
 
     .definition-item {
-      border: 1px solid var(--spectrum-border-color);
-      border-radius: var(--spectrum-radius-200);
-      padding: var(--spectrum-space-400);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-200);
+      padding: var(--space-400);
       background: linear-gradient(180deg, #fff 0%, #fcfcfd 100%);
     }
 
@@ -288,73 +263,62 @@
     }
 
     .sources {
-      margin-top: var(--spectrum-space-300);
-      font-size: var(--spectrum-font-size-100);
-      color: var(--spectrum-global-color-gray-700);
-    }
-
-    .sources a {
-      color: var(--spectrum-global-color-blue-500);
-      text-decoration: none;
-      word-break: break-word;
-    }
-
-    .footer {
-      margin-top: var(--spectrum-space-800);
-      padding-top: var(--spectrum-space-500);
-      border-top: 1px solid var(--spectrum-border-color);
-      color: var(--spectrum-global-color-gray-700);
-      font-size: var(--spectrum-font-size-100);
-    }
-
-    .muted {
-      color: var(--spectrum-global-color-gray-700);
+      margin-top: var(--space-300);
+      font-size: var(--font-size-100);
+      color: var(--gray-700);
     }
 
     .kicker {
       font-weight: 700;
-      color: var(--spectrum-global-color-gray-900);
+      color: var(--gray-900);
+    }
+
+    .footer {
+      margin-top: var(--space-800);
+      padding-top: var(--space-500);
+      border-top: 1px solid var(--border-color);
+      color: var(--gray-700);
+      font-size: var(--font-size-100);
     }
   </style>
 </head>
 <body>
   <main class="page">
     <section class="hero">
-      <div class="eyebrow">Adobe LLM Optimizer</div>
-      <h1>LLMO Agentic Traffic Filters</h1>
+      <div class="eyebrow">Agentic Traffic Guide</div>
+      <h1>Understanding the <strong>Agent Type</strong> and <strong>User Agent</strong> Filters</h1>
       <p>
-        Reference for the <strong>Agent Type</strong> and <strong>User Agent</strong> filters in the
-        <strong>Agentic Traffic</strong> dashboard. This page consolidates the documented filter options,
-        explains what each option means, and clarifies the practical difference between the two filters.
+        This guide explains the two most important filters often used when analyzing AI-driven traffic:
+        <strong>Agent Type</strong> and <strong>User Agent</strong>. It is written for a customer audience and focuses on
+        what each option means in plain language.
       </p>
-      <div class="pill-row" aria-label="summary tags">
-        <span class="pill blue">Agent Type = category</span>
-        <span class="pill green">User Agent = specific normalized agent label</span>
-        <span class="pill purple">Current documented set</span>
+      <div class="pill-row">
+        <span class="pill blue">Agent Type = broad category</span>
+        <span class="pill green">User Agent = specific bot or agent name</span>
+        <span class="pill purple">Customer-facing explanation</span>
       </div>
     </section>
 
     <section class="grid">
       <div class="col-8">
-        <article class="card" id="overview">
+        <article class="card">
           <h2>Overview</h2>
           <p>
-            In the LLMO <strong>Agentic Traffic</strong> dashboard, the two filters serve different purposes:
+            These two filters answer different questions:
           </p>
           <div class="definition-list">
             <div class="definition-item">
               <h4>Agent Type</h4>
               <p>
-                A <strong>behavioral category</strong> that groups traffic into high-level classes such as
-                <em>Chatbots</em>, <em>Training bots</em>, <em>Research</em>, or <em>Web search crawlers</em>.
+                Helps you understand <strong>what kind of AI behavior</strong> you are looking at, such as training,
+                search crawling, chat-driven retrieval, research, or task execution.
               </p>
             </div>
             <div class="definition-item">
               <h4>User Agent</h4>
               <p>
-                A <strong>specific normalized user-agent name</strong> that LLMO stores after matching raw CDN
-                log user-agent strings, such as <code>ChatGPT-User</code>, <code>GPTBot</code>, or
-                <code>Gemini-Deep-Research</code>.
+                Helps you identify the <strong>specific AI bot or agent</strong> making the request, such as
+                <code>GPTBot</code>, <code>ChatGPT-User</code>, <code>ClaudeBot</code>, or <code>PerplexityBot</code>.
               </p>
             </div>
           </div>
@@ -365,20 +329,20 @@
         <div class="card toc">
           <h2 style="margin-top:0;">Contents</h2>
           <ul>
-            <li><a href="#agent-type">Agent Type filter</a></li>
-            <li><a href="#user-agent">User Agent filter</a></li>
-            <li><a href="#difference">Difference between the filters</a></li>
-            <li><a href="#caveats">Caveats</a></li>
-            <li><a href="#sources">Sources</a></li>
+            <li><a href="#agent-type">Agent Type options</a></li>
+            <li><a href="#user-agent">User Agent options</a></li>
+            <li><a href="#difference">How the filters differ</a></li>
+            <li><a href="#notes">Helpful notes</a></li>
+            <li><a href="#sources">Public references</a></li>
           </ul>
         </div>
       </aside>
     </section>
 
     <section class="card" id="agent-type">
-      <h2>1) Agent Type filter — all documented options and meanings</h2>
+      <h2>1) Agent Type — what each option means</h2>
       <p>
-        These are the normalized <strong>categories</strong> LLMO uses to group recognized agentic user agents.
+        <strong>Agent Type</strong> groups AI traffic into broad categories based on the role the agent is performing.
       </p>
 
       <div class="table-wrap">
@@ -386,55 +350,50 @@
           <thead>
             <tr>
               <th>Agent Type option</th>
-              <th>Meaning</th>
-              <th>Typical examples tracked by LLMO</th>
+              <th>What it means</th>
+              <th>Typical examples</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>All Agents</strong></td>
-              <td>No filter; includes every recognized agent category.</td>
-              <td>All recognized user agents</td>
+              <td>Shows all recognized AI-related agents together, without narrowing to one category.</td>
+              <td>All known AI agents and bots</td>
             </tr>
             <tr>
-              <td><strong>Training bots</strong></td>
-              <td>Automated agents that gather content for long-term large language model training.</td>
+              <td><strong>Training Bots</strong></td>
+              <td>Agents that collect publicly available content to help improve future AI models.</td>
               <td><code>GPTBot</code>, <code>ClaudeBot</code></td>
             </tr>
             <tr>
-              <td><strong>Web search crawlers</strong></td>
-              <td>Bots that index site content to power search engines and LLM search functionality.</td>
-              <td><code>OAI-SearchBot</code>, <code>PerplexityBot</code>, <code>Claude-SearchBot</code>, <code>Google</code></td>
+              <td><strong>Web Search Crawlers</strong></td>
+              <td>Agents that discover and index content so it can appear in AI-assisted search experiences.</td>
+              <td><code>OAI-SearchBot</code>, <code>PerplexityBot</code>, <code>Claude-SearchBot</code></td>
             </tr>
             <tr>
               <td><strong>Chatbots</strong></td>
-              <td>Bots that retrieve content on demand to generate responses, answer questions, or provide citations.</td>
-              <td><code>ChatGPT-User</code>, <code>Perplexity-User</code>, <code>Claude-User</code>, <code>Amzn-User</code>, <code>Google-ai-mode</code>, <code>GoogleAgent-URLContext</code>, <code>MistralAI-User</code></td>
+              <td>Agents that fetch content in response to a live user question so the AI system can answer or cite a source.</td>
+              <td><code>ChatGPT-User</code>, <code>Perplexity-User</code>, <code>Claude-User</code>, <code>MistralAI-User</code></td>
             </tr>
             <tr>
-              <td><strong>Research</strong></td>
-              <td>Specialized agents designed for deeper, task-specific investigation and synthesis.</td>
+              <td><strong>Research Agents</strong></td>
+              <td>Agents designed to perform deeper, multi-step investigation and synthesis across sources.</td>
               <td><code>Gemini-Deep-Research</code>, <code>Google-NotebookLM</code></td>
             </tr>
             <tr>
-              <td><strong>Media fetchers</strong></td>
-              <td>Agents that retrieve media assets such as favicons, images, or similar resources.</td>
-              <td><code>ChatGPT Atlas</code>, <code>ChatGPT Clients</code>, <code>Perplexity Clients</code></td>
+              <td><strong>Media Fetchers</strong></td>
+              <td>Agents that request images, icons, or other media assets rather than general page content.</td>
+              <td>Client or media-fetching variants used by AI platforms</td>
             </tr>
             <tr>
-              <td><strong>Action agents</strong></td>
-              <td>Agents that perform explicit, goal-driven actions inside browsers, tools, or external systems.</td>
+              <td><strong>Action Agents</strong></td>
+              <td>Agents that can take goal-driven actions in tools or browsers on a user's behalf.</td>
               <td><code>GoogleAgent-Chrome</code>, <code>GoogleAgent-Mariner</code></td>
             </tr>
             <tr>
-              <td><strong>Shopping agents</strong></td>
-              <td>Agents focused on shopping-oriented tasks and product-related actions.</td>
+              <td><strong>Shopping Agents</strong></td>
+              <td>Agents that support shopping-related tasks, comparisons, or product-focused actions.</td>
               <td><code>GoogleAgent-Shopping</code></td>
-            </tr>
-            <tr>
-              <td><strong>Ads Bot</strong></td>
-              <td>Agents that validate the safety of web pages submitted as ads.</td>
-              <td><code>OAI-AdsBot</code></td>
             </tr>
           </tbody>
         </table>
@@ -442,27 +401,16 @@
 
       <div class="callout">
         <p>
-          <strong>Important note:</strong> one internal Slack summary referenced a narrower subset of dropdown options.
-          The broader and more current taxonomy comes from the newer <strong>LLM Optimizer: Metrics</strong> page plus the
-          <strong>Agentic user agents (LLMO)</strong> reference.
+          <strong>Simple way to think about it:</strong> Agent Type tells you the
+          <strong>job the AI system is doing</strong>, not just the name of the bot.
         </p>
-      </div>
-
-      <div class="sources">
-        <div class="kicker">Sources:</div>
-        <ul>
-          <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3616121505/LLM+Optimizer+Metrics">LLM Optimizer: Metrics</a></li>
-          <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3684381436/Agentic+user+agents+LLMO">Agentic user agents (LLMO)</a></li>
-          <li><a href="https://adobe.enterprise.slack.com/archives/C08S8TS7Q68/p1767692608.732149">Conversation from #llm-optimizer channnel</a></li>
-        </ul>
       </div>
     </section>
 
     <section class="card" id="user-agent">
-      <h2>2) User Agent filter — all currently documented options and meanings</h2>
+      <h2>2) User Agent — what each option means</h2>
       <p>
-        This filter uses the <strong>normalized user-agent name</strong> LLMO stores after matching raw user-agent
-        strings in CDN logs.
+        <strong>User Agent</strong> shows the specific bot or agent identity associated with the request.
       </p>
 
       <div class="table-wrap">
@@ -471,248 +419,178 @@
             <tr>
               <th>User Agent option</th>
               <th>Provider</th>
-              <th>Agent Type</th>
-              <th>Meaning</th>
+              <th>Typical role</th>
+              <th>Plain-language meaning</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><code>GPTBot</code></td>
               <td>OpenAI</td>
-              <td>Training bots</td>
-              <td>OpenAI training crawler used to gather web content for model training.</td>
+              <td>Training Bot</td>
+              <td>Used to collect public web content that may help improve future AI models.</td>
             </tr>
             <tr>
               <td><code>OAI-SearchBot</code></td>
               <td>OpenAI</td>
-              <td>Web search crawlers</td>
-              <td>OpenAI search crawler used for search or indexing-related access.</td>
+              <td>Web Search Crawler</td>
+              <td>Used for search-related discovery and retrieval.</td>
             </tr>
             <tr>
               <td><code>ChatGPT-User</code></td>
               <td>OpenAI</td>
-              <td>Chatbots</td>
-              <td>On-demand fetches triggered when ChatGPT needs page content for answers or citations.</td>
-            </tr>
-            <tr>
-              <td><code>ChatGPT Atlas</code></td>
-              <td>OpenAI</td>
-              <td>Media fetchers</td>
-              <td>OpenAI media retrieval agent for assets.</td>
-            </tr>
-            <tr>
-              <td><code>ChatGPT Clients</code></td>
-              <td>OpenAI</td>
-              <td>Media fetchers</td>
-              <td>ChatGPT app or client-driven media fetching, including desktop and mobile clients.</td>
+              <td>Chatbot</td>
+              <td>Used when ChatGPT fetches content on behalf of a user question.</td>
             </tr>
             <tr>
               <td><code>PerplexityBot</code></td>
               <td>Perplexity</td>
-              <td>Web search crawlers</td>
-              <td>Perplexity crawler for search and indexing behavior.</td>
+              <td>Web Search Crawler</td>
+              <td>Used to index and discover content for Perplexity's search and answer experience.</td>
             </tr>
             <tr>
               <td><code>Perplexity-User</code></td>
               <td>Perplexity</td>
-              <td>Chatbots</td>
-              <td>On-demand Perplexity fetches for answer generation and citations.</td>
+              <td>Chatbot</td>
+              <td>Used when Perplexity fetches live content to answer a user's question.</td>
             </tr>
             <tr>
-              <td><code>Perplexity Clients</code></td>
-              <td>Perplexity</td>
-              <td>Media fetchers</td>
-              <td>Perplexity client-driven or media asset fetching.</td>
+              <td><code>ClaudeBot</code></td>
+              <td>Anthropic</td>
+              <td>Training Bot</td>
+              <td>Used to collect public content for model improvement.</td>
+            </tr>
+            <tr>
+              <td><code>Claude-SearchBot</code></td>
+              <td>Anthropic</td>
+              <td>Web Search Crawler</td>
+              <td>Used to index public content for search-style answering.</td>
+            </tr>
+            <tr>
+              <td><code>Claude-User</code></td>
+              <td>Anthropic</td>
+              <td>Chatbot</td>
+              <td>Used when Claude visits a page because a user asked it to retrieve content.</td>
             </tr>
             <tr>
               <td><code>Gemini-Deep-Research</code></td>
               <td>Google</td>
-              <td>Research</td>
-              <td>Gemini deep research agent used for multi-step research and synthesis.</td>
+              <td>Research Agent</td>
+              <td>Used for deeper, multi-step research tasks that gather and synthesize information.</td>
             </tr>
             <tr>
-              <td><code>Google-ai-mode</code></td>
-              <td>Google</td>
-              <td>Chatbots</td>
-              <td>Google AI Mode fetches for conversational or answer-generation scenarios.</td>
-            </tr>
-            <tr>
-              <td><code>GoogleAgent-URLContext</code></td>
-              <td>Google</td>
-              <td>Chatbots</td>
-              <td>Google or Gemini fetches associated with URL-context lookups.</td>
+              <td><code>MistralAI-User</code></td>
+              <td>Mistral AI</td>
+              <td>Chatbot</td>
+              <td>Used when Mistral retrieves live web content during a user conversation.</td>
             </tr>
             <tr>
               <td><code>GoogleAgent-Chrome</code></td>
               <td>Google</td>
-              <td>Action agents</td>
-              <td>Goal-driven Google agent operating through browser or tool workflows.</td>
-            </tr>
-            <tr>
-              <td><code>GoogleAgent-Shopping</code></td>
-              <td>Google</td>
-              <td>Shopping agents</td>
-              <td>Google shopping-focused agent.</td>
+              <td>Action Agent</td>
+              <td>Used when a Google AI agent performs browser-based or tool-based actions.</td>
             </tr>
             <tr>
               <td><code>GoogleAgent-Mariner</code></td>
               <td>Google</td>
-              <td>Action agents</td>
-              <td>Google action-oriented agent used for task execution.</td>
-            </tr>
-            <tr>
-              <td><code>Google-NotebookLM</code></td>
-              <td>Google</td>
-              <td>Research</td>
-              <td>NotebookLM research and synthesis agent.</td>
-            </tr>
-            <tr>
-              <td><code>Claude-User</code></td>
-              <td>Anthropic / Claude</td>
-              <td>Chatbots</td>
-              <td>On-demand Claude fetches for generating responses and citations.</td>
-            </tr>
-            <tr>
-              <td><code>ClaudeBot</code></td>
-              <td>Anthropic / Claude</td>
-              <td>Training bots</td>
-              <td>Anthropic training crawler.</td>
-            </tr>
-            <tr>
-              <td><code>Claude-SearchBot</code></td>
-              <td>Anthropic / Claude</td>
-              <td>Web search crawlers</td>
-              <td>Anthropic search crawler.</td>
-            </tr>
-            <tr>
-              <td><code>MistralAI-User</code></td>
-              <td>Mistral</td>
-              <td>Chatbots</td>
-              <td>Mistral chatbot-driven content fetches.</td>
-            </tr>
-            <tr>
-              <td><code>Amzn-User</code></td>
-              <td>Amazon</td>
-              <td>Chatbots</td>
-              <td>Amazon chatbot or user-facing content fetches.</td>
+              <td>Action Agent</td>
+              <td>Used for task-oriented browsing and execution workflows.</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <div class="sources">
-        <div class="kicker">Sources:</div>
-        <ul>
-          <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3684381436/Agentic+user+agents+LLMO">Agentic user agents (LLMO)</a></li>
-          <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3666485091/Agentic+Traffic+FAQ">Agentic Traffic FAQ</a></li>
-        </ul>
+      <div class="callout">
+        <p>
+          <strong>Simple way to think about it:</strong> User Agent tells you
+          <strong>which exact AI bot made the request</strong>.
+        </p>
       </div>
     </section>
 
     <section class="grid" id="difference">
       <div class="col-6">
         <div class="card">
-          <h2>3) Practical difference between the filters</h2>
+          <h2>3) How these two filters differ</h2>
           <div class="table-wrap">
             <table aria-label="Difference between filters">
               <thead>
                 <tr>
                   <th>Filter</th>
-                  <th>What it does</th>
+                  <th>Best used for</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><strong>Agent Type</strong></td>
-                  <td>Groups traffic into broad behavioral categories like <em>Chatbots</em>, <em>Training bots</em>, <em>Research</em>, or <em>Web search crawlers</em>.</td>
+                  <td>Understanding the <strong>kind of activity</strong> taking place, such as training, search discovery, live answer generation, or task execution.</td>
                 </tr>
                 <tr>
                   <td><strong>User Agent</strong></td>
-                  <td>Lets you isolate the specific normalized agent identity, such as <code>ChatGPT-User</code>, <code>GPTBot</code>, <code>ClaudeBot</code>, or <code>Gemini-Deep-Research</code>.</td>
+                  <td>Understanding <strong>which specific bot</strong> was responsible for the activity.</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <div class="callout">
-            <p><strong>Short version:</strong> <span class="muted">Agent Type = category, User Agent = specific bot label.</span></p>
-          </div>
-
-          <div class="sources">
-            <div class="kicker">Sources:</div>
-            <ul>
-              <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3616121505/LLM+Optimizer+Metrics">LLM Optimizer: Metrics</a></li>
-              <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3684381436/Agentic+user+agents+LLMO">Agentic user agents (LLMO)</a></li>
-            </ul>
+            <p>
+              <strong>In short:</strong> <em>Agent Type</em> explains the category of behavior, while
+              <em>User Agent</em> identifies the individual bot or agent behind that behavior.
+            </p>
           </div>
         </div>
       </div>
 
-      <div class="col-6" id="caveats">
-        <div class="card notes">
-          <h2>4) Caveats worth knowing</h2>
+      <div class="col-6" id="notes">
+        <div class="card">
+          <h2>4) Helpful notes</h2>
           <ul>
-            <li>
-              The recognized user-agent list is <strong>expanded over time</strong> as new LLM agents appear,
-              so this is the <strong>currently documented set</strong>, not a guaranteed final set forever.
-            </li>
-            <li>
-              Some UI behavior and platform mapping are handled on the <strong>UI side</strong>. For example,
-              an internal engineering thread notes that <code>GoogleAgent-Chrome</code> is currently classified
-              under <strong>Gemini</strong> at the platform level.
-            </li>
+            <li>Not every provider uses only one bot. A single provider may use different agents for training, search, live retrieval, media access, or task execution.</li>
+            <li>New AI agents appear over time, so available options may expand as platforms introduce new capabilities.</li>
+            <li>If you are reviewing traffic trends, filtering by <strong>Agent Type</strong> usually gives the clearest strategic view first. Filtering by <strong>User Agent</strong> is best when you want detail about a specific provider or bot.</li>
           </ul>
-
-          <div class="sources">
-            <div class="kicker">Sources:</div>
-            <ul>
-              <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3666485091/Agentic+Traffic+FAQ">Agentic Traffic FAQ</a></li>
-              <li><a href="https://adobe.enterprise.slack.com/archives/C091CRHN961/p1778538342.567879">Conversation from #llm-optimizer-engineering channnel</a></li>
-            </ul>
-          </div>
         </div>
       </div>
     </section>
 
     <section class="card" id="summary">
-      <h2>5) Executive summary</h2>
+      <h2>5) Quick summary</h2>
       <p>
-        If you need a fast interpretation of the dashboard:
+        Use <strong>Agent Type</strong> when you want to answer:
       </p>
       <ul>
-        <li>
-          <strong>Agent Type options</strong> are the high-level buckets:
-          <code>All Agents</code>, <code>Training bots</code>, <code>Web search crawlers</code>,
-          <code>Chatbots</code>, <code>Research</code>, <code>Media fetchers</code>,
-          <code>Action agents</code>, <code>Shopping agents</code>, <code>Ads Bot</code>.
-        </li>
-        <li>
-          <strong>User Agent options</strong> are the specific normalized names like:
-          <code>GPTBot</code>, <code>OAI-SearchBot</code>, <code>ChatGPT-User</code>,
-          <code>PerplexityBot</code>, <code>Perplexity-User</code>,
-          <code>Gemini-Deep-Research</code>, <code>ClaudeBot</code>, <code>Claude-User</code>, and others.
-        </li>
+        <li>Are these requests coming from training bots, chatbots, or search crawlers?</li>
+        <li>How much of my AI traffic is research-oriented versus user-driven retrieval?</li>
+      </ul>
+      <p>
+        Use <strong>User Agent</strong> when you want to answer:
+      </p>
+      <ul>
+        <li>Was this traffic from ChatGPT, Claude, Perplexity, Gemini, or another provider?</li>
+        <li>Which exact bot was active on the site?</li>
       </ul>
     </section>
 
     <section class="card" id="sources">
-      <h2>Sources</h2>
-      <p class="mini-note">
-        All facts above were consolidated from the following internal references.
+      <h2>Public references</h2>
+      <p>
+        The links below are public-facing references that explain the role of several widely used AI bots and agent user agents.
       </p>
       <ul>
-        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3616121505/LLM+Optimizer+Metrics">LLM Optimizer: Metrics</a></li>
-        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3684381436/Agentic+user+agents+LLMO">Agentic user agents (LLMO)</a></li>
-        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3666485091/Agentic+Traffic+FAQ">Agentic Traffic FAQ</a></li>
-        <li><a href="https://adobe.enterprise.slack.com/archives/C08S8TS7Q68/p1767692608.732149">Conversation from #llm-optimizer channnel</a></li>
-        <li><a href="https://adobe.enterprise.slack.com/archives/C091CRHN961/p1778538342.567879">Conversation from #llm-optimizer-engineering channnel</a></li>
+        <li><a href="https://openai.com/gptbot">OpenAI — GPTBot</a></li>
+        <li><a href="https://platform.openai.com/docs/bots">OpenAI — Bots documentation</a></li>
+        <li><a href="https://docs.perplexity.ai/guides/bots">Perplexity — Bots documentation</a></li>
+        <li><a href="https://support.claude.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler">Anthropic — Claude crawler and bot guidance</a></li>
+        <li><a href="https://docs.mistral.ai/robots/">Mistral AI — Robots guidance</a></li>
+        <li><a href="https://developers.google.com/gemini-code-assist/docs/url-context">Google — URL Context documentation</a></li>
+        <li><a href="https://gemini.google/overview/deep-research/">Google — Gemini Deep Research overview</a></li>
       </ul>
     </section>
 
     <footer class="footer">
       <p>
-        Prepared as a full HTML reference with Adobe-style visual treatment. If you want, I can also produce a
-        <strong>dark mode version</strong> or a version using <strong>Spectrum Web Components markup</strong>.
+        This version is written to be customer-facing and uses only public references at the end.
       </p>
     </footer>
   </main>

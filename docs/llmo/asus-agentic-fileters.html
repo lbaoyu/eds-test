@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Understanding the Agent Type and User Agent Filters</title>
-  <meta name="description" content="Customer-friendly guide to the Agent Type and User Agent filters in an Agentic Traffic dashboard." />
+  <title>了解 Agent Type 與 User Agent 篩選器</title>
+  <meta name="description" content="以客戶為對象的指南，說明 Agentic Traffic 儀表板中的 Agent Type 與 User Agent 篩選器。" />
   <style>
     :root {
       --gray-50: #ffffff;
@@ -24,7 +24,7 @@
       --orange-400: #e68619;
       --purple-400: #9256d9;
 
-      --font-family: adobe-clean, "Adobe Clean", "Segoe UI", Roboto, Arial, sans-serif;
+      --font-family: adobe-clean, "Adobe Clean", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Segoe UI", Roboto, Arial, sans-serif;
       --font-size-75: 12px;
       --font-size-100: 14px;
       --font-size-200: 16px;
@@ -59,7 +59,7 @@
       margin: 0;
       font-family: var(--font-family);
       font-size: var(--font-size-200);
-      line-height: 1.6;
+      line-height: 1.75;
       color: var(--text-color);
       background:
         radial-gradient(circle at top right, rgba(20,115,230,0.08), transparent 30%),
@@ -97,7 +97,7 @@
     }
 
     h1, h2, h3 {
-      line-height: 1.2;
+      line-height: 1.25;
       margin: 0 0 var(--space-300);
     }
 
@@ -277,40 +277,39 @@
 <body>
   <main class="page">
     <section class="hero">
-      <div class="eyebrow">Agentic Traffic Guide</div>
-      <h1>Understanding the <strong>Agent Type</strong> and <strong>User Agent</strong> Filters</h1>
+      <div class="eyebrow">Agentic Traffic 指南</div>
+      <h1>了解 <strong>Agent Type</strong> 與 <strong>User Agent</strong> 篩選器</h1>
       <p>
-        This guide explains the two most important filters often used when analyzing AI-driven traffic:
-        <strong>Agent Type</strong> and <strong>User Agent</strong>. It is written for a customer audience and focuses on
-        what each option means in plain language.
+        本指南說明分析 AI 流量時最常使用的兩個篩選器：<strong>Agent Type</strong> 與 <strong>User Agent</strong>。
+        內容以客戶為對象，使用容易理解的方式解釋每個選項的含義。
       </p>
       <div class="pill-row">
-        <span class="pill blue">Agent Type = broad category</span>
-        <span class="pill green">User Agent = specific bot or agent name</span>
-        <span class="pill purple">Customer-friendly explanation</span>
+        <span class="pill blue">Agent Type = 大類別</span>
+        <span class="pill green">User Agent = 特定機器人或代理名稱</span>
+        <span class="pill purple">客戶友善說明</span>
       </div>
     </section>
 
     <section class="grid">
       <div class="col-8">
         <article class="card">
-          <h2>Overview</h2>
+          <h2>總覽</h2>
           <p>
-            These two filters answer different questions:
+            這兩個篩選器回答的是不同的問題：
           </p>
           <div class="definition-list">
             <div class="definition-item">
               <h4>Agent Type</h4>
               <p>
-                Helps you understand <strong>what kind of AI behavior</strong> you are looking at, such as training,
-                search crawling, chat-driven retrieval, research, or task execution.
+                幫助您了解目前看到的是<strong>哪一種類型的 AI 行為</strong>，
+                例如模型訓練、搜尋爬取、即時問答擷取、研究分析或任務執行。
               </p>
             </div>
             <div class="definition-item">
               <h4>User Agent</h4>
               <p>
-                Helps you identify the <strong>specific AI bot or agent</strong> making the request, such as
-                <code>GPTBot</code>, <code>ChatGPT-User</code>, <code>ClaudeBot</code>, or <code>PerplexityBot</code>.
+                幫助您辨識提出請求的<strong>特定 AI 機器人或代理</strong>，
+                例如 <code>GPTBot</code>、<code>ChatGPT-User</code>、<code>ClaudeBot</code> 或 <code>PerplexityBot</code>。
               </p>
             </div>
           </div>
@@ -319,72 +318,72 @@
 
       <aside class="col-4">
         <div class="card toc">
-          <h2 style="margin-top:0;">Contents</h2>
+          <h2 style="margin-top:0;">目錄</h2>
           <ul>
-            <li><a href="#agent-type">Agent Type options</a></li>
-            <li><a href="#user-agent">User Agent options</a></li>
-            <li><a href="#difference">How the filters differ</a></li>
-            <li><a href="#notes">Helpful notes</a></li>
-            <li><a href="#sources">Public references</a></li>
+            <li><a href="#agent-type">Agent Type 選項</a></li>
+            <li><a href="#user-agent">User Agent 選項</a></li>
+            <li><a href="#difference">兩種篩選器的差異</a></li>
+            <li><a href="#notes">實用補充說明</a></li>
+            <li><a href="#sources">公開參考資料</a></li>
           </ul>
         </div>
       </aside>
     </section>
 
     <section class="card" id="agent-type">
-      <h2>1) Agent Type — what each option means</h2>
+      <h2>1) Agent Type — 各選項代表什麼</h2>
       <p>
-        <strong>Agent Type</strong> groups AI traffic into broad categories based on the role the agent is performing.
+        <strong>Agent Type</strong> 會依照代理執行的角色，把 AI 流量分成較大的類別。
       </p>
 
       <div class="table-wrap">
         <table aria-label="Agent Type options">
           <thead>
             <tr>
-              <th>Agent Type option</th>
-              <th>What it means</th>
-              <th>Typical examples</th>
+              <th>Agent Type 選項</th>
+              <th>含義</th>
+              <th>常見範例</th>
             </tr>
           </thead>
           <tbody>
             <tr>
               <td><strong>All Agents</strong></td>
-              <td>Shows all recognized AI-related agents together, without narrowing to one category.</td>
-              <td>All known AI agents and bots</td>
+              <td>顯示所有已辨識的 AI 相關代理，不限制特定類別。</td>
+              <td>所有已知的 AI 機器人與代理</td>
             </tr>
             <tr>
               <td><strong>Training Bots</strong></td>
-              <td>Agents that collect publicly available content to help improve future AI models.</td>
-              <td><code>GPTBot</code>, <code>ClaudeBot</code></td>
+              <td>蒐集公開網頁內容，以協助改進未來 AI 模型的代理。</td>
+              <td><code>GPTBot</code>、<code>ClaudeBot</code></td>
             </tr>
             <tr>
               <td><strong>Web Search Crawlers</strong></td>
-              <td>Agents that discover and index content so it can appear in AI-assisted search experiences.</td>
-              <td><code>OAI-SearchBot</code>, <code>PerplexityBot</code>, <code>Claude-SearchBot</code></td>
+              <td>發現並索引內容，讓內容可出現在 AI 輔助搜尋體驗中的代理。</td>
+              <td><code>OAI-SearchBot</code>、<code>PerplexityBot</code>、<code>Claude-SearchBot</code></td>
             </tr>
             <tr>
               <td><strong>Chatbots</strong></td>
-              <td>Agents that fetch content in response to a live user question so the AI system can answer or cite a source.</td>
-              <td><code>ChatGPT-User</code>, <code>Perplexity-User</code>, <code>Claude-User</code>, <code>MistralAI-User</code></td>
+              <td>在使用者即時提問時擷取內容，讓 AI 可以回答問題或引用來源的代理。</td>
+              <td><code>ChatGPT-User</code>、<code>Perplexity-User</code>、<code>Claude-User</code>、<code>MistralAI-User</code></td>
             </tr>
             <tr>
               <td><strong>Research Agents</strong></td>
-              <td>Agents designed to perform deeper, multi-step investigation and synthesis across sources.</td>
-              <td><code>Gemini-Deep-Research</code>, <code>Google-NotebookLM</code></td>
+              <td>設計用來執行更深入、多步驟研究與資訊整合的代理。</td>
+              <td><code>Gemini-Deep-Research</code>、<code>Google-NotebookLM</code></td>
             </tr>
             <tr>
               <td><strong>Media Fetchers</strong></td>
-              <td>Agents that request images, icons, or other media assets rather than general page content.</td>
-              <td>Client or media-fetching variants used by AI platforms</td>
+              <td>請求圖片、圖示或其他媒體資產，而非一般頁面內容的代理。</td>
+              <td>AI 平台使用的用戶端或媒體擷取變體</td>
             </tr>
             <tr>
               <td><strong>Action Agents</strong></td>
-              <td>Agents that can take goal-driven actions in tools or browsers on a user's behalf.</td>
-              <td><code>GoogleAgent-Chrome</code>, <code>GoogleAgent-Mariner</code></td>
+              <td>可以代表使用者在工具或瀏覽器中執行目標導向操作的代理。</td>
+              <td><code>GoogleAgent-Chrome</code>、<code>GoogleAgent-Mariner</code></td>
             </tr>
             <tr>
               <td><strong>Shopping Agents</strong></td>
-              <td>Agents that support shopping-related tasks, comparisons, or product-focused actions.</td>
+              <td>支援購物相關任務、比較或商品導向操作的代理。</td>
               <td><code>GoogleAgent-Shopping</code></td>
             </tr>
           </tbody>
@@ -393,26 +392,26 @@
 
       <div class="callout">
         <p>
-          <strong>Simple way to think about it:</strong> Agent Type tells you the
-          <strong>job the AI system is doing</strong>, not just the name of the bot.
+          <strong>最簡單的理解方式：</strong> Agent Type 告訴您的是
+          <strong>這個 AI 系統正在做什麼工作</strong>，而不只是它的名稱。
         </p>
       </div>
     </section>
 
     <section class="card" id="user-agent">
-      <h2>2) User Agent — what each option means</h2>
+      <h2>2) User Agent — 各選項代表什麼</h2>
       <p>
-        <strong>User Agent</strong> shows the specific bot or agent identity associated with the request.
+        <strong>User Agent</strong> 顯示的是提出請求的特定機器人或代理身分。
       </p>
 
       <div class="table-wrap">
         <table aria-label="User Agent options">
           <thead>
             <tr>
-              <th>User Agent option</th>
-              <th>Provider</th>
-              <th>Typical role</th>
-              <th>Plain-language meaning</th>
+              <th>User Agent 選項</th>
+              <th>提供者</th>
+              <th>常見角色</th>
+              <th>白話說明</th>
             </tr>
           </thead>
           <tbody>
@@ -420,73 +419,73 @@
               <td><code>GPTBot</code></td>
               <td>OpenAI</td>
               <td>Training Bot</td>
-              <td>Used to collect public web content that may help improve future AI models.</td>
+              <td>用來蒐集公開網頁內容，可能用於改進未來 AI 模型。</td>
             </tr>
             <tr>
               <td><code>OAI-SearchBot</code></td>
               <td>OpenAI</td>
               <td>Web Search Crawler</td>
-              <td>Used for search-related discovery and retrieval.</td>
+              <td>用於搜尋相關的內容發現與擷取。</td>
             </tr>
             <tr>
               <td><code>ChatGPT-User</code></td>
               <td>OpenAI</td>
               <td>Chatbot</td>
-              <td>Used when ChatGPT fetches content on behalf of a user question.</td>
+              <td>當 ChatGPT 代表使用者問題去擷取內容時所使用。</td>
             </tr>
             <tr>
               <td><code>PerplexityBot</code></td>
               <td>Perplexity</td>
               <td>Web Search Crawler</td>
-              <td>Used to index and discover content for Perplexity's search and answer experience.</td>
+              <td>用來為 Perplexity 的搜尋與回答體驗索引及發現內容。</td>
             </tr>
             <tr>
               <td><code>Perplexity-User</code></td>
               <td>Perplexity</td>
               <td>Chatbot</td>
-              <td>Used when Perplexity fetches live content to answer a user's question.</td>
+              <td>當 Perplexity 為了回答使用者問題而即時抓取內容時所使用。</td>
             </tr>
             <tr>
               <td><code>ClaudeBot</code></td>
               <td>Anthropic</td>
               <td>Training Bot</td>
-              <td>Used to collect public content for model improvement.</td>
+              <td>用來蒐集公開內容，以改進模型。</td>
             </tr>
             <tr>
               <td><code>Claude-SearchBot</code></td>
               <td>Anthropic</td>
               <td>Web Search Crawler</td>
-              <td>Used to index public content for search-style answering.</td>
+              <td>用來為搜尋型回答索引公開內容。</td>
             </tr>
             <tr>
               <td><code>Claude-User</code></td>
               <td>Anthropic</td>
               <td>Chatbot</td>
-              <td>Used when Claude visits a page because a user asked it to retrieve content.</td>
+              <td>當 Claude 因為使用者要求而造訪某個頁面擷取內容時所使用。</td>
             </tr>
             <tr>
               <td><code>Gemini-Deep-Research</code></td>
               <td>Google</td>
               <td>Research Agent</td>
-              <td>Used for deeper, multi-step research tasks that gather and synthesize information.</td>
+              <td>用於更深入、多步驟的研究任務，以蒐集並整合資訊。</td>
             </tr>
             <tr>
               <td><code>MistralAI-User</code></td>
               <td>Mistral AI</td>
               <td>Chatbot</td>
-              <td>Used when Mistral retrieves live web content during a user conversation.</td>
+              <td>當 Mistral 在對話中即時擷取網頁內容時所使用。</td>
             </tr>
             <tr>
               <td><code>GoogleAgent-Chrome</code></td>
               <td>Google</td>
               <td>Action Agent</td>
-              <td>Used when a Google AI agent performs browser-based or tool-based actions.</td>
+              <td>當 Google 的 AI 代理執行瀏覽器或工具型操作時所使用。</td>
             </tr>
             <tr>
               <td><code>GoogleAgent-Mariner</code></td>
               <td>Google</td>
               <td>Action Agent</td>
-              <td>Used for task-oriented browsing and execution workflows.</td>
+              <td>用於任務導向的瀏覽與執行流程。</td>
             </tr>
           </tbody>
         </table>
@@ -494,8 +493,8 @@
 
       <div class="callout">
         <p>
-          <strong>Simple way to think about it:</strong> User Agent tells you
-          <strong>which exact AI bot made the request</strong>.
+          <strong>最簡單的理解方式：</strong> User Agent 告訴您
+          <strong>到底是哪一個 AI 機器人提出了這次請求</strong>。
         </p>
       </div>
     </section>
@@ -503,23 +502,23 @@
     <section class="grid" id="difference">
       <div class="col-6">
         <div class="card">
-          <h2>3) How these two filters differ</h2>
+          <h2>3) 這兩種篩選器有什麼不同</h2>
           <div class="table-wrap">
             <table aria-label="Difference between filters">
               <thead>
                 <tr>
-                  <th>Filter</th>
-                  <th>Best used for</th>
+                  <th>篩選器</th>
+                  <th>最適合用來回答的問題</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td><strong>Agent Type</strong></td>
-                  <td>Understanding the <strong>kind of activity</strong> taking place, such as training, search discovery, live answer generation, or task execution.</td>
+                  <td>了解目前發生的是<strong>哪一種類型的活動</strong>，例如模型訓練、搜尋發現、即時回答產生或任務執行。</td>
                 </tr>
                 <tr>
                   <td><strong>User Agent</strong></td>
-                  <td>Understanding <strong>which specific bot</strong> was responsible for the activity.</td>
+                  <td>了解<strong>是哪一個特定機器人</strong>負責該活動。</td>
                 </tr>
               </tbody>
             </table>
@@ -527,8 +526,8 @@
 
           <div class="callout">
             <p>
-              <strong>In short:</strong> <em>Agent Type</em> explains the category of behavior, while
-              <em>User Agent</em> identifies the individual bot or agent behind that behavior.
+              <strong>簡單總結：</strong> <em>Agent Type</em> 說明的是行為類別，
+              而 <em>User Agent</em> 指出的是執行該行為的具體機器人或代理。
             </p>
           </div>
         </div>
@@ -536,38 +535,38 @@
 
       <div class="col-6" id="notes">
         <div class="card">
-          <h2>4) Helpful notes</h2>
+          <h2>4) 實用補充說明</h2>
           <ul>
-            <li>Not every provider uses only one bot. A single provider may use different agents for training, search, live retrieval, media access, or task execution.</li>
-            <li>New AI agents appear over time, so available options may expand as platforms introduce new capabilities.</li>
-            <li>If you are reviewing traffic trends, filtering by <strong>Agent Type</strong> usually gives the clearest strategic view first. Filtering by <strong>User Agent</strong> is best when you want detail about a specific provider or bot.</li>
+            <li>不是每個供應商都只使用一種機器人。同一個供應商可能會針對訓練、搜尋、即時擷取、媒體存取或任務執行使用不同代理。</li>
+            <li>新的 AI 代理會隨時間持續出現，因此可用選項也可能隨著平台推出新能力而擴充。</li>
+            <li>如果您在檢視流量趨勢，通常先用 <strong>Agent Type</strong> 會更容易掌握整體策略方向；如果要查看特定供應商或機器人的細節，再用 <strong>User Agent</strong> 會更合適。</li>
           </ul>
         </div>
       </div>
     </section>
 
     <section class="card" id="summary">
-      <h2>5) Quick summary</h2>
+      <h2>5) 快速摘要</h2>
       <p>
-        Use <strong>Agent Type</strong> when you want to answer:
+        當您想回答以下問題時，請使用 <strong>Agent Type</strong>：
       </p>
       <ul>
-        <li>Are these requests coming from training bots, chatbots, or search crawlers?</li>
-        <li>How much of my AI traffic is research-oriented versus user-driven retrieval?</li>
+        <li>這些請求主要來自訓練型機器人、聊天型機器人，還是搜尋爬蟲？</li>
+        <li>我的 AI 流量中，有多少屬於研究導向，又有多少屬於使用者即時擷取？</li>
       </ul>
       <p>
-        Use <strong>User Agent</strong> when you want to answer:
+        當您想回答以下問題時，請使用 <strong>User Agent</strong>：
       </p>
       <ul>
-        <li>Was this traffic from ChatGPT, Claude, Perplexity, Gemini, or another provider?</li>
-        <li>Which exact bot was active on the site?</li>
+        <li>這些流量是來自 ChatGPT、Claude、Perplexity、Gemini，還是其他供應商？</li>
+        <li>實際活躍的是哪一個機器人？</li>
       </ul>
     </section>
 
     <section class="card" id="sources">
-      <h2>Public references</h2>
+      <h2>公開參考資料</h2>
       <p>
-        The links below are public-facing references that explain the role of several widely used AI bots and agent user agents.
+        以下為公開連結，可進一步了解幾個常見 AI 機器人與代理使用者代理字串的角色與用途。
       </p>
       <ul>
         <li><a href="https://openai.com/gptbot">OpenAI — GPTBot</a></li>

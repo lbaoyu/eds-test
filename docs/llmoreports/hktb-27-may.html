@@ -60,11 +60,12 @@
     --font-serif: 'Source Serif 4', Georgia, serif;
     --font-mono:  'Source Code Pro', 'SF Mono', Menlo, monospace;
 
-    /* Type scale — 4-step, minimum 18px */
-    --t-sm:  18px;   /* body, labels, captions, table cells, pills, mono, footer */
-    --t-md:  24px;   /* subheads, section titles, insight, strategic h */
-    --t-lg:  40px;   /* KPI values, stat values, page title */
-    --t-xl:  64px;   /* hero gap numbers */
+    /* Type scale — simplified, balanced */
+    --t-xs: 14px;   /* app chrome, chips, tables, pills, captions, footer */
+    --t-sm: 16px;   /* body copy */
+    --t-md: 22px;   /* section titles, subheads, lead emphasis */
+    --t-lg: 36px;   /* page title, KPI/stat values */
+    --t-xl: 56px;   /* hero gap numbers */
 
     /* Spacing (Spectrum 8px grid) */
     --s-50:   2px;
@@ -143,7 +144,7 @@
   .adobe-mark .product {
     font-family: var(--font-sans);
     font-weight: 700;
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-900);
     letter-spacing: -0.005em;
   }
@@ -159,7 +160,7 @@
   }
   .appbar-context {
     font-family: var(--font-sans);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-800);
     font-weight: 500;
   }
@@ -176,12 +177,12 @@
     background: var(--gray-100);
     border: 1px solid var(--gray-300);
     border-radius: var(--r-sm);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-800);
     font-weight: 500;
   }
   .filter-chip .chip-label {
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
     text-transform: none;
     letter-spacing: 0;
@@ -190,6 +191,7 @@
   .filter-chip .chip-value {
     color: var(--gray-900);
     font-weight: 600;
+    font-size: var(--t-xs);
   }
 
   /* ============================================================
@@ -208,7 +210,7 @@
     margin-bottom: var(--s-600);
   }
   .breadcrumb {
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
     font-weight: 500;
     margin-bottom: var(--s-200);
@@ -222,7 +224,7 @@
 
   h1.page-title {
     font-family: var(--font-sans);
-    font-size: var(--t-lg);
+    font-size: clamp(30px, 4vw, var(--t-lg));
     font-weight: 700;
     line-height: 1.15;
     letter-spacing: -0.02em;
@@ -235,7 +237,7 @@
   }
   .page-lede {
     font-size: var(--t-md);
-    line-height: 1.6;
+    line-height: 1.55;
     color: var(--gray-800);
     max-width: 820px;
     font-weight: 400;
@@ -264,7 +266,7 @@
     background: var(--blue-500);
     border-radius: 50%;
     color: white;
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -300,7 +302,7 @@
   }
   .section-eyebrow {
     font-family: var(--font-mono);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--blue-600);
     font-weight: 600;
     letter-spacing: 0.04em;
@@ -339,7 +341,7 @@
     box-shadow: var(--shadow-1);
   }
   .kpi .label {
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
     font-weight: 500;
     margin-bottom: var(--s-150);
@@ -356,7 +358,7 @@
     font-variant-numeric: tabular-nums;
   }
   .kpi .delta {
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
     display: flex;
     align-items: center;
@@ -367,7 +369,7 @@
   .kpi .delta.down { color: var(--negative-600); }
   .kpi .delta.flat { color: var(--notice-500); }
   .kpi .delta .arrow {
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     line-height: 1;
   }
   @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -396,7 +398,7 @@
     align-items: center;
     gap: 6px;
     font-family: var(--font-mono);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     text-transform: uppercase;
     color: var(--blue-700);
     background: var(--blue-100);
@@ -438,13 +440,13 @@
   .gap-card.positive { border-top: 4px solid var(--positive-500); }
   .gap-card.negative { border-top: 4px solid var(--negative-500); }
   .gap-card .gap-label {
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
     font-weight: 500;
     margin-bottom: var(--s-100);
   }
   .gap-card .gap-num {
-    font-size: var(--t-xl);
+    font-size: clamp(40px, 7vw, var(--t-xl));
     font-weight: 800;
     line-height: 1;
     letter-spacing: -0.03em;
@@ -464,7 +466,7 @@
     padding-top: var(--s-200);
     border-top: 1px solid var(--gray-200);
     font-family: var(--font-mono);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
     line-height: 1.5;
   }
@@ -503,7 +505,7 @@
   table.data {
     width: 100%;
     border-collapse: collapse;
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
   }
   table.data thead {
     background: var(--gray-100);
@@ -511,7 +513,7 @@
   }
   table.data th {
     text-align: left;
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
     font-weight: 600;
     padding: var(--s-200);
@@ -528,18 +530,18 @@
     border-bottom: 1px solid var(--gray-200);
     color: var(--gray-900);
     vertical-align: middle;
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
   }
   table.data td.num {
     font-family: var(--font-sans);
     font-weight: 500;
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-900);
   }
   table.data tbody tr:hover { background: var(--gray-100); }
   table.data tbody tr:last-child td { border-bottom: none; }
   table.data .accent { color: var(--blue-600); font-weight: 600; }
-  table.data .muted { color: var(--gray-700); font-size: var(--t-sm); }
+  table.data .muted { color: var(--gray-700); font-size: var(--t-xs); }
   table.data .pos { color: var(--positive-500); font-weight: 600; }
   table.data .neg { color: var(--negative-600); font-weight: 600; }
   table.data .warn { color: var(--notice-500); font-weight: 600; }
@@ -551,7 +553,7 @@
     height: 32px;
     padding: 0 14px;
     border-radius: 16px;
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     font-weight: 600;
     line-height: 1;
     letter-spacing: 0;
@@ -585,7 +587,7 @@
   .bar-val {
     font-family: var(--font-sans);
     font-weight: 600;
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-900);
     min-width: 48px;
     text-align: right;
@@ -630,12 +632,12 @@
   }
   .stat-row .stat-info { display: flex; flex-direction: column; gap: 2px; }
   .stat-row .stat-label {
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
     font-weight: 500;
   }
   .stat-row .stat-desc {
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
   }
   .stat-row .stat-value {
@@ -672,13 +674,13 @@
   }
   .funnel-row:hover { background: var(--gray-200); }
   .funnel-row .stage {
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-900);
     font-weight: 500;
   }
   .funnel-row .volume {
     font-family: var(--font-sans);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     text-align: right;
     font-variant-numeric: tabular-nums;
     font-weight: 600;
@@ -686,7 +688,7 @@
   }
   .funnel-row .conv {
     font-family: var(--font-mono);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
     text-align: right;
   }
@@ -715,11 +717,11 @@
     background: var(--gray-50);
     border: 1px solid var(--gray-200);
     border-radius: var(--r-sm);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
   }
   .url-chip .hits {
     font-family: var(--font-mono);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--blue-600);
     background: var(--blue-100);
     padding: 5px 12px;
@@ -729,13 +731,13 @@
   }
   .url-chip .path {
     font-family: var(--font-mono);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-800);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .url-chip .warn { color: var(--notice-500); font-size: var(--t-sm); font-weight: 600; margin-left: auto; }
+  .url-chip .warn { color: var(--notice-500); font-size: var(--t-xs); font-weight: 600; margin-left: auto; }
   @media (max-width: 720px) { .url-chip-list { grid-template-columns: 1fr; } }
 
   /* ============================================================
@@ -818,7 +820,7 @@
     margin-top: var(--s-700);
     padding-top: var(--s-400);
     border-top: 1px solid var(--gray-300);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
     line-height: 1.6;
   }
@@ -829,7 +831,7 @@
     margin-bottom: var(--s-400);
   }
   footer h5 {
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--gray-900);
@@ -843,7 +845,7 @@
     text-align: center;
     padding-top: var(--s-200);
     border-top: 1px solid var(--gray-200);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
     display: flex;
     align-items: center;
@@ -871,10 +873,9 @@
     margin: 0 0 var(--s-500);
     overflow-x: auto;
     position: sticky;
-    top: 64px;                           /* sits below the appbar */
+    top: 64px;
     z-index: 50;
     background: var(--gray-100);
-    /* Use a wrapper-style bottom border via box-shadow to avoid layout shift */
     box-shadow: inset 0 -1px 0 var(--gray-300);
     scrollbar-width: thin;
   }
@@ -883,7 +884,7 @@
 
   .toc-tabs a {
     padding: var(--s-200) var(--s-300);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
     text-decoration: none;
     font-weight: 500;
@@ -892,7 +893,6 @@
     align-items: center;
     gap: 10px;
     position: relative;
-    /* Underline pseudo-element instead of border — no layout shift, no focus-ring conflict */
     transition: color 0.15s ease;
   }
   .toc-tabs a::after {
@@ -911,7 +911,6 @@
   .toc-tabs a.active { color: var(--blue-700); font-weight: 600; }
   .toc-tabs a.active::after { background: var(--blue-600); }
 
-  /* Suppress sticky mouse-click focus rings; keep keyboard focus accessible */
   .toc-tabs a:focus { outline: none; }
   .toc-tabs a:focus-visible {
     outline: 2px solid var(--blue-500);
@@ -921,7 +920,7 @@
 
   .toc-tabs a .num {
     font-family: var(--font-mono);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-600);
     font-weight: 600;
     transition: color 0.15s ease;
@@ -929,13 +928,12 @@
   .toc-tabs a:hover .num,
   .toc-tabs a.active .num { color: var(--blue-600); }
 
-  /* Scroll anchor offset — clears both sticky appbar + sticky TOC */
   .section[id] { scroll-margin-top: 140px; }
 
   /* Caption */
   .caption {
     margin-top: var(--s-100);
-    font-size: var(--t-sm);
+    font-size: var(--t-xs);
     color: var(--gray-700);
     line-height: 1.5;
   }
@@ -1004,7 +1002,6 @@
     </div>
   </div>
 
-  <!-- TOC nav: outside page-header so sticky parent is the full .page (sticks throughout the report) -->
   <nav class="toc-tabs">
     <a href="#kpis"><span class="num">01</span>Headline</a>
     <a href="#insight"><span class="num">02</span>The Gap</a>
@@ -1016,7 +1013,6 @@
     <a href="#actions"><span class="num">08</span>What To Do</a>
   </nav>
 
-  <!-- ============ 01 KPIs ============ -->
   <section class="section" id="kpis">
     <div class="section-head">
       <span class="section-eyebrow">01</span>
@@ -1068,7 +1064,6 @@
     </div>
   </section>
 
-  <!-- ============ 02 THE INSIGHT ============ -->
   <section class="section" id="insight">
     <div class="section-head">
       <span class="section-eyebrow">02</span>
@@ -1105,7 +1100,6 @@
     </div>
   </section>
 
-  <!-- ============ 03 BRAND PRESENCE ============ -->
   <section class="section" id="brand">
     <div class="section-head">
       <span class="section-eyebrow">03</span>
@@ -1141,7 +1135,6 @@
     </div>
   </section>
 
-  <!-- ============ 04 AGENTIC TRAFFIC ============ -->
   <section class="section" id="agentic">
     <div class="section-head">
       <span class="section-eyebrow">04</span>
@@ -1239,7 +1232,6 @@
     <div class="caption"><strong>Note:</strong> The 60,410 hits attributed to Turks &amp; Caicos are almost certainly bot egress IPs being geo-resolved — confirm with Adobe support before reading at face value.</div>
   </section>
 
-  <!-- ============ 05 REFERRAL & FUNNEL ============ -->
   <section class="section" id="referral">
     <div class="section-head">
       <span class="section-eyebrow">05</span>
@@ -1304,7 +1296,6 @@
     </div>
   </section>
 
-  <!-- ============ 06 AUTHORITY MAP ============ -->
   <section class="section" id="citations">
     <div class="section-head">
       <span class="section-eyebrow">06</span>
@@ -1349,8 +1340,8 @@
           <strong>92% of citations point to a non-HKTB property.</strong> This is the gap GEO needs to close — by pulling citations onto owned pages, or by earning them on partner properties HKTB has a relationship with.
         </div>
         <div class="card" style="margin-top: var(--s-200);">
-          <div style="font-size: var(--t-sm); color: var(--gray-700); font-weight: 600; margin-bottom: var(--s-200); letter-spacing: 0.02em;">CITATION EFFICIENCY · WHO'S PUNCHING ABOVE WEIGHT</div>
-          <table class="data" style="font-size: var(--t-sm);">
+          <div style="font-size: var(--t-xs); color: var(--gray-700); font-weight: 600; margin-bottom: var(--s-200); letter-spacing: 0.02em;">CITATION EFFICIENCY · WHO'S PUNCHING ABOVE WEIGHT</div>
+          <table class="data" style="font-size: var(--t-xs);">
             <tbody>
               <tr><td style="font-weight: 600;">babagoeschina.com</td><td class="num accent">28.0/url</td></tr>
               <tr><td style="font-weight: 600;">wheretostayai.com</td><td class="num accent">16.0/url</td></tr>
@@ -1395,7 +1386,6 @@
     </div>
   </section>
 
-  <!-- ============ 07 VISIBILITY ============ -->
   <section class="section" id="visibility">
     <div class="section-head">
       <span class="section-eyebrow">07</span>
@@ -1430,7 +1420,6 @@
     </div>
   </section>
 
-  <!-- ============ 08 WHAT TO DO ============ -->
   <section class="section" id="actions">
     <div class="section-head">
       <span class="section-eyebrow">08</span>
@@ -1485,7 +1474,6 @@
     </div>
   </section>
 
-  <!-- ============ FOOTER ============ -->
   <footer>
     <div class="footer-grid">
       <div>
@@ -1512,15 +1500,6 @@
 </div>
 
 <script>
-  // Scrollspy — highlights the TOC tab matching the section currently in view.
-  // Carefully avoids three failure modes:
-  //   1. Sticky scope: the nav is a child of .page, not .page-header, so it sticks
-  //      across the entire report rather than vanishing past the hero.
-  //   2. No scrollIntoView: that traverses ALL ancestor scrollers and can pull the
-  //      page itself. We scroll only the TOC container's overflow-x axis.
-  //   3. Suspend during click: smooth-scroll triggers many intermediate scroll
-  //      events; if we kept updating active during animation, the tab would flicker
-  //      through every section between source and target.
   (function() {
     const tabs = document.querySelectorAll('.toc-tabs a');
     if (!tabs.length) return;
@@ -1532,11 +1511,9 @@
     const sections = Array.from(document.querySelectorAll('section[id]'));
     if (!sections.length) return;
 
-    let suspendUntil = 0;   // timestamp until which scrollspy is muted
+    let suspendUntil = 0;
     let lastHash = null;
 
-    // Horizontally bring the active tab into view *within the TOC container only*.
-    // Never touches document scroll.
     const ensureTabVisible = (tab) => {
       if (!tab || tocContainer.scrollWidth <= tocContainer.clientWidth) return;
       const pad = 24;
@@ -1558,8 +1535,6 @@
       ensureTabVisible(tabByHash.get(hash));
     };
 
-    // Pick the section whose top has just crossed an imaginary scan line
-    // a third of the way down the viewport. That feels natural while reading.
     let ticking = false;
     const update = () => {
       ticking = false;
@@ -1579,19 +1554,14 @@
     window.addEventListener('resize', onScroll, { passive: true });
     update();
 
-    // Click handler: pre-set the target as active immediately, then suspend
-    // scrollspy long enough for the smooth-scroll animation to finish without
-    // flickering through intermediate sections. If the user has reduced-motion
-    // enabled, scrolls are instant — no suspension needed.
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     tabs.forEach(t => {
       t.addEventListener('click', () => {
         const target = t.getAttribute('href');
         setActive(target);
         if (!prefersReducedMotion) {
-          suspendUntil = Date.now() + 900;   // ~900ms covers most smooth scrolls
+          suspendUntil = Date.now() + 900;
         }
-        // Drop focus so no focus ring lingers on the clicked link.
         setTimeout(() => t.blur(), 0);
       });
     });

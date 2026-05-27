@@ -38,7 +38,7 @@
     .hero::after { content: ""; position: absolute; inset: auto -120px -120px auto; width: 340px; height: 340px; background: radial-gradient(circle at center, rgba(255,255,255,.16), rgba(255,255,255,0)); border-radius: 999px; }
     .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.78); margin-bottom: 10px; }
     .hero h1 { margin: 0; font-size: 34px; line-height: 1.12; letter-spacing: -.02em; }
-    .hero p { margin: 12px 0 0; max-width: 940px; color: rgba(255,255,255,.88); font-size: 15px; }
+    .hero p { margin: 12px 0 0; max-width: 960px; color: rgba(255,255,255,.88); font-size: 15px; }
     .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
     .chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.16); font-size: 12px; color: white; }
     .section { margin-top: 22px; }
@@ -95,8 +95,8 @@
   <main class="page">
     <section class="hero">
       <div class="eyebrow">Hong Kong Tourism Board · LLMO Snapshot</div>
-      <h1>For HKTB, raw brand-mention metrics understate value; the real test is whether DiscoverHongKong becomes the cited authority for Hong Kong travel intent.</h1>
-      <p>This revised snapshot treats HKTB correctly as a <strong>destination-promotion publisher</strong>, not a consumer brand whose name must appear in every answer. Because the tracked entity is <strong>HKTB</strong> rather than <strong>Hong Kong</strong>, strict brand-presence metrics should be read separately from destination authority metrics such as owned citations, referral traffic, and machine access to DiscoverHongKong content.</p>
+      <h1>For HKTB, the main question is not just whether the model says "HKTB," but whether generic Hong Kong travel prompts resolve to DiscoverHongKong as the authoritative source.</h1>
+      <p>This version aligns every section around the same principle: HKTB is a <strong>destination-promotion publisher</strong>. That means <strong>strict HKTB brand presence</strong> is useful but secondary, while <strong>prompt intent coverage</strong>, <strong>owned citation capture</strong>, <strong>referral traffic</strong>, and <strong>machine accessibility</strong> are the primary indicators of LLMO success.</p>
       <div class="meta">
         <div class="chip">Snapshot date: 2026-05-27</div>
         <div class="chip">Prompt inventory: 200</div>
@@ -107,24 +107,24 @@
 
     <section class="section note">
       <h3>Interpretation guardrail</h3>
-      <p><strong>"HKTB not mentioned" does not automatically mean "HKTB lost."</strong> A destination answer can still be a win for HKTB if the model cites or sends traffic to DiscoverHongKong pages. In this dataset, <strong>6</strong> prompts generated citations without surfacing the HKTB brand, and <strong>2</strong> of those still cited HKTB-owned URLs directly.</p>
+      <p><strong>"HKTB not mentioned" does not automatically mean "HKTB lost."</strong> A destination answer can still be a win when the model cites DiscoverHongKong pages or sends traffic to them. In this dataset, <strong>6</strong> measured prompts generated citations without surfacing the HKTB brand, and <strong>2</strong> of those still cited HKTB-owned URLs directly.</p>
     </section>
 
     <section class="grid metrics">
       <article class="card metric-card">
         <div class="label">Strict HKTB brand coverage</div>
         <div class="value">38.6%</div>
-        <div class="sub">HKTB appeared in 22 of 57 prompts</div>
+        <div class="sub">HKTB appeared in 22 of 57 measured prompts</div>
       </article>
       <article class="card metric-card">
-        <div class="label">Destination citation coverage</div>
+        <div class="label">Prompts with any citations</div>
         <div class="value">40.4%</div>
-        <div class="sub">23 prompts produced any citations in the answer set</div>
+        <div class="sub">23 prompts produced sourceable answers</div>
       </article>
       <article class="card metric-card">
-        <div class="label">Owned URL coverage</div>
+        <div class="label">Prompts with owned URLs</div>
         <div class="value">29.8%</div>
-        <div class="sub">DiscoverHongKong URLs were cited in 17 prompts</div>
+        <div class="sub">17 prompts cited DiscoverHongKong pages</div>
       </article>
       <article class="card metric-card">
         <div class="label">Owned citation share</div>
@@ -146,37 +146,128 @@
     <section class="band">
       <article class="callout">
         <h3>Executive takeaway</h3>
-        <p>HKTB is already the strongest <strong>named entity</strong> in the competitive set, but the more important signal is that DiscoverHongKong is functioning as a meaningful <strong>destination authority layer</strong>. The current gap is not "make the model say HKTB more often" in isolation; it is to make <strong>more generic Hong Kong travel journeys resolve to HKTB-owned pages</strong> even when the user never asks for the tourism board by name.</p>
+        <p>HKTB already wins when the prompt explicitly asks for official or trusted tourism guidance. The larger opportunity is to expand from <strong>official-source success</strong> into <strong>generic destination authority</strong> so that broad Hong Kong travel questions also resolve to DiscoverHongKong content. That is the consistent lens for this account: grow <strong>owned destination capture</strong>, not just brand-name mentions.</p>
         <div class="kpi-inline">
           <span class="pill good">#1 strict brand share of voice in 7/7 topics</span>
           <span class="pill purple">73.9% of cited prompts include owned URLs</span>
-          <span class="pill.warn">Only 38.6% strict HKTB brand coverage</span>
-          <span class="pill info">26.1% of cited prompts had no HKTB brand mention</span>
+          <span class="pill warn">Generic destination visibility averages only 6.8%</span>
+          <span class="pill info">Official / board-seeking prompts average 86.9% visibility</span>
         </div>
       </article>
       <article class="card">
-        <h3 class="section-title" style="margin-top:0;">What changed in this readout</h3>
+        <h3 class="section-title" style="margin-top:0;">Consistent reading framework</h3>
         <ul class="list">
-          <li><strong>Brand visibility</strong> is now treated as a <em>strict entity KPI</em>, not the main success metric.</li>
-          <li><strong>Owned citation coverage</strong> is elevated because destination publishers can win without brand-name mention.</li>
-          <li><strong>Referral and agentic traffic</strong> matter more here than for a standard consumer brand because DiscoverHongKong is the product surface.</li>
-          <li><strong>Generic destination prompts</strong> now matter more than branded or official-source prompts when judging growth headroom.</li>
+          <li><strong>Layer 1: prompt intent</strong> — what kinds of travel questions are being asked?</li>
+          <li><strong>Layer 2: strict brand presence</strong> — does the answer explicitly surface HKTB?</li>
+          <li><strong>Layer 3: destination authority</strong> — does the answer cite DiscoverHongKong pages?</li>
+          <li><strong>Layer 4: machine access</strong> — can crawlers and chatbots reliably fetch the right destination pages?</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Prompt inventory and coverage</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Topic</th>
+            <th>Prompt inventory</th>
+            <th>Measured prompts</th>
+            <th>Strict brand coverage</th>
+            <th>Any citation coverage</th>
+            <th>Owned URL coverage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>First-Time Visitor Questions</td><td>44</td><td>20</td><td>30%</td><td>20%</td><td>15%</td></tr>
+          <tr><td>Planning a Hong Kong Trip</td><td>30</td><td>14</td><td>43%</td><td>36%</td><td>21%</td></tr>
+          <tr><td>Culture & Heritage Experiences</td><td>26</td><td>3</td><td>67%</td><td>33%</td><td>33%</td></tr>
+          <tr><td>Seasonal Travel & Events</td><td>26</td><td>3</td><td>100%</td><td>100%</td><td>100%</td></tr>
+          <tr><td>Hong Kong vs Other Asian Cities</td><td>25</td><td>4</td><td>25%</td><td>50%</td><td>25%</td></tr>
+          <tr><td>Where To Stay & Areas</td><td>25</td><td>5</td><td>40%</td><td>60%</td><td>40%</td></tr>
+          <tr><td>Food Discovery</td><td>24</td><td>8</td><td>25%</td><td>63%</td><td>50%</td></tr>
+        </tbody>
+      </table>
+      <div class="footer-note">The full uploaded prompt inventory contains <strong>200 prompts</strong>, while the measured insight table contains <strong>57 prompts</strong>. The biggest prompt pool sits in <strong>First-Time Visitor Questions</strong> with <strong>44 prompts</strong>, followed by <strong>Planning a Hong Kong Trip</strong> with <strong>30</strong>. This matters because the largest growth area is also the area with the largest prompt demand footprint.</div>
+    </section>
+
+    <section class="section two-up">
+      <article class="card">
+        <h2 class="section-title">Prompt mix: what the user is really asking</h2>
+        <div class="mini-stat">
+          <div><strong>17</strong><span>Official / board-seeking measured prompts</span></div>
+          <div><strong>40</strong><span>Generic destination measured prompts</span></div>
+          <div><strong>17</strong><span>First-time visitor measured prompts</span></div>
+          <div><strong>25</strong><span>Comparison-topic prompts in inventory</span></div>
+        </div>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">The prompt set is heavily skewed toward <strong>generic travel intent</strong>, not tourism-board intent. That is why a strict HKTB brand KPI will naturally look lower than it would for a bank, retailer, or airline. The customer's real opportunity is to win those generic destination journeys with owned travel guidance.</p>
+      </article>
+      <article class="card">
+        <h2 class="section-title">Prompt-intent performance</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Prompt bucket</th>
+              <th>Prompts</th>
+              <th>Strict brand coverage</th>
+              <th>Any citation coverage</th>
+              <th>Owned URL coverage</th>
+              <th>Owned citations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Official / board-seeking</td><td>17</td><td>100%</td><td>94%</td><td>82%</td><td>82</td></tr>
+            <tr><td>Generic destination</td><td>40</td><td>13%</td><td>18%</td><td>8%</td><td>7</td></tr>
+            <tr><td>First-time visitor</td><td>17</td><td>29%</td><td>18%</td><td>18%</td><td>18</td></tr>
+            <tr><td>Where to stay</td><td>3</td><td>67%</td><td>67%</td><td>67%</td><td>18</td></tr>
+            <tr><td>Comparison / vs</td><td>2</td><td>0%</td><td>0%</td><td>0%</td><td>0</td></tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <section class="section two-up">
+      <article class="card">
+        <h2 class="section-title">What prompt analysis says clearly</h2>
+        <ul class="list">
+          <li><strong>Official / board-seeking prompts are already won:</strong> <strong>100%</strong> strict brand coverage, <strong>94.1%</strong> citation coverage, and <strong>82.4%</strong> owned URL coverage.</li>
+          <li><strong>Generic destination prompts are the main gap:</strong> only <strong>12.5%</strong> strict brand coverage, <strong>17.5%</strong> citation coverage, and <strong>7.5%</strong> owned URL coverage.</li>
+          <li><strong>First-time visitor demand is the largest prompt pool</strong> and remains undercaptured, which makes it the highest-priority editorial growth area.</li>
+          <li><strong>Comparison / vs prompts are currently unwon</strong> in the measured set, with <strong>0%</strong> brand visibility and <strong>0%</strong> owned citations.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h2 class="section-title">Prompt examples: strongest vs weakest</h2>
+        <p style="margin-top:0; font-size:14px; color:#4b4b4b;"><strong>Strong official / board-seeking prompts</strong></p>
+        <ul class="list">
+          <li><strong>What heritage experiences are highlighted by Discover Hong Kong?</strong> — visibility <strong>100%</strong>, owned citations <strong>6</strong></li>
+          <li><strong>What is a good official Hong Kong tourism guide for planning an itinerary?</strong> — visibility <strong>99%</strong>, owned citations <strong>12</strong></li>
+          <li><strong>What does the Hong Kong Tourism Board recommend for a first trip to Hong Kong?</strong> — visibility <strong>99%</strong>, owned citations <strong>7</strong></li>
+          <li><strong>Where can I find official Hong Kong tourism food recommendations for visitors?</strong> — visibility <strong>99%</strong>, owned citations <strong>6</strong></li>
+          <li><strong>What festivals in Hong Kong are highlighted by the official tourism site?</strong> — visibility <strong>93%</strong>, owned citations <strong>6</strong></li>
+        </ul>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;"><strong>Weak generic prompts currently missing HKTB authority</strong></p>
+        <ul class="list">
+          <li><strong>Why do first-time travelers choose Hong Kong?</strong></li>
+          <li><strong>What are the best scenic spots in Hong Kong for first-time visitors?</strong></li>
+          <li><strong>What are the most popular places to visit in Hong Kong for first-time tourists?</strong></li>
+          <li><strong>What are the best things to do in Hong Kong besides shopping and dining on a first visit?</strong></li>
+          <li><strong>What should I see in Hong Kong on my first trip to Asia?</strong></li>
+          <li><strong>What are the best first-trip activities in Hong Kong if I like city views and culture?</strong></li>
         </ul>
       </article>
     </section>
 
     <section class="section two-up">
       <article class="card">
-        <h2 class="section-title">Brand-led prompts vs generic destination prompts</h2>
-        <div class="mini-stat">
-          <div><strong>17</strong><span>Official / board-seeking prompts</span></div>
-          <div><strong>86.9%</strong><span>Avg visibility on official / board-seeking prompts</span></div>
-          <div><strong>40</strong><span>Generic destination prompts</span></div>
-          <div><strong>6.8%</strong><span>Avg visibility on generic destination prompts</span></div>
-        </div>
-        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">The split is stark. When the prompt explicitly asks for an official guide, Discover Hong Kong, or the tourism board, HKTB performs extremely well. The growth problem sits in broad destination intent where users ask about Hong Kong itself rather than the board.</p>
+        <h2 class="section-title">Where generic demand is already convertible</h2>
+        <ul class="list">
+          <li><strong>Where can I find trusted information to plan a Hong Kong trip?</strong> — visibility <strong>90%</strong>, owned citations <strong>5</strong></li>
+          <li><strong>Where can I find the best roast goose and barbecue in Hong Kong?</strong> — visibility <strong>8%</strong>, owned citations <strong>1</strong></li>
+          <li><strong>Where can I find a classic cha chaan teng experience in Hong Kong?</strong> — visibility <strong>8%</strong>, owned citations <strong>1</strong></li>
+        </ul>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">These examples matter because they show the model <strong>can</strong> trust HKTB-owned destination content even without an explicit board-seeking prompt. That makes editorial scaling viable.</p>
       </article>
-
       <article class="card">
         <h2 class="section-title">Weekly movement</h2>
         <div class="bars">
@@ -201,53 +292,53 @@
             <div>6 → 15</div>
           </div>
         </div>
-        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">Strict HKTB visibility improved modestly from <strong>29.4%</strong> in wk20 to <strong>31.7%</strong> in wk21. More importantly for a destination site, owned citations improved from <strong>6</strong> to <strong>15</strong>.</p>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">The message stays consistent here too: strict HKTB visibility improved only modestly, but owned citations improved materially. For this customer, the citation lift is the more meaningful signal.</p>
       </article>
     </section>
 
     <section class="section">
-      <h2 class="section-title">Topic performance under the correct lens</h2>
+      <h2 class="section-title">Topic performance under the same lens</h2>
       <table>
         <thead>
           <tr>
             <th>Topic</th>
-            <th>Brand SOV</th>
+            <th>Prompt inventory</th>
+            <th>Measured prompts</th>
             <th>Strict brand coverage</th>
             <th>Any citation coverage</th>
             <th>Owned URL coverage</th>
-            <th>Owned citations</th>
           </tr>
         </thead>
         <tbody>
-          <tr><td>Planning a Hong Kong Trip</td><td>11.7%</td><td>43%</td><td>36%</td><td>21%</td><td>22</td></tr>
-          <tr><td>Where To Stay &amp; Areas</td><td>12.1%</td><td>40%</td><td>60%</td><td>40%</td><td>18</td></tr>
-          <tr><td>Seasonal Travel &amp; Events</td><td>26.1%</td><td>100%</td><td>100%</td><td>100%</td><td>15</td></tr>
-          <tr><td>First-Time Visitor Questions</td><td>10.8%</td><td>30%</td><td>20%</td><td>15%</td><td>14</td></tr>
-          <tr><td>Food Discovery</td><td>5.6%</td><td>25%</td><td>63%</td><td>50%</td><td>11</td></tr>
-          <tr><td>Culture &amp; Heritage Experiences</td><td>10.0%</td><td>67%</td><td>33%</td><td>33%</td><td>6</td></tr>
-          <tr><td>Hong Kong vs Other Asian Cities</td><td>12.5%</td><td>25%</td><td>50%</td><td>25%</td><td>3</td></tr>
+          <tr><td>First-Time Visitor Questions</td><td>44</td><td>20</td><td>30%</td><td>20%</td><td>15%</td></tr>
+          <tr><td>Planning a Hong Kong Trip</td><td>30</td><td>14</td><td>43%</td><td>36%</td><td>21%</td></tr>
+          <tr><td>Culture & Heritage Experiences</td><td>26</td><td>3</td><td>67%</td><td>33%</td><td>33%</td></tr>
+          <tr><td>Seasonal Travel & Events</td><td>26</td><td>3</td><td>100%</td><td>100%</td><td>100%</td></tr>
+          <tr><td>Hong Kong vs Other Asian Cities</td><td>25</td><td>4</td><td>25%</td><td>50%</td><td>25%</td></tr>
+          <tr><td>Where To Stay & Areas</td><td>25</td><td>5</td><td>40%</td><td>60%</td><td>40%</td></tr>
+          <tr><td>Food Discovery</td><td>24</td><td>8</td><td>25%</td><td>63%</td><td>50%</td></tr>
         </tbody>
       </table>
-      <div class="footer-note">Use this table in two layers: <strong>Brand SOV</strong> shows how often HKTB as an entity wins; <strong>citation coverage</strong> shows whether Hong Kong travel answers are resolving to sourceable pages at all; <strong>owned URL coverage</strong> is the more operational KPI for DiscoverHongKong.</div>
+      <div class="footer-note">The most important consistency point: <strong>Seasonal Travel & Events</strong> is a true win zone across both brand and owned authority, while <strong>First-Time Visitor Questions</strong> and <strong>Hong Kong vs Other Asian Cities</strong> are large demand pools with the clearest structural gap.</div>
     </section>
 
     <section class="section two-up">
       <article class="card">
         <h2 class="section-title">What HKTB is genuinely winning</h2>
         <ul class="list">
-          <li><strong>Official-trust intent</strong> is a core strength. Prompts that ask for trusted or official guidance strongly favor HKTB and DiscoverHongKong.</li>
-          <li><strong>Seasonal Travel &amp; Events</strong> is the cleanest win zone, with <strong>100%</strong> brand coverage, <strong>100%</strong> citation coverage, and <strong>100%</strong> owned URL coverage.</li>
-          <li><strong>Where to stay</strong> and <strong>Food Discovery</strong> show stronger destination authority than raw brand coverage suggests, because citations appear more often than the HKTB name itself.</li>
-          <li><strong>Owned capture is healthier than the brand KPI alone implies</strong>: among prompts that generated any citations, <strong>73.9%</strong> included HKTB-owned URLs.</li>
+          <li><strong>Official-trust intent</strong> is already won and should be defended, not treated as the main expansion area.</li>
+          <li><strong>Seasonal Travel & Events</strong> is the strongest proof that HKTB can own both the brand layer and the destination authority layer.</li>
+          <li><strong>Where to stay</strong> and <strong>Food Discovery</strong> already show that destination authority can outperform strict brand presence.</li>
+          <li><strong>73.9% of cited prompts already include owned URLs</strong>, so the core problem is expanding citation-worthy visibility into more prompts, not rebuilding authority from zero.</li>
         </ul>
       </article>
       <article class="card">
-        <h2 class="section-title">Where the current dashboard will understate performance</h2>
+        <h2 class="section-title">What should change in the narrative</h2>
         <ul class="list">
-          <li><strong>Generic Hong Kong travel prompts</strong> can still be strategically valuable even if the answer never says "HKTB."</li>
-          <li><strong>Strict brand coverage at 38.6%</strong> should not be interpreted as "HKTB only wins 38.6% of travel demand." It only measures explicit brand surfacing.</li>
-          <li><strong>6 prompts</strong> generated citations without a brand mention, proving that destination authority and brand visibility diverge in this use case.</li>
-          <li><strong>Destination comparison and first-time visitor queries</strong> remain the clearest headroom because those prompts often discuss Hong Kong without inviting an official tourism-board answer by default.</li>
+          <li>Do <strong>not</strong> frame the account as weak because strict brand coverage is <strong>38.6%</strong>.</li>
+          <li>Do frame the account as <strong>strong in official intent, underpenetrated in generic destination demand</strong>.</li>
+          <li>Do treat <strong>owned URL coverage</strong>, <strong>prompt citation coverage</strong>, and <strong>generic prompt capture</strong> as the real levers.</li>
+          <li>Do position prompt analysis as the reason editorial investment should focus on first-time visitor, comparison, and broad planning journeys.</li>
         </ul>
       </article>
     </section>
@@ -261,7 +352,7 @@
           <div><strong>712 ms</strong><span>Weighted avg TTFB</span></div>
           <div><strong>69.5%</strong><span>Traffic from chatbots</span></div>
         </div>
-        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">DiscoverHongKong is already being actively accessed by chatbots and crawlers. For this customer type, technical accessibility is part of brand performance because machine-readable travel content is the distribution surface.</p>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">DiscoverHongKong is already an active machine-consumed destination surface. That reinforces the same message as the prompt analysis: the issue is not whether the site can matter to LLMs — it already does — but whether more generic destination prompts resolve to these owned pages.</p>
       </article>
       <article class="card">
         <h2 class="section-title">Response-code friction</h2>
@@ -271,7 +362,7 @@
           <li><strong>404 not found:</strong> 7.4%</li>
           <li><strong>403 forbidden:</strong> 7.1%</li>
         </ul>
-        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">For a destination content platform, redirect and error overhead reduces the likelihood that core planning pages become consistently retrievable citation targets. Cleaning this up is not just technical hygiene; it improves discoverability economics.</p>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">Technical cleanup remains directly connected to prompt performance: if the most relevant travel pages are easier for crawlers and chatbots to fetch, they are more likely to become reliable citation targets in generic travel answers.</p>
       </article>
     </section>
 
@@ -291,11 +382,11 @@
           <tr><td><a href="https://www.discoverhongkong.com">https://www.discoverhongkong.com</a></td><td>7754</td><td>Other</td><td>91.7%</td></tr>
           <tr><td><a href="https://www.discoverhongkong.com/eng/travel-guide/traveller-essentials/getting-around.html">https://www.discoverhongkong.com/eng/travel-guide/traveller-essentials/getting-around.html</a></td><td>4201</td><td>Practical travel planning</td><td>100.0%</td></tr>
           <tr><td><a href="https://www.discoverhongkong.com/eng/index.html">https://www.discoverhongkong.com/eng/index.html</a></td><td>4182</td><td>Other</td><td>100.0%</td></tr>
-          <tr><td><a href="https://www.discoverhongkong.com/content/dam/dhk/intl/explore/muslim-travel/hong-kong-muslim-travel-guide.pdf">https://www.discoverhongkong.com/content/dam/dhk/intl/explore/muslim-travel/hong-kong-muslim-travel-guide.pdf</a></td><td>3861</td><td>Things to do &amp; must-see experiences</td><td>100.0%</td></tr>
-          <tr><td><a href="https://www.discoverhongkong.com/eng/attractions.html">https://www.discoverhongkong.com/eng/attractions.html</a></td><td>3639</td><td>Things to do &amp; must-see experiences</td><td>100.0%</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com/content/dam/dhk/intl/explore/muslim-travel/hong-kong-muslim-travel-guide.pdf">https://www.discoverhongkong.com/content/dam/dhk/intl/explore/muslim-travel/hong-kong-muslim-travel-guide.pdf</a></td><td>3861</td><td>Things to do & must-see experiences</td><td>100.0%</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com/eng/attractions.html">https://www.discoverhongkong.com/eng/attractions.html</a></td><td>3639</td><td>Things to do & must-see experiences</td><td>100.0%</td></tr>
         </tbody>
       </table>
-      <div class="footer-note">These are destination surfaces — homepage, travel guides, attractions, events, and traveller essentials — not corporate-brand pages. That is exactly why owned-surface KPIs matter more than raw HKTB mentions for this account.</div>
+      <div class="footer-note">These are destination assets — homepage, travel guides, attractions, and practical planning pages — which is exactly why this report keeps destination authority front and center.</div>
     </section>
 
     <section class="section">
@@ -320,7 +411,7 @@
           <tr><td><a href="https://www.discoverhongkong.com/us/place-to-go.html">https://www.discoverhongkong.com/us/place-to-go.html</a></td><td>4</td><td>3</td><td>0</td></tr>
         </tbody>
       </table>
-      <div class="footer-note">The strongest owned winners are broad travel-guide and attractions hubs, followed by trip-planner and event surfaces. This is the right pattern for a tourism-board site: evergreen planning hubs should become the canonical answer endpoints.</div>
+      <div class="footer-note">The strongest owned winners are broad travel-guide and attractions hubs, followed by trip-planner and event surfaces. This fits the same strategic message as the prompt analysis: broad evergreen travel hubs should become the answer endpoints for generic Hong Kong travel intent.</div>
     </section>
 
     <section class="section two-up">
@@ -328,45 +419,34 @@
         <h2 class="section-title">Referral and destination authority signals</h2>
         <ul class="list">
           <li><strong>900</strong> tracked referral visits arrived from LLM traffic in the uploaded referral table.</li>
-          <li>The referral URLs are almost entirely <strong>destination pages</strong> — homepage, events, neighbourhoods, food, tours, themed travel, and Muslim travel content.</li>
-          <li>This supports the core interpretation that DiscoverHongKong can create value even when the answer is framed around <strong>Hong Kong</strong> rather than <strong>HKTB</strong>.</li>
-          <li>Low bounce on most listed referral URLs suggests that once users do land on the site, the pages are broadly aligned with travel intent.</li>
+          <li>The referral URLs are almost entirely <strong>destination pages</strong> rather than corporate pages.</li>
+          <li>This is fully consistent with the revised interpretation: DiscoverHongKong can win even when the answer is about <strong>Hong Kong</strong> rather than <strong>HKTB</strong>.</li>
+          <li>That makes referral quality a supporting KPI for prompt-to-destination authority, not just a downstream traffic stat.</li>
         </ul>
       </article>
       <article class="card">
-        <h2 class="section-title">Localization and canonicalization opportunity</h2>
-        <ul class="list">
-          <li>Several strong content concepts exist across multiple locale variants, which is useful for market coverage but can split authority signals.</li>
-          <li>Trip planner, index, event, and iconic-experience pages appear across multiple market paths.</li>
-          <li>Consolidate internal linking toward preferred locale-aware canonicals and reduce unnecessary redirect dependence.</li>
-          <li>Make alternate-language and alternate-market relationships explicit so machines understand they are coordinated, not competing pages.</li>
-        </ul>
+        <h2 class="section-title">Competitive citation landscape</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>External domain</th>
+              <th>Content type</th>
+              <th>Times cited</th>
+              <th>Prompts cited in</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>reddit.com</td><td>Others</td><td>220</td><td>74</td></tr>
+            <tr><td>en.wikipedia.org</td><td>Earned</td><td>76</td><td>33</td></tr>
+            <tr><td>hk-cityguide.com</td><td>Earned</td><td>68</td><td>41</td></tr>
+            <tr><td>hongkongsolotravel.com</td><td>Earned</td><td>64</td><td>33</td></tr>
+            <tr><td>timeout.com</td><td>Earned</td><td>60</td><td>36</td></tr>
+            <tr><td>tripadvisor.com</td><td>Others</td><td>51</td><td>27</td></tr>
+            <tr><td>chinahighlights.com</td><td>Earned</td><td>39</td><td>32</td></tr>
+            <tr><td>facebook.com</td><td>Social</td><td>37</td><td>15</td></tr>
+          </tbody>
+        </table>
       </article>
-    </section>
-
-    <section class="section">
-      <h2 class="section-title">Competitive citation landscape</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>External domain</th>
-            <th>Content type</th>
-            <th>Times cited</th>
-            <th>Prompts cited in</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>reddit.com</td><td>Others</td><td>220</td><td>74</td></tr>
-          <tr><td>en.wikipedia.org</td><td>Earned</td><td>76</td><td>33</td></tr>
-          <tr><td>hk-cityguide.com</td><td>Earned</td><td>68</td><td>41</td></tr>
-          <tr><td>hongkongsolotravel.com</td><td>Earned</td><td>64</td><td>33</td></tr>
-          <tr><td>timeout.com</td><td>Earned</td><td>60</td><td>36</td></tr>
-          <tr><td>tripadvisor.com</td><td>Others</td><td>51</td><td>27</td></tr>
-          <tr><td>chinahighlights.com</td><td>Earned</td><td>39</td><td>32</td></tr>
-          <tr><td>facebook.com</td><td>Social</td><td>37</td><td>15</td></tr>
-        </tbody>
-      </table>
-      <div class="footer-note">Competition comes mainly from travel publishers, forums, guide sites, and comparison sources. For HKTB, the fight is less about brand-name share and more about whether these publishers become the default explainers for Hong Kong destination intent.</div>
     </section>
 
     <section class="section">
@@ -388,7 +468,7 @@
           <tr><td><a href="https://www.hopegoo.com/en-us/blogs/detail/what-is-hong-kong-best-known-for">https://www.hopegoo.com/en-us/blogs/detail/what-is-hong-kong-best-known-for</a></td><td>Earned</td><td>16</td></tr>
         </tbody>
       </table>
-      <div class="footer-note">The strongest third-party pressure clusters around <strong>where to stay</strong>, <strong>what Hong Kong is known for</strong>, and <strong>comparison-style planning</strong>. These are precisely the areas where HKTB should publish more machine-citable decision support.</div>
+      <div class="footer-note">Third-party pressure is concentrated in <strong>where to stay</strong>, <strong>what Hong Kong is known for</strong>, and <strong>comparison-style planning</strong> — the same prompt clusters already highlighted as growth gaps.</div>
     </section>
 
     <section class="section">
@@ -396,23 +476,23 @@
       <div class="opportunity-grid">
         <article class="opportunity">
           <div class="priority">Priority 1</div>
-          <h4>Shift the KPI center from brand mention to destination authority</h4>
-          <p>For this customer, the main success condition is that DiscoverHongKong pages become the preferred cited source for Hong Kong travel questions. Keep strict brand metrics, but do not use them alone to judge performance.</p>
+          <h4>Expand generic first-time visitor capture</h4>
+          <p>The prompt inventory is heaviest in first-time visitor questions, but the measured prompt performance is weak. This is the clearest place to turn large demand into owned destination authority.</p>
         </article>
         <article class="opportunity">
           <div class="priority">Priority 2</div>
-          <h4>Own generic first-time visitor and comparison journeys</h4>
-          <p>First-time visitor questions and Hong Kong-vs-other-city prompts have the widest gap between overall intent and HKTB capture. These should be treated as the main editorial expansion zones.</p>
+          <h4>Build comparison and peer-city decision content</h4>
+          <p>Comparison-style prompts are effectively unwon. HKTB should publish clearer Hong Kong-vs-Singapore and Hong Kong-vs-peer-city content designed to be directly citable by LLMs.</p>
         </article>
         <article class="opportunity">
           <div class="priority">Priority 3</div>
-          <h4>Turn destination hubs into canonical citation endpoints</h4>
-          <p>Travel guide, attractions, events, neighbourhoods, and planning hubs already attract machine traffic and citations. These pages should be strengthened as stable, evergreen answer destinations with clearer structured guidance and fewer path variants.</p>
+          <h4>Turn planning hubs into canonical prompt destinations</h4>
+          <p>Travel guide, attractions, and trip-planner hubs already attract citations and machine traffic. These should be strengthened as canonical destinations for broad travel-planning prompts.</p>
         </article>
         <article class="opportunity">
           <div class="priority">Priority 4</div>
-          <h4>Reduce crawl friction on high-demand travel pages</h4>
-          <p>With meaningful 301, 403, and 404 share in the response mix, technical cleanup will improve the consistency with which models can fetch, parse, and trust HKTB content.</p>
+          <h4>Reduce crawl friction on the pages that matter most</h4>
+          <p>Redirect and error cleanup will improve the consistency with which the best travel pages can be fetched and cited. For this account, technical hygiene and prompt performance are directly linked.</p>
         </article>
       </div>
     </section>
@@ -422,8 +502,8 @@
         <h2 class="section-title">30-day action plan</h2>
         <ol class="list">
           <li>Split reporting into <strong>strict HKTB entity KPIs</strong> and <strong>destination authority KPIs</strong>.</li>
-          <li>Build or strengthen generic Hong Kong planning pages for first-time visitors, itinerary building, and city comparisons.</li>
-          <li>Expand where-to-stay and food decision pages so they can compete directly with publisher explainers.</li>
+          <li>Build or strengthen generic Hong Kong planning pages for <strong>first-time visitors</strong>, <strong>broad things-to-do</strong>, and <strong>city comparisons</strong>.</li>
+          <li>Expand where-to-stay and food decision content because those prompt clusters already show conversion potential.</li>
           <li>Reduce redirect, 403, and 404 friction on the most heavily machine-accessed URLs.</li>
           <li>Concentrate citation authority around travel-guide, attractions, events, neighbourhood, and trip-planner hubs.</li>
         </ol>
@@ -431,18 +511,18 @@
       <article class="card">
         <h2 class="section-title">Measurement to track next</h2>
         <ol class="list">
-          <li><strong>Strict brand coverage</strong>: still useful, but secondary to destination authority for this account.</li>
+          <li><strong>Strict brand coverage</strong>: useful, but secondary.</li>
+          <li><strong>Any citation coverage</strong>: improve beyond <strong>40.4%</strong>.</li>
           <li><strong>Owned URL coverage</strong>: improve beyond <strong>29.8%</strong>.</li>
           <li><strong>Owned citation share</strong>: move above <strong>19.3%</strong>.</li>
-          <li><strong>Owned share of cited prompts</strong>: improve beyond <strong>73.9%</strong>.</li>
-          <li><strong>Generic destination prompt visibility</strong>: improve the current <strong>6.8%</strong> average on non-official prompts.</li>
+          <li><strong>Generic destination prompt visibility</strong>: improve from the current <strong>6.8%</strong> average on non-official prompts.</li>
         </ol>
       </article>
     </section>
 
     <section class="section card">
       <h2 class="section-title">Methodology &amp; source scope</h2>
-      <p style="margin-top:0;">This revised HTML snapshot is based on the uploaded HKTB files only: overview PDF, prompt inventory, prompt-level insight tables, share-of-voice tables, owned URL citations, third-party domains, trending URLs, agentic traffic datasets, response-code breakdowns, referral traffic, and user-agent summaries. The key methodological adjustment in this version is interpretive rather than mathematical: <strong>HKTB is treated as a destination-promotion publisher whose owned site can win without the brand name appearing in every answer.</strong> CSV datasets were used as the quantitative source of truth.</p>
+      <p style="margin-top:0;">This revised HTML snapshot is based on the uploaded HKTB files only: overview PDF, prompt inventory, prompt-level insight tables, share-of-voice tables, owned URL citations, third-party domains, trending URLs, agentic traffic datasets, response-code breakdowns, referral traffic, and user-agent summaries. The main methodological choice in this version is interpretive rather than mathematical: <strong>HKTB is treated as a destination-promotion publisher whose success should be judged by prompt-to-destination authority, not by brand mentions alone.</strong> CSV datasets were used as the quantitative source of truth.</p>
       <ul class="source-list">
         <li>Hong Kong Tourism Board-overview-2026-05-27.pdf</li>
         <li>hong-kong-tourism-board_data_insights_2026-05-27.csv</li>
@@ -452,9 +532,6 @@
         <li>hong-kong-tourism-board_cited-3rd-party-domains.csv</li>
         <li>hong-kong-tourism-board_trending-urls-citations.csv</li>
         <li>hong-kong-tourism-board_agentic-url-traffic.csv</li>
-        <li>hong-kong-tourism-board_agentic-hits-by-category.csv</li>
-        <li>hong-kong-tourism-board_agentic-hits-by-market.csv</li>
-        <li>hong-kong-tourism-board_agentic-hits-by-page-type.csv</li>
         <li>hong-kong-tourism-board_agentic-response-code-breakdown.csv</li>
         <li>hong-kong-tourism-board_referral-traffic-table (1).csv</li>
         <li>hong-kong-tourism-board_referral-url-traffic.csv</li>

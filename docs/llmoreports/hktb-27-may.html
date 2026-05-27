@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HKTB LLMO Snapshot</title>
+  <style>
+    :root {
+      --spectrum-blue-600: #1473e6;
+      --spectrum-blue-700: #0d66d0;
+      --spectrum-green-600: #12805c;
+      --spectrum-orange-600: #e68619;
+      --spectrum-red-600: #d7373f;
+      --spectrum-purple-600: #6b46c1;
+      --spectrum-gray-50: #ffffff;
+      --spectrum-gray-75: #fafafa;
+      --spectrum-gray-100: #f8f8f8;
+      --spectrum-gray-200: #f1f1f1;
+      --spectrum-gray-300: #eaeaea;
+      --spectrum-gray-400: #d5d5d5;
+      --spectrum-gray-700: #4b4b4b;
+      --spectrum-gray-800: #2c2c2c;
+      --spectrum-gray-900: #1d1d1d;
+      --radius-xl: 18px;
+      --radius-lg: 14px;
+      --radius-md: 10px;
+      --shadow-card: 0 10px 30px rgba(0,0,0,.06);
+      --shadow-soft: 0 4px 16px rgba(0,0,0,.05);
+      --container: 1240px;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #f5f5f7; color: var(--spectrum-gray-900); }
+    body { font-family: "Adobe Clean", "Adobe Clean UX", "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+    a { color: var(--spectrum-blue-700); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .page { max-width: var(--container); margin: 0 auto; padding: 28px; }
+    .hero { background: linear-gradient(135deg, #0f172a 0%, #111827 42%, #0d66d0 100%); color: white; border-radius: 24px; padding: 28px 30px; box-shadow: var(--shadow-card); position: relative; overflow: hidden; }
+    .hero::after { content: ""; position: absolute; inset: auto -120px -120px auto; width: 340px; height: 340px; background: radial-gradient(circle at center, rgba(255,255,255,.16), rgba(255,255,255,0)); border-radius: 999px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.78); margin-bottom: 10px; }
+    .hero h1 { margin: 0; font-size: 34px; line-height: 1.12; letter-spacing: -.02em; }
+    .hero p { margin: 12px 0 0; max-width: 940px; color: rgba(255,255,255,.88); font-size: 15px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.16); font-size: 12px; color: white; }
+    .section { margin-top: 22px; }
+    .section-title { font-size: 20px; margin: 0 0 14px; letter-spacing: -.01em; }
+    .grid { display: grid; gap: 16px; }
+    .grid.metrics { grid-template-columns: repeat(6, minmax(0, 1fr)); margin-top: 18px; }
+    .card { background: white; border: 1px solid var(--spectrum-gray-300); border-radius: var(--radius-xl); box-shadow: var(--shadow-soft); padding: 18px; }
+    .metric-card .label { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--spectrum-gray-700); font-weight: 700; margin-bottom: 8px; }
+    .metric-card .value { font-size: 30px; font-weight: 800; letter-spacing: -.03em; margin-bottom: 4px; }
+    .metric-card .sub { font-size: 13px; color: var(--spectrum-gray-700); }
+    .band { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-top: 16px; }
+    .callout { background: linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%); border: 1px solid #cfe3ff; border-radius: var(--radius-xl); padding: 18px; }
+    .callout h3 { margin: 0 0 8px; font-size: 18px; }
+    .callout p { margin: 0; color: #1e3a5f; }
+    .note { background: linear-gradient(180deg, #fbf8ff 0%, #f3edff 100%); border: 1px solid #d9c9ff; border-radius: var(--radius-xl); padding: 18px; }
+    .note h3 { margin: 0 0 8px; font-size: 18px; color: #4b2e83; }
+    .note p { margin: 0; color: #4b2e83; }
+    .list { margin: 0; padding-left: 18px; }
+    .list li { margin: 8px 0; }
+    .two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .mini-stat { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+    .mini-stat div { background: var(--spectrum-gray-100); border: 1px solid var(--spectrum-gray-300); border-radius: var(--radius-md); padding: 12px; }
+    .mini-stat strong { display: block; font-size: 20px; letter-spacing: -.02em; }
+    .mini-stat span { display: block; font-size: 12px; color: var(--spectrum-gray-700); text-transform: uppercase; letter-spacing: .06em; margin-top: 4px; }
+    .bars { display: grid; gap: 12px; margin-top: 10px; }
+    .bar-row { display: grid; grid-template-columns: 150px 1fr 72px; gap: 12px; align-items: center; font-size: 13px; }
+    .bar { height: 10px; background: var(--spectrum-gray-200); border-radius: 999px; overflow: hidden; }
+    .fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--spectrum-blue-600), #4f9cf9); }
+    .fill.green { background: linear-gradient(90deg, var(--spectrum-green-600), #26b88b); }
+    .fill.orange { background: linear-gradient(90deg, var(--spectrum-orange-600), #f6b053); }
+    .fill.purple { background: linear-gradient(90deg, var(--spectrum-purple-600), #9f7aea); }
+    table { width: 100%; border-collapse: collapse; background: white; border: 1px solid var(--spectrum-gray-300); border-radius: var(--radius-lg); overflow: hidden; }
+    thead th { background: var(--spectrum-gray-100); color: var(--spectrum-gray-800); text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; padding: 12px 14px; border-bottom: 1px solid var(--spectrum-gray-300); }
+    tbody td { padding: 12px 14px; border-bottom: 1px solid var(--spectrum-gray-200); vertical-align: top; font-size: 14px; }
+    tbody tr:last-child td { border-bottom: none; }
+    .kpi-inline { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .pill { border-radius: 999px; padding: 7px 10px; font-size: 12px; font-weight: 700; background: var(--spectrum-gray-100); border: 1px solid var(--spectrum-gray-300); }
+    .pill.good { background: #edf9f4; border-color: #bde7d6; color: #095c42; }
+    .pill.warn { background: #fff6e8; border-color: #f3d39d; color: #8a5400; }
+    .pill.info { background: #eef5ff; border-color: #cfe3ff; color: #114f9e; }
+    .pill.purple { background: #f3edff; border-color: #d9c9ff; color: #4b2e83; }
+    .opportunity-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .opportunity { border-radius: var(--radius-xl); border: 1px solid var(--spectrum-gray-300); background: white; padding: 18px; box-shadow: var(--shadow-soft); }
+    .opportunity .priority { display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; font-weight: 800; margin-bottom: 8px; color: var(--spectrum-blue-700); }
+    .opportunity h4 { margin: 0 0 8px; font-size: 17px; }
+    .opportunity p { margin: 0; color: var(--spectrum-gray-800); font-size: 14px; }
+    .footer-note { margin-top: 18px; font-size: 12px; color: var(--spectrum-gray-700); }
+    .source-list { margin: 8px 0 0; padding-left: 18px; font-size: 13px; color: var(--spectrum-gray-800); }
+    @media (max-width: 1100px) { .grid.metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); } .band, .two-up, .opportunity-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 720px) { .page { padding: 16px; } .hero { padding: 22px; } .hero h1 { font-size: 28px; } .grid.metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } .mini-stat { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bar-row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">Hong Kong Tourism Board · LLMO Snapshot</div>
+      <h1>For HKTB, raw brand-mention metrics understate value; the real test is whether DiscoverHongKong becomes the cited authority for Hong Kong travel intent.</h1>
+      <p>This revised snapshot treats HKTB correctly as a <strong>destination-promotion publisher</strong>, not a consumer brand whose name must appear in every answer. Because the tracked entity is <strong>HKTB</strong> rather than <strong>Hong Kong</strong>, strict brand-presence metrics should be read separately from destination authority metrics such as owned citations, referral traffic, and machine access to DiscoverHongKong content.</p>
+      <div class="meta">
+        <div class="chip">Snapshot date: 2026-05-27</div>
+        <div class="chip">Prompt inventory: 200</div>
+        <div class="chip">Measured prompts: 57</div>
+        <div class="chip">Tracked topics: 7</div>
+      </div>
+    </section>
+
+    <section class="section note">
+      <h3>Interpretation guardrail</h3>
+      <p><strong>"HKTB not mentioned" does not automatically mean "HKTB lost."</strong> A destination answer can still be a win for HKTB if the model cites or sends traffic to DiscoverHongKong pages. In this dataset, <strong>6</strong> prompts generated citations without surfacing the HKTB brand, and <strong>2</strong> of those still cited HKTB-owned URLs directly.</p>
+    </section>
+
+    <section class="grid metrics">
+      <article class="card metric-card">
+        <div class="label">Strict HKTB brand coverage</div>
+        <div class="value">38.6%</div>
+        <div class="sub">HKTB appeared in 22 of 57 prompts</div>
+      </article>
+      <article class="card metric-card">
+        <div class="label">Destination citation coverage</div>
+        <div class="value">40.4%</div>
+        <div class="sub">23 prompts produced any citations in the answer set</div>
+      </article>
+      <article class="card metric-card">
+        <div class="label">Owned URL coverage</div>
+        <div class="value">29.8%</div>
+        <div class="sub">DiscoverHongKong URLs were cited in 17 prompts</div>
+      </article>
+      <article class="card metric-card">
+        <div class="label">Owned citation share</div>
+        <div class="value">19.3%</div>
+        <div class="sub">89 owned citations out of 460 total</div>
+      </article>
+      <article class="card metric-card">
+        <div class="label">Brand share of voice</div>
+        <div class="value">12.9%</div>
+        <div class="sub">Strict HKTB entity ranking is #1 in all 7 tracked topics</div>
+      </article>
+      <article class="card metric-card">
+        <div class="label">Agentic URL hits</div>
+        <div class="value">481,139</div>
+        <div class="sub">Machine demand across 3,301 crawled URLs</div>
+      </article>
+    </section>
+
+    <section class="band">
+      <article class="callout">
+        <h3>Executive takeaway</h3>
+        <p>HKTB is already the strongest <strong>named entity</strong> in the competitive set, but the more important signal is that DiscoverHongKong is functioning as a meaningful <strong>destination authority layer</strong>. The current gap is not "make the model say HKTB more often" in isolation; it is to make <strong>more generic Hong Kong travel journeys resolve to HKTB-owned pages</strong> even when the user never asks for the tourism board by name.</p>
+        <div class="kpi-inline">
+          <span class="pill good">#1 strict brand share of voice in 7/7 topics</span>
+          <span class="pill purple">73.9% of cited prompts include owned URLs</span>
+          <span class="pill.warn">Only 38.6% strict HKTB brand coverage</span>
+          <span class="pill info">26.1% of cited prompts had no HKTB brand mention</span>
+        </div>
+      </article>
+      <article class="card">
+        <h3 class="section-title" style="margin-top:0;">What changed in this readout</h3>
+        <ul class="list">
+          <li><strong>Brand visibility</strong> is now treated as a <em>strict entity KPI</em>, not the main success metric.</li>
+          <li><strong>Owned citation coverage</strong> is elevated because destination publishers can win without brand-name mention.</li>
+          <li><strong>Referral and agentic traffic</strong> matter more here than for a standard consumer brand because DiscoverHongKong is the product surface.</li>
+          <li><strong>Generic destination prompts</strong> now matter more than branded or official-source prompts when judging growth headroom.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section two-up">
+      <article class="card">
+        <h2 class="section-title">Brand-led prompts vs generic destination prompts</h2>
+        <div class="mini-stat">
+          <div><strong>17</strong><span>Official / board-seeking prompts</span></div>
+          <div><strong>86.9%</strong><span>Avg visibility on official / board-seeking prompts</span></div>
+          <div><strong>40</strong><span>Generic destination prompts</span></div>
+          <div><strong>6.8%</strong><span>Avg visibility on generic destination prompts</span></div>
+        </div>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">The split is stark. When the prompt explicitly asks for an official guide, Discover Hong Kong, or the tourism board, HKTB performs extremely well. The growth problem sits in broad destination intent where users ask about Hong Kong itself rather than the board.</p>
+      </article>
+
+      <article class="card">
+        <h2 class="section-title">Weekly movement</h2>
+        <div class="bars">
+          <div class="bar-row">
+            <div><strong>wk20 2026</strong><br />Strict brand visibility</div>
+            <div class="bar"><div class="fill" style="width:29.4%"></div></div>
+            <div>29.4%</div>
+          </div>
+          <div class="bar-row">
+            <div><strong>wk21 2026</strong><br />Strict brand visibility</div>
+            <div class="bar"><div class="fill" style="width:31.7%"></div></div>
+            <div>31.7%</div>
+          </div>
+          <div class="bar-row">
+            <div><strong>Brand mentions</strong><br />wk20 → wk21</div>
+            <div class="bar"><div class="fill green" style="width:95.2%"></div></div>
+            <div>21 → 20</div>
+          </div>
+          <div class="bar-row">
+            <div><strong>Owned citations</strong><br />wk20 → wk21</div>
+            <div class="bar"><div class="fill purple" style="width:100.0%"></div></div>
+            <div>6 → 15</div>
+          </div>
+        </div>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">Strict HKTB visibility improved modestly from <strong>29.4%</strong> in wk20 to <strong>31.7%</strong> in wk21. More importantly for a destination site, owned citations improved from <strong>6</strong> to <strong>15</strong>.</p>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Topic performance under the correct lens</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Topic</th>
+            <th>Brand SOV</th>
+            <th>Strict brand coverage</th>
+            <th>Any citation coverage</th>
+            <th>Owned URL coverage</th>
+            <th>Owned citations</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Planning a Hong Kong Trip</td><td>11.7%</td><td>43%</td><td>36%</td><td>21%</td><td>22</td></tr>
+          <tr><td>Where To Stay &amp; Areas</td><td>12.1%</td><td>40%</td><td>60%</td><td>40%</td><td>18</td></tr>
+          <tr><td>Seasonal Travel &amp; Events</td><td>26.1%</td><td>100%</td><td>100%</td><td>100%</td><td>15</td></tr>
+          <tr><td>First-Time Visitor Questions</td><td>10.8%</td><td>30%</td><td>20%</td><td>15%</td><td>14</td></tr>
+          <tr><td>Food Discovery</td><td>5.6%</td><td>25%</td><td>63%</td><td>50%</td><td>11</td></tr>
+          <tr><td>Culture &amp; Heritage Experiences</td><td>10.0%</td><td>67%</td><td>33%</td><td>33%</td><td>6</td></tr>
+          <tr><td>Hong Kong vs Other Asian Cities</td><td>12.5%</td><td>25%</td><td>50%</td><td>25%</td><td>3</td></tr>
+        </tbody>
+      </table>
+      <div class="footer-note">Use this table in two layers: <strong>Brand SOV</strong> shows how often HKTB as an entity wins; <strong>citation coverage</strong> shows whether Hong Kong travel answers are resolving to sourceable pages at all; <strong>owned URL coverage</strong> is the more operational KPI for DiscoverHongKong.</div>
+    </section>
+
+    <section class="section two-up">
+      <article class="card">
+        <h2 class="section-title">What HKTB is genuinely winning</h2>
+        <ul class="list">
+          <li><strong>Official-trust intent</strong> is a core strength. Prompts that ask for trusted or official guidance strongly favor HKTB and DiscoverHongKong.</li>
+          <li><strong>Seasonal Travel &amp; Events</strong> is the cleanest win zone, with <strong>100%</strong> brand coverage, <strong>100%</strong> citation coverage, and <strong>100%</strong> owned URL coverage.</li>
+          <li><strong>Where to stay</strong> and <strong>Food Discovery</strong> show stronger destination authority than raw brand coverage suggests, because citations appear more often than the HKTB name itself.</li>
+          <li><strong>Owned capture is healthier than the brand KPI alone implies</strong>: among prompts that generated any citations, <strong>73.9%</strong> included HKTB-owned URLs.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h2 class="section-title">Where the current dashboard will understate performance</h2>
+        <ul class="list">
+          <li><strong>Generic Hong Kong travel prompts</strong> can still be strategically valuable even if the answer never says "HKTB."</li>
+          <li><strong>Strict brand coverage at 38.6%</strong> should not be interpreted as "HKTB only wins 38.6% of travel demand." It only measures explicit brand surfacing.</li>
+          <li><strong>6 prompts</strong> generated citations without a brand mention, proving that destination authority and brand visibility diverge in this use case.</li>
+          <li><strong>Destination comparison and first-time visitor queries</strong> remain the clearest headroom because those prompts often discuss Hong Kong without inviting an official tourism-board answer by default.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section two-up">
+      <article class="card">
+        <h2 class="section-title">Machine access and crawl health</h2>
+        <div class="mini-stat">
+          <div><strong>481,139</strong><span>Total agentic hits</span></div>
+          <div><strong>92.2%</strong><span>Weighted success rate</span></div>
+          <div><strong>712 ms</strong><span>Weighted avg TTFB</span></div>
+          <div><strong>69.5%</strong><span>Traffic from chatbots</span></div>
+        </div>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">DiscoverHongKong is already being actively accessed by chatbots and crawlers. For this customer type, technical accessibility is part of brand performance because machine-readable travel content is the distribution surface.</p>
+      </article>
+      <article class="card">
+        <h2 class="section-title">Response-code friction</h2>
+        <ul class="list">
+          <li><strong>200 OK:</strong> 72.9%</li>
+          <li><strong>301 redirects:</strong> 12.5%</li>
+          <li><strong>404 not found:</strong> 7.4%</li>
+          <li><strong>403 forbidden:</strong> 7.1%</li>
+        </ul>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">For a destination content platform, redirect and error overhead reduces the likelihood that core planning pages become consistently retrievable citation targets. Cleaning this up is not just technical hygiene; it improves discoverability economics.</p>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Most-requested machine-accessed URLs</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>URL</th>
+            <th>Total hits</th>
+            <th>Category</th>
+            <th>Success rate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="https://www.discoverhongkong.com/robots.txt">https://www.discoverhongkong.com/robots.txt</a></td><td>8818</td><td>Other</td><td>100.0%</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com">https://www.discoverhongkong.com</a></td><td>7754</td><td>Other</td><td>91.7%</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com/eng/travel-guide/traveller-essentials/getting-around.html">https://www.discoverhongkong.com/eng/travel-guide/traveller-essentials/getting-around.html</a></td><td>4201</td><td>Practical travel planning</td><td>100.0%</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com/eng/index.html">https://www.discoverhongkong.com/eng/index.html</a></td><td>4182</td><td>Other</td><td>100.0%</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com/content/dam/dhk/intl/explore/muslim-travel/hong-kong-muslim-travel-guide.pdf">https://www.discoverhongkong.com/content/dam/dhk/intl/explore/muslim-travel/hong-kong-muslim-travel-guide.pdf</a></td><td>3861</td><td>Things to do &amp; must-see experiences</td><td>100.0%</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com/eng/attractions.html">https://www.discoverhongkong.com/eng/attractions.html</a></td><td>3639</td><td>Things to do &amp; must-see experiences</td><td>100.0%</td></tr>
+        </tbody>
+      </table>
+      <div class="footer-note">These are destination surfaces — homepage, travel guides, attractions, events, and traveller essentials — not corporate-brand pages. That is exactly why owned-surface KPIs matter more than raw HKTB mentions for this account.</div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Owned URL winners</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Owned URL</th>
+            <th>Times cited</th>
+            <th>Prompts cited in</th>
+            <th>Referral hits</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="https://www.discoverhongkong.com/eng/travel-guide.html">https://www.discoverhongkong.com/eng/travel-guide.html</a></td><td>8</td><td>7</td><td>0</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com/eng/attractions.html">https://www.discoverhongkong.com/eng/attractions.html</a></td><td>7</td><td>6</td><td>0</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com/eng/index.html">https://www.discoverhongkong.com/eng/index.html</a></td><td>7</td><td>5</td><td>100</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com/eng">https://www.discoverhongkong.com/eng</a></td><td>6</td><td>4</td><td>0</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com/eng/explore.html">https://www.discoverhongkong.com/eng/explore.html</a></td><td>6</td><td>4</td><td>0</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com/ca/plan/trip-planner.html">https://www.discoverhongkong.com/ca/plan/trip-planner.html</a></td><td>4</td><td>4</td><td>0</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com/eng/plan/trip-planner.html">https://www.discoverhongkong.com/eng/plan/trip-planner.html</a></td><td>4</td><td>4</td><td>0</td></tr>
+          <tr><td><a href="https://www.discoverhongkong.com/us/place-to-go.html">https://www.discoverhongkong.com/us/place-to-go.html</a></td><td>4</td><td>3</td><td>0</td></tr>
+        </tbody>
+      </table>
+      <div class="footer-note">The strongest owned winners are broad travel-guide and attractions hubs, followed by trip-planner and event surfaces. This is the right pattern for a tourism-board site: evergreen planning hubs should become the canonical answer endpoints.</div>
+    </section>
+
+    <section class="section two-up">
+      <article class="card">
+        <h2 class="section-title">Referral and destination authority signals</h2>
+        <ul class="list">
+          <li><strong>900</strong> tracked referral visits arrived from LLM traffic in the uploaded referral table.</li>
+          <li>The referral URLs are almost entirely <strong>destination pages</strong> — homepage, events, neighbourhoods, food, tours, themed travel, and Muslim travel content.</li>
+          <li>This supports the core interpretation that DiscoverHongKong can create value even when the answer is framed around <strong>Hong Kong</strong> rather than <strong>HKTB</strong>.</li>
+          <li>Low bounce on most listed referral URLs suggests that once users do land on the site, the pages are broadly aligned with travel intent.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h2 class="section-title">Localization and canonicalization opportunity</h2>
+        <ul class="list">
+          <li>Several strong content concepts exist across multiple locale variants, which is useful for market coverage but can split authority signals.</li>
+          <li>Trip planner, index, event, and iconic-experience pages appear across multiple market paths.</li>
+          <li>Consolidate internal linking toward preferred locale-aware canonicals and reduce unnecessary redirect dependence.</li>
+          <li>Make alternate-language and alternate-market relationships explicit so machines understand they are coordinated, not competing pages.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Competitive citation landscape</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>External domain</th>
+            <th>Content type</th>
+            <th>Times cited</th>
+            <th>Prompts cited in</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>reddit.com</td><td>Others</td><td>220</td><td>74</td></tr>
+          <tr><td>en.wikipedia.org</td><td>Earned</td><td>76</td><td>33</td></tr>
+          <tr><td>hk-cityguide.com</td><td>Earned</td><td>68</td><td>41</td></tr>
+          <tr><td>hongkongsolotravel.com</td><td>Earned</td><td>64</td><td>33</td></tr>
+          <tr><td>timeout.com</td><td>Earned</td><td>60</td><td>36</td></tr>
+          <tr><td>tripadvisor.com</td><td>Others</td><td>51</td><td>27</td></tr>
+          <tr><td>chinahighlights.com</td><td>Earned</td><td>39</td><td>32</td></tr>
+          <tr><td>facebook.com</td><td>Social</td><td>37</td><td>15</td></tr>
+        </tbody>
+      </table>
+      <div class="footer-note">Competition comes mainly from travel publishers, forums, guide sites, and comparison sources. For HKTB, the fight is less about brand-name share and more about whether these publishers become the default explainers for Hong Kong destination intent.</div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Trending external URLs to watch</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>URL</th>
+            <th>Content type</th>
+            <th>Times cited</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><a href="https://www.wheretostayai.com/guides/best-area-to-stay-in-hong-kong">https://www.wheretostayai.com/guides/best-area-to-stay-in-hong-kong</a></td><td>Earned</td><td>29</td></tr>
+          <tr><td><a href="https://www.babagoeschina.com/where-to-stay-in-hong-kong/">https://www.babagoeschina.com/where-to-stay-in-hong-kong/</a></td><td>Earned</td><td>28</td></tr>
+          <tr><td><a href="https://www.hongkongsolotravel.com/where-to-stay-in-hong-kong/">https://www.hongkongsolotravel.com/where-to-stay-in-hong-kong/</a></td><td>Earned</td><td>25</td></tr>
+          <tr><td><a href="https://www.roughguides.com/articles/best-areas-to-stay-in-hong-kong/">https://www.roughguides.com/articles/best-areas-to-stay-in-hong-kong/</a></td><td>Others</td><td>20</td></tr>
+          <tr><td><a href="https://www.zhujianger.com/hong-kong-where-to-stay/">https://www.zhujianger.com/hong-kong-where-to-stay/</a></td><td>Earned</td><td>19</td></tr>
+          <tr><td><a href="https://www.hopegoo.com/en-us/blogs/detail/what-is-hong-kong-best-known-for">https://www.hopegoo.com/en-us/blogs/detail/what-is-hong-kong-best-known-for</a></td><td>Earned</td><td>16</td></tr>
+        </tbody>
+      </table>
+      <div class="footer-note">The strongest third-party pressure clusters around <strong>where to stay</strong>, <strong>what Hong Kong is known for</strong>, and <strong>comparison-style planning</strong>. These are precisely the areas where HKTB should publish more machine-citable decision support.</div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Priority opportunities</h2>
+      <div class="opportunity-grid">
+        <article class="opportunity">
+          <div class="priority">Priority 1</div>
+          <h4>Shift the KPI center from brand mention to destination authority</h4>
+          <p>For this customer, the main success condition is that DiscoverHongKong pages become the preferred cited source for Hong Kong travel questions. Keep strict brand metrics, but do not use them alone to judge performance.</p>
+        </article>
+        <article class="opportunity">
+          <div class="priority">Priority 2</div>
+          <h4>Own generic first-time visitor and comparison journeys</h4>
+          <p>First-time visitor questions and Hong Kong-vs-other-city prompts have the widest gap between overall intent and HKTB capture. These should be treated as the main editorial expansion zones.</p>
+        </article>
+        <article class="opportunity">
+          <div class="priority">Priority 3</div>
+          <h4>Turn destination hubs into canonical citation endpoints</h4>
+          <p>Travel guide, attractions, events, neighbourhoods, and planning hubs already attract machine traffic and citations. These pages should be strengthened as stable, evergreen answer destinations with clearer structured guidance and fewer path variants.</p>
+        </article>
+        <article class="opportunity">
+          <div class="priority">Priority 4</div>
+          <h4>Reduce crawl friction on high-demand travel pages</h4>
+          <p>With meaningful 301, 403, and 404 share in the response mix, technical cleanup will improve the consistency with which models can fetch, parse, and trust HKTB content.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section two-up">
+      <article class="card">
+        <h2 class="section-title">30-day action plan</h2>
+        <ol class="list">
+          <li>Split reporting into <strong>strict HKTB entity KPIs</strong> and <strong>destination authority KPIs</strong>.</li>
+          <li>Build or strengthen generic Hong Kong planning pages for first-time visitors, itinerary building, and city comparisons.</li>
+          <li>Expand where-to-stay and food decision pages so they can compete directly with publisher explainers.</li>
+          <li>Reduce redirect, 403, and 404 friction on the most heavily machine-accessed URLs.</li>
+          <li>Concentrate citation authority around travel-guide, attractions, events, neighbourhood, and trip-planner hubs.</li>
+        </ol>
+      </article>
+      <article class="card">
+        <h2 class="section-title">Measurement to track next</h2>
+        <ol class="list">
+          <li><strong>Strict brand coverage</strong>: still useful, but secondary to destination authority for this account.</li>
+          <li><strong>Owned URL coverage</strong>: improve beyond <strong>29.8%</strong>.</li>
+          <li><strong>Owned citation share</strong>: move above <strong>19.3%</strong>.</li>
+          <li><strong>Owned share of cited prompts</strong>: improve beyond <strong>73.9%</strong>.</li>
+          <li><strong>Generic destination prompt visibility</strong>: improve the current <strong>6.8%</strong> average on non-official prompts.</li>
+        </ol>
+      </article>
+    </section>
+
+    <section class="section card">
+      <h2 class="section-title">Methodology &amp; source scope</h2>
+      <p style="margin-top:0;">This revised HTML snapshot is based on the uploaded HKTB files only: overview PDF, prompt inventory, prompt-level insight tables, share-of-voice tables, owned URL citations, third-party domains, trending URLs, agentic traffic datasets, response-code breakdowns, referral traffic, and user-agent summaries. The key methodological adjustment in this version is interpretive rather than mathematical: <strong>HKTB is treated as a destination-promotion publisher whose owned site can win without the brand name appearing in every answer.</strong> CSV datasets were used as the quantitative source of truth.</p>
+      <ul class="source-list">
+        <li>Hong Kong Tourism Board-overview-2026-05-27.pdf</li>
+        <li>hong-kong-tourism-board_data_insights_2026-05-27.csv</li>
+        <li>hong-kong-tourism-board_data-insights-table (3).csv</li>
+        <li>hong-kong-tourism-board_share-of-voice-data (2).csv</li>
+        <li>hong-kong-tourism-board_owned-urls-citations (1).csv</li>
+        <li>hong-kong-tourism-board_cited-3rd-party-domains.csv</li>
+        <li>hong-kong-tourism-board_trending-urls-citations.csv</li>
+        <li>hong-kong-tourism-board_agentic-url-traffic.csv</li>
+        <li>hong-kong-tourism-board_agentic-hits-by-category.csv</li>
+        <li>hong-kong-tourism-board_agentic-hits-by-market.csv</li>
+        <li>hong-kong-tourism-board_agentic-hits-by-page-type.csv</li>
+        <li>hong-kong-tourism-board_agentic-response-code-breakdown.csv</li>
+        <li>hong-kong-tourism-board_referral-traffic-table (1).csv</li>
+        <li>hong-kong-tourism-board_referral-url-traffic.csv</li>
+        <li>hong-kong-tourism-board_user-agent-table (2).csv</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

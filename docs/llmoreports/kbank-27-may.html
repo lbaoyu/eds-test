@@ -11,6 +11,7 @@
       --spectrum-green-600: #12805c;
       --spectrum-orange-600: #e68619;
       --spectrum-red-600: #d7373f;
+      --spectrum-purple-600: #6b46c1;
       --spectrum-gray-50: #ffffff;
       --spectrum-gray-75: #fafafa;
       --spectrum-gray-100: #f8f8f8;
@@ -25,309 +26,79 @@
       --radius-md: 10px;
       --shadow-card: 0 10px 30px rgba(0,0,0,.06);
       --shadow-soft: 0 4px 16px rgba(0,0,0,.05);
-      --container: 1220px;
+      --container: 1240px;
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: #f5f5f7; color: var(--spectrum-gray-900); }
-    body {
-      font-family: "Adobe Clean", "Adobe Clean UX", "Segoe UI", Roboto, Arial, sans-serif;
-      line-height: 1.5;
-      -webkit-font-smoothing: antialiased;
-    }
+    body { font-family: "Adobe Clean", "Adobe Clean UX", "Segoe UI", Roboto, Arial, sans-serif; line-height: 1.5; -webkit-font-smoothing: antialiased; }
     a { color: var(--spectrum-blue-700); text-decoration: none; }
     a:hover { text-decoration: underline; }
-    .page {
-      max-width: var(--container);
-      margin: 0 auto;
-      padding: 28px;
-    }
-    .hero {
-      background: linear-gradient(135deg, #0f172a 0%, #111827 42%, #0d66d0 100%);
-      color: white;
-      border-radius: 24px;
-      padding: 28px 30px;
-      box-shadow: var(--shadow-card);
-      overflow: hidden;
-      position: relative;
-    }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: auto -120px -120px auto;
-      width: 340px;
-      height: 340px;
-      background: radial-gradient(circle at center, rgba(255,255,255,.16), rgba(255,255,255,0));
-      border-radius: 999px;
-    }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.78);
-      margin-bottom: 10px;
-    }
-    .hero h1 {
-      margin: 0;
-      font-size: 34px;
-      line-height: 1.12;
-      letter-spacing: -.02em;
-    }
-    .hero p {
-      margin: 12px 0 0;
-      max-width: 900px;
-      color: rgba(255,255,255,.88);
-      font-size: 15px;
-    }
-    .meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.12);
-      border: 1px solid rgba(255,255,255,.16);
-      font-size: 12px;
-      color: white;
-    }
-    .section {
-      margin-top: 22px;
-    }
-    .section-title {
-      font-size: 20px;
-      margin: 0 0 14px;
-      letter-spacing: -.01em;
-    }
-    .grid {
-      display: grid;
-      gap: 16px;
-    }
-    .grid.metrics {
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      margin-top: 18px;
-    }
-    .card {
-      background: white;
-      border: 1px solid var(--spectrum-gray-300);
-      border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-soft);
-      padding: 18px;
-    }
-    .metric-card .label {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      color: var(--spectrum-gray-700);
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .metric-card .value {
-      font-size: 30px;
-      font-weight: 800;
-      letter-spacing: -.03em;
-      margin-bottom: 4px;
-    }
-    .metric-card .sub {
-      font-size: 13px;
-      color: var(--spectrum-gray-700);
-    }
-    .band {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 16px;
-      margin-top: 16px;
-    }
-    .callout {
-      background: linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%);
-      border: 1px solid #cfe3ff;
-      border-radius: var(--radius-xl);
-      padding: 18px;
-    }
-    .callout h3 {
-      margin: 0 0 8px;
-      font-size: 18px;
-    }
-    .callout p {
-      margin: 0;
-      color: #1e3a5f;
-    }
-    .list {
-      margin: 0;
-      padding-left: 18px;
-    }
+    .page { max-width: var(--container); margin: 0 auto; padding: 28px; }
+    .hero { background: linear-gradient(135deg, #0f172a 0%, #111827 42%, #0d66d0 100%); color: white; border-radius: 24px; padding: 28px 30px; box-shadow: var(--shadow-card); position: relative; overflow: hidden; }
+    .hero::after { content: ""; position: absolute; inset: auto -120px -120px auto; width: 340px; height: 340px; background: radial-gradient(circle at center, rgba(255,255,255,.16), rgba(255,255,255,0)); border-radius: 999px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.78); margin-bottom: 10px; }
+    .hero h1 { margin: 0; font-size: 34px; line-height: 1.12; letter-spacing: -.02em; }
+    .hero p { margin: 12px 0 0; max-width: 940px; color: rgba(255,255,255,.88); font-size: 15px; }
+    .meta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+    .chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.16); font-size: 12px; color: white; }
+    .section { margin-top: 22px; }
+    .section-title { font-size: 20px; margin: 0 0 14px; letter-spacing: -.01em; }
+    .grid { display: grid; gap: 16px; }
+    .grid.metrics { grid-template-columns: repeat(6, minmax(0, 1fr)); margin-top: 18px; }
+    .card { background: white; border: 1px solid var(--spectrum-gray-300); border-radius: var(--radius-xl); box-shadow: var(--shadow-soft); padding: 18px; }
+    .metric-card .label { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--spectrum-gray-700); font-weight: 700; margin-bottom: 8px; }
+    .metric-card .value { font-size: 30px; font-weight: 800; letter-spacing: -.03em; margin-bottom: 4px; }
+    .metric-card .sub { font-size: 13px; color: var(--spectrum-gray-700); }
+    .band { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; margin-top: 16px; }
+    .callout { background: linear-gradient(180deg, #f8fbff 0%, #eef5ff 100%); border: 1px solid #cfe3ff; border-radius: var(--radius-xl); padding: 18px; }
+    .callout h3 { margin: 0 0 8px; font-size: 18px; }
+    .callout p { margin: 0; color: #1e3a5f; }
+    .list { margin: 0; padding-left: 18px; }
     .list li { margin: 8px 0; }
-    .two-up {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .mini-stat {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 14px;
-    }
-    .mini-stat div {
-      background: var(--spectrum-gray-100);
-      border: 1px solid var(--spectrum-gray-300);
-      border-radius: var(--radius-md);
-      padding: 12px;
-    }
-    .mini-stat strong {
-      display: block;
-      font-size: 20px;
-      letter-spacing: -.02em;
-    }
-    .mini-stat span {
-      display: block;
-      font-size: 12px;
-      color: var(--spectrum-gray-700);
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      margin-top: 4px;
-    }
-    .bars {
-      display: grid;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    .bar-row {
-      display: grid;
-      grid-template-columns: 118px 1fr 60px;
-      gap: 12px;
-      align-items: center;
-      font-size: 13px;
-    }
-    .bar {
-      height: 10px;
-      background: var(--spectrum-gray-200);
-      border-radius: 999px;
-      overflow: hidden;
-    }
-    .fill {
-      height: 100%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, var(--spectrum-blue-600), #4f9cf9);
-    }
+    .two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .mini-stat { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: 14px; }
+    .mini-stat div { background: var(--spectrum-gray-100); border: 1px solid var(--spectrum-gray-300); border-radius: var(--radius-md); padding: 12px; }
+    .mini-stat strong { display: block; font-size: 20px; letter-spacing: -.02em; }
+    .mini-stat span { display: block; font-size: 12px; color: var(--spectrum-gray-700); text-transform: uppercase; letter-spacing: .06em; margin-top: 4px; }
+    .bars { display: grid; gap: 12px; margin-top: 10px; }
+    .bar-row { display: grid; grid-template-columns: 150px 1fr 72px; gap: 12px; align-items: center; font-size: 13px; }
+    .bar { height: 10px; background: var(--spectrum-gray-200); border-radius: 999px; overflow: hidden; }
+    .fill { height: 100%; border-radius: 999px; background: linear-gradient(90deg, var(--spectrum-blue-600), #4f9cf9); }
     .fill.green { background: linear-gradient(90deg, var(--spectrum-green-600), #26b88b); }
     .fill.orange { background: linear-gradient(90deg, var(--spectrum-orange-600), #f6b053); }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      background: white;
-      border: 1px solid var(--spectrum-gray-300);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-    }
-    thead th {
-      background: var(--spectrum-gray-100);
-      color: var(--spectrum-gray-800);
-      text-align: left;
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: .06em;
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--spectrum-gray-300);
-    }
-    tbody td {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--spectrum-gray-200);
-      vertical-align: top;
-      font-size: 14px;
-    }
+    .fill.purple { background: linear-gradient(90deg, var(--spectrum-purple-600), #9f7aea); }
+    table { width: 100%; border-collapse: collapse; background: white; border: 1px solid var(--spectrum-gray-300); border-radius: var(--radius-lg); overflow: hidden; }
+    thead th { background: var(--spectrum-gray-100); color: var(--spectrum-gray-800); text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .06em; padding: 12px 14px; border-bottom: 1px solid var(--spectrum-gray-300); }
+    tbody td { padding: 12px 14px; border-bottom: 1px solid var(--spectrum-gray-200); vertical-align: top; font-size: 14px; }
     tbody tr:last-child td { border-bottom: none; }
-    .kpi-inline {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
-    .pill {
-      border-radius: 999px;
-      padding: 7px 10px;
-      font-size: 12px;
-      font-weight: 700;
-      background: var(--spectrum-gray-100);
-      border: 1px solid var(--spectrum-gray-300);
-    }
+    .kpi-inline { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+    .pill { border-radius: 999px; padding: 7px 10px; font-size: 12px; font-weight: 700; background: var(--spectrum-gray-100); border: 1px solid var(--spectrum-gray-300); }
     .pill.good { background: #edf9f4; border-color: #bde7d6; color: #095c42; }
     .pill.warn { background: #fff6e8; border-color: #f3d39d; color: #8a5400; }
     .pill.info { background: #eef5ff; border-color: #cfe3ff; color: #114f9e; }
-    .opportunity-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 16px;
-    }
-    .opportunity {
-      border-radius: var(--radius-xl);
-      border: 1px solid var(--spectrum-gray-300);
-      background: white;
-      padding: 18px;
-      box-shadow: var(--shadow-soft);
-    }
-    .opportunity .priority {
-      display: inline-block;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: .08em;
-      font-weight: 800;
-      margin-bottom: 8px;
-      color: var(--spectrum-blue-700);
-    }
-    .opportunity h4 {
-      margin: 0 0 8px;
-      font-size: 17px;
-    }
-    .opportunity p {
-      margin: 0;
-      color: var(--spectrum-gray-800);
-      font-size: 14px;
-    }
-    .footer-note {
-      margin-top: 18px;
-      font-size: 12px;
-      color: var(--spectrum-gray-700);
-    }
-    .source-list {
-      margin: 8px 0 0;
-      padding-left: 18px;
-      font-size: 13px;
-      color: var(--spectrum-gray-800);
-    }
-    @media (max-width: 1100px) {
-      .grid.metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-      .band, .two-up, .opportunity-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 720px) {
-      .page { padding: 16px; }
-      .hero { padding: 22px; }
-      .hero h1 { font-size: 28px; }
-      .grid.metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .mini-stat { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .bar-row { grid-template-columns: 1fr; }
-    }
+    .pill.purple { background: #f3edff; border-color: #d9c9ff; color: #4b2e83; }
+    .opportunity-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .opportunity { border-radius: var(--radius-xl); border: 1px solid var(--spectrum-gray-300); background: white; padding: 18px; box-shadow: var(--shadow-soft); }
+    .opportunity .priority { display: inline-block; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; font-weight: 800; margin-bottom: 8px; color: var(--spectrum-blue-700); }
+    .opportunity h4 { margin: 0 0 8px; font-size: 17px; }
+    .opportunity p { margin: 0; color: var(--spectrum-gray-800); font-size: 14px; }
+    .footer-note { margin-top: 18px; font-size: 12px; color: var(--spectrum-gray-700); }
+    .source-list { margin: 8px 0 0; padding-left: 18px; font-size: 13px; color: var(--spectrum-gray-800); }
+    @media (max-width: 1100px) { .grid.metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); } .band, .two-up, .opportunity-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 720px) { .page { padding: 16px; } .hero { padding: 22px; } .hero h1 { font-size: 28px; } .grid.metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } .mini-stat { grid-template-columns: repeat(2, minmax(0, 1fr)); } .bar-row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
   <main class="page">
     <section class="hero">
       <div class="eyebrow">KBank · LLMO Snapshot · Thailand</div>
-      <h1>KBank is leading share of voice, but owned-citation capture is still the main growth gap.</h1>
-      <p>This snapshot summarizes KBank's Large Language Model Optimization performance using the uploaded prompt, visibility, citation, and market-comparison datasets dated <strong>2026-05-27</strong>. The data shows strong category leadership and strong branded demand capture, with the clearest upside in generic comparison, education, and eligibility journeys.</p>
+      <h1>KBank already wins branded banking intent; the next growth lever is broader prompt coverage across generic comparison, investment, and eligibility journeys.</h1>
+      <p>This updated snapshot adds prompt analysis to the visibility and citation readout. For KBank, unlike a destination publisher, <strong>brand presence remains a primary KPI</strong>. The key question is not only whether KBank appears, but <strong>which prompt types it wins consistently</strong>, <strong>which prompt pools are largest</strong>, and <strong>where owned citation capture still lags the demand mix</strong>.</p>
       <div class="meta">
         <div class="chip">Snapshot date: 2026-05-27</div>
-        <div class="chip">Prompt rows: 100</div>
-        <div class="chip">Unique prompts analyzed: 98</div>
-        <div class="chip">Topic clusters: 6</div>
+        <div class="chip">Prompt inventory: 100</div>
+        <div class="chip">Unique prompts: 98</div>
+        <div class="chip">Tracked topics: 6</div>
       </div>
     </section>
 
@@ -335,7 +106,7 @@
       <article class="card metric-card">
         <div class="label">Average visibility</div>
         <div class="value">43%</div>
-        <div class="sub">Across 98 unique prompts</div>
+        <div class="sub">Across 98 measured prompts</div>
       </article>
       <article class="card metric-card">
         <div class="label">KBank mentions across prompt executions</div>
@@ -348,56 +119,153 @@
         <div class="sub">8.7% of all citations captured by owned URLs</div>
       </article>
       <article class="card metric-card">
-        <div class="label">Total citations</div>
-        <div class="value">2,283</div>
-        <div class="sub">Owned + earned + other + social sources</div>
+        <div class="label">Prompt inventory</div>
+        <div class="value">100</div>
+        <div class="sub">Full prompt set across 6 banking intent themes</div>
       </article>
       <article class="card metric-card">
         <div class="label">Weighted share of voice</div>
         <div class="value">9.2%</div>
-        <div class="sub">KBank ranks #1 in all 6 topic clusters</div>
+        <div class="sub">KBank ranks #1 in all 6 tracked topics</div>
       </article>
       <article class="card metric-card">
-        <div class="label">Visible prompt quality</div>
-        <div class="value">77.2%</div>
-        <div class="sub">Of visible prompts land in positions 1–3</div>
+        <div class="label">Owned URL coverage</div>
+        <div class="value">50.0%</div>
+        <div class="sub">Owned KBank pages are cited in 49 of 98 prompts</div>
       </article>
     </section>
 
     <section class="band">
       <article class="callout">
         <h3>Executive takeaway</h3>
-        <p>KBank already leads the competitive set in every tracked topic, but its owned surfaces are still under-captured relative to the total citation market. In plain terms: <strong>KBank is being talked about more than rivals</strong>, yet <strong>third-party pages still do most of the explaining</strong> for generic finance and comparison prompts.</p>
+        <p>KBank's current performance is strongest where the prompt explicitly leans toward <strong>promotions</strong>, <strong>card-tier decisions</strong>, or <strong>product-led intent</strong>. Prompt analysis shows the clearest growth gap is not volume, but <strong>coverage quality across generic comparison and investment education prompts</strong>. In short: KBank is already strong where the user is close to choosing a product, but weaker where the user is still learning, comparing, or screening options.</p>
         <div class="kpi-inline">
           <span class="pill good">#1 share of voice in 6/6 topics</span>
-          <span class="pill info">Branded prompt visibility: 93.7%</span>
-          <span class="pill warn">Non-branded prompt visibility: 38.1%</span>
-          <span class="pill warn">Only 50.0% of prompts cite owned KBank pages</span>
+          <span class="pill info">Branded prompt visibility: 100%</span>
+          <span class="pill warn">Non-branded prompt visibility: 78.7%</span>
+          <span class="pill purple">Comparison / vs prompts: 8.3% avg visibility</span>
         </div>
       </article>
       <article class="card">
-        <h3 class="section-title" style="margin-top:0;">What this means</h3>
+        <h3 class="section-title" style="margin-top:0;">What prompt analysis changes</h3>
         <ul class="list">
-          <li><strong>Brand demand is healthy:</strong> branded prompts are nearly fully captured.</li>
-          <li><strong>Generic discovery is the real unlock:</strong> unbranded prompts drive the largest headroom.</li>
-          <li><strong>Citation capture is fragmented:</strong> K PLUS and credit-card authority is split across duplicate URL variants.</li>
-          <li><strong>Third-party explainers set the narrative</strong> in fund education, card comparisons, and merchant-promo queries.</li>
+          <li><strong>Prompt inventory size matters:</strong> the largest demand pools are not evenly distributed across topics.</li>
+          <li><strong>Not all wins are equal:</strong> high visibility in a small prompt cluster matters less than moderate improvement in a large cluster.</li>
+          <li><strong>KBank already wins branded/product intent:</strong> the next ROI sits in non-branded education and comparison prompts.</li>
+          <li><strong>Owned citation gaps are prompt-specific:</strong> some themes show visibility without enough KBank-owned URL capture.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Prompt inventory and topic coverage</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Topic</th>
+            <th>Prompt inventory</th>
+            <th>Share of voice</th>
+            <th>Strict brand coverage</th>
+            <th>Owned URL coverage</th>
+            <th>Avg visibility</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Comparing rewards, promotions, and card tiers</td><td>35</td><td>8.6%</td><td>86%</td><td>54%</td><td>49.7%</td></tr>
+          <tr><td>Selecting the best funds and comparing returns</td><td>25</td><td>8.7%</td><td>80%</td><td>48%</td><td>36.0%</td></tr>
+          <tr><td>Exploring new investment types and opportunities</td><td>15</td><td>13.8%</td><td>71%</td><td>36%</td><td>28.6%</td></tr>
+          <tr><td>Locating channels and methods to start investing</td><td>10</td><td>6.1%</td><td>100%</td><td>33%</td><td>45.8%</td></tr>
+          <tr><td>Taking advantage of specific deals or starting an application</td><td>8</td><td>11.3%</td><td>88%</td><td>75%</td><td>72.4%</td></tr>
+          <tr><td>Exploring eligibility and lifestyle fit</td><td>7</td><td>10.0%</td><td>43%</td><td>57%</td><td>29.6%</td></tr>
+        </tbody>
+      </table>
+      <div class="footer-note">The largest prompt pool is <strong>Comparing rewards, promotions, and card tiers</strong> with <strong>35 prompts</strong>, followed by <strong>Selecting the best funds and comparing returns</strong> with <strong>25 prompts</strong>. This is strategically important because these two areas make up <strong>60%</strong> of the total prompt inventory.</div>
+    </section>
+
+    <section class="section two-up">
+      <article class="card">
+        <h2 class="section-title">Prompt mix: where demand is concentrated</h2>
+        <div class="mini-stat">
+          <div><strong>35</strong><span>Rewards / promotions prompts</span></div>
+          <div><strong>25</strong><span>Fund-selection prompts</span></div>
+          <div><strong>19</strong><span>Eligibility / approval prompts</span></div>
+          <div><strong>4</strong><span>Comparison / vs prompts</span></div>
+        </div>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">The KBank prompt set is dominated by <strong>rewards/promotions</strong> and <strong>investment/fund</strong> demand. That means these two clusters deserve the heaviest editorial and optimization attention. Smaller clusters like direct comparison prompts are fewer in count, but they are disproportionately weak and strategically important because they shape consideration.</p>
+      </article>
+      <article class="card">
+        <h2 class="section-title">Prompt-intent performance</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Prompt bucket</th>
+              <th>Prompts</th>
+              <th>Brand coverage</th>
+              <th>Owned URL coverage</th>
+              <th>Avg visibility</th>
+              <th>Owned citations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Branded prompts</td><td>9</td><td>100%</td><td>100%</td><td>93.7%</td><td>85</td></tr>
+            <tr><td>Non-branded prompts</td><td>89</td><td>79%</td><td>45%</td><td>38.1%</td><td>114</td></tr>
+            <tr><td>Deals / promotions</td><td>29</td><td>90%</td><td>59%</td><td>53.9%</td><td>88</td></tr>
+            <tr><td>Investment / fund</td><td>48</td><td>81%</td><td>42%</td><td>35.6%</td><td>45</td></tr>
+            <tr><td>Eligibility / approval</td><td>19</td><td>79%</td><td>47%</td><td>46.4%</td><td>41</td></tr>
+            <tr><td>Comparison / vs</td><td>4</td><td>25%</td><td>0%</td><td>8.3%</td><td>0</td></tr>
+            <tr><td>Beginner / how-to</td><td>9</td><td>89%</td><td>22%</td><td>26.8%</td><td>3</td></tr>
+          </tbody>
+        </table>
+      </article>
+    </section>
+
+    <section class="section two-up">
+      <article class="card">
+        <h2 class="section-title">What prompt analysis says clearly</h2>
+        <ul class="list">
+          <li><strong>Branded prompts are fully won:</strong> <strong>100%</strong> brand coverage, <strong>100%</strong> owned URL coverage, and <strong>93.7%</strong> average visibility.</li>
+          <li><strong>Non-branded prompts are still solid but materially weaker:</strong> <strong>38.1%</strong> average visibility, with only <strong>44.9%</strong> owned URL coverage.</li>
+          <li><strong>Deals / promotions are the strongest scalable prompt class</strong>, with <strong>53.9%</strong> average visibility and <strong>88 owned citations</strong>.</li>
+          <li><strong>Comparison / vs prompts are the weakest clear gap</strong>, with only <strong>8.3%</strong> average visibility and <strong>0 owned citations</strong>.</li>
+          <li><strong>Beginner / how-to prompts are under-owned</strong>: they still surface KBank often, but owned pages are cited in only <strong>22.2%</strong> of those prompts.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h2 class="section-title">Prompt examples: strongest vs weakest</h2>
+        <p style="margin-top:0; font-size:14px; color:#4b4b4b;"><strong>Strong branded/product prompts</strong></p>
+        <ul class="list">
+          <li><strong>รีวิวบัตรเครดิต Platinum กสิกร: สะสมพอยท์คุ้มกับการใช้งานแบบไหน?</strong> — visibility <strong>100%</strong>, owned citations <strong>6</strong></li>
+          <li><strong>ตอนนี้บัตรเครดิตกสิกรมีโปรคืนเงินหรือแคชแบ็คอะไรบ้าง?</strong> — visibility <strong>99%</strong>, owned citations <strong>14</strong></li>
+          <li><strong>ตอนนี้บัตรเครดิตกสิกรมีโปรโมชันร้านอาหารอะไรบ้าง?</strong> — visibility <strong>98%</strong>, owned citations <strong>23</strong></li>
+          <li><strong>ปี 2026 บัตรเครดิตกสิกรใบไหนเหมาะกับไลฟ์สไตล์การใช้จ่ายแต่ละแบบ?</strong> — visibility <strong>98%</strong>, owned citations <strong>10</strong></li>
+          <li><strong>ตอนนี้บัตรเครดิต Platinum กสิกรมีโปรโมชันอะไรบ้างที่น่าสนใจ?</strong> — visibility <strong>95%</strong>, owned citations <strong>8</strong></li>
+          <li><strong>ตอนนี้บัตรเครดิตกสิกรมีโปรโมชันช้อปปิ้งออนไลน์อะไรบ้างที่น่าสนใจ?</strong> — visibility <strong>95%</strong>, owned citations <strong>4</strong></li>
+        </ul>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;"><strong>Weak non-branded prompts currently missing KBank authority</strong></p>
+        <ul class="list">
+          <li><strong>กองทุน ETF มีประเภทอะไรบ้าง และแต่ละแบบเหมาะกับเป้าหมายการลงทุนแบบไหน?</strong></li>
+          <li><strong>กองทุนรวมตลาดเงินมีประเภทอะไรบ้าง และเหมาะกับนักลงทุนแบบไหน?</strong></li>
+          <li><strong>ปี 2569 กองทุน Thai ESG ลดหย่อนภาษีมีตัวเลือกอะไรบ้าง และควรเลือกอย่างไร?</strong></li>
+          <li><strong>กองทุน ESG ที่ใช้ลดหย่อนภาษีมีเงื่อนไขอะไร และควรเลือกจากอะไรบ้าง?</strong></li>
+          <li><strong>ถ้าเปรียบเทียบบัตรเครดิตแต้มสะสม ควรดูการคำนวณแต้มและการแลกอะไรบ้าง?</strong></li>
+          <li><strong>ตอนนี้มีโปรโมชันบัตรเครดิตอะไรบ้างสำหรับจองผ่าน Trip.com?</strong></li>
         </ul>
       </article>
     </section>
 
     <section class="section two-up">
       <article class="card">
-        <h2 class="section-title">Brand vs. generic prompt performance</h2>
-        <div class="mini-stat">
-          <div><strong>93.7%</strong><span>Branded visibility</span></div>
-          <div><strong>38.1%</strong><span>Non-branded visibility</span></div>
-          <div><strong>85</strong><span>Owned citations from branded prompts</span></div>
-          <div><strong>42.7%</strong><span>Share of owned citations driven by only 9 branded prompts</span></div>
-        </div>
-        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">KBank performs exceptionally well when the user explicitly asks for KBank products, but generic category prompts still rely heavily on earned and aggregator content. That makes non-branded educational coverage the biggest visibility lever.</p>
+        <h2 class="section-title">Where generic demand is already convertible</h2>
+        <ul class="list">
+          <li><strong>ตอนนี้มีธนาคารไหนบ้างที่เปิดให้สมัครบัตรเครดิตออนไลน์ได้สะดวก?</strong> — visibility <strong>98%</strong>, owned citations <strong>9</strong></li>
+          <li><strong>บัตรเครดิต The Wisdom ทั้ง 2 ประเภทต่างกันอย่างไร และแต่ละใบมีเงื่อนไขอะไรบ้าง?</strong> — visibility <strong>87%</strong>, owned citations <strong>8</strong></li>
+          <li><strong>บัตร The Wisdom ให้สิทธิประโยชน์เลานจ์สนามบินคุ้มจริงไหมสำหรับคนเดินทางบ่อย?</strong> — visibility <strong>83%</strong>, owned citations <strong>8</strong></li>
+          <li><strong>กองทุนดัชนี SET50 ซื้อผ่านธนาคารหรือแอปลงทุนช่องทางไหนได้บ้าง?</strong> — visibility <strong>75%</strong>, owned citations <strong>8</strong></li>
+          <li><strong>ถ้าอยากสมัครบัตรเครดิตออนไลน์และรู้ผลไว ควรเลือกแบบไหนและเตรียมเอกสารอะไร?</strong> — visibility <strong>89%</strong>, owned citations <strong>7</strong></li>
+          <li><strong>บัตรเครดิต The Passion มีโปรโมชันร้านอาหารอะไรบ้าง และเหมาะกับคนกินนอกบ้านไหม?</strong> — visibility <strong>92%</strong>, owned citations <strong>6</strong></li>
+        </ul>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">These prompt wins matter because they show KBank can already perform strongly in non-branded journeys when the page intent is close to a product or action decision. The next step is to extend that pattern into broader comparison and education journeys.</p>
       </article>
-
       <article class="card">
         <h2 class="section-title">Recent weekly momentum</h2>
         <div class="bars">
@@ -423,55 +291,31 @@
           </div>
           <div class="bar-row">
             <div><strong>Owned citations</strong><br />wk19 → wk21</div>
-            <div class="bar"><div class="fill orange" style="width:93.8%"></div></div>
+            <div class="bar"><div class="fill purple" style="width:93.8%"></div></div>
             <div>29 → 30</div>
           </div>
         </div>
-        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">Over the latest 3 tracked weeks, average visibility declined from <strong>44.9%</strong> in wk19 to <strong>41.1%</strong> in wk21, while mentions declined from <strong>60</strong> to <strong>55</strong>.</p>
+        <p style="margin:14px 0 0; font-size:14px; color:#4b4b4b;">Visibility softened from <strong>44.9%</strong> in wk19 to <strong>41.1%</strong> in wk21. Prompt analysis suggests the biggest recovery opportunity is in broad generic comparison and investment education prompts rather than in already-won branded demand.</p>
       </article>
-    </section>
-
-    <section class="section">
-      <h2 class="section-title">Topic performance</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Topic</th>
-            <th>Share of voice</th>
-            <th>Avg. visibility</th>
-            <th>Mentions</th>
-            <th>Owned citations</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Rewards, promotions &amp; card tiers</td><td>8.6%</td><td>49.7%</td><td>69</td><td>99</td></tr>
-<tr><td>Fund selection &amp; return comparison</td><td>8.7%</td><td>36.0%</td><td>40</td><td>21</td></tr>
-<tr><td>How to start investing</td><td>6.1%</td><td>45.8%</td><td>20</td><td>11</td></tr>
-<tr><td>Deals &amp; application intent</td><td>11.3%</td><td>72.4%</td><td>20</td><td>39</td></tr>
-<tr><td>New investment ideas</td><td>13.8%</td><td>28.6%</td><td>18</td><td>13</td></tr>
-<tr><td>Eligibility &amp; lifestyle fit</td><td>10.0%</td><td>29.6%</td><td>7</td><td>16</td></tr>
-        </tbody>
-      </table>
-      <div class="footer-note">Readout: KBank ranks <strong>#1 in all six topics</strong>. The strongest quality zone is <strong>Deals &amp; application intent</strong> at <strong>72.4%</strong> average visibility, while the weakest discoverability sits in <strong>new investment ideas</strong> and <strong>eligibility &amp; lifestyle fit</strong>, both below <strong>30%</strong>.</div>
     </section>
 
     <section class="section two-up">
       <article class="card">
-        <h2 class="section-title">Where KBank is strongest</h2>
+        <h2 class="section-title">What KBank is genuinely winning</h2>
         <ul class="list">
-          <li><strong>Credit card promotions and product-fit prompts</strong> are the clearest win zone, including cashback, restaurant deals, online shopping promotions, and card-tier reviews.</li>
-          <li><strong>Deals &amp; application intent</strong> shows the highest average visibility at <strong>72.4%</strong>, with full prompt coverage and <strong>39 owned citations</strong> across just 8 prompts.</li>
-          <li><strong>Action &amp; conversion prompts</strong> are also fully visible, which means KBank is consistently present when users ask how to start or where to transact.</li>
-          <li><strong>Sentiment is healthy:</strong> visible mentions are <strong>60.8% positive</strong>, <strong>39.2% neutral</strong>, and <strong>0% negative</strong> in the analyzed prompt set.</li>
+          <li><strong>Promotions and card-led decision prompts</strong> are the clearest strength zone.</li>
+          <li><strong>Action and conversion prompts</strong> are consistently strong, showing KBank performs well near the bottom of the funnel.</li>
+          <li><strong>Branded banking demand is effectively owned</strong>, which means the account has already solved the easiest visibility layer.</li>
+          <li><strong>The strongest non-branded wins</strong> happen when KBank can answer a concrete product or eligibility need directly.</li>
         </ul>
       </article>
       <article class="card">
-        <h2 class="section-title">Where KBank is leaking opportunity</h2>
+        <h2 class="section-title">What should change next</h2>
         <ul class="list">
-          <li><strong>Generic comparison prompts</strong> such as no-annual-fee cards, cashback comparisons, and points mechanics have multiple <strong>0% visibility</strong> examples.</li>
-          <li><strong>Fund education gaps</strong> appear in Thai ESG, ETF basics, money-market explainers, REIT ideas, and China/global fund selection.</li>
-          <li><strong>Eligibility and credit basics</strong> underperform on prompts like why an application was rejected, what minimum payment means, and card-vs-cash-card differences.</li>
-          <li><strong>Merchant-specific offer intent</strong> can be lost to competitors when the query anchors on a partner brand such as Trip.com or Starbucks.</li>
+          <li><strong>Do not overinvest in already-won branded prompts.</strong></li>
+          <li><strong>Do invest in the largest underperforming prompt pools:</strong> investment education, comparison, and beginner guidance.</li>
+          <li><strong>Do treat prompt mix as a prioritization lens</strong>, not just visibility as a single blended average.</li>
+          <li><strong>Do use owned citation coverage as the operational KPI</strong> for whether KBank content is becoming the answer source, not just the mentioned brand.</li>
         </ul>
       </article>
     </section>
@@ -488,84 +332,62 @@
         </thead>
         <tbody>
           <tr><td><a href="https://www.kasikornbank.com/th/personal/Digital-banking/Pages/KPLUS.aspx">https://www.kasikornbank.com/th/personal/Digital-banking/Pages/KPLUS.aspx</a></td><td>15</td><td>13</td></tr>
-<tr><td><a href="https://www.kasikornbank.com/en/personal/digital-banking/pages/kplus.aspx">https://www.kasikornbank.com/en/personal/digital-banking/pages/kplus.aspx</a></td><td>14</td><td>14</td></tr>
-<tr><td><a href="https://www.kasikornbank.com/th/personal/digital-banking/Pages/kplus.aspx">https://www.kasikornbank.com/th/personal/digital-banking/Pages/kplus.aspx</a></td><td>11</td><td>11</td></tr>
-<tr><td><a href="https://www.kasikornbank.com/th/personal/creditcard/Pages/CreditCard.aspx">https://www.kasikornbank.com/th/personal/creditcard/Pages/CreditCard.aspx</a></td><td>9</td><td>4</td></tr>
-<tr><td><a href="https://www.kasikornbank.com/th/promotion/creditcard/pages/index.aspx">https://www.kasikornbank.com/th/promotion/creditcard/pages/index.aspx</a></td><td>8</td><td>7</td></tr>
-<tr><td><a href="https://www.kasikornbank.com/th/personal/CreditCard">https://www.kasikornbank.com/th/personal/CreditCard</a></td><td>7</td><td>3</td></tr>
-<tr><td><a href="https://www.kasikornbank.com/th/kplus">https://www.kasikornbank.com/th/kplus</a></td><td>6</td><td>6</td></tr>
-<tr><td><a href="https://www.kasikornbank.com/th/personal/article/creditcard/pages/salary-15000-apply-creditcard.aspx">https://www.kasikornbank.com/th/personal/article/creditcard/pages/salary-15000-apply-creditcard.aspx</a></td><td>6</td><td>4</td></tr>
+          <tr><td><a href="https://www.kasikornbank.com/en/personal/digital-banking/pages/kplus.aspx">https://www.kasikornbank.com/en/personal/digital-banking/pages/kplus.aspx</a></td><td>14</td><td>14</td></tr>
+          <tr><td><a href="https://www.kasikornbank.com/th/personal/digital-banking/Pages/kplus.aspx">https://www.kasikornbank.com/th/personal/digital-banking/Pages/kplus.aspx</a></td><td>11</td><td>11</td></tr>
+          <tr><td><a href="https://www.kasikornbank.com/th/personal/creditcard/Pages/CreditCard.aspx">https://www.kasikornbank.com/th/personal/creditcard/Pages/CreditCard.aspx</a></td><td>9</td><td>4</td></tr>
+          <tr><td><a href="https://www.kasikornbank.com/th/promotion/creditcard/pages/index.aspx">https://www.kasikornbank.com/th/promotion/creditcard/pages/index.aspx</a></td><td>8</td><td>7</td></tr>
+          <tr><td><a href="https://www.kasikornbank.com/th/personal/CreditCard">https://www.kasikornbank.com/th/personal/CreditCard</a></td><td>7</td><td>3</td></tr>
+          <tr><td><a href="https://www.kasikornbank.com/th/kplus">https://www.kasikornbank.com/th/kplus</a></td><td>6</td><td>6</td></tr>
+          <tr><td><a href="https://www.kasikornbank.com/th/personal/article/creditcard/pages/salary-15000-apply-creditcard.aspx">https://www.kasikornbank.com/th/personal/article/creditcard/pages/salary-15000-apply-creditcard.aspx</a></td><td>6</td><td>4</td></tr>
         </tbody>
       </table>
-      <div class="footer-note">Top owned surfaces cluster around <strong>K PLUS</strong>, <strong>credit card landing pages</strong>, and <strong>promotion hubs</strong>. These are the right authority centers, but citations are split across multiple case/path variants.</div>
+      <div class="footer-note">The strongest owned winners cluster around <strong>K PLUS</strong>, <strong>credit card landers</strong>, and <strong>promotion hubs</strong>. These assets are already doing the heavy lifting for product-led demand; the next challenge is building equivalent authority for broader comparison and educational journeys.</div>
     </section>
 
     <section class="section two-up">
       <article class="card">
-        <h2 class="section-title">Canonicalization opportunity</h2>
-        <p style="margin-top:0;">Several high-value pages appear multiple times because of path and casing variants. That likely dilutes citation consolidation and weakens a single canonical authority signal.</p>
-        <ul class="list">
-          <li><strong>https://www.kasikornbank.com/th/personal/digital-banking/pages/kplus.aspx</strong> appears in <strong>4</strong> URL variants and accumulates <strong>32</strong> citations when normalized.</li>
-<li><strong>https://www.kasikornbank.com/th/personal/creditcard/pages/creditcard.aspx</strong> appears in <strong>4</strong> URL variants and accumulates <strong>23</strong> citations when normalized.</li>
-<li><strong>https://www.kasikornbank.com/en/personal/digital-banking/pages/kplus.aspx</strong> appears in <strong>4</strong> URL variants and accumulates <strong>21</strong> citations when normalized.</li>
-        </ul>
+        <h2 class="section-title">Competitive citation landscape</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>External domain</th>
+              <th>Content type</th>
+              <th>Times cited</th>
+              <th>Prompts cited in</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>ktc.co.th</td><td>Earned</td><td>240</td><td>44</td></tr>
+            <tr><td>mutualfund.yuanta.co.th</td><td>Earned</td><td>162</td><td>21</td></tr>
+            <tr><td>youtube.com</td><td>Social</td><td>106</td><td>49</td></tr>
+            <tr><td>reddit.com</td><td>Others</td><td>99</td><td>38</td></tr>
+            <tr><td>th.my-best.com</td><td>Earned</td><td>92</td><td>35</td></tr>
+            <tr><td>kasikornasset.com</td><td>Earned</td><td>87</td><td>22</td></tr>
+            <tr><td>scbam.com</td><td>Others</td><td>82</td><td>17</td></tr>
+            <tr><td>navtable.com</td><td>Earned</td><td>62</td><td>14</td></tr>
+          </tbody>
+        </table>
       </article>
       <article class="card">
-        <h2 class="section-title">Recommended fix</h2>
-        <ul class="list">
-          <li>Standardize one canonical URL for each major K PLUS and credit-card hub.</li>
-          <li>Harmonize uppercase/lowercase path variants and redirect deprecated forms.</li>
-          <li>Concentrate internal links, structured data, and promotion modules on canonical hubs.</li>
-          <li>Use those hubs as the primary citation targets from supporting article and promo pages.</li>
-        </ul>
+        <h2 class="section-title">Trending external URLs to watch</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>URL</th>
+              <th>Content type</th>
+              <th>Times cited</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><a href="https://www.cardguruth.com">https://www.cardguruth.com</a></td><td>Earned</td><td>19</td></tr>
+            <tr><td><a href="https://support.linebk.com/en/personal/Digital-banking/pages/KPLUS.aspx">https://support.linebk.com/en/personal/Digital-banking/pages/KPLUS.aspx</a></td><td>Earned</td><td>14</td></tr>
+            <tr><td><a href="https://www.siamlancard.com/%E0%B8%9A%E0%B8%B1%E0%B8%95%E0%B8%A3%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%94%E0%B8%B4%E0%B8%95-cashback-2026-%E0%B9%80%E0%B8%9B%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%9A%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B8%A2">https://www.siamlancard.com/%E0%B8%9A%E0%B8%B1%E0%B8%95%E0%B8%A3%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%94%E0%B8%B4%E0%B8%95-cashback-2026-%E0%B9%80%E0%B8%9B%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%9A%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B8%A2</a></td><td>Earned</td><td>13</td></tr>
+            <tr><td><a href="https://mutualfund.yuanta.co.th/fund/SCBINDIAA">https://mutualfund.yuanta.co.th/fund/SCBINDIAA</a></td><td>Earned</td><td>13</td></tr>
+            <tr><td><a href="https://play.google.com/store/apps/details">https://play.google.com/store/apps/details</a></td><td>Earned</td><td>11</td></tr>
+            <tr><td><a href="https://mutualfund.yuanta.co.th/fund/SCBCHA-SSF">https://mutualfund.yuanta.co.th/fund/SCBCHA-SSF</a></td><td>Earned</td><td>11</td></tr>
+          </tbody>
+        </table>
       </article>
-    </section>
-
-    <section class="section">
-      <h2 class="section-title">Competitive citation landscape</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>External domain</th>
-            <th>Content type</th>
-            <th>Times cited</th>
-            <th>Prompts cited in</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>ktc.co.th</td><td>Earned</td><td>240</td><td>44</td></tr>
-<tr><td>mutualfund.yuanta.co.th</td><td>Earned</td><td>162</td><td>21</td></tr>
-<tr><td>youtube.com</td><td>Social</td><td>106</td><td>49</td></tr>
-<tr><td>reddit.com</td><td>Others</td><td>99</td><td>38</td></tr>
-<tr><td>th.my-best.com</td><td>Earned</td><td>92</td><td>35</td></tr>
-<tr><td>kasikornasset.com</td><td>Earned</td><td>87</td><td>22</td></tr>
-<tr><td>scbam.com</td><td>Others</td><td>82</td><td>17</td></tr>
-<tr><td>navtable.com</td><td>Earned</td><td>62</td><td>14</td></tr>
-        </tbody>
-      </table>
-      <div class="footer-note">Among cited domains, <strong>earned content dominates</strong> the ecosystem with <strong>67.8%</strong> of domain-level citations. The main competitive pressure comes from <strong>KTC</strong>, <strong>Yuanta/SCB fund pages</strong>, <strong>YouTube</strong>, <strong>Reddit</strong>, and comparison publishers such as <strong>th.my-best</strong> and <strong>CardGuruTH</strong>.</div>
-    </section>
-
-    <section class="section">
-      <h2 class="section-title">Trending external URLs to watch</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>URL</th>
-            <th>Content type</th>
-            <th>Times cited</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td><a href="https://www.cardguruth.com">https://www.cardguruth.com</a></td><td>Earned</td><td>19</td></tr>
-<tr><td><a href="https://support.linebk.com/en/personal/Digital-banking/pages/KPLUS.aspx">https://support.linebk.com/en/personal/Digital-banking/pages/KPLUS.aspx</a></td><td>Earned</td><td>14</td></tr>
-<tr><td><a href="https://www.siamlancard.com/%E0%B8%9A%E0%B8%B1%E0%B8%95%E0%B8%A3%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%94%E0%B8%B4%E0%B8%95-cashback-2026-%E0%B9%80%E0%B8%9B%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%9A%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B8%A2">https://www.siamlancard.com/%E0%B8%9A%E0%B8%B1%E0%B8%95%E0%B8%A3%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%94%E0%B8%B4%E0%B8%95-cashback-2026-%E0%B9%80%E0%B8%9B%E0%B8%A3%E0%B8%B5%E0%B8%A2%E0%B8%9A%E0%B9%80%E0%B8%97%E0%B8%B5%E0%B8%A2</a></td><td>Earned</td><td>13</td></tr>
-<tr><td><a href="https://mutualfund.yuanta.co.th/fund/SCBINDIAA">https://mutualfund.yuanta.co.th/fund/SCBINDIAA</a></td><td>Earned</td><td>13</td></tr>
-<tr><td><a href="https://play.google.com/store/apps/details">https://play.google.com/store/apps/details</a></td><td>Earned</td><td>11</td></tr>
-<tr><td><a href="https://mutualfund.yuanta.co.th/fund/SCBCHA-SSF">https://mutualfund.yuanta.co.th/fund/SCBCHA-SSF</a></td><td>Earned</td><td>11</td></tr>
-        </tbody>
-      </table>
-      <div class="footer-note">These URLs show where LLM answers are repeatedly sourcing explanations, merchant benefits, fund comparisons, and app/product guidance outside KBank-owned properties.</div>
     </section>
 
     <section class="section">
@@ -573,23 +395,23 @@
       <div class="opportunity-grid">
         <article class="opportunity">
           <div class="priority">Priority 1</div>
-          <h4>Own generic card-comparison explainers</h4>
-          <p>Build or strengthen pages for no-annual-fee cards, cashback logic, points mechanics, and merchant-benefit comparisons. Several prompts in this cluster currently sit at <strong>0% visibility</strong> while publishers such as CardGuruTH, th.my-best, SiamLanCard, and KTC capture the citations.</p>
+          <h4>Fix comparison-prompt weakness</h4>
+          <p>Comparison prompts are the clearest structural gap: very low visibility and zero owned citations. KBank should publish more machine-citable comparison content for cashback, no-fee cards, points logic, and side-by-side product selection.</p>
         </article>
         <article class="opportunity">
           <div class="priority">Priority 2</div>
-          <h4>Expand fund education for Thai ESG, ETF, REIT, and global funds</h4>
-          <p>KBank leads share of voice overall, but specific educational prompts still miss. Thai ESG and REIT prompts show <strong>0% visibility</strong> examples while SCBAM, Bangkok Bank, Navtable, Principal, and market-news sources are being cited instead.</p>
+          <h4>Expand investment education for the largest non-card prompt pool</h4>
+          <p>Fund and investment prompts account for a major share of total prompt demand, but visibility is middling and many educational prompts still miss completely. This is the largest non-card growth surface.</p>
         </article>
         <article class="opportunity">
           <div class="priority">Priority 3</div>
-          <h4>Turn action intent into owned conversion paths</h4>
-          <p>Action/conversion prompts already surface KBank consistently, but owned citation capture is still modest. Add clearer eligibility, required-docs, approval-speed, and apply-now modules directly inside K PLUS and credit-card hub pages.</p>
+          <h4>Strengthen beginner and eligibility guidance</h4>
+          <p>Beginner / how-to prompts often surface KBank, but owned citation capture is weak. KBank should add more explainer content for approval, requirements, minimum payment, and "what does this mean?" journeys.</p>
         </article>
         <article class="opportunity">
           <div class="priority">Priority 4</div>
-          <h4>Close the eligibility and "credit basics" content gap</h4>
-          <p>Prompts about failed applications, minimum payment, and card-vs-cash-card basics are weak or absent. These are high-intent moments where KBank can replace generic finance explainers with authoritative owned guidance.</p>
+          <h4>Scale what already works in promotions into evergreen hubs</h4>
+          <p>Promotion prompts are strong today, but many wins depend on timely deal pages. KBank should connect promo assets more tightly to evergreen product and educational hubs so LLM citation authority persists longer.</p>
         </article>
       </div>
     </section>
@@ -598,36 +420,36 @@
       <article class="card">
         <h2 class="section-title">30-day action plan</h2>
         <ol class="list">
-          <li>Canonicalize the top K PLUS and credit-card hubs and redirect case/path duplicates.</li>
-          <li>Publish a generic comparison cluster for cashback, points, no-fee, Starbucks, and travel-booking prompts.</li>
-          <li>Launch fund explainer pages for Thai ESG, ETF types, REIT selection, and global diversification.</li>
-          <li>Add FAQ blocks tuned to Thai-language eligibility and troubleshooting prompts.</li>
-          <li>Reinforce internal linking from promo pages to stable evergreen hubs that should become citation anchors.</li>
+          <li>Create comparison hubs for cashback, no-fee, points, Starbucks, and travel-booking prompts.</li>
+          <li>Expand fund education pages for ETF, Thai ESG, REIT, and risk-based product selection.</li>
+          <li>Add stronger FAQ and explainer modules for eligibility, approval, and minimum payment topics.</li>
+          <li>Use strong promo pages to funnel internal links into evergreen product and category hubs.</li>
+          <li>Track prompt performance not just by average visibility, but by prompt-bucket performance and prompt inventory size.</li>
         </ol>
       </article>
       <article class="card">
         <h2 class="section-title">Measurement to track next</h2>
         <ol class="list">
-          <li>Owned citation share: move above <strong>8.7%</strong>.</li>
-          <li>Non-branded visibility: improve from <strong>38.1%</strong>.</li>
-          <li>Position quality: expand first-position wins beyond <strong>26.6%</strong> of visible prompts.</li>
-          <li>Zero-visibility prompt count: reduce across comparison, education, and eligibility themes.</li>
-          <li>Restore weekly average visibility from 41.1% in wk21 back toward the 44.9% level observed in wk19.</li>
+          <li><strong>Non-branded prompt visibility</strong>: improve from <strong>38.1%</strong>.</li>
+          <li><strong>Owned URL coverage</strong>: improve beyond <strong>50.0%</strong>.</li>
+          <li><strong>Comparison prompt visibility</strong>: improve from <strong>8.3%</strong>.</li>
+          <li><strong>Beginner / how-to owned citation coverage</strong>: improve from <strong>22.2%</strong>.</li>
+          <li><strong>Weekly average visibility</strong>: restore from <strong>41.1%</strong> toward the <strong>44.9%</strong> level seen in wk19.</li>
         </ol>
       </article>
     </section>
 
     <section class="section card">
       <h2 class="section-title">Methodology &amp; source scope</h2>
-      <p style="margin-top:0;">This HTML snapshot is based on the uploaded KBank files only: prompt inventory, prompt-level insights, share-of-voice tables, owned URL citations, cited third-party domains, trending URLs, and the overview PDF. Quantified fields in this report are derived from the CSV datasets. The overview PDF was used as directional context only. The overview screenshot references CDN log-forwarding configuration, so this report focuses on <strong>visibility</strong>, <strong>mentions</strong>, <strong>citations</strong>, and <strong>share of voice</strong>.</p>
+      <p style="margin-top:0;">This updated HTML snapshot is based on the uploaded KBank files only: overview PDF, prompt inventory, prompt-level insight table, share-of-voice table, owned URL citations, cited third-party domains, and trending URLs. The new prompt-analysis sections use the uploaded prompt inventory as a demand-shaping layer and the insight table as the measured performance layer. CSV datasets were treated as the quantitative source of truth.</p>
       <ul class="source-list">
+        <li>Kbank-overview-2026-05-27.pdf</li>
+        <li>prompts_019db459-e6d5-71b5-91d5-63a46aa53f7b_2026-05-27.csv</li>
         <li>kbank_data-insights-table.csv</li>
         <li>kbank_share-of-voice-data.csv</li>
         <li>kbank_owned-urls-citations.csv</li>
         <li>kbank_cited-3rd-party-domains.csv</li>
         <li>kbank_trending-urls-citations.csv</li>
-        <li>prompts_019db459-e6d5-71b5-91d5-63a46aa53f7b_2026-05-27.csv</li>
-        <li>Kbank-overview-2026-05-27.pdf</li>
       </ul>
     </section>
   </main>

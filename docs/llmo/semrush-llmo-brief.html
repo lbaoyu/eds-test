@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Adobe + Semrush | Customer Brief</title>
+  <style>
+    :root {
+      /* Spectrum-inspired Adobe design tokens */
+      --spectrum-global-color-gray-50: #ffffff;
+      --spectrum-global-color-gray-75: #fcfcfc;
+      --spectrum-global-color-gray-100: #f8f8f8;
+      --spectrum-global-color-gray-200: #f1f1f1;
+      --spectrum-global-color-gray-300: #e6e6e6;
+      --spectrum-global-color-gray-400: #d5d5d5;
+      --spectrum-global-color-gray-600: #6e6e6e;
+      --spectrum-global-color-gray-700: #4b4b4b;
+      --spectrum-global-color-gray-800: #2c2c2c;
+      --spectrum-global-color-gray-900: #1d1d1d;
+
+      --spectrum-global-color-blue-400: #378ef0;
+      --spectrum-global-color-blue-500: #2680eb;
+      --spectrum-global-color-blue-600: #1473e6;
+      --spectrum-global-color-blue-700: #0d66d0;
+
+      --spectrum-global-color-celery-500: #44b556;
+      --spectrum-global-color-orange-500: #e68619;
+      --spectrum-global-color-red-500: #d7373f;
+
+      --page-bg: linear-gradient(180deg, #f8fbff 0%, #f4f4f4 100%);
+      --card-bg: rgba(255,255,255,0.9);
+      --card-border: rgba(20,115,230,0.12);
+      --text: var(--spectrum-global-color-gray-900);
+      --muted: var(--spectrum-global-color-gray-700);
+      --soft: var(--spectrum-global-color-gray-600);
+      --accent: var(--spectrum-global-color-blue-600);
+      --accent-dark: var(--spectrum-global-color-blue-700);
+      --success: var(--spectrum-global-color-celery-500);
+      --warning: var(--spectrum-global-color-orange-500);
+
+      --radius-xl: 24px;
+      --radius-lg: 18px;
+      --radius-md: 14px;
+      --shadow-lg: 0 24px 48px rgba(0,0,0,0.08);
+      --shadow-md: 0 10px 24px rgba(0,0,0,0.06);
+      --shadow-sm: 0 4px 12px rgba(0,0,0,0.05);
+      --max-width: 1280px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--page-bg);
+      color: var(--text);
+      font-family: "Adobe Clean", "Segoe UI", Roboto, Arial, sans-serif;
+      line-height: 1.45;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      padding: 40px 24px 64px;
+    }
+
+    .deck {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: grid;
+      gap: 28px;
+    }
+
+    .hero,
+    .section {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .hero {
+      position: relative;
+      padding: 40px;
+      background:
+        radial-gradient(circle at top right, rgba(20,115,230,0.18), transparent 30%),
+        radial-gradient(circle at left bottom, rgba(55,142,240,0.12), transparent 28%),
+        rgba(255,255,255,0.92);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(20,115,230,0.08);
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin: 18px 0 12px;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p.lead {
+      margin: 0;
+      max-width: 980px;
+      font-size: clamp(18px, 2vw, 22px);
+      color: var(--muted);
+    }
+
+    .section {
+      padding: 34px;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      margin: 0;
+      font-size: clamp(28px, 3vw, 38px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      margin: 8px 0 0;
+      max-width: 900px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--spectrum-global-color-gray-100);
+      border: 1px solid var(--spectrum-global-color-gray-300);
+      color: var(--spectrum-global-color-gray-800);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 18px;
+    }
+
+    .card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.98), rgba(248,248,248,0.96));
+      border: 1px solid var(--spectrum-global-color-gray-300);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 22px;
+      height: 100%;
+    }
+
+    .card .kicker {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-dark);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 24px;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+    }
+
+    .card p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+
+    .list li {
+      position: relative;
+      padding-left: 18px;
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    .list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(20,115,230,0.10);
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .mini-panel {
+      border-radius: var(--radius-md);
+      padding: 16px;
+      border: 1px solid var(--spectrum-global-color-gray-300);
+      background: #fff;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .mini-panel h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+      color: var(--soft);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .mini-panel .big {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .timeline-card {
+      position: relative;
+      padding: 24px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(180deg, #ffffff, #fafafa);
+      border: 1px solid var(--spectrum-global-color-gray-300);
+      box-shadow: var(--shadow-md);
+      overflow: hidden;
+    }
+
+    .timeline-card::after {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 6px;
+      border-radius: 6px;
+      background: linear-gradient(180deg, var(--accent), var(--accent-dark));
+    }
+
+    .timeline-stage {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      background: rgba(20,115,230,0.08);
+      color: var(--accent-dark);
+    }
+
+    .timeline-card h3 {
+      margin: 0 0 8px;
+      font-size: 28px;
+      letter-spacing: -0.02em;
+    }
+
+    .timeline-card p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .callout {
+      margin-top: 20px;
+      padding: 18px 20px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, rgba(20,115,230,0.08), rgba(68,181,86,0.08));
+      border: 1px solid rgba(20,115,230,0.18);
+    }
+
+    .callout strong {
+      color: var(--accent-dark);
+    }
+
+    .footer-note {
+      margin-top: 8px;
+      color: var(--soft);
+      font-size: 14px;
+    }
+
+    @media (max-width: 1080px) {
+      .grid-3,
+      .timeline,
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      body { padding: 20px 14px 40px; }
+      .hero, .section { padding: 22px; }
+      .hero h1 { font-size: 34px; }
+      .section-title { font-size: 28px; }
+      .card h3, .timeline-card h3 { font-size: 24px; }
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .deck {
+        max-width: none;
+        gap: 16px;
+      }
+      .hero, .section, .card, .timeline-card, .mini-panel {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+
+    <section class="hero" aria-labelledby="page-title">
+      <span class="eyebrow">Adobe + Semrush | Customer Brief</span>
+      <h1 id="page-title">Why Semrush and Adobe LLM Optimizer belong together — and how they can work together from now to the long run</h1>
+      <p class="lead">
+        The strongest answer to AI-driven brand visibility is not just better insight or just better execution. It is both: deeper discoverability intelligence from <strong>Semrush</strong> and stronger optimization, action, and measurement from <strong>Adobe LLM Optimizer</strong>.
+      </p>
+    </section>
+
+    <section class="section" aria-labelledby="why-title">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="why-title">1. Why Semrush and LLM Optimizer make the best sense together</h2>
+          <p class="section-subtitle">
+            They solve two different but tightly connected parts of the same challenge: understanding where brand visibility opportunities exist, and then improving outcomes in a measurable way.
+          </p>
+        </div>
+        <span class="pill">Intelligence + Action</span>
+      </div>
+
+      <div class="grid-3">
+        <article class="card">
+          <div class="kicker">Reason 01</div>
+          <h3>Market intelligence meets optimization execution</h3>
+          <p>
+            Semrush is strongest when customers need a broad view of discoverability: market signals, competitive context, and what topics or prompts matter most.
+          </p>
+          <ul class="list">
+            <li>Understand where the biggest visibility opportunities are</li>
+            <li>See broader competitive and market patterns</li>
+            <li>Prioritize what matters most before investing effort</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="kicker">Reason 02</div>
+          <h3>Insight alone is not enough</h3>
+          <p>
+            Adobe LLM Optimizer is strongest when customers want to move from visibility insight into actual improvement across content, technical readiness, and measurement.
+          </p>
+          <ul class="list">
+            <li>Identify concrete optimization opportunities</li>
+            <li>Support ongoing optimization workflows</li>
+            <li>Measure impact against downstream traffic and outcomes</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <div class="kicker">Reason 03</div>
+          <h3>Together they create a stronger operating model</h3>
+          <p>
+            The combination helps teams move from "What should we care about?" to "What should we change?" and finally to "What impact did it create?"
+          </p>
+          <ul class="list">
+            <li>Broader intelligence from Semrush</li>
+            <li>More actionable optimization from LLM Optimizer</li>
+            <li>Clearer path from discovery to measurable business value</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="grid-2" style="margin-top:18px;">
+        <div class="card">
+          <div class="kicker">Simple framing</div>
+          <h3>Best together story</h3>
+          <div class="compare">
+            <div class="mini-panel">
+              <h4>Semrush</h4>
+              <p class="big">Discoverability intelligence</p>
+            </div>
+            <div class="mini-panel">
+              <h4>LLM Optimizer</h4>
+              <p class="big">Optimization + measurement</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="kicker">Customer value</div>
+          <h3>Why this matters to brands now</h3>
+          <ul class="list">
+            <li>AI-driven discovery is changing how customers find and evaluate brands</li>
+            <li>Brands need both external market visibility and owned-channel optimization</li>
+            <li>The combination reduces the gap between insight and action</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Bottom line:</strong> Semrush helps customers understand <em>where</em> to compete and <em>what</em> to prioritize. Adobe LLM Optimizer helps customers decide <em>what to improve</em>, <em>take action</em>, and <em>measure the results</em>.
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="options-title">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="options-title">2. What are the "work together" options — from now to the long run?</h2>
+          <p class="section-subtitle">
+            Customers can realize value immediately, while Adobe's direction is toward a more connected and eventually more unified brand visibility experience.
+          </p>
+        </div>
+        <span class="pill">Now → Near term → Long run</span>
+      </div>
+
+      <div class="timeline">
+        <article class="timeline-card">
+          <div class="timeline-stage">Now</div>
+          <h3>Combined workflow</h3>
+          <p>
+            Use Semrush and Adobe LLM Optimizer side by side as complementary strengths.
+          </p>
+          <ul class="list">
+            <li>Use Semrush for prompt, topic, market, and competitor intelligence</li>
+            <li>Use LLM Optimizer for monitoring, optimization, and impact measurement</li>
+            <li>Best for customers who want value quickly without waiting for a fully unified experience</li>
+          </ul>
+        </article>
+
+        <article class="timeline-card">
+          <div class="timeline-stage">Near term</div>
+          <h3>Connected experience</h3>
+          <p>
+            The experience becomes more connected, so customers can move more smoothly from intelligence into action.
+          </p>
+          <ul class="list">
+            <li>Less switching between disconnected workflows</li>
+            <li>Stronger flow from discovery and benchmarking to optimization</li>
+            <li>A more streamlined path from insight to action to measurement</li>
+          </ul>
+        </article>
+
+        <article class="timeline-card">
+          <div class="timeline-stage">Long run</div>
+          <h3>Unified brand visibility vision</h3>
+          <p>
+            Adobe's long-term direction is a more unified approach to brand visibility across AI-driven discovery and the broader Adobe ecosystem.
+          </p>
+          <ul class="list">
+            <li>Bring intelligence and optimization closer together</li>
+            <li>Connect discoverability to content, commerce, and experience outcomes</li>
+            <li>Create a more continuous system for visibility, action, and business impact</li>
+          </ul>
+        </article>
+      </div>
+
+      <div class="grid-3" style="margin-top:18px;">
+        <article class="card">
+          <div class="kicker">Option A</div>
+          <h3>Start with LLM Optimizer</h3>
+          <p>
+            Best for customers who want to begin with AI visibility measurement, optimization opportunities, and impact tracking.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="kicker">Option B</div>
+          <h3>Add Semrush for broader intelligence</h3>
+          <p>
+            Best for customers who want stronger market context, competitor benchmarking, and wider discoverability intelligence.
+          </p>
+        </article>
+
+        <article class="card">
+          <div class="kicker">Option C</div>
+          <h3>Grow toward a connected model</h3>
+          <p>
+            Best for customers who want immediate value now, with a path toward a more integrated brand visibility operating model over time.
+          </p>
+        </article>
+      </div>
+
+      <div class="callout">
+        <strong>Customer-safe message:</strong> Customers can benefit from Semrush and Adobe LLM Optimizer <em>today</em> through a combined workflow, while Adobe continues to evolve toward a more connected and longer-term unified brand visibility experience.
+      </div>
+
+      <p class="footer-note">
+        Recommended positioning: <strong>Semrush for intelligence. Adobe LLM Optimizer for optimization and measurement. Better together from day one, stronger over time.</strong>
+      </p>
+    </section>
+
+  </main>
+</body>
+</html>

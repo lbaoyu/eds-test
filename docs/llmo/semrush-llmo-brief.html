@@ -61,16 +61,24 @@
       display: grid;
       place-items: center;
       padding: 20px;
+      min-height: 0;
       background:
         radial-gradient(circle at top right, rgba(20,115,230,0.12), transparent 24%),
         radial-gradient(circle at bottom left, rgba(250,15,0,0.08), transparent 22%),
         var(--bg);
     }
 
-    .deck {
+    .deck-fit {
       position: relative;
-      width: min(96vw, calc(96vh * 16 / 9));
-      aspect-ratio: 16 / 9;
+    }
+
+    .deck {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--slide-w);
+      height: var(--slide-h);
+      transform-origin: top left;
       background: transparent;
     }
 
@@ -101,7 +109,7 @@
 
     .topbar {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-start;
       align-items: center;
       gap: 16px;
       margin-bottom: 22px;
@@ -111,47 +119,32 @@
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      font-size: 18px;
+      font-size: 19px;
       font-weight: 700;
       color: var(--gray-800);
     }
 
     .brand-mark {
-      width: 16px;
-      height: 16px;
-      border-radius: 4px;
-      background: linear-gradient(135deg, var(--adobe-red), #ff5b4d);
-      box-shadow: 0 0 0 6px rgba(250,15,0,0.08);
+      width: 30px;
+      height: 30px;
+      display: block;
       flex: 0 0 auto;
-    }
-
-    .slide-meta {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 14px;
-      border-radius: 999px;
-      background: rgba(20,115,230,0.08);
-      color: var(--blue-700);
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+      background: url("data:image/png;base64,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") center / contain no-repeat;
     }
 
     .title {
-      margin: 0 0 12px;
-      font-size: 54px;
+      margin: 0 0 14px;
+      font-size: 58px;
       line-height: 1.02;
       letter-spacing: -0.04em;
-      max-width: 1200px;
+      max-width: 1220px;
     }
 
     .subtitle {
       margin: 0;
-      max-width: 1180px;
-      font-size: 23px;
-      line-height: 1.35;
+      max-width: 1200px;
+      font-size: 25px;
+      line-height: 1.36;
       color: var(--gray-700);
     }
 
@@ -203,15 +196,15 @@
 
     .card h3 {
       margin: 0 0 10px;
-      font-size: 26px;
+      font-size: 28px;
       line-height: 1.12;
       letter-spacing: -0.02em;
     }
 
     .card p {
       margin: 0 0 12px;
-      font-size: 17px;
-      line-height: 1.4;
+      font-size: 19px;
+      line-height: 1.45;
       color: var(--gray-700);
     }
 
@@ -220,14 +213,14 @@
       padding: 0;
       margin: 0;
       display: grid;
-      gap: 10px;
+      gap: 11px;
     }
 
     .list li {
       position: relative;
       padding-left: 18px;
-      font-size: 17px;
-      line-height: 1.38;
+      font-size: 18.5px;
+      line-height: 1.42;
       color: var(--gray-900);
     }
 
@@ -249,8 +242,8 @@
       border-radius: var(--radius-xl);
       background: linear-gradient(135deg, rgba(20,115,230,0.08), rgba(45,157,120,0.08));
       border: 1px solid rgba(20,115,230,0.16);
-      font-size: 28px;
-      line-height: 1.3;
+      font-size: 30px;
+      line-height: 1.32;
       font-weight: 700;
       color: var(--gray-800);
     }
@@ -273,7 +266,7 @@
 
     .compare-card h3 {
       margin: 0 0 10px;
-      font-size: 34px;
+      font-size: 36px;
       letter-spacing: -0.03em;
     }
 
@@ -354,13 +347,14 @@
 
     .stage h3 {
       margin: 0 0 8px;
-      font-size: 30px;
+      font-size: 31px;
       letter-spacing: -0.03em;
     }
 
     .stage p {
       margin: 0 0 12px;
-      font-size: 17px;
+      font-size: 19px;
+      line-height: 1.44;
       color: var(--gray-700);
     }
 
@@ -370,8 +364,8 @@
       background: linear-gradient(135deg, rgba(250,15,0,0.08), rgba(20,115,230,0.08));
       border: 1px solid rgba(20,115,230,0.14);
       padding: 18px 22px;
-      font-size: 22px;
-      line-height: 1.35;
+      font-size: 23px;
+      line-height: 1.38;
       font-weight: 700;
       color: var(--gray-800);
     }
@@ -389,8 +383,8 @@
       border-radius: var(--radius-lg);
       background: var(--gray-100);
       border: 1px solid var(--gray-300);
-      font-size: 22px;
-      line-height: 1.34;
+      font-size: 23px;
+      line-height: 1.36;
       color: var(--gray-800);
       font-weight: 700;
     }
@@ -421,9 +415,9 @@
     }
 
     .row .value {
-      font-size: 18px;
+      font-size: 20px;
       color: var(--gray-900);
-      line-height: 1.38;
+      line-height: 1.42;
     }
 
     .closing-grid {
@@ -443,6 +437,7 @@
       border-top: 1px solid rgba(0,0,0,0.06);
       font-size: 14px;
       color: var(--gray-700);
+      flex: 0 0 auto;
     }
 
     .controls {
@@ -464,9 +459,13 @@
       transition: 120ms ease;
     }
 
-    button:hover {
+    button:hover:not(:disabled) {
       border-color: var(--blue-600);
       color: var(--blue-700);
+    }
+
+    button:disabled {
+      cursor: default;
     }
 
     .kbd {
@@ -485,288 +484,285 @@
       font-weight: 700;
       color: var(--gray-800);
     }
-
-    @media (max-width: 1200px) {
-      .title { font-size: 42px; }
-      .subtitle { font-size: 20px; }
-      .grid-3, .grid-4, .timeline, .split, .closing-grid, .grid-2, .compare {
-        grid-template-columns: 1fr;
-      }
-      .plus { min-height: 30px; }
-      .timeline::before { display: none; }
-      .row { grid-template-columns: 1fr; }
-    }
   </style>
 </head>
 <body>
   <div class="deck-shell">
-    <main class="deck" id="deck" aria-live="polite">
+    <div class="deck-fit" id="deckFit">
+      <main class="deck" id="deck" aria-live="polite">
 
-      <!-- Slide 1 -->
-      <section class="slide active" data-title="Title">
-        <div class="topbar">
-          <div class="brand"><span class="brand-mark"></span>Adobe + Semrush</div>
-          <div class="slide-meta">Brand Visibility in the AI Era</div>
-        </div>
-
-        <h1 class="title">Why Semrush and Adobe LLM Optimizer make the strongest combined answer for AI-driven brand visibility</h1>
-        <p class="subtitle">
-          The challenge is no longer just ranking in traditional search. Brands now need to understand how they appear in AI-driven discovery, where the biggest opportunities exist, what to improve, and how to measure business impact.
-        </p>
-        <div class="accent-line"></div>
-
-        <div class="cards grid-3">
-          <article class="card soft">
-            <div class="eyebrow">Customer reality</div>
-            <h3>Discovery is changing</h3>
-            <p>Customers increasingly begin with AI-generated answers, recommendations, and summaries before they ever reach a brand site.</p>
-          </article>
-
-          <article class="card soft">
-            <div class="eyebrow">Business need</div>
-            <h3>Insight alone is not enough</h3>
-            <p>Brands need both intelligence on where to compete and the ability to act on that intelligence in a repeatable way.</p>
-          </article>
-
-          <article class="card soft">
-            <div class="eyebrow">Adobe point of view</div>
-            <h3>Best together</h3>
-            <p>Semrush strengthens discoverability intelligence. Adobe LLM Optimizer strengthens optimization, action, and measurement.</p>
-          </article>
-        </div>
-
-        <div class="big-quote">
-          Together, they create a stronger path from <strong>market insight</strong> to <strong>optimization action</strong> to <strong>measurable business value</strong>.
-        </div>
-      </section>
-
-      <!-- Slide 2 -->
-      <section class="slide" data-title="Why together">
-        <div class="topbar">
-          <div class="brand"><span class="brand-mark"></span>Adobe + Semrush</div>
-          <div class="slide-meta">1. Why the combination makes sense</div>
-        </div>
-
-        <h1 class="title">Each product solves a different part of the same problem</h1>
-        <p class="subtitle">
-          The combination works because it connects broad discoverability intelligence with practical optimization and measurement.
-        </p>
-
-        <div class="compare">
-          <article class="compare-card">
-            <div class="tag">Semrush</div>
-            <h3>Discoverability intelligence</h3>
-            <ul class="list">
-              <li>Helps identify where visibility opportunities are emerging</li>
-              <li>Adds market and competitor context</li>
-              <li>Supports prioritization across prompts, topics, and discoverability trends</li>
-            </ul>
-          </article>
-
-          <div class="plus">+</div>
-
-          <article class="compare-card">
-            <div class="tag">Adobe LLM Optimizer</div>
-            <h3>Optimization + measurement</h3>
-            <ul class="list">
-              <li>Helps brands understand how they appear in AI-driven discovery</li>
-              <li>Identifies content and technical improvement opportunities</li>
-              <li>Connects visibility improvements to traffic and downstream impact</li>
-            </ul>
-          </article>
-        </div>
-
-        <div class="banner">
-          Semrush helps answer <em>where to compete and what to prioritize</em>. Adobe LLM Optimizer helps answer <em>what to improve, how to act, and what impact it creates</em>.
-        </div>
-      </section>
-
-      <!-- Slide 3 -->
-      <section class="slide" data-title="Why best sense">
-        <div class="topbar">
-          <div class="brand"><span class="brand-mark"></span>Adobe + Semrush</div>
-          <div class="slide-meta">1. Why the combination makes the best sense</div>
-        </div>
-
-        <h1 class="title">Why this is stronger than using either capability alone</h1>
-        <p class="subtitle">
-          The value comes from closing the gap between external intelligence and practical execution.
-        </p>
-
-        <div class="cards grid-3">
-          <article class="card">
-            <div class="eyebrow">Reason 01</div>
-            <h3>Broader visibility context</h3>
-            <ul class="list">
-              <li>Understand not only your own visibility, but also the wider market and competitive landscape</li>
-              <li>Prioritize high-value opportunities with more confidence</li>
-            </ul>
-          </article>
-
-          <article class="card">
-            <div class="eyebrow">Reason 02</div>
-            <h3>Faster path to action</h3>
-            <ul class="list">
-              <li>Move from identifying visibility gaps to improving content and technical readiness</li>
-              <li>Create a more operational approach rather than a reporting-only approach</li>
-            </ul>
-          </article>
-
-          <article class="card">
-            <div class="eyebrow">Reason 03</div>
-            <h3>Clearer business value</h3>
-            <ul class="list">
-              <li>Track whether improvements in AI visibility lead to stronger traffic and outcomes</li>
-              <li>Align SEO, GEO, content, and optimization teams around a shared view of value</li>
-            </ul>
-          </article>
-        </div>
-
-        <div class="statement">
-          In simple terms: <strong>Semrush expands the intelligence layer</strong>, while <strong>Adobe LLM Optimizer strengthens the action and measurement layer</strong>.
-        </div>
-      </section>
-
-      <!-- Slide 4 -->
-      <section class="slide" data-title="Options now to long run">
-        <div class="topbar">
-          <div class="brand"><span class="brand-mark"></span>Adobe + Semrush</div>
-          <div class="slide-meta">2. Work together options</div>
-        </div>
-
-        <h1 class="title">What are the "work together" options — from now to the long run?</h1>
-        <p class="subtitle">
-          Customers can realize value immediately, while Adobe continues to evolve toward a more connected long-term brand visibility model.
-        </p>
-
-        <div class="timeline">
-          <article class="stage">
-            <div class="stage-badge"><span class="dot"></span>Now</div>
-            <h3>Combined workflow</h3>
-            <p>Use both products as complementary strengths.</p>
-            <ul class="list">
-              <li>Semrush for broader discoverability intelligence</li>
-              <li>LLM Optimizer for optimization and impact measurement</li>
-              <li>Strongest option for customers who want value now</li>
-            </ul>
-          </article>
-
-          <article class="stage">
-            <div class="stage-badge"><span class="dot"></span>Near term</div>
-            <h3>Connected experience</h3>
-            <p>Create a smoother path from intelligence to action.</p>
-            <ul class="list">
-              <li>Less friction across workflows</li>
-              <li>Stronger connection between discovery, prioritization, and optimization</li>
-              <li>More efficient movement from insight to measurable improvement</li>
-            </ul>
-          </article>
-
-          <article class="stage">
-            <div class="stage-badge"><span class="dot"></span>Long run</div>
-            <h3>Unified vision</h3>
-            <p>Bring brand visibility into a more continuous Adobe system.</p>
-            <ul class="list">
-              <li>Connect discoverability intelligence with optimization execution</li>
-              <li>Link visibility to content, commerce, and experience outcomes</li>
-              <li>Support a more complete operating model for the AI era</li>
-            </ul>
-          </article>
-        </div>
-
-        <div class="banner">
-          The message for customers: <strong>you can start now with practical value, and grow over time into a more connected model</strong>.
-        </div>
-      </section>
-
-      <!-- Slide 5 -->
-      <section class="slide" data-title="Customer-facing options">
-        <div class="topbar">
-          <div class="brand"><span class="brand-mark"></span>Adobe + Semrush</div>
-          <div class="slide-meta">2. Customer-facing options</div>
-        </div>
-
-        <h1 class="title">Three practical ways to position "work together" today</h1>
-        <p class="subtitle">
-          The right entry point depends on how quickly a customer wants to act and how broad a view they need.
-        </p>
-
-        <div class="split">
-          <div>
-            <div class="table-like">
-              <div class="row">
-                <div class="label">Option A</div>
-                <div class="value"><strong>Start with Adobe LLM Optimizer</strong> for customers who want to begin with AI visibility measurement, optimization opportunities, and impact tracking.</div>
-              </div>
-              <div class="row">
-                <div class="label">Option B</div>
-                <div class="value"><strong>Add Semrush for broader intelligence</strong> when customers want stronger market context, competitive benchmarking, and wider discoverability insight.</div>
-              </div>
-              <div class="row">
-                <div class="label">Option C</div>
-                <div class="value"><strong>Adopt the combined model</strong> when customers want both broader intelligence and a clearer path from insight to action.</div>
-              </div>
-            </div>
+        <!-- Slide 1 -->
+        <section class="slide active" data-title="Title">
+          <div class="topbar">
+            <div class="brand"><span class="brand-mark" role="img" aria-label="Adobe"></span>Adobe + Semrush</div>
           </div>
 
-          <div>
-            <article class="card">
-              <div class="eyebrow">Best customer-facing framing</div>
-              <h3>Simple and clear</h3>
+          <h1 class="title">Why Semrush and Adobe LLM Optimizer make the strongest combined answer for AI-driven brand visibility</h1>
+          <p class="subtitle">
+            The challenge is no longer just ranking in traditional search. Brands now need to understand how they appear in AI-driven discovery, where the biggest opportunities exist, what to improve, and how to measure business impact.
+          </p>
+          <div class="accent-line"></div>
+
+          <div class="cards grid-3">
+            <article class="card soft">
+              <div class="eyebrow">Customer reality</div>
+              <h3>Discovery is changing</h3>
+              <p>Customers increasingly begin with AI-generated answers, recommendations, and summaries before they ever reach a brand site.</p>
+            </article>
+
+            <article class="card soft">
+              <div class="eyebrow">Business need</div>
+              <h3>Insight alone is not enough</h3>
+              <p>Brands need both intelligence on where to compete and the ability to act on that intelligence in a repeatable way.</p>
+            </article>
+
+            <article class="card soft">
+              <div class="eyebrow">Adobe point of view</div>
+              <h3>Best together</h3>
+              <p>Semrush strengthens discoverability intelligence. Adobe LLM Optimizer strengthens optimization, action, and measurement.</p>
+            </article>
+          </div>
+
+          <div class="big-quote">
+            Together, they create a stronger path from <strong>market insight</strong> to <strong>optimization action</strong> to <strong>measurable business value</strong>.
+          </div>
+        </section>
+
+        <!-- Slide 2 -->
+        <section class="slide" data-title="Why together">
+          <div class="topbar">
+            <div class="brand"><span class="brand-mark" role="img" aria-label="Adobe"></span>Adobe + Semrush</div>
+          </div>
+
+          <h1 class="title">Each product solves a different part of the same problem</h1>
+          <p class="subtitle">
+            The combination works because it connects broad discoverability intelligence with practical optimization and measurement.
+          </p>
+
+          <div class="compare">
+            <article class="compare-card">
+              <div class="tag">Semrush</div>
+              <h3>Discoverability intelligence</h3>
               <ul class="list">
-                <li>Semrush strengthens discoverability intelligence</li>
-                <li>Adobe LLM Optimizer strengthens optimization and measurement</li>
-                <li>Together they help brands move from visibility insight to business impact</li>
+                <li>Helps identify where visibility opportunities are emerging</li>
+                <li>Adds market and competitor context</li>
+                <li>Supports prioritization across prompts, topics, and discoverability trends</li>
+              </ul>
+            </article>
+
+            <div class="plus">+</div>
+
+            <article class="compare-card">
+              <div class="tag">Adobe LLM Optimizer</div>
+              <h3>Optimization + measurement</h3>
+              <ul class="list">
+                <li>Helps brands understand how they appear in AI-driven discovery</li>
+                <li>Identifies content and technical improvement opportunities</li>
+                <li>Connects visibility improvements to traffic and downstream impact</li>
               </ul>
             </article>
           </div>
-        </div>
 
-        <div class="statement">
-          Recommended positioning: <strong>Semrush for intelligence. Adobe LLM Optimizer for optimization and measurement. Better together from day one, stronger over time.</strong>
-        </div>
-      </section>
+          <div class="banner">
+            Semrush helps answer <em>where to compete and what to prioritize</em>. Adobe LLM Optimizer helps answer <em>what to improve, how to act, and what impact it creates</em>.
+          </div>
+        </section>
 
-      <!-- Slide 6 -->
-      <section class="slide" data-title="Closing">
-        <div class="topbar">
-          <div class="brand"><span class="brand-mark"></span>Adobe + Semrush</div>
-          <div class="slide-meta">Executive summary</div>
-        </div>
+        <!-- Slide 3 -->
+        <section class="slide" data-title="Why best sense">
+          <div class="topbar">
+            <div class="brand"><span class="brand-mark" role="img" aria-label="Adobe"></span>Adobe + Semrush</div>
+          </div>
 
-        <h1 class="title">The executive takeaway</h1>
-        <p class="subtitle">
-          Adobe's approach is to help brands compete more effectively in AI-driven discovery by combining stronger intelligence with stronger optimization.
-        </p>
+          <h1 class="title">Why this is stronger than using either capability alone</h1>
+          <p class="subtitle">
+            The value comes from closing the gap between external intelligence and practical execution.
+          </p>
 
-        <div class="closing-grid">
-          <article class="card">
-            <div class="eyebrow">Why they belong together</div>
-            <h3>Best sense</h3>
-            <ul class="list">
-              <li>Semrush expands the discoverability intelligence layer</li>
-              <li>Adobe LLM Optimizer strengthens optimization and measurement</li>
-              <li>The combination closes the gap between insight and action</li>
-            </ul>
-          </article>
+          <div class="cards grid-3">
+            <article class="card">
+              <div class="eyebrow">Reason 01</div>
+              <h3>Broader visibility context</h3>
+              <ul class="list">
+                <li>Understand not only your own visibility, but also the wider market and competitive landscape</li>
+                <li>Prioritize high-value opportunities with more confidence</li>
+              </ul>
+            </article>
 
-          <article class="card">
-            <div class="eyebrow">How to work together</div>
-            <h3>Best path</h3>
-            <ul class="list">
-              <li>Start now with a combined workflow</li>
-              <li>Grow toward a more connected experience</li>
-              <li>Align over time to a broader long-term brand visibility vision</li>
-            </ul>
-          </article>
-        </div>
+            <article class="card">
+              <div class="eyebrow">Reason 02</div>
+              <h3>Faster path to action</h3>
+              <ul class="list">
+                <li>Move from identifying visibility gaps to improving content and technical readiness</li>
+                <li>Create a more operational approach rather than a reporting-only approach</li>
+              </ul>
+            </article>
 
-        <div class="big-quote">
-          Start with <strong>practical value now</strong>. Build toward a <strong>more connected model over time</strong>. Position Adobe as the partner that links <strong>discoverability intelligence</strong> with <strong>optimization action</strong>.
-        </div>
-      </section>
+            <article class="card">
+              <div class="eyebrow">Reason 03</div>
+              <h3>Clearer business value</h3>
+              <ul class="list">
+                <li>Track whether improvements in AI visibility lead to stronger traffic and outcomes</li>
+                <li>Align SEO, GEO, content, and optimization teams around a shared view of value</li>
+              </ul>
+            </article>
+          </div>
 
-    </main>
+          <div class="statement">
+            In simple terms: <strong>Semrush expands the intelligence layer</strong>, while <strong>Adobe LLM Optimizer strengthens the action and measurement layer</strong>.
+          </div>
+        </section>
+
+        <!-- Slide 4 -->
+        <section class="slide" data-title="Options now to long run">
+          <div class="topbar">
+            <div class="brand"><span class="brand-mark" role="img" aria-label="Adobe"></span>Adobe + Semrush</div>
+          </div>
+
+          <h1 class="title">What are the "work together" options — from now to the long run?</h1>
+          <p class="subtitle">
+            Customers can realize value immediately, while Adobe continues to evolve toward a more connected long-term brand visibility model.
+          </p>
+
+          <div class="timeline">
+            <article class="stage">
+              <div class="stage-badge"><span class="dot"></span>Now</div>
+              <h3>Combined workflow</h3>
+              <p>
+                This means customers use Semrush and Adobe LLM Optimizer together today, with each product playing a distinct role in the workflow.
+              </p>
+              <ul class="list">
+                <li>Semrush provides broader discoverability intelligence, market context, and competitive insight</li>
+                <li>LLM Optimizer focuses on optimization priorities, action, and measurement</li>
+                <li>Best when customers want immediate value without waiting for a more integrated experience</li>
+              </ul>
+            </article>
+
+            <article class="stage">
+              <div class="stage-badge"><span class="dot"></span>Near term</div>
+              <h3>Connected experience</h3>
+              <p>
+                This means the workflow becomes more coordinated, so customers can move more smoothly from insight to execution.
+              </p>
+              <ul class="list">
+                <li>Less friction across discovery, prioritization, and optimization steps</li>
+                <li>Stronger continuity between Semrush insight and LLM Optimizer action</li>
+                <li>Best when customers want a more streamlined operating model across teams</li>
+              </ul>
+            </article>
+
+            <article class="stage">
+              <div class="stage-badge"><span class="dot"></span>Long run</div>
+              <h3>Unified vision</h3>
+              <p>
+                This means brand visibility is managed as part of a broader Adobe system that links intelligence, optimization, and business outcomes more continuously.
+              </p>
+              <ul class="list">
+                <li>Connect discoverability intelligence with optimization execution</li>
+                <li>Link visibility more closely to content, commerce, and experience outcomes</li>
+                <li>Best when customers want a strategic long-term platform approach</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="banner">
+            Each option represents a different level of coordination: <strong>use together today</strong>, <strong>connect more tightly over time</strong>, and <strong>align to a broader long-term platform vision</strong>.
+          </div>
+        </section>
+
+        <!-- Slide 5 -->
+        <section class="slide" data-title="Customer-facing options">
+          <div class="topbar">
+            <div class="brand"><span class="brand-mark" role="img" aria-label="Adobe"></span>Adobe + Semrush</div>
+          </div>
+
+          <h1 class="title">Three practical ways to position "work together" today</h1>
+          <p class="subtitle">
+            The right entry point depends on how quickly a customer wants to act and how broad a view they need.
+          </p>
+
+          <div class="split">
+            <div>
+              <div class="table-like">
+                <div class="row">
+                  <div class="label">Option A</div>
+                  <div class="value">
+                    <strong>Start with Adobe LLM Optimizer.</strong> This means beginning with AI visibility measurement, identifying optimization opportunities, and tracking impact. It is the best fit for customers who want to improve execution first.
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="label">Option B</div>
+                  <div class="value">
+                    <strong>Add Semrush for broader intelligence.</strong> This means extending the approach with stronger market context, competitive benchmarking, and wider discoverability insight. It is the best fit for customers who want deeper guidance on where to focus.
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="label">Option C</div>
+                  <div class="value">
+                    <strong>Adopt the combined model.</strong> This means using Semrush and Adobe LLM Optimizer together as a coordinated workflow, where Semrush informs priorities and LLM Optimizer drives action and measurement.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <article class="card">
+                <div class="eyebrow">Best customer-facing framing</div>
+                <h3>Simple and clear</h3>
+                <ul class="list">
+                  <li>Semrush strengthens discoverability intelligence</li>
+                  <li>Adobe LLM Optimizer strengthens optimization and measurement</li>
+                  <li>Together they help brands move from visibility insight to business impact</li>
+                </ul>
+              </article>
+            </div>
+          </div>
+
+          <div class="statement">
+            Recommended positioning: <strong>Semrush for intelligence. Adobe LLM Optimizer for optimization and measurement. Better together from day one, stronger over time.</strong>
+          </div>
+        </section>
+
+        <!-- Slide 6 -->
+        <section class="slide" data-title="Closing">
+          <div class="topbar">
+            <div class="brand"><span class="brand-mark" role="img" aria-label="Adobe"></span>Adobe + Semrush</div>
+          </div>
+
+          <h1 class="title">The executive takeaway</h1>
+          <p class="subtitle">
+            Adobe's approach is to help brands compete more effectively in AI-driven discovery by combining stronger intelligence with stronger optimization.
+          </p>
+
+          <div class="closing-grid">
+            <article class="card">
+              <div class="eyebrow">Why they belong together</div>
+              <h3>Best sense</h3>
+              <ul class="list">
+                <li>Semrush expands the discoverability intelligence layer</li>
+                <li>Adobe LLM Optimizer strengthens optimization and measurement</li>
+                <li>The combination closes the gap between insight and action</li>
+              </ul>
+            </article>
+
+            <article class="card">
+              <div class="eyebrow">How to work together</div>
+              <h3>Best path</h3>
+              <ul class="list">
+                <li>Start now with a combined workflow</li>
+                <li>Connect the experience more tightly over time</li>
+                <li>Align to a broader long-term brand visibility vision</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="big-quote">
+            Start with <strong>practical value now</strong>. Build toward a <strong>more connected model over time</strong>. Position Adobe as the partner that links <strong>discoverability intelligence</strong> with <strong>optimization action</strong>.
+          </div>
+        </section>
+
+      </main>
+    </div>
   </div>
 
   <footer class="footer">
@@ -784,6 +780,11 @@
       const counter = document.getElementById('slideCounter');
       const prevBtn = document.getElementById('prevBtn');
       const nextBtn = document.getElementById('nextBtn');
+      const deck = document.getElementById('deck');
+      const deckFit = document.getElementById('deckFit');
+      const shell = document.querySelector('.deck-shell');
+      const BASE_W = 1600;
+      const BASE_H = 900;
       let index = 0;
 
       function render() {
@@ -797,6 +798,18 @@
         nextBtn.disabled = index === slides.length - 1;
         prevBtn.style.opacity = index === 0 ? '0.45' : '1';
         nextBtn.style.opacity = index === slides.length - 1 ? '0.45' : '1';
+      }
+
+      function fitDeck() {
+        const cs = getComputedStyle(shell);
+        const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+        const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+        const availW = shell.clientWidth - padX;
+        const availH = shell.clientHeight - padY;
+        const scale = Math.max(0.1, Math.min(availW / BASE_W, availH / BASE_H));
+        deck.style.transform = `scale(${scale})`;
+        deckFit.style.width = (BASE_W * scale) + 'px';
+        deckFit.style.height = (BASE_H * scale) + 'px';
       }
 
       function next() {
@@ -817,6 +830,9 @@
       prevBtn.addEventListener('click', prev);
 
       window.addEventListener('keydown', (e) => {
+        const tag = (e.target && e.target.tagName) || '';
+        if ((e.key === ' ' || e.key === 'Enter') && tag === 'BUTTON') return;
+
         const key = e.key;
         if (key === 'ArrowRight' || key === 'PageDown' || key === ' ') {
           e.preventDefault();
@@ -825,14 +841,23 @@
           e.preventDefault();
           prev();
         } else if (key === 'Home') {
+          e.preventDefault();
           index = 0;
           render();
         } else if (key === 'End') {
+          e.preventDefault();
           index = slides.length - 1;
           render();
         }
       });
 
+      window.addEventListener('resize', fitDeck);
+      if (window.ResizeObserver) {
+        new ResizeObserver(fitDeck).observe(shell);
+      }
+      window.addEventListener('load', fitDeck);
+
+      fitDeck();
       render();
     })();
   </script>

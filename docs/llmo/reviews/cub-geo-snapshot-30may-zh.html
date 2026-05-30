@@ -697,6 +697,19 @@
   .funnel-row.final .stage,
   .funnel-row.final .volume { color: var(--blue-700); font-weight: 700; }
   .funnel-row.final .conv { color: var(--blue-700); font-weight: 700; }
+  /* funnel source tags + pending placeholder */
+  .funnel-row .stage .src { display:inline-block; font-family: var(--font-mono); font-size:10px; line-height:1.4; font-weight:700; letter-spacing:0.04em; padding:2px 6px; border-radius:4px; margin-right:8px; vertical-align:1px; }
+  .funnel-row .stage .src.real    { background: var(--positive-100); color: var(--positive-600); }
+  .funnel-row .stage .src.trial   { background: var(--blue-100);     color: var(--blue-700);   }
+  .funnel-row .stage .src.pending { background: var(--gray-200);      color: var(--gray-600);   }
+  .funnel-row.pending { background: transparent; border:1px dashed var(--gray-300); }
+  .funnel-row.pending .stage, .funnel-row.pending .volume, .funnel-row.pending .conv { color: var(--gray-500); }
+  .funnel-legend { display:flex; gap: var(--s-300); flex-wrap:wrap; margin-top: var(--s-200); font-size: var(--t-sm); color: var(--gray-700); }
+  .funnel-legend > span { display:inline-flex; align-items:center; gap:6px; }
+  .funnel-legend .lg { font-family: var(--font-mono); font-size:10px; font-weight:700; letter-spacing:0.04em; padding:2px 6px; border-radius:4px; }
+  .funnel-legend .lg.real { background: var(--positive-100); color: var(--positive-600); }
+  .funnel-legend .lg.trial { background: var(--blue-100); color: var(--blue-700); }
+  .funnel-legend .lg.pending { background: var(--gray-200); color: var(--gray-600); }
 
   /* ============================================================
      Referral URL chips
@@ -1063,7 +1076,7 @@
           <tr>
             <td><strong>AI 助理</strong></td>
             <td>ChatGPT (Free)</td>
-            <td class="muted">下方所有結果都是 ChatGPT 的視角。本試用一次只量測一個助理。</td>
+            <td class="muted">下方所有結果都是 ChatGPT 的視角。本試用涵蓋多個主流 LLM 助理,而每份快照一次只分析其中一個 ── 本報告為 ChatGPT。</td>
           </tr>
           <tr>
             <td><strong>追蹤網域</strong></td>
@@ -1357,24 +1370,35 @@
       <span class="section-title">推薦與轉換漏斗</span>
       <span class="trust ok">✓ 可靠</span>
     </div>
-    <p class="section-subtitle">唯一能衡量實際商業價值的視角 ── 也是每一步流量大幅遞減的地方。</p>
+    <p class="section-subtitle">從 Agentic Hits 到 LLM Referrals 的路徑,各列以來源標示。更深層的轉換位於再下游一步 ── 於下方另行說明。</p>
 
     <div class="funnel">
-      <div class="funnel-row"><div class="stage">AI 爬蟲造訪網站</div><div class="volume">119,062</div><div class="conv">—</div></div>
-      <div class="funnel-row"><div class="stage">成功（200 正常）回應</div><div class="volume">95,961</div><div class="conv">80.6%</div></div>
-      <div class="funnel-row"><div class="stage">對自有網址的引用嘗試</div><div class="volume">36,782</div><div class="conv">38.3%</div></div>
-      <div class="funnel-row"><div class="stage">實際成立的自有引用</div><div class="volume">146</div><div class="conv">0.40%</div></div>
-      <div class="funnel-row"><div class="stage">AI 答案中的品牌提及</div><div class="volume">64</div><div class="conv">—</div></div>
-      <div class="funnel-row"><div class="stage">來自 AI 助理的推薦造訪</div><div class="volume">3,100</div><div class="conv">—</div></div>
-      <div class="funnel-row final"><div class="stage">端到端:爬蟲造訪 → 推薦造訪</div><div class="volume">2.60%</div><div class="conv">↘</div></div>
+      <div class="funnel-row"><div class="stage"><span class="src real">REAL</span>Agentic Hits</div><div class="volume">119,062</div><div class="conv">—</div></div>
+      <div class="funnel-row"><div class="stage"><span class="src real">REAL</span>200 – OK 回應</div><div class="volume">95,961</div><div class="conv">80.6%</div></div>
+      <div class="funnel-row"><div class="stage"><span class="src real">REAL</span>Citation Attempts（owned URLs）</div><div class="volume">36,782</div><div class="conv">38.3%</div></div>
+      <div class="funnel-row"><div class="stage"><span class="src trial">TRIAL</span>Times Cited（owned URLs）</div><div class="volume">146</div><div class="conv">0.40%</div></div>
+      <div class="funnel-row"><div class="stage"><span class="src trial">TRIAL</span>Brand Mentions</div><div class="volume">64</div><div class="conv">—</div></div>
+      <div class="funnel-row"><div class="stage"><span class="src real">REAL</span>LLM Referrals</div><div class="volume">3,100</div><div class="conv">—</div></div>
+      <div class="funnel-row final"><div class="stage">端到端:Agentic Hits → LLM Referrals</div><div class="volume">2.60%</div><div class="conv">↘</div></div>
+    </div>
+    <div class="funnel-legend">
+      <span><span class="lg real">REAL</span> 全站實際流量 · CDN / 伺服器記錄與 RUM（Operation Telemetry）</span>
+      <span><span class="lg trial">TRIAL</span> 來自 200 則試用 Prompt 的量測</span>
+    </div>
+
+    <div class="note alert">
+      <strong>請在同一來源內縱向解讀,不要橫跨來源。</strong>REAL 各列是完整的全站流量;TRIAL 各列（146 次 Times Cited、64 次 Brand Mentions）是 200 則 Prompt 的取樣,並非 119,062 次 Agentic Hits 的一部分。端到端數字比較的是兩個 REAL 端點:3,100 次 LLM Referrals ÷ 119,062 次 Agentic Hits = 2.60%。（在品牌別名設定前,Times Cited 與 Brand Mentions 也會低估 ── 見 A1。）
     </div>
 
     <div class="note">
-      <strong>瓶頸在引用效率。</strong>爬蟲大約每造訪國泰頁面 250 次,才產生 1 次引用。頁面能被抵達（80.6% 回傳 200）且快速（平均 256ms）── 因此限制在上游:頁面的可讀性不足以被引用。推薦流量的跳出率也偏高,達 38.7%。
+      <strong>瓶頸在引用效率。</strong>自有 URL 共有 36,782 次 Citation Attempts,但試用答案中僅 146 次 Times Cited。頁面能被抵達（80.6% 回傳 200 – OK）且快速（256ms）── 限制在上游可讀性（見 B7）。LLM Referrals 的 Bounce Rate 也偏高,達 38.7%。
     </div>
 
-    <h3 class="subhead">這 3,100 次推薦造訪落在哪裡</h3>
-    <p class="section-subtitle" style="margin-bottom: 0;">只有 <strong>13</strong> 個頁面收到推薦流量。近半數流向首頁 ── 這些是早已認識品牌的人,被帶到大門口,而不是帶到答案。</p>
+    <h3 class="subhead">更下游:深層轉換</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">上方漏斗止於 LLM Referral ── 也就是從 AI 答案點進網站的那一步。再下一步是<strong>轉換</strong>:更深層的下游事件,例如表單填寫、文件下載、線上申辦與下單。這些需要事件層級的埋點,目前尚未具備,因此今天還沒有轉換數據。待建置完成,漏斗便會再延伸一段,從 LLM Referrals 延伸到轉換 ── 把「有沒有造訪?」變成「有沒有行動?」。</p>
+
+    <h3 class="subhead">這 3,100 次 LLM Referrals 落在哪裡</h3>
+    <p class="section-subtitle" style="margin-bottom: 0;">只有 <strong>13</strong> 個頁面收到 LLM Referral 流量。近半數流向首頁 ── 這些是早已認識品牌的人,被帶到大門口,而不是帶到答案。</p>
     <div class="url-chip-list">
       <div class="url-chip"><span class="hits">1,500</span><span class="path">/cathaybk <span class="muted">· 首頁</span></span></div>
       <div class="url-chip"><span class="hits">600</span><span class="path">/personal/product/credit-card/cards/cube</span></div>
@@ -1454,6 +1478,7 @@
 
     <div class="note alert">
       <strong>引用的「計數」可靠,但「解讀」目前僅供參考。</strong>上方各來源的引用次數是可靠的伺服器數據;但要把引用解讀為 Branded 的「贏得背書」或 Unbranded 的「競爭場域」,取決於 Branded / Unbranded 的判定,而這需要品牌別名 ── 目前尚未設定（見 A1）。在別名補齊前,引用與品牌的關聯、以及哪些引用算在 Branded 題目上,都應當作參考。
+    </div>
 
     <div class="note">
       <strong>兩個 Topic主導了引用落差:</strong>一是 <em>CUBE 卡本身</em>（winvest、creditcards.com.tw、rich01、money101、cardu 都有評測,且多為正面,值得維持）;二是 <em>權益類問題</em>（機場接送、現金回饋）。最高槓桿的做法,是為 CUBE 卡與其招牌權益建立清晰、AI 可讀的自有頁面,讓 AI 能在贏得的報導之外,也直接引用國泰。

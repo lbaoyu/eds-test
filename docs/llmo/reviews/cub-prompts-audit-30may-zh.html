@@ -1,0 +1,1579 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cathay United Bank · GEO Snapshot · Adobe LLM Optimiser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     Adobe Spectrum design tokens
+     ============================================================ */
+  :root {
+    /* Gray scale (Spectrum light) */
+    --gray-50:  #FFFFFF;
+    --gray-75:  #FAFAFA;
+    --gray-100: #F5F5F5;
+    --gray-200: #EAEAEA;
+    --gray-300: #E1E1E1;
+    --gray-400: #CACACA;
+    --gray-500: #B3B3B3;
+    --gray-600: #8E8E8E;
+    --gray-700: #6E6E6E;
+    --gray-800: #4B4B4B;
+    --gray-900: #2C2C2C;
+
+    /* Spectrum blue — primary accent */
+    --blue-400: #2680EB;
+    --blue-500: #1473E6;
+    --blue-600: #0D66D0;
+    --blue-700: #095ABA;
+    --blue-800: #064E9F;
+    --blue-100: #E0F2FF;
+    --blue-75:  #EDF7FF;
+
+    /* Semantic */
+    --positive-500: #2D9D78;
+    --positive-100: #DEF2EA;
+    --negative-500: #E34850;
+    --negative-600: #D7373F;
+    --negative-100: #FAE5E5;
+    --notice-500:   #E68619;
+    --notice-100:   #FBE8C9;
+    --informative-500: #1473E6;
+
+    /* Categorical (data viz) */
+    --cat-1: #1473E6;
+    --cat-2: #6431AB;
+    --cat-3: #C81E70;
+    --cat-4: #BD5F00;
+    --cat-5: #268E6C;
+
+    /* Adobe brand identifier — used only for product mark */
+    --adobe-red: #EB1000;
+    --adobe-logo: url('data:image/png;base64,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');
+
+    /* Typography */
+    --font-sans:  'Noto Sans TC', 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --font-serif: 'Source Serif 4', Georgia, serif;
+    --font-mono:  'Source Code Pro', 'SF Mono', Menlo, monospace;
+
+    /* Type scale — 4-step, minimum 18px */
+    --t-sm:  18px;   /* body, labels, captions, table cells, pills, mono, footer */
+    --t-md:  24px;   /* subheads, section titles, insight, strategic h */
+    --t-lg:  40px;   /* KPI values, stat values, page title */
+    --t-xl:  64px;   /* hero gap numbers */
+
+    /* Spacing (Spectrum 8px grid) */
+    --s-50:   2px;
+    --s-75:   4px;
+    --s-100:  8px;
+    --s-150: 12px;
+    --s-200: 16px;
+    --s-300: 24px;
+    --s-400: 32px;
+    --s-500: 40px;
+    --s-600: 48px;
+    --s-700: 64px;
+    --s-800: 80px;
+    --s-900: 96px;
+
+    /* Radii */
+    --r-sm: 4px;
+    --r-md: 6px;
+    --r-lg: 8px;
+
+    /* Elevation */
+    --shadow-1: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-2: 0 2px 8px rgba(0,0,0,0.08), 0 0 0 1px var(--gray-200);
+  }
+
+  /* ============================================================
+     Base
+     ============================================================ */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--gray-100);
+    color: var(--gray-900);
+    line-height: 1.55;
+    font-size: var(--t-sm);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ============================================================
+     Top app bar — Adobe Spectrum style
+     ============================================================ */
+  .appbar {
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+    padding: var(--s-150) var(--s-400);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .appbar-left {
+    display: flex;
+    align-items: center;
+    gap: var(--s-200);
+  }
+  .adobe-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-150);
+  }
+  .adobe-mark .logo-img {
+    width: 36px;
+    height: 32px;
+    display: block;
+    flex-shrink: 0;
+    background-image: var(--adobe-logo);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .adobe-mark .product {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    letter-spacing: -0.005em;
+  }
+  .adobe-mark .product span {
+    color: var(--gray-700);
+    font-weight: 400;
+    margin-left: var(--s-75);
+  }
+  .appbar-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--gray-300);
+  }
+  .appbar-context {
+    font-family: var(--font-sans);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    font-weight: 500;
+  }
+  .appbar-right {
+    display: flex;
+    gap: var(--s-200);
+    align-items: center;
+  }
+  .filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    font-weight: 500;
+  }
+  .filter-chip .chip-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+  .filter-chip .chip-value {
+    color: var(--gray-900);
+    font-weight: 600;
+  }
+
+  /* ============================================================
+     Page container
+     ============================================================ */
+  .page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--s-600) var(--s-500) var(--s-900);
+  }
+
+  /* ============================================================
+     Page header / hero
+     ============================================================ */
+  .page-header {
+    margin-bottom: var(--s-600);
+  }
+  .breadcrumb {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-200);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .breadcrumb a { color: var(--blue-600); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb-sep { color: var(--gray-400); }
+
+  h1.page-title {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--gray-900);
+    margin-bottom: var(--s-200);
+  }
+  h1.page-title .accent {
+    color: var(--blue-600);
+    font-weight: 700;
+  }
+  .page-lede {
+    font-size: var(--t-md);
+    line-height: 1.6;
+    color: var(--gray-800);
+    max-width: 820px;
+    font-weight: 400;
+  }
+
+  .info-banner {
+    margin-top: var(--s-400);
+    padding: var(--s-200) var(--s-300);
+    background: var(--blue-75);
+    border: 1px solid var(--blue-100);
+    border-left: 3px solid var(--blue-500);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    line-height: 1.55;
+    max-width: 820px;
+    display: flex;
+    gap: var(--s-200);
+    align-items: flex-start;
+  }
+  .info-banner .info-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    background: var(--blue-500);
+    border-radius: 50%;
+    color: white;
+    font-size: var(--t-sm);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .info-banner strong { font-weight: 600; }
+  .info-banner em { font-style: normal; color: var(--blue-700); font-weight: 600; }
+
+  /* ============================================================
+     Cards (Spectrum)
+     ============================================================ */
+  .card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-400);
+  }
+
+  /* ============================================================
+     Section block
+     ============================================================ */
+  .section {
+    margin-bottom: var(--s-600);
+  }
+  .section-head {
+    margin-bottom: var(--s-300);
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-200);
+    border-bottom: 1px solid var(--gray-300);
+    padding-bottom: var(--s-200);
+  }
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--blue-600);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .section-title {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    letter-spacing: -0.01em;
+  }
+  .section-subtitle {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    max-width: 820px;
+    line-height: 1.6;
+    margin-bottom: var(--s-300);
+  }
+
+  /* ============================================================
+     KPI tiles (Spectrum metric cards)
+     ============================================================ */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s-200);
+  }
+  .kpi {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-300);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .kpi:hover {
+    border-color: var(--gray-400);
+    box-shadow: var(--shadow-1);
+  }
+  .kpi .label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-150);
+    letter-spacing: 0;
+  }
+  .kpi .value {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--s-100);
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi .delta {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+  }
+  .kpi .delta.up { color: var(--positive-500); }
+  .kpi .delta.down { color: var(--negative-600); }
+  .kpi .delta.flat { color: var(--notice-500); }
+  .kpi .delta .arrow {
+    font-size: var(--t-sm);
+    line-height: 1;
+  }
+  @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .kpi-grid { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Insight callout (Spectrum status banner, scaled up)
+     ============================================================ */
+  .insight {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-400) var(--s-500);
+    position: relative;
+    overflow: hidden;
+  }
+  .insight::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 4px;
+    background: var(--blue-500);
+  }
+  .insight .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    text-transform: uppercase;
+    color: var(--blue-700);
+    background: var(--blue-100);
+    padding: 4px 10px;
+    border-radius: var(--r-sm);
+    font-weight: 600;
+    margin-bottom: var(--s-200);
+    letter-spacing: 0.04em;
+  }
+  .insight blockquote {
+    font-family: var(--font-sans);
+    font-size: var(--t-md);
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--gray-900);
+    letter-spacing: -0.01em;
+  }
+  .insight blockquote em {
+    font-style: normal;
+    color: var(--blue-600);
+    font-weight: 700;
+  }
+
+  /* ============================================================
+     Gap visualization (two-up)
+     ============================================================ */
+  .gap-viz {
+    margin-top: var(--s-300);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-200);
+  }
+  .gap-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-300) var(--s-400);
+  }
+  .gap-card.positive { border-top: 4px solid var(--positive-500); }
+  .gap-card.negative { border-top: 4px solid var(--negative-500); }
+  .gap-card .gap-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-100);
+  }
+  .gap-card .gap-num {
+    font-size: var(--t-xl);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--s-150);
+    font-variant-numeric: tabular-nums;
+  }
+  .gap-card.positive .gap-num { color: var(--positive-500); }
+  .gap-card.negative .gap-num { color: var(--negative-600); }
+  .gap-card .gap-desc {
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    line-height: 1.6;
+    max-width: 380px;
+  }
+  .gap-card .gap-example {
+    margin-top: var(--s-200);
+    padding-top: var(--s-200);
+    border-top: 1px solid var(--gray-200);
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+  @media (max-width: 720px) { .gap-viz { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Read-this-as note (Spectrum tip)
+     ============================================================ */
+  .note {
+    margin: var(--s-300) 0;
+    padding: var(--s-200) var(--s-300);
+    background: var(--gray-100);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    line-height: 1.6;
+    color: var(--gray-800);
+    border-left: 3px solid var(--gray-500);
+  }
+  .note strong { color: var(--gray-900); font-weight: 600; }
+  .note em { font-style: normal; color: var(--blue-700); font-weight: 600; }
+  .note.alert {
+    background: var(--notice-100);
+    border-left-color: var(--notice-500);
+  }
+  .note.alert strong { color: var(--gray-900); }
+
+  /* ============================================================
+     Data tables (Spectrum)
+     ============================================================ */
+  .table-wrap {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  table.data {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--t-sm);
+  }
+  table.data thead {
+    background: var(--gray-100);
+    border-bottom: 1px solid var(--gray-300);
+  }
+  table.data th {
+    text-align: left;
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 600;
+    padding: var(--s-200);
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid var(--gray-300);
+    white-space: nowrap;
+  }
+  table.data th.num, table.data td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  table.data td {
+    padding: var(--s-200);
+    border-bottom: 1px solid var(--gray-200);
+    color: var(--gray-900);
+    vertical-align: middle;
+    font-size: var(--t-sm);
+  }
+  table.data td.num {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+  }
+  table.data tbody tr:hover { background: var(--gray-100); }
+  table.data tbody tr:last-child td { border-bottom: none; }
+  table.data .accent { color: var(--blue-600); font-weight: 600; }
+  table.data .muted { color: var(--gray-700); font-size: var(--t-sm); }
+  table.data .pos { color: var(--positive-500); font-weight: 600; }
+  table.data .neg { color: var(--negative-600); font-weight: 600; }
+  table.data .warn { color: var(--notice-500); font-weight: 600; }
+
+  /* Tags / pills (Spectrum tags) */
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 16px;
+    font-size: var(--t-sm);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .tag-pill.owned    { background: var(--blue-100);     color: var(--blue-700);     }
+  .tag-pill.earned   { background: var(--gray-200);     color: var(--gray-800);     }
+  .tag-pill.others   { background: var(--notice-100);   color: var(--notice-500);   }
+  .tag-pill.social   { background: var(--gray-100);     color: var(--gray-700);     }
+  .tag-pill.p0       { background: var(--negative-100); color: var(--negative-600); }
+  .tag-pill.p1       { background: var(--blue-100);     color: var(--blue-700);     }
+  .tag-pill.p2       { background: var(--notice-100);   color: var(--notice-500);   }
+  .tag-pill.p3       { background: var(--gray-200);     color: var(--gray-800);     }
+  .tag-pill.pos      { background: var(--positive-100); color: var(--positive-500); }
+  .tag-pill.neg      { background: var(--negative-100); color: var(--negative-600); }
+  .tag-pill.warn-tag { background: var(--notice-100);   color: var(--notice-500);   }
+
+  /* Inline bar */
+  .bar-cell { min-width: 140px; }
+  .bar { display: flex; align-items: center; gap: 10px; }
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill { height: 100%; background: var(--blue-500); border-radius: 3px; }
+  .bar-fill.pos  { background: var(--positive-500); }
+  .bar-fill.warn { background: var(--notice-500); }
+  .bar-fill.neg  { background: var(--negative-500); }
+  .bar-val {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    min-width: 48px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ============================================================
+     Two-column grid
+     ============================================================ */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-300);
+  }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+  .subhead {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin: var(--s-400) 0 var(--s-200);
+    letter-spacing: -0.005em;
+  }
+  .subhead:first-child { margin-top: 0; }
+
+  /* ============================================================
+     Source-type summary stat-blocks
+     ============================================================ */
+  .stat-list {
+    display: grid;
+    gap: var(--s-200);
+  }
+  .stat-row {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-200) var(--s-300);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--s-200);
+  }
+  .stat-row .stat-info { display: flex; flex-direction: column; gap: 2px; }
+  .stat-row .stat-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+  }
+  .stat-row .stat-desc {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+  }
+  .stat-row .stat-value {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .stat-row.owned .stat-value { color: var(--blue-600); }
+
+  /* ============================================================
+     Funnel
+     ============================================================ */
+  .funnel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-100);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-200);
+  }
+  .funnel-row {
+    display: grid;
+    grid-template-columns: 1fr 120px 80px;
+    align-items: center;
+    padding: var(--s-200);
+    background: var(--gray-100);
+    border-radius: var(--r-sm);
+    transition: background 0.15s;
+  }
+  .funnel-row:hover { background: var(--gray-200); }
+  .funnel-row .stage {
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    font-weight: 500;
+  }
+  .funnel-row .volume {
+    font-family: var(--font-sans);
+    font-size: var(--t-sm);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--gray-900);
+  }
+  .funnel-row .conv {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-align: right;
+  }
+  .funnel-row.final {
+    background: var(--blue-100);
+    border: 1px solid var(--blue-500);
+  }
+  .funnel-row.final .stage,
+  .funnel-row.final .volume { color: var(--blue-700); font-weight: 700; }
+  .funnel-row.final .conv { color: var(--blue-700); font-weight: 700; }
+
+  /* ============================================================
+     Referral URL chips
+     ============================================================ */
+  .url-chip-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-100);
+    margin-top: var(--s-200);
+  }
+  .url-chip {
+    display: flex;
+    align-items: center;
+    gap: var(--s-150);
+    padding: var(--s-200);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+  }
+  .url-chip .hits {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--blue-600);
+    background: var(--blue-100);
+    padding: 5px 12px;
+    border-radius: var(--r-sm);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .url-chip .path {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .url-chip .warn { color: var(--notice-500); font-size: var(--t-sm); font-weight: 600; margin-left: auto; }
+  @media (max-width: 720px) { .url-chip-list { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Action cards
+     ============================================================ */
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s-200);
+  }
+  .action {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-top: 4px solid var(--blue-500);
+    border-radius: var(--r-md);
+    padding: var(--s-300);
+  }
+  .action .num-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: var(--blue-100);
+    color: var(--blue-700);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    border-radius: 50%;
+    margin-bottom: var(--s-200);
+  }
+  .action h4 {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--s-100);
+    line-height: 1.3;
+  }
+  .action p {
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    line-height: 1.6;
+  }
+  @media (max-width: 900px) { .actions { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Strategic posture
+     ============================================================ */
+  .strategic {
+    margin-top: var(--s-400);
+    padding: var(--s-400) var(--s-500);
+    background: linear-gradient(135deg, var(--blue-500) 0%, var(--blue-700) 100%);
+    border-radius: var(--r-md);
+    color: white;
+  }
+  .strategic .tag-pill {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    margin-bottom: var(--s-200);
+  }
+  .strategic .strategic-h {
+    font-size: var(--t-md);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--s-200);
+  }
+  .strategic .strategic-h em { font-style: normal; opacity: 0.85; }
+  .strategic .strategic-p {
+    font-size: var(--t-sm);
+    line-height: 1.6;
+    color: rgba(255,255,255,0.92);
+    max-width: 760px;
+  }
+
+  /* ============================================================
+     Footer
+     ============================================================ */
+  footer {
+    margin-top: var(--s-700);
+    padding-top: var(--s-400);
+    border-top: 1px solid var(--gray-300);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.6;
+  }
+  footer .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--s-400);
+    margin-bottom: var(--s-400);
+  }
+  footer h5 {
+    font-size: var(--t-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-900);
+    font-weight: 700;
+    margin-bottom: var(--s-150);
+  }
+  footer p { margin-bottom: var(--s-100); }
+  footer strong { color: var(--gray-900); font-weight: 600; }
+  footer em { font-style: italic; }
+  footer .credit {
+    text-align: center;
+    padding-top: var(--s-200);
+    border-top: 1px solid var(--gray-200);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-100);
+  }
+  footer .credit .logo-img {
+    width: 20px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    background-image: var(--adobe-logo);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  @media (max-width: 720px) { footer .footer-grid { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     TOC tabs (Spectrum tabs) — sticky, scrollspy-driven
+     ============================================================ */
+  .toc-tabs {
+    display: flex;
+    gap: 0;
+    margin: 0 0 var(--s-500);
+    overflow-x: auto;
+    position: sticky;
+    top: 64px;                           /* sits below the appbar */
+    z-index: 50;
+    background: var(--gray-100);
+    /* Use a wrapper-style bottom border via box-shadow to avoid layout shift */
+    box-shadow: inset 0 -1px 0 var(--gray-300);
+    scrollbar-width: thin;
+  }
+  .toc-tabs::-webkit-scrollbar { height: 4px; }
+  .toc-tabs::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 2px; }
+
+  .toc-tabs a {
+    padding: var(--s-200) var(--s-300);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    /* Underline pseudo-element instead of border — no layout shift, no focus-ring conflict */
+    transition: color 0.15s ease;
+  }
+  .toc-tabs a::after {
+    content: "";
+    position: absolute;
+    left: var(--s-300);
+    right: var(--s-300);
+    bottom: 0;
+    height: 2px;
+    background: transparent;
+    transition: background-color 0.15s ease;
+    pointer-events: none;
+  }
+  .toc-tabs a:hover { color: var(--blue-600); }
+  .toc-tabs a:hover::after { background: var(--blue-400); }
+  .toc-tabs a.active { color: var(--blue-700); font-weight: 600; }
+  .toc-tabs a.active::after { background: var(--blue-600); }
+
+  /* Suppress sticky mouse-click focus rings; keep keyboard focus accessible */
+  .toc-tabs a:focus { outline: none; }
+  .toc-tabs a:focus-visible {
+    outline: 2px solid var(--blue-500);
+    outline-offset: -4px;
+    border-radius: var(--r-sm);
+  }
+
+  .toc-tabs a .num {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-600);
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+  .toc-tabs a:hover .num,
+  .toc-tabs a.active .num { color: var(--blue-600); }
+
+  /* Scroll anchor offset — clears both sticky appbar + sticky TOC */
+  .section[id] { scroll-margin-top: 140px; }
+
+  /* Caption */
+  .caption {
+    margin-top: var(--s-100);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+  .caption strong { color: var(--gray-900); font-weight: 600; }
+
+  /* Print */
+  @media print {
+    body { background: white; font-size: 10pt; }
+    .appbar { position: static; box-shadow: none; }
+    .page { padding: var(--s-300); max-width: 100%; }
+    .section { page-break-inside: avoid; }
+    .actions, .insight, .strategic, .kpi-grid { page-break-inside: avoid; }
+    .toc-tabs { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<style>
+  .status { display:inline-flex; align-items:center; gap:7px; font-weight:700; font-size: var(--t-sm); padding:4px 12px; border-radius:14px; white-space:nowrap; }
+  .status.pass { background: var(--positive-100); color: var(--positive-500); }
+  .status.warn { background: var(--notice-100);   color: var(--notice-500);   }
+  .status.fail { background: var(--negative-100); color: var(--negative-600); }
+  .status .dot { width:8px; height:8px; border-radius:50%; background: currentColor; }
+  .readiness { display:grid; grid-template-columns: 170px 1fr; gap: var(--s-400); align-items:center; background: var(--gray-50); border:1px solid var(--gray-200); border-left:4px solid var(--notice-500); border-radius: var(--r-md); padding: var(--s-400) var(--s-500); margin-bottom: var(--s-300); }
+  .readiness .score { font-size: 44px; font-weight:800; line-height:1; letter-spacing:-0.03em; color: var(--notice-500); font-variant-numeric: tabular-nums; }
+  .readiness .score small { display:block; font-size: var(--t-sm); font-weight:600; color: var(--gray-700); margin-top: var(--s-100); letter-spacing:0; line-height:1.5; }
+  .readiness .verdict h4 { font-size: var(--t-md); font-weight:700; color: var(--gray-900); margin-bottom: var(--s-100); }
+  .readiness .verdict p { font-size: var(--t-sm); color: var(--gray-800); line-height:1.7; max-width:720px; }
+  @media (max-width:720px){ .readiness{ grid-template-columns:1fr; } }
+  .rewrite { display:grid; grid-template-columns: 1fr 1fr; gap:var(--s-200); margin-bottom: var(--s-200); }
+  .rewrite .before, .rewrite .after { padding: var(--s-300); border-radius: var(--r-md); border:1px solid var(--gray-200); }
+  .rewrite .before { background: var(--negative-100); border-color: #f3cccc; }
+  .rewrite .after  { background: var(--positive-100); border-color: #c7e6da; }
+  .rewrite .rw-label { font-family: var(--font-mono); font-size: var(--t-sm); font-weight:700; letter-spacing:0.04em; margin-bottom: var(--s-100); }
+  .rewrite .before .rw-label { color: var(--negative-600); }
+  .rewrite .after .rw-label { color: var(--positive-500); }
+  .rewrite .rw-text { font-size: var(--t-sm); color: var(--gray-900); line-height:1.7; }
+  @media (max-width:720px){ .rewrite{ grid-template-columns:1fr; } }
+  .arch { display:grid; grid-template-columns: repeat(2,1fr); gap: var(--s-200); }
+  .arch .arch-card { background: var(--gray-50); border:1px solid var(--gray-200); border-top:3px solid var(--blue-500); border-radius: var(--r-md); padding: var(--s-300); }
+  .arch .arch-card h4 { font-size: var(--t-md); font-weight:700; color: var(--gray-900); margin-bottom: var(--s-150); }
+  .arch .arch-card ul { list-style:none; }
+  .arch .arch-card li { font-size: var(--t-sm); color: var(--gray-800); padding: 3px 0 3px 16px; position:relative; line-height:1.6; }
+  .arch .arch-card li::before { content:"–"; position:absolute; left:0; color: var(--gray-500); }
+  @media (max-width:720px){ .arch{ grid-template-columns:1fr; } }
+</style>
+
+<!-- ============ APP BAR ============ -->
+<div class="appbar">
+  <div class="appbar-left">
+    <div class="adobe-mark">
+      <div class="logo-img" role="img" aria-label="Adobe"></div>
+      <div class="product">Adobe<span>LLM Optimiser</span></div>
+    </div>
+    <div class="appbar-divider"></div>
+    <div class="appbar-context">國泰世華銀行 · Prompt Library 稽核</div>
+  </div>
+  <div class="appbar-right">
+    <div class="filter-chip"><span class="chip-label">Stage</span><span class="chip-value">Trial</span></div>
+    <div class="filter-chip"><span class="chip-label">Cap</span><span class="chip-value">200 Prompts</span></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ============ HEADER ============ -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="#">客戶</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="#">國泰世華銀行</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>Prompt Library 稽核</span>
+    </div>
+    <h1 class="page-title">核心很扎實。<span class="accent">只差一次整理,就能用於量測。</span></h1>
+    <p class="page-lede">
+      這是對試用背後Prompt Library的檢視 ── 把它當作一支「量測工具」來評估,而非評斷策略。商業思路很好,尤其在信用卡、CUBE 與卡片權益。但目前Prompt Library仍屬草稿品質:數量超過試用上限、欄位對應部分錯置,且許多項目是關鍵字片段,而非可重複使用的測試案例。只要做一次聚焦的整理 ── 而非重建 ── 就能就緒。本文件為 GEO Snapshot的隨附報告。
+    </p>
+    <div class="info-banner">
+      <div class="info-icon">i</div>
+      <div>
+        <strong>本稽核檢視什麼。</strong>把Prompt 組視為一支工具:其數量是否符合 200 則試用上限、結構、Prompt 品質、Topic 一致性、Market 中繼資料、品牌別名設定,以及 Branded / Unbranded 的比例。本文件不重述 GEO 結果 ── 那些在 GEO Snapshot中。
+      </div>
+    </div>
+  </div>
+
+  <!-- TOC -->
+  <nav class="toc-tabs">
+    <a href="#summary"><span class="num">01</span>摘要</a>
+    <a href="#facts"><span class="num">02</span>關鍵事實</a>
+    <a href="#strengths"><span class="num">03</span>做得好的地方</a>
+    <a href="#issues"><span class="num">04</span>待修正問題</a>
+    <a href="#mix"><span class="num">05</span>Branded比例</a>
+    <a href="#coverage"><span class="num">06</span>Category 涵蓋</a>
+    <a href="#cleanup"><span class="num">07</span>精簡至 200</a>
+    <a href="#launch"><span class="num">08</span>啟動組合</a>
+    <a href="#architecture"><span class="num">09</span>Topic 架構</a>
+    <a href="#rewrite"><span class="num">10</span>改寫指南</a>
+  </nav>
+
+  <!-- ============ 01 SUMMARY ============ -->
+  <section class="section" id="summary">
+    <div class="section-head">
+      <span class="section-eyebrow">01</span>
+      <span class="section-title">摘要與就緒度</span>
+    </div>
+    <p class="section-subtitle">策略意圖可用,但目前的執行紀律偏弱 ── 透過一次聚焦的整理即可解決。</p>
+
+    <div class="readiness">
+      <div class="score">2&#8202;/&#8202;5<small>整體<br>就緒度</small></div>
+      <div class="verdict">
+        <h4>意圖強,執行仍屬草稿階段。</h4>
+        <p>信用卡 / CUBE 核心在商業上很敏銳。拖後腿的是整理與設定問題:Prompt Library 超過試用上限、Topic 與 Prompt 欄位部分互換、過多項目是關鍵字片段,且尚未配置任何品牌別名。這些都不是重建 ── 是一次清理與設定。</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>面向</th><th>評分</th><th>說明</th></tr></thead>
+        <tbody>
+          <tr><td>試用數量符合度</td><td><span class="status fail"><span class="dot"></span>1 / 5</span></td><td class="muted">268 則 ── 超過 200 上限 68 則。</td></tr>
+          <tr><td>結構 / 資料整潔度</td><td><span class="status fail"><span class="dot"></span>1 / 5</span></td><td class="muted">172 列的Topic 與 Prompt 欄位實質上互換了。</td></tr>
+          <tr><td>品牌別名設定 <span class="muted">Brand aliases</span></td><td><span class="status fail"><span class="dot"></span>1 / 5</span></td><td class="muted">未配置任何自有品牌別名（如 CUBE）,Branded 量測不可靠。</td></tr>
+          <tr><td>Branded / Unbranded 比例</td><td><span class="status warn"><span class="dot"></span>視目標</span></td><td class="muted">無單一標準;應依量測目標而定,且受 200 則上限限制。</td></tr>
+          <tr><td>Topic 架構</td><td><span class="status warn"><span class="dot"></span>2 / 5</span></td><td class="muted">多個標籤指向同一個Topic 家族。</td></tr>
+          <tr><td>Prompt 品質 / 測試案例設計</td><td><span class="status warn"><span class="dot"></span>2 / 5</span></td><td class="muted">約 80 則是關鍵字片段,而非完整問題。</td></tr>
+          <tr><td>Market / 在地化</td><td><span class="status fail"><span class="dot"></span>1 / 5</span></td><td class="muted">全部標為 US;但Prompt Library是台灣、繁體中文。</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note alert">
+      <strong>結論:</strong>請勿直接以這份檔案執行試用。先精簡至 200 則以內、<strong>配置品牌別名（如 CUBE）</strong>、重新對應 Topic / Prompt 結構、修正 Market 中繼資料,並以一組更精實的 <strong>80–120 則核心組合</strong>啟動,聚焦信用卡 / CUBE / 權益。等第一次結果出來後再擴大。
+    </div>
+  </section>
+
+  <!-- ============ 02 KEY FACTS ============ -->
+  <section class="section" id="facts">
+    <div class="section-head">
+      <span class="section-eyebrow">02</span>
+      <span class="section-title">關鍵事實</span>
+    </div>
+    <p class="section-subtitle">支撐評估的數字。標示「已核對」者已直接對照上傳檔案確認;其餘為稽核的估計值。</p>
+
+    <div class="two-col">
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>項目</th><th class="num">數值</th></tr></thead>
+          <tbody>
+            <tr><td>檔案總列數 <span class="muted">· 已核對</span></td><td class="num">268</td></tr>
+            <tr><td>試用額度</td><td class="num">200</td></tr>
+            <tr><td>超過上限</td><td class="num neg">68</td></tr>
+            <tr><td>已完成列 <span class="muted">· 已核對</span></td><td class="num">254</td></tr>
+            <tr><td>處理中列 <span class="muted">· 已核對</span></td><td class="num warn">14</td></tr>
+            <tr><td>標為Market＝US的列 <span class="muted">· 已核對</span></td><td class="num neg">268</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>項目</th><th class="num">數值</th></tr></thead>
+          <tbody>
+            <tr><td>Topic / Prompt 欄位互換 <span class="muted">· 已核對</span></td><td class="num neg">172</td></tr>
+            <tr><td>估計Branded Prompt</td><td class="num">約 80</td></tr>
+            <tr><td>估計Unbranded Prompt</td><td class="num">約 188</td></tr>
+            <tr><td>提及競爭者的 Prompt</td><td class="num">約 31</td></tr>
+            <tr><td>比較類 Prompt</td><td class="num">約 23</td></tr>
+            <tr><td>關鍵字片段 Prompt</td><td class="num warn">約 80</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="caption">Category 分布、總列數、處理中列數、172 列欄位錯置、以及Market＝US,皆已對照上傳檔案確認。Branded / 片段 / 重複的數量為稽核的工作估計值。</div>
+  </section>
+
+  <!-- ============ 03 WHAT'S WORKING ============ -->
+  <section class="section" id="strengths">
+    <div class="section-head">
+      <span class="section-eyebrow">03</span>
+      <span class="section-title">做得好的地方</span>
+    </div>
+    <p class="section-subtitle">這裡確實有一個扎實的核心,集中在卡片生態系 ── 正是 AI 助理最常進行比較的領域。</p>
+
+    <div class="two-col">
+      <div>
+        <h3 class="subhead">最強的領域</h3>
+        <div class="table-wrap">
+          <table class="data">
+            <tbody>
+              <tr><td>信用卡</td><td><span class="tag-pill pos">強</span></td></tr>
+              <tr><td>CUBE 卡</td><td><span class="tag-pill pos">強</span></td></tr>
+              <tr><td>卡片權益</td><td><span class="tag-pill pos">強</span></td></tr>
+              <tr><td>機場接送 / 旅遊</td><td><span class="tag-pill pos">強</span></td></tr>
+              <tr><td>數位支付 / 回饋比較</td><td><span class="tag-pill pos">強</span></td></tr>
+              <tr><td>競爭比較類 Prompt</td><td><span class="tag-pill pos">強</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          <strong>為何這是正確的核心:</strong>它在商業上重要、意圖明確,且天生適合 LLM 比較選項的方式 ── 因此能讓國泰一次量測品牌防禦、競爭者重疊、產品納入度、權益差異化與答案框架。
+        </div>
+      </div>
+      <div>
+        <h3 class="subhead">Prompt Library中已有的較強範例</h3>
+        <div class="card">
+          <div class="rw-text" style="font-size: var(--t-sm); line-height:1.9; color: var(--gray-900);">
+            <p style="margin-bottom: var(--s-200);">「國泰世華 CUBE 卡和花旗現金回饋卡哪個更適合海外消費?」</p>
+            <p style="margin-bottom: var(--s-200);">「國泰世華信用卡的 CUBE App 可以查詢回饋點數嗎?」</p>
+            <p>「國泰世華 CUBE 卡和永豐幣倍卡哪個更適合數位消費?」</p>
+          </div>
+          <div class="caption" style="margin-top: var(--s-200);">這些讀起來像真正的測試案例 ── 有情境、有指名的品牌、只問一件事 ── 而不是關鍵字片段。改寫較弱Prompt時,就以這些為範本(見第 10 節)。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 ISSUES ============ -->
+  <section class="section" id="issues">
+    <div class="section-head">
+      <span class="section-eyebrow">04</span>
+      <span class="section-title">待修正的問題</span>
+    </div>
+    <p class="section-subtitle">六個項目,大致依優先順序排列。前兩項是阻擋性的;其餘用來提升量測品質。</p>
+
+    <h3 class="subhead">1 · 超過試用上限</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">試用可用 200 則Prompt,檔案卻有 268 則,超出 68 則,無法直接使用。這是第一件要修正的事 ── 見第 07 節的精簡計畫。</p>
+
+    <h3 class="subhead">2 · Topic 與 Prompt 欄位互換</h3>
+    <div class="note alert">
+      在 <strong>268 列中有 172 列</strong>,真正的使用者問題被放在「<em>Topic</em>」欄,而「<em>Prompt</em>」欄只放了籠統的佔位字（「個人金融」）。Prompt Library沒有可靠地區分 <em>Category → Topic → Prompt</em>。
+    </div>
+    <p class="section-subtitle" style="margin: var(--s-200) 0;">若不修正,Topic 報表會充滿雜訊、彙總會誤導,重複的Prompt家族也難以辨識。請重新對應為:<strong>Category</strong>（業務領域）→ <strong>Topic</strong>（穩定的使用情境家族）→ <strong>Prompt</strong>（具體的自然語言問題）。</p>
+
+    <h3 class="subhead">3 · 未配置任何品牌別名</h3>
+    <div class="note alert">
+      目前 LLMO 中<strong>沒有設定任何自有品牌別名</strong>（例如 國泰世華、Cathay United Bank,以及產品名 CUBE、國泰 Cube、Cube 卡、cathay-cube）。這會造成兩個影響:系統難以可靠地判定哪些是 <em>Branded</em> prompt;而當 AI 答案以「CUBE」等變體稱呼本行時,這些 Brand Mentions 與 Share of Voice 可能被漏算 ── 等於 Branded 這側的數字被低估。
+    </div>
+    <p class="section-subtitle" style="margin: var(--s-200) 0;">這是個不小的問題,但修正很快:在 LLMO 中把品牌與主要產品的別名（含中英文與常見寫法）補齊。配置完成後,Branded / Unbranded 的判定與品牌相關指標才會準確 ── 這也是若要聚焦 CUBE 表現的前提（見第 05 節）。</p>
+
+    <h3 class="subhead">4 · 過多關鍵字片段</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">約 80 則是 SEO 式的關鍵字片段,而非人們真正會問 AI 的問題 ── 例如「CUBE新戶優惠」「優惠存款利率」「線上貸款怎麼辦」「頂級卡推薦哪張」「美金定存優惠比較」。它們太廣、太多變,難以穩定量測。一則強Prompt通常帶有目標、情境、限制,並常含一個比較框架(見第 10 節)。</p>
+
+    <h3 class="subhead">5 · Topic 分類不一致</h3>
+    <div class="note">
+      多個標籤指向同一家族 ── 例如 <strong>「信用卡 機場接送」/「信用卡機場接送」/「機場接送 信用卡」</strong>,以及 <strong>「國泰cube」/「國泰cube卡」</strong>。這種假性分裂把量分散到重複的Topic上,使刪修與比較變得困難。請正規化為「每個家族一個標準名稱」。
+    </div>
+
+    <h3 class="subhead">6 · Market 中繼資料不符</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">全部 268 列都標為 <strong>Market＝US</strong>,但Prompt Library絕大多數是繁體中文、台灣導向（卡片、存款、貸款、在地行為）。這幾乎可以確定是中繼資料設錯;若監測 Market 是台灣,請相應設定。</p>
+
+    <h3 class="subhead">7 · 未完成 / 離題的列</h3>
+    <div class="note alert">
+      這 <strong>14 列「處理中」</strong>不應屬於最終Prompt Library。它們集中在四個 Topic ── 商務卡（商務卡）、飯店刷卡（酒店可以刷卡嗎）、美元兌人民幣換算（2000美元是多少人民币）、以及籠統的開戶（开户）。其中數則離題或屬中國 / 美國導向,不適合台灣信用卡試用。請先移除。
+    </div>
+  </section>
+
+  <!-- ============ 05 BRANDED MIX ============ -->
+  <section class="section" id="mix">
+    <div class="section-head">
+      <span class="section-eyebrow">05</span>
+      <span class="section-title">Branded vs Unbranded</span>
+    </div>
+    <p class="section-subtitle">Branded 與 Unbranded 沒有單一的理想比例 ── 它取決於你想量測什麼,也受 200 則 trial 上限影響。重點不在比例本身,而在兩件事:目前的組合是否反映量測目標,以及品牌別名是否已設定。</p>
+
+    <div class="kpi-grid" style="grid-template-columns: repeat(3,1fr);">
+      <div class="kpi"><div class="label">Branded Prompt</div><div class="value">約 80</div><div class="delta flat"><span class="arrow">●</span> 約佔 30%（暫估）</div></div>
+      <div class="kpi"><div class="label">Unbranded Prompt</div><div class="value">約 188</div><div class="delta flat"><span class="arrow">●</span> 約佔 70%（暫估）</div></div>
+      <div class="kpi"><div class="label">已配置品牌別名</div><div class="value">0</div><div class="delta down"><span class="arrow">●</span> 尚未設定 ── 影響 Branded 量測</div></div>
+    </div>
+
+    <div class="note alert">
+      <strong>沒有單一的「好」比例 ── 要看你想量測什麼。</strong>受 200 則 trial 上限限制,任何固定的目標比例都偏武斷。若目標是聚焦 <em>CUBE</em> 在 AI 助理的表現,正確做法是把 CUBE（及其變體）設為品牌別名,讓系統正確歸戶 ── 這時 Branded 比例偏高完全合理,並不是問題。
+    </div>
+    <div class="note">
+      <strong>但有個前提目前還沒做到:未配置任何品牌別名（見第 3 節）。</strong>在別名補齊之前,上方約 30 / 70 只能視為暫估,Branded 這側的 Brand Mentions、Share of Voice 與出現率都可能低估。建議先把品牌與產品別名設好,再依量測目標決定 Branded / Unbranded 的組合,而非套用固定比例。
+    </div>
+  </section>
+
+  <!-- ============ 06 COVERAGE ============ -->
+  <section class="section" id="coverage">
+    <div class="section-head">
+      <span class="section-eyebrow">06</span>
+      <span class="section-title">目前的 Category 涵蓋</span>
+    </div>
+    <p class="section-subtitle">Prompt Library高度集中在信用卡 ── 對試用而言是合理的。建議是先把這個核心整理乾淨,而非急著擴大範圍。</p>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Category</th><th class="num">Prompt數</th><th>佔比</th></tr></thead>
+        <tbody>
+          <tr><td>信用卡 <span class="muted">Credit cards</span></td><td class="num">142</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:53%"></div></div><div class="bar-val">53.0%</div></div></td></tr>
+          <tr><td>信用卡服務 <span class="muted">Card services</span></td><td class="num">48</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:17.9%"></div></div><div class="bar-val">17.9%</div></div></td></tr>
+          <tr><td>個人金融 <span class="muted">Personal finance</span></td><td class="num">42</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:15.7%"></div></div><div class="bar-val">15.7%</div></div></td></tr>
+          <tr><td>帳戶 <span class="muted">Accounts</span></td><td class="num">20</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:7.5%"></div></div><div class="bar-val">7.5%</div></div></td></tr>
+          <tr><td>貸款 <span class="muted">Loans</span></td><td class="num">9</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:3.4%"></div></div><div class="bar-val">3.4%</div></div></td></tr>
+          <tr><td>證券戶 <span class="muted">Securities</span></td><td class="num">4</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:1.5%"></div></div><div class="bar-val">1.5%</div></div></td></tr>
+          <tr><td>形象 <span class="muted">Brand / image</span></td><td class="num">3</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:1.1%"></div></div><div class="bar-val">1.1%</div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <strong>該如何看待:</strong>過度集中在信用卡,但方向有用。對試用而言,先把卡片組整理乾淨、保留一小組帳戶 / 貸款 / 品牌防禦,等第一次結果出來後再擴大涵蓋。
+    </div>
+  </section>
+
+  <!-- ============ 07 CLEANUP ============ -->
+  <section class="section" id="cleanup">
+    <div class="section-head">
+      <span class="section-eyebrow">07</span>
+      <span class="section-title">精簡計畫:268 → 200</span>
+    </div>
+    <p class="section-subtitle">回到上限以內最快的路徑,分三步。</p>
+
+    <div class="funnel">
+      <div class="funnel-row"><div class="stage">起始Prompt Library</div><div class="volume">268</div><div class="conv">—</div></div>
+      <div class="funnel-row"><div class="stage">步驟 1 · 移除 14 列處理中 / 離題</div><div class="volume">254</div><div class="conv">−14</div></div>
+      <div class="funnel-row"><div class="stage">步驟 2 · 移除完全重複的列（約 9）</div><div class="volume">245</div><div class="conv">−9</div></div>
+      <div class="funnel-row"><div class="stage">步驟 3 · 刪修最弱的關鍵字片段（約 45）</div><div class="volume">200</div><div class="conv">−45</div></div>
+      <div class="funnel-row final"><div class="stage">可供試用的組合</div><div class="volume">200</div><div class="conv">✓</div></div>
+    </div>
+
+    <h3 class="subhead">最該優先刪修的候選</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">短、籠統、缺脈絡的片段 ── 不一定是壞<em>Topic</em>,但是壞的Prompt<em>形式</em>。值得保留的請改寫(第 10 節);其餘在試用中先移除。</p>
+    <div class="card">
+      <div class="rw-text" style="font-family: var(--font-mono); font-size: var(--t-sm); line-height:2.0; color: var(--gray-800); columns:2; column-gap: var(--s-500);">
+        CUBE新戶優惠 · JCB卡推薦哪張 · VISA信用卡推薦 · 世界卡推薦卡張 · 優惠存款利率 · 美金定存優惠比較 · 頂級卡推薦哪張 · 貸款要找哪家銀行 · 線上貸款怎麼辦 · 月薪四萬可以貸款多少 · 台幣定存優惠利率比較 · 怎麼幫小孩理財 · 推薦網購刷哪張信用卡 · 百貨購物刷哪張信用卡 · 加油推薦刷哪張信用卡 · 機場貴賓室推薦信用卡 · 停車推薦可刷哪張信用卡 · 訂房推薦刷哪張信用卡 · 保費刷哪張信用卡 · 繳稅刷哪張信用卡 · 全聯回饋高的信用卡 · 蝦皮回饋最高信用卡 · KTV回饋高的信用卡
+      </div>
+    </div>
+    <div class="note">
+      <strong>請注意:</strong>這裡許多是「好<em>Topic</em>、壞<em>形式</em>」。「加油推薦刷哪張信用卡」是真實的客戶需求 ── 只需改寫成完整問題,而非把整個 Topic捨棄。
+    </div>
+  </section>
+
+  <!-- ============ 08 LAUNCH SET ============ -->
+  <section class="section" id="launch">
+    <div class="section-head">
+      <span class="section-eyebrow">08</span>
+      <span class="section-title">建議的啟動組合</span>
+    </div>
+    <p class="section-subtitle">對試用而言,目標是穩固的量測基礎,而非完整的市場涵蓋。請以 <strong>80–120 則整理過的Prompt</strong>啟動,而不是一次用滿 200 則 ── 訊號更乾淨,結果也更好解讀。</p>
+
+    <div class="actions">
+      <div class="action">
+        <div class="num-tag">A</div>
+        <h4>核心 · 信用卡 / CUBE / 權益</h4>
+        <p><strong>60–75 則。</strong>CUBE 比較、數位支付適配、旅遊 / 機場接送、回饋 / 現金回饋、申辦與資格、卡片與 App 管理,以及品牌防禦類Prompt。</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">B</div>
+        <h4>卡片服務 / 客服</h4>
+        <p><strong>15–20 則。</strong>額度調整、補卡 / 掛失、分期、海外使用、帳單、對帳單與回饋查詢。</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">C</div>
+        <h4>帳戶 / 存款</h4>
+        <p><strong>10–15 則。</strong>數位帳戶、開戶、活存與定存、簡單的利率比較。</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">D</div>
+        <h4>貸款</h4>
+        <p><strong>5–10 則。</strong>線上個人信貸、申請條件、核貸時間,以及比較類 Prompt。</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">E</div>
+        <h4>品牌 / 企業信任</h4>
+        <p><strong>5–10 則。</strong>銀行聲譽、產品適配、服務品質框架、數位銀行能力。</p>
+      </div>
+      <div class="action" style="border-top-color: var(--gray-400);">
+        <div class="num-tag" style="background: var(--gray-200); color: var(--gray-700);">✓</div>
+        <h4>為何從窄開始</h4>
+        <p>足夠的廣度展現價值、足夠的深度看出型態,訊號更乾淨,對客戶的解讀也更容易。等第一批結果出來後再擴大。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 09 ARCHITECTURE ============ -->
+  <section class="section" id="architecture">
+    <div class="section-head">
+      <span class="section-eyebrow">09</span>
+      <span class="section-title">建議的 Topic 架構</span>
+    </div>
+    <p class="section-subtitle">一套可供重建的更清晰結構 ── 每個家族一個標準 Topic,歸在穩定的 Category之下。</p>
+
+    <div class="arch">
+      <div class="arch-card">
+        <h4>信用卡 <span class="muted" style="font-weight:400;">Credit cards</span></h4>
+        <ul>
+          <li>CUBE卡回饋與權益</li>
+          <li>CUBE卡比較</li>
+          <li>信用卡旅遊權益</li>
+          <li>信用卡機場接送</li>
+          <li>信用卡哩程與聯名卡</li>
+          <li>信用卡繳費與保費</li>
+          <li>信用卡通路消費推薦</li>
+          <li>信用卡申辦與資格</li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <h4>信用卡服務 <span class="muted" style="font-weight:400;">Card services</span></h4>
+        <ul>
+          <li>信用卡額度與調整</li>
+          <li>信用卡掛失與補發</li>
+          <li>信用卡分期與帳單</li>
+          <li>海外刷卡與手續費</li>
+          <li>CUBE App與卡片管理</li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <h4>帳戶 <span class="muted" style="font-weight:400;">Accounts</span></h4>
+        <ul>
+          <li>數位帳戶開戶</li>
+          <li>活存與定存</li>
+          <li>外幣存款</li>
+          <li>開戶資格與文件</li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <h4>貸款 <span class="muted" style="font-weight:400;">Loans</span></h4>
+        <ul>
+          <li>個人信貸申請</li>
+          <li>線上貸款流程</li>
+          <li>核貸條件與額度</li>
+          <li>利率與比較</li>
+        </ul>
+      </div>
+      <div class="arch-card">
+        <h4>形象 <span class="muted" style="font-weight:400;">Brand / image</span></h4>
+        <ul>
+          <li>銀行品牌比較</li>
+          <li>國泰世華數位服務</li>
+          <li>值得推薦的銀行品牌</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 10 REWRITE GUIDE ============ -->
+  <section class="section" id="rewrite">
+    <div class="section-head">
+      <span class="section-eyebrow">10</span>
+      <span class="section-title">改寫指南</span>
+    </div>
+    <p class="section-subtitle">在 LLMO 中,一則 Prompt是一個<strong>測試案例</strong> ── 一個可重複、像顧客口吻的問題,用來追蹤 AI 助理如何回答真實需求。Prompt弱,訊號就弱。以下說明「強」的定義,以及如何升級較弱的Prompt。</p>
+
+    <h3 class="subhead">強Prompt的五項特質</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>特質</th><th>意思</th><th>銀行範例</th></tr></thead>
+        <tbody>
+          <tr><td><strong>自然</strong></td><td class="muted">聽起來像真實顧客會問的話。</td><td>國泰世華 CUBE 卡海外刷卡回饋多少?</td></tr>
+          <tr><td><strong>清楚</strong></td><td class="muted">第一眼就看得懂意圖。</td><td>申辦 CUBE 卡需要準備哪些文件?</td></tr>
+          <tr><td><strong>具體</strong></td><td class="muted">指向真實的需求或使用情境。</td><td>常出國的人適合哪一張國泰信用卡?</td></tr>
+          <tr><td><strong>聚焦</strong></td><td class="muted">一次只問一件主要的事,不要好幾件。</td><td>CUBE 卡的機場接送怎麼預約?</td></tr>
+          <tr><td><strong>可重複</strong></td><td class="muted">之後再問一次,意思仍然相同。</td><td>國泰世華數位帳戶的活存利率是多少?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="subhead">一個簡單的公式 ── 使用者 + 需求 + 脈絡</h3>
+    <p class="section-subtitle">這是指引,不是硬性規則。當Prompt顯得太單薄或太籠統,加上「使用者」與「脈絡」通常是最快的強化方式。</p>
+    <div class="actions">
+      <div class="action">
+        <div class="num-tag">U</div>
+        <h4>使用者 · 是誰在問?</h4>
+        <p>首辦卡新戶 · 常用行動支付的人 · 常出國的人 · 小資族 · 小型企業負責人</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">N</div>
+        <h4>需求 · 想完成什麼?</h4>
+        <p>比較 · 申辦 · 查回饋 · 海外消費 · 開戶 · 配置外幣</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">C</div>
+        <h4>脈絡 · 什麼讓問題更清楚?</h4>
+        <p>在台灣 · 不想付國外手續費 · 每月固定加油 · 短期美元配置 · 與台新／永豐比較</p>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top: var(--s-300);">
+      <div class="gap-card positive">
+        <div class="gap-label">好的素材</div>
+        <div class="gap-desc" style="margin-top: var(--s-150);">市場或地點脈絡 · 人生階段或使用情境 · 消費型態 · 明確的產品需求 · 比較對象 · 決策限制。</div>
+      </div>
+      <div class="gap-card negative">
+        <div class="gap-label">Prompt變弱的五種方式</div>
+        <div class="gap-desc" style="margin-top: var(--s-150);"><strong>太短</strong>（是個標籤,不是問題）·<strong>太籠統</strong>（可以指任何東西）·<strong>一次問太多</strong>（一句裡好幾個需求）·<strong>太模糊</strong>（沒有真正的意圖）·<strong>太不自然</strong>（內部用語,不是顧客語言）。</div>
+      </div>
+    </div>
+
+    <h3 class="subhead">改寫前 → 改寫後</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">每一則「強」的版本都只問<strong>一件事</strong> ── 加上使用者與脈絡來強化,但不堆疊第二個問題。</p>
+
+    <div class="rewrite">
+      <div class="before"><div class="rw-label">弱 · 太短</div><div class="rw-text">CUBE新戶優惠</div></div>
+      <div class="after"><div class="rw-label">強</div><div class="rw-text">我第一次申辦數位回饋信用卡、平常常用行動支付,國泰世華 CUBE 卡的新戶優惠有哪些?</div></div>
+    </div>
+    <div class="rewrite">
+      <div class="before"><div class="rw-label">弱 · 太籠統</div><div class="rw-text">優惠存款利率</div></div>
+      <div class="after"><div class="rw-label">強</div><div class="rw-text">我在台灣想找優惠活存利率較好的數位帳戶,有哪幾家銀行的方案值得比較?</div></div>
+    </div>
+    <div class="rewrite">
+      <div class="before"><div class="rw-label">弱 · 太模糊</div><div class="rw-text">線上貸款怎麼辦</div></div>
+      <div class="after"><div class="rw-label">強</div><div class="rw-text">我想線上申請個人信貸,國泰世華的線上申請流程是怎麼進行的?</div></div>
+    </div>
+    <div class="rewrite">
+      <div class="before"><div class="rw-label">弱 · 太籠統</div><div class="rw-text">頂級卡推薦哪張</div></div>
+      <div class="after"><div class="rw-label">強</div><div class="rw-text">我一年有較高的海外旅遊與餐飲消費,哪一張頂級信用卡比較適合?</div></div>
+    </div>
+    <div class="rewrite">
+      <div class="before"><div class="rw-label">弱 · 缺脈絡</div><div class="rw-text">加油推薦刷哪張信用卡</div></div>
+      <div class="after"><div class="rw-label">強</div><div class="rw-text">我每月在台灣有固定加油支出,哪一張信用卡在加油消費上回饋最高?</div></div>
+    </div>
+    <div class="rewrite">
+      <div class="before"><div class="rw-label">弱 · 太模糊</div><div class="rw-text">哪一家銀行的信用卡最好用?</div></div>
+      <div class="after"><div class="rw-label">強</div><div class="rw-text">我主要在台灣用行動支付消費,國泰世華 CUBE 卡和台新 GOGO 卡哪一張回饋比較高?</div></div>
+    </div>
+
+    <div class="note">
+      <strong>請記住 ── 目標不是更長的Prompt,而是更強的Prompt。</strong>一則強Prompt是自然、清楚、具體、聚焦、可重複的。通常這代表加上使用者與一點脈絡,但若一則短Prompt已通過這些檢驗,維持原樣即可。不要只為了拉長而硬塞內容,也不要把好幾個問題塞進同一則。
+    </div>
+
+    <div class="strategic">
+      <span class="tag-pill">後續步驟</span>
+      <div class="strategic-h">收緊、正規化、聚焦 ── 然後啟動。</div>
+      <p class="strategic-p">移除處理中的列、去除重複、配置品牌別名（如 CUBE）、修正 Market 中繼資料、重新對應 Topic 與 Prompt 欄位、合併分類、把弱片段改寫成真正的測試案例,並精簡至 200。以更精實、更強的 80–120 則組合啟動,聚焦信用卡 / CUBE / 權益,等第一次結果出來後再加入帳戶與貸款。策略意圖已經很好 ── 這一步是把量測工具變得可信賴。</p>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h5>方法</h5>
+        <p>本Prompt Library依 LLMO Prompt 設計與量測就緒度的實務檢視:試用範圍紀律、Prompt Library結構、Branded / Unbranded比例、Prompt 具體度、Topic 一致性、在地化,以及量測就緒度。列數、172 列欄位錯置、市場標記與Category 分布皆已對照上傳檔案確認。</p>
+      </div>
+      <div>
+        <h5>與 GEO Snapshot的關係</h5>
+        <p>本稽核檢視的是量測工具本身;GEO Snapshot呈現的是它產生的結果。Prompt Library更乾淨,下一次 GEO 量測的可靠度也會提升。</p>
+      </div>
+      <div>
+        <h5>範圍</h5>
+        <p>試用階段,200 則Prompt額度,平台 ChatGPT (Free),追蹤單一網域（cathay-cube.com.tw）。Branded / 片段 / 重複數量為工作估計值;結構性事實已核對。</p>
+      </div>
+    </div>
+    <div class="credit">
+      <span class="logo-img" role="img" aria-label="Adobe"></span>
+      <span>由 Adobe LLM Optimiser 產生 · 國泰世華銀行 · Prompt Library 稽核 · 2026 年 5 月 30 日</span>
+    </div>
+  </footer>
+
+</div>
+<script>
+  // Scrollspy — highlights the TOC tab matching the section currently in view.
+  // Carefully avoids three failure modes:
+  //   1. Sticky scope: the nav is a child of .page, not .page-header, so it sticks
+  //      across the entire report rather than vanishing past the hero.
+  //   2. No scrollIntoView: that traverses ALL ancestor scrollers and can pull the
+  //      page itself. We scroll only the TOC container's overflow-x axis.
+  //   3. Suspend during click: smooth-scroll triggers many intermediate scroll
+  //      events; if we kept updating active during animation, the tab would flicker
+  //      through every section between source and target.
+  (function() {
+    const tabs = document.querySelectorAll('.toc-tabs a');
+    if (!tabs.length) return;
+    const tocContainer = tabs[0].parentElement;
+
+    const tabByHash = new Map();
+    tabs.forEach(t => tabByHash.set(t.getAttribute('href'), t));
+
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    if (!sections.length) return;
+
+    let suspendUntil = 0;   // timestamp until which scrollspy is muted
+    let lastHash = null;
+
+    // Horizontally bring the active tab into view *within the TOC container only*.
+    // Never touches document scroll.
+    const ensureTabVisible = (tab) => {
+      if (!tab || tocContainer.scrollWidth <= tocContainer.clientWidth) return;
+      const pad = 24;
+      const tabLeft = tab.offsetLeft;
+      const tabRight = tabLeft + tab.offsetWidth;
+      const viewLeft = tocContainer.scrollLeft;
+      const viewRight = viewLeft + tocContainer.clientWidth;
+      if (tabLeft < viewLeft + pad) {
+        tocContainer.scrollTo({ left: Math.max(0, tabLeft - pad), behavior: 'smooth' });
+      } else if (tabRight > viewRight - pad) {
+        tocContainer.scrollTo({ left: tabRight - tocContainer.clientWidth + pad, behavior: 'smooth' });
+      }
+    };
+
+    const setActive = (hash) => {
+      if (hash === lastHash) return;
+      lastHash = hash;
+      tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === hash));
+      ensureTabVisible(tabByHash.get(hash));
+    };
+
+    // Pick the section whose top has just crossed an imaginary scan line
+    // a third of the way down the viewport. That feels natural while reading.
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      if (Date.now() < suspendUntil) return;
+      const scanLine = window.innerHeight * 0.33;
+      let current = sections[0];
+      for (const s of sections) {
+        if (s.getBoundingClientRect().top <= scanLine) current = s;
+        else break;
+      }
+      setActive('#' + current.id);
+    };
+    const onScroll = () => {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+
+    // Click handler: pre-set the target as active immediately, then suspend
+    // scrollspy long enough for the smooth-scroll animation to finish without
+    // flickering through intermediate sections. If the user has reduced-motion
+    // enabled, scrolls are instant — no suspension needed.
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    tabs.forEach(t => {
+      t.addEventListener('click', () => {
+        const target = t.getAttribute('href');
+        setActive(target);
+        if (!prefersReducedMotion) {
+          suspendUntil = Date.now() + 900;   // ~900ms covers most smooth scrolls
+        }
+        // Drop focus so no focus ring lingers on the clicked link.
+        setTimeout(() => t.blur(), 0);
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

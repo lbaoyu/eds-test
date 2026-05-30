@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cathay United Bank · GEO Snapshot · Adobe LLM Optimiser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     Adobe Spectrum design tokens
+     ============================================================ */
+  :root {
+    /* Gray scale (Spectrum light) */
+    --gray-50:  #FFFFFF;
+    --gray-75:  #FAFAFA;
+    --gray-100: #F5F5F5;
+    --gray-200: #EAEAEA;
+    --gray-300: #E1E1E1;
+    --gray-400: #CACACA;
+    --gray-500: #B3B3B3;
+    --gray-600: #8E8E8E;
+    --gray-700: #6E6E6E;
+    --gray-800: #4B4B4B;
+    --gray-900: #2C2C2C;
+
+    /* Spectrum blue — primary accent */
+    --blue-400: #2680EB;
+    --blue-500: #1473E6;
+    --blue-600: #0D66D0;
+    --blue-700: #095ABA;
+    --blue-800: #064E9F;
+    --blue-100: #E0F2FF;
+    --blue-75:  #EDF7FF;
+
+    /* Semantic */
+    --positive-500: #2D9D78;
+    --positive-100: #DEF2EA;
+    --negative-500: #E34850;
+    --negative-600: #D7373F;
+    --negative-100: #FAE5E5;
+    --notice-500:   #E68619;
+    --notice-100:   #FBE8C9;
+    --informative-500: #1473E6;
+
+    /* Categorical (data viz) */
+    --cat-1: #1473E6;
+    --cat-2: #6431AB;
+    --cat-3: #C81E70;
+    --cat-4: #BD5F00;
+    --cat-5: #268E6C;
+
+    /* Adobe brand identifier — used only for product mark */
+    --adobe-red: #EB1000;
+    --adobe-logo: url('data:image/png;base64,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');
+
+    /* Typography */
+    --font-sans:  'Noto Sans TC', 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --font-serif: 'Source Serif 4', Georgia, serif;
+    --font-mono:  'Source Code Pro', 'SF Mono', Menlo, monospace;
+
+    /* Type scale — 4-step, minimum 18px */
+    --t-sm:  18px;   /* body, labels, captions, table cells, pills, mono, footer */
+    --t-md:  24px;   /* subheads, section titles, insight, strategic h */
+    --t-lg:  40px;   /* KPI values, stat values, page title */
+    --t-xl:  64px;   /* hero gap numbers */
+
+    /* Spacing (Spectrum 8px grid) */
+    --s-50:   2px;
+    --s-75:   4px;
+    --s-100:  8px;
+    --s-150: 12px;
+    --s-200: 16px;
+    --s-300: 24px;
+    --s-400: 32px;
+    --s-500: 40px;
+    --s-600: 48px;
+    --s-700: 64px;
+    --s-800: 80px;
+    --s-900: 96px;
+
+    /* Radii */
+    --r-sm: 4px;
+    --r-md: 6px;
+    --r-lg: 8px;
+
+    /* Elevation */
+    --shadow-1: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-2: 0 2px 8px rgba(0,0,0,0.08), 0 0 0 1px var(--gray-200);
+  }
+
+  /* ============================================================
+     Base
+     ============================================================ */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--gray-100);
+    color: var(--gray-900);
+    line-height: 1.55;
+    font-size: var(--t-sm);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ============================================================
+     Top app bar — Adobe Spectrum style
+     ============================================================ */
+  .appbar {
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+    padding: var(--s-150) var(--s-400);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .appbar-left {
+    display: flex;
+    align-items: center;
+    gap: var(--s-200);
+  }
+  .adobe-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-150);
+  }
+  .adobe-mark .logo-img {
+    width: 36px;
+    height: 32px;
+    display: block;
+    flex-shrink: 0;
+    background-image: var(--adobe-logo);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .adobe-mark .product {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    letter-spacing: -0.005em;
+  }
+  .adobe-mark .product span {
+    color: var(--gray-700);
+    font-weight: 400;
+    margin-left: var(--s-75);
+  }
+  .appbar-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--gray-300);
+  }
+  .appbar-context {
+    font-family: var(--font-sans);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    font-weight: 500;
+  }
+  .appbar-right {
+    display: flex;
+    gap: var(--s-200);
+    align-items: center;
+  }
+  .filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    font-weight: 500;
+  }
+  .filter-chip .chip-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+  .filter-chip .chip-value {
+    color: var(--gray-900);
+    font-weight: 600;
+  }
+
+  /* ============================================================
+     Page container
+     ============================================================ */
+  .page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--s-600) var(--s-500) var(--s-900);
+  }
+
+  /* ============================================================
+     Page header / hero
+     ============================================================ */
+  .page-header {
+    margin-bottom: var(--s-600);
+  }
+  .breadcrumb {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-200);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .breadcrumb a { color: var(--blue-600); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb-sep { color: var(--gray-400); }
+
+  h1.page-title {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--gray-900);
+    margin-bottom: var(--s-200);
+  }
+  h1.page-title .accent {
+    color: var(--blue-600);
+    font-weight: 700;
+  }
+  .page-lede {
+    font-size: var(--t-md);
+    line-height: 1.6;
+    color: var(--gray-800);
+    max-width: 820px;
+    font-weight: 400;
+  }
+
+  .info-banner {
+    margin-top: var(--s-400);
+    padding: var(--s-200) var(--s-300);
+    background: var(--blue-75);
+    border: 1px solid var(--blue-100);
+    border-left: 3px solid var(--blue-500);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    line-height: 1.55;
+    max-width: 820px;
+    display: flex;
+    gap: var(--s-200);
+    align-items: flex-start;
+  }
+  .info-banner .info-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    background: var(--blue-500);
+    border-radius: 50%;
+    color: white;
+    font-size: var(--t-sm);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .info-banner strong { font-weight: 600; }
+  .info-banner em { font-style: normal; color: var(--blue-700); font-weight: 600; }
+
+  /* ============================================================
+     Cards (Spectrum)
+     ============================================================ */
+  .card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-400);
+  }
+
+  /* ============================================================
+     Section block
+     ============================================================ */
+  .section {
+    margin-bottom: var(--s-600);
+  }
+  .section-head {
+    margin-bottom: var(--s-300);
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-200);
+    border-bottom: 1px solid var(--gray-300);
+    padding-bottom: var(--s-200);
+  }
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--blue-600);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .section-title {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    letter-spacing: -0.01em;
+  }
+  .section-subtitle {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    max-width: 820px;
+    line-height: 1.6;
+    margin-bottom: var(--s-300);
+  }
+
+  /* ============================================================
+     KPI tiles (Spectrum metric cards)
+     ============================================================ */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s-200);
+  }
+  .kpi {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-300);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .kpi:hover {
+    border-color: var(--gray-400);
+    box-shadow: var(--shadow-1);
+  }
+  .kpi .label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-150);
+    letter-spacing: 0;
+  }
+  .kpi .value {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--s-100);
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi .delta {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+  }
+  .kpi .delta.up { color: var(--positive-500); }
+  .kpi .delta.down { color: var(--negative-600); }
+  .kpi .delta.flat { color: var(--notice-500); }
+  .kpi .delta .arrow {
+    font-size: var(--t-sm);
+    line-height: 1;
+  }
+  @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .kpi-grid { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Insight callout (Spectrum status banner, scaled up)
+     ============================================================ */
+  .insight {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-400) var(--s-500);
+    position: relative;
+    overflow: hidden;
+  }
+  .insight::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 4px;
+    background: var(--blue-500);
+  }
+  .insight .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    text-transform: uppercase;
+    color: var(--blue-700);
+    background: var(--blue-100);
+    padding: 4px 10px;
+    border-radius: var(--r-sm);
+    font-weight: 600;
+    margin-bottom: var(--s-200);
+    letter-spacing: 0.04em;
+  }
+  .insight blockquote {
+    font-family: var(--font-sans);
+    font-size: var(--t-md);
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--gray-900);
+    letter-spacing: -0.01em;
+  }
+  .insight blockquote em {
+    font-style: normal;
+    color: var(--blue-600);
+    font-weight: 700;
+  }
+
+  /* ============================================================
+     Gap visualization (two-up)
+     ============================================================ */
+  .gap-viz {
+    margin-top: var(--s-300);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-200);
+  }
+  .gap-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-300) var(--s-400);
+  }
+  .gap-card.positive { border-top: 4px solid var(--positive-500); }
+  .gap-card.negative { border-top: 4px solid var(--negative-500); }
+  .gap-card .gap-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-100);
+  }
+  .gap-card .gap-num {
+    font-size: var(--t-xl);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--s-150);
+    font-variant-numeric: tabular-nums;
+  }
+  .gap-card.positive .gap-num { color: var(--positive-500); }
+  .gap-card.negative .gap-num { color: var(--negative-600); }
+  .gap-card .gap-desc {
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    line-height: 1.6;
+    max-width: 380px;
+  }
+  .gap-card .gap-example {
+    margin-top: var(--s-200);
+    padding-top: var(--s-200);
+    border-top: 1px solid var(--gray-200);
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+  @media (max-width: 720px) { .gap-viz { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Read-this-as note (Spectrum tip)
+     ============================================================ */
+  .note {
+    margin: var(--s-300) 0;
+    padding: var(--s-200) var(--s-300);
+    background: var(--gray-100);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    line-height: 1.6;
+    color: var(--gray-800);
+    border-left: 3px solid var(--gray-500);
+  }
+  .note strong { color: var(--gray-900); font-weight: 600; }
+  .note em { font-style: normal; color: var(--blue-700); font-weight: 600; }
+  .note.alert {
+    background: var(--notice-100);
+    border-left-color: var(--notice-500);
+  }
+  .note.alert strong { color: var(--gray-900); }
+
+  /* ============================================================
+     Data tables (Spectrum)
+     ============================================================ */
+  .table-wrap {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  table.data {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--t-sm);
+  }
+  table.data thead {
+    background: var(--gray-100);
+    border-bottom: 1px solid var(--gray-300);
+  }
+  table.data th {
+    text-align: left;
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 600;
+    padding: var(--s-200);
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid var(--gray-300);
+    white-space: nowrap;
+  }
+  table.data th.num, table.data td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  table.data td {
+    padding: var(--s-200);
+    border-bottom: 1px solid var(--gray-200);
+    color: var(--gray-900);
+    vertical-align: middle;
+    font-size: var(--t-sm);
+  }
+  table.data td.num {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+  }
+  table.data tbody tr:hover { background: var(--gray-100); }
+  table.data tbody tr:last-child td { border-bottom: none; }
+  table.data .accent { color: var(--blue-600); font-weight: 600; }
+  table.data .muted { color: var(--gray-700); font-size: var(--t-sm); }
+  table.data .pos { color: var(--positive-500); font-weight: 600; }
+  table.data .neg { color: var(--negative-600); font-weight: 600; }
+  table.data .warn { color: var(--notice-500); font-weight: 600; }
+
+  /* Tags / pills (Spectrum tags) */
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 16px;
+    font-size: var(--t-sm);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .tag-pill.owned    { background: var(--blue-100);     color: var(--blue-700);     }
+  .tag-pill.earned   { background: var(--gray-200);     color: var(--gray-800);     }
+  .tag-pill.others   { background: var(--notice-100);   color: var(--notice-500);   }
+  .tag-pill.social   { background: var(--gray-100);     color: var(--gray-700);     }
+  .tag-pill.p0       { background: var(--negative-100); color: var(--negative-600); }
+  .tag-pill.p1       { background: var(--blue-100);     color: var(--blue-700);     }
+  .tag-pill.p2       { background: var(--notice-100);   color: var(--notice-500);   }
+  .tag-pill.p3       { background: var(--gray-200);     color: var(--gray-800);     }
+  .tag-pill.pos      { background: var(--positive-100); color: var(--positive-500); }
+  .tag-pill.neg      { background: var(--negative-100); color: var(--negative-600); }
+  .tag-pill.warn-tag { background: var(--notice-100);   color: var(--notice-500);   }
+
+  /* Inline bar */
+  .bar-cell { min-width: 140px; }
+  .bar { display: flex; align-items: center; gap: 10px; }
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill { height: 100%; background: var(--blue-500); border-radius: 3px; }
+  .bar-fill.pos  { background: var(--positive-500); }
+  .bar-fill.warn { background: var(--notice-500); }
+  .bar-fill.neg  { background: var(--negative-500); }
+  .bar-val {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    min-width: 48px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ============================================================
+     Two-column grid
+     ============================================================ */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-300);
+  }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+  .subhead {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin: var(--s-400) 0 var(--s-200);
+    letter-spacing: -0.005em;
+  }
+  .subhead:first-child { margin-top: 0; }
+
+  /* ============================================================
+     Source-type summary stat-blocks
+     ============================================================ */
+  .stat-list {
+    display: grid;
+    gap: var(--s-200);
+  }
+  .stat-row {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-200) var(--s-300);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--s-200);
+  }
+  .stat-row .stat-info { display: flex; flex-direction: column; gap: 2px; }
+  .stat-row .stat-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+  }
+  .stat-row .stat-desc {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+  }
+  .stat-row .stat-value {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .stat-row.owned .stat-value { color: var(--blue-600); }
+
+  /* ============================================================
+     Funnel
+     ============================================================ */
+  .funnel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-100);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-200);
+  }
+  .funnel-row {
+    display: grid;
+    grid-template-columns: 1fr 120px 80px;
+    align-items: center;
+    padding: var(--s-200);
+    background: var(--gray-100);
+    border-radius: var(--r-sm);
+    transition: background 0.15s;
+  }
+  .funnel-row:hover { background: var(--gray-200); }
+  .funnel-row .stage {
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    font-weight: 500;
+  }
+  .funnel-row .volume {
+    font-family: var(--font-sans);
+    font-size: var(--t-sm);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--gray-900);
+  }
+  .funnel-row .conv {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-align: right;
+  }
+  .funnel-row.final {
+    background: var(--blue-100);
+    border: 1px solid var(--blue-500);
+  }
+  .funnel-row.final .stage,
+  .funnel-row.final .volume { color: var(--blue-700); font-weight: 700; }
+  .funnel-row.final .conv { color: var(--blue-700); font-weight: 700; }
+
+  /* ============================================================
+     Referral URL chips
+     ============================================================ */
+  .url-chip-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-100);
+    margin-top: var(--s-200);
+  }
+  .url-chip {
+    display: flex;
+    align-items: center;
+    gap: var(--s-150);
+    padding: var(--s-200);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+  }
+  .url-chip .hits {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--blue-600);
+    background: var(--blue-100);
+    padding: 5px 12px;
+    border-radius: var(--r-sm);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .url-chip .path {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .url-chip .warn { color: var(--notice-500); font-size: var(--t-sm); font-weight: 600; margin-left: auto; }
+  @media (max-width: 720px) { .url-chip-list { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Action cards
+     ============================================================ */
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s-200);
+  }
+  .action {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-top: 4px solid var(--blue-500);
+    border-radius: var(--r-md);
+    padding: var(--s-300);
+  }
+  .action .num-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: var(--blue-100);
+    color: var(--blue-700);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    border-radius: 50%;
+    margin-bottom: var(--s-200);
+  }
+  .action h4 {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--s-100);
+    line-height: 1.3;
+  }
+  .action p {
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    line-height: 1.6;
+  }
+  @media (max-width: 900px) { .actions { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Strategic posture
+     ============================================================ */
+  .strategic {
+    margin-top: var(--s-400);
+    padding: var(--s-400) var(--s-500);
+    background: linear-gradient(135deg, var(--blue-500) 0%, var(--blue-700) 100%);
+    border-radius: var(--r-md);
+    color: white;
+  }
+  .strategic .tag-pill {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    margin-bottom: var(--s-200);
+  }
+  .strategic .strategic-h {
+    font-size: var(--t-md);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--s-200);
+  }
+  .strategic .strategic-h em { font-style: normal; opacity: 0.85; }
+  .strategic .strategic-p {
+    font-size: var(--t-sm);
+    line-height: 1.6;
+    color: rgba(255,255,255,0.92);
+    max-width: 760px;
+  }
+
+  /* ============================================================
+     Footer
+     ============================================================ */
+  footer {
+    margin-top: var(--s-700);
+    padding-top: var(--s-400);
+    border-top: 1px solid var(--gray-300);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.6;
+  }
+  footer .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--s-400);
+    margin-bottom: var(--s-400);
+  }
+  footer h5 {
+    font-size: var(--t-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-900);
+    font-weight: 700;
+    margin-bottom: var(--s-150);
+  }
+  footer p { margin-bottom: var(--s-100); }
+  footer strong { color: var(--gray-900); font-weight: 600; }
+  footer em { font-style: italic; }
+  footer .credit {
+    text-align: center;
+    padding-top: var(--s-200);
+    border-top: 1px solid var(--gray-200);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-100);
+  }
+  footer .credit .logo-img {
+    width: 20px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    background-image: var(--adobe-logo);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  @media (max-width: 720px) { footer .footer-grid { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     TOC tabs (Spectrum tabs) — sticky, scrollspy-driven
+     ============================================================ */
+  .toc-tabs {
+    display: flex;
+    gap: 0;
+    margin: 0 0 var(--s-500);
+    overflow-x: auto;
+    position: sticky;
+    top: 64px;                           /* sits below the appbar */
+    z-index: 50;
+    background: var(--gray-100);
+    /* Use a wrapper-style bottom border via box-shadow to avoid layout shift */
+    box-shadow: inset 0 -1px 0 var(--gray-300);
+    scrollbar-width: thin;
+  }
+  .toc-tabs::-webkit-scrollbar { height: 4px; }
+  .toc-tabs::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 2px; }
+
+  .toc-tabs a {
+    padding: var(--s-200) var(--s-300);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    /* Underline pseudo-element instead of border — no layout shift, no focus-ring conflict */
+    transition: color 0.15s ease;
+  }
+  .toc-tabs a::after {
+    content: "";
+    position: absolute;
+    left: var(--s-300);
+    right: var(--s-300);
+    bottom: 0;
+    height: 2px;
+    background: transparent;
+    transition: background-color 0.15s ease;
+    pointer-events: none;
+  }
+  .toc-tabs a:hover { color: var(--blue-600); }
+  .toc-tabs a:hover::after { background: var(--blue-400); }
+  .toc-tabs a.active { color: var(--blue-700); font-weight: 600; }
+  .toc-tabs a.active::after { background: var(--blue-600); }
+
+  /* Suppress sticky mouse-click focus rings; keep keyboard focus accessible */
+  .toc-tabs a:focus { outline: none; }
+  .toc-tabs a:focus-visible {
+    outline: 2px solid var(--blue-500);
+    outline-offset: -4px;
+    border-radius: var(--r-sm);
+  }
+
+  .toc-tabs a .num {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-600);
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+  .toc-tabs a:hover .num,
+  .toc-tabs a.active .num { color: var(--blue-600); }
+
+  /* Scroll anchor offset — clears both sticky appbar + sticky TOC */
+  .section[id] { scroll-margin-top: 140px; }
+
+  /* Caption */
+  .caption {
+    margin-top: var(--s-100);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+  .caption strong { color: var(--gray-900); font-weight: 600; }
+
+  /* Print */
+  @media print {
+    body { background: white; font-size: 10pt; }
+    .appbar { position: static; box-shadow: none; }
+    .page { padding: var(--s-300); max-width: 100%; }
+    .section { page-break-inside: avoid; }
+    .actions, .insight, .strategic, .kpi-grid { page-break-inside: avoid; }
+    .toc-tabs { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<style>
+  /* ===== Structural additions ===== */
+  .part { margin: var(--s-700) 0 var(--s-500); padding: var(--s-500); border-radius: var(--r-md); background: var(--gray-900); color:#fff; position:relative; overflow:hidden; }
+  .part.measure { background: linear-gradient(135deg, var(--blue-600) 0%, var(--blue-800) 100%); }
+  .part.action  { background: var(--gray-900); }
+  .part .part-eyebrow { font-family: var(--font-mono); font-size: var(--t-sm); letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.62); font-weight:600; margin-bottom: var(--s-100); }
+  .part .part-title { font-size: var(--t-lg); font-weight:800; line-height:1.1; letter-spacing:-0.02em; margin-bottom: var(--s-200); }
+  .part .part-sub { font-size: var(--t-md); line-height:1.45; color:rgba(255,255,255,0.9); max-width:860px; font-weight:400; }
+  .part:first-of-type { margin-top: var(--s-400); }
+
+  .readiness { display:grid; grid-template-columns: 200px 1fr; gap: var(--s-400); align-items:center; background: var(--gray-50); border:1px solid var(--gray-200); border-left:4px solid var(--blue-500); border-radius: var(--r-md); padding: var(--s-400) var(--s-500); margin-bottom: var(--s-300); }
+  .readiness .score { font-size: 34px; font-weight:800; line-height:1; letter-spacing:-0.02em; color: var(--blue-600); }
+  .readiness .score small { display:block; font-size: var(--t-sm); font-weight:600; color: var(--gray-700); margin-top: var(--s-150); letter-spacing:0; line-height:1.4; }
+  .readiness .verdict h4 { font-size: var(--t-md); font-weight:700; color: var(--gray-900); margin-bottom: var(--s-100); }
+  .readiness .verdict p { font-size: var(--t-sm); color: var(--gray-800); line-height:1.55; max-width:720px; }
+  @media (max-width:720px){ .readiness{ grid-template-columns:1fr; } }
+
+  .trust { display:inline-flex; align-items:center; gap:6px; font-family: var(--font-mono); font-size: var(--t-sm); font-weight:600; padding:4px 11px; border-radius: var(--r-sm); margin-left:auto; letter-spacing:0.02em; align-self:center; }
+  .trust.ok      { background: var(--positive-100); color: var(--positive-500); }
+  .trust.caution { background: var(--blue-100);      color: var(--blue-700);     }
+  .legend { display:flex; gap: var(--s-300); flex-wrap:wrap; margin: var(--s-200) 0 var(--s-400); font-size: var(--t-sm); color: var(--gray-800); }
+  .legend span { display:inline-flex; align-items:center; gap:8px; }
+</style>
+
+<!-- ============ ADOBE APP BAR ============ -->
+<div class="appbar">
+  <div class="appbar-left">
+    <div class="adobe-mark">
+      <div class="logo-img" role="img" aria-label="Adobe"></div>
+      <div class="product">Adobe<span>LLM Optimiser</span></div>
+    </div>
+    <div class="appbar-divider"></div>
+    <div class="appbar-context">Cathay United Bank · Overview</div>
+  </div>
+  <div class="appbar-right">
+    <div class="filter-chip"><span class="chip-label">Date</span><span class="chip-value">Last 4 weeks</span></div>
+    <div class="filter-chip"><span class="chip-label">Platform</span><span class="chip-value">ChatGPT (Free)</span></div>
+    <div class="filter-chip"><span class="chip-label">Market</span><span class="chip-value">All</span></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ============ PAGE HEADER ============ -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="#">Customers</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="#">Cathay United Bank</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>GEO Snapshot</span>
+    </div>
+    <h1 class="page-title">Cathay United Bank owns its brand. <span class="accent">The next step is owning the category.</span></h1>
+    <p class="page-lede">
+      A four-week snapshot of how AI assistants see Cathay United Bank. The report is in three parts: <strong>Part A</strong> sets out what this trial covers, so the results read correctly; <strong>Part B</strong> shows what the assistant is doing; and <strong>Part C</strong> lays out the work. The headline: when people name Cathay or Cube, the bank leads. When they ask a generic banking question, the answer goes elsewhere.
+    </p>
+
+    <div class="info-banner">
+      <div class="info-icon">i</div>
+      <div>
+        <strong>How to read this report.</strong> This is a 200-prompt product trial on ChatGPT (Free), tracking one domain and focused on credit cards. One thing to keep in mind: the market is set to the United States, so generic-question results include some non-Taiwan sources — read those as indicative. Each section below is marked for what's reliable today.
+      </div>
+    </div>
+  </div>
+
+  <!-- TOC nav -->
+  <nav class="toc-tabs">
+    <a href="#setup"><span class="num">A1</span>Setup</a>
+    <a href="#prompts"><span class="num">A2</span>What's Covered</a>
+    <a href="#prompthealth"><span class="num">A3</span>Prompt Health</a>
+    <a href="#kpis"><span class="num">B1</span>Headline</a>
+    <a href="#insight"><span class="num">B2</span>The Gaps</a>
+    <a href="#brand"><span class="num">B3</span>Brand Presence</a>
+    <a href="#agentic"><span class="num">B4</span>Agentic Traffic</a>
+    <a href="#referral"><span class="num">B5</span>Referral &amp; Funnel</a>
+    <a href="#citations"><span class="num">B6</span>Authority Map</a>
+    <a href="#visibility"><span class="num">B7</span>Visibility</a>
+    <a href="#actions"><span class="num">C1</span>What To Do</a>
+  </nav>
+
+  <!-- ======================= PART A ======================= -->
+  <div class="part">
+    <div class="part-eyebrow">Part A · Setup &amp; scope</div>
+    <div class="part-title">What this trial covers</div>
+    <div class="part-sub">A GEO snapshot is only as clear as the setup behind it. This section sets out the scope of the trial, so every result in Part B can be read in the right context.</div>
+  </div>
+
+  <!-- ============ A1 SETUP ============ -->
+  <section class="section" id="setup">
+    <div class="section-head">
+      <span class="section-eyebrow">A1</span>
+      <span class="section-title">Setup at a glance</span>
+    </div>
+    <p class="section-subtitle">The scope behind the numbers — and two settings that affect how Part B reads, one of them serious.</p>
+
+    <div class="readiness" style="border-left-color: var(--notice-500);">
+      <div class="score" style="color: var(--notice-500);">2 fixes<small>settings to correct<br>before the next run (1 serious)</small></div>
+      <div class="verdict">
+        <h4>Core setup is sound, but two settings affect how Part B reads.</h4>
+        <p><strong>Serious: no brand aliases are configured (e.g. CUBE, 國泰 Cube).</strong> The system only recognises the full brand name, not these common variants — so Part B's Brand Mentions, Share of Voice and branded/unbranded split under-count and are skewed. Second, the market is set to the United States, which pulls non-Taiwan sources into the generic-question answers. Both should be fixed before the next run; until then, most of Part B's brand- and citation-related figures are indicative. When reading Part B, also keep in mind the trial is focused on credit cards.</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead>
+          <tr><th>Setting</th><th>This trial</th><th>What it means for the read-out</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Assistant</strong></td>
+            <td>ChatGPT (Free)</td>
+            <td class="muted">All results below are ChatGPT's view. The trial measures one assistant at a time.</td>
+          </tr>
+          <tr>
+            <td><strong>Tracked domain</strong></td>
+            <td>cathay-cube.com.tw</td>
+            <td class="muted">One owned domain. Citations to Cathay's other sites are counted among third-party sources (see B6).</td>
+          </tr>
+          <tr>
+            <td><strong>Market</strong></td>
+            <td class="warn">United States</td>
+            <td class="muted">The questions are in Traditional Chinese for Taiwan, but the market is set to the US — so generic-question answers include some non-Taiwan sources. Read those results as indicative.</td>
+          </tr>
+          <tr>
+            <td><strong>Brand aliases</strong></td>
+            <td class="neg"><strong>Not set</strong></td>
+            <td class="muted"><strong>Serious.</strong> No own-brand aliases are configured, so the system doesn't recognise variants like CUBE, 國泰 Cube, Cube 卡 or cathay-cube — when the AI talks about Cathay using those names, it isn't counted. Part B's Brand Mentions, Share of Voice and branded figures therefore under-count and are indicative. Configure the brand and product aliases in LLMO.</td>
+          </tr>
+          <tr>
+            <td><strong>Active prompts</strong></td>
+            <td>200 · credit-card focused</td>
+            <td class="muted">The trial budget, concentrated on the flagship. The report therefore speaks mainly to the card business.</td>
+          </tr>
+          <tr>
+            <td><strong>Period</strong></td>
+            <td>3–27 May 2026 (4 weeks)</td>
+            <td class="muted">Weekly figures aggregate over this window.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ A2 WHAT'S COVERED ============ -->
+  <section class="section" id="prompts">
+    <div class="section-head">
+      <span class="section-eyebrow">A2</span>
+      <span class="section-title">What the trial covers</span>
+    </div>
+    <p class="section-subtitle">The 200 trial prompts are concentrated on credit cards — the flagship for AI-assistant discovery and a sound focus for a limited trial. As a result, this report speaks mainly to the card business.</p>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Category</th><th class="num">Prompts</th><th>Share of test set</th><th>Coverage</th></tr></thead>
+        <tbody>
+          <tr><td>信用卡 <span class="muted">Credit cards</span></td><td class="num">142</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:53%"></div></div><div class="bar-val">53.0%</div></div></td><td class="accent">primary focus</td></tr>
+          <tr><td>信用卡服務 <span class="muted">Card services</span></td><td class="num">48</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:17.9%"></div></div><div class="bar-val">17.9%</div></div></td><td class="muted">covered</td></tr>
+          <tr><td>個人金融 <span class="muted">Personal finance (generic)</span></td><td class="num">42</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:15.7%"></div></div><div class="bar-val">15.7%</div></div></td><td class="muted">covered</td></tr>
+          <tr><td>帳戶 <span class="muted">Accounts &amp; deposits</span></td><td class="num">20</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:7.5%"></div></div><div class="bar-val">7.5%</div></div></td><td class="muted">lighter</td></tr>
+          <tr><td>貸款 <span class="muted">Loans (incl. mortgage)</span></td><td class="num">9</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:3.4%"></div></div><div class="bar-val">3.4%</div></div></td><td class="muted">lighter</td></tr>
+          <tr><td>證券戶 <span class="muted">Securities / wealth</span></td><td class="num">4</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:1.5%"></div></div><div class="bar-val">1.5%</div></div></td><td class="muted">minimal</td></tr>
+          <tr><td>形象 <span class="muted">Brand / image</span></td><td class="num">3</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:1.1%"></div></div><div class="bar-val">1.1%</div></div></td><td class="muted">minimal</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <strong>What this means for the read-out:</strong> the findings in Part B are strongest for credit cards and card services. Deposits, loans and wealth are present but lightly sampled, so read those as indicative.
+    </div>
+  </section>
+
+  <!-- ============ A3 PROMPT LIBRARY HEALTH ============ -->
+  <section class="section" id="prompthealth">
+    <div class="section-head">
+      <span class="section-eyebrow">A3</span>
+      <span class="section-title">Prompt library health</span>
+    </div>
+    <p class="section-subtitle">Each prompt is a test case the assistant is measured against — so a weak prompt gives a weak signal, and prompt quality shapes everything in Part B. The library has strong commercial intent; a short cleanup would make the next run more reliable — the work is hygiene, not strategy. The companion <strong>Prompt Library Audit</strong> covers each item in full, with a 268&nbsp;→&nbsp;200 cleanup plan and rewrite examples.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Check</th><th class="num">Today</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td>Library size</td><td class="num warn">268</td><td class="muted">68 above the 200-prompt trial cap — trim before the next run.</td></tr>
+          <tr><td>Topic / prompt structure</td><td class="num warn">172 rows</td><td class="muted">The real question sits in the "topic" field while "prompt" holds a placeholder; remapping keeps topic reporting clean.</td></tr>
+          <tr><td>Prompt style</td><td class="num warn">~80 fragments</td><td class="muted">Many prompts are keyword fragments ("CUBE新戶優惠") rather than full questions; rewriting them gives steadier measurement.</td></tr>
+          <tr><td>Off-domain / unfinished</td><td class="num warn">14 rows</td><td class="muted">Processing rows (e.g. USD–RMB conversion, generic account-opening) are off-scope for a Taiwan card trial; remove before the next run.</td></tr>
+          <tr><td>Brand aliases <span class="muted">in LLMO</span></td><td class="num warn">0</td><td class="muted">No own-brand aliases (e.g. CUBE) configured yet; branded metrics likely under-count — fix this first (see A1).</td></tr>
+          <tr><td>Branded : unbranded</td><td class="num">~30 : 70</td><td class="muted">No fixed standard; depends on the measurement goal (and can't be read reliably until aliases are set).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <strong>In short:</strong> the card / CUBE focus is the right place to start. The to-dos are setup and housekeeping — trim to 200, configure brand aliases (e.g. CUBE), remap the topic/prompt fields, consolidate duplicate topic labels, align the market metadata to Taiwan, and turn keyword fragments into full questions. Details and a recommended starter set are in the companion audit.
+    </div>
+  </section>
+
+  <!-- ======================= PART B ======================= -->
+  <div class="part measure">
+    <div class="part-eyebrow">Part B · Measurement</div>
+    <div class="part-title">What the AI assistant is doing</div>
+    <div class="part-sub">The performance results, from ChatGPT (Free). Each section is marked so you know what's stable and what's shaped by the US market setting and the missing brand aliases.</div>
+  </div>
+
+  <div class="legend">
+    <span><span class="trust ok">✓ Reliable</span> server / page data, unaffected by settings</span>
+    <span><span class="trust caution">◐ Indicative</span> shaped by the US market setting <strong>and the missing brand aliases</strong> (see Part A)</span>
+  </div>
+
+  <!-- ============ B1 KPIs ============ -->
+  <section class="section" id="kpis">
+    <div class="section-head">
+      <span class="section-eyebrow">B1</span>
+      <span class="section-title">Headline metrics</span>
+      <span class="trust caution">◐ Indicative</span>
+    </div>
+    <p class="section-subtitle">Eight numbers that frame the snapshot. Deltas compare against the previous week.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="label">Content Visibility</div><div class="value">31%</div><div class="delta down"><span class="arrow">●</span> Poor — most content hard for AI to read</div></div>
+      <div class="kpi"><div class="label">Visibility Score</div><div class="value">49%</div><div class="delta up"><span class="arrow">▲</span> 4% vs prior week</div></div>
+      <div class="kpi"><div class="label">Brand Mentions</div><div class="value">64</div><div class="delta flat"><span class="arrow">●</span> 0% vs prior week</div></div>
+      <div class="kpi"><div class="label">Citations</div><div class="value">30</div><div class="delta up"><span class="arrow">▲</span> 77% vs prior week</div></div>
+      <div class="kpi"><div class="label">Agentic Hits</div><div class="value">119k</div><div class="delta down"><span class="arrow">▼</span> 6% vs prior week</div></div>
+      <div class="kpi"><div class="label">LLM Referrals</div><div class="value">3,100</div><div class="delta down"><span class="arrow">▼</span> 14% vs prior week</div></div>
+      <div class="kpi"><div class="label">Avg Share of Voice</div><div class="value">19.8%</div><div class="delta up"><span class="arrow">●</span> #1 in 9 of 10 topics present</div></div>
+      <div class="kpi"><div class="label">Owned Citation Share</div><div class="value">4.6%</div><div class="delta flat"><span class="arrow">●</span> 95% third-party — much of it favourable</div></div>
+    </div>
+    <div class="note">
+      <strong>One thing to keep in mind:</strong> Visibility Score and Share of Voice are lifted by the roughly one-third of prompts that name Cathay or Cube, where the bank dominates. They are also under-stated: with no brand aliases configured, variants like "CUBE" go undetected in Brand Mentions and Share of Voice, so read the branded side as a floor. The generic results (Section B2) are the truer read of how Cathay competes for new customers.
+    </div>
+  </section>
+
+  <!-- ============ B2 THE GAPS ============ -->
+  <section class="section" id="insight">
+    <div class="section-head">
+      <span class="section-eyebrow">B2</span>
+      <span class="section-title">Two real gaps</span>
+      <span class="trust caution">◐ Indicative</span>
+    </div>
+    <p class="section-subtitle">Two questions sit behind the data. When people <strong>name Cathay</strong>, how is the AI talking about it? When they <strong>don't</strong>, is the AI choosing it at all? The answers point in different directions.</p>
+
+    <div class="insight">
+      <span class="tag">Central insight</span>
+      <blockquote>
+        Even when a user asks for Cathay or Cube <em>by name</em>, the bank shows up only <em>43.5%</em> of the time — 32 of 78 such prompts return nothing. This isn't about wording. The bank's own pages aren't readable enough for the AI to pull them, even on request.
+      </blockquote>
+    </div>
+
+    <div class="gap-viz">
+      <div class="gap-card negative">
+        <div class="gap-label">Branded questions · "how is AI talking about us?"</div>
+        <div class="gap-num">43.5%</div>
+        <div class="gap-desc">When Cathay does appear it's favourable — #1, positive sentiment — so the <em>quality</em> of the answer is good. The problem is frequency: it shows up only 43.5% of the time, and 32 of 78 by-name prompts return nothing, because the pages aren't readable enough for the AI to pull them (Section B7).</div>
+        <div class="gap-example">e.g. "國泰 Cube 卡有哪些優惠？" (What does the Cathay Cube card offer?)</div>
+      </div>
+      <div class="gap-card negative">
+        <div class="gap-label">Generic questions · "is AI choosing us at all?"</div>
+        <div class="gap-num">3.0%</div>
+        <div class="gap-desc">Largely, no. On questions that don't name the bank — the bulk of real customer searches — Cathay rarely appears, and the answer goes to card-comparison sites. (With the market set to the US and no brand aliases configured — so CUBE variants may go uncounted — read this as indicative of the category gap rather than a precise figure.)</div>
+        <div class="gap-example">e.g. "2025 年推薦信用卡清單？" (Best credit cards for 2025?)</div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>What to take from this:</strong> the two questions need different work. "How is AI talking about us?" is mostly a readability fix — make the pages legible so the AI can pull the favourable answer it's already inclined to give. "Is AI choosing us at all?" is the bigger prize, since it's where new customers begin; for now, read it as indicative given the US market setting.
+    </div>
+  </section>
+
+  <!-- ============ B3 BRAND PRESENCE ============ -->
+  <section class="section" id="brand">
+    <div class="section-head">
+      <span class="section-eyebrow">B3</span>
+      <span class="section-title">Brand presence</span>
+      <span class="trust caution">◐ Indicative</span>
+    </div>
+    <p class="section-subtitle">How the assistant names and positions Cathay. Sentiment is strong — 35 of 64 mentions are positive, none negative, and the bank ranks #1 wherever it appears. The opportunity is breadth: it registers in only 10 of the tested topics.</p>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead>
+          <tr><th>Topic</th><th class="num">Mentions</th><th>Rank</th><th>Cathay Share of Voice</th><th>Nearest competitor</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>國泰 Cube APP</td><td class="num">46</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width: 82.1%"></div></div><div class="bar-val">82.1%</div></div></td><td class="muted">uncontested</td></tr>
+          <tr><td>國泰 cube 卡</td><td class="num">22</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width: 26.8%"></div></div><div class="bar-val">26.8%</div></div></td><td class="muted">台新 gogo / 富邦 J 卡</td></tr>
+          <tr><td>國泰 Cube 信用卡</td><td class="num">70</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width: 20.3%"></div></div><div class="bar-val">20.3%</div></div></td><td class="muted">台新 · 匯豐</td></tr>
+          <tr><td>國泰信用卡</td><td class="num">25</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width: 16.0%"></div></div><div class="bar-val">16.0%</div></div></td><td class="muted">Visa / Mastercard / JCB</td></tr>
+          <tr><td>國泰 cube</td><td class="num">12</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width: 15.4%"></div></div><div class="bar-val">15.4%</div></div></td><td class="muted">玉山 UniCard</td></tr>
+          <tr><td>外幣存款 <span class="muted">(FX deposit)</span></td><td class="num">4</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width: 10.0%"></div></div><div class="bar-val">10.0%</div></div></td><td class="muted">玉山 / 台灣銀行</td></tr>
+          <tr><td>信用卡機場接送 <span class="muted">(airport pickup)</span></td><td class="num">12</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width: 9.6%"></div></div><div class="bar-val">9.6%</div></div></td><td class="muted">台新銀行 · 富邦</td></tr>
+          <tr><td>信用卡優惠 <span class="muted">(card offers)</span></td><td class="num">5</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width: 4.6%"></div></div><div class="bar-val">4.6%</div></div></td><td class="muted">台新 / 玉山 / 永豐</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col" style="margin-top: var(--s-300);">
+      <div class="card">
+        <div style="font-size: var(--t-sm); color: var(--gray-700); font-weight: 600; margin-bottom: var(--s-200); letter-spacing: 0.02em;">MARKET COMPARISON · MENTIONS + CITATIONS, 4-WK AGGREGATE</div>
+        <table class="data" style="font-size: var(--t-sm);">
+          <tbody>
+            <tr><td style="font-weight: 700;">Cathay United Bank</td><td class="num accent">267</td></tr>
+            <tr><td>Taishin International Bank</td><td class="num">107</td></tr>
+            <tr><td>Apple <span class="muted">(Apple Pay)</span></td><td class="num">80</td></tr>
+            <tr><td>Line Corporation <span class="muted">(LINE Pay / Bank)</span></td><td class="num">74</td></tr>
+          </tbody>
+        </table>
+        <div class="caption" style="margin-top: var(--s-150);">Cathay leads its closest domestic rival, Taishin, by ~2.5×. Apple and LINE rank highly because Apple Pay and LINE Pay / Bank surface in payment questions — both are genuine players in Taiwan's digital-payments space.</div>
+      </div>
+      <div>
+        <div class="note alert" style="margin-top: 0;">
+          <strong>Authority without breadth.</strong> On the branded and benefit topics where Cathay appears, it owns the answer — #1, positive sentiment. On generic card, deposit and loan questions it does not yet register, and the answer goes to comparison sites.
+        </div>
+        <div class="note" style="margin-top: var(--s-200);">
+          <strong>A caveat:</strong> no brand aliases (CUBE, 國泰 Cube) are configured in LLMO, so when the AI refers to Cathay by those variants the Brand Mentions and Share of Voice here likely under-count. Adding the aliases would sharpen these figures.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ B4 AGENTIC TRAFFIC ============ -->
+  <section class="section" id="agentic">
+    <div class="section-head">
+      <span class="section-eyebrow">B4</span>
+      <span class="section-title">Agentic traffic</span>
+      <span class="trust ok">✓ Reliable</span>
+    </div>
+    <p class="section-subtitle">How ChatGPT's crawler interacts with the site — 119,062 visits in four weeks. Technically clean and fast, but concentrated on the least-readable pages.</p>
+
+    <div class="two-col">
+      <div>
+        <h3 class="subhead">Technical health</h3>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>Response code</th><th class="num">Hits</th><th class="num">Share</th></tr></thead>
+            <tbody>
+              <tr><td><span class="pos">200</span> OK</td><td class="num">95,961</td><td class="num">82.4%</td></tr>
+              <tr><td><span class="warn">301</span> Moved Permanently</td><td class="num">16,560</td><td class="num">14.2%</td></tr>
+              <tr><td><span class="neg">404</span> Not Found</td><td class="num">3,686</td><td class="num">3.2%</td></tr>
+              <tr><td><span class="neg">503</span> Service Unavailable</td><td class="num">252</td><td class="num">0.2%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          <strong>3,938 visits</strong> — 3.4% of crawler traffic — hit a 404 or 503. Recoverable with no new content.
+        </div>
+      </div>
+      <div>
+        <h3 class="subhead">Page speed</h3>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>Measure</th><th class="num">Value</th></tr></thead>
+            <tbody>
+              <tr><td>Average response time (TTFB)</td><td class="num pos">256ms</td></tr>
+              <tr><td>Pages slower than 1.5s</td><td class="num pos">0</td></tr>
+              <tr><td>Pages slower than 3s</td><td class="num pos">0</td></tr>
+              <tr><td>URLs crawled</td><td class="num">343</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          <strong>Speed is not the problem.</strong> Pages load quickly for the crawler; the issue is whether the AI can read what's on them — covered in B7.
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subhead">Where the crawler spends its time</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Page type</th><th class="num">Hits</th><th class="num">Share</th></tr></thead>
+        <tbody>
+          <tr><td>Event-detail</td><td class="num">38,516</td><td class="num">35.2%</td></tr>
+          <tr><td>Product</td><td class="num">28,228</td><td class="num">25.8%</td></tr>
+          <tr><td>Product-rights <span class="muted">(card benefits)</span></td><td class="num">9,788</td><td class="num">9.0%</td></tr>
+          <tr><td>Service-intro</td><td class="num">7,706</td><td class="num">7.0%</td></tr>
+          <tr><td>Homepage</td><td class="num">6,686</td><td class="num">6.1%</td></tr>
+          <tr><td>Announcement</td><td class="num">4,101</td><td class="num">3.7%</td></tr>
+          <tr><td>Loan</td><td class="num">3,912</td><td class="num">3.6%</td></tr>
+          <tr><td>Deposit</td><td class="num">3,777</td><td class="num">3.5%</td></tr>
+          <tr><td>Document / Other</td><td class="num">6,659</td><td class="num">6.1%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="subhead">Crawl volume by journey stage — and how readable each is</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Journey stage</th><th class="num">Hits</th><th class="num">Share</th><th>Avg Content Visibility</th></tr></thead>
+        <tbody>
+          <tr><td>考慮期 <span class="muted">(consideration / shopping around)</span></td><td class="num">84,893</td><td class="num">75.3%</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill neg" style="width: 18.7%"></div></div><div class="bar-val">18.7%</div></div></td></tr>
+          <tr><td>使用期 <span class="muted">(existing customers)</span></td><td class="num">14,956</td><td class="num">13.3%</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill neg" style="width: 24.7%"></div></div><div class="bar-val">24.7%</div></div></td></tr>
+          <tr><td>Other / uncategorised</td><td class="num">12,923</td><td class="num">11.5%</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width: 36.1%"></div></div><div class="bar-val">36.1%</div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note alert">
+      <strong>The mismatch that matters:</strong> 75% of crawler traffic lands on shopping-around pages — exactly where a prospect researching a card or account begins — yet those pages are only <em>18.7%</em> readable to AI. That's where mentions and citations are lost before they can form.
+    </div>
+  </section>
+
+  <!-- ============ B5 REFERRAL & FUNNEL ============ -->
+  <section class="section" id="referral">
+    <div class="section-head">
+      <span class="section-eyebrow">B5</span>
+      <span class="section-title">Referral &amp; conversion funnel</span>
+      <span class="trust ok">✓ Reliable</span>
+    </div>
+    <p class="section-subtitle">The one view that measures realised business value — and where the volume drops sharply at each step.</p>
+
+    <div class="funnel">
+      <div class="funnel-row"><div class="stage">AI crawler visits to the site</div><div class="volume">119,062</div><div class="conv">—</div></div>
+      <div class="funnel-row"><div class="stage">Successful (200 OK) responses</div><div class="volume">95,961</div><div class="conv">80.6%</div></div>
+      <div class="funnel-row"><div class="stage">Citation attempts on owned URLs</div><div class="volume">36,782</div><div class="conv">38.3%</div></div>
+      <div class="funnel-row"><div class="stage">Owned citations actually made</div><div class="volume">146</div><div class="conv">0.40%</div></div>
+      <div class="funnel-row"><div class="stage">Brand mentions in AI answers</div><div class="volume">64</div><div class="conv">—</div></div>
+      <div class="funnel-row"><div class="stage">Referral visits from ChatGPT</div><div class="volume">3,100</div><div class="conv">—</div></div>
+      <div class="funnel-row final"><div class="stage">End-to-end: crawler visits → referrals</div><div class="volume">2.60%</div><div class="conv">↘</div></div>
+    </div>
+
+    <div class="note">
+      <strong>The bottleneck is citation efficiency.</strong> Crawlers visit Cathay's pages roughly 250 times for each citation they generate. The pages are reached (80.6% return 200 OK) and fast (256ms) — so the constraint is upstream: pages aren't readable enough to be cited. Referral bounce is also high at 38.7%.
+    </div>
+
+    <h3 class="subhead">Where the 3,100 referrals landed</h3>
+    <p class="section-subtitle" style="margin-bottom: 0;">Only <strong>13</strong> pages received referral traffic. Nearly half went to the homepage — people who already knew the brand, arriving at the front door rather than at an answer.</p>
+    <div class="url-chip-list">
+      <div class="url-chip"><span class="hits">1,500</span><span class="path">/cathaybk <span class="muted">· homepage</span></span></div>
+      <div class="url-chip"><span class="hits">600</span><span class="path">/personal/product/credit-card/cards/cube</span></div>
+      <div class="url-chip"><span class="hits">300</span><span class="path">/personal/digital-service/intro/online</span></div>
+      <div class="url-chip"><span class="hits">200</span><span class="path">/personal/product/deposit/open-account</span></div>
+      <div class="url-chip"><span class="hits">200</span><span class="path">/personal/product/credit-card/cards</span></div>
+      <div class="url-chip"><span class="hits">200</span><span class="path">/personal/event/.../payment</span></div>
+      <div class="url-chip"><span class="hits">100</span><span class="path">/personal/product/credit-card/cards/cube-list</span><span class="warn">100% bounce ⚠</span></div>
+      <div class="url-chip"><span class="hits">100</span><span class="path">/personal/product/credit-card/mobilepay/applepay</span></div>
+      <div class="url-chip"><span class="hits">100</span><span class="path">/personal/product/credit-card/rights/airport-pickup</span></div>
+    </div>
+  </section>
+
+  <!-- ============ B6 AUTHORITY MAP ============ -->
+  <section class="section" id="citations">
+    <div class="section-head">
+      <span class="section-eyebrow">B6</span>
+      <span class="section-title">Authority map</span>
+      <span class="trust ok">✓ Reliable</span>
+    </div>
+    <p class="section-subtitle">Where ChatGPT sources its Taiwan banking answers — and what those sources mean. A third-party citation does two different jobs depending on the question (see the note below the table). Comparison and review publishers do most of the citing today.</p>
+
+    <div class="two-col">
+      <div class="stat-list">
+        <div class="stat-row owned"><div class="stat-info"><div class="stat-label">Cathay owned</div><div class="stat-desc">4.6% of citations · 34 URLs · 4.3 per URL</div></div><div class="stat-value">146</div></div>
+        <div class="stat-row"><div class="stat-info"><div class="stat-label">Earned (3rd-party publishers)</div><div class="stat-desc">86.0% · the main answer surface today</div></div><div class="stat-value">2,734</div></div>
+        <div class="stat-row"><div class="stat-info"><div class="stat-label">Others (Reddit, Wikipedia, aggregators)</div><div class="stat-desc">5.9% · community &amp; aggregator-driven</div></div><div class="stat-value">189</div></div>
+        <div class="stat-row"><div class="stat-info"><div class="stat-label">Social (YouTube, etc.)</div><div class="stat-desc">3.5% · minor signal</div></div><div class="stat-value">110</div></div>
+      </div>
+      <div>
+        <div class="note alert" style="margin-top: 0;">
+          <strong>A low owned share isn't automatically a problem.</strong> Many of these third-party sources are favourable reviews of the Cube card — on branded questions, that's earned validation: others vouching for Cathay. The sharper question is the next layer — on generic questions, do these same sources include Cathay, or favour rivals?
+        </div>
+        <div class="card" style="margin-top: var(--s-200);">
+          <div style="font-size: var(--t-sm); color: var(--gray-700); font-weight: 600; margin-bottom: var(--s-200); letter-spacing: 0.02em;">CITATION EFFICIENCY · WHO PUNCHES ABOVE THEIR WEIGHT</div>
+          <table class="data" style="font-size: var(--t-sm);">
+            <tbody>
+              <tr><td style="font-weight: 600;">winvest.tw</td><td class="num accent">12.2/url</td></tr>
+              <tr><td style="font-weight: 600;">rich01.com</td><td class="num accent">10.7/url</td></tr>
+              <tr><td style="font-weight: 600;">creditcards.com.tw</td><td class="num accent">6.3/url</td></tr>
+              <tr><td style="font-weight: 600;">money101.com.tw</td><td class="num accent">4.8/url</td></tr>
+              <tr><td class="muted" style="font-weight: 500;">cathay-cube.com.tw</td><td class="num muted">4.3/url</td></tr>
+            </tbody>
+          </table>
+          <div class="caption" style="margin-top: var(--s-150);">Focused, single-purpose card-review pages earn more citations per page than Cathay's broad owned domain.</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subhead">Top cited sources across the tested questions</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Domain</th><th>Type</th><th class="num">Citations</th><th class="num">Unique URLs</th><th class="num">Per URL</th></tr></thead>
+        <tbody>
+          <tr><td>uptogo.com.tw</td><td><span class="tag-pill earned">Earned</span></td><td class="num">281</td><td class="num">110</td><td class="num">2.6</td></tr>
+          <tr><td><strong>cathay-cube.com.tw</strong></td><td><span class="tag-pill owned">Owned</span></td><td class="num">146</td><td class="num">34</td><td class="num accent">4.3</td></tr>
+          <tr><td>creditcards.com.tw</td><td><span class="tag-pill earned">Earned</span></td><td class="num">125</td><td class="num">20</td><td class="num accent">6.3</td></tr>
+          <tr><td>money101.com.tw</td><td><span class="tag-pill earned">Earned</span></td><td class="num">119</td><td class="num">25</td><td class="num">4.8</td></tr>
+          <tr><td>winvest.tw</td><td><span class="tag-pill earned">Earned</span></td><td class="num">110</td><td class="num">9</td><td class="num accent">12.2</td></tr>
+          <tr><td>apps.apple.com <span class="muted">(Cube app listing)</span></td><td><span class="tag-pill earned">Earned</span></td><td class="num">102</td><td class="num">17</td><td class="num">6.0</td></tr>
+          <tr><td>cathaybk.com.tw <span class="muted">(Cathay's main site)</span></td><td><span class="tag-pill earned">Earned</span></td><td class="num">89</td><td class="num">24</td><td class="num">3.7</td></tr>
+          <tr><td>udn.com <span class="muted">(news)</span></td><td><span class="tag-pill earned">Earned</span></td><td class="num">83</td><td class="num">21</td><td class="num">4.0</td></tr>
+          <tr><td>rich01.com</td><td><span class="tag-pill earned">Earned</span></td><td class="num">75</td><td class="num">7</td><td class="num accent">10.7</td></tr>
+          <tr><td>roo.cash</td><td><span class="tag-pill earned">Earned</span></td><td class="num">74</td><td class="num">12</td><td class="num">6.2</td></tr>
+          <tr><td>taishinbank.com.tw <span class="muted">(competitor)</span></td><td><span class="tag-pill others">Others</span></td><td class="num">73</td><td class="num">12</td><td class="num">6.1</td></tr>
+          <tr><td>youtube.com</td><td><span class="tag-pill social">Social</span></td><td class="num">62</td><td class="num">27</td><td class="num">2.3</td></tr>
+          <tr><td>icard.ai</td><td><span class="tag-pill earned">Earned</span></td><td class="num">56</td><td class="num">18</td><td class="num">3.1</td></tr>
+          <tr><td>reddit.com</td><td><span class="tag-pill others">Others</span></td><td class="num">53</td><td class="num">23</td><td class="num">2.3</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption" style="margin-top: var(--s-150);">cathaybk.com.tw is Cathay's main site; in this single-domain trial it is counted among third-party sources rather than as owned.</div>
+
+    <div class="note">
+      <strong>How to read these citations — same source, two jobs.</strong> On a <em>branded</em> question ("國泰 Cube 卡優惠"), a favourable third-party review is <em>earned validation</em>: the wider web vouching for Cathay, which is a win even when it isn't Cathay's own page. On a <em>generic</em> question ("best cashback card"), those same sources are the <em>competitive arena</em> — what matters is whether they recommend Cathay or a rival. So the aim isn't to pull every citation in-house; it's a favourable answer on branded questions and being included at all on generic ones.
+    </div>
+
+    <div class="note alert">
+      <strong>The citation counts are reliable; the interpretation is, for now, indicative.</strong> The per-source citation totals above are solid server data. But reading a citation as branded "earned validation" versus unbranded "competitive arena" depends on the branded/unbranded split — which needs brand aliases, and none are configured yet (see A1). Until the aliases are set, how citations map to the brand, and which count on branded questions, should be read as indicative.
+
+    <div class="note">
+      <strong>Two themes dominate:</strong> the <em>Cube card itself</em> (reviewed on winvest, creditcards.com.tw, rich01, money101, cardu — largely favourable, so worth keeping that way) and <em>benefit questions</em> (airport pickup, cashback). The highest-leverage move is clear, AI-readable owned pages for the Cube card and its headline benefits, so the AI can draw on Cathay directly alongside the earned coverage.
+    </div>
+  </section>
+
+  <!-- ============ B7 VISIBILITY ============ -->
+  <section class="section" id="visibility">
+    <div class="section-head">
+      <span class="section-eyebrow">B7</span>
+      <span class="section-title">Content visibility</span>
+      <span class="trust ok">✓ Reliable</span>
+    </div>
+    <p class="section-subtitle">How readable the pages are to AI — a property of the pages themselves. The pages crawlers visit most are the least readable: weighted visibility (21.5%) is lower than the simple average (24.0%).</p>
+
+    <h3 class="subhead">Highest-leverage pages to fix</h3>
+    <p class="section-subtitle">Ten pages combining high crawler traffic with low readability — together ~26,000 visits per period. Page speed is healthy on every one; the gap is readability.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Page</th><th class="num">Hits</th><th class="num">Readable to AI</th><th class="num">Speed</th></tr></thead>
+        <tbody>
+          <tr><td>/cathaybk <span class="muted">(homepage)</span></td><td class="num">6,686</td><td class="num warn">37%</td><td class="num pos">129ms</td></tr>
+          <tr><td>/.../credit-card/cards/cube <span class="muted">· flagship</span></td><td class="num">3,370</td><td class="num neg">4%</td><td class="num pos">178ms</td></tr>
+          <tr><td>/.../credit-card/cards/cube-list</td><td class="num">3,345</td><td class="num neg">2%</td><td class="num pos">167ms</td></tr>
+          <tr><td>/.../personal/event/overview</td><td class="num">2,253</td><td class="num neg">8%</td><td class="num pos">174ms</td></tr>
+          <tr><td>/.../credit-card/cards/world</td><td class="num">2,124</td><td class="num neg">7%</td><td class="num pos">215ms</td></tr>
+          <tr><td>/.../credit-card/cards</td><td class="num">1,966</td><td class="num warn">16%</td><td class="num pos">221ms</td></tr>
+          <tr><td>/.../credit-card/cards/eva</td><td class="num">1,806</td><td class="num neg">7%</td><td class="num pos">193ms</td></tr>
+          <tr><td>/.../digital-service/intro/credit-card</td><td class="num">1,584</td><td class="num neg">10%</td><td class="num pos">182ms</td></tr>
+          <tr><td>/.../product/deposit/open-account</td><td class="num">1,421</td><td class="num neg">10%</td><td class="num pos">208ms</td></tr>
+          <tr><td>/.../credit-card/cards/i-debit</td><td class="num">1,379</td><td class="num neg">5%</td><td class="num pos">217ms</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note alert">
+      <strong>The Cube card pages are the clearest opportunity:</strong> /cards/cube and /cards/cube-list draw 6,700+ crawler visits at just 2–4% readability — the exact pages a prospect researching the Cube card needs the AI to read. These are most likely JavaScript-rendered lists that AI can't read without running the page. Server-side rendering or a static, AI-readable version would address it. Page speed is healthy throughout (under 300ms) — this is about readability, not speed.
+    </div>
+  </section>
+
+  <!-- ======================= PART C ======================= -->
+  <div class="part action">
+    <div class="part-eyebrow">Part C · Action</div>
+    <div class="part-title">What to do</div>
+    <div class="part-sub">The work the trial points to, in priority order. All of it is content and technical work on Cathay's own pages — the levers that move AI visibility regardless of the trial settings.</div>
+  </div>
+
+  <section class="section" id="actions">
+    <div class="section-head">
+      <span class="section-eyebrow">C1</span>
+      <span class="section-title">The plan</span>
+    </div>
+    <p class="section-subtitle">Three priorities first, then the full list.</p>
+
+    <div class="actions">
+      <div class="action">
+        <div class="num-tag">01</div>
+        <h4>Make the Cube card pages AI-readable</h4>
+        <p>/cards/cube and /cards/cube-list draw 6,700+ visits at 2–4% readability. A server-side-rendered or static, AI-readable version of the flagship pages lifts every downstream number — mentions, citations, share of voice. The single highest-leverage move.</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">02</div>
+        <h4>Strengthen the Cube answer — owned and earned</h4>
+        <p>Comparison sites (winvest, creditcards.com.tw, rich01, money101) do most of the citing on the Cube card, and largely favourably. The goal isn't to take that away, but to add a clear, AI-readable owned page the model can draw on directly — while keeping the earned coverage accurate and positive.</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">03</div>
+        <h4>Show up on the generic questions</h4>
+        <p>The decision-stage questions — "best cashback card", "card with airport pickup", "推薦信用卡清單" — are where prospects begin and Cathay is largely absent today. Answering them clearly on owned pages is where new-customer reach is won.</p>
+      </div>
+    </div>
+
+    <h3 class="subhead">Full prioritised list</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Priority</th><th>Action</th><th>Type</th><th>Impact</th><th>Effort</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag-pill p0">P0</span></td><td>Make Cube card pages AI-readable (2–4% today, ~6.7k visits)</td><td class="muted">Content / Technical</td><td class="pos">High</td><td class="muted">Med</td></tr>
+          <tr><td><span class="tag-pill p0">P0</span></td><td>Lift the top-10 entry pages (avg ~10% readable)</td><td class="muted">Content</td><td class="pos">High</td><td class="muted">Med</td></tr>
+          <tr><td><span class="tag-pill p0">P0</span></td><td>Recover the 3,938 crawler visits hitting 404 / 503</td><td class="muted">Technical</td><td class="muted">Med</td><td class="muted">Low</td></tr>
+          <tr><td><span class="tag-pill p1">P1</span></td><td>Build authoritative Cube card + comparison pages</td><td class="muted">Content</td><td class="pos">High</td><td class="muted">Med</td></tr>
+          <tr><td><span class="tag-pill p1">P1</span></td><td>Answer the generic, high-intent questions directly</td><td class="muted">Content</td><td class="pos">High</td><td class="muted">High</td></tr>
+          <tr><td><span class="tag-pill p1">P1</span></td><td>Reduce ChatGPT referral bounce (38.7%)</td><td class="muted">UX / Content</td><td class="muted">Med</td><td class="muted">Med</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="strategic">
+      <span class="tag-pill">In short</span>
+      <div class="strategic-h">Cathay owns its brand. The path to owning the <em>category</em> is already visible in the trial.</div>
+      <p class="strategic-p">Make the product pages readable to AI, keep the Cube-card answer favourable across both owned and earned sources, and show up on the generic questions where prospects begin. These are the moves that turn strong brand recognition into presence across the questions that bring new customers in.</p>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h5>Method</h5>
+        <p>All figures from Adobe LLM Optimiser for Cathay United Bank, weeks 18–21 of 2026 (~3–27 May), on ChatGPT (Free). A 200-prompt product trial tracking one domain and focused on credit cards.</p>
+      </div>
+      <div>
+        <h5>Brand entity</h5>
+        <p>The tracked brand is <strong>Cathay United Bank (國泰世華銀行)</strong> and its <em>Cube</em> product family, on the owned domain cathay-cube.com.tw.</p>
+      </div>
+      <div>
+        <h5>Notes</h5>
+        <p>Generic-question results are shaped by the US market setting, so read them as indicative. The headline Content Visibility (31%) is the site-level figure; the page-level detail is in B7.</p>
+      </div>
+    </div>
+    <div class="credit">
+      <span class="logo-img" role="img" aria-label="Adobe"></span>
+      <span>Generated by Adobe LLM Optimiser · Cathay United Bank · 30 May 2026</span>
+    </div>
+  </footer>
+
+</div>
+<script>
+  // Scrollspy — highlights the TOC tab matching the section currently in view.
+  // Carefully avoids three failure modes:
+  //   1. Sticky scope: the nav is a child of .page, not .page-header, so it sticks
+  //      across the entire report rather than vanishing past the hero.
+  //   2. No scrollIntoView: that traverses ALL ancestor scrollers and can pull the
+  //      page itself. We scroll only the TOC container's overflow-x axis.
+  //   3. Suspend during click: smooth-scroll triggers many intermediate scroll
+  //      events; if we kept updating active during animation, the tab would flicker
+  //      through every section between source and target.
+  (function() {
+    const tabs = document.querySelectorAll('.toc-tabs a');
+    if (!tabs.length) return;
+    const tocContainer = tabs[0].parentElement;
+
+    const tabByHash = new Map();
+    tabs.forEach(t => tabByHash.set(t.getAttribute('href'), t));
+
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    if (!sections.length) return;
+
+    let suspendUntil = 0;   // timestamp until which scrollspy is muted
+    let lastHash = null;
+
+    // Horizontally bring the active tab into view *within the TOC container only*.
+    // Never touches document scroll.
+    const ensureTabVisible = (tab) => {
+      if (!tab || tocContainer.scrollWidth <= tocContainer.clientWidth) return;
+      const pad = 24;
+      const tabLeft = tab.offsetLeft;
+      const tabRight = tabLeft + tab.offsetWidth;
+      const viewLeft = tocContainer.scrollLeft;
+      const viewRight = viewLeft + tocContainer.clientWidth;
+      if (tabLeft < viewLeft + pad) {
+        tocContainer.scrollTo({ left: Math.max(0, tabLeft - pad), behavior: 'smooth' });
+      } else if (tabRight > viewRight - pad) {
+        tocContainer.scrollTo({ left: tabRight - tocContainer.clientWidth + pad, behavior: 'smooth' });
+      }
+    };
+
+    const setActive = (hash) => {
+      if (hash === lastHash) return;
+      lastHash = hash;
+      tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === hash));
+      ensureTabVisible(tabByHash.get(hash));
+    };
+
+    // Pick the section whose top has just crossed an imaginary scan line
+    // a third of the way down the viewport. That feels natural while reading.
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      if (Date.now() < suspendUntil) return;
+      const scanLine = window.innerHeight * 0.33;
+      let current = sections[0];
+      for (const s of sections) {
+        if (s.getBoundingClientRect().top <= scanLine) current = s;
+        else break;
+      }
+      setActive('#' + current.id);
+    };
+    const onScroll = () => {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+
+    // Click handler: pre-set the target as active immediately, then suspend
+    // scrollspy long enough for the smooth-scroll animation to finish without
+    // flickering through intermediate sections. If the user has reduced-motion
+    // enabled, scrolls are instant — no suspension needed.
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    tabs.forEach(t => {
+      t.addEventListener('click', () => {
+        const target = t.getAttribute('href');
+        setActive(target);
+        if (!prefersReducedMotion) {
+          suspendUntil = Date.now() + 900;   // ~900ms covers most smooth scrolls
+        }
+        // Drop focus so no focus ring lingers on the clicked link.
+        setTimeout(() => t.blur(), 0);
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

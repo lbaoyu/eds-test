@@ -697,6 +697,19 @@
   .funnel-row.final .stage,
   .funnel-row.final .volume { color: var(--blue-700); font-weight: 700; }
   .funnel-row.final .conv { color: var(--blue-700); font-weight: 700; }
+  /* funnel source tags + pending placeholder */
+  .funnel-row .stage .src { display:inline-block; font-family: var(--font-mono); font-size:10px; line-height:1.4; font-weight:700; letter-spacing:0.04em; padding:2px 6px; border-radius:4px; margin-right:8px; vertical-align:1px; }
+  .funnel-row .stage .src.real    { background: var(--positive-100); color: var(--positive-600); }
+  .funnel-row .stage .src.trial   { background: var(--blue-100);     color: var(--blue-700);   }
+  .funnel-row .stage .src.pending { background: var(--gray-200);      color: var(--gray-600);   }
+  .funnel-row.pending { background: transparent; border:1px dashed var(--gray-300); }
+  .funnel-row.pending .stage, .funnel-row.pending .volume, .funnel-row.pending .conv { color: var(--gray-500); }
+  .funnel-legend { display:flex; gap: var(--s-300); flex-wrap:wrap; margin-top: var(--s-200); font-size: var(--t-sm); color: var(--gray-700); }
+  .funnel-legend > span { display:inline-flex; align-items:center; gap:6px; }
+  .funnel-legend .lg { font-family: var(--font-mono); font-size:10px; font-weight:700; letter-spacing:0.04em; padding:2px 6px; border-radius:4px; }
+  .funnel-legend .lg.real { background: var(--positive-100); color: var(--positive-600); }
+  .funnel-legend .lg.trial { background: var(--blue-100); color: var(--blue-700); }
+  .funnel-legend .lg.pending { background: var(--gray-200); color: var(--gray-600); }
 
   /* ============================================================
      Referral URL chips
@@ -1066,7 +1079,7 @@
           <tr>
             <td><strong>Assistant</strong></td>
             <td>ChatGPT (Free)</td>
-            <td class="muted">All results below are ChatGPT's view. The trial measures one assistant at a time.</td>
+            <td class="muted">All results below are ChatGPT's view. The trial covers several mainstream LLM assistants; each snapshot analyses one at a time — this report is ChatGPT.</td>
           </tr>
           <tr>
             <td><strong>Tracked domain</strong></td>
@@ -1360,24 +1373,35 @@
       <span class="section-title">Referral &amp; conversion funnel</span>
       <span class="trust ok">✓ Reliable</span>
     </div>
-    <p class="section-subtitle">The one view that measures realised business value — and where the volume drops sharply at each step.</p>
+    <p class="section-subtitle">From Agentic Hits through to LLM Referrals, with each row tagged by source. Deeper conversion sits one step further downstream — covered below.</p>
 
     <div class="funnel">
-      <div class="funnel-row"><div class="stage">AI crawler visits to the site</div><div class="volume">119,062</div><div class="conv">—</div></div>
-      <div class="funnel-row"><div class="stage">Successful (200 OK) responses</div><div class="volume">95,961</div><div class="conv">80.6%</div></div>
-      <div class="funnel-row"><div class="stage">Citation attempts on owned URLs</div><div class="volume">36,782</div><div class="conv">38.3%</div></div>
-      <div class="funnel-row"><div class="stage">Owned citations actually made</div><div class="volume">146</div><div class="conv">0.40%</div></div>
-      <div class="funnel-row"><div class="stage">Brand mentions in AI answers</div><div class="volume">64</div><div class="conv">—</div></div>
-      <div class="funnel-row"><div class="stage">Referral visits from ChatGPT</div><div class="volume">3,100</div><div class="conv">—</div></div>
-      <div class="funnel-row final"><div class="stage">End-to-end: crawler visits → referrals</div><div class="volume">2.60%</div><div class="conv">↘</div></div>
+      <div class="funnel-row"><div class="stage"><span class="src real">REAL</span>Agentic Hits</div><div class="volume">119,062</div><div class="conv">—</div></div>
+      <div class="funnel-row"><div class="stage"><span class="src real">REAL</span>200 – OK responses</div><div class="volume">95,961</div><div class="conv">80.6%</div></div>
+      <div class="funnel-row"><div class="stage"><span class="src real">REAL</span>Citation Attempts (owned URLs)</div><div class="volume">36,782</div><div class="conv">38.3%</div></div>
+      <div class="funnel-row"><div class="stage"><span class="src trial">TRIAL</span>Times Cited (owned URLs)</div><div class="volume">146</div><div class="conv">0.40%</div></div>
+      <div class="funnel-row"><div class="stage"><span class="src trial">TRIAL</span>Brand Mentions</div><div class="volume">64</div><div class="conv">—</div></div>
+      <div class="funnel-row"><div class="stage"><span class="src real">REAL</span>LLM Referrals</div><div class="volume">3,100</div><div class="conv">—</div></div>
+      <div class="funnel-row final"><div class="stage">End-to-end: Agentic Hits → LLM Referrals</div><div class="volume">2.60%</div><div class="conv">↘</div></div>
+    </div>
+    <div class="funnel-legend">
+      <span><span class="lg real">REAL</span> site-wide traffic · CDN / server logs &amp; RUM (Operation Telemetry)</span>
+      <span><span class="lg trial">TRIAL</span> measured from the 200 test prompts</span>
+    </div>
+
+    <div class="note alert">
+      <strong>Read within a source, not straight across.</strong> The REAL rows are full, site-wide traffic; the TRIAL rows (146 Times Cited, 64 Brand Mentions) are sampled from the 200 prompts — not a slice of the 119,062 Agentic Hits. The end-to-end figure compares two REAL endpoints: 3,100 LLM Referrals ÷ 119,062 Agentic Hits = 2.60%. (Times Cited and Brand Mentions also under-count while brand aliases are unset — see A1.)
     </div>
 
     <div class="note">
-      <strong>The bottleneck is citation efficiency.</strong> Crawlers visit Cathay's pages roughly 250 times for each citation they generate. The pages are reached (80.6% return 200 OK) and fast (256ms) — so the constraint is upstream: pages aren't readable enough to be cited. Referral bounce is also high at 38.7%.
+      <strong>The bottleneck is citation efficiency.</strong> Owned URLs draw 36,782 Citation Attempts, yet only 146 Times Cited in the trial answers. Pages are reached (80.6% return 200 – OK) and fast (256ms) — so the constraint is upstream readability (see B7). The LLM Referrals Bounce Rate is also high at 38.7%.
     </div>
 
-    <h3 class="subhead">Where the 3,100 referrals landed</h3>
-    <p class="section-subtitle" style="margin-bottom: 0;">Only <strong>13</strong> pages received referral traffic. Nearly half went to the homepage — people who already knew the brand, arriving at the front door rather than at an answer.</p>
+    <h3 class="subhead">Beyond LLM Referrals: deeper conversion</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">The funnel above ends at the LLM Referral — the click from an AI answer to the site. The next step is <strong>conversion</strong>: deeper downstream events such as form fills, document downloads, online applications and orders. These need event-level instrumentation that isn't in place yet, so there's no conversion data today. Once it's added, this funnel extends one stage further, from LLM Referrals to conversion — turning "did they visit?" into "did they act?".</p>
+
+    <h3 class="subhead">Where the 3,100 LLM Referrals landed</h3>
+    <p class="section-subtitle" style="margin-bottom: 0;">Only <strong>13</strong> pages received LLM Referral traffic. Nearly half went to the homepage — people who already knew the brand, arriving at the front door rather than at an answer.</p>
     <div class="url-chip-list">
       <div class="url-chip"><span class="hits">1,500</span><span class="path">/cathaybk <span class="muted">· homepage</span></span></div>
       <div class="url-chip"><span class="hits">600</span><span class="path">/personal/product/credit-card/cards/cube</span></div>
@@ -1457,6 +1481,7 @@
 
     <div class="note alert">
       <strong>The citation counts are reliable; the interpretation is, for now, indicative.</strong> The per-source citation totals above are solid server data. But reading a citation as branded "earned validation" versus unbranded "competitive arena" depends on the branded/unbranded split — which needs brand aliases, and none are configured yet (see A1). Until the aliases are set, how citations map to the brand, and which count on branded questions, should be read as indicative.
+    </div>
 
     <div class="note">
       <strong>Two themes dominate:</strong> the <em>Cube card itself</em> (reviewed on winvest, creditcards.com.tw, rich01, money101, cardu — largely favourable, so worth keeping that way) and <em>benefit questions</em> (airport pickup, cashback). The highest-leverage move is clear, AI-readable owned pages for the Cube card and its headline benefits, so the AI can draw on Cathay directly alongside the earned coverage.

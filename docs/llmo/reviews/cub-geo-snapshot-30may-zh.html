@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cathay United Bank · GEO Snapshot · Adobe LLM Optimiser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     Adobe Spectrum design tokens
+     ============================================================ */
+  :root {
+    /* Gray scale (Spectrum light) */
+    --gray-50:  #FFFFFF;
+    --gray-75:  #FAFAFA;
+    --gray-100: #F5F5F5;
+    --gray-200: #EAEAEA;
+    --gray-300: #E1E1E1;
+    --gray-400: #CACACA;
+    --gray-500: #B3B3B3;
+    --gray-600: #8E8E8E;
+    --gray-700: #6E6E6E;
+    --gray-800: #4B4B4B;
+    --gray-900: #2C2C2C;
+
+    /* Spectrum blue — primary accent */
+    --blue-400: #2680EB;
+    --blue-500: #1473E6;
+    --blue-600: #0D66D0;
+    --blue-700: #095ABA;
+    --blue-800: #064E9F;
+    --blue-100: #E0F2FF;
+    --blue-75:  #EDF7FF;
+
+    /* Semantic */
+    --positive-500: #2D9D78;
+    --positive-100: #DEF2EA;
+    --negative-500: #E34850;
+    --negative-600: #D7373F;
+    --negative-100: #FAE5E5;
+    --notice-500:   #E68619;
+    --notice-100:   #FBE8C9;
+    --informative-500: #1473E6;
+
+    /* Categorical (data viz) */
+    --cat-1: #1473E6;
+    --cat-2: #6431AB;
+    --cat-3: #C81E70;
+    --cat-4: #BD5F00;
+    --cat-5: #268E6C;
+
+    /* Adobe brand identifier — used only for product mark */
+    --adobe-red: #EB1000;
+    --adobe-logo: url('data:image/png;base64,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');
+
+    /* Typography */
+    --font-sans:  'Noto Sans TC', 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --font-serif: 'Source Serif 4', Georgia, serif;
+    --font-mono:  'Source Code Pro', 'SF Mono', Menlo, monospace;
+
+    /* Type scale — 4-step, minimum 18px */
+    --t-sm:  18px;   /* body, labels, captions, table cells, pills, mono, footer */
+    --t-md:  24px;   /* subheads, section titles, insight, strategic h */
+    --t-lg:  40px;   /* KPI values, stat values, page title */
+    --t-xl:  64px;   /* hero gap numbers */
+
+    /* Spacing (Spectrum 8px grid) */
+    --s-50:   2px;
+    --s-75:   4px;
+    --s-100:  8px;
+    --s-150: 12px;
+    --s-200: 16px;
+    --s-300: 24px;
+    --s-400: 32px;
+    --s-500: 40px;
+    --s-600: 48px;
+    --s-700: 64px;
+    --s-800: 80px;
+    --s-900: 96px;
+
+    /* Radii */
+    --r-sm: 4px;
+    --r-md: 6px;
+    --r-lg: 8px;
+
+    /* Elevation */
+    --shadow-1: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-2: 0 2px 8px rgba(0,0,0,0.08), 0 0 0 1px var(--gray-200);
+  }
+
+  /* ============================================================
+     Base
+     ============================================================ */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--gray-100);
+    color: var(--gray-900);
+    line-height: 1.55;
+    font-size: var(--t-sm);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ============================================================
+     Top app bar — Adobe Spectrum style
+     ============================================================ */
+  .appbar {
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+    padding: var(--s-150) var(--s-400);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .appbar-left {
+    display: flex;
+    align-items: center;
+    gap: var(--s-200);
+  }
+  .adobe-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-150);
+  }
+  .adobe-mark .logo-img {
+    width: 36px;
+    height: 32px;
+    display: block;
+    flex-shrink: 0;
+    background-image: var(--adobe-logo);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .adobe-mark .product {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    letter-spacing: -0.005em;
+  }
+  .adobe-mark .product span {
+    color: var(--gray-700);
+    font-weight: 400;
+    margin-left: var(--s-75);
+  }
+  .appbar-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--gray-300);
+  }
+  .appbar-context {
+    font-family: var(--font-sans);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    font-weight: 500;
+  }
+  .appbar-right {
+    display: flex;
+    gap: var(--s-200);
+    align-items: center;
+  }
+  .filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    font-weight: 500;
+  }
+  .filter-chip .chip-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+  .filter-chip .chip-value {
+    color: var(--gray-900);
+    font-weight: 600;
+  }
+
+  /* ============================================================
+     Page container
+     ============================================================ */
+  .page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--s-600) var(--s-500) var(--s-900);
+  }
+
+  /* ============================================================
+     Page header / hero
+     ============================================================ */
+  .page-header {
+    margin-bottom: var(--s-600);
+  }
+  .breadcrumb {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-200);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .breadcrumb a { color: var(--blue-600); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb-sep { color: var(--gray-400); }
+
+  h1.page-title {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--gray-900);
+    margin-bottom: var(--s-200);
+  }
+  h1.page-title .accent {
+    color: var(--blue-600);
+    font-weight: 700;
+  }
+  .page-lede {
+    font-size: var(--t-md);
+    line-height: 1.6;
+    color: var(--gray-800);
+    max-width: 820px;
+    font-weight: 400;
+  }
+
+  .info-banner {
+    margin-top: var(--s-400);
+    padding: var(--s-200) var(--s-300);
+    background: var(--blue-75);
+    border: 1px solid var(--blue-100);
+    border-left: 3px solid var(--blue-500);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    line-height: 1.55;
+    max-width: 820px;
+    display: flex;
+    gap: var(--s-200);
+    align-items: flex-start;
+  }
+  .info-banner .info-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    background: var(--blue-500);
+    border-radius: 50%;
+    color: white;
+    font-size: var(--t-sm);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .info-banner strong { font-weight: 600; }
+  .info-banner em { font-style: normal; color: var(--blue-700); font-weight: 600; }
+
+  /* ============================================================
+     Cards (Spectrum)
+     ============================================================ */
+  .card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-400);
+  }
+
+  /* ============================================================
+     Section block
+     ============================================================ */
+  .section {
+    margin-bottom: var(--s-600);
+  }
+  .section-head {
+    margin-bottom: var(--s-300);
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-200);
+    border-bottom: 1px solid var(--gray-300);
+    padding-bottom: var(--s-200);
+  }
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--blue-600);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .section-title {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    letter-spacing: -0.01em;
+  }
+  .section-subtitle {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    max-width: 820px;
+    line-height: 1.6;
+    margin-bottom: var(--s-300);
+  }
+
+  /* ============================================================
+     KPI tiles (Spectrum metric cards)
+     ============================================================ */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s-200);
+  }
+  .kpi {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-300);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .kpi:hover {
+    border-color: var(--gray-400);
+    box-shadow: var(--shadow-1);
+  }
+  .kpi .label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-150);
+    letter-spacing: 0;
+  }
+  .kpi .value {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--s-100);
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi .delta {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+  }
+  .kpi .delta.up { color: var(--positive-500); }
+  .kpi .delta.down { color: var(--negative-600); }
+  .kpi .delta.flat { color: var(--notice-500); }
+  .kpi .delta .arrow {
+    font-size: var(--t-sm);
+    line-height: 1;
+  }
+  @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .kpi-grid { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Insight callout (Spectrum status banner, scaled up)
+     ============================================================ */
+  .insight {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-400) var(--s-500);
+    position: relative;
+    overflow: hidden;
+  }
+  .insight::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 4px;
+    background: var(--blue-500);
+  }
+  .insight .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    text-transform: uppercase;
+    color: var(--blue-700);
+    background: var(--blue-100);
+    padding: 4px 10px;
+    border-radius: var(--r-sm);
+    font-weight: 600;
+    margin-bottom: var(--s-200);
+    letter-spacing: 0.04em;
+  }
+  .insight blockquote {
+    font-family: var(--font-sans);
+    font-size: var(--t-md);
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--gray-900);
+    letter-spacing: -0.01em;
+  }
+  .insight blockquote em {
+    font-style: normal;
+    color: var(--blue-600);
+    font-weight: 700;
+  }
+
+  /* ============================================================
+     Gap visualization (two-up)
+     ============================================================ */
+  .gap-viz {
+    margin-top: var(--s-300);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-200);
+  }
+  .gap-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-300) var(--s-400);
+  }
+  .gap-card.positive { border-top: 4px solid var(--positive-500); }
+  .gap-card.negative { border-top: 4px solid var(--negative-500); }
+  .gap-card .gap-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-100);
+  }
+  .gap-card .gap-num {
+    font-size: var(--t-xl);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--s-150);
+    font-variant-numeric: tabular-nums;
+  }
+  .gap-card.positive .gap-num { color: var(--positive-500); }
+  .gap-card.negative .gap-num { color: var(--negative-600); }
+  .gap-card .gap-desc {
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    line-height: 1.6;
+    max-width: 380px;
+  }
+  .gap-card .gap-example {
+    margin-top: var(--s-200);
+    padding-top: var(--s-200);
+    border-top: 1px solid var(--gray-200);
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+  @media (max-width: 720px) { .gap-viz { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Read-this-as note (Spectrum tip)
+     ============================================================ */
+  .note {
+    margin: var(--s-300) 0;
+    padding: var(--s-200) var(--s-300);
+    background: var(--gray-100);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    line-height: 1.6;
+    color: var(--gray-800);
+    border-left: 3px solid var(--gray-500);
+  }
+  .note strong { color: var(--gray-900); font-weight: 600; }
+  .note em { font-style: normal; color: var(--blue-700); font-weight: 600; }
+  .note.alert {
+    background: var(--notice-100);
+    border-left-color: var(--notice-500);
+  }
+  .note.alert strong { color: var(--gray-900); }
+
+  /* ============================================================
+     Data tables (Spectrum)
+     ============================================================ */
+  .table-wrap {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  table.data {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--t-sm);
+  }
+  table.data thead {
+    background: var(--gray-100);
+    border-bottom: 1px solid var(--gray-300);
+  }
+  table.data th {
+    text-align: left;
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 600;
+    padding: var(--s-200);
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid var(--gray-300);
+    white-space: nowrap;
+  }
+  table.data th.num, table.data td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  table.data td {
+    padding: var(--s-200);
+    border-bottom: 1px solid var(--gray-200);
+    color: var(--gray-900);
+    vertical-align: middle;
+    font-size: var(--t-sm);
+  }
+  table.data td.num {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+  }
+  table.data tbody tr:hover { background: var(--gray-100); }
+  table.data tbody tr:last-child td { border-bottom: none; }
+  table.data .accent { color: var(--blue-600); font-weight: 600; }
+  table.data .muted { color: var(--gray-700); font-size: var(--t-sm); }
+  table.data .pos { color: var(--positive-500); font-weight: 600; }
+  table.data .neg { color: var(--negative-600); font-weight: 600; }
+  table.data .warn { color: var(--notice-500); font-weight: 600; }
+
+  /* Tags / pills (Spectrum tags) */
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 16px;
+    font-size: var(--t-sm);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .tag-pill.owned    { background: var(--blue-100);     color: var(--blue-700);     }
+  .tag-pill.earned   { background: var(--gray-200);     color: var(--gray-800);     }
+  .tag-pill.others   { background: var(--notice-100);   color: var(--notice-500);   }
+  .tag-pill.social   { background: var(--gray-100);     color: var(--gray-700);     }
+  .tag-pill.p0       { background: var(--negative-100); color: var(--negative-600); }
+  .tag-pill.p1       { background: var(--blue-100);     color: var(--blue-700);     }
+  .tag-pill.p2       { background: var(--notice-100);   color: var(--notice-500);   }
+  .tag-pill.p3       { background: var(--gray-200);     color: var(--gray-800);     }
+  .tag-pill.pos      { background: var(--positive-100); color: var(--positive-500); }
+  .tag-pill.neg      { background: var(--negative-100); color: var(--negative-600); }
+  .tag-pill.warn-tag { background: var(--notice-100);   color: var(--notice-500);   }
+
+  /* Inline bar */
+  .bar-cell { min-width: 140px; }
+  .bar { display: flex; align-items: center; gap: 10px; }
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill { height: 100%; background: var(--blue-500); border-radius: 3px; }
+  .bar-fill.pos  { background: var(--positive-500); }
+  .bar-fill.warn { background: var(--notice-500); }
+  .bar-fill.neg  { background: var(--negative-500); }
+  .bar-val {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    min-width: 48px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ============================================================
+     Two-column grid
+     ============================================================ */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-300);
+  }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+  .subhead {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin: var(--s-400) 0 var(--s-200);
+    letter-spacing: -0.005em;
+  }
+  .subhead:first-child { margin-top: 0; }
+
+  /* ============================================================
+     Source-type summary stat-blocks
+     ============================================================ */
+  .stat-list {
+    display: grid;
+    gap: var(--s-200);
+  }
+  .stat-row {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-200) var(--s-300);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--s-200);
+  }
+  .stat-row .stat-info { display: flex; flex-direction: column; gap: 2px; }
+  .stat-row .stat-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+  }
+  .stat-row .stat-desc {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+  }
+  .stat-row .stat-value {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .stat-row.owned .stat-value { color: var(--blue-600); }
+
+  /* ============================================================
+     Funnel
+     ============================================================ */
+  .funnel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-100);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-200);
+  }
+  .funnel-row {
+    display: grid;
+    grid-template-columns: 1fr 120px 80px;
+    align-items: center;
+    padding: var(--s-200);
+    background: var(--gray-100);
+    border-radius: var(--r-sm);
+    transition: background 0.15s;
+  }
+  .funnel-row:hover { background: var(--gray-200); }
+  .funnel-row .stage {
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    font-weight: 500;
+  }
+  .funnel-row .volume {
+    font-family: var(--font-sans);
+    font-size: var(--t-sm);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--gray-900);
+  }
+  .funnel-row .conv {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-align: right;
+  }
+  .funnel-row.final {
+    background: var(--blue-100);
+    border: 1px solid var(--blue-500);
+  }
+  .funnel-row.final .stage,
+  .funnel-row.final .volume { color: var(--blue-700); font-weight: 700; }
+  .funnel-row.final .conv { color: var(--blue-700); font-weight: 700; }
+
+  /* ============================================================
+     Referral URL chips
+     ============================================================ */
+  .url-chip-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-100);
+    margin-top: var(--s-200);
+  }
+  .url-chip {
+    display: flex;
+    align-items: center;
+    gap: var(--s-150);
+    padding: var(--s-200);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+  }
+  .url-chip .hits {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--blue-600);
+    background: var(--blue-100);
+    padding: 5px 12px;
+    border-radius: var(--r-sm);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .url-chip .path {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .url-chip .warn { color: var(--notice-500); font-size: var(--t-sm); font-weight: 600; margin-left: auto; }
+  @media (max-width: 720px) { .url-chip-list { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Action cards
+     ============================================================ */
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s-200);
+  }
+  .action {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-top: 4px solid var(--blue-500);
+    border-radius: var(--r-md);
+    padding: var(--s-300);
+  }
+  .action .num-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: var(--blue-100);
+    color: var(--blue-700);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    border-radius: 50%;
+    margin-bottom: var(--s-200);
+  }
+  .action h4 {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--s-100);
+    line-height: 1.3;
+  }
+  .action p {
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    line-height: 1.6;
+  }
+  @media (max-width: 900px) { .actions { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Strategic posture
+     ============================================================ */
+  .strategic {
+    margin-top: var(--s-400);
+    padding: var(--s-400) var(--s-500);
+    background: linear-gradient(135deg, var(--blue-500) 0%, var(--blue-700) 100%);
+    border-radius: var(--r-md);
+    color: white;
+  }
+  .strategic .tag-pill {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    margin-bottom: var(--s-200);
+  }
+  .strategic .strategic-h {
+    font-size: var(--t-md);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--s-200);
+  }
+  .strategic .strategic-h em { font-style: normal; opacity: 0.85; }
+  .strategic .strategic-p {
+    font-size: var(--t-sm);
+    line-height: 1.6;
+    color: rgba(255,255,255,0.92);
+    max-width: 760px;
+  }
+
+  /* ============================================================
+     Footer
+     ============================================================ */
+  footer {
+    margin-top: var(--s-700);
+    padding-top: var(--s-400);
+    border-top: 1px solid var(--gray-300);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.6;
+  }
+  footer .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--s-400);
+    margin-bottom: var(--s-400);
+  }
+  footer h5 {
+    font-size: var(--t-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-900);
+    font-weight: 700;
+    margin-bottom: var(--s-150);
+  }
+  footer p { margin-bottom: var(--s-100); }
+  footer strong { color: var(--gray-900); font-weight: 600; }
+  footer em { font-style: italic; }
+  footer .credit {
+    text-align: center;
+    padding-top: var(--s-200);
+    border-top: 1px solid var(--gray-200);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-100);
+  }
+  footer .credit .logo-img {
+    width: 20px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    background-image: var(--adobe-logo);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  @media (max-width: 720px) { footer .footer-grid { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     TOC tabs (Spectrum tabs) — sticky, scrollspy-driven
+     ============================================================ */
+  .toc-tabs {
+    display: flex;
+    gap: 0;
+    margin: 0 0 var(--s-500);
+    overflow-x: auto;
+    position: sticky;
+    top: 64px;                           /* sits below the appbar */
+    z-index: 50;
+    background: var(--gray-100);
+    /* Use a wrapper-style bottom border via box-shadow to avoid layout shift */
+    box-shadow: inset 0 -1px 0 var(--gray-300);
+    scrollbar-width: thin;
+  }
+  .toc-tabs::-webkit-scrollbar { height: 4px; }
+  .toc-tabs::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 2px; }
+
+  .toc-tabs a {
+    padding: var(--s-200) var(--s-300);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    /* Underline pseudo-element instead of border — no layout shift, no focus-ring conflict */
+    transition: color 0.15s ease;
+  }
+  .toc-tabs a::after {
+    content: "";
+    position: absolute;
+    left: var(--s-300);
+    right: var(--s-300);
+    bottom: 0;
+    height: 2px;
+    background: transparent;
+    transition: background-color 0.15s ease;
+    pointer-events: none;
+  }
+  .toc-tabs a:hover { color: var(--blue-600); }
+  .toc-tabs a:hover::after { background: var(--blue-400); }
+  .toc-tabs a.active { color: var(--blue-700); font-weight: 600; }
+  .toc-tabs a.active::after { background: var(--blue-600); }
+
+  /* Suppress sticky mouse-click focus rings; keep keyboard focus accessible */
+  .toc-tabs a:focus { outline: none; }
+  .toc-tabs a:focus-visible {
+    outline: 2px solid var(--blue-500);
+    outline-offset: -4px;
+    border-radius: var(--r-sm);
+  }
+
+  .toc-tabs a .num {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-600);
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+  .toc-tabs a:hover .num,
+  .toc-tabs a.active .num { color: var(--blue-600); }
+
+  /* Scroll anchor offset — clears both sticky appbar + sticky TOC */
+  .section[id] { scroll-margin-top: 140px; }
+
+  /* Caption */
+  .caption {
+    margin-top: var(--s-100);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+  .caption strong { color: var(--gray-900); font-weight: 600; }
+
+  /* Print */
+  @media print {
+    body { background: white; font-size: 10pt; }
+    .appbar { position: static; box-shadow: none; }
+    .page { padding: var(--s-300); max-width: 100%; }
+    .section { page-break-inside: avoid; }
+    .actions, .insight, .strategic, .kpi-grid { page-break-inside: avoid; }
+    .toc-tabs { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<style>
+  .part { margin: var(--s-700) 0 var(--s-500); padding: var(--s-500); border-radius: var(--r-md); background: var(--gray-900); color:#fff; position:relative; overflow:hidden; }
+  .part.measure { background: linear-gradient(135deg, var(--blue-600) 0%, var(--blue-800) 100%); }
+  .part.action  { background: var(--gray-900); }
+  .part .part-eyebrow { font-family: var(--font-mono); font-size: var(--t-sm); letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.62); font-weight:600; margin-bottom: var(--s-100); }
+  .part .part-title { font-size: var(--t-lg); font-weight:800; line-height:1.2; letter-spacing:-0.01em; margin-bottom: var(--s-200); }
+  .part .part-sub { font-size: var(--t-md); line-height:1.6; color:rgba(255,255,255,0.9); max-width:860px; font-weight:400; }
+  .part:first-of-type { margin-top: var(--s-400); }
+  .readiness { display:grid; grid-template-columns: 200px 1fr; gap: var(--s-400); align-items:center; background: var(--gray-50); border:1px solid var(--gray-200); border-left:4px solid var(--blue-500); border-radius: var(--r-md); padding: var(--s-400) var(--s-500); margin-bottom: var(--s-300); }
+  .readiness .score { font-size: 30px; font-weight:800; line-height:1.1; letter-spacing:-0.01em; color: var(--blue-600); }
+  .readiness .score small { display:block; font-size: var(--t-sm); font-weight:600; color: var(--gray-700); margin-top: var(--s-150); letter-spacing:0; line-height:1.5; }
+  .readiness .verdict h4 { font-size: var(--t-md); font-weight:700; color: var(--gray-900); margin-bottom: var(--s-100); }
+  .readiness .verdict p { font-size: var(--t-sm); color: var(--gray-800); line-height:1.7; max-width:720px; }
+  @media (max-width:720px){ .readiness{ grid-template-columns:1fr; } }
+  .trust { display:inline-flex; align-items:center; gap:6px; font-family: var(--font-mono); font-size: var(--t-sm); font-weight:600; padding:4px 11px; border-radius: var(--r-sm); margin-left:auto; letter-spacing:0.02em; align-self:center; }
+  .trust.ok      { background: var(--positive-100); color: var(--positive-500); }
+  .trust.caution { background: var(--blue-100);      color: var(--blue-700);     }
+  .legend { display:flex; gap: var(--s-300); flex-wrap:wrap; margin: var(--s-200) 0 var(--s-400); font-size: var(--t-sm); color: var(--gray-800); }
+  .legend span { display:inline-flex; align-items:center; gap:8px; }
+</style>
+
+<!-- ============ ADOBE APP BAR ============ -->
+<div class="appbar">
+  <div class="appbar-left">
+    <div class="adobe-mark">
+      <div class="logo-img" role="img" aria-label="Adobe"></div>
+      <div class="product">Adobe<span>LLM Optimiser</span></div>
+    </div>
+    <div class="appbar-divider"></div>
+    <div class="appbar-context">國泰世華銀行 · Overview</div>
+  </div>
+  <div class="appbar-right">
+    <div class="filter-chip"><span class="chip-label">Date</span><span class="chip-value">Last 4 weeks</span></div>
+    <div class="filter-chip"><span class="chip-label">Platform</span><span class="chip-value">ChatGPT (Free)</span></div>
+    <div class="filter-chip"><span class="chip-label">Market</span><span class="chip-value">All</span></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ============ PAGE HEADER ============ -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="#">客戶</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="#">國泰世華銀行</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>GEO Snapshot</span>
+    </div>
+    <h1 class="page-title">國泰世華擁有自己的品牌。<span class="accent">下一步是擁有整個品類。</span></h1>
+    <p class="page-lede">
+      這是一份為期四週的快照，呈現 AI 助理如何看待國泰世華銀行。報告分為三部分：<strong>Part A</strong> 說明本次試用的設定與涵蓋範圍，讓數據能被正確解讀；<strong>Part B</strong> 呈現 AI 助理實際的表現；<strong>Part C</strong> 列出後續工作。重點結論是：當使用者提到「國泰」或「Cube」時，本行名列前茅；但當他們問一般性的銀行問題時，答案卻屬於別人。
+    </p>
+
+    <div class="info-banner">
+      <div class="info-icon">i</div>
+      <div>
+        <strong>如何閱讀本報告。</strong>這是一次 200 則Prompt的產品試用，平台為 ChatGPT (Free)，追蹤單一網域，並聚焦於信用卡。有一點請留意：Market 目前設為「US」，因此一般性問題的答案會夾雜部分非台灣的來源 ── 這類結果請當作參考。下方每個區塊都標示了哪些數據目前可靠。
+      </div>
+    </div>
+  </div>
+
+  <!-- TOC nav -->
+  <nav class="toc-tabs">
+    <a href="#setup"><span class="num">A1</span>設定</a>
+    <a href="#prompts"><span class="num">A2</span>涵蓋範圍</a>
+    <a href="#prompthealth"><span class="num">A3</span>Prompt健檢</a>
+    <a href="#kpis"><span class="num">B1</span>重點指標</a>
+    <a href="#insight"><span class="num">B2</span>兩個落差</a>
+    <a href="#brand"><span class="num">B3</span>品牌呈現</a>
+    <a href="#agentic"><span class="num">B4</span>Agentic Hits</a>
+    <a href="#referral"><span class="num">B5</span>推薦與漏斗</a>
+    <a href="#citations"><span class="num">B6</span>權威來源</a>
+    <a href="#visibility"><span class="num">B7</span>可見度</a>
+    <a href="#actions"><span class="num">C1</span>行動建議</a>
+  </nav>
+
+  <!-- ======================= PART A ======================= -->
+  <div class="part">
+    <div class="part-eyebrow">Part A · 設定與範圍</div>
+    <div class="part-title">本次試用如何設定</div>
+    <div class="part-sub">一份 GEO Snapshot的清晰度，取決於背後的設定。本區說明設定內容與 200 則Prompt涵蓋的範圍，讓 Part B 的每項結果都能在正確脈絡下解讀。</div>
+  </div>
+
+  <!-- ============ A1 SETUP ============ -->
+  <section class="section" id="setup">
+    <div class="section-head">
+      <span class="section-eyebrow">A1</span>
+      <span class="section-title">設定總覽</span>
+    </div>
+    <p class="section-subtitle">數據背後的設定。其中有兩項會直接影響 Part B 的判讀,需在下一次執行前修正 ── 其一為嚴重問題。</p>
+
+    <div class="readiness" style="border-left-color: var(--notice-500);">
+      <div class="score" style="color: var(--notice-500);">2 項<small>設定需修正<br>（含 1 項嚴重）</small></div>
+      <div class="verdict">
+        <h4>核心設定良好,但有兩項會影響 Part B 的判讀。</h4>
+        <p><strong>嚴重:未配置任何品牌別名（如 CUBE、國泰 Cube）。</strong>系統只認得完整品牌名,認不出這些常見變體,因此 Part B 的 Brand Mentions、Share of Voice 與 Branded 判定會低估、失準。其次,Market 設為「US」,使一般性問題夾雜非台灣來源。這兩項都應在下一次執行前修正;在此之前,Part B 多數品牌與引用相關數據僅供參考。閱讀 Part B 時,也請記得本次試用聚焦於信用卡。</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead>
+          <tr><th>設定項目</th><th>本次試用</th><th>對解讀的意義</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>AI 助理</strong></td>
+            <td>ChatGPT (Free)</td>
+            <td class="muted">下方所有結果都是 ChatGPT 的視角。本試用一次只量測一個助理。</td>
+          </tr>
+          <tr>
+            <td><strong>追蹤網域</strong></td>
+            <td>cathay-cube.com.tw</td>
+            <td class="muted">單一自有網域。指向國泰其他網站的引用會被歸類為第三方來源（見 B6）。</td>
+          </tr>
+          <tr>
+            <td><strong>Market</strong></td>
+            <td class="warn">US</td>
+            <td class="muted">Prompt是繁體中文、台灣情境,但Market 設為 US ── 因此一般性問題的答案會夾雜部分非台灣來源。這類結果請當作參考。</td>
+          </tr>
+          <tr>
+            <td><strong>品牌別名</strong></td>
+            <td class="neg"><strong>未設定</strong></td>
+            <td class="muted"><strong>嚴重問題。</strong>未配置任何自有品牌別名,系統認不出 CUBE、國泰 Cube、Cube 卡、cathay-cube 等變體 ── 當 AI 以這些名稱談論本行時會被漏算。因此 B 部分的 Brand Mentions、Share of Voice 與 Branded 相關數據會低估,僅供參考。需在 LLMO 補齊品牌與產品別名。</td>
+          </tr>
+          <tr>
+            <td><strong>啟用Prompt</strong></td>
+            <td>200 則 · 聚焦信用卡</td>
+            <td class="muted">試用額度,集中在旗艦產品上。因此本報告主要反映信用卡業務。</td>
+          </tr>
+          <tr>
+            <td><strong>期間</strong></td>
+            <td>2026/5/3–5/27（4 週）</td>
+            <td class="muted">每週數據在此區間內彙總。</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ A2 COVERAGE ============ -->
+  <section class="section" id="prompts">
+    <div class="section-head">
+      <span class="section-eyebrow">A2</span>
+      <span class="section-title">試用涵蓋的內容</span>
+    </div>
+    <p class="section-subtitle">這 200 則試用Prompt集中在信用卡 ── 這是 AI 助理探索行為的主戰場,對試用而言是合理的聚焦。因此本報告主要反映信用卡業務。</p>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Category</th><th class="num">Prompt數</th><th>佔測試組比例</th><th>涵蓋度</th></tr></thead>
+        <tbody>
+          <tr><td>信用卡</td><td class="num">142</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:53%"></div></div><div class="bar-val">53.0%</div></div></td><td class="accent">主要聚焦</td></tr>
+          <tr><td>信用卡服務</td><td class="num">48</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:17.9%"></div></div><div class="bar-val">17.9%</div></div></td><td class="muted">已涵蓋</td></tr>
+          <tr><td>個人金融</td><td class="num">42</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:15.7%"></div></div><div class="bar-val">15.7%</div></div></td><td class="muted">已涵蓋</td></tr>
+          <tr><td>帳戶</td><td class="num">20</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:7.5%"></div></div><div class="bar-val">7.5%</div></div></td><td class="muted">較少</td></tr>
+          <tr><td>貸款</td><td class="num">9</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:3.4%"></div></div><div class="bar-val">3.4%</div></div></td><td class="muted">較少</td></tr>
+          <tr><td>證券戶</td><td class="num">4</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:1.5%"></div></div><div class="bar-val">1.5%</div></div></td><td class="muted">極少</td></tr>
+          <tr><td>形象</td><td class="num">3</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:1.1%"></div></div><div class="bar-val">1.1%</div></div></td><td class="muted">極少</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <strong>對解讀的意義:</strong>Part B 的結論在信用卡與信用卡服務上最為扎實。帳戶、貸款與財富管理雖有納入,但取樣較少,請當作參考性質。
+    </div>
+  </section>
+
+  <!-- ============ A3 PROMPT LIBRARY HEALTH ============ -->
+  <section class="section" id="prompthealth">
+    <div class="section-head">
+      <span class="section-eyebrow">A3</span>
+      <span class="section-title">Prompt Library健檢</span>
+    </div>
+    <p class="section-subtitle">每一則 Prompt都是衡量 AI 助理的「測試案例」 ── Prompt弱,訊號就弱,Prompt 品質決定了 Part B 的一切。這套Prompt Library在商業思路上很到位;只要做一次簡短的整理,下一次執行就會更可靠 ── 這是整理工作,不是策略問題。完整內容請見隨附的<strong>Prompt Library 稽核</strong>,其中包含 268&nbsp;→&nbsp;200 的精簡計畫與改寫範例。</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>檢查項目</th><th class="num">目前</th><th>說明</th></tr></thead>
+        <tbody>
+          <tr><td>Prompt Library規模</td><td class="num warn">268</td><td class="muted">超出 200 則試用上限 68 則 ── 下一次執行前先精簡。</td></tr>
+          <tr><td>Topic / Prompt 結構</td><td class="num warn">172 列</td><td class="muted">真正的問題被放在「Topic」欄,而「Prompt」欄只放了佔位字;重新對應後Topic 報表才會乾淨。</td></tr>
+          <tr><td>Prompt型態</td><td class="num warn">約 80 則為關鍵字片段</td><td class="muted">許多Prompt是關鍵字片段（如「CUBE新戶優惠」）而非完整問題;改寫後量測會更穩定。</td></tr>
+          <tr><td>離題 / 未完成</td><td class="num warn">14 列</td><td class="muted">處理中的列（如美元兌人民幣換算、籠統的「開戶」）對台灣信用卡試用而言離題,下一次執行前先移除。</td></tr>
+          <tr><td>品牌別名 <span class="muted">Brand aliases</span></td><td class="num warn">0</td><td class="muted">尚未配置 CUBE 等自有別名;Branded 指標可能低估,建議優先補上。</td></tr>
+          <tr><td>Branded : Unbranded</td><td class="num">約 30 : 70</td><td class="muted">無固定標準;應依量測目標而定（別名配置後才能準確判定）。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <strong>一句話總結:</strong>聚焦信用卡 / CUBE 是正確的起點。待辦的是整理與設定工作 ── 精簡至 200 則、配置品牌別名（如 CUBE）、重新對應 Topic / Prompt 欄位、合併重複的 Topic 標籤、把 Market 中繼資料對齊台灣,並把關鍵字片段改寫成完整問題。細節與建議的起始組合請見隨附稽核報告。
+    </div>
+  </section>
+
+  <!-- ======================= PART B ======================= -->
+  <div class="part measure">
+    <div class="part-eyebrow">Part B · 量測結果</div>
+    <div class="part-title">AI 助理實際的表現</div>
+    <div class="part-sub">這是表現結果,全部來自 ChatGPT (Free)。每個區塊都標示了哪些數據穩定、哪些會受「US market 設定」影響。</div>
+  </div>
+
+  <div class="legend">
+    <span><span class="trust ok">✓ 可靠</span> 伺服器 / 頁面數據,不受設定影響</span>
+    <span><span class="trust caution">◐ 僅供參考</span> 受 US market 設定<strong>與品牌別名未設定</strong>影響(見 Part A)</span>
+  </div>
+
+  <!-- ============ B1 KPIs ============ -->
+  <section class="section" id="kpis">
+    <div class="section-head">
+      <span class="section-eyebrow">B1</span>
+      <span class="section-title">重點指標</span>
+      <span class="trust caution">◐ 僅供參考</span>
+    </div>
+    <p class="section-subtitle">構成本快照的八個數字。變化量與前一週相比。</p>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="label">Content Visibility</div><div class="value">31%</div><div class="delta down"><span class="arrow">●</span> 偏低 ── 多數內容 AI 不易讀取</div></div>
+      <div class="kpi"><div class="label">Visibility Score</div><div class="value">49%</div><div class="delta up"><span class="arrow">▲</span> 較前一週 +4%</div></div>
+      <div class="kpi"><div class="label">Brand Mentions</div><div class="value">64</div><div class="delta flat"><span class="arrow">●</span> 與前一週持平</div></div>
+      <div class="kpi"><div class="label">Citations</div><div class="value">30</div><div class="delta up"><span class="arrow">▲</span> 較前一週 +77%</div></div>
+      <div class="kpi"><div class="label">Agentic Hits</div><div class="value">11.9 萬</div><div class="delta down"><span class="arrow">▼</span> 較前一週 −6%</div></div>
+      <div class="kpi"><div class="label">LLM Referrals</div><div class="value">3,100</div><div class="delta down"><span class="arrow">▼</span> 較前一週 −14%</div></div>
+      <div class="kpi"><div class="label">Avg Share of Voice</div><div class="value">19.8%</div><div class="delta up"><span class="arrow">●</span> 出現的 10 個 Topic中有 9 個排名第一</div></div>
+      <div class="kpi"><div class="label">Owned Citation Share</div><div class="value">4.6%</div><div class="delta flat"><span class="arrow">●</span> 95% 為第三方 ── 其中多為正面內容</div></div>
+    </div>
+    <div class="note">
+      <strong>有一點請留意:</strong>Visibility Score與Share of Voice之所以較高,是被約三分之一提及品牌（國泰 / Cube）的Prompt所拉抬,在這些題目上本行居於主導。此外,目前未配置品牌別名,像「CUBE」這類變體的 Brand Mentions 與 Share of Voice 可能被漏算,因此 Branded 這側的數字應視為下限。一般性題目的結果（見 B2）則更真實地反映國泰如何爭取新客。
+    </div>
+  </section>
+
+  <!-- ============ B2 THE GAPS ============ -->
+  <section class="section" id="insight">
+    <div class="section-head">
+      <span class="section-eyebrow">B2</span>
+      <span class="section-title">兩個關鍵落差</span>
+      <span class="trust caution">◐ 僅供參考</span>
+    </div>
+    <p class="section-subtitle">數據背後有兩個問題。當人們<strong>提到國泰</strong>時,AI 怎麼談論它?當人們<strong>沒提到</strong>時,AI 會不會選到它?兩者的答案方向截然不同。</p>
+
+    <div class="insight">
+      <span class="tag">核心洞察</span>
+      <blockquote>
+        即使使用者<em>直接以名稱</em>詢問國泰或 Cube,本行也只有 <em>43.5%</em> 的機率出現 ── 78 則指名題中有 32 則完全沒出現。這不是用字的問題,而是本行自家頁面的可讀性不足,AI 即使被指名也擷取不到內容。
+      </blockquote>
+    </div>
+
+    <div class="gap-viz">
+      <div class="gap-card negative">
+        <div class="gap-label">Branded 題目 ·「AI 怎麼談論我們?」</div>
+        <div class="gap-num">43.5%</div>
+        <div class="gap-desc">當國泰出現時是正面的 ── 排名第一、情緒正向 ── 所以答案的<em>品質</em>沒問題。問題在於頻率:只有 43.5% 的機率出現,78 則指名題中有 32 則完全沒出現,因為頁面可讀性不足,AI 擷取不到（見 B7）。</div>
+        <div class="gap-example">例:「國泰世華 CUBE 卡有哪些優惠?」</div>
+      </div>
+      <div class="gap-card negative">
+        <div class="gap-label">一般性題目 ·「AI 會不會選到我們?」</div>
+        <div class="gap-num">3.0%</div>
+        <div class="gap-desc">幾乎不會。在沒有提到本行的題目上 ── 這才是多數真實的客戶搜尋 ── 國泰大致缺席,答案落入信用卡比較網站。由於 Market 設為 US、且未配置品牌別名（系統可能漏算 CUBE 等變體的出現）,這個數字請當作品類落差的<em>參考</em>,而非精確值。</div>
+        <div class="gap-example">例:「2025 年推薦信用卡清單?」</div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>該如何看待:</strong>這兩個問題需要不同的工作。「AI 怎麼談論我們?」主要是可讀性的修補 ── 讓頁面可被讀取,AI 就能擷取它本來就傾向給出的正面答案。「AI 會不會選到我們?」是更大的機會,因為那是新客搜尋的起點;目前在 US market 設定下,先把它當作參考。
+    </div>
+  </section>
+
+  <!-- ============ B3 BRAND PRESENCE ============ -->
+  <section class="section" id="brand">
+    <div class="section-head">
+      <span class="section-eyebrow">B3</span>
+      <span class="section-title">品牌呈現</span>
+      <span class="trust caution">◐ 僅供參考</span>
+    </div>
+    <p class="section-subtitle">AI 助理如何稱呼與定位國泰。情緒面很強 ── 64 次提及中有 35 次為正面,零負面,且只要出現就排名第一。機會在於廣度:本行只在 10 個受測 Topic中被提及。</p>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead>
+          <tr><th>Topic</th><th class="num">Mentions</th><th>排名</th><th>國泰 SoV</th><th>最接近的競爭者</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>國泰 Cube APP</td><td class="num">46</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width: 82.1%"></div></div><div class="bar-val">82.1%</div></div></td><td class="muted">無對手</td></tr>
+          <tr><td>國泰 cube 卡</td><td class="num">22</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width: 26.8%"></div></div><div class="bar-val">26.8%</div></div></td><td class="muted">台新 gogo / 富邦 J 卡</td></tr>
+          <tr><td>國泰 Cube 信用卡</td><td class="num">70</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width: 20.3%"></div></div><div class="bar-val">20.3%</div></div></td><td class="muted">台新 · 匯豐</td></tr>
+          <tr><td>國泰信用卡</td><td class="num">25</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width: 16.0%"></div></div><div class="bar-val">16.0%</div></div></td><td class="muted">Visa / Mastercard / JCB</td></tr>
+          <tr><td>國泰 cube</td><td class="num">12</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width: 15.4%"></div></div><div class="bar-val">15.4%</div></div></td><td class="muted">玉山 UniCard</td></tr>
+          <tr><td>外幣存款</td><td class="num">4</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width: 10.0%"></div></div><div class="bar-val">10.0%</div></div></td><td class="muted">玉山 / 台灣銀行</td></tr>
+          <tr><td>信用卡機場接送</td><td class="num">12</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width: 9.6%"></div></div><div class="bar-val">9.6%</div></div></td><td class="muted">台新銀行 · 富邦</td></tr>
+          <tr><td>信用卡優惠</td><td class="num">5</td><td class="accent">#1</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width: 4.6%"></div></div><div class="bar-val">4.6%</div></div></td><td class="muted">台新 / 玉山 / 永豐</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col" style="margin-top: var(--s-300);">
+      <div class="card">
+        <div style="font-size: var(--t-sm); color: var(--gray-700); font-weight: 600; margin-bottom: var(--s-200); letter-spacing: 0.02em;">Market Comparison · Mentions + Citations,4 週彙總</div>
+        <table class="data" style="font-size: var(--t-sm);">
+          <tbody>
+            <tr><td style="font-weight: 700;">國泰世華銀行</td><td class="num accent">267</td></tr>
+            <tr><td>台新銀行（Taishin）</td><td class="num">107</td></tr>
+            <tr><td>Apple <span class="muted">(Apple Pay)</span></td><td class="num">80</td></tr>
+            <tr><td>Line Corporation <span class="muted">(LINE Pay / Bank)</span></td><td class="num">74</td></tr>
+          </tbody>
+        </table>
+        <div class="caption" style="margin-top: var(--s-150);">國泰領先最接近的本土對手台新約 2.5 倍。Apple 與 LINE 名次靠前,是因為 Apple Pay 與 LINE Pay / Bank 會出現在支付相關問題中 ── 兩者都是台灣數位支付的真實玩家。</div>
+      </div>
+      <div>
+        <div class="note alert" style="margin-top: 0;">
+          <strong>有權威,但缺廣度。</strong>在國泰有出現的品牌與權益題目上,本行主導答案 ── 排名第一、情緒正向。但在一般性的信用卡、存款、貸款題目上,本行尚未出現,答案落入比較網站。
+        </div>
+        <div class="note" style="margin-top: var(--s-200);">
+          <strong>提醒:</strong>目前未在 LLMO 配置品牌別名（如 CUBE、國泰 Cube），因此當 AI 以這些變體稱呼本行時,Brand Mentions 與 Share of Voice 可能被低估。補上別名後,本區的數字會更準確。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ B4 AGENTIC TRAFFIC ============ -->
+  <section class="section" id="agentic">
+    <div class="section-head">
+      <span class="section-eyebrow">B4</span>
+      <span class="section-title">Agentic Hits</span>
+      <span class="trust ok">✓ 可靠</span>
+    </div>
+    <p class="section-subtitle">ChatGPT 的爬蟲如何與網站互動 ── 四週內共 119,062 次造訪。技術面乾淨且快速,但全部來自單一助理,且集中在可讀性最低的頁面。</p>
+
+    <div class="two-col">
+      <div>
+        <h3 class="subhead">技術健康度</h3>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>回應碼</th><th class="num">次數</th><th class="num">佔比</th></tr></thead>
+            <tbody>
+              <tr><td><span class="pos">200</span> 正常</td><td class="num">95,961</td><td class="num">82.4%</td></tr>
+              <tr><td><span class="warn">301</span> 永久轉址</td><td class="num">16,560</td><td class="num">14.2%</td></tr>
+              <tr><td><span class="neg">404</span> 找不到</td><td class="num">3,686</td><td class="num">3.2%</td></tr>
+              <tr><td><span class="neg">503</span> 服務無法使用</td><td class="num">252</td><td class="num">0.2%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          <strong>3,938 次造訪</strong>（佔爬蟲流量 3.4%）落在 404 或 503。無需新增內容即可救回。
+        </div>
+      </div>
+      <div>
+        <h3 class="subhead">頁面速度</h3>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>項目</th><th class="num">數值</th></tr></thead>
+            <tbody>
+              <tr><td>平均回應時間（TTFB）</td><td class="num pos">256ms</td></tr>
+              <tr><td>慢於 1.5 秒的頁面</td><td class="num pos">0</td></tr>
+              <tr><td>慢於 3 秒的頁面</td><td class="num pos">0</td></tr>
+              <tr><td>已爬取的網址數</td><td class="num">343</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note">
+          <strong>速度不是問題。</strong>頁面對爬蟲而言載入很快;問題在於 AI 能否讀懂頁面內容 ── 這在 B7 說明。
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subhead">爬蟲把時間花在哪裡</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>頁面類型</th><th class="num">次數</th><th class="num">佔比</th></tr></thead>
+        <tbody>
+          <tr><td>活動明細</td><td class="num">38,516</td><td class="num">35.2%</td></tr>
+          <tr><td>產品</td><td class="num">28,228</td><td class="num">25.8%</td></tr>
+          <tr><td>產品權益 <span class="muted">(卡片權益)</span></td><td class="num">9,788</td><td class="num">9.0%</td></tr>
+          <tr><td>服務介紹</td><td class="num">7,706</td><td class="num">7.0%</td></tr>
+          <tr><td>首頁</td><td class="num">6,686</td><td class="num">6.1%</td></tr>
+          <tr><td>公告</td><td class="num">4,101</td><td class="num">3.7%</td></tr>
+          <tr><td>貸款</td><td class="num">3,912</td><td class="num">3.6%</td></tr>
+          <tr><td>存款</td><td class="num">3,777</td><td class="num">3.5%</td></tr>
+          <tr><td>文件 / 其他</td><td class="num">6,659</td><td class="num">6.1%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="subhead">各旅程階段的爬取量 ── 以及各自的可讀性</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>旅程階段</th><th class="num">次數</th><th class="num">佔比</th><th>平均Content Visibility</th></tr></thead>
+        <tbody>
+          <tr><td>考慮期 <span class="muted">(比較、選購中)</span></td><td class="num">84,893</td><td class="num">75.3%</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill neg" style="width: 18.7%"></div></div><div class="bar-val">18.7%</div></div></td></tr>
+          <tr><td>使用期 <span class="muted">(既有客戶)</span></td><td class="num">14,956</td><td class="num">13.3%</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill neg" style="width: 24.7%"></div></div><div class="bar-val">24.7%</div></div></td></tr>
+          <tr><td>其他 / 未分類</td><td class="num">12,923</td><td class="num">11.5%</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width: 36.1%"></div></div><div class="bar-val">36.1%</div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note alert">
+      <strong>關鍵的錯位:</strong>75% 的爬蟲流量落在「考慮期」頁面 ── 正是潛在客戶研究卡片或帳戶的起點 ── 但這些頁面對 AI 的可讀性只有 <em>18.7%</em>。提及與引用在還沒成形前就在這裡流失了。
+    </div>
+  </section>
+
+  <!-- ============ B5 REFERRAL & FUNNEL ============ -->
+  <section class="section" id="referral">
+    <div class="section-head">
+      <span class="section-eyebrow">B5</span>
+      <span class="section-title">推薦與轉換漏斗</span>
+      <span class="trust ok">✓ 可靠</span>
+    </div>
+    <p class="section-subtitle">唯一能衡量實際商業價值的視角 ── 也是每一步流量大幅遞減的地方。</p>
+
+    <div class="funnel">
+      <div class="funnel-row"><div class="stage">AI 爬蟲造訪網站</div><div class="volume">119,062</div><div class="conv">—</div></div>
+      <div class="funnel-row"><div class="stage">成功（200 正常）回應</div><div class="volume">95,961</div><div class="conv">80.6%</div></div>
+      <div class="funnel-row"><div class="stage">對自有網址的引用嘗試</div><div class="volume">36,782</div><div class="conv">38.3%</div></div>
+      <div class="funnel-row"><div class="stage">實際成立的自有引用</div><div class="volume">146</div><div class="conv">0.40%</div></div>
+      <div class="funnel-row"><div class="stage">AI 答案中的品牌提及</div><div class="volume">64</div><div class="conv">—</div></div>
+      <div class="funnel-row"><div class="stage">來自 AI 助理的推薦造訪</div><div class="volume">3,100</div><div class="conv">—</div></div>
+      <div class="funnel-row final"><div class="stage">端到端:爬蟲造訪 → 推薦造訪</div><div class="volume">2.60%</div><div class="conv">↘</div></div>
+    </div>
+
+    <div class="note">
+      <strong>瓶頸在引用效率。</strong>爬蟲大約每造訪國泰頁面 250 次,才產生 1 次引用。頁面能被抵達（80.6% 回傳 200）且快速（平均 256ms）── 因此限制在上游:頁面的可讀性不足以被引用。推薦流量的跳出率也偏高,達 38.7%。
+    </div>
+
+    <h3 class="subhead">這 3,100 次推薦造訪落在哪裡</h3>
+    <p class="section-subtitle" style="margin-bottom: 0;">只有 <strong>13</strong> 個頁面收到推薦流量。近半數流向首頁 ── 這些是早已認識品牌的人,被帶到大門口,而不是帶到答案。</p>
+    <div class="url-chip-list">
+      <div class="url-chip"><span class="hits">1,500</span><span class="path">/cathaybk <span class="muted">· 首頁</span></span></div>
+      <div class="url-chip"><span class="hits">600</span><span class="path">/personal/product/credit-card/cards/cube</span></div>
+      <div class="url-chip"><span class="hits">300</span><span class="path">/personal/digital-service/intro/online</span></div>
+      <div class="url-chip"><span class="hits">200</span><span class="path">/personal/product/deposit/open-account</span></div>
+      <div class="url-chip"><span class="hits">200</span><span class="path">/personal/product/credit-card/cards</span></div>
+      <div class="url-chip"><span class="hits">200</span><span class="path">/personal/event/.../payment</span></div>
+      <div class="url-chip"><span class="hits">100</span><span class="path">/personal/product/credit-card/cards/cube-list</span><span class="warn">100% 跳出 ⚠</span></div>
+      <div class="url-chip"><span class="hits">100</span><span class="path">/personal/product/credit-card/mobilepay/applepay</span></div>
+      <div class="url-chip"><span class="hits">100</span><span class="path">/personal/product/credit-card/rights/airport-pickup</span></div>
+    </div>
+  </section>
+
+  <!-- ============ B6 AUTHORITY MAP ============ -->
+  <section class="section" id="citations">
+    <div class="section-head">
+      <span class="section-eyebrow">B6</span>
+      <span class="section-title">權威來源地圖</span>
+      <span class="trust ok">✓ 可靠</span>
+    </div>
+    <p class="section-subtitle">ChatGPT 從哪裡取得台灣銀行業問題的答案 ── 以及這些來源的意義。同一則第三方引用,會因問題不同而扮演兩種角色（見下方說明）。目前比較與評測類媒體做了大部分引用。</p>
+
+    <div class="two-col">
+      <div class="stat-list">
+        <div class="stat-row owned"><div class="stat-info"><div class="stat-label">Owned · 國泰自有</div><div class="stat-desc">佔引用 4.6% · 34 個網址 · 每網址 4.3 次</div></div><div class="stat-value">146</div></div>
+        <div class="stat-row"><div class="stat-info"><div class="stat-label">Earned · 第三方媒體</div><div class="stat-desc">86.0% · 目前主要的答案來源</div></div><div class="stat-value">2,734</div></div>
+        <div class="stat-row"><div class="stat-info"><div class="stat-label">Others · Reddit、維基百科、彙整站</div><div class="stat-desc">5.9% · 社群與彙整驅動</div></div><div class="stat-value">189</div></div>
+        <div class="stat-row"><div class="stat-info"><div class="stat-label">Social · YouTube 等</div><div class="stat-desc">3.5% · 訊號較弱</div></div><div class="stat-value">110</div></div>
+      </div>
+      <div>
+        <div class="note alert" style="margin-top: 0;">
+          <strong>自有佔比低,本身不一定是問題。</strong>這些第三方來源中,有許多是對 CUBE 卡的正面評測 ── 在Branded 題目上,這是「贏得的背書」,代表外界替國泰背書。更關鍵的問題在下一層:在一般性題目上,這些來源是否納入國泰,還是偏向對手?
+        </div>
+        <div class="card" style="margin-top: var(--s-200);">
+          <div style="font-size: var(--t-sm); color: var(--gray-700); font-weight: 600; margin-bottom: var(--s-200); letter-spacing: 0.02em;">引用效率 · 誰以小搏大</div>
+          <table class="data" style="font-size: var(--t-sm);">
+            <tbody>
+              <tr><td style="font-weight: 600;">winvest.tw</td><td class="num accent">12.2/網址</td></tr>
+              <tr><td style="font-weight: 600;">rich01.com</td><td class="num accent">10.7/網址</td></tr>
+              <tr><td style="font-weight: 600;">creditcards.com.tw</td><td class="num accent">6.3/網址</td></tr>
+              <tr><td style="font-weight: 600;">money101.com.tw</td><td class="num accent">4.8/網址</td></tr>
+              <tr><td class="muted" style="font-weight: 500;">cathay-cube.com.tw</td><td class="num muted">4.3/網址</td></tr>
+            </tbody>
+          </table>
+          <div class="caption" style="margin-top: var(--s-150);">聚焦、單一Topic的評測頁,每頁贏得的引用比國泰範圍廣泛的自有網域更多。</div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="subhead">所有受測題目中最常被引用的來源</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>網域</th><th>類型</th><th class="num">Citations</th><th class="num">不重複網址</th><th class="num">每網址</th></tr></thead>
+        <tbody>
+          <tr><td>uptogo.com.tw</td><td><span class="tag-pill earned">Earned</span></td><td class="num">281</td><td class="num">110</td><td class="num">2.6</td></tr>
+          <tr><td><strong>cathay-cube.com.tw</strong></td><td><span class="tag-pill owned">Owned</span></td><td class="num">146</td><td class="num">34</td><td class="num accent">4.3</td></tr>
+          <tr><td>creditcards.com.tw</td><td><span class="tag-pill earned">Earned</span></td><td class="num">125</td><td class="num">20</td><td class="num accent">6.3</td></tr>
+          <tr><td>money101.com.tw</td><td><span class="tag-pill earned">Earned</span></td><td class="num">119</td><td class="num">25</td><td class="num">4.8</td></tr>
+          <tr><td>winvest.tw</td><td><span class="tag-pill earned">Earned</span></td><td class="num">110</td><td class="num">9</td><td class="num accent">12.2</td></tr>
+          <tr><td>apps.apple.com <span class="muted">(Cube App 頁)</span></td><td><span class="tag-pill earned">Earned</span></td><td class="num">102</td><td class="num">17</td><td class="num">6.0</td></tr>
+          <tr><td>cathaybk.com.tw <span class="muted">(國泰主網域)</span></td><td><span class="tag-pill earned">Earned</span></td><td class="num">89</td><td class="num">24</td><td class="num">3.7</td></tr>
+          <tr><td>udn.com <span class="muted">(新聞)</span></td><td><span class="tag-pill earned">Earned</span></td><td class="num">83</td><td class="num">21</td><td class="num">4.0</td></tr>
+          <tr><td>rich01.com</td><td><span class="tag-pill earned">Earned</span></td><td class="num">75</td><td class="num">7</td><td class="num accent">10.7</td></tr>
+          <tr><td>roo.cash</td><td><span class="tag-pill earned">Earned</span></td><td class="num">74</td><td class="num">12</td><td class="num">6.2</td></tr>
+          <tr><td>taishinbank.com.tw <span class="muted">(競爭者)</span></td><td><span class="tag-pill others">Others</span></td><td class="num">73</td><td class="num">12</td><td class="num">6.1</td></tr>
+          <tr><td>youtube.com</td><td><span class="tag-pill social">Social</span></td><td class="num">62</td><td class="num">27</td><td class="num">2.3</td></tr>
+          <tr><td>icard.ai</td><td><span class="tag-pill earned">Earned</span></td><td class="num">56</td><td class="num">18</td><td class="num">3.1</td></tr>
+          <tr><td>reddit.com</td><td><span class="tag-pill others">Others</span></td><td class="num">53</td><td class="num">23</td><td class="num">2.3</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption" style="margin-top: var(--s-150);">cathaybk.com.tw 是國泰自家網站;在本次單一網域的試用中,它被歸類為第三方來源,而非自有。</div>
+
+    <div class="note">
+      <strong>如何解讀這些引用 ── 同一來源,兩種角色。</strong>在<em>Branded</em>題目（如「國泰 Cube 卡優惠」）上,一篇正面的第三方評測是「<em>贏得的背書</em>」:外界替國泰背書,即使不是國泰自家頁面,也是一個加分。在<em>一般性</em>題目（如「最佳現金回饋卡」）上,這些相同來源就是<em>競爭場域</em> ── 重點在於它們推薦的是國泰還是對手。因此目標不是把每一筆引用都拉回自家,而是在Branded 題目上得到正面答案、在一般性題目上至少被納入。
+    </div>
+
+    <div class="note alert">
+      <strong>引用的「計數」可靠,但「解讀」目前僅供參考。</strong>上方各來源的引用次數是可靠的伺服器數據;但要把引用解讀為 Branded 的「贏得背書」或 Unbranded 的「競爭場域」,取決於 Branded / Unbranded 的判定,而這需要品牌別名 ── 目前尚未設定（見 A1）。在別名補齊前,引用與品牌的關聯、以及哪些引用算在 Branded 題目上,都應當作參考。
+
+    <div class="note">
+      <strong>兩個 Topic主導了引用落差:</strong>一是 <em>CUBE 卡本身</em>（winvest、creditcards.com.tw、rich01、money101、cardu 都有評測,且多為正面,值得維持）;二是 <em>權益類問題</em>（機場接送、現金回饋）。最高槓桿的做法,是為 CUBE 卡與其招牌權益建立清晰、AI 可讀的自有頁面,讓 AI 能在贏得的報導之外,也直接引用國泰。
+    </div>
+  </section>
+
+  <!-- ============ B7 VISIBILITY ============ -->
+  <section class="section" id="visibility">
+    <div class="section-head">
+      <span class="section-eyebrow">B7</span>
+      <span class="section-title">Content Visibility</span>
+      <span class="trust ok">✓ 可靠</span>
+    </div>
+    <p class="section-subtitle">頁面對 AI 的可讀性 ── 這是頁面本身的屬性。爬蟲造訪最多的頁面,可讀性最低:加權可見度（21.5%）低於單純平均（24.0%）。</p>
+
+    <h3 class="subhead">最高槓桿、最該優先修的頁面</h3>
+    <p class="section-subtitle">十個同時具備高爬蟲流量與低可讀性的頁面 ── 合計每期約 26,000 次造訪。每一頁的速度都很健康;落差在可讀性。</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>頁面</th><th class="num">造訪</th><th class="num">AI 可讀性</th><th class="num">速度</th></tr></thead>
+        <tbody>
+          <tr><td>/cathaybk <span class="muted">(首頁)</span></td><td class="num">6,686</td><td class="num warn">37%</td><td class="num pos">129ms</td></tr>
+          <tr><td>/.../credit-card/cards/cube <span class="muted">· 旗艦</span></td><td class="num">3,370</td><td class="num neg">4%</td><td class="num pos">178ms</td></tr>
+          <tr><td>/.../credit-card/cards/cube-list</td><td class="num">3,345</td><td class="num neg">2%</td><td class="num pos">167ms</td></tr>
+          <tr><td>/.../personal/event/overview</td><td class="num">2,253</td><td class="num neg">8%</td><td class="num pos">174ms</td></tr>
+          <tr><td>/.../credit-card/cards/world</td><td class="num">2,124</td><td class="num neg">7%</td><td class="num pos">215ms</td></tr>
+          <tr><td>/.../credit-card/cards</td><td class="num">1,966</td><td class="num warn">16%</td><td class="num pos">221ms</td></tr>
+          <tr><td>/.../credit-card/cards/eva</td><td class="num">1,806</td><td class="num neg">7%</td><td class="num pos">193ms</td></tr>
+          <tr><td>/.../digital-service/intro/credit-card</td><td class="num">1,584</td><td class="num neg">10%</td><td class="num pos">182ms</td></tr>
+          <tr><td>/.../product/deposit/open-account</td><td class="num">1,421</td><td class="num neg">10%</td><td class="num pos">208ms</td></tr>
+          <tr><td>/.../credit-card/cards/i-debit</td><td class="num">1,379</td><td class="num neg">5%</td><td class="num pos">217ms</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note alert">
+      <strong>CUBE 卡頁面是最明確的機會:</strong>/cards/cube 與 /cards/cube-list 吸引 6,700+ 次爬蟲造訪,可讀性卻僅 2–4% ── 這正是潛在客戶研究 CUBE 卡時需要 AI 讀懂的頁面。它們很可能是以 JavaScript 動態產生的清單,AI 不執行頁面就讀不到。改採伺服器端渲染（SSR）或提供靜態、AI 可讀的版本即可解決。整體速度健康（皆低於 300ms）── 這是可讀性問題,不是速度問題。
+    </div>
+  </section>
+
+  <!-- ======================= PART C ======================= -->
+  <div class="part action">
+    <div class="part-eyebrow">Part C · 行動建議</div>
+    <div class="part-title">該做什麼</div>
+    <div class="part-sub">依優先順序列出試用所指向的工作。全部是針對國泰自家頁面的內容與技術工作 ── 這些槓桿無論試用設定如何,都能推動 AI 可見度。</div>
+  </div>
+
+  <section class="section" id="actions">
+    <div class="section-head">
+      <span class="section-eyebrow">C1</span>
+      <span class="section-title">行動計畫</span>
+    </div>
+    <p class="section-subtitle">先看三個優先項,再看完整清單。</p>
+
+    <div class="actions">
+      <div class="action">
+        <div class="num-tag">01</div>
+        <h4>讓 CUBE 卡頁面變得 AI 可讀</h4>
+        <p>/cards/cube 與 /cards/cube-list 吸引 6,700+ 次造訪,可讀性卻僅 2–4%。為旗艦頁面提供伺服器端渲染或靜態、AI 可讀的版本,會連帶拉升所有下游數字 ── 提及、引用、Share of Voice。是資料中最高槓桿的一步。</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">02</div>
+        <h4>強化 CUBE 的答案 ── 自有與贏得並進</h4>
+        <p>比較網站（winvest、creditcards.com.tw、rich01、money101）目前對 CUBE 卡做了大部分引用,且多為正面。目標不是把這些拿走,而是新增一個清晰、AI 可讀的自有頁面讓 AI 直接引用,同時維持贏得報導的正確與正面。</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">03</div>
+        <h4>在一般性問題上現身</h4>
+        <p>決策階段的問題 ──「最佳現金回饋卡」「有機場接送的信用卡」「推薦信用卡清單」── 是潛在客戶搜尋的起點,而國泰目前大致缺席。在自有頁面上清楚回答這些問題,正是贏得新客觸及的關鍵。</p>
+      </div>
+    </div>
+
+    <h3 class="subhead">完整優先清單</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>優先</th><th>行動</th><th>類型</th><th>影響</th><th>投入</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag-pill p0">P0</span></td><td>讓 CUBE 卡頁面變得 AI 可讀（目前 2–4%,約 6.7k 次造訪）</td><td class="muted">內容 / 技術</td><td class="pos">高</td><td class="muted">中</td></tr>
+          <tr><td><span class="tag-pill p0">P0</span></td><td>提升前 10 大入口頁（平均可讀性約 10%）</td><td class="muted">內容</td><td class="pos">高</td><td class="muted">中</td></tr>
+          <tr><td><span class="tag-pill p0">P0</span></td><td>救回落在 404 / 503 的 3,938 次爬蟲造訪</td><td class="muted">技術</td><td class="muted">中</td><td class="muted">低</td></tr>
+          <tr><td><span class="tag-pill p1">P1</span></td><td>建立權威的 CUBE 卡與比較頁面</td><td class="muted">內容</td><td class="pos">高</td><td class="muted">中</td></tr>
+          <tr><td><span class="tag-pill p1">P1</span></td><td>直接回答一般性、高意圖的問題</td><td class="muted">內容</td><td class="pos">高</td><td class="muted">高</td></tr>
+          <tr><td><span class="tag-pill p1">P1</span></td><td>降低 ChatGPT 推薦流量的跳出率（38.7%）</td><td class="muted">體驗 / 內容</td><td class="muted">中</td><td class="muted">中</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="strategic">
+      <span class="tag-pill">一句話</span>
+      <div class="strategic-h">國泰擁有自己的品牌。通往「擁有整個品類」的路,在這次試用中已清晰可見。</div>
+      <p class="strategic-p">讓產品頁面 AI 可讀、在自有與贏得兩種來源上維持 CUBE 卡答案的正面、並在潛在客戶起步的一般性問題上現身。這些動作能把強勁的品牌認知,轉化為在「帶進新客」那些問題上的實際存在。</p>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h5>方法</h5>
+        <p>所有數據取自國泰世華銀行的 Adobe LLM Optimiser,期間為 2026 年第 18–21 週（約 5/3–5/27）,平台 ChatGPT (Free)。這是一次 200 則Prompt的產品試用,追蹤單一網域並聚焦信用卡。</p>
+      </div>
+      <div>
+        <h5>品牌主體</h5>
+        <p>追蹤的品牌為<strong>國泰世華銀行</strong>及其 <em>Cube</em> 產品系列,自有網域為 cathay-cube.com.tw。</p>
+      </div>
+      <div>
+        <h5>備註</h5>
+        <p>一般性問題的結果受US market 設定影響,請當作參考。標題的Content Visibility（31%）是站台層級數字;頁面層級的細節見 B7。</p>
+      </div>
+    </div>
+    <div class="credit">
+      <span class="logo-img" role="img" aria-label="Adobe"></span>
+      <span>由 Adobe LLM Optimiser 產生 · 國泰世華銀行 · 2026 年 5 月 30 日</span>
+    </div>
+  </footer>
+
+</div>
+<script>
+  // Scrollspy — highlights the TOC tab matching the section currently in view.
+  // Carefully avoids three failure modes:
+  //   1. Sticky scope: the nav is a child of .page, not .page-header, so it sticks
+  //      across the entire report rather than vanishing past the hero.
+  //   2. No scrollIntoView: that traverses ALL ancestor scrollers and can pull the
+  //      page itself. We scroll only the TOC container's overflow-x axis.
+  //   3. Suspend during click: smooth-scroll triggers many intermediate scroll
+  //      events; if we kept updating active during animation, the tab would flicker
+  //      through every section between source and target.
+  (function() {
+    const tabs = document.querySelectorAll('.toc-tabs a');
+    if (!tabs.length) return;
+    const tocContainer = tabs[0].parentElement;
+
+    const tabByHash = new Map();
+    tabs.forEach(t => tabByHash.set(t.getAttribute('href'), t));
+
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    if (!sections.length) return;
+
+    let suspendUntil = 0;   // timestamp until which scrollspy is muted
+    let lastHash = null;
+
+    // Horizontally bring the active tab into view *within the TOC container only*.
+    // Never touches document scroll.
+    const ensureTabVisible = (tab) => {
+      if (!tab || tocContainer.scrollWidth <= tocContainer.clientWidth) return;
+      const pad = 24;
+      const tabLeft = tab.offsetLeft;
+      const tabRight = tabLeft + tab.offsetWidth;
+      const viewLeft = tocContainer.scrollLeft;
+      const viewRight = viewLeft + tocContainer.clientWidth;
+      if (tabLeft < viewLeft + pad) {
+        tocContainer.scrollTo({ left: Math.max(0, tabLeft - pad), behavior: 'smooth' });
+      } else if (tabRight > viewRight - pad) {
+        tocContainer.scrollTo({ left: tabRight - tocContainer.clientWidth + pad, behavior: 'smooth' });
+      }
+    };
+
+    const setActive = (hash) => {
+      if (hash === lastHash) return;
+      lastHash = hash;
+      tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === hash));
+      ensureTabVisible(tabByHash.get(hash));
+    };
+
+    // Pick the section whose top has just crossed an imaginary scan line
+    // a third of the way down the viewport. That feels natural while reading.
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      if (Date.now() < suspendUntil) return;
+      const scanLine = window.innerHeight * 0.33;
+      let current = sections[0];
+      for (const s of sections) {
+        if (s.getBoundingClientRect().top <= scanLine) current = s;
+        else break;
+      }
+      setActive('#' + current.id);
+    };
+    const onScroll = () => {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+
+    // Click handler: pre-set the target as active immediately, then suspend
+    // scrollspy long enough for the smooth-scroll animation to finish without
+    // flickering through intermediate sections. If the user has reduced-motion
+    // enabled, scrolls are instant — no suspension needed.
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    tabs.forEach(t => {
+      t.addEventListener('click', () => {
+        const target = t.getAttribute('href');
+        setActive(target);
+        if (!prefersReducedMotion) {
+          suspendUntil = Date.now() + 900;   // ~900ms covers most smooth scrolls
+        }
+        // Drop focus so no focus ring lingers on the clicked link.
+        setTimeout(() => t.blur(), 0);
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>What Makes a Strong Prompt in LLMO</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --panel: #111827;
+      --panel-2: #1f2937;
+      --text: #f8fafc;
+      --muted: #cbd5e1;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --warning: #f59e0b;
+      --border: rgba(255,255,255,0.12);
+      --shadow: 0 20px 50px rgba(0,0,0,0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(56,189,248,0.12), transparent 25%),
+        radial-gradient(circle at bottom left, rgba(34,197,94,0.10), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      height: 100%;
+      padding: 56px 72px 80px;
+      position: absolute;
+      inset: 0;
+    }
+
+    .slide.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      animation: fadeIn 0.35s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .eyebrow {
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 2.6rem;
+      line-height: 1.1;
+      margin: 0 0 22px;
+      max-width: 900px;
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      margin: 0 0 12px;
+      color: var(--accent);
+    }
+
+    p, li {
+      font-size: 1.18rem;
+      line-height: 1.6;
+      color: var(--text);
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .lead {
+      font-size: 1.28rem;
+      line-height: 1.65;
+      max-width: 950px;
+      color: var(--muted);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: start;
+      margin-top: 24px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px 26px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(4px);
+    }
+
+    ul {
+      margin: 16px 0 0 0;
+      padding-left: 24px;
+    }
+
+    li + li {
+      margin-top: 10px;
+    }
+
+    .definition {
+      margin-top: 22px;
+      padding: 18px 20px;
+      border-left: 4px solid var(--accent);
+      background: rgba(56,189,248,0.08);
+      border-radius: 12px;
+      font-size: 1.08rem;
+      color: var(--text);
+    }
+
+    .takeaway {
+      margin-top: 26px;
+      display: inline-block;
+      padding: 14px 18px;
+      background: linear-gradient(135deg, rgba(56,189,248,0.18), rgba(34,197,94,0.18));
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 14px;
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+
+    .formula {
+      display: inline-block;
+      margin: 18px 0 6px;
+      padding: 16px 22px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid var(--border);
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .examples code,
+    code.inline {
+      background: rgba(255,255,255,0.08);
+      padding: 4px 8px;
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-size: 0.98em;
+    }
+
+    .example-list li {
+      margin-bottom: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 18px;
+      font-size: 0.98rem;
+      background: rgba(255,255,255,0.03);
+      border-radius: 14px;
+      overflow: hidden;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 14px 14px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    th {
+      background: rgba(255,255,255,0.08);
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .summary-box {
+      padding: 20px;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--border);
+    }
+
+    .summary-box h3 {
+      margin: 0 0 10px;
+      color: var(--accent);
+      font-size: 1.05rem;
+    }
+
+    .summary-box p {
+      margin: 0;
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    .footer {
+      position: absolute;
+      left: 72px;
+      right: 72px;
+      bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .progress {
+      width: 220px;
+      height: 8px;
+      background: rgba(255,255,255,0.10);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 20%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 0.25s ease;
+    }
+
+    .controls {
+      position: absolute;
+      top: 22px;
+      right: 28px;
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .controls button {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .controls button:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    .notes {
+      display: none;
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 14px;
+      background: rgba(245, 158, 11, 0.10);
+      border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+
+    .show-notes .notes {
+      display: block;
+    }
+
+    .notes h3 {
+      margin: 0 0 8px;
+      color: var(--warning);
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .slide {
+        padding: 34px 24px 88px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      p, li {
+        font-size: 1.02rem;
+      }
+
+      .two-col,
+      .summary-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .footer {
+        left: 24px;
+        right: 24px;
+        bottom: 20px;
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck" id="deck">
+    <div class="controls">
+      <button onclick="prevSlide()">← Prev</button>
+      <button onclick="nextSlide()">Next →</button>
+      <button onclick="toggleNotes()">Notes</button>
+    </div>
+
+    <!-- Slide 1 -->
+    <section class="slide active">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 1</div>
+        <h1>What Prompts Really Are in LLMO</h1>
+        <p class="lead">
+          In LLMO, a prompt is <strong>not just a question</strong>. It is a
+          <strong>test case</strong> used to track how AI assistants answer a real customer need.
+        </p>
+
+        <div class="two-col">
+          <div class="card">
+            <h2>What a strong prompt helps you evaluate</h2>
+            <ul>
+              <li>whether your brand or content appears</li>
+              <li>how relevant the answer is</li>
+              <li>whether the answer is accurate and useful</li>
+              <li>how results change over time</li>
+            </ul>
+
+            <div class="definition">
+              <strong>Simple definition:</strong><br />
+              A prompt in LLMO is a <strong>repeatable customer-style question</strong>
+              used to track and improve how website content performs in AI answers.
+            </div>
+
+            <div class="takeaway">
+              If the prompt is weak, the signal is weak.
+            </div>
+          </div>
+
+          <div class="card">
+            <h2>Why this matters</h2>
+            <p class="muted">
+              Prompts are how you measure visibility, relevance, usefulness, and consistency.
+              If the input is vague or unnatural, the tracking becomes noisy.
+            </p>
+          </div>
+        </div>
+
+        <div class="notes">
+          <h3>Speaker Notes</h3>
+          <p>
+            In LLMO, prompts are not just inputs. They are test cases. We use them to see how AI assistants respond to real customer questions, whether our content shows up, and whether the answer is actually useful. That means the prompt itself has to be strong enough to test something meaningful. If the prompt is vague, broad, or unnatural, the tracking becomes noisy. If the prompt is strong, it gives us a much clearer signal about how our content is performing in AI-generated answers.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 2 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 2</div>
+        <h1>Key Qualities of a Strong Prompt</h1>
+
+        <div class="two-col">
+          <div class="card">
+            <ul class="example-list">
+              <li><strong>Natural</strong> — sounds like something a real customer would ask<br><code>How do I sign a PDF online?</code></li>
+              <li><strong>Clear</strong> — easy to understand on the first read<br><code>How can I edit text in a PDF?</code></li>
+              <li><strong>Specific</strong> — points to a real need or use case<br><code>What's the best PDF editor for a small business?</code></li>
+              <li><strong>Focused</strong> — asks one main thing, not several at once<br><code>How does Photoshop compare with Canva for social media design?</code></li>
+              <li><strong>Repeatable</strong> — can be used again later and still mean the same thing<br><code>How do I reduce PDF file size without losing quality?</code></li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h2>Core principle</h2>
+            <p class="muted">
+              Strong prompts sound real, mean one clear thing, and are stable enough to track over time.
+            </p>
+
+            <div class="takeaway">
+              Strong prompts sound real, mean one clear thing, and are stable enough to track over time.
+            </div>
+          </div>
+        </div>
+
+        <div class="notes">
+          <h3>Speaker Notes</h3>
+          <p>
+            Strong prompts usually share the same basic qualities. They sound natural, like real customer questions. They are clear enough that the intent is obvious. They are specific enough to point to an actual need. They stay focused on one main thing. And they are repeatable, so you can use them again later and still be testing the same intent. That is what makes them useful in LLMO. You are not just trying to ask a decent question once. You are trying to create a prompt that can serve as a reliable test case.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 3</div>
+        <h1>A Simple Formula for Building Strong Prompts</h1>
+
+        <div class="card">
+          <div class="formula">User + Need + Context</div>
+          <p class="muted">Use it as a <strong>guide</strong>, not a strict rule.</p>
+        </div>
+
+        <div class="summary-grid">
+          <div class="summary-box">
+            <h3>User</h3>
+            <p>Who is asking?<br><em>student, freelancer, small business owner, marketer</em></p>
+          </div>
+          <div class="summary-box">
+            <h3>Need</h3>
+            <p>What are they trying to do?<br><em>edit, compare, sign, compress, create</em></p>
+          </div>
+          <div class="summary-box">
+            <h3>Context</h3>
+            <p>What makes the question clearer?<br><em>for work, for social media, without losing quality, for a small team</em></p>
+          </div>
+          <div class="summary-box">
+            <h3>Examples</h3>
+            <p>
+              <code class="inline">What's the best PDF editor for a small business owner who needs to edit and share files?</code>
+            </p>
+            <p>
+              <code class="inline">How does Photoshop compare with Canva for a marketer creating social media posts?</code>
+            </p>
+            <p>
+              <code class="inline">What's the best e-signature tool for a freelancer sending client contracts?</code>
+            </p>
+          </div>
+        </div>
+
+        <div class="takeaway">
+          User, need, and context is a simple way to make prompts stronger — not a rule every prompt must follow word for word.
+        </div>
+
+        <div class="notes">
+          <h3>Speaker Notes</h3>
+          <p>
+            A practical way to improve prompt quality is to think in three parts: user, need, and context. Who is asking? What are they trying to do? And what detail makes the question clearer? This is not a rigid template that every prompt must follow every time. Some prompts are already strong without all three parts being fully spelled out. But when a prompt feels too thin or too broad, adding user and context is often the easiest way to make it stronger.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 4</div>
+        <h1>Weak Prompts vs. Strong Prompts</h1>
+
+        <div class="card">
+          <table>
+            <thead>
+              <tr>
+                <th>Common problem</th>
+                <th>Weak prompt</th>
+                <th>Strong prompt</th>
+                <th>Why the strong one works better</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Too short</strong></td>
+                <td><code>pdf editor</code></td>
+                <td><code>What's the best PDF editor for a small business?</code></td>
+                <td>sounds like a real question and defines the use case</td>
+              </tr>
+              <tr>
+                <td><strong>Too broad</strong></td>
+                <td><code>best tool for documents</code></td>
+                <td><code>What's the best tool for signing business documents online?</code></td>
+                <td>clearer intent and less guesswork</td>
+              </tr>
+              <tr>
+                <td><strong>Too many asks</strong></td>
+                <td><code>How do I edit sign compress and share PDFs?</code></td>
+                <td><code>How do I compress a PDF without losing quality?</code></td>
+                <td>focused on one task, so easier to track</td>
+              </tr>
+              <tr>
+                <td><strong>Too vague</strong></td>
+                <td><code>What should I use for work?</code></td>
+                <td><code>What's the best e-signature tool for sending client contracts?</code></td>
+                <td>names the actual need and context</td>
+              </tr>
+              <tr>
+                <td><strong>Too unnatural</strong></td>
+                <td><code>enterprise creative content solution</code></td>
+                <td><code>What's the best tool for creating social media graphics for a small team?</code></td>
+                <td>uses language a real customer would say</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="takeaway">
+            The goal is not longer prompts. The goal is stronger prompts.
+          </div>
+        </div>
+
+        <div class="notes">
+          <h3>Speaker Notes</h3>
+          <p>
+            Weak prompts can fail in different ways, and it helps to show those differences clearly. Some are too short and read like labels. Some are too broad and could mean almost anything. Some combine too many needs into one question. Some are so vague that the real intent is missing. And some sound unnatural, more like internal wording than customer language. Strong prompts fix those problems. They make the question sound more real, more specific, and more focused. That is what makes them better test cases in LLMO.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 5 -->
+    <section class="slide">
+      <div class="slide-inner">
+        <div class="eyebrow">Slide 5</div>
+        <h1>Summary: What Makes a Strong Prompt</h1>
+
+        <div class="summary-grid">
+          <div class="summary-box">
+            <h3>1. In LLMO, prompts are test cases</h3>
+            <p>
+              They are used to evaluate how AI assistants answer real customer needs over time.
+            </p>
+          </div>
+          <div class="summary-box">
+            <h3>2. Strong prompts share key qualities</h3>
+            <p>
+              They are natural, clear, specific, focused, and repeatable.
+            </p>
+          </div>
+          <div class="summary-box">
+            <h3>3. A simple way to improve them</h3>
+            <p>
+              Use <strong>User + Need + Context</strong> when a prompt feels too broad or too thin.
+            </p>
+          </div>
+          <div class="summary-box">
+            <h3>4. Stronger prompts create stronger signal</h3>
+            <p>
+              The goal is not to make prompts longer. The goal is to make them better test cases.
+            </p>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 24px;">
+          <h2>Closing line</h2>
+          <p class="lead" style="margin: 0;">
+            A strong prompt in LLMO is a real customer question that is clear, specific, focused, and strong enough to test again over time.
+          </p>
+        </div>
+
+        <div class="takeaway">
+          Better prompts lead to better tracking, better insight, and better optimization.
+        </div>
+
+        <div class="notes">
+          <h3>Speaker Notes</h3>
+          <p>
+            To summarize, in LLMO a prompt is a test case, not just a question. Strong prompts are natural, clear, specific, focused, and repeatable. When a prompt feels weak, using user, need, and context is a simple way to improve it. And the goal is not to make prompts longer for the sake of it. The goal is to make them strong enough to produce a reliable signal over time.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <div id="slideCounter">1 / 5</div>
+      <div class="progress">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div>Use ← → keys to navigate</div>
+    </div>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const deck = document.getElementById('deck');
+    const slideCounter = document.getElementById('slideCounter');
+    const progressBar = document.getElementById('progressBar');
+    let current = 0;
+
+    function updateSlides() {
+      slides.forEach((slide, index) => {
+        slide.classList.toggle('active', index === current);
+      });
+      slideCounter.textContent = `${current + 1} / ${slides.length}`;
+      progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+    }
+
+    function nextSlide() {
+      if (current < slides.length - 1) {
+        current++;
+        updateSlides();
+      }
+    }
+
+    function prevSlide() {
+      if (current > 0) {
+        current--;
+        updateSlides();
+      }
+    }
+
+    function toggleNotes() {
+      deck.classList.toggle('show-notes');
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key.toLowerCase() === 'n') {
+        toggleNotes();
+      }
+    });
+
+    updateSlides();
+  </script>
+</body>
+</html>

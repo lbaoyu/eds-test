@@ -262,6 +262,9 @@
       align-items: flex-end;
       justify-content: space-between;
       padding: 16px;
+    }
+
+    .card-visual.is-clickable {
       cursor: pointer;
     }
 
@@ -313,8 +316,19 @@
     .card-thumb-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.28));
       z-index: 0;
+    }
+
+    .featured-card .card-thumb-overlay {
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.28));
+    }
+
+    .muted-card .card-thumb {
+      filter: grayscale(100%) saturate(0.1) brightness(1.02);
+    }
+
+    .muted-card .card-thumb-overlay {
+      background: linear-gradient(180deg, rgba(120, 120, 120, 0.16), rgba(90, 90, 90, 0.30));
     }
 
     .card-logo {
@@ -365,6 +379,10 @@
       height: 12px;
       fill: #fff;
       transform: translateX(1px);
+    }
+
+    .muted-card .play-icon {
+      background: #9b9b9b;
     }
 
     .duration {
@@ -462,7 +480,6 @@
       border-radius: 999px;
       padding: 12px 18px;
       font-weight: 800;
-      cursor: pointer;
       transition: background 0.18s ease, transform 0.18s ease;
     }
 
@@ -470,6 +487,7 @@
       background: var(--accent);
       color: #fff;
       box-shadow: 0 10px 24px rgba(235, 16, 0, 0.24);
+      cursor: pointer;
     }
 
     .featured-card .play-button:hover {
@@ -483,7 +501,16 @@
       box-shadow: none;
     }
 
-    .muted-card .play-button:hover {
+    .muted-card .play-button.is-disabled {
+      cursor: not-allowed;
+      opacity: 0.95;
+    }
+
+    .muted-card .play-button.is-clickable {
+      cursor: pointer;
+    }
+
+    .muted-card .play-button.is-clickable:hover {
       background: #ababab;
       transform: translateY(-1px);
     }
@@ -772,12 +799,13 @@
     const videos = [
       {
         title: "Adobe LLMO Overview",
-        duration: "08:42",
+        duration: "Coming soon",
         category: "Getting Started",
         audience: "Anyone interested in Adobe LLMO",
         description: "A short introduction to the series and the kinds of Adobe LLMO topics viewers can expect to explore.",
         tags: ["Overview", "Learning Series", "Adobe LLMO"],
-        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play"
+        url: null,
+        thumbnail: "https://main--eds-test--lbaoyu.aem.live/images/video-1.png"
       },
       {
         title: "Understanding Product Architecture",
@@ -801,30 +829,30 @@
       },
       {
         title: "Deploying on Edge Delivery Services",
-        duration: "10:04",
+        duration: "Coming soon",
         category: "Edge Topics",
         audience: "Developers and technical learners",
         description: "An introduction to edge-related delivery topics and how modern deployment ideas connect to Adobe experiences.",
         tags: ["Edge", "Deployment", "Delivery"],
-        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play"
+        url: null
       },
       {
         title: "Learning the Core Building Blocks",
-        duration: "06:51",
+        duration: "Coming soon",
         category: "Foundations",
         audience: "New learners",
         description: "A fast, approachable session covering the core ideas that help new viewers navigate Adobe LLMO topics with confidence.",
         tags: ["Foundations", "Core Concepts", "Beginner"],
-        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play"
+        url: null
       },
       {
         title: "More Topics Coming Soon",
-        duration: "05:30",
+        duration: "Coming soon",
         category: "Series Roadmap",
         audience: "All viewers",
         description: "A preview of the future direction of the series, with more short videos planned across architecture, prompting, and edge topics.",
         tags: ["Roadmap", "Coming Soon", "Series"],
-        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play"
+        url: null
       }
     ];
 
@@ -841,99 +869,9 @@
 
     let lastFocusedElement = null;
 
-    function createCard(video, index) {
-      const item = document.createElement("li");
-      const isFeatured = index === 1 || index === 2;
-      item.className = `card ${isFeatured ? "featured-card" : "muted-card"}`;
-
-      const thumbnailMarkup = video.thumbnail
-        ? `
-          <img
-            class="card-thumb"
-            src="${video.thumbnail}"
-            alt=""
-            loading="lazy"
-          />
-          <div class="card-thumb-overlay"></div>
-        `
-        : "";
-
-      item.innerHTML = `
-        <div class="card-visual" tabindex="0" role="button" aria-label="Play ${video.title}">
-          ${thumbnailMarkup}
-          <img class="card-logo" src="${LOGO_URL}" alt="" />
-          <div class="play-chip">
-            <span class="play-icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M8 5.14v13.72c0 .72.78 1.17 1.4.81l10.6-6.86a.94.94 0 0 0 0-1.62L9.4 4.33A.94.94 0 0 0 8 5.14Z"></path>
-              </svg>
-            </span>
-            Play video
-          </div>
-          <div class="duration">${video.duration}</div>
-        </div>
-
-        <div class="card-body">
-          <h3 class="card-title">${video.title}</h3>
-          <p class="card-text">${video.description}</p>
-
-          <div class="meta" aria-label="Video metadata">
-            <span class="tag">${video.category}</span>
-            <span class="tag">${video.audience}</span>
-          </div>
-
-          <div class="meta" aria-label="Video tags">
-            ${video.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
-          </div>
-
-          <div class="card-actions">
-            <button class="play-button" type="button">Watch now</button>
-          </div>
-        </div>
-      `;
-
-      const visual = item.querySelector(".card-visual");
-      const button = item.querySelector(".play-button");
-
-      visual.addEventListener("click", () => openModal(video));
-      visual.addEventListener("keydown", (event) => {
-        if (event.key === "Enter" || event.key === " ") {
-          event.preventDefault();
-          openModal(video);
-        }
-      });
-      button.addEventListener("click", () => openModal(video));
-
-      return item;
-    }
-
-    function renderVideos(query = "") {
-      const term = query.trim().toLowerCase();
-      grid.innerHTML = "";
-
-      const filtered = videos
-        .map((video, index) => ({ video, index }))
-        .filter(({ video }) => {
-          const haystack = [
-            video.title,
-            video.category,
-            video.audience,
-            video.description,
-            ...video.tags
-          ].join(" ").toLowerCase();
-
-          return haystack.includes(term);
-        });
-
-      filtered.forEach(({ video, index }) => {
-        grid.appendChild(createCard(video, index));
-      });
-
-      resultCount.textContent = filtered.length;
-      emptyState.style.display = filtered.length ? "none" : "block";
-    }
-
     function openModal(video) {
+      if (!video.url) return;
+
       lastFocusedElement = document.activeElement;
       modalTitle.textContent = video.title;
       modalSubtitle.textContent = `${video.category} · ${video.audience} · ${video.duration}`;
@@ -960,6 +898,107 @@
       if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
         lastFocusedElement.focus();
       }
+    }
+
+    function createCard(video) {
+      const item = document.createElement("li");
+      const hasVideo = Boolean(video.url);
+      item.className = `card ${hasVideo ? "featured-card" : "muted-card"}`;
+
+      const thumbnailMarkup = video.thumbnail
+        ? `
+          <img
+            class="card-thumb"
+            src="${video.thumbnail}"
+            alt=""
+            loading="lazy"
+          />
+          <div class="card-thumb-overlay"></div>
+        `
+        : "";
+
+      const playLabel = hasVideo ? "Play video" : "Coming soon";
+      const buttonLabel = hasVideo ? "Watch now" : "Available soon";
+      const visualClasses = `card-visual ${hasVideo ? "is-clickable" : ""}`;
+      const visualAttrs = hasVideo
+        ? `tabindex="0" role="button" aria-label="Play ${video.title}"`
+        : `aria-label="${video.title} coming soon"`;
+
+      item.innerHTML = `
+        <div class="${visualClasses}" ${visualAttrs}>
+          ${thumbnailMarkup}
+          <img class="card-logo" src="${LOGO_URL}" alt="" />
+          <div class="play-chip">
+            <span class="play-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 5.14v13.72c0 .72.78 1.17 1.4.81l10.6-6.86a.94.94 0 0 0 0-1.62L9.4 4.33A.94.94 0 0 0 8 5.14Z"></path>
+              </svg>
+            </span>
+            ${playLabel}
+          </div>
+          <div class="duration">${video.duration}</div>
+        </div>
+
+        <div class="card-body">
+          <h3 class="card-title">${video.title}</h3>
+          <p class="card-text">${video.description}</p>
+
+          <div class="meta" aria-label="Video metadata">
+            <span class="tag">${video.category}</span>
+            <span class="tag">${video.audience}</span>
+          </div>
+
+          <div class="meta" aria-label="Video tags">
+            ${video.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+          </div>
+
+          <div class="card-actions">
+            <button class="play-button ${hasVideo ? "is-clickable" : "is-disabled"}" type="button" ${hasVideo ? "" : "disabled"}>
+              ${buttonLabel}
+            </button>
+          </div>
+        </div>
+      `;
+
+      if (hasVideo) {
+        const visual = item.querySelector(".card-visual");
+        const button = item.querySelector(".play-button");
+
+        visual.addEventListener("click", () => openModal(video));
+        visual.addEventListener("keydown", (event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            openModal(video);
+          }
+        });
+        button.addEventListener("click", () => openModal(video));
+      }
+
+      return item;
+    }
+
+    function renderVideos(query = "") {
+      const term = query.trim().toLowerCase();
+      grid.innerHTML = "";
+
+      const filtered = videos.filter((video) => {
+        const haystack = [
+          video.title,
+          video.category,
+          video.audience,
+          video.description,
+          ...video.tags
+        ].join(" ").toLowerCase();
+
+        return haystack.includes(term);
+      });
+
+      filtered.forEach((video) => {
+        grid.appendChild(createCard(video));
+      });
+
+      resultCount.textContent = filtered.length;
+      emptyState.style.display = filtered.length ? "none" : "block";
     }
 
     closeModalButton.addEventListener("click", closeModal);

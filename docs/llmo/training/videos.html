@@ -258,7 +258,6 @@
       position: relative;
       aspect-ratio: 16 / 9;
       overflow: hidden;
-      border-bottom: 1px solid var(--border);
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
@@ -267,6 +266,7 @@
     }
 
     .featured-card .card-visual {
+      border-bottom: 1px solid var(--border);
       background:
         linear-gradient(135deg, rgba(235, 16, 0, 0.16), rgba(20, 115, 230, 0.14)),
         linear-gradient(180deg, #ffffff, #f1f1f1);
@@ -277,16 +277,17 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.65), transparent 20%),
-        radial-gradient(circle at 84% 72%, rgba(255, 255, 255, 0.35), transparent 18%);
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.45), transparent 20%),
+        radial-gradient(circle at 84% 72%, rgba(255, 255, 255, 0.18), transparent 18%);
       pointer-events: none;
+      z-index: 0;
     }
 
     .muted-card .card-visual {
+      border-bottom: 1px solid #d0d0d0;
       background:
         linear-gradient(135deg, rgba(145, 145, 145, 0.18), rgba(188, 188, 188, 0.18)),
         linear-gradient(180deg, #e9e9e9, #dcdcdc);
-      border-bottom: 1px solid #d0d0d0;
     }
 
     .muted-card .card-visual::before {
@@ -297,6 +298,23 @@
         radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.35), transparent 20%),
         radial-gradient(circle at 84% 72%, rgba(255, 255, 255, 0.14), transparent 18%);
       pointer-events: none;
+      z-index: 0;
+    }
+
+    .card-thumb {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    .card-thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.10), rgba(0, 0, 0, 0.28));
+      z-index: 0;
     }
 
     .card-logo {
@@ -310,11 +328,16 @@
       box-shadow: var(--shadow-sm);
       padding: 6px;
       object-fit: contain;
+      z-index: 2;
+    }
+
+    .play-chip,
+    .duration {
+      position: relative;
+      z-index: 2;
     }
 
     .play-chip {
-      position: relative;
-      z-index: 1;
       display: inline-flex;
       align-items: center;
       gap: 10px;
@@ -345,8 +368,6 @@
     }
 
     .duration {
-      position: relative;
-      z-index: 1;
       padding: 8px 10px;
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.92);
@@ -765,7 +786,8 @@
         audience: "Builders and learners",
         description: "A practical session focused on product architecture concepts and how to understand core building blocks clearly.",
         tags: ["Architecture", "Systems", "Foundations"],
-        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:75861530-2126-4ce7-927f-1a3815766e5f/play"
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:75861530-2126-4ce7-927f-1a3815766e5f/play",
+        thumbnail: "https://main--eds-test--lbaoyu.aem.live/images/video-2.png"
       },
       {
         title: "What Makes Prompts Strong",
@@ -774,7 +796,8 @@
         audience: "Anyone writing prompts",
         description: "A concise walkthrough of what stronger prompts look like, why clarity matters, and how structure improves outcomes.",
         tags: ["Prompts", "Best Practices", "Prompting"],
-        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:f99aea11-a014-4a51-b5d5-f3ce0249f5ec/play"
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:f99aea11-a014-4a51-b5d5-f3ce0249f5ec/play",
+        thumbnail: "https://main--eds-test--lbaoyu.aem.live/images/video-3.png"
       },
       {
         title: "Deploying on Edge Delivery Services",
@@ -823,8 +846,21 @@
       const isFeatured = index === 1 || index === 2;
       item.className = `card ${isFeatured ? "featured-card" : "muted-card"}`;
 
+      const thumbnailMarkup = video.thumbnail
+        ? `
+          <img
+            class="card-thumb"
+            src="${video.thumbnail}"
+            alt=""
+            loading="lazy"
+          />
+          <div class="card-thumb-overlay"></div>
+        `
+        : "";
+
       item.innerHTML = `
         <div class="card-visual" tabindex="0" role="button" aria-label="Play ${video.title}">
+          ${thumbnailMarkup}
           <img class="card-logo" src="${LOGO_URL}" alt="" />
           <div class="play-chip">
             <span class="play-icon">

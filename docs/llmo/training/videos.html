@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adobe LLMO Knowledge Sharing Videos</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@spectrum-css/vars@latest/dist/spectrum-global.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@spectrum-css/vars@latest/dist/spectrum-light.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@adobe/spectrum-css@latest/dist/spectrum-core.css" />
+
+  <style>
+    :root {
+      --bg: #f8f8f8;
+      --surface: #ffffff;
+      --surface-alt: #fcfcfc;
+      --text: #2c2c2c;
+      --muted: #5c5c5c;
+      --border: #e1e1e1;
+      --border-strong: #cacaca;
+      --accent: #eb1000;
+      --accent-hover: #d30f00;
+      --focus: #1473e6;
+      --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 18px 42px rgba(0, 0, 0, 0.12);
+      --shadow-lg: 0 28px 90px rgba(0, 0, 0, 0.42);
+      --radius-md: 18px;
+      --radius-lg: 24px;
+      --page-width: 1200px;
+      --font-stack: "Adobe Clean", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: var(--font-stack);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(235, 16, 0, 0.08), transparent 25%),
+        linear-gradient(180deg, #ffffff 0%, var(--bg) 240px);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .page {
+      width: min(calc(100% - 32px), var(--page-width));
+      margin: 0 auto;
+      padding: 28px 0 56px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      box-shadow: var(--shadow-sm);
+      padding: 8px;
+      object-fit: contain;
+      flex: 0 0 auto;
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-eyebrow {
+      margin: 0 0 4px;
+      font-size: 12px;
+      line-height: 1.2;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .brand-title {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      font-weight: 800;
+    }
+
+    .meta-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--muted);
+      font-size: 14px;
+      box-shadow: var(--shadow-sm);
+      white-space: nowrap;
+    }
+
+    .hero {
+      background:
+        radial-gradient(circle at 85% 18%, rgba(20, 115, 230, 0.08), transparent 18%),
+        radial-gradient(circle at 12% 90%, rgba(235, 16, 0, 0.10), transparent 20%),
+        var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      padding: 30px;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(235, 16, 0, 0.08);
+      color: var(--accent);
+      border: 1px solid rgba(235, 16, 0, 0.12);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .hero h2 {
+      margin: 0 0 10px;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 75ch;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--muted);
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      margin: 24px 0;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      fill: var(--muted);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 52px;
+      padding: 0 16px 0 44px;
+      border-radius: 14px;
+      border: 1px solid var(--border-strong);
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px rgba(20, 115, 230, 0.16);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .card {
+      grid-column: span 4;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .featured-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .featured-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: rgba(20, 115, 230, 0.2);
+    }
+
+    .muted-card {
+      background: #efefef;
+      border: 1px solid #d7d7d7;
+      box-shadow: none;
+    }
+
+    .muted-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.06);
+      border-color: #c9c9c9;
+    }
+
+    .card-visual {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 16px;
+      cursor: pointer;
+    }
+
+    .featured-card .card-visual {
+      background:
+        linear-gradient(135deg, rgba(235, 16, 0, 0.16), rgba(20, 115, 230, 0.14)),
+        linear-gradient(180deg, #ffffff, #f1f1f1);
+    }
+
+    .featured-card .card-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.65), transparent 20%),
+        radial-gradient(circle at 84% 72%, rgba(255, 255, 255, 0.35), transparent 18%);
+      pointer-events: none;
+    }
+
+    .muted-card .card-visual {
+      background:
+        linear-gradient(135deg, rgba(145, 145, 145, 0.18), rgba(188, 188, 188, 0.18)),
+        linear-gradient(180deg, #e9e9e9, #dcdcdc);
+      border-bottom: 1px solid #d0d0d0;
+    }
+
+    .muted-card .card-visual::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.35), transparent 20%),
+        radial-gradient(circle at 84% 72%, rgba(255, 255, 255, 0.14), transparent 18%);
+      pointer-events: none;
+    }
+
+    .card-logo {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.92);
+      box-shadow: var(--shadow-sm);
+      padding: 6px;
+      object-fit: contain;
+    }
+
+    .play-chip {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(32, 32, 32, 0.84);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      backdrop-filter: blur(6px);
+    }
+
+    .play-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: inline-grid;
+      place-items: center;
+      flex: 0 0 auto;
+    }
+
+    .play-icon svg {
+      width: 12px;
+      height: 12px;
+      fill: #fff;
+      transform: translateX(1px);
+    }
+
+    .duration {
+      position: relative;
+      z-index: 1;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 800;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .card-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      height: 100%;
+    }
+
+    .featured-card .card-body {
+      background: var(--surface);
+    }
+
+    .muted-card .card-body {
+      background: #efefef;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 20px;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .card-text {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .featured-card .card-title {
+      color: var(--text);
+    }
+
+    .featured-card .card-text {
+      color: var(--muted);
+    }
+
+    .muted-card .card-title {
+      color: #666666;
+    }
+
+    .muted-card .card-text {
+      color: #787878;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .featured-card .tag {
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--muted);
+    }
+
+    .muted-card .tag {
+      border: 1px solid #d2d2d2;
+      background: #e4e4e4;
+      color: #757575;
+    }
+
+    .card-actions {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    .play-button {
+      appearance: none;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.18s ease;
+    }
+
+    .featured-card .play-button {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 10px 24px rgba(235, 16, 0, 0.24);
+    }
+
+    .featured-card .play-button:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+    }
+
+    .muted-card .play-button {
+      background: #bdbdbd;
+      color: #ffffff;
+      box-shadow: none;
+    }
+
+    .muted-card .play-button:hover {
+      background: #ababab;
+      transform: translateY(-1px);
+    }
+
+    .play-button:focus-visible,
+    .icon-button:focus-visible,
+    .card-visual:focus-visible {
+      outline: 3px solid rgba(20, 115, 230, 0.3);
+      outline-offset: 2px;
+    }
+
+    .coming-soon {
+      margin-top: 22px;
+      padding: 18px 20px;
+      border-radius: 16px;
+      border: 1px dashed var(--border-strong);
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .empty {
+      display: none;
+      margin-top: 18px;
+      background: var(--surface);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    dialog {
+      border: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      max-width: none;
+      max-height: none;
+      background: rgba(15, 15, 15, 0.72);
+      padding: 16px;
+    }
+
+    .modal[open] {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal::backdrop {
+      background: rgba(15, 15, 15, 0.72);
+    }
+
+    .modal-shell {
+      width: min(1280px, calc(100vw - 32px));
+      max-height: calc(100vh - 32px);
+      background: #111;
+      color: #fff;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px 20px;
+      background: linear-gradient(180deg, #1a1a1a, #121212);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-title-wrap {
+      min-width: 0;
+    }
+
+    .modal-title {
+      margin: 0 0 4px;
+      font-size: 18px;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+    }
+
+    .modal-subtitle {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.74);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .icon-button {
+      appearance: none;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      font-size: 20px;
+      line-height: 1;
+      cursor: pointer;
+      flex: 0 0 auto;
+    }
+
+    .icon-button:hover {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .modal-body {
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      overflow: auto;
+    }
+
+    .player-stage {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .player-wrap {
+      width: min(100%, calc((100vh - 180px) * 16 / 9));
+      aspect-ratio: 16 / 9;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex: 0 0 auto;
+    }
+
+    .player-frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #000;
+    }
+
+    @media (max-width: 1100px) {
+      .card {
+        grid-column: span 6;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        width: min(calc(100% - 20px), var(--page-width));
+        padding-top: 20px;
+      }
+
+      .header,
+      .toolbar {
+        grid-template-columns: 1fr;
+        display: grid;
+        align-items: stretch;
+      }
+
+      .hero {
+        padding: 22px;
+      }
+
+      .card {
+        grid-column: 1 / -1;
+      }
+
+      .modal {
+        padding: 8px;
+      }
+
+      .modal-shell {
+        width: calc(100vw - 16px);
+        max-height: calc(100vh - 16px);
+        border-radius: 16px;
+      }
+
+      .modal-body {
+        padding: 8px;
+      }
+
+      .player-wrap {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="spectrum spectrum--light spectrum--medium">
+  <div class="page">
+    <header class="header" aria-label="Adobe page header">
+      <div class="brand">
+        <img
+          class="brand-logo"
+          src="https://main--eds-test--lbaoyu.aem.live/icons/adobe-logo.png"
+          alt="Adobe logo"
+        />
+        <div class="brand-copy">
+          <p class="brand-eyebrow">Adobe Design System</p>
+          <h1 class="brand-title">Adobe LLMO Knowledge Sharing Videos</h1>
+        </div>
+      </div>
+
+      <div class="meta-pill">Short learning videos · Dynamic Media playback</div>
+    </header>
+
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-badge">Knowledge sharing series</div>
+      <h2 id="hero-title">Learn Adobe LLMO topics through short, practical video sessions</h2>
+      <p>
+        This video series is for anyone interested in learning Adobe LLMO products and related concepts.
+        Sessions cover topics such as product architecture, what makes prompts strong, deploying on Edge Delivery Services,
+        and other practical areas for builders and curious learners. More videos will be added over time as the series grows.
+      </p>
+    </section>
+
+    <section class="toolbar" aria-label="Video library controls">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M10.5 3a7.5 7.5 0 1 1 0 15a7.5 7.5 0 0 1 0-15Zm0 2a5.5 5.5 0 1 0 0 11a5.5 5.5 0 0 0 0-11Zm8.91 12.5l1.59 1.59L19.59 21L18 19.41l-1.35-1.35l-1.06-1.06l1.41-1.41l1.06 1.06Z"></path>
+        </svg>
+        <input
+          id="searchInput"
+          class="search-input"
+          type="search"
+          placeholder="Search by topic, title, or tag"
+          aria-label="Search videos"
+        />
+      </div>
+
+      <div class="meta-pill"><span id="resultCount">0</span>&nbsp;videos</div>
+    </section>
+
+    <main>
+      <ul id="videoGrid" class="grid" aria-label="Video gallery"></ul>
+
+      <div class="coming-soon">
+        <strong>More coming soon:</strong> this library will continue to expand with additional short knowledge-sharing videos covering Adobe LLMO product architecture, stronger prompting patterns, Edge Delivery Services topics, and related learning content.
+      </div>
+
+      <div id="emptyState" class="empty" aria-live="polite">No videos match your search.</div>
+    </main>
+  </div>
+
+  <dialog id="videoModal" class="modal" aria-labelledby="modalTitle">
+    <div class="modal-shell">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <h2 id="modalTitle" class="modal-title">Video player</h2>
+          <p id="modalSubtitle" class="modal-subtitle">Dynamic Media playback</p>
+        </div>
+        <button id="closeModal" class="icon-button" type="button" aria-label="Close video player">×</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="player-stage">
+          <div class="player-wrap">
+            <iframe
+              id="videoFrame"
+              class="player-frame"
+              title="Adobe LLMO video player"
+              src=""
+              allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+              allowfullscreen
+              referrerpolicy="strict-origin-when-cross-origin"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    const LOGO_URL = "https://main--eds-test--lbaoyu.aem.live/icons/adobe-logo.png";
+
+    const videos = [
+      {
+        title: "Adobe LLMO Overview",
+        duration: "08:42",
+        category: "Getting Started",
+        audience: "Anyone interested in Adobe LLMO",
+        description: "A short introduction to the series and the kinds of Adobe LLMO topics viewers can expect to explore.",
+        tags: ["Overview", "Learning Series", "Adobe LLMO"],
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play"
+      },
+      {
+        title: "Understanding Product Architecture",
+        duration: "03:44",
+        category: "Architecture",
+        audience: "Builders and learners",
+        description: "A practical session focused on product architecture concepts and how to understand core building blocks clearly.",
+        tags: ["Architecture", "Systems", "Foundations"],
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:75861530-2126-4ce7-927f-1a3815766e5f/play"
+      },
+      {
+        title: "What Makes Prompts Strong",
+        duration: "04:06",
+        category: "Prompt Design",
+        audience: "Anyone writing prompts",
+        description: "A concise walkthrough of what stronger prompts look like, why clarity matters, and how structure improves outcomes.",
+        tags: ["Prompts", "Best Practices", "Prompting"],
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:f99aea11-a014-4a51-b5d5-f3ce0249f5ec/play"
+      },
+      {
+        title: "Deploying on Edge Delivery Services",
+        duration: "10:04",
+        category: "Edge Topics",
+        audience: "Developers and technical learners",
+        description: "An introduction to edge-related delivery topics and how modern deployment ideas connect to Adobe experiences.",
+        tags: ["Edge", "Deployment", "Delivery"],
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play"
+      },
+      {
+        title: "Learning the Core Building Blocks",
+        duration: "06:51",
+        category: "Foundations",
+        audience: "New learners",
+        description: "A fast, approachable session covering the core ideas that help new viewers navigate Adobe LLMO topics with confidence.",
+        tags: ["Foundations", "Core Concepts", "Beginner"],
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play"
+      },
+      {
+        title: "More Topics Coming Soon",
+        duration: "05:30",
+        category: "Series Roadmap",
+        audience: "All viewers",
+        description: "A preview of the future direction of the series, with more short videos planned across architecture, prompting, and edge topics.",
+        tags: ["Roadmap", "Coming Soon", "Series"],
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play"
+      }
+    ];
+
+    const grid = document.getElementById("videoGrid");
+    const searchInput = document.getElementById("searchInput");
+    const resultCount = document.getElementById("resultCount");
+    const emptyState = document.getElementById("emptyState");
+
+    const modal = document.getElementById("videoModal");
+    const closeModalButton = document.getElementById("closeModal");
+    const videoFrame = document.getElementById("videoFrame");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalSubtitle = document.getElementById("modalSubtitle");
+
+    let lastFocusedElement = null;
+
+    function createCard(video, index) {
+      const item = document.createElement("li");
+      const isFeatured = index === 1 || index === 2;
+      item.className = `card ${isFeatured ? "featured-card" : "muted-card"}`;
+
+      item.innerHTML = `
+        <div class="card-visual" tabindex="0" role="button" aria-label="Play ${video.title}">
+          <img class="card-logo" src="${LOGO_URL}" alt="" />
+          <div class="play-chip">
+            <span class="play-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 5.14v13.72c0 .72.78 1.17 1.4.81l10.6-6.86a.94.94 0 0 0 0-1.62L9.4 4.33A.94.94 0 0 0 8 5.14Z"></path>
+              </svg>
+            </span>
+            Play video
+          </div>
+          <div class="duration">${video.duration}</div>
+        </div>
+
+        <div class="card-body">
+          <h3 class="card-title">${video.title}</h3>
+          <p class="card-text">${video.description}</p>
+
+          <div class="meta" aria-label="Video metadata">
+            <span class="tag">${video.category}</span>
+            <span class="tag">${video.audience}</span>
+          </div>
+
+          <div class="meta" aria-label="Video tags">
+            ${video.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
+          </div>
+
+          <div class="card-actions">
+            <button class="play-button" type="button">Watch now</button>
+          </div>
+        </div>
+      `;
+
+      const visual = item.querySelector(".card-visual");
+      const button = item.querySelector(".play-button");
+
+      visual.addEventListener("click", () => openModal(video));
+      visual.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openModal(video);
+        }
+      });
+      button.addEventListener("click", () => openModal(video));
+
+      return item;
+    }
+
+    function renderVideos(query = "") {
+      const term = query.trim().toLowerCase();
+      grid.innerHTML = "";
+
+      const filtered = videos
+        .map((video, index) => ({ video, index }))
+        .filter(({ video }) => {
+          const haystack = [
+            video.title,
+            video.category,
+            video.audience,
+            video.description,
+            ...video.tags
+          ].join(" ").toLowerCase();
+
+          return haystack.includes(term);
+        });
+
+      filtered.forEach(({ video, index }) => {
+        grid.appendChild(createCard(video, index));
+      });
+
+      resultCount.textContent = filtered.length;
+      emptyState.style.display = filtered.length ? "none" : "block";
+    }
+
+    function openModal(video) {
+      lastFocusedElement = document.activeElement;
+      modalTitle.textContent = video.title;
+      modalSubtitle.textContent = `${video.category} · ${video.audience} · ${video.duration}`;
+      videoFrame.src = video.url;
+
+      if (typeof modal.showModal === "function") {
+        modal.showModal();
+      } else {
+        modal.setAttribute("open", "open");
+      }
+
+      closeModalButton.focus();
+    }
+
+    function closeModal() {
+      videoFrame.src = "";
+
+      if (modal.open && typeof modal.close === "function") {
+        modal.close();
+      } else {
+        modal.removeAttribute("open");
+      }
+
+      if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+        lastFocusedElement.focus();
+      }
+    }
+
+    closeModalButton.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
+        closeModal();
+      }
+    });
+
+    modal.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      closeModal();
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && modal.open) {
+        closeModal();
+      }
+    });
+
+    searchInput.addEventListener("input", (event) => {
+      renderVideos(event.target.value);
+    });
+
+    renderVideos();
+  </script>
+</body>
+</html>

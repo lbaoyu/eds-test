@@ -3,33 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adobe LLMO Knowledge Sharing Videos</title>
+  <title>Adobe Video Library</title>
 
-  <!-- Spectrum tokens / core styles -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@spectrum-css/vars@latest/dist/spectrum-global.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@spectrum-css/vars@latest/dist/spectrum-light.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@adobe/spectrum-css@latest/dist/spectrum-core.css" />
 
   <style>
     :root {
-      color-scheme: light;
-      --page-bg: var(--spectrum-gray-50, #f8f8f8);
-      --surface: var(--spectrum-global-color-gray-50, #ffffff);
-      --surface-2: var(--spectrum-global-color-gray-75, #fbfbfb);
-      --text: var(--spectrum-global-color-gray-900, #2c2c2c);
-      --text-muted: var(--spectrum-global-color-gray-700, #5c5c5c);
-      --border: var(--spectrum-global-color-gray-200, #e1e1e1);
-      --border-strong: var(--spectrum-global-color-gray-300, #cacaca);
-      --accent: var(--spectrum-global-color-static-red-600, #d7373f);
-      --accent-hover: var(--spectrum-global-color-static-red-700, #bb121a);
-      --focus: var(--spectrum-global-color-blue-500, #1473e6);
-      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.08);
-      --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.12);
-      --shadow-lg: 0 32px 90px rgba(0, 0, 0, 0.42);
+      --bg: #f8f8f8;
+      --surface: #ffffff;
+      --surface-alt: #fcfcfc;
+      --text: #2c2c2c;
+      --muted: #5c5c5c;
+      --border: #e1e1e1;
+      --border-strong: #cacaca;
+      --accent: #eb1000;
+      --accent-hover: #d30f00;
+      --focus: #1473e6;
+      --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 18px 42px rgba(0, 0, 0, 0.12);
+      --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.42);
       --radius-sm: 12px;
       --radius-md: 18px;
       --radius-lg: 24px;
-      --max-width: 1200px;
+      --page-width: 1200px;
       --font-stack: "Adobe Clean", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     }
 
@@ -42,35 +40,38 @@
       margin: 0;
       padding: 0;
       min-height: 100%;
-      background: linear-gradient(180deg, #ffffff 0%, var(--page-bg) 220px);
-      color: var(--text);
       font-family: var(--font-stack);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top right, rgba(235, 16, 0, 0.08), transparent 25%),
+        linear-gradient(180deg, #ffffff 0%, var(--bg) 240px);
     }
 
     body {
       min-height: 100vh;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    img {
+      max-width: 100%;
+      display: block;
     }
 
-    code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    button,
+    input {
+      font: inherit;
     }
 
     .page {
-      width: min(100% - 32px, var(--max-width));
+      width: min(calc(100% - 32px), var(--page-width));
       margin: 0 auto;
-      padding: 24px 0 56px;
+      padding: 28px 0 56px;
     }
 
-    .topbar {
+    .header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 24px;
+      gap: 20px;
       margin-bottom: 24px;
     }
 
@@ -81,22 +82,16 @@
       min-width: 0;
     }
 
-    .brand-mark {
-      width: 46px;
-      height: 46px;
-      border-radius: 12px;
+    .brand-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
       background: #fff;
       border: 1px solid rgba(0, 0, 0, 0.06);
       box-shadow: var(--shadow-sm);
-      display: grid;
-      place-items: center;
+      padding: 8px;
+      object-fit: contain;
       flex: 0 0 auto;
-    }
-
-    .brand-mark svg {
-      width: 28px;
-      height: 28px;
-      display: block;
     }
 
     .brand-copy {
@@ -104,81 +99,81 @@
     }
 
     .brand-eyebrow {
-      margin: 0 0 2px;
-      color: var(--text-muted);
+      margin: 0 0 4px;
       font-size: 12px;
       line-height: 1.2;
-      letter-spacing: 0.08em;
+      color: var(--muted);
       text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
     }
 
     .brand-title {
       margin: 0;
-      font-size: 20px;
+      font-size: 22px;
       line-height: 1.2;
-      font-weight: 700;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
+      font-weight: 800;
     }
 
     .meta-pill {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 48px;
+      min-height: 44px;
       padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.85);
       border: 1px solid var(--border);
-      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--muted);
       font-size: 14px;
-      white-space: nowrap;
       box-shadow: var(--shadow-sm);
+      white-space: nowrap;
     }
 
     .hero {
       background:
-        radial-gradient(circle at top right, rgba(215, 55, 63, 0.10), transparent 28%),
-        radial-gradient(circle at bottom left, rgba(20, 115, 230, 0.08), transparent 20%),
+        radial-gradient(circle at 85% 18%, rgba(20, 115, 230, 0.08), transparent 18%),
+        radial-gradient(circle at 12% 90%, rgba(235, 16, 0, 0.10), transparent 20%),
         var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       box-shadow: var(--shadow-sm);
-      padding: 28px;
+      padding: 30px;
       margin-bottom: 24px;
     }
 
     .hero-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      border: 1px solid rgba(215, 55, 63, 0.16);
-      background: rgba(215, 55, 63, 0.08);
-      color: var(--accent);
       padding: 8px 12px;
       border-radius: 999px;
+      background: rgba(235, 16, 0, 0.08);
+      color: var(--accent);
+      border: 1px solid rgba(235, 16, 0, 0.12);
       font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.03em;
+      font-weight: 800;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
       margin-bottom: 14px;
     }
 
     .hero h2 {
       margin: 0 0 10px;
-      font-size: clamp(28px, 4vw, 42px);
-      line-height: 1.08;
-      letter-spacing: -0.02em;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
     }
 
     .hero p {
       margin: 0;
       max-width: 72ch;
-      color: var(--text-muted);
       font-size: 16px;
-      line-height: 1.6;
+      line-height: 1.65;
+      color: var(--muted);
     }
 
-    .controls {
+    .toolbar {
       display: grid;
       grid-template-columns: 1fr auto;
       gap: 16px;
@@ -190,24 +185,6 @@
       position: relative;
     }
 
-    .search-input {
-      width: 100%;
-      padding: 14px 16px 14px 44px;
-      border-radius: 14px;
-      border: 1px solid var(--border-strong);
-      background: rgba(255, 255, 255, 0.92);
-      color: var(--text);
-      font: inherit;
-      outline: none;
-      transition: border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
-    }
-
-    .search-input:focus {
-      border-color: var(--focus);
-      box-shadow: 0 0 0 3px rgba(20, 115, 230, 0.16);
-      background: #fff;
-    }
-
     .search-icon {
       position: absolute;
       left: 14px;
@@ -215,11 +192,28 @@
       transform: translateY(-50%);
       width: 18px;
       height: 18px;
-      fill: var(--text-muted);
+      fill: var(--muted);
       pointer-events: none;
     }
 
-    .video-grid {
+    .search-input {
+      width: 100%;
+      height: 52px;
+      padding: 0 16px 0 44px;
+      border-radius: 14px;
+      border: 1px solid var(--border-strong);
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--focus);
+      box-shadow: 0 0 0 3px rgba(20, 115, 230, 0.16);
+    }
+
+    .grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
       gap: 18px;
@@ -228,66 +222,59 @@
       margin: 0;
     }
 
-    .video-card {
+    .card {
       grid-column: span 4;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
+      overflow: hidden;
       box-shadow: var(--shadow-sm);
       transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      display: flex;
+      flex-direction: column;
     }
 
-    .video-card:hover {
+    .card:hover {
       transform: translateY(-2px);
       box-shadow: var(--shadow-md);
-      border-color: rgba(20, 115, 230, 0.22);
+      border-color: rgba(20, 115, 230, 0.2);
     }
 
-    .video-thumb {
+    .card-visual {
       position: relative;
       aspect-ratio: 16 / 9;
-      background:
-        linear-gradient(135deg, rgba(215, 55, 63, 0.14), rgba(20, 115, 230, 0.10)),
-        linear-gradient(180deg, #ffffff, #f3f3f3);
-      border-bottom: 1px solid var(--border);
       overflow: hidden;
+      border-bottom: 1px solid var(--border);
+      background:
+        linear-gradient(135deg, rgba(235, 16, 0, 0.16), rgba(20, 115, 230, 0.14)),
+        linear-gradient(180deg, #ffffff, #f1f1f1);
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
       padding: 16px;
     }
 
-    .video-thumb::before {
+    .card-visual::before {
       content: "";
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(circle at 24% 20%, rgba(215, 55, 63, 0.14), transparent 24%),
-        radial-gradient(circle at 85% 80%, rgba(20, 115, 230, 0.15), transparent 20%);
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.65), transparent 20%),
+        radial-gradient(circle at 84% 72%, rgba(255, 255, 255, 0.35), transparent 18%);
       pointer-events: none;
     }
 
-    .thumb-watermark {
+    .card-logo {
       position: absolute;
       top: 16px;
       left: 16px;
       width: 38px;
       height: 38px;
       border-radius: 10px;
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.92);
       box-shadow: var(--shadow-sm);
-      display: grid;
-      place-items: center;
-      z-index: 1;
-    }
-
-    .thumb-watermark svg {
-      width: 22px;
-      height: 22px;
-      display: block;
+      padding: 6px;
+      object-fit: contain;
     }
 
     .play-chip {
@@ -298,67 +285,65 @@
       gap: 10px;
       padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(44, 44, 44, 0.82);
+      background: rgba(32, 32, 32, 0.84);
       color: #fff;
       font-size: 13px;
       font-weight: 700;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+      backdrop-filter: blur(6px);
     }
 
     .play-icon {
-      display: inline-grid;
-      place-items: center;
       width: 28px;
       height: 28px;
       border-radius: 50%;
       background: var(--accent);
+      display: inline-grid;
+      place-items: center;
       flex: 0 0 auto;
     }
 
     .play-icon svg {
       width: 12px;
       height: 12px;
-      fill: white;
+      fill: #fff;
       transform: translateX(1px);
     }
 
-    .duration-badge {
+    .duration {
       position: relative;
       z-index: 1;
-      align-self: flex-start;
       padding: 8px 10px;
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.88);
+      background: rgba(255, 255, 255, 0.92);
       color: var(--text);
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       box-shadow: var(--shadow-sm);
     }
 
-    .video-body {
+    .card-body {
+      padding: 18px;
       display: flex;
       flex-direction: column;
       gap: 14px;
-      padding: 18px;
       height: 100%;
     }
 
-    .video-title {
+    .card-title {
       margin: 0;
       font-size: 20px;
       line-height: 1.25;
       letter-spacing: -0.01em;
     }
 
-    .video-description {
+    .card-text {
       margin: 0;
-      color: var(--text-muted);
+      color: var(--muted);
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.65;
     }
 
-    .video-meta {
+    .meta {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
@@ -369,96 +354,84 @@
       align-items: center;
       padding: 6px 10px;
       border-radius: 999px;
-      background: var(--surface-2);
       border: 1px solid var(--border);
-      color: var(--text-muted);
+      background: var(--surface-alt);
+      color: var(--muted);
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
-    .video-actions {
+    .card-actions {
       margin-top: auto;
       display: flex;
-      gap: 10px;
       align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
+      justify-content: flex-start;
     }
 
-    .button-primary,
-    .button-secondary {
+    .play-button {
       appearance: none;
       border: none;
       border-radius: 999px;
-      padding: 12px 16px;
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
-    }
-
-    .button-primary {
+      padding: 12px 18px;
       background: var(--accent);
       color: #fff;
-      box-shadow: 0 10px 24px rgba(215, 55, 63, 0.22);
+      font-weight: 800;
+      cursor: pointer;
+      transition: background 0.18s ease, transform 0.18s ease;
+      box-shadow: 0 10px 24px rgba(235, 16, 0, 0.24);
     }
 
-    .button-primary:hover {
+    .play-button:hover {
       background: var(--accent-hover);
       transform: translateY(-1px);
     }
 
-    .button-secondary {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--border-strong);
+    .play-button:focus-visible,
+    .icon-button:focus-visible {
+      outline: 3px solid rgba(20, 115, 230, 0.3);
+      outline-offset: 2px;
     }
 
-    .button-secondary:hover {
-      background: var(--surface-2);
-    }
-
-    .empty-state {
+    .empty {
       display: none;
-      padding: 28px;
-      text-align: center;
-      color: var(--text-muted);
+      margin-top: 18px;
       background: var(--surface);
       border: 1px dashed var(--border-strong);
       border-radius: var(--radius-md);
-      margin-top: 18px;
+      padding: 28px;
+      text-align: center;
+      color: var(--muted);
     }
 
-    .modal {
-      position: fixed;
-      inset: 0;
+    dialog {
       border: none;
       padding: 0;
       margin: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(15, 15, 15, 0.64);
     }
 
-    .modal[open] {
-      display: grid;
-      place-items: center;
+    .modal {
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      max-height: none;
+      background: rgba(15, 15, 15, 0.66);
     }
 
     .modal::backdrop {
-      background: rgba(15, 15, 15, 0.64);
+      background: rgba(15, 15, 15, 0.66);
     }
 
     .modal-shell {
       width: min(1120px, calc(100vw - 24px));
       max-height: calc(100vh - 24px);
+      margin: 12px auto;
       background: #111;
-      color: white;
+      color: #fff;
       border-radius: 22px;
       overflow: hidden;
       box-shadow: var(--shadow-lg);
       display: grid;
-      grid-template-rows: auto 1fr auto;
+      grid-template-rows: auto 1fr;
     }
 
     .modal-header {
@@ -468,7 +441,7 @@
       gap: 16px;
       padding: 18px 20px;
       background: linear-gradient(180deg, #1a1a1a, #121212);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .modal-title-wrap {
@@ -479,30 +452,31 @@
       margin: 0 0 4px;
       font-size: 18px;
       line-height: 1.3;
+      letter-spacing: -0.01em;
     }
 
     .modal-subtitle {
       margin: 0;
-      color: rgba(255, 255, 255, 0.72);
+      color: rgba(255, 255, 255, 0.74);
       font-size: 14px;
       line-height: 1.5;
     }
 
-    .icon-close {
+    .icon-button {
       appearance: none;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      background: rgba(255, 255, 255, 0.08);
-      color: white;
       width: 42px;
       height: 42px;
       border-radius: 50%;
-      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
       font-size: 20px;
       line-height: 1;
+      cursor: pointer;
       flex: 0 0 auto;
     }
 
-    .icon-close:hover {
+    .icon-button:hover {
       background: rgba(255, 255, 255, 0.14);
     }
 
@@ -513,50 +487,28 @@
     .player-frame {
       width: 100%;
       aspect-ratio: 16 / 9;
-      min-height: min(72vh, 640px);
+      min-height: min(72vh, 680px);
       border: 0;
-      background: #000;
       display: block;
-    }
-
-    .modal-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 20px 18px;
-      background: #111;
-      color: rgba(255, 255, 255, 0.78);
-      font-size: 13px;
-      border-top: 1px solid rgba(255, 255, 255, 0.10);
-      flex-wrap: wrap;
-    }
-
-    .footer-link {
-      color: #fff;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.35);
-    }
-
-    .footer-link:hover {
-      border-bottom-color: rgba(255, 255, 255, 0.85);
+      background: #000;
     }
 
     @media (max-width: 1100px) {
-      .video-card {
+      .card {
         grid-column: span 6;
       }
     }
 
     @media (max-width: 720px) {
       .page {
-        width: min(100% - 20px, var(--max-width));
+        width: min(calc(100% - 20px), var(--page-width));
         padding-top: 20px;
       }
 
-      .topbar,
-      .controls {
-        display: grid;
+      .header,
+      .toolbar {
         grid-template-columns: 1fr;
+        display: grid;
         align-items: stretch;
       }
 
@@ -564,13 +516,14 @@
         padding: 22px;
       }
 
-      .video-card {
+      .card {
         grid-column: 1 / -1;
       }
 
       .modal-shell {
         width: calc(100vw - 12px);
         max-height: calc(100vh - 12px);
+        margin: 6px auto;
         border-radius: 16px;
       }
 
@@ -582,59 +535,51 @@
 </head>
 <body class="spectrum spectrum--light spectrum--medium">
   <div class="page">
-    <header class="topbar" aria-label="Adobe page header">
+    <header class="header" aria-label="Adobe page header">
       <div class="brand">
-        <div class="brand-mark" aria-label="Adobe logo" role="img">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path fill="#EB1000" d="M1 22L7.5 22L12 11.2L16.5 22L23 22L14.1 2L9.9 2L1 22Z"></path>
-            <path fill="#EB1000" d="M9.6 15.2L14.4 15.2L12 9.4L9.6 15.2Z"></path>
-          </svg>
-        </div>
-
+        <img
+          class="brand-logo"
+          src="https://main--eds-test--lbaoyu.aem.live/icons/adobe-logo.png"
+          alt="Adobe logo"
+        />
         <div class="brand-copy">
           <p class="brand-eyebrow">Adobe Design System</p>
-          <h1 class="brand-title">Adobe LLMO Knowledge Sharing Videos</h1>
+          <h1 class="brand-title">Adobe Video Library</h1>
         </div>
       </div>
 
-      <div class="meta-pill">Dynamic Media delivery · modal video playback</div>
+      <div class="meta-pill">Dynamic Media video gallery</div>
     </header>
 
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-badge">Curated internal learning library</div>
-      <h2 id="hero-title">A clean, Spectrum-styled video hub for Adobe LLMO sessions</h2>
+      <div class="hero-badge">Featured videos</div>
+      <h2 id="hero-title">Watch consumer-facing Adobe video content in one place</h2>
       <p>
-        Browse short knowledge-sharing sessions and launch each Dynamic Media-hosted video in a focused modal player.
-        Replace the sample metadata or add more entries in the <code>videos</code> array to scale this page into your full library.
+        Explore short, polished videos focused on creativity, storytelling, and digital experiences.
+        Select any video card to play the content directly in a pop-up modal without leaving the page.
       </p>
     </section>
 
-    <section aria-label="Library controls">
-      <div class="controls">
-        <div class="search-wrap">
-          <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M10.5 3a7.5 7.5 0 1 1 0 15a7.5 7.5 0 0 1 0-15Zm0 2a5.5 5.5 0 1 0 0 11a5.5 5.5 0 0 0 0-11Zm8.91 12.5l1.59 1.59L19.59 21L18 19.41l-1.35-1.35l-1.06-1.06l1.41-1.41l1.06 1.06Z"></path>
-          </svg>
-          <input
-            id="videoSearch"
-            class="search-input"
-            type="search"
-            placeholder="Search videos by title, topic, speaker, or tag"
-            aria-label="Search videos"
-          />
-        </div>
-
-        <div class="meta-pill">
-          <span id="resultCount">0</span>&nbsp;videos
-        </div>
+    <section class="toolbar" aria-label="Video library controls">
+      <div class="search-wrap">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M10.5 3a7.5 7.5 0 1 1 0 15a7.5 7.5 0 0 1 0-15Zm0 2a5.5 5.5 0 1 0 0 11a5.5 5.5 0 0 0 0-11Zm8.91 12.5l1.59 1.59L19.59 21L18 19.41l-1.35-1.35l-1.06-1.06l1.41-1.41l1.06 1.06Z"></path>
+        </svg>
+        <input
+          id="searchInput"
+          class="search-input"
+          type="search"
+          placeholder="Search by title, theme, or tag"
+          aria-label="Search videos"
+        />
       </div>
+
+      <div class="meta-pill"><span id="resultCount">0</span>&nbsp;videos</div>
     </section>
 
     <main>
-      <ul id="videoGrid" class="video-grid" aria-label="Video library"></ul>
-      <div id="emptyState" class="empty-state" aria-live="polite">
-        No videos match your current search.
-      </div>
+      <ul id="videoGrid" class="grid" aria-label="Video gallery"></ul>
+      <div id="emptyState" class="empty" aria-live="polite">No videos match your search.</div>
     </main>
   </div>
 
@@ -645,179 +590,159 @@
           <h2 id="modalTitle" class="modal-title">Video player</h2>
           <p id="modalSubtitle" class="modal-subtitle">Dynamic Media playback</p>
         </div>
-
-        <button id="closeModalButton" class="icon-close" type="button" aria-label="Close video dialog">×</button>
+        <button id="closeModal" class="icon-button" type="button" aria-label="Close video player">×</button>
       </div>
 
       <div class="modal-body">
         <iframe
           id="videoFrame"
           class="player-frame"
-          title="Dynamic Media video player"
+          title="Adobe video player"
           src=""
           allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
           allowfullscreen
           referrerpolicy="strict-origin-when-cross-origin"
         ></iframe>
       </div>
-
-      <div class="modal-footer">
-        <span>The player loads the selected Dynamic Media URL inside the modal.</span>
-        <a id="openInNewTab" class="footer-link" href="#" target="_blank" rel="noopener noreferrer">Open video in a new tab</a>
-      </div>
     </div>
   </dialog>
 
   <script>
-    const adobeLogoSvg = `
-      <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path fill="#EB1000" d="M1 22L7.5 22L12 11.2L16.5 22L23 22L14.1 2L9.9 2L1 22Z"></path>
-        <path fill="#EB1000" d="M9.6 15.2L14.4 15.2L12 9.4L9.6 15.2Z"></path>
-      </svg>
-    `;
+    const VIDEO_URL = "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play";
+    const LOGO_URL = "https://main--eds-test--lbaoyu.aem.live/icons/adobe-logo.png";
 
     const videos = [
       {
-        title: "LLMO Knowledge Share: Adobe Value Story",
-        speaker: "Adobe LLMO Team",
+        title: "Create Scroll-Stopping Social Content",
         duration: "08:42",
-        topic: "Value Narrative",
-        level: "All levels",
-        description: "Sample entry wired to the provided Dynamic Media playback URL. Replace the title, speaker, and summary as needed.",
-        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play.",
-        tags: ["LLMO", "Adobe", "Dynamic Media"]
+        category: "Social Video",
+        audience: "Creators",
+        description: "Fresh ideas for building short-form video content that captures attention quickly and keeps audiences engaged.",
+        tags: ["Social", "Content", "Creative"],
+        url: VIDEO_URL
       },
       {
-        title: "LLMO Knowledge Share: Prompt Design Patterns",
-        speaker: "Adobe LLMO Team",
-        duration: "11:15",
-        topic: "Prompting",
-        level: "Intermediate",
-        description: "Use this as a second sample card. Swap in a unique Dynamic Media URL once the next video is published.",
-        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play.",
-        tags: ["Prompts", "Enablement", "Best Practices"]
+        title: "Tell Better Stories with Video",
+        duration: "09:18",
+        category: "Storytelling",
+        audience: "Everyone",
+        description: "Simple creative techniques to shape stronger visual narratives for campaigns, products, and personal projects.",
+        tags: ["Storytelling", "Video", "Inspiration"],
+        url: VIDEO_URL
       },
       {
-        title: "LLMO Knowledge Share: Evaluation Frameworks",
-        speaker: "Adobe LLMO Team",
-        duration: "09:28",
-        topic: "Evaluation",
-        level: "Intermediate",
-        description: "Example metadata structure for a third entry. Keep the same schema and append more objects to scale the catalog.",
-        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play.",
-        tags: ["Scoring", "Measurement", "Quality"]
-      },
-      {
-        title: "LLMO Knowledge Share: Governance and Safety",
-        speaker: "Adobe LLMO Team",
-        duration: "12:03",
-        topic: "Governance",
-        level: "Advanced",
-        description: "Starter card for governance topics. Replace the URL with the corresponding Dynamic Media-hosted session when available.",
-        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play.",
-        tags: ["Safety", "Policy", "Operations"]
-      },
-      {
-        title: "LLMO Knowledge Share: Retrieval and Context",
-        speaker: "Adobe LLMO Team",
-        duration: "10:34",
-        topic: "RAG",
-        level: "Advanced",
-        description: "A sample RAG-focused listing with the same playback pattern. Update the copy and URL per actual published asset.",
-        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play.",
-        tags: ["RAG", "Context", "Architecture"]
-      },
-      {
-        title: "LLMO Knowledge Share: Rollout Checklist",
-        speaker: "Adobe LLMO Team",
+        title: "Make Everyday Edits Feel Effortless",
         duration: "07:56",
-        topic: "Launch Readiness",
-        level: "All levels",
-        description: "Use this sample card for launch, adoption, and rollout topics across the team knowledge library.",
-        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play.",
-        tags: ["Readiness", "Checklist", "Launch"]
+        category: "Editing",
+        audience: "Beginners",
+        description: "A practical look at quick editing moves that help videos feel smoother, sharper, and more polished.",
+        tags: ["Editing", "Workflow", "Tips"],
+        url: VIDEO_URL
+      },
+      {
+        title: "Design Visuals That Stand Out",
+        duration: "10:04",
+        category: "Design",
+        audience: "Designers",
+        description: "Discover ways to combine motion, color, and layout to create striking content across screens and formats.",
+        tags: ["Design", "Motion", "Color"],
+        url: VIDEO_URL
+      },
+      {
+        title: "Turn Big Ideas into Short Videos",
+        duration: "06:51",
+        category: "Creative Planning",
+        audience: "Marketers",
+        description: "Learn how to translate a concept into a concise, compelling video that feels clear, modern, and audience-ready.",
+        tags: ["Planning", "Marketing", "Video"],
+        url: VIDEO_URL
+      },
+      {
+        title: "Build Content for Every Platform",
+        duration: "11:12",
+        category: "Content Strategy",
+        audience: "Content Teams",
+        description: "See how to adapt one creative idea into multiple video moments for different channels and viewing habits.",
+        tags: ["Strategy", "Platforms", "Creative"],
+        url: VIDEO_URL
       }
     ];
 
-    const videoGrid = document.getElementById("videoGrid");
+    const grid = document.getElementById("videoGrid");
+    const searchInput = document.getElementById("searchInput");
     const resultCount = document.getElementById("resultCount");
     const emptyState = document.getElementById("emptyState");
-    const videoSearch = document.getElementById("videoSearch");
 
-    const videoModal = document.getElementById("videoModal");
-    const closeModalButton = document.getElementById("closeModalButton");
+    const modal = document.getElementById("videoModal");
+    const closeModalButton = document.getElementById("closeModal");
     const videoFrame = document.getElementById("videoFrame");
     const modalTitle = document.getElementById("modalTitle");
     const modalSubtitle = document.getElementById("modalSubtitle");
-    const openInNewTab = document.getElementById("openInNewTab");
 
     let lastFocusedElement = null;
 
     function createCard(video) {
       const item = document.createElement("li");
-      item.className = "video-card";
+      item.className = "card";
 
       item.innerHTML = `
-        <div class="video-thumb" aria-hidden="true">
-          <div class="thumb-watermark">${adobeLogoSvg}</div>
-
+        <div class="card-visual" aria-hidden="true">
+          <img class="card-logo" src="${LOGO_URL}" alt="" />
           <div class="play-chip">
             <span class="play-icon">
               <svg viewBox="0 0 24 24" aria-hidden="true">
                 <path d="M8 5.14v13.72c0 .72.78 1.17 1.4.81l10.6-6.86a.94.94 0 0 0 0-1.62L9.4 4.33A.94.94 0 0 0 8 5.14Z"></path>
               </svg>
             </span>
-            Watch session
+            Play video
           </div>
-
-          <div class="duration-badge">${video.duration}</div>
+          <div class="duration">${video.duration}</div>
         </div>
 
-        <div class="video-body">
-          <h3 class="video-title">${video.title}</h3>
+        <div class="card-body">
+          <h3 class="card-title">${video.title}</h3>
+          <p class="card-text">${video.description}</p>
 
-          <p class="video-description">${video.description}</p>
-
-          <div class="video-meta" aria-label="Video metadata">
-            <span class="tag">${video.topic}</span>
-            <span class="tag">${video.level}</span>
-            <span class="tag">${video.speaker}</span>
+          <div class="meta" aria-label="Video metadata">
+            <span class="tag">${video.category}</span>
+            <span class="tag">${video.audience}</span>
           </div>
 
-          <div class="video-meta" aria-label="Video tags">
-            ${(video.tags || []).map(tag => `<span class="tag">${tag}</span>`).join("")}
+          <div class="meta" aria-label="Video tags">
+            ${video.tags.map((tag) => `<span class="tag">${tag}</span>`).join("")}
           </div>
 
-          <div class="video-actions">
-            <button class="button-primary" type="button">Play video</button>
-            <a class="button-secondary" href="${video.url}" target="_blank" rel="noopener noreferrer">Open link</a>
+          <div class="card-actions">
+            <button class="play-button" type="button">Watch now</button>
           </div>
         </div>
       `;
 
-      item.querySelector(".button-primary").addEventListener("click", () => openModal(video));
+      item.querySelector(".play-button").addEventListener("click", () => openModal(video));
+      item.querySelector(".card-visual").addEventListener("click", () => openModal(video));
+      item.querySelector(".card-visual").style.cursor = "pointer";
+
       return item;
     }
 
-    function renderVideos(filter = "") {
-      const normalized = filter.trim().toLowerCase();
-      videoGrid.innerHTML = "";
+    function renderVideos(query = "") {
+      const term = query.trim().toLowerCase();
+      grid.innerHTML = "";
 
-      const filtered = videos.filter(video => {
+      const filtered = videos.filter((video) => {
         const haystack = [
           video.title,
-          video.speaker,
-          video.topic,
-          video.level,
+          video.category,
+          video.audience,
           video.description,
-          ...(video.tags || [])
+          ...video.tags
         ].join(" ").toLowerCase();
 
-        return haystack.includes(normalized);
+        return haystack.includes(term);
       });
 
-      filtered.forEach(video => {
-        videoGrid.appendChild(createCard(video));
+      filtered.forEach((video) => {
+        grid.appendChild(createCard(video));
       });
 
       resultCount.textContent = filtered.length;
@@ -827,14 +752,13 @@
     function openModal(video) {
       lastFocusedElement = document.activeElement;
       modalTitle.textContent = video.title;
-      modalSubtitle.textContent = `${video.speaker} · ${video.topic} · ${video.duration}`;
+      modalSubtitle.textContent = `${video.category} · ${video.audience} · ${video.duration}`;
       videoFrame.src = video.url;
-      openInNewTab.href = video.url;
 
-      if (typeof videoModal.showModal === "function") {
-        videoModal.showModal();
+      if (typeof modal.showModal === "function") {
+        modal.showModal();
       } else {
-        videoModal.setAttribute("open", "open");
+        modal.setAttribute("open", "open");
       }
 
       closeModalButton.focus();
@@ -843,10 +767,10 @@
     function closeModal() {
       videoFrame.src = "";
 
-      if (typeof videoModal.close === "function" && videoModal.open) {
-        videoModal.close();
+      if (modal.open && typeof modal.close === "function") {
+        modal.close();
       } else {
-        videoModal.removeAttribute("open");
+        modal.removeAttribute("open");
       }
 
       if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
@@ -856,24 +780,24 @@
 
     closeModalButton.addEventListener("click", closeModal);
 
-    videoModal.addEventListener("click", (event) => {
-      if (event.target === videoModal) {
+    modal.addEventListener("click", (event) => {
+      if (event.target === modal) {
         closeModal();
       }
     });
 
-    videoModal.addEventListener("cancel", (event) => {
+    modal.addEventListener("cancel", (event) => {
       event.preventDefault();
       closeModal();
     });
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && videoModal.open) {
+      if (event.key === "Escape" && modal.open) {
         closeModal();
       }
     });
 
-    videoSearch.addEventListener("input", (event) => {
+    searchInput.addEventListener("input", (event) => {
       renderVideos(event.target.value);
     });
 

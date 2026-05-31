@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Adobe Video Library</title>
+  <title>Adobe LLMO Knowledge Sharing Videos</title>
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@spectrum-css/vars@latest/dist/spectrum-global.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@spectrum-css/vars@latest/dist/spectrum-light.css" />
@@ -23,7 +23,7 @@
       --focus: #1473e6;
       --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.06);
       --shadow-md: 0 18px 42px rgba(0, 0, 0, 0.12);
-      --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.42);
+      --shadow-lg: 0 28px 90px rgba(0, 0, 0, 0.42);
       --radius-sm: 12px;
       --radius-md: 18px;
       --radius-lg: 24px;
@@ -167,9 +167,9 @@
 
     .hero p {
       margin: 0;
-      max-width: 72ch;
+      max-width: 75ch;
       font-size: 16px;
-      line-height: 1.65;
+      line-height: 1.7;
       color: var(--muted);
     }
 
@@ -252,6 +252,7 @@
       align-items: flex-end;
       justify-content: space-between;
       padding: 16px;
+      cursor: pointer;
     }
 
     .card-visual::before {
@@ -392,6 +393,16 @@
       outline-offset: 2px;
     }
 
+    .coming-soon {
+      margin-top: 22px;
+      padding: 18px 20px;
+      border-radius: 16px;
+      border: 1px dashed var(--border-strong);
+      background: rgba(255, 255, 255, 0.75);
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
     .empty {
       display: none;
       margin-top: 18px;
@@ -410,21 +421,29 @@
     }
 
     .modal {
-      width: 100%;
-      height: 100%;
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
       max-width: none;
       max-height: none;
-      background: rgba(15, 15, 15, 0.66);
+      background: rgba(15, 15, 15, 0.68);
+      padding: 20px;
+    }
+
+    .modal[open] {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .modal::backdrop {
-      background: rgba(15, 15, 15, 0.66);
+      background: rgba(15, 15, 15, 0.68);
     }
 
     .modal-shell {
-      width: min(1120px, calc(100vw - 24px));
-      max-height: calc(100vh - 24px);
-      margin: 12px auto;
+      width: min(1120px, calc(100vw - 40px));
+      max-height: calc(100vh - 40px);
       background: #111;
       color: #fff;
       border-radius: 22px;
@@ -520,10 +539,13 @@
         grid-column: 1 / -1;
       }
 
+      .modal {
+        padding: 8px;
+      }
+
       .modal-shell {
-        width: calc(100vw - 12px);
-        max-height: calc(100vh - 12px);
-        margin: 6px auto;
+        width: calc(100vw - 16px);
+        max-height: calc(100vh - 16px);
         border-radius: 16px;
       }
 
@@ -544,19 +566,20 @@
         />
         <div class="brand-copy">
           <p class="brand-eyebrow">Adobe Design System</p>
-          <h1 class="brand-title">Adobe Video Library</h1>
+          <h1 class="brand-title">Adobe LLMO Knowledge Sharing Videos</h1>
         </div>
       </div>
 
-      <div class="meta-pill">Dynamic Media video gallery</div>
+      <div class="meta-pill">Short learning videos · Dynamic Media playback</div>
     </header>
 
     <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-badge">Featured videos</div>
-      <h2 id="hero-title">Watch consumer-facing Adobe video content in one place</h2>
+      <div class="hero-badge">Knowledge sharing series</div>
+      <h2 id="hero-title">Learn Adobe LLMO topics through short, practical video sessions</h2>
       <p>
-        Explore short, polished videos focused on creativity, storytelling, and digital experiences.
-        Select any video card to play the content directly in a pop-up modal without leaving the page.
+        This video series is designed for anyone interested in learning Adobe LLMO products and related concepts.
+        Sessions cover topics such as product architecture, what makes prompts strong, deploying on Edge Delivery Services,
+        and other practical themes for builders and learners. More videos will be added over time as the series grows.
       </p>
     </section>
 
@@ -569,7 +592,7 @@
           id="searchInput"
           class="search-input"
           type="search"
-          placeholder="Search by title, theme, or tag"
+          placeholder="Search by topic, title, or tag"
           aria-label="Search videos"
         />
       </div>
@@ -579,6 +602,12 @@
 
     <main>
       <ul id="videoGrid" class="grid" aria-label="Video gallery"></ul>
+
+      <div class="coming-soon">
+        <strong>More coming soon:</strong> this library will continue to expand with additional short knowledge-sharing videos
+        covering Adobe LLMO product architecture, stronger prompting patterns, Edge Delivery Services topics, and related learning content.
+      </div>
+
       <div id="emptyState" class="empty" aria-live="polite">No videos match your search.</div>
     </main>
   </div>
@@ -597,7 +626,7 @@
         <iframe
           id="videoFrame"
           class="player-frame"
-          title="Adobe video player"
+          title="Adobe LLMO video player"
           src=""
           allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
           allowfullscreen
@@ -613,57 +642,57 @@
 
     const videos = [
       {
-        title: "Create Scroll-Stopping Social Content",
+        title: "Adobe LLMO Overview",
         duration: "08:42",
-        category: "Social Video",
-        audience: "Creators",
-        description: "Fresh ideas for building short-form video content that captures attention quickly and keeps audiences engaged.",
-        tags: ["Social", "Content", "Creative"],
+        category: "Getting Started",
+        audience: "Anyone interested in Adobe LLMO",
+        description: "A short introduction to the video series and the kinds of Adobe LLMO topics learners can expect to explore.",
+        tags: ["Overview", "Learning Series", "Adobe LLMO"],
         url: VIDEO_URL
       },
       {
-        title: "Tell Better Stories with Video",
+        title: "Understanding Product Architecture",
         duration: "09:18",
-        category: "Storytelling",
-        audience: "Everyone",
-        description: "Simple creative techniques to shape stronger visual narratives for campaigns, products, and personal projects.",
-        tags: ["Storytelling", "Video", "Inspiration"],
+        category: "Architecture",
+        audience: "Builders and learners",
+        description: "A practical session focused on product architecture concepts and how to think about core building blocks clearly.",
+        tags: ["Architecture", "Systems", "Foundations"],
         url: VIDEO_URL
       },
       {
-        title: "Make Everyday Edits Feel Effortless",
+        title: "What Makes Prompts Strong",
         duration: "07:56",
-        category: "Editing",
-        audience: "Beginners",
-        description: "A practical look at quick editing moves that help videos feel smoother, sharper, and more polished.",
-        tags: ["Editing", "Workflow", "Tips"],
+        category: "Prompt Design",
+        audience: "Anyone writing prompts",
+        description: "A concise walkthrough of what stronger prompts look like, why clarity matters, and how structure improves outcomes.",
+        tags: ["Prompts", "Best Practices", "Prompting"],
         url: VIDEO_URL
       },
       {
-        title: "Design Visuals That Stand Out",
+        title: "Deploying on Edge Delivery Services",
         duration: "10:04",
-        category: "Design",
-        audience: "Designers",
-        description: "Discover ways to combine motion, color, and layout to create striking content across screens and formats.",
-        tags: ["Design", "Motion", "Color"],
+        category: "Edge Delivery Services",
+        audience: "Developers and technical learners",
+        description: "An introduction to edge-related delivery topics, including how deployment concepts connect to modern Adobe web experiences.",
+        tags: ["Edge", "Edge Delivery Services", "Deployment"],
         url: VIDEO_URL
       },
       {
-        title: "Turn Big Ideas into Short Videos",
+        title: "Learning the Core Building Blocks",
         duration: "06:51",
-        category: "Creative Planning",
-        audience: "Marketers",
-        description: "Learn how to translate a concept into a concise, compelling video that feels clear, modern, and audience-ready.",
-        tags: ["Planning", "Marketing", "Video"],
+        category: "Foundations",
+        audience: "New learners",
+        description: "A fast, approachable session covering the core ideas that help new viewers navigate Adobe LLMO topics with confidence.",
+        tags: ["Foundations", "Core Concepts", "Beginner"],
         url: VIDEO_URL
       },
       {
-        title: "Build Content for Every Platform",
-        duration: "11:12",
-        category: "Content Strategy",
-        audience: "Content Teams",
-        description: "See how to adapt one creative idea into multiple video moments for different channels and viewing habits.",
-        tags: ["Strategy", "Platforms", "Creative"],
+        title: "More Topics Coming Soon",
+        duration: "05:30",
+        category: "Series Roadmap",
+        audience: "All viewers",
+        description: "A preview of the future direction of the series, with more short knowledge-sharing videos planned across architecture, prompting, and edge topics.",
+        tags: ["Roadmap", "Coming Soon", "Series"],
         url: VIDEO_URL
       }
     ];
@@ -686,7 +715,7 @@
       item.className = "card";
 
       item.innerHTML = `
-        <div class="card-visual" aria-hidden="true">
+        <div class="card-visual" tabindex="0" role="button" aria-label="Play ${video.title}">
           <img class="card-logo" src="${LOGO_URL}" alt="" />
           <div class="play-chip">
             <span class="play-icon">
@@ -718,9 +747,17 @@
         </div>
       `;
 
-      item.querySelector(".play-button").addEventListener("click", () => openModal(video));
-      item.querySelector(".card-visual").addEventListener("click", () => openModal(video));
-      item.querySelector(".card-visual").style.cursor = "pointer";
+      const visual = item.querySelector(".card-visual");
+      const button = item.querySelector(".play-button");
+
+      visual.addEventListener("click", () => openModal(video));
+      visual.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openModal(video);
+        }
+      });
+      button.addEventListener("click", () => openModal(video));
 
       return item;
     }

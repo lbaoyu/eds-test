@@ -244,9 +244,6 @@
       aspect-ratio: 16 / 9;
       overflow: hidden;
       border-bottom: 1px solid var(--border);
-      background:
-        linear-gradient(135deg, rgba(235, 16, 0, 0.16), rgba(20, 115, 230, 0.14)),
-        linear-gradient(180deg, #ffffff, #f1f1f1);
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
@@ -254,7 +251,29 @@
       cursor: pointer;
     }
 
-    .card-visual::before {
+    .card-visual.grey {
+      background:
+        linear-gradient(135deg, rgba(145, 145, 145, 0.18), rgba(188, 188, 188, 0.18)),
+        linear-gradient(180deg, #f2f2f2, #e3e3e3);
+    }
+
+    .card-visual.grey::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.45), transparent 20%),
+        radial-gradient(circle at 84% 72%, rgba(255, 255, 255, 0.20), transparent 18%);
+      pointer-events: none;
+    }
+
+    .card-visual.featured {
+      background:
+        linear-gradient(135deg, rgba(235, 16, 0, 0.16), rgba(20, 115, 230, 0.14)),
+        linear-gradient(180deg, #ffffff, #f1f1f1);
+    }
+
+    .card-visual.featured::before {
       content: "";
       position: absolute;
       inset: 0;
@@ -603,7 +622,7 @@
       <h2 id="hero-title">Learn Adobe LLMO topics through short, practical video sessions</h2>
       <p>
         This video series is for anyone interested in learning Adobe LLMO products and related concepts.
-        Sessions cover topics such as product architecture, what makes prompts strong, deploying on edge,
+        Sessions cover topics such as product architecture, what makes prompts strong, deploying on Edge Delivery Services,
         and other practical areas for builders and curious learners. More videos will be added over time as the series grows.
       </p>
     </section>
@@ -629,8 +648,7 @@
       <ul id="videoGrid" class="grid" aria-label="Video gallery"></ul>
 
       <div class="coming-soon">
-        <strong>More coming soon:</strong> this library will continue to expand with additional short knowledge-sharing videos
-        covering Adobe LLMO product architecture, stronger prompting patterns, edge-related deployment topics, and related learning content.
+        <strong>More coming soon:</strong> this library will continue to expand with additional short knowledge-sharing videos covering Adobe LLMO product architecture, stronger prompting patterns, Edge Delivery Services topics, and related learning content.
       </div>
 
       <div id="emptyState" class="empty" aria-live="polite">No videos match your search.</div>
@@ -666,7 +684,6 @@
   </dialog>
 
   <script>
-    const VIDEO_URL = "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play";
     const LOGO_URL = "https://main--eds-test--lbaoyu.aem.live/icons/adobe-logo.png";
 
     const videos = [
@@ -677,7 +694,7 @@
         audience: "Anyone interested in Adobe LLMO",
         description: "A short introduction to the series and the kinds of Adobe LLMO topics viewers can expect to explore.",
         tags: ["Overview", "Learning Series", "Adobe LLMO"],
-        url: VIDEO_URL
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play"
       },
       {
         title: "Understanding Product Architecture",
@@ -686,7 +703,7 @@
         audience: "Builders and learners",
         description: "A practical session focused on product architecture concepts and how to understand core building blocks clearly.",
         tags: ["Architecture", "Systems", "Foundations"],
-        url: VIDEO_URL
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:75861530-2126-4ce7-927f-1a3815766e5f/play"
       },
       {
         title: "What Makes Prompts Strong",
@@ -695,16 +712,16 @@
         audience: "Anyone writing prompts",
         description: "A concise walkthrough of what stronger prompts look like, why clarity matters, and how structure improves outcomes.",
         tags: ["Prompts", "Best Practices", "Prompting"],
-        url: VIDEO_URL
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:f99aea11-a014-4a51-b5d5-f3ce0249f5ec/play"
       },
       {
-        title: "Deploying on Edge",
+        title: "Deploying on Edge Delivery Services",
         duration: "10:04",
         category: "Edge Topics",
         audience: "Developers and technical learners",
         description: "An introduction to edge-related delivery topics and how modern deployment ideas connect to Adobe experiences.",
         tags: ["Edge", "Deployment", "Delivery"],
-        url: VIDEO_URL
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play"
       },
       {
         title: "Learning the Core Building Blocks",
@@ -713,7 +730,7 @@
         audience: "New learners",
         description: "A fast, approachable session covering the core ideas that help new viewers navigate Adobe LLMO topics with confidence.",
         tags: ["Foundations", "Core Concepts", "Beginner"],
-        url: VIDEO_URL
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play"
       },
       {
         title: "More Topics Coming Soon",
@@ -722,7 +739,7 @@
         audience: "All viewers",
         description: "A preview of the future direction of the series, with more short videos planned across architecture, prompting, and edge topics.",
         tags: ["Roadmap", "Coming Soon", "Series"],
-        url: VIDEO_URL
+        url: "https://delivery-p137117-e1400714.adobeaemcloud.com/adobe/assets/urn:aaid:aem:0c61506b-3a32-4304-8b22-0c7a205bf455/play"
       }
     ];
 
@@ -739,12 +756,15 @@
 
     let lastFocusedElement = null;
 
-    function createCard(video) {
+    function createCard(video, index) {
       const item = document.createElement("li");
       item.className = "card";
 
+      const isFeatured = index === 1 || index === 2;
+      const visualClass = isFeatured ? "card-visual featured" : "card-visual grey";
+
       item.innerHTML = `
-        <div class="card-visual" tabindex="0" role="button" aria-label="Play ${video.title}">
+        <div class="${visualClass}" tabindex="0" role="button" aria-label="Play ${video.title}">
           <img class="card-logo" src="${LOGO_URL}" alt="" />
           <div class="play-chip">
             <span class="play-icon">
@@ -795,20 +815,22 @@
       const term = query.trim().toLowerCase();
       grid.innerHTML = "";
 
-      const filtered = videos.filter((video) => {
-        const haystack = [
-          video.title,
-          video.category,
-          video.audience,
-          video.description,
-          ...video.tags
-        ].join(" ").toLowerCase();
+      const filtered = videos
+        .map((video, index) => ({ video, index }))
+        .filter(({ video }) => {
+          const haystack = [
+            video.title,
+            video.category,
+            video.audience,
+            video.description,
+            ...video.tags
+          ].join(" ").toLowerCase();
 
-        return haystack.includes(term);
-      });
+          return haystack.includes(term);
+        });
 
-      filtered.forEach((video) => {
-        grid.appendChild(createCard(video));
+      filtered.forEach(({ video, index }) => {
+        grid.appendChild(createCard(video, index));
       });
 
       resultCount.textContent = filtered.length;

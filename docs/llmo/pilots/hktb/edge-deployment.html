@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>HKTB · Adobe LLM Optimiser on Edge Trial Pack</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800;900&family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gray-50:#FFFFFF;
+    --gray-75:#FAFAFA;
+    --gray-100:#F5F5F5;
+    --gray-200:#EAEAEA;
+    --gray-300:#E1E1E1;
+    --gray-400:#CACACA;
+    --gray-500:#B3B3B3;
+    --gray-600:#8E8E8E;
+    --gray-700:#6E6E6E;
+    --gray-800:#4B4B4B;
+    --gray-900:#2C2C2C;
+
+    --blue-75:#EDF7FF;
+    --blue-100:#E0F2FF;
+    --blue-400:#2680EB;
+    --blue-500:#1473E6;
+    --blue-600:#0D66D0;
+    --blue-700:#095ABA;
+    --blue-800:#064E9F;
+
+    --positive-100:#DEF2EA;
+    --positive-500:#2D9D78;
+    --negative-100:#FAE5E5;
+    --negative-500:#E34850;
+    --negative-600:#D7373F;
+    --notice-100:#FBE8C9;
+    --notice-500:#E68619;
+
+    --adobe-logo:url('data:image/png;base64,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');
+
+    --font-sans:'Noto Sans TC','Source Sans 3',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    --font-serif:'Source Serif 4',Georgia,serif;
+    --font-mono:'Source Code Pro','SF Mono',Menlo,monospace;
+
+    --t-sm:18px;
+    --t-md:24px;
+    --t-lg:40px;
+    --t-xl:64px;
+
+    --s-50:2px;
+    --s-75:4px;
+    --s-100:8px;
+    --s-150:12px;
+    --s-200:16px;
+    --s-300:24px;
+    --s-400:32px;
+    --s-500:40px;
+    --s-600:48px;
+    --s-700:64px;
+    --s-800:80px;
+    --s-900:96px;
+
+    --r-sm:4px;
+    --r-md:6px;
+    --r-lg:8px;
+
+    --shadow-1:0 1px 4px rgba(0,0,0,0.06);
+  }
+
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:var(--font-sans);
+    background:var(--gray-100);
+    color:var(--gray-900);
+    line-height:1.6;
+    font-size:var(--t-sm);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  .appbar {
+    background:var(--gray-50);
+    border-bottom:1px solid var(--gray-200);
+    padding:var(--s-150) var(--s-400);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:sticky;
+    top:0;
+    z-index:100;
+  }
+  .appbar-left, .appbar-right { display:flex; align-items:center; gap:var(--s-200); }
+  .adobe-mark { display:flex; align-items:center; gap:var(--s-150); }
+  .logo-img {
+    width:36px;
+    height:32px;
+    background-image:var(--adobe-logo);
+    background-size:contain;
+    background-repeat:no-repeat;
+    background-position:center;
+    flex-shrink:0;
+  }
+  .product {
+    font-weight:700;
+    font-size:var(--t-sm);
+    color:var(--gray-900);
+  }
+  .product span {
+    color:var(--gray-700);
+    font-weight:400;
+    margin-left:var(--s-75);
+  }
+  .appbar-divider { width:1px; height:20px; background:var(--gray-300); }
+  .appbar-context { font-size:var(--t-sm); font-weight:500; color:var(--gray-800); }
+  .filter-chip {
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 14px;
+    background:var(--gray-100);
+    border:1px solid var(--gray-300);
+    border-radius:var(--r-sm);
+    font-size:var(--t-sm);
+    color:var(--gray-800);
+    font-weight:500;
+  }
+  .chip-label { color:var(--gray-700); font-weight:400; }
+  .chip-value { color:var(--gray-900); font-weight:600; }
+
+  .page {
+    max-width:1320px;
+    margin:0 auto;
+    padding:var(--s-600) var(--s-500) var(--s-900);
+  }
+
+  .page-header { margin-bottom:var(--s-600); }
+  .breadcrumb {
+    font-size:var(--t-sm);
+    color:var(--gray-700);
+    font-weight:500;
+    margin-bottom:var(--s-200);
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .breadcrumb a { color:var(--blue-600); text-decoration:none; }
+  .breadcrumb-sep { color:var(--gray-400); }
+  .page-title {
+    font-size:var(--t-lg);
+    font-weight:700;
+    line-height:1.15;
+    letter-spacing:-0.02em;
+    margin-bottom:var(--s-200);
+  }
+  .page-title .accent { color:var(--blue-600); }
+  .page-lede {
+    font-size:var(--t-md);
+    color:var(--gray-800);
+    line-height:1.6;
+  }
+
+  .info-banner, .note {
+    margin-top:var(--s-300);
+    padding:var(--s-200) var(--s-300);
+    background:var(--blue-75);
+    border:1px solid var(--blue-100);
+    border-left:3px solid var(--blue-500);
+    border-radius:var(--r-sm);
+    font-size:var(--t-sm);
+    color:var(--gray-900);
+  }
+  .note {
+    background:var(--gray-100);
+    border:1px solid var(--gray-200);
+    border-left:3px solid var(--gray-500);
+  }
+  .note.alert {
+    background:var(--notice-100);
+    border-color:#F4D7A6;
+    border-left-color:var(--notice-500);
+  }
+  .note.success {
+    background:var(--positive-100);
+    border-color:#C7E7DA;
+    border-left-color:var(--positive-500);
+  }
+
+  .toc-tabs {
+    display:flex;
+    overflow-x:auto;
+    position:sticky;
+    top:64px;
+    z-index:50;
+    background:var(--gray-100);
+    box-shadow:inset 0 -1px 0 var(--gray-300);
+    margin-bottom:var(--s-500);
+  }
+  .toc-tabs a {
+    padding:var(--s-200) var(--s-300);
+    color:var(--gray-700);
+    text-decoration:none;
+    white-space:nowrap;
+    font-weight:500;
+    position:relative;
+  }
+  .toc-tabs a::after {
+    content:"";
+    position:absolute;
+    left:var(--s-300);
+    right:var(--s-300);
+    bottom:0;
+    height:2px;
+    background:transparent;
+  }
+  .toc-tabs a.active,
+  .toc-tabs a:hover { color:var(--blue-700); }
+  .toc-tabs a.active::after,
+  .toc-tabs a:hover::after { background:var(--blue-600); }
+  .toc-tabs .num { font-family:var(--font-mono); color:var(--gray-600); margin-right:10px; }
+
+  .part {
+    margin:var(--s-700) 0 var(--s-500);
+    padding:var(--s-500);
+    border-radius:var(--r-md);
+    background:var(--gray-900);
+    color:#fff;
+  }
+  .part.measure { background:linear-gradient(135deg,var(--blue-600) 0%,var(--blue-800) 100%); }
+  .part.action { background:linear-gradient(135deg,#3A3A3A 0%,#202020 100%); }
+  .part-eyebrow {
+    font-family:var(--font-mono);
+    font-size:var(--t-sm);
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.66);
+    margin-bottom:var(--s-100);
+    font-weight:600;
+  }
+  .part-title {
+    font-size:var(--t-lg);
+    font-weight:800;
+    line-height:1.1;
+    letter-spacing:-0.02em;
+    margin-bottom:var(--s-200);
+  }
+  .part-sub {
+    font-size:var(--t-md);
+    color:rgba(255,255,255,0.92);
+    line-height:1.45;
+  }
+
+  .section {
+    margin-bottom:var(--s-600);
+    scroll-margin-top:140px;
+  }
+  .section-head {
+    margin-bottom:var(--s-300);
+    display:flex;
+    align-items:baseline;
+    gap:var(--s-200);
+    flex-wrap:wrap;
+    border-bottom:1px solid var(--gray-300);
+    padding-bottom:var(--s-200);
+  }
+  .section-eyebrow {
+    font-family:var(--font-mono);
+    color:var(--blue-600);
+    font-size:var(--t-sm);
+    font-weight:600;
+    letter-spacing:0.04em;
+  }
+  .section-title {
+    font-size:var(--t-md);
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  .section-subtitle {
+    font-size:var(--t-sm);
+    color:var(--gray-700);
+    margin-bottom:var(--s-300);
+  }
+
+  .kpi-grid {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:var(--s-200);
+  }
+  .kpi {
+    background:var(--gray-50);
+    border:1px solid var(--gray-200);
+    border-radius:var(--r-md);
+    padding:var(--s-300);
+  }
+  .kpi .label {
+    font-size:var(--t-sm);
+    color:var(--gray-700);
+    font-weight:500;
+    margin-bottom:var(--s-150);
+  }
+  .kpi .value {
+    font-size:var(--t-lg);
+    font-weight:700;
+    line-height:1.1;
+    letter-spacing:-0.02em;
+    margin-bottom:var(--s-100);
+  }
+  .kpi .delta {
+    font-size:var(--t-sm);
+    color:var(--gray-700);
+  }
+
+  .card {
+    background:var(--gray-50);
+    border:1px solid var(--gray-200);
+    border-radius:var(--r-md);
+    padding:var(--s-400);
+  }
+  .two-col {
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:var(--s-300);
+  }
+  .three-col {
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:var(--s-200);
+  }
+
+  .table-wrap {
+    background:var(--gray-50);
+    border:1px solid var(--gray-200);
+    border-radius:var(--r-md);
+    overflow:auto;
+  }
+  table.data {
+    width:100%;
+    border-collapse:collapse;
+    font-size:var(--t-sm);
+  }
+  table.data thead {
+    background:var(--gray-100);
+    border-bottom:1px solid var(--gray-300);
+  }
+  table.data th {
+    text-align:left;
+    color:var(--gray-700);
+    font-weight:600;
+    padding:var(--s-200);
+    border-bottom:1px solid var(--gray-300);
+    white-space:nowrap;
+  }
+  table.data td {
+    padding:var(--s-200);
+    border-bottom:1px solid var(--gray-200);
+    vertical-align:top;
+  }
+  table.data tbody tr:last-child td { border-bottom:none; }
+  table.data tbody tr:hover { background:var(--gray-100); }
+  table.data td.num, table.data th.num { text-align:right; font-variant-numeric:tabular-nums; }
+  .muted { color:var(--gray-700); }
+  .accent { color:var(--blue-600); font-weight:600; }
+  .pos { color:var(--positive-500); font-weight:600; }
+  .neg { color:var(--negative-600); font-weight:600; }
+  .warn { color:var(--notice-500); font-weight:600; }
+
+  .tag-pill {
+    display:inline-flex;
+    align-items:center;
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:var(--t-sm);
+    font-weight:600;
+    line-height:1;
+  }
+  .tag-pill.owned { background:var(--blue-100); color:var(--blue-700); }
+  .tag-pill.gap { background:var(--negative-100); color:var(--negative-600); }
+  .tag-pill.good { background:var(--positive-100); color:var(--positive-500); }
+  .tag-pill.warn { background:var(--notice-100); color:var(--notice-500); }
+
+  .bar {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    min-width:150px;
+  }
+  .bar-track {
+    flex:1;
+    height:6px;
+    background:var(--gray-200);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .bar-fill { height:100%; background:var(--blue-500); }
+  .bar-fill.good { background:var(--positive-500); }
+  .bar-fill.warn { background:var(--notice-500); }
+  .bar-fill.neg { background:var(--negative-500); }
+  .bar-val {
+    min-width:42px;
+    text-align:right;
+    font-weight:600;
+    font-variant-numeric:tabular-nums;
+  }
+
+  .action {
+    background:var(--gray-50);
+    border:1px solid var(--gray-200);
+    border-top:4px solid var(--blue-500);
+    border-radius:var(--r-md);
+    padding:var(--s-300);
+  }
+  .action .num-tag {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    width:44px;
+    height:44px;
+    border-radius:50%;
+    background:var(--blue-100);
+    color:var(--blue-700);
+    font-weight:700;
+    margin-bottom:var(--s-200);
+  }
+  .action h4 {
+    font-size:var(--t-md);
+    line-height:1.3;
+    margin-bottom:var(--s-100);
+  }
+
+  .list-tight { padding-left:1.15em; }
+  .list-tight li + li { margin-top:6px; }
+
+  .prompt-grid {
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:var(--s-200);
+  }
+  .prompt-block {
+    background:var(--gray-50);
+    border:1px solid var(--gray-200);
+    border-radius:var(--r-md);
+    padding:var(--s-300);
+  }
+  .prompt-block h4 {
+    font-size:var(--t-md);
+    margin-bottom:var(--s-150);
+  }
+  .prompt-block ol {
+    padding-left:1.3em;
+  }
+  .prompt-block li + li { margin-top:8px; }
+
+  footer {
+    margin-top:var(--s-700);
+    padding-top:var(--s-400);
+    border-top:1px solid var(--gray-300);
+    font-size:var(--t-sm);
+    color:var(--gray-700);
+  }
+  .footer-grid {
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr;
+    gap:var(--s-400);
+    margin-bottom:var(--s-400);
+  }
+  footer h5 {
+    font-size:var(--t-sm);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--gray-900);
+    font-weight:700;
+    margin-bottom:var(--s-150);
+  }
+  .credit {
+    text-align:center;
+    padding-top:var(--s-200);
+    border-top:1px solid var(--gray-200);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:var(--s-100);
+  }
+
+  @media (max-width:1100px) {
+    .kpi-grid, .three-col { grid-template-columns:repeat(2,1fr); }
+    .two-col, .prompt-grid, .footer-grid { grid-template-columns:1fr; }
+  }
+  @media (max-width:720px) {
+    .appbar { flex-direction:column; align-items:flex-start; gap:var(--s-150); }
+    .appbar-right { flex-wrap:wrap; }
+    .page { padding:var(--s-400) var(--s-300) var(--s-700); }
+    .kpi-grid { grid-template-columns:1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="appbar">
+  <div class="appbar-left">
+    <div class="adobe-mark">
+      <div class="logo-img" role="img" aria-label="Adobe"></div>
+      <div class="product">Adobe<span>LLM Optimiser</span></div>
+    </div>
+    <div class="appbar-divider"></div>
+    <div class="appbar-context">HKTB · Optimise on Edge Trial Pack</div>
+  </div>
+  <div class="appbar-right">
+    <div class="filter-chip"><span class="chip-label">Customer</span><span class="chip-value">Hong Kong Tourism Board</span></div>
+    <div class="filter-chip"><span class="chip-label">Pages</span><span class="chip-value">10 selected</span></div>
+    <div class="filter-chip"><span class="chip-label">Prompt Pack</span><span class="chip-value">50 prompts</span></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="#">Customers</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="#">HKTB</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>Optimise on Edge Trial Pack</span>
+    </div>
+
+    <h1 class="page-title">A cleaner HKTB Edge trial: <span class="accent">10 pages, 50 balanced prompts, and a before/after design that is easier to trust.</span></h1>
+
+    <p class="page-lede">
+      This pack turns the uploaded HKTB exports into one customer-shareable trial design. It selects the <strong>10 pages</strong> for the Edge optimisation pilot, checks the current <strong>200-prompt</strong> file for page bias, and proposes a <strong>balanced 50-prompt pack</strong> that makes page-level before/after comparison cleaner.
+    </p>
+
+    <div class="info-banner">
+      <strong>Important read:</strong> all 10 selected pages are currently <strong>not deployed at edge</strong> in the uploaded crawl export, which makes them good controlled candidates for a before/after Edge trial.
+    </div>
+  </div>
+
+  <nav class="toc-tabs">
+    <a href="#overview"><span class="num">A1</span>Overview</a>
+    <a href="#pages"><span class="num">A2</span>Selected Pages</a>
+    <a href="#promptcheck"><span class="num">A3</span>Prompt Check</a>
+    <a href="#promptpack"><span class="num">B1</span>50 Prompt Pack</a>
+    <a href="#measurement"><span class="num">B2</span>Measurement</a>
+    <a href="#operating"><span class="num">C1</span>Operating Rules</a>
+  </nav>
+
+  <div class="part">
+    <div class="part-eyebrow">Part A · Trial setup</div>
+    <div class="part-title">What this pilot is designed to prove</div>
+    <div class="part-sub">
+      The goal is not just to improve aggregate visibility. The goal is to show whether Edge optimisation changes measurable outcomes for a controlled set of pages, with prompt coverage aligned tightly enough that page-level lift can be attributed with confidence.
+    </div>
+  </div>
+
+  <section class="section" id="overview">
+    <div class="section-head">
+      <span class="section-eyebrow">A1</span>
+      <span class="section-title">Trial summary</span>
+    </div>
+    <p class="section-subtitle">The selected cohort mixes hub pages and high-intent leaf pages, then pairs them with an even 5-prompt pack per page.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="label">Selected pages</div>
+        <div class="value">10</div>
+        <div class="delta">Balanced across hub + leaf intent</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Prompt pack</div>
+        <div class="value">50</div>
+        <div class="delta">5 prompts per page</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Agentic traffic on selected pages</div>
+        <div class="value">27.7k</div>
+        <div class="delta">4-week total across selected URLs</div>
+      </div>
+      <div class="kpi">
+        <div class="label">Average content gain ratio</div>
+        <div class="value">4.1×</div>
+        <div class="delta">Across the 10 selected pages</div>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top: var(--s-300);">
+      <div class="card">
+        <h3 style="font-size: var(--t-md); margin-bottom: var(--s-150);">Why this setup is cleaner</h3>
+        <ul class="list-tight">
+          <li>It avoids letting broad prompts over-credit homepage and attraction hubs.</li>
+          <li>It creates explicit measurement cohorts for visa, transport, Muslim travel, and The Peak.</li>
+          <li>It keeps the prompt pool small enough to compare consistently before and after rollout.</li>
+          <li>It preserves a realistic mix of planning, discovery, logistics, and destination-specific intent.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="font-size: var(--t-md); margin-bottom: var(--s-150);">Current risk in the uploaded prompt file</h3>
+        <ul class="list-tight">
+          <li>The existing 200 prompts are strong for broad visitor discovery.</li>
+          <li>They are weak for page-specific attribution.</li>
+          <li>Two selected pages have <strong>zero explicit coverage</strong> today: <strong>Muslim travel</strong> and <strong>The Peak</strong>.</li>
+          <li><strong>Visa</strong> and <strong>getting around</strong> are materially under-represented versus their trial importance.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="pages">
+    <div class="section-head">
+      <span class="section-eyebrow">A2</span>
+      <span class="section-title">The 10 selected pages</span>
+    </div>
+    <p class="section-subtitle">Baseline signals below are from the uploaded owned URL, crawl, prerender, and referral exports. The mix is designed to combine proven demand with high-upside Edge candidates.</p>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th>URL</th>
+            <th>Baseline signal</th>
+            <th>Why this page is in the pilot</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Homepage</strong></td>
+            <td class="muted">/eng/index.html</td>
+            <td>4,138 agentic hits · 14 times cited · 14% visibility · 7.3× gain</td>
+            <td>Best overall hub and strongest current owned citation page; useful as a broad control page with clear upside.</td>
+          </tr>
+          <tr>
+            <td><strong>Travel guide</strong></td>
+            <td class="muted">/eng/travel-guide.html</td>
+            <td>2,803 hits · 12 times cited · 45% visibility · 2.2× gain</td>
+            <td>Main trip-planning hub; anchors practical planning intent without collapsing entirely into the homepage.</td>
+          </tr>
+          <tr>
+            <td><strong>Attractions</strong></td>
+            <td class="muted">/eng/attractions.html</td>
+            <td>2,312 hits · 11 times cited · 10% visibility · 9.7× gain</td>
+            <td>High-upside category page where low current visibility leaves a lot of room for Edge impact.</td>
+          </tr>
+          <tr>
+            <td><strong>Events</strong></td>
+            <td class="muted">/eng/events.html</td>
+            <td>3,375 hits · 7 times cited · 26% visibility · 3.9× gain</td>
+            <td>Captures seasonal and event-driven discovery intent that often shifts to third-party sources.</td>
+          </tr>
+          <tr>
+            <td><strong>Food &amp; drink</strong></td>
+            <td class="muted">/eng/food-and-drink.html</td>
+            <td>2,557 hits · 3 times cited · 27% visibility · 3.7× gain · 100 LLM visits</td>
+            <td>Already receives LLM referral traffic, making it a useful proof-point page for before/after visit quality.</td>
+          </tr>
+          <tr>
+            <td><strong>Accommodation</strong></td>
+            <td class="muted">/eng/travel-guide/accommodation.html</td>
+            <td>1,894 hits · 60% visibility · 1.7× gain</td>
+            <td>Strategic gap page for a category where third-party "where to stay" pages are heavily cited.</td>
+          </tr>
+          <tr>
+            <td><strong>Getting around</strong></td>
+            <td class="muted">/eng/travel-guide/traveller-essentials/getting-around.html</td>
+            <td>4,294 hits · 4 times cited · 88% visibility · 1.1× gain · citability 88</td>
+            <td>Highest traffic of the selected set and strongest citability; ideal practical-intent benchmark.</td>
+          </tr>
+          <tr>
+            <td><strong>Visa information</strong></td>
+            <td class="muted">/eng/travel-guide/traveller-essentials/visa-information/in.html</td>
+            <td>2,057 hits · 1 time cited · 55% visibility · 1.8× gain · 100 LLM visits</td>
+            <td>High-intent query class with real referral activity today; good page for testing answer-to-click quality.</td>
+          </tr>
+          <tr>
+            <td><strong>Muslim travel</strong></td>
+            <td class="muted">/eng/themed-travel/muslim-travel.html</td>
+            <td>1,470 hits · 52% visibility · 1.9× gain · 100 LLM visits</td>
+            <td>Adds a focused audience use case that is absent in the current prompt file but already shows referral potential.</td>
+          </tr>
+          <tr>
+            <td><strong>The Peak</strong></td>
+            <td class="muted">/eng/place-to-go/travel.guide-the-peak.html</td>
+            <td>2,803 hits · 14% visibility · 7.2× gain</td>
+            <td>Iconic destination page with strong upside and clean page-level story for a destination-specific test.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note success">
+      <strong>Why this mix works:</strong> it gives HKTB <strong>5 broad/hub pages</strong> and <strong>5 high-intent leaf pages</strong>. That makes the trial broad enough to matter but narrow enough to attribute.
+    </div>
+  </section>
+
+  <section class="section" id="promptcheck">
+    <div class="section-head">
+      <span class="section-eyebrow">A3</span>
+      <span class="section-title">Prompt library check</span>
+    </div>
+    <p class="section-subtitle">The uploaded 200-prompt file was mapped to the 10 selected pages by direct intent matching. The result is useful for diagnosis: the current set is not balanced for page-level comparison.</p>
+
+    <div class="two-col">
+      <div class="table-wrap">
+        <table class="data">
+          <thead>
+            <tr>
+              <th>Selected page</th>
+              <th class="num">Current prompt coverage</th>
+              <th class="num">Recommended trial coverage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Homepage</td>
+              <td class="num">30</td>
+              <td class="num accent">5</td>
+            </tr>
+            <tr>
+              <td>Travel guide</td>
+              <td class="num">19</td>
+              <td class="num accent">5</td>
+            </tr>
+            <tr>
+              <td>Attractions</td>
+              <td class="num">59</td>
+              <td class="num accent">5</td>
+            </tr>
+            <tr>
+              <td>Events</td>
+              <td class="num">27</td>
+              <td class="num accent">5</td>
+            </tr>
+            <tr>
+              <td>Food &amp; drink</td>
+              <td class="num">27</td>
+              <td class="num accent">5</td>
+            </tr>
+            <tr>
+              <td>Accommodation</td>
+              <td class="num">28</td>
+              <td class="num accent">5</td>
+            </tr>
+            <tr>
+              <td>Getting around</td>
+              <td class="num warn">8</td>
+              <td class="num accent">5</td>
+            </tr>
+            <tr>
+              <td>Visa information</td>
+              <td class="num neg">2</td>
+              <td class="num accent">5</td>
+            </tr>
+            <tr>
+              <td>Muslim travel</td>
+              <td class="num neg">0</td>
+              <td class="num accent">5</td>
+            </tr>
+            <tr>
+              <td>The Peak</td>
+              <td class="num neg">0</td>
+              <td class="num accent">5</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <div class="card" style="margin-bottom: var(--s-200);">
+          <h3 style="font-size: var(--t-md); margin-bottom: var(--s-150);">What needs to change</h3>
+          <ul class="list-tight">
+            <li><strong>Reduce broad visitor prompts</strong> that naturally collapse into homepage, attractions, and general planning pages.</li>
+            <li><strong>Add explicit page-targeting prompts</strong> for visa, transport, Muslim travel, and The Peak.</li>
+            <li><strong>Remove noisy prompts</strong> that are fragmentary, overly current-event-specific, or not useful for repeatable comparison.</li>
+            <li><strong>Standardise phrasing</strong> to full English questions with stable tourist intent.</li>
+          </ul>
+        </div>
+
+        <div class="note alert" style="margin-top:0;">
+          <strong>Examples to retire or rewrite:</strong> <em>liv golf hong kong</em>, <em>upcoming concerts in hong kong</em>, <em>best rooftop bars hong kong</em>, <em>best outlets in hong kong</em>, <em>hong kong sehenswürdigkeiten top 10</em>, <em>neon light in hong kong</em>.
+        </div>
+      </div>
+    </div>
+
+    <div class="three-col" style="margin-top: var(--s-300);">
+      <div class="action">
+        <div class="num-tag">01</div>
+        <h4>Keep prompt shape stable</h4>
+        <p>Use full, natural-language questions. Avoid fragments and mixed-language queries that introduce retrieval variance unrelated to Edge.</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">02</div>
+        <h4>Keep prompt intent page-resolvable</h4>
+        <p>Each prompt should have one obvious best-fit owned page. That keeps before/after movement attributable to the tested URL.</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">03</div>
+        <h4>Keep page weights even</h4>
+        <p>Five prompts per page prevents hubs from dominating the scorecard and makes low-volume pages measurable.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="part measure">
+    <div class="part-eyebrow">Part B · Trial content</div>
+    <div class="part-title">The balanced 50-prompt pack</div>
+    <div class="part-sub">
+      Each selected page gets exactly five prompts. The prompts are written to reduce overlap and improve page-level comparability between the pre-Edge and post-Edge runs.
+    </div>
+  </div>
+
+  <section class="section" id="promptpack">
+    <div class="section-head">
+      <span class="section-eyebrow">B1</span>
+      <span class="section-title">Customer-shareable 50 prompt set</span>
+    </div>
+    <p class="section-subtitle">Use this exact set before and after Edge optimisation. Do not swap prompts mid-test.</p>
+
+    <div class="prompt-grid">
+      <div class="prompt-block">
+        <h4>1. Homepage</h4>
+        <ol>
+          <li>What is Discover Hong Kong and what should first-time visitors use it for?</li>
+          <li>What are the best official resources to plan a trip to Hong Kong?</li>
+          <li>Where can I find official visitor information for Hong Kong?</li>
+          <li>How should I start planning a Hong Kong trip on the official tourism website?</li>
+          <li>What should I know before planning my first Hong Kong trip?</li>
+        </ol>
+      </div>
+
+      <div class="prompt-block">
+        <h4>2. Travel guide</h4>
+        <ol>
+          <li>How many days should I spend in Hong Kong on a first trip?</li>
+          <li>How should I plan a 3-day Hong Kong itinerary for first-time visitors?</li>
+          <li>What should I include in a first-time Hong Kong travel plan?</li>
+          <li>What are the main things to plan before visiting Hong Kong?</li>
+          <li>What travel tips should first-time visitors know before going to Hong Kong?</li>
+        </ol>
+      </div>
+
+      <div class="prompt-block">
+        <h4>3. Attractions</h4>
+        <ol>
+          <li>What are the top attractions in Hong Kong for first-time visitors?</li>
+          <li>What are the must-see places in Hong Kong on a short trip?</li>
+          <li>What are the best things to do in Hong Kong for a first visit?</li>
+          <li>Which attractions in Hong Kong should I prioritise if I only have two days?</li>
+          <li>What iconic places should every first-time visitor see in Hong Kong?</li>
+        </ol>
+      </div>
+
+      <div class="prompt-block">
+        <h4>4. Events</h4>
+        <ol>
+          <li>What major annual events should I plan around in Hong Kong?</li>
+          <li>Where can I find official upcoming events in Hong Kong?</li>
+          <li>What festivals is Hong Kong known for through the year?</li>
+          <li>What are the best seasonal events for tourists in Hong Kong?</li>
+          <li>When is the best time to visit Hong Kong for events and festivals?</li>
+        </ol>
+      </div>
+
+      <div class="prompt-block">
+        <h4>5. Food &amp; drink</h4>
+        <ol>
+          <li>What food and drink experiences is Hong Kong known for?</li>
+          <li>What are the best neighbourhoods in Hong Kong for food lovers?</li>
+          <li>What local dishes should first-time visitors try in Hong Kong?</li>
+          <li>Where can I find official food recommendations for Hong Kong?</li>
+          <li>What are the best food experiences in Hong Kong for a short trip?</li>
+        </ol>
+      </div>
+
+      <div class="prompt-block">
+        <h4>6. Accommodation</h4>
+        <ol>
+          <li>Which area should first-time visitors stay in Hong Kong?</li>
+          <li>Is Central or Tsim Sha Tsui better for tourists staying in Hong Kong?</li>
+          <li>Should I stay on Hong Kong Island or in Kowloon as a visitor?</li>
+          <li>What are the best neighbourhoods to stay in Hong Kong for sightseeing and transport?</li>
+          <li>Where should families stay in Hong Kong for a first trip?</li>
+        </ol>
+      </div>
+
+      <div class="prompt-block">
+        <h4>7. Getting around</h4>
+        <ol>
+          <li>How do tourists get around Hong Kong using public transport?</li>
+          <li>What is the best way to travel around Hong Kong without a car?</li>
+          <li>How do I use the MTR, ferries and trams in Hong Kong as a visitor?</li>
+          <li>What transport card should tourists use in Hong Kong?</li>
+          <li>How do I get from Hong Kong airport to the main tourist areas?</li>
+        </ol>
+      </div>
+
+      <div class="prompt-block">
+        <h4>8. Visa information</h4>
+        <ol>
+          <li>Do I need a visa to visit Hong Kong as a tourist?</li>
+          <li>What are Hong Kong visa requirements for Indian passport holders?</li>
+          <li>Where can I find official Hong Kong visitor visa information?</li>
+          <li>What travel documents do tourists need to enter Hong Kong?</li>
+          <li>Who can visit Hong Kong visa-free for tourism?</li>
+        </ol>
+      </div>
+
+      <div class="prompt-block">
+        <h4>9. Muslim travel</h4>
+        <ol>
+          <li>Is Hong Kong a good destination for Muslim travelers?</li>
+          <li>Where can Muslim visitors find halal food in Hong Kong?</li>
+          <li>What does Hong Kong offer for Muslim-friendly travel?</li>
+          <li>Are there prayer facilities and halal dining options for tourists in Hong Kong?</li>
+          <li>What are the best areas in Hong Kong for Muslim travelers to stay and eat?</li>
+        </ol>
+      </div>
+
+      <div class="prompt-block">
+        <h4>10. The Peak</h4>
+        <ol>
+          <li>Is Victoria Peak worth visiting on a first trip to Hong Kong?</li>
+          <li>What should I do at The Peak in Hong Kong?</li>
+          <li>How much time should I spend at Victoria Peak?</li>
+          <li>What is the best time to visit The Peak for views?</li>
+          <li>How do I get to Victoria Peak as a tourist?</li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="note success">
+      <strong>Design principle:</strong> these prompts are intentionally written so that each page has a distinct "home" query set. That is what makes page-level before/after comparison materially cleaner than the current 200-prompt file.
+    </div>
+  </section>
+
+  <section class="section" id="measurement">
+    <div class="section-head">
+      <span class="section-eyebrow">B2</span>
+      <span class="section-title">How to measure the trial</span>
+    </div>
+    <p class="section-subtitle">Keep the run conditions as fixed as possible. The goal is to measure Edge impact, not prompt drift.</p>
+
+    <div class="two-col">
+      <div class="card">
+        <h3 style="font-size: var(--t-md); margin-bottom: var(--s-150);">Primary comparison metrics</h3>
+        <ul class="list-tight">
+          <li><strong>Times Cited</strong> by selected page</li>
+          <li><strong>Prompts Cited In</strong> by selected page</li>
+          <li><strong>Owned citation share</strong> across the 50 prompts</li>
+          <li><strong>LLM referral traffic</strong> to selected pages</li>
+          <li><strong>Bounce rate / engagement quality</strong> on referred visits</li>
+          <li><strong>Content visibility / gain ratio</strong> where rerun exports are available</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="font-size: var(--t-md); margin-bottom: var(--s-150);">Best way to read the results</h3>
+        <ul class="list-tight">
+          <li>Read results first at the <strong>page cohort</strong> level, then at the total trial level.</li>
+          <li>Look for movement in both <strong>absolute counts</strong> and <strong>share of prompts won</strong>.</li>
+          <li>Separate hub-page lift from leaf-page lift.</li>
+          <li>Call out pages that already had traffic versus pages that had little or no owned citation presence before Edge.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="table-wrap" style="margin-top: var(--s-300);">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Page</th>
+            <th class="num">Current times cited</th>
+            <th class="num">Current prompts cited in</th>
+            <th class="num">4-week agentic traffic</th>
+            <th>Current visibility</th>
+            <th class="num">Content gain ratio</th>
+            <th class="num">Current LLM traffic</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Homepage</td>
+            <td class="num">14</td>
+            <td class="num">9</td>
+            <td class="num">4,138</td>
+            <td><div class="bar"><div class="bar-track"><div class="bar-fill neg" style="width:14%"></div></div><div class="bar-val">14%</div></div></td>
+            <td class="num">7.3×</td>
+            <td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Travel guide</td>
+            <td class="num">12</td>
+            <td class="num">8</td>
+            <td class="num">2,803</td>
+            <td><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:45%"></div></div><div class="bar-val">45%</div></div></td>
+            <td class="num">2.2×</td>
+            <td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Attractions</td>
+            <td class="num">11</td>
+            <td class="num">7</td>
+            <td class="num">2,312</td>
+            <td><div class="bar"><div class="bar-track"><div class="bar-fill neg" style="width:10%"></div></div><div class="bar-val">10%</div></div></td>
+            <td class="num">9.7×</td>
+            <td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Events</td>
+            <td class="num">7</td>
+            <td class="num">5</td>
+            <td class="num">3,375</td>
+            <td><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:26%"></div></div><div class="bar-val">26%</div></div></td>
+            <td class="num">3.9×</td>
+            <td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Food &amp; drink</td>
+            <td class="num">3</td>
+            <td class="num">1</td>
+            <td class="num">2,557</td>
+            <td><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:27%"></div></div><div class="bar-val">27%</div></div></td>
+            <td class="num">3.7×</td>
+            <td class="num">100</td>
+          </tr>
+          <tr>
+            <td>Accommodation</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+            <td class="num">1,894</td>
+            <td><div class="bar"><div class="bar-track"><div class="bar-fill good" style="width:60%"></div></div><div class="bar-val">60%</div></div></td>
+            <td class="num">1.7×</td>
+            <td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Getting around</td>
+            <td class="num">4</td>
+            <td class="num">3</td>
+            <td class="num">4,294</td>
+            <td><div class="bar"><div class="bar-track"><div class="bar-fill good" style="width:88%"></div></div><div class="bar-val">88%</div></div></td>
+            <td class="num">1.1×</td>
+            <td class="num">—</td>
+          </tr>
+          <tr>
+            <td>Visa information</td>
+            <td class="num">1</td>
+            <td class="num">1</td>
+            <td class="num">2,057</td>
+            <td><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:55%"></div></div><div class="bar-val">55%</div></div></td>
+            <td class="num">1.8×</td>
+            <td class="num">100</td>
+          </tr>
+          <tr>
+            <td>Muslim travel</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+            <td class="num">1,470</td>
+            <td><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:52%"></div></div><div class="bar-val">52%</div></div></td>
+            <td class="num">1.9×</td>
+            <td class="num">100</td>
+          </tr>
+          <tr>
+            <td>The Peak</td>
+            <td class="num">—</td>
+            <td class="num">—</td>
+            <td class="num">2,803</td>
+            <td><div class="bar"><div class="bar-track"><div class="bar-fill neg" style="width:14%"></div></div><div class="bar-val">14%</div></div></td>
+            <td class="num">7.2×</td>
+            <td class="num">—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note">
+      <strong>How to score the outcome:</strong> the best signal is not just total lift. The best signal is whether each page wins a larger share of its own 5-prompt cohort after Edge optimisation than it did before.
+    </div>
+  </section>
+
+  <div class="part action">
+    <div class="part-eyebrow">Part C · Operating rules</div>
+    <div class="part-title">Keep the test controlled</div>
+    <div class="part-sub">
+      A clean trial depends as much on discipline as on page selection. The rules below keep the before/after readout fair.
+    </div>
+  </div>
+
+  <section class="section" id="operating">
+    <div class="section-head">
+      <span class="section-eyebrow">C1</span>
+      <span class="section-title">Recommended operating rules</span>
+    </div>
+    <p class="section-subtitle">These rules are what make this pack customer-safe and analytically useful.</p>
+
+    <div class="three-col">
+      <div class="action">
+        <div class="num-tag">01</div>
+        <h4>Use the same 50 prompts before and after</h4>
+        <p>No prompt additions, deletions, or rewrites during the trial window.</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">02</div>
+        <h4>Keep model and market fixed</h4>
+        <p>Use the same model, same market setting, and the same test configuration for both runs.</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">03</div>
+        <h4>Report at page level first</h4>
+        <p>Start with each selected URL's 5-prompt cohort, then roll up to the total.</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">04</div>
+        <h4>Separate visibility from engagement</h4>
+        <p>Citation lift and referral lift are not the same as on-site engagement lift; report both.</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">05</div>
+        <h4>Flag pages with prior referrals</h4>
+        <p>Food &amp; drink, visa information, and Muslim travel already had LLM visits, so compare them differently from zero-baseline pages.</p>
+      </div>
+      <div class="action">
+        <div class="num-tag">06</div>
+        <h4>Keep customer readout simple</h4>
+        <p>Show which pages improved, by how much, and whether those gains turned into visits or better engagement.</p>
+      </div>
+    </div>
+
+    <div class="note alert" style="margin-top: var(--s-300);">
+      <strong>Recommended headline for the customer:</strong> "We intentionally rebalanced the prompt set so each selected page has its own measurable cohort. That makes the before/after result more attributable to Edge optimisation and less dependent on prompt mix."
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h5>Method</h5>
+        <p>This document is based on the uploaded HKTB Adobe LLM Optimiser exports: owned URL citations, cited third-party domains, trending cited URLs, referral traffic, prerender opportunities, crawl URL data, and the active prompt CSV.</p>
+      </div>
+      <div>
+        <h5>Trial design</h5>
+        <p>10 selected pages, 50 prompts total, 5 prompts per page, designed for before/after comparison of Edge optimisation impact.</p>
+      </div>
+      <div>
+        <h5>Customer-shareable framing</h5>
+        <p>Keep the narrative simple: selected pages, why they were chosen, what changed in the prompt pack, and how success will be measured.</p>
+      </div>
+    </div>
+    <div class="credit">
+      <span class="logo-img" role="img" aria-label="Adobe"></span>
+      <span>Prepared for Hong Kong Tourism Board · Adobe LLM Optimiser · 2026-06-07</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  (function() {
+    const tabs = document.querySelectorAll('.toc-tabs a');
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    if (!tabs.length || !sections.length) return;
+
+    const tabByHash = new Map();
+    tabs.forEach(t => tabByHash.set(t.getAttribute('href'), t));
+
+    let lastHash = null;
+    const setActive = (hash) => {
+      if (hash === lastHash) return;
+      lastHash = hash;
+      tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === hash));
+    };
+
+    const update = () => {
+      const scanLine = window.innerHeight * 0.33;
+      let current = sections[0];
+      for (const s of sections) {
+        if (s.getBoundingClientRect().top <= scanLine) current = s;
+        else break;
+      }
+      setActive('#' + current.id);
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  })();
+</script>
+
+</body>
+</html>

@@ -333,6 +333,7 @@
   .tag-pill.p1 { background: var(--blue-100); color: var(--blue-700); }
   .tag-pill.p2 { background: var(--notice-100); color: var(--notice-500); }
   .tag-pill.good { background: var(--positive-100); color: var(--positive-500); }
+  .tag-pill.warn-tag { background: var(--negative-100); color: var(--negative-600); }
 
   .two-col {
     display: grid;
@@ -347,6 +348,14 @@
     padding: var(--s-400);
   }
 
+  .subhead {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin: var(--s-400) 0 var(--s-200);
+  }
+  .subhead:first-child { margin-top: 0; }
+
   .note {
     margin-top: var(--s-300);
     padding: var(--s-200) var(--s-300);
@@ -360,6 +369,13 @@
   .note.alert {
     background: var(--notice-100);
     border-left-color: var(--notice-500);
+  }
+
+  ul.clean {
+    padding-left: 1.2em;
+  }
+  ul.clean li {
+    margin-bottom: 10px;
   }
 
   footer {
@@ -592,13 +608,13 @@
 
     <div class="two-col">
       <div class="card">
-        <h3 style="font-size: var(--t-md); margin-bottom: var(--s-200);">Broad hub pages</h3>
+        <h3 class="subhead">Broad hub pages</h3>
         <p>
           Homepage, Travel guide, Attractions, Events, and Food &amp; drink give the trial strong coverage across high-volume travel discovery and planning topics.
         </p>
       </div>
       <div class="card">
-        <h3 style="font-size: var(--t-md); margin-bottom: var(--s-200);">High-intent leaf pages</h3>
+        <h3 class="subhead">High-intent leaf pages</h3>
         <p>
           Accommodation, Getting around, Visa information, Muslim travel, and The Peak create more focused answer targets and make it easier to assess page-level movement.
         </p>
@@ -621,29 +637,189 @@
       <table class="data">
         <thead>
           <tr>
-            <th>Recommendation</th>
-            <th>Why it helps</th>
+            <th>Selected page</th>
+            <th class="num">Current prompt coverage</th>
+            <th>Read-out</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>Reduce broad, overlapping prompts</strong></td>
-            <td>Prevents homepage and attraction hub pages from taking too much share of the measurement.</td>
+            <td>Homepage</td>
+            <td class="num">44</td>
+            <td>Over-represented</td>
           </tr>
           <tr>
-            <td><strong>Add more page-explicit prompts</strong></td>
-            <td>Makes it easier to compare before/after results for visa, transport, Muslim travel, and The Peak.</td>
+            <td>Travel guide</td>
+            <td class="num">21</td>
+            <td>Well covered</td>
           </tr>
           <tr>
-            <td><strong>Keep the prompt set fixed across both runs</strong></td>
-            <td>Improves confidence that any movement is due to Edge deployment rather than prompt changes.</td>
+            <td>Attractions</td>
+            <td class="num">45</td>
+            <td>Over-represented</td>
+          </tr>
+          <tr>
+            <td>Events</td>
+            <td class="num">24</td>
+            <td>Well covered</td>
+          </tr>
+          <tr>
+            <td>Food &amp; drink</td>
+            <td class="num">30</td>
+            <td>Well covered</td>
+          </tr>
+          <tr>
+            <td>Accommodation</td>
+            <td class="num">27</td>
+            <td>Well covered</td>
+          </tr>
+          <tr>
+            <td>Getting around</td>
+            <td class="num">6</td>
+            <td>Under-covered</td>
+          </tr>
+          <tr>
+            <td>Visa information</td>
+            <td class="num">2</td>
+            <td>Under-covered</td>
+          </tr>
+          <tr>
+            <td>Muslim travel</td>
+            <td class="num">0</td>
+            <td>Not covered</td>
+          </tr>
+          <tr>
+            <td>The Peak</td>
+            <td class="num">1</td>
+            <td>Not meaningfully covered</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="two-col" style="margin-top: var(--s-300);">
+      <div class="card">
+        <h3 class="subhead">Recommended prompt changes</h3>
+        <ul class="clean">
+          <li><strong>Reduce broad/open-ended prompts</strong> that naturally collapse into homepage and attraction pages.</li>
+          <li><strong>Add page-explicit prompts</strong> for getting around, visa information, Muslim travel, and The Peak.</li>
+          <li><strong>Remove noisy prompts</strong> that are too narrow, too current-event specific, or poor for repeatable comparison.</li>
+          <li><strong>Standardise prompt style</strong> using English, full-question format, and stable visitor intent.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 class="subhead">Why this helps</h3>
+        <ul class="clean">
+          <li>Reduces over-crediting broad hub pages.</li>
+          <li>Creates clearer page cohorts for before/after comparison.</li>
+          <li>Makes lower-coverage pages measurable in a fairer way.</li>
+          <li>Improves confidence that any lift comes from Edge deployment rather than prompt mix.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="subhead">Prompts to reduce or rewrite</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Current prompt pattern</th>
+            <th>Why adjust it</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>What are the best things to do in Hong Kong for first-time visitors?</td>
+            <td>Too broad and likely to over-credit homepage or attractions.</td>
+          </tr>
+          <tr>
+            <td>What should I do in Hong Kong on my first visit?</td>
+            <td>Broad intent with weak page-level attribution.</td>
+          </tr>
+          <tr>
+            <td>What does Discover Hong Kong recommend for first-time visitors?</td>
+            <td>Likely to bias results toward main hub pages.</td>
+          </tr>
+          <tr>
+            <td>neon light in hong kong</td>
+            <td>Fragmentary and not ideal for controlled comparison.</td>
+          </tr>
+          <tr>
+            <td>liv golf hong kong</td>
+            <td>Too narrow and event-specific for a stable before/after test.</td>
+          </tr>
+          <tr>
+            <td>upcoming concerts in hong kong</td>
+            <td>Current-event volatility makes it poor for repeatable benchmarking.</td>
+          </tr>
+          <tr>
+            <td>best rooftop bars hong kong</td>
+            <td>Narrow subtopic with weak fit to the selected page cohort.</td>
+          </tr>
+          <tr>
+            <td>best outlets in hong kong</td>
+            <td>Not one of the selected page priorities for this pilot.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="subhead">Best prompt additions for under-covered pages</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead>
+          <tr>
+            <th>Target page</th>
+            <th>Suggested prompts</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Getting around</strong></td>
+            <td>
+              How do tourists get around Hong Kong using public transport?<br>
+              What is the best way to travel around Hong Kong without a car?<br>
+              How do I use the MTR, ferries, and trams in Hong Kong as a visitor?<br>
+              What transport card should tourists use in Hong Kong?<br>
+              How do I get from Hong Kong airport to the main tourist areas?
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Visa information</strong></td>
+            <td>
+              Do I need a visa to visit Hong Kong as a tourist?<br>
+              What are Hong Kong visa requirements for Indian passport holders?<br>
+              Where can I find official Hong Kong visitor visa information?<br>
+              What travel documents do tourists need to enter Hong Kong?<br>
+              Who can visit Hong Kong visa-free for tourism?
+            </td>
+          </tr>
+          <tr>
+            <td><strong>Muslim travel</strong></td>
+            <td>
+              Is Hong Kong a good destination for Muslim travelers?<br>
+              Where can Muslim visitors find halal food in Hong Kong?<br>
+              What does Hong Kong offer for Muslim-friendly travel?<br>
+              Are there prayer facilities and halal dining options for tourists in Hong Kong?<br>
+              What are the best areas in Hong Kong for Muslim travelers to stay and eat?
+            </td>
+          </tr>
+          <tr>
+            <td><strong>The Peak</strong></td>
+            <td>
+              Is Victoria Peak worth visiting on a first trip to Hong Kong?<br>
+              What should I do at The Peak in Hong Kong?<br>
+              How much time should I spend at Victoria Peak?<br>
+              What is the best time to visit The Peak for views?<br>
+              How do I get to Victoria Peak as a tourist?
+            </td>
           </tr>
         </tbody>
       </table>
     </div>
 
     <div class="note alert">
-      <strong>Recommendation:</strong> treat prompt changes as optional but useful. The 10-page selection stands as-is, and a prompt cleanup would simply make the before/after comparison cleaner.
+      <strong>Recommended approach:</strong> keep the 10 selected pages as the trial scope. If cleaner measurement is wanted, use a balanced prompt design such as <strong>5 prompts per selected page</strong> so each page has a clear and comparable before/after cohort.
     </div>
   </section>
 
@@ -651,15 +827,15 @@
     <div class="footer-grid">
       <div>
         <h5>Summary</h5>
-        <p>This document recommends the 10 pages to use for the HKTB Edge deployment trial and keeps the scope focused on page selection.</p>
+        <p>This document recommends the 10 pages to use for the HKTB Edge deployment trial and includes optional prompt refinement guidance to improve the quality of before/after comparison.</p>
       </div>
       <div>
-        <h5>Optional add-on</h5>
-        <p>Prompt refinement is not required, but it is a nice step if cleaner before/after comparison is desired.</p>
+        <h5>Page selection</h5>
+        <p>The selected 10-page cohort is the main recommendation and stands on its own.</p>
       </div>
       <div>
-        <h5>Output format</h5>
-        <p>Prepared as a single HTML document using the Adobe-style reference structure.</p>
+        <h5>Prompt refinement</h5>
+        <p>Nice to do, not required. It mainly improves attribution and comparability.</p>
       </div>
     </div>
     <div class="credit">

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLMO Demo Framework</title>
+  <style>
+    :root{
+      --adobe-red:#EB1000;
+      --adobe-red-dark:#B81400;
+      --ink:#1f1f1f;
+      --muted:#5c5c5c;
+      --line:#e6e6e6;
+      --bg:#f7f7f8;
+      --card:#ffffff;
+      --soft-red:#fff1ef;
+      --soft-gray:#f2f3f5;
+      --success:#0f7b45;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Adobe Clean", "Segoe UI", Arial, sans-serif;
+      background:linear-gradient(180deg,#fbfbfc 0%, #f3f4f6 100%);
+      color:var(--ink);
+      line-height:1.45;
+    }
+
+    .wrap{
+      max-width:1400px;
+      margin:0 auto;
+      padding:32px 28px 56px;
+    }
+
+    .hero{
+      background:linear-gradient(135deg, #ffffff 0%, #fff4f2 100%);
+      border:1px solid #ffd7d1;
+      border-radius:24px;
+      padding:32px;
+      box-shadow:0 12px 36px rgba(0,0,0,0.06);
+      margin-bottom:24px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero:before{
+      content:"";
+      position:absolute;
+      right:-80px;
+      top:-80px;
+      width:240px;
+      height:240px;
+      background:radial-gradient(circle, rgba(235,16,0,.16) 0%, rgba(235,16,0,0) 70%);
+    }
+
+    .eyebrow{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:var(--soft-red);
+      color:var(--adobe-red-dark);
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      margin-bottom:12px;
+    }
+
+    h1,h2,h3,h4{margin:0 0 10px}
+    h1{
+      font-size:34px;
+      line-height:1.1;
+      letter-spacing:-0.02em;
+    }
+    h2{
+      font-size:24px;
+      margin-top:0;
+      color:var(--ink);
+    }
+    h3{
+      font-size:18px;
+      color:var(--ink);
+    }
+    h4{
+      font-size:15px;
+      color:var(--adobe-red-dark);
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+
+    p{margin:0 0 10px;color:var(--ink)}
+    .muted{color:var(--muted)}
+    .lead{
+      font-size:17px;
+      max-width:980px;
+      color:#2d2d2d;
+    }
+
+    .pill-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    .pill{
+      background:#fff;
+      border:1px solid var(--line);
+      color:#333;
+      border-radius:999px;
+      padding:9px 14px;
+      font-size:13px;
+      font-weight:600;
+    }
+
+    .note{
+      border-left:4px solid var(--adobe-red);
+      background:#fff;
+      padding:14px 16px;
+      border-radius:12px;
+      margin-top:18px;
+      color:#333;
+    }
+
+    .section{
+      margin-top:26px;
+      background:rgba(255,255,255,.7);
+      border:1px solid #ececef;
+      border-radius:24px;
+      padding:24px;
+      backdrop-filter: blur(6px);
+    }
+
+    .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:20px;
+      margin-bottom:18px;
+      padding-bottom:14px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .tag{
+      background:var(--soft-gray);
+      color:#444;
+      border-radius:999px;
+      padding:8px 12px;
+      font-size:12px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .positioning{
+      display:grid;
+      grid-template-columns:1.2fr 1fr;
+      gap:16px;
+      margin-bottom:18px;
+    }
+
+    .position-box{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+    }
+
+    .position-box strong{
+      color:var(--adobe-red-dark);
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:16px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:0 4px 18px rgba(0,0,0,.04);
+    }
+
+    .card .num{
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      background:var(--soft-red);
+      color:var(--adobe-red);
+      font-weight:800;
+      margin-bottom:10px;
+    }
+
+    ul{
+      margin:8px 0 0 18px;
+      padding:0;
+    }
+
+    li{margin:5px 0;color:#2d2d2d}
+
+    .talk-track{
+      margin-top:16px;
+      background:#fffdfa;
+      border:1px solid #f0dfc8;
+      border-radius:16px;
+      padding:16px 18px;
+    }
+
+    .talk-track p{
+      font-style:italic;
+      color:#41372f;
+    }
+
+    .summary-table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:14px;
+      background:#fff;
+      border-radius:18px;
+      overflow:hidden;
+      border:1px solid var(--line);
+    }
+
+    .summary-table th,
+    .summary-table td{
+      padding:12px 14px;
+      text-align:left;
+      border-bottom:1px solid var(--line);
+      vertical-align:top;
+      font-size:14px;
+    }
+
+    .summary-table th{
+      background:#fafafa;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+      color:#555;
+    }
+
+    .summary-table tr:last-child td{border-bottom:none}
+
+    .flow{
+      margin-top:24px;
+      background:linear-gradient(135deg,#fff 0%,#fff5f3 100%);
+      border:1px solid #ffd9d4;
+      border-radius:24px;
+      padding:24px;
+    }
+
+    .flow-grid{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .flow-step{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px;
+      min-height:130px;
+    }
+
+    .flow-step .step{
+      color:var(--adobe-red);
+      font-weight:800;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.04em;
+    }
+
+    .footer{
+      margin-top:28px;
+      font-size:12px;
+      color:#666;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:16px 18px;
+    }
+
+    .kicker{
+      color:var(--success);
+      font-weight:700;
+    }
+
+    @media (max-width: 1100px){
+      .grid,
+      .positioning,
+      .flow-grid{
+        grid-template-columns:1fr;
+      }
+      .section-head{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <section class="hero">
+      <div class="eyebrow">Adobe LLM Optimizer</div>
+      <h1>Demo Framework by Dashboard</h1>
+      <p class="lead">
+        This version sharpens the story for <strong>all five dashboards</strong> so each one has a clear job in the demo.
+        The goal is not just to show features, but to show how each screen answers a specific business question.
+      </p>
+      <div class="pill-row">
+        <span class="pill">Brand Visibility</span>
+        <span class="pill">Answer Quality</span>
+        <span class="pill">Agent Readiness</span>
+        <span class="pill">URL-Level Truth</span>
+        <span class="pill">Human Traffic & Impact</span>
+      </div>
+      <div class="note">
+        <strong>Recommended overall story:</strong>
+        Brand Presence tells you whether you show up.
+        Data Insights tells you whether those are actually good answers.
+        Agentic Traffic tells you whether AI systems can access and read your content.
+        URL Inspector tells you which exact pages are winning or missing citations.
+        Referral Traffic tells you whether any of that turns into real human traffic and business value.
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>1. Brand Presence</h2>
+          <p class="muted">Use this as the <strong>scorecard and market narrative</strong>.</p>
+        </div>
+        <div class="tag">Primary role: visibility scorecard</div>
+      </div>
+
+      <div class="positioning">
+        <div class="position-box">
+          <h3>Sharpened message</h3>
+          <p>
+            <strong>Brand Presence is the executive summary of AI visibility.</strong>
+            It tells you whether the brand is appearing in AI answers, how that is trending,
+            and how it compares to the market.
+          </p>
+        </div>
+        <div class="position-box">
+          <h3>What it is not</h3>
+          <p>
+            It is <strong>not</strong> the place to validate answer quality at a granular level.
+            A strong score here is useful, but it still needs to be checked in <strong>Data Insights</strong>.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="num">1</div>
+          <h3>Filters + top-line metrics</h3>
+          <h4>Where to navigate</h4>
+          <p>Open <strong>Brand Presence</strong> and stay at the top of the page.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Visibility Score</li>
+            <li>Brand Mentions</li>
+            <li>Citations</li>
+            <li>Trend movement versus prior period</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Fastest answer to: <strong>"Are we showing up in AI answers at all?"</strong></p>
+        </article>
+
+        <article class="card">
+          <div class="num">2</div>
+          <h3>Market tracking</h3>
+          <h4>Where to navigate</h4>
+          <p>Stay on <strong>Brand Presence</strong> and move to the competitor or market comparison area.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Weekly mentions comparison</li>
+            <li>Weekly citations comparison</li>
+            <li>Whether the brand is gaining or losing ground</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Shows whether visibility is good <strong>relative to competitors</strong>, not just in isolation.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">3</div>
+          <h3>Sentiment Analysis</h3>
+          <h4>Where to navigate</h4>
+          <p>Scroll to <strong>Sentiment Trend Analysis</strong>.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Positive / neutral / negative distribution</li>
+            <li>Trend direction over time</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Visibility matters, but <strong>quality of representation</strong> matters too.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">4</div>
+          <h3>Share of Voice</h3>
+          <h4>Where to navigate</h4>
+          <p>Go to the <strong>Share of Voice</strong> view on the same dashboard.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Where the brand leads</li>
+            <li>Where competitors dominate</li>
+            <li>Topic-level competitive standing</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Best topic-level summary of whether the brand truly <strong>owns the conversation</strong>.</p>
+        </article>
+      </div>
+
+      <div class="talk-track">
+        <h4>Suggested talk track</h4>
+        <p>
+          "I start with Brand Presence because it is the scorecard. It tells us whether the brand is visible in AI answers,
+          how that is trending, and whether we are winning or losing versus competitors. Then sentiment and share of voice
+          help show whether that presence is strong and strategically meaningful."
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>2. Data Insights</h2>
+          <p class="muted">Use this as the <strong>answer-quality and opportunity-analysis layer</strong>.</p>
+        </div>
+        <div class="tag">Primary role: answer-quality check</div>
+      </div>
+
+      <div class="positioning">
+        <div class="position-box">
+          <h3>Sharpened message</h3>
+          <p>
+            <strong>Strong metrics do not guarantee strong answers.</strong>
+            A mention can be stale, weakly grounded, or sourced from the wrong page.
+            Data Insights is where the scorecard becomes an <strong>answer-quality check</strong>.
+          </p>
+        </div>
+        <div class="position-box">
+          <h3>What it answers</h3>
+          <p>
+            Are we showing up in the <strong>right topics</strong>, with the <strong>right position</strong>,
+            and with the <strong>right source grounding</strong>?
+          </p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="num">1</div>
+          <h3>Filters + table scope</h3>
+          <h4>Where to navigate</h4>
+          <p>From <strong>Brand Presence</strong>, move to the <strong>Data Insights</strong> section or table.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Topic-level versus prompt-level analysis</li>
+            <li>Region / market context</li>
+            <li>Search and export controls</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>This is where Brand Presence stops being a scorecard and becomes an inspection layer.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">2</div>
+          <h3>High-popularity, low-visibility topics</h3>
+          <h4>Where to navigate</h4>
+          <p>Sort or filter for high <strong>Popularity</strong> with weaker <strong>Visibility Score</strong>.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Popularity</li>
+            <li>Visibility Score</li>
+            <li>Mentions</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Best quick way to show where demand exists but brand presence is underperforming.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">3</div>
+          <h3>All Citations vs Owned Citations</h3>
+          <h4>Where to navigate</h4>
+          <p>Look for rows with strong <strong>All Citations</strong> but weak <strong>Owned Citations</strong>.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Topics where answers are well sourced overall</li>
+            <li>But those citations are going to someone else</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Best authority-gap story: the answer may look healthy, but the grounding is going to the wrong source.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">4</div>
+          <h3>Prompt drill-down</h3>
+          <h4>Where to navigate</h4>
+          <p>Click from a topic into a specific prompt.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Position</li>
+            <li>Sentiment</li>
+            <li>Citations tied to the prompt</li>
+            <li>Executions or sample size where shown</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>This is the clearest proof that a "good metric" still needs an <strong>answer-quality validation</strong>.</p>
+        </article>
+      </div>
+
+      <div class="talk-track">
+        <h4>Suggested talk track</h4>
+        <p>
+          "Brand Presence gives us the scorecard, but strong metrics do not always mean strong answers.
+          Data Insights is where we check whether those answers are actually useful, well grounded, and sourced from the right place."
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>3. Agentic Traffic</h2>
+          <p class="muted">Use this as the <strong>agent-readiness and access layer</strong>.</p>
+        </div>
+        <div class="tag">Primary role: can agents access and read the site?</div>
+      </div>
+
+      <div class="positioning">
+        <div class="position-box">
+          <h3>Sharpened message</h3>
+          <p>
+            <strong>Pages cannot be cited if agents cannot read them.</strong>
+            Agentic Traffic is where you show whether AI systems are actually reaching the site,
+            succeeding on requests, and seeing the content that matters.
+          </p>
+        </div>
+        <div class="position-box">
+          <h3>What it proves</h3>
+          <p>
+            It proves AI demand is real, but more importantly,
+            it shows whether that demand is landing on <strong>accessible, readable, citable content</strong>.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="num">1</div>
+          <h3>Filters + top-line metrics + traffic distribution</h3>
+          <h4>Where to navigate</h4>
+          <p>Open <strong>Domain → Agentic Traffic</strong> and stay at the top of the dashboard.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Agentic Interactions</li>
+            <li>Success Rate</li>
+            <li>Average TTFB</li>
+            <li>Hits by Market / Category / Page Type</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Establishes both health and where AI attention is concentrated.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">2</div>
+          <h3>Content Visibility</h3>
+          <h4>Where to navigate</h4>
+          <p>Stay on <strong>Agentic Traffic</strong> and use the <strong>Content Visibility</strong> area.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Whether agents can actually read the page content</li>
+            <li>Pages with high demand but weak visibility</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>This is the must-demo GEO moment: being crawled is not the same as being readable.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">3</div>
+          <h3>User Agent Analysis</h3>
+          <h4>Where to navigate</h4>
+          <p>Scroll to <strong>User Agent Analysis</strong>.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Breakdown by agent type</li>
+            <li>Page type by agent type</li>
+            <li>Differences between chatbots, crawlers, and other agent classes</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Shows that not all AI traffic is the same, and not all agents matter for the same reason.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">4</div>
+          <h3>URL Performance Analysis + movers</h3>
+          <h4>Where to navigate</h4>
+          <p>Use <strong>Top Movers / Bottom Movers</strong>, then move into <strong>URL Performance Analysis</strong>.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Rising and falling URLs</li>
+            <li>Total Hits</li>
+            <li>Unique Agents</li>
+            <li>Top Agent</li>
+            <li>Success Rate</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Best place to identify which exact pages deserve optimization effort.</p>
+        </article>
+      </div>
+
+      <div class="talk-track">
+        <h4>Suggested talk track</h4>
+        <p>
+          "Agentic Traffic shows whether AI systems are actually reaching the site, but the most important question is whether they can read what matters.
+          Content Visibility is the key bridge from raw bot activity to real citation opportunity."
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>4. URL Inspector</h2>
+          <p class="muted">Use this as the <strong>page-level truth layer</strong>.</p>
+        </div>
+        <div class="tag">Primary role: exact URL performance and citation opportunity</div>
+      </div>
+
+      <div class="positioning">
+        <div class="position-box">
+          <h3>Sharpened message</h3>
+          <p>
+            <strong>URL Inspector is where the story becomes page-level and concrete.</strong>
+            It shows which exact URLs are being cited, which ones are being evaluated but not chosen,
+            and which outside URLs are winning authority in the same answer space.
+          </p>
+        </div>
+        <div class="position-box">
+          <h3>Key opportunity pattern</h3>
+          <p>
+            <strong>High attempts, low citations</strong> is one of the best demo moments:
+            LLMs are clearly evaluating the page, but the page is not converting that demand into citations.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="num">1</div>
+          <h3>Filters + overview metrics + trend charts</h3>
+          <h4>Where to navigate</h4>
+          <p>Open <strong>Domain → URL Inspector</strong> and stay at the top of the dashboard.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Unique prompts with owned citations</li>
+            <li>Total unique prompts</li>
+            <li>Unique cited URLs</li>
+            <li>Total times cited</li>
+            <li>Citation Attempts / Referral Hits trends</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Best URL-level summary before drilling into individual pages.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">2</div>
+          <h3>High attempts, low citations</h3>
+          <h4>Where to navigate</h4>
+          <p>In <strong>Your Cited URLs</strong>, find pages with high <strong>Citation Attempts</strong> and weaker <strong>Times Cited</strong>, then open details.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Citation Attempts</li>
+            <li>Times Cited</li>
+            <li>Prompts Cited In</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Strongest opportunity story: demand exists, but citation conversion is weak.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">3</div>
+          <h3>Your Cited URLs + URL Details drill-down</h3>
+          <h4>Where to navigate</h4>
+          <p>Go to <strong>Your Cited URLs</strong>, choose a strong owned page, and open <strong>URL Details</strong>.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Times Cited</li>
+            <li>Prompts Cited In</li>
+            <li>Agentic Hits</li>
+            <li>Referral Hits</li>
+            <li>Sentiment, citation trends, and prompt analysis in details</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Best owned-page analysis flow and the clearest bridge between visibility, traffic, and explanation.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">4</div>
+          <h3>Cited Third Party URLs + Cited Domains</h3>
+          <h4>Where to navigate</h4>
+          <p>Move to <strong>Cited Third Party URLs</strong> and <strong>Cited Domains</strong>.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Which outside URLs are winning</li>
+            <li>Which domains dominate</li>
+            <li>Competitor versus earned versus owned mix</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Best competitive authority story at the page and domain level.</p>
+        </article>
+      </div>
+
+      <div class="talk-track">
+        <h4>Suggested talk track</h4>
+        <p>
+          "If Brand Presence is the scorecard and Data Insights is the quality check, URL Inspector is the page-level truth layer.
+          This is where we stop talking in abstractions and start talking about exact URLs, exact demand, and exact citation opportunity."
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>5. Referral Traffic</h2>
+          <p class="muted">Use this as the <strong>human-validation and business-outcomes layer</strong>.</p>
+        </div>
+        <div class="tag">Primary role: did AI visibility produce real visits and value?</div>
+      </div>
+
+      <div class="positioning">
+        <div class="position-box">
+          <h3>Sharpened message</h3>
+          <p>
+            <strong>Citations matter most when they produce qualified human visits.</strong>
+            Referral Traffic is where LLM visibility gets validated as a real acquisition and engagement channel.
+          </p>
+        </div>
+        <div class="position-box">
+          <h3>What it proves</h3>
+          <p>
+            It proves whether AI discovery is actually driving <strong>humans</strong> to the site,
+            which sources are best, which landing pages work, and whether that traffic creates business impact.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <div class="num">1</div>
+          <h3>Filters + top-line metrics + AI source breakdown</h3>
+          <h4>Where to navigate</h4>
+          <p>Open <strong>Domain → Referral Traffic</strong> and stay on <strong>Traffic Insights</strong>.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Total Referral Traffic</li>
+            <li>Referral Traffic from LLMs</li>
+            <li>Consent Rate</li>
+            <li>Bounce Rate</li>
+            <li>Hits By Referrer</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Best opener for proving that LLMs are sending real human traffic.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">2</div>
+          <h3>Referral Sources Details</h3>
+          <h4>Where to navigate</h4>
+          <p>Stay on <strong>Traffic Insights</strong> and scroll to <strong>Referral Sources Details</strong>.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Source</li>
+            <li>Visits</li>
+            <li>Bounce Rate</li>
+            <li>Channel</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Best table-based source quality comparison, beyond the chart summary.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">3</div>
+          <h3>URL Performance Analysis + URL details</h3>
+          <h4>Where to navigate</h4>
+          <p>Stay on <strong>Traffic Insights</strong>, scroll to <strong>URL Performance Analysis</strong>, then open a page's details view if available.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>URL</li>
+            <li>Traffic</li>
+            <li>LLM Traffic</li>
+            <li>Bounce Rate</li>
+            <li>Consent Rate</li>
+            <li>Page Intent</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Best landing-page action story and the clearest place to inspect whether AI-referred traffic actually engages.</p>
+        </article>
+
+        <article class="card">
+          <div class="num">4</div>
+          <h3>Business Impact</h3>
+          <h4>Where to navigate</h4>
+          <p>Switch from <strong>Traffic Insights</strong> to <strong>Business Impact</strong>.</p>
+          <h4>What to highlight</h4>
+          <ul>
+            <li>Page Views</li>
+            <li>Entries</li>
+            <li>Revenue</li>
+            <li>Conversion Rate</li>
+            <li>Avg. Session Duration</li>
+            <li>Pages per Visit</li>
+            <li>Total Orders</li>
+          </ul>
+          <h4>Why demo it</h4>
+          <p>Strongest executive close: it answers whether AI-driven discovery is commercially meaningful.</p>
+        </article>
+      </div>
+
+      <div class="talk-track">
+        <h4>Suggested talk track</h4>
+        <p>
+          "Referral Traffic is the human validation layer. It proves whether AI discovery is sending real visitors,
+          which platforms send the best traffic, which landing pages work, and whether any of that leads to business outcomes."
+        </p>
+      </div>
+    </section>
+
+    <section class="flow">
+      <h2>Recommended full-demo flow</h2>
+      <p class="muted">
+        This sequence tells the cleanest story from visibility to business value.
+      </p>
+
+      <div class="flow-grid">
+        <div class="flow-step">
+          <div class="step">Step 1</div>
+          <h3>Brand Presence</h3>
+          <p><strong>Are we showing up?</strong></p>
+          <p class="muted">Start with visibility, competitor context, perception, and share of voice.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step">Step 2</div>
+          <h3>Data Insights</h3>
+          <p><strong>Are those good answers?</strong></p>
+          <p class="muted">Validate quality, grounding, topic gaps, and source authority.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step">Step 3</div>
+          <h3>Agentic Traffic</h3>
+          <p><strong>Can agents read the site?</strong></p>
+          <p class="muted">Show access, success, visibility, and page-level readability.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step">Step 4</div>
+          <h3>URL Inspector</h3>
+          <p><strong>Which exact pages win or miss?</strong></p>
+          <p class="muted">Move from abstract scores to page-level citation truth.</p>
+        </div>
+        <div class="flow-step">
+          <div class="step">Step 5</div>
+          <h3>Referral Traffic</h3>
+          <p><strong>Did it create real outcomes?</strong></p>
+          <p class="muted">Close on human traffic, landing-page performance, and ROI.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2>One-line positioning by dashboard</h2>
+          <p class="muted">Use these lines when you need a fast, clean summary.</p>
+        </div>
+        <div class="tag">Short-form messaging</div>
+      </div>
+
+      <table class="summary-table">
+        <thead>
+          <tr>
+            <th>Dashboard</th>
+            <th>Best one-line story</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Brand Presence</strong></td>
+            <td>The executive scorecard for how visible the brand is in AI answers.</td>
+          </tr>
+          <tr>
+            <td><strong>Data Insights</strong></td>
+            <td>The answer-quality and opportunity-analysis layer behind Brand Presence.</td>
+          </tr>
+          <tr>
+            <td><strong>Agentic Traffic</strong></td>
+            <td>The agent-readiness view that shows whether AI systems can reach and read the site.</td>
+          </tr>
+          <tr>
+            <td><strong>URL Inspector</strong></td>
+            <td>The page-level truth layer for exact citation performance and missed opportunity.</td>
+          </tr>
+          <tr>
+            <td><strong>Referral Traffic</strong></td>
+            <td>The human-validation and business-outcomes layer for AI-driven discovery.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="footer">
+      <div class="kicker">Reference basis used for this synthesis</div>
+      <p>
+        LLMO Documentation · LLM Optimizer: Metrics · Brand Centric Experience · LLMO Demo Requirements ·
+        LLMO Demo Script · LLMO Summit Demo Requirements · Integrating with AA · Referral Traffic Report Specs for Optel ·
+        LLM Optimizer TBYB Sales & Customer Support Guide · Adobe LLM Optimizer - Competitive Guide
+      </p>
+    </section>
+
+  </div>
+</body>
+</html>

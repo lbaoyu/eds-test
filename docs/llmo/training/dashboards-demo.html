@@ -6,533 +6,463 @@
   <title>Adobe LLM Optimizer Demo Framework</title>
   <style>
     :root {
-      --spectrum-red-700: #d31510;
-      --spectrum-red-800: #b40000;
-      --spectrum-blue-700: #0265dc;
-      --spectrum-green-700: #12805c;
-
-      --text-strong: #1d1d1d;
-      --text-default: #2f2f2f;
-      --text-muted: #5c5c5c;
-
-      --bg-page: #f5f5f7;
-      --bg-shell: #ffffff;
-      --bg-subtle: #fafafa;
-      --bg-soft-red: #fff3f2;
-      --bg-soft-gray: #f0f2f4;
-
-      --border-default: #d9dde3;
-      --border-strong: #c7ccd4;
-
-      --shadow-sm: 0 2px 8px rgba(0,0,0,.04);
-      --shadow-md: 0 8px 24px rgba(0,0,0,.06);
-
-      --radius-sm: 12px;
-      --radius-md: 18px;
-      --radius-lg: 24px;
-
-      --space-1: 8px;
-      --space-2: 12px;
-      --space-3: 16px;
-      --space-4: 20px;
-      --space-5: 24px;
-      --space-6: 32px;
-      --space-7: 40px;
-      --space-8: 56px;
-
-      --font-sans: "Adobe Clean", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --red-700:#d31510;
+      --red-800:#b40000;
+      --text-strong:#1d1d1d;
+      --text-default:#2f2f2f;
+      --text-muted:#5c5c5c;
+      --bg-page:#f5f5f7;
+      --bg-shell:#ffffff;
+      --bg-subtle:#fafafa;
+      --bg-soft-red:#fff3f2;
+      --bg-soft-gray:#f0f2f4;
+      --border:#d9dde3;
+      --shadow-sm:0 2px 8px rgba(0,0,0,.04);
+      --shadow-md:0 8px 24px rgba(0,0,0,.06);
+      --radius-sm:12px;
+      --radius-md:18px;
+      --radius-lg:24px;
+      --space-1:8px;
+      --space-2:12px;
+      --space-3:16px;
+      --space-4:20px;
+      --space-5:24px;
+      --space-6:32px;
+      --space-7:40px;
+      --space-8:56px;
+      --font-sans:"Adobe Clean","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
 
     body {
-      margin: 0;
-      font-family: var(--font-sans);
-      background: var(--bg-page);
-      color: var(--text-default);
-      font-size: 18px;
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
+      margin:0;
+      font-family:var(--font-sans);
+      background:var(--bg-page);
+      color:var(--text-default);
+      font-size:18px;
+      line-height:1.65;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
     }
 
     .app {
-      display: grid;
-      grid-template-columns: 300px minmax(0, 1fr);
-      min-height: 100vh;
+      display:grid;
+      grid-template-columns:300px minmax(0,1fr);
+      min-height:100vh;
     }
 
     .rail {
-      position: sticky;
-      top: 0;
-      align-self: start;
-      height: 100vh;
-      overflow: auto;
-      background: #fff;
-      border-right: 1px solid var(--border-default);
-      padding: var(--space-6) var(--space-4);
+      position:sticky;
+      top:0;
+      align-self:start;
+      height:100vh;
+      overflow:auto;
+      background:#fff;
+      border-right:1px solid var(--border);
+      padding:var(--space-6) var(--space-4);
     }
 
-    .brand {
-      margin-bottom: var(--space-6);
-    }
+    .brand { margin-bottom:var(--space-6); }
 
     .brand-kicker {
-      display: inline-block;
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--spectrum-red-700);
-      background: var(--bg-soft-red);
-      border: 1px solid #ffd8d4;
-      border-radius: 999px;
-      padding: 6px 10px;
-      margin-bottom: var(--space-3);
+      display:inline-block;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--red-700);
+      background:var(--bg-soft-red);
+      border:1px solid #ffd8d4;
+      border-radius:999px;
+      padding:6px 10px;
+      margin-bottom:var(--space-3);
     }
 
     .brand h1 {
-      margin: 0 0 var(--space-2);
-      font-size: 24px;
-      line-height: 1.15;
-      color: var(--text-strong);
-      letter-spacing: -0.02em;
+      margin:0 0 var(--space-2);
+      font-size:24px;
+      line-height:1.15;
+      color:var(--text-strong);
+      letter-spacing:-.02em;
     }
 
     .brand p {
-      margin: 0;
-      font-size: 15px;
-      color: var(--text-muted);
-      line-height: 1.5;
+      margin:0;
+      font-size:15px;
+      color:var(--text-muted);
+      line-height:1.5;
     }
 
     .nav-group-title {
-      margin: var(--space-5) 0 var(--space-2);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
+      margin:var(--space-5) 0 var(--space-2);
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--text-muted);
     }
 
     .nav {
-      display: grid;
-      gap: 6px;
+      display:grid;
+      gap:6px;
     }
 
     .nav a {
-      color: var(--text-default);
-      text-decoration: none;
-      font-size: 16px;
-      line-height: 1.35;
-      padding: 10px 12px;
-      border-radius: 10px;
-      transition: background .15s ease, color .15s ease;
+      color:var(--text-default);
+      text-decoration:none;
+      font-size:16px;
+      line-height:1.35;
+      padding:10px 12px;
+      border-radius:10px;
+      transition:background .15s ease,color .15s ease;
     }
 
     .nav a:hover {
-      background: var(--bg-soft-gray);
-      color: var(--text-strong);
+      background:var(--bg-soft-gray);
+      color:var(--text-strong);
     }
 
     .nav .sub {
-      padding-left: 18px;
-      font-size: 15px;
-      color: var(--text-muted);
+      padding-left:18px;
+      font-size:15px;
+      color:var(--text-muted);
     }
 
-    .main {
-      padding: var(--space-6);
-    }
-
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-    }
+    .main { padding:var(--space-6); }
+    .container { max-width:1280px; margin:0 auto; }
 
     .hero {
-      background: linear-gradient(135deg, #ffffff 0%, #fff7f6 100%);
-      border: 1px solid #f3d7d3;
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-md);
-      padding: var(--space-7);
-      margin-bottom: var(--space-6);
+      background:linear-gradient(135deg,#ffffff 0%,#fff7f6 100%);
+      border:1px solid #f3d7d3;
+      border-radius:var(--radius-lg);
+      box-shadow:var(--shadow-md);
+      padding:var(--space-7);
+      margin-bottom:var(--space-6);
     }
 
     .hero h2 {
-      margin: 0 0 var(--space-3);
-      font-size: 42px;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
-      color: var(--text-strong);
+      margin:0 0 var(--space-3);
+      font-size:42px;
+      line-height:1.1;
+      letter-spacing:-.03em;
+      color:var(--text-strong);
     }
 
     .hero p {
-      margin: 0 0 var(--space-4);
-      max-width: 950px;
-      font-size: 20px;
-      color: var(--text-default);
+      margin:0 0 var(--space-4);
+      max-width:980px;
+      font-size:20px;
     }
 
     .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: var(--space-4);
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:var(--space-4);
     }
 
     .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: #fff;
-      border: 1px solid var(--border-default);
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-default);
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:15px;
+      font-weight:600;
     }
 
     .summary-callout {
-      margin-top: var(--space-5);
-      padding: var(--space-4) var(--space-5);
-      border-left: 5px solid var(--spectrum-red-700);
-      background: #fff;
-      border-radius: var(--radius-sm);
-      box-shadow: var(--shadow-sm);
-      font-size: 18px;
+      margin-top:var(--space-5);
+      padding:var(--space-4) var(--space-5);
+      border-left:5px solid var(--red-700);
+      background:#fff;
+      border-radius:var(--radius-sm);
+      box-shadow:var(--shadow-sm);
+      font-size:18px;
     }
 
     .section {
-      background: var(--bg-shell);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow-sm);
-      padding: var(--space-6);
-      margin-bottom: var(--space-6);
+      background:var(--bg-shell);
+      border:1px solid var(--border);
+      border-radius:var(--radius-lg);
+      box-shadow:var(--shadow-sm);
+      padding:var(--space-6);
+      margin-bottom:var(--space-6);
     }
 
     .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: var(--space-4);
-      padding-bottom: var(--space-4);
-      border-bottom: 1px solid var(--border-default);
-      margin-bottom: var(--space-5);
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:var(--space-4);
+      padding-bottom:var(--space-4);
+      border-bottom:1px solid var(--border);
+      margin-bottom:var(--space-5);
     }
 
     .section-header h2 {
-      margin: 0 0 8px;
-      font-size: 34px;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      color: var(--text-strong);
+      margin:0 0 8px;
+      font-size:34px;
+      line-height:1.15;
+      letter-spacing:-.02em;
+      color:var(--text-strong);
     }
 
     .section-header p {
-      margin: 0;
-      font-size: 19px;
-      color: var(--text-muted);
-      max-width: 850px;
+      margin:0;
+      font-size:19px;
+      color:var(--text-muted);
+      max-width:880px;
     }
 
     .tag {
-      white-space: nowrap;
-      background: var(--bg-soft-gray);
-      border: 1px solid var(--border-default);
-      border-radius: 999px;
-      padding: 10px 14px;
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--text-default);
+      white-space:nowrap;
+      background:var(--bg-soft-gray);
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:10px 14px;
+      font-size:14px;
+      font-weight:700;
     }
 
     .positioning {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: var(--space-4);
-      margin-bottom: var(--space-5);
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:var(--space-4);
+      margin-bottom:var(--space-5);
     }
 
     .position-box {
-      background: var(--bg-subtle);
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-md);
-      padding: var(--space-5);
+      background:var(--bg-subtle);
+      border:1px solid var(--border);
+      border-radius:var(--radius-md);
+      padding:var(--space-5);
     }
 
     .position-box h3 {
-      margin: 0 0 10px;
-      font-size: 21px;
-      line-height: 1.25;
-      color: var(--text-strong);
+      margin:0 0 10px;
+      font-size:21px;
+      line-height:1.25;
+      color:var(--text-strong);
     }
 
     .position-box p {
-      margin: 0;
-      font-size: 17px;
-      color: var(--text-default);
+      margin:0;
+      font-size:17px;
     }
 
     .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0,1fr));
-      gap: var(--space-4);
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:var(--space-4);
     }
 
     .card {
-      background: #fff;
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-md);
-      padding: var(--space-5);
-      box-shadow: var(--shadow-sm);
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:var(--radius-md);
+      padding:var(--space-5);
+      box-shadow:var(--shadow-sm);
     }
 
     .card-num {
-      width: 40px;
-      height: 40px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      background: var(--bg-soft-red);
-      color: var(--spectrum-red-700);
-      font-weight: 800;
-      font-size: 18px;
-      margin-bottom: 14px;
+      width:40px;
+      height:40px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      border-radius:999px;
+      background:var(--bg-soft-red);
+      color:var(--red-700);
+      font-weight:800;
+      font-size:18px;
+      margin-bottom:14px;
     }
 
     .card h3 {
-      margin: 0 0 16px;
-      font-size: 24px;
-      line-height: 1.2;
-      color: var(--text-strong);
-      letter-spacing: -0.01em;
+      margin:0 0 16px;
+      font-size:24px;
+      line-height:1.2;
+      color:var(--text-strong);
+      letter-spacing:-.01em;
     }
 
     .label {
-      display: block;
-      margin: 18px 0 8px;
-      font-size: 14px;
-      line-height: 1.2;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--spectrum-red-800);
+      display:block;
+      margin:18px 0 8px;
+      font-size:14px;
+      line-height:1.2;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--red-800);
     }
 
     .card p,
     .card li {
-      font-size: 17px;
-      color: var(--text-default);
+      font-size:17px;
     }
 
     .card ul {
-      margin: 0 0 0 22px;
-      padding: 0;
+      margin:0 0 0 22px;
+      padding:0;
     }
 
-    .card li + li {
-      margin-top: 6px;
-    }
+    .card li + li { margin-top:6px; }
 
     .talk-track {
-      margin-top: var(--space-5);
-      background: #fffdf9;
-      border: 1px solid #ecdcc2;
-      border-radius: var(--radius-md);
-      padding: var(--space-5);
+      margin-top:var(--space-5);
+      background:#fffdf9;
+      border:1px solid #ecdcc2;
+      border-radius:var(--radius-md);
+      padding:var(--space-5);
     }
 
     .talk-track h3 {
-      margin: 0 0 10px;
-      font-size: 20px;
-      color: var(--text-strong);
+      margin:0 0 10px;
+      font-size:20px;
+      color:var(--text-strong);
     }
 
     .talk-track p {
-      margin: 0;
-      font-size: 18px;
-      color: #41362e;
-      font-style: italic;
+      margin:0;
+      font-size:18px;
+      color:#41362e;
+      font-style:italic;
     }
 
     .flow {
-      background: linear-gradient(135deg, #fff 0%, #fff5f4 100%);
-      border: 1px solid #f2d4d0;
-      border-radius: var(--radius-lg);
-      padding: var(--space-6);
-      margin-bottom: var(--space-6);
+      background:linear-gradient(135deg,#fff 0%,#fff5f4 100%);
+      border:1px solid #f2d4d0;
+      border-radius:var(--radius-lg);
+      padding:var(--space-6);
+      margin-bottom:var(--space-6);
     }
 
     .flow h2 {
-      margin: 0 0 10px;
-      font-size: 32px;
-      color: var(--text-strong);
+      margin:0 0 10px;
+      font-size:32px;
+      color:var(--text-strong);
     }
 
     .flow p {
-      margin: 0 0 var(--space-5);
-      font-size: 18px;
-      color: var(--text-muted);
+      margin:0 0 var(--space-5);
+      font-size:18px;
+      color:var(--text-muted);
     }
 
     .flow-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0,1fr));
-      gap: var(--space-4);
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:var(--space-4);
     }
 
     .flow-step {
-      background: #fff;
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-md);
-      padding: var(--space-4);
-      min-height: 170px;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:var(--radius-md);
+      padding:var(--space-4);
+      min-height:172px;
     }
 
     .flow-step .step {
-      display: inline-block;
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--spectrum-red-700);
-      margin-bottom: 10px;
+      display:inline-block;
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--red-700);
+      margin-bottom:10px;
     }
 
     .flow-step h3 {
-      margin: 0 0 10px;
-      font-size: 22px;
-      line-height: 1.2;
-      color: var(--text-strong);
+      margin:0 0 10px;
+      font-size:22px;
+      line-height:1.2;
+      color:var(--text-strong);
     }
 
     .flow-step p {
-      margin: 0 0 8px;
-      font-size: 17px;
-      color: var(--text-default);
+      margin:0 0 8px;
+      font-size:17px;
     }
 
     .flow-step .muted {
-      color: var(--text-muted);
-      font-size: 16px;
+      color:var(--text-muted);
+      font-size:16px;
     }
 
     table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-md);
-      overflow: hidden;
+      width:100%;
+      border-collapse:collapse;
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:var(--radius-md);
+      overflow:hidden;
     }
 
     th, td {
-      text-align: left;
-      vertical-align: top;
-      padding: 16px 18px;
-      border-bottom: 1px solid var(--border-default);
-      font-size: 17px;
+      text-align:left;
+      vertical-align:top;
+      padding:16px 18px;
+      border-bottom:1px solid var(--border);
+      font-size:17px;
     }
 
     th {
-      background: #fafafa;
-      font-size: 14px;
-      font-weight: 800;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
+      background:#fafafa;
+      font-size:14px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:var(--text-muted);
     }
 
-    tr:last-child td {
-      border-bottom: none;
-    }
+    tr:last-child td { border-bottom:none; }
 
     .footer {
-      background: #fff;
-      border: 1px solid var(--border-default);
-      border-radius: var(--radius-md);
-      padding: var(--space-5);
-      font-size: 16px;
-      color: var(--text-muted);
+      background:#fff;
+      border:1px solid var(--border);
+      border-radius:var(--radius-md);
+      padding:var(--space-5);
+      font-size:16px;
+      color:var(--text-muted);
     }
 
-    .footer strong {
-      color: var(--text-strong);
-    }
+    .footer strong { color:var(--text-strong); }
 
-    @media (max-width: 1240px) {
-      .app {
-        grid-template-columns: 1fr;
-      }
-
+    @media (max-width:1240px) {
+      .app { grid-template-columns:1fr; }
       .rail {
-        position: relative;
-        height: auto;
-        border-right: none;
-        border-bottom: 1px solid var(--border-default);
+        position:relative;
+        height:auto;
+        border-right:none;
+        border-bottom:1px solid var(--border);
       }
-
-      .flow-grid {
-        grid-template-columns: 1fr 1fr;
-      }
+      .flow-grid { grid-template-columns:1fr 1fr; }
     }
 
-    @media (max-width: 900px) {
-      .main {
-        padding: var(--space-4);
-      }
-
-      .hero {
-        padding: var(--space-5);
-      }
-
-      .hero h2 {
-        font-size: 34px;
-      }
-
+    @media (max-width:900px) {
+      .main { padding:var(--space-4); }
+      .hero { padding:var(--space-5); }
+      .hero h2 { font-size:34px; }
       .section-header,
       .positioning,
       .grid,
       .flow-grid {
-        grid-template-columns: 1fr;
-        display: grid;
+        grid-template-columns:1fr;
+        display:grid;
       }
-
-      .section-header {
-        gap: 16px;
-      }
+      .section-header { gap:16px; }
     }
 
-    @media (max-width: 640px) {
-      body {
-        font-size: 17px;
-      }
-
-      .hero h2 {
-        font-size: 30px;
-      }
-
-      .section-header h2 {
-        font-size: 28px;
-      }
-
-      .card h3 {
-        font-size: 22px;
-      }
-
-      .flow h2 {
-        font-size: 28px;
-      }
+    @media (max-width:640px) {
+      body { font-size:17px; }
+      .hero h2 { font-size:30px; }
+      .section-header h2 { font-size:28px; }
+      .card h3 { font-size:22px; }
+      .flow h2 { font-size:28px; }
     }
   </style>
 </head>
@@ -558,10 +488,10 @@
         <a class="sub" href="#brand-presence">Scorecard & market view</a>
 
         <a href="#data-insights">2. Data Insights</a>
-        <a class="sub" href="#data-insights">Answer-quality check</a>
+        <a class="sub" href="#data-insights">Answer quality & accuracy</a>
 
         <a href="#agentic-traffic">3. Agentic Traffic</a>
-        <a class="sub" href="#agentic-traffic">Agent readiness</a>
+        <a class="sub" href="#agentic-traffic">Agent readiness & visibility</a>
 
         <a href="#url-inspector">4. URL Inspector</a>
         <a class="sub" href="#url-inspector">Page-level truth</a>
@@ -577,14 +507,13 @@
         <section class="hero" id="overview">
           <h2>LLMO Demo Framework by Dashboard</h2>
           <p>
-            This version is optimized for readability and live demo delivery.
-            Each dashboard has a <strong>clear role</strong>, a <strong>clear message</strong>,
-            and a <strong>clear reason to exist</strong> in the narrative.
+            This structure is designed for live demos. Each dashboard has a clear role in the story,
+            so the audience understands not just what the feature does, but why it matters.
           </p>
 
           <div class="pill-row">
             <span class="pill">Visibility Scorecard</span>
-            <span class="pill">Answer Quality</span>
+            <span class="pill">Answer Quality & Accuracy</span>
             <span class="pill">Agent Readiness</span>
             <span class="pill">URL-Level Truth</span>
             <span class="pill">Human Validation</span>
@@ -593,8 +522,8 @@
           <div class="summary-callout">
             <strong>Core framing:</strong>
             Brand Presence tells you whether you show up.
-            Data Insights tells you whether those are actually good answers.
-            Agentic Traffic tells you whether AI systems can access and read your content.
+            Data Insights tells you whether those are actually good, accurate, and current answers.
+            Agentic Traffic tells you whether AI systems can access and read your content, including at page level.
             URL Inspector tells you which exact pages are winning or missing citations.
             Referral Traffic tells you whether that visibility turns into real human traffic and business value.
           </div>
@@ -702,7 +631,7 @@
           <div class="section-header">
             <div>
               <h2>2. Data Insights</h2>
-              <p>Use this as the <strong>answer-quality and opportunity-analysis layer</strong> behind Brand Presence.</p>
+              <p>Use this as the <strong>answer-quality, accuracy, and opportunity-analysis layer</strong> behind Brand Presence.</p>
             </div>
             <div class="tag">Primary role: answer-quality check</div>
           </div>
@@ -712,15 +641,16 @@
               <h3>Sharpened message</h3>
               <p>
                 <strong>Strong metrics do not guarantee strong answers.</strong>
-                A mention can be stale, weakly grounded, or sourced from the wrong page.
-                Data Insights is where the scorecard becomes an <strong>answer-quality check</strong>.
+                A mention can be stale, weakly grounded, sourced from the wrong page,
+                or no longer accurate. Data Insights is where the scorecard becomes an
+                <strong>answer-quality, accuracy, and currentness check</strong>.
               </p>
             </div>
             <div class="position-box">
               <h3>What it validates</h3>
               <p>
                 Are we showing up in the <strong>right topics</strong>, with the <strong>right position</strong>,
-                and with the <strong>right source grounding</strong>?
+                and with answers that look <strong>accurate, current, and properly grounded</strong>?
               </p>
             </div>
           </div>
@@ -783,7 +713,10 @@
                 <li>Executions or sample size where shown</li>
               </ul>
               <span class="label">Why demo it</span>
-              <p>This is the clearest proof that a good metric still needs an <strong>answer-quality validation</strong>.</p>
+              <p>
+                This is the clearest proof that a good metric still needs an
+                <strong>answer-quality validation</strong> — including whether the answer appears accurate and current.
+              </p>
             </article>
           </div>
 
@@ -791,7 +724,8 @@
             <h3>Suggested talk track</h3>
             <p>
               "Brand Presence gives us the scorecard, but strong metrics do not always mean strong answers.
-              Data Insights is where we check whether those answers are actually useful, well grounded, and sourced from the right place."
+              Data Insights is where we check whether those answers are actually useful, accurate, current, well grounded,
+              and sourced from the right place."
             </p>
           </div>
         </section>
@@ -815,10 +749,11 @@
               </p>
             </div>
             <div class="position-box">
-              <h3>Why this matters</h3>
+              <h3>Important refinement</h3>
               <p>
-                It shows the difference between <strong>traffic volume</strong> and <strong>AI usability</strong>.
-                A page can be hit often and still underperform if it is unreadable or weakly exposed to agents.
+                <strong>Content Visibility is not just a top-line concept.</strong>
+                It can also be examined at the <strong>page level</strong>, which makes it one of the strongest bridges
+                from agentic activity to specific optimization candidates.
               </p>
             </div>
           </div>
@@ -844,11 +779,15 @@
               <div class="card-num">2</div>
               <h3>Content Visibility</h3>
               <span class="label">Where to navigate</span>
-              <p>Stay on <strong>Agentic Traffic</strong> and use the <strong>Content Visibility</strong> area.</p>
+              <p>
+                Stay on <strong>Agentic Traffic</strong>, use the <strong>Content Visibility</strong> area,
+                and then connect it to specific URLs or page-level analysis lower in the dashboard where available.
+              </p>
               <span class="label">What to highlight</span>
               <ul>
                 <li>Whether agents can actually read the content</li>
                 <li>Pages with high demand but weak visibility</li>
+                <li>Page-level visibility gaps, not just overall visibility health</li>
               </ul>
               <span class="label">Why demo it</span>
               <p>This is the must-demo GEO moment: being crawled is not the same as being readable.</p>
@@ -891,7 +830,7 @@
             <h3>Suggested talk track</h3>
             <p>
               "Agentic Traffic shows whether AI systems are actually reaching the site, but the most important question is whether they can read what matters.
-              Content Visibility is the key bridge from raw bot activity to real citation opportunity."
+              Content Visibility is the key bridge from raw bot activity to real citation opportunity, and we can inspect that at page level too."
             </p>
           </div>
         </section>
@@ -1120,7 +1059,7 @@
               <div class="step">Step 2</div>
               <h3>Data Insights</h3>
               <p><strong>Are those good answers?</strong></p>
-              <p class="muted">Validate quality, grounding, topic gaps, and source authority.</p>
+              <p class="muted">Validate quality, accuracy, currentness, grounding, and source authority.</p>
             </div>
             <div class="flow-step">
               <div class="step">Step 3</div>
@@ -1166,11 +1105,11 @@
               </tr>
               <tr>
                 <td><strong>Data Insights</strong></td>
-                <td>The answer-quality and opportunity-analysis layer behind Brand Presence.</td>
+                <td>The answer-quality, accuracy, and opportunity-analysis layer behind Brand Presence.</td>
               </tr>
               <tr>
                 <td><strong>Agentic Traffic</strong></td>
-                <td>The agent-readiness view that shows whether AI systems can reach and read the site.</td>
+                <td>The agent-readiness view that shows whether AI systems can reach, read, and use the site's content.</td>
               </tr>
               <tr>
                 <td><strong>URL Inspector</strong></td>
@@ -1185,9 +1124,8 @@
         </section>
 
         <section class="footer">
-          <strong>Built for readability:</strong>
-          larger base type, stronger hierarchy, cleaner spacing, clearer dashboard roles,
-          and a tighter demo flow from visibility to business impact.
+          <strong>Updated refinements included:</strong>
+          Data Insights now explicitly covers answer accuracy and currentness, and Agentic Traffic now explicitly positions Content Visibility as something that can also be inspected at page level.
         </section>
 
       </div>

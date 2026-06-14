@@ -1012,6 +1012,17 @@
   .ic-discovery { background: var(--gray-200); color: var(--gray-700); }
   @media (max-width: 1000px){ .layer-map { grid-template-columns: repeat(2,1fr);} }
   @media (max-width: 540px){ .layer-map { grid-template-columns: 1fr;} .spine-flow { font-size: var(--t-sm);} }
+  .opp { border:1px solid var(--gray-200); border-left:4px solid var(--blue-500); border-radius: var(--r-md); padding: var(--s-400); margin-bottom: var(--s-300); background: var(--gray-50); }
+  .opp.defend { border-left-color: var(--positive-500); }
+  .opp.house { border-left-color: var(--gray-400); }
+  .opp-head { display:flex; align-items:center; gap: var(--s-200); margin-bottom: var(--s-200); flex-wrap:wrap; }
+  .opp-title { font-size: 1.15rem; font-weight:700; color: var(--gray-900); letter-spacing:-0.01em; }
+  .opp-row { display:grid; grid-template-columns: 116px 1fr; gap: var(--s-300); padding: var(--s-200) 0; border-top:1px solid var(--gray-200); }
+  .opp-body .opp-row:first-child { border-top:none; }
+  .opp-k { font-family: var(--font-mono); font-size:11px; font-weight:700; letter-spacing:0.05em; color: var(--gray-600); text-transform:uppercase; padding-top:3px; }
+  .opp-v { font-size: var(--t-md); color: var(--gray-800); line-height:1.55; }
+  .opp-v strong { color: var(--gray-900); }
+  @media (max-width:640px){ .opp-row{ grid-template-columns:1fr; gap:var(--s-100);} }
 </style>
 
 <!-- ============ ADOBE APP BAR ============ -->
@@ -1042,9 +1053,9 @@
       <span class="breadcrumb-sep">/</span>
       <span>Snapshot</span>
     </div>
-    <h1 class="page-title">UOB owns the citation. <span class="accent">The next step is owning the category.</span></h1>
+    <h1 class="page-title">UOB is the most-cited brand in the set. <span class="accent">Business-account discovery is the weaker layer.</span></h1>
     <p class="page-lede">
-      How AI assistants see United Overseas Bank, over four weeks. Across the questions UOB actually asks of the assistants, the bank isn't just mentioned — it's the source the models trust, more than any competitor. The one open territory is business-account discovery, where the answer still comes from third parties.
+      How AI assistants see United Overseas Bank, over four weeks. Across the questions UOB asks of the assistants, the bank is the most-cited brand in the comparison set, driven by its service topics. Visibility is lower on business-account discovery, where UOB leads share of voice only narrowly and no owned page is among the cited sources.
     </p>
 
     <div class="info-banner">
@@ -1061,13 +1072,13 @@
     <a href="#coverage"><span class="num">A2</span>What's Covered</a>
     <a href="#prompthealth"><span class="num">A3</span>Library Health</a>
     <a href="#kpis"><span class="num">B1</span>Headline</a>
-    <a href="#gaps"><span class="num">B2</span>Win &amp; Gap</a>
-    <a href="#brand"><span class="num">B3</span>Brand Presence</a>
-    <a href="#insights"><span class="num">B4</span>Data Insights</a>
-    <a href="#agentic"><span class="num">B5</span>Agentic Traffic</a>
-    <a href="#citations"><span class="num">B6</span>URL Inspector</a>
-    <a href="#referral"><span class="num">B7</span>Referral Traffic</a>
-    <a href="#actions"><span class="num">C1</span>What To Do</a>
+    <a href="#brand"><span class="num">B2</span>Brand Presence</a>
+    <a href="#insights"><span class="num">B3</span>Data Insights</a>
+    <a href="#citations"><span class="num">B4</span>URL Inspector</a>
+    <a href="#access"><span class="num">B5</span>Access &amp; Impact</a>
+    <a href="#picture"><span class="num">C1</span>The Picture</a>
+    <a href="#opportunities"><span class="num">C2</span>Opportunities</a>
+    <a href="#prioritise"><span class="num">C3</span>Prioritise</a>
   </nav>
 
   <!-- ======================= PART A ======================= -->
@@ -1077,8 +1088,7 @@
     <div class="part-sub">The scope behind the numbers, so Part B reads correctly — including one prompt-source decision that shapes everything downstream.</div>
   </div>
 
-  <!-- ============ A1 SETUP ============ -->
-  <section class="section" id="setup">
+    <section class="section" id="setup">
     <div class="section-head">
       <span class="section-eyebrow">A1</span>
       <span class="section-title">Setup at a glance</span>
@@ -1106,8 +1116,6 @@
       </table>
     </div>
   </section>
-
-  <!-- ============ A2 WHAT'S COVERED ============ -->
   <section class="section" id="coverage">
     <div class="section-head">
       <span class="section-eyebrow">A2</span>
@@ -1117,19 +1125,17 @@
 
     <div class="table-wrap">
       <table class="data">
-        <thead><tr><th>Category</th><th>Intent class</th><th class="num">Prompts</th><th>Visibility</th><th>Read</th></tr></thead>
+        <thead><tr><th>Category</th><th>Intent class</th><th class="num">Prompts</th><th>Visibility</th><th class="num">Dark</th></tr></thead>
         <tbody>
-          <tr><td>UOBS — Contact Centre</td><td><span class="ic ic-branded">Branded · service</span></td><td class="num">41</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width:74.4%"></div></div><div class="bar-val">74.4</div></div></td><td class="accent">strong core</td></tr>
-          <tr><td>UOBS — GWB Business Accounts</td><td><span class="ic ic-discovery">Unbranded · discovery</span></td><td class="num">35</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:50.5%"></div></div><div class="bar-val">50.5</div></div></td><td class="muted">the open territory</td></tr>
+          <tr><td>UOBS — Contact Centre</td><td><span class="ic ic-branded">Branded · service</span></td><td class="num">41</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width:74.4%"></div></div><div class="bar-val">74.4</div></div></td><td class="num pos">0</td></tr>
+          <tr><td>UOBS — GWB Business Accounts</td><td><span class="ic ic-discovery">Unbranded · discovery</span></td><td class="num">35</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:50.5%"></div></div><div class="bar-val">50.5</div></div></td><td class="num warn">2</td></tr>
         </tbody>
       </table>
     </div>
     <div class="note">
-      These two categories <em>are</em> the two intent classes. <strong>Branded · service</strong> (an existing UOB customer — "does UOB appear when named?") is the strong core; <strong>unbranded · discovery</strong> (a prospect — "is UOB chosen unprompted?") is where the room is. Part B keeps them distinct throughout.
+      These two categories <em>are</em> the two intent classes. <strong>Branded · service</strong> (an existing UOB customer) measures whether UOB appears when named; <strong>unbranded · discovery</strong> (a prospect) measures whether UOB is chosen unprompted. Part B reports each separately.
     </div>
   </section>
-
-  <!-- ============ A3 LIBRARY HEALTH ============ -->
   <section class="section" id="prompthealth">
     <div class="section-head">
       <span class="section-eyebrow">A3</span>
@@ -1143,15 +1149,14 @@
       <div class="kpi"><div class="label">Zero-visibility prompts</div><div class="value">2</div><div class="delta flat"><span class="arrow">●</span> of 76 · both unbranded discovery</div></div>
     </div>
     <div class="note">
-      The only two dark prompts — <em>"best business accounts for small businesses"</em> and <em>"how to open company account"</em> — are unbranded business-account questions. They point straight at the one real opportunity (B2, C1).
+      The only two dark prompts — <em>"best business accounts for small businesses"</em> and <em>"how to open company account"</em> — are both unbranded business-account questions.
     </div>
   </section>
-
   <!-- ======================= PART B ======================= -->
   <div class="part measure">
-    <div class="part-eyebrow">Part B · Measurement</div>
-    <div class="part-title">What the AI assistants are doing</div>
-    <div class="part-sub">The five layers, read in order — Visibility, Validation, Access, Sources, Impact. The value is in reading them as one workflow. Three are live; Access and Impact await CDN logs.</div>
+    <div class="part-eyebrow">Part B · What the data says</div>
+    <div class="part-title">What the AI assistants return</div>
+    <div class="part-sub">The evidence behind the opportunities, read across the live dashboards — Brand Presence with Data Insights inside it, then URL Inspector. Access and Impact await CDN logs. Read by category, branded vs unbranded.</div>
   </div>
 
   <div class="layer-map">
@@ -1164,7 +1169,7 @@
     <div class="layer">
       <div class="step">L2 · Validation</div>
       <div class="lname">Data Insights</div>
-      <div class="lq">Are those strong answers — and what explains the score?</div>
+      <div class="lq"><em>within Brand Presence.</em> Are those strong answers — and what explains the score?</div>
       <div class="lstatus live">● Live · B4</div>
     </div>
     <div class="layer pending">
@@ -1194,67 +1199,32 @@
     <span class="sf pending">Impact</span>
   </div>
 
-  <!-- ============ B1 KPIs ============ -->
-  <section class="section" id="kpis">
+    <section class="section" id="kpis">
     <div class="section-head">
       <span class="section-eyebrow">B1</span>
       <span class="section-title">Headline metrics</span>
       <span class="trust ok">✓ Reliable</span>
     </div>
-    <p class="section-subtitle">Eight numbers. The top row is authority; the bottom row is reach. Only one is soft — and it names the opportunity.</p>
+    <p class="section-subtitle">Eight numbers. The top row is cross-brand authority; the bottom row is UOB's visibility by intent class.</p>
 
     <div class="kpi-grid">
-      <div class="kpi"><div class="label">Brand Citations</div><div class="value">155</div><div class="delta up"><span class="arrow">▲</span> 3.0× DBS (52) · the citation leader</div></div>
-      <div class="kpi"><div class="label">Owned Citation Share</div><div class="value">21.3%</div><div class="delta up"><span class="arrow">▲</span> 421 of 1,977 cited URLs are UOB's</div></div>
+      <div class="kpi"><div class="label">Brand Citations</div><div class="value">155</div><div class="delta up"><span class="arrow">▲</span> highest in the set · next: OCBC 58, DBS 52</div></div>
+      <div class="kpi"><div class="label">Owned Citation Share</div><div class="value">21.3%</div><div class="delta up"><span class="arrow">▲</span> 421 of 1,977 citations are UOB-owned</div></div>
       <div class="kpi"><div class="label">Citation momentum</div><div class="value">+31%</div><div class="delta up"><span class="arrow">▲</span> W20 32 → W23 42, rising weekly</div></div>
-      <div class="kpi"><div class="label">Sentiment</div><div class="value">98.6%</div><div class="delta up"><span class="arrow">▲</span> non-negative · 14.9% positive</div></div>
+      <div class="kpi"><div class="label">Negative sentiment</div><div class="value">1.4%</div><div class="delta up"><span class="arrow">▲</span> 14.9% positive · 83.8% neutral</div></div>
       <div class="kpi"><div class="label">Branded — service</div><div class="value">74.8</div><div class="delta up"><span class="arrow">▲</span> "appears when named" · 0 dark</div></div>
       <div class="kpi"><div class="label">Unbranded — discovery</div><div class="value">49.3</div><div class="delta flat"><span class="arrow">●</span> "chosen unprompted" · the open territory</div></div>
       <div class="kpi"><div class="label">Dark prompts</div><div class="value">2</div><div class="delta flat"><span class="arrow">●</span> of 76 · both unbranded discovery</div></div>
       <div class="kpi"><div class="label">Library</div><div class="value">76</div><div class="delta flat"><span class="arrow">●</span> 42 branded · 34 unbranded</div></div>
     </div>
   </section>
-
-  <!-- ============ B2 THE GAPS ============ -->
-  <section class="section" id="gaps">
-    <div class="section-head">
-      <span class="section-eyebrow">B2</span>
-      <span class="section-title">The win and the gap</span>
-      <span class="trust ok">✓ Reliable</span>
-    </div>
-    <p class="section-subtitle">When people ask a <strong>UOB service question</strong>, is the bank the answer? When they ask a <strong>business-account question</strong>, is UOB chosen — or do third parties answer for it?</p>
-
-    <div class="insight">
-      <span class="tag">Central insight</span>
-      <blockquote>
-        UOB is the <em>most-cited</em> brand in the set — 155 citations, three times DBS — and answers nearly everything it's asked. The one open territory is <em>business-account discovery</em>, where the model still reaches for Reddit, Wise and competitors first. Source trust is established; the next move is category reach.
-      </blockquote>
-    </div>
-
-    <div class="gap-viz">
-      <div class="gap-card positive">
-        <div class="gap-label"><span class="ic ic-branded">Branded · service</span> &nbsp;"does UOB appear when named?"</div>
-        <div class="gap-num">74.4</div>
-        <div class="gap-desc">Yes — decisively. The service core averages 74.4 with <em>zero</em> dark prompts, and UOB holds 100% share of voice on payment, transaction-check and fee-waiver questions. Specific, answerable-from-an-owned-page intent is won.</div>
-        <div class="gap-example">e.g. "How do I waive my UOB late payment fee?"</div>
-      </div>
-      <div class="gap-card negative">
-        <div class="gap-label"><span class="ic ic-discovery">Unbranded · discovery</span> &nbsp;"is UOB chosen unprompted?"</div>
-        <div class="gap-num">49.3</div>
-        <div class="gap-desc">Partly. This layer holds both dark prompts, and on SME comparison and account-opening the answer leans on Reddit, Wise, Airwallex and OCBC — the model has no strong owned UOB business-account page to ground on.</div>
-        <div class="gap-example">e.g. "best business accounts for small businesses"</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ B3 BRAND PRESENCE ============ -->
   <section class="section" id="brand">
     <div class="section-head">
-      <span class="section-eyebrow">B3</span>
+      <span class="section-eyebrow">B2</span>
       <span class="section-title">Brand presence</span>
       <span class="trust ok">✓ Reliable</span>
     </div>
-    <p class="section-subtitle"><strong>Are we visible?</strong> UOB is not the loudest brand — but it is by far the most trusted as a source, and that trust is strengthening week on week.</p>
+    <p class="section-subtitle"><strong>Are we visible?</strong> UOB is not the most-mentioned brand, but it is the most-cited, and its citations are rising week on week.</p>
 
     <div class="table-wrap">
       <table class="data">
@@ -1269,7 +1239,7 @@
         </tbody>
       </table>
     </div>
-    <div class="caption" style="margin-top: var(--s-150);"><strong>The headline of the dataset:</strong> DBS is mentioned more, but UOB is cited 3.0× as often — roughly double the citations-per-mention of any peer. When the model needs a source it can stand behind, it picks UOB. <span class="muted">(Cross-brand totals span all executions; competitor figures can't be split by prompt source.)</span></div>
+    <div class="caption" style="margin-top: var(--s-150);">DBS is mentioned more often, but UOB is the most-cited brand (155, vs OCBC 58 and DBS 52) and has the highest citations-per-mention in the set (0.47, vs 0.21 for the next). <span class="muted">(Cross-brand totals span all executions; competitor figures can't be split by prompt source.)</span></div>
 
     <div class="two-col" style="margin-top: var(--s-300);">
       <div class="card">
@@ -1283,105 +1253,94 @@
             <tr><td>W23</td><td class="num">83</td><td class="num accent">42</td></tr>
           </tbody>
         </table>
-        <div class="caption" style="margin-top: var(--s-150);">Mentions flat (~82/week); citations +31%. The same footprint is becoming steadily more citable.</div>
+        <div class="caption" style="margin-top: var(--s-150);">Mentions flat (~82/week); citations rose from 32 to 42 (+31%).</div>
       </div>
       <div>
-        <div class="note" style="margin-top: 0;"><strong>Sentiment is a healthy baseline</strong> — 83.8% neutral, 14.9% positive, 1.4% negative. The constraint is never brand damage; it is breadth.</div>
-        <div class="note alert" style="margin-top: var(--s-200);"><strong>Share of voice splits in two</strong> — 100% on service prompts (payment, fee waivers), but fragmented on SME discovery, where third parties carry the answer (B6).</div>
+        <div class="note" style="margin-top: 0;"><strong>Sentiment</strong> — 83.8% neutral, 14.9% positive, 1.4% negative.</div>
+        <div class="note alert" style="margin-top: var(--s-200);"><strong>Share of voice varies by topic</strong> — UOB reaches 100% on several core service topics, while on business-account topics it leads only narrowly (~13%) in a fragmented field (B6).</div>
       </div>
     </div>
   </section>
-
-  <!-- ============ B4 DATA INSIGHTS ============ -->
   <section class="section" id="insights">
     <div class="section-head">
-      <span class="section-eyebrow">B4</span>
+      <span class="section-eyebrow">B3</span>
       <span class="section-title">Data insights</span>
       <span class="trust ok">✓ Reliable</span>
     </div>
-    <p class="section-subtitle"><strong>Are those strong answers — and what explains the score?</strong> The pattern is clean: service intent wins outright; business-account discovery is the softer layer — and the branded / unbranded split explains why.</p>
+    <p class="section-subtitle"><strong>Are those strong answers — and what explains the score?</strong> Data Insights sits within Brand Presence: topic- and prompt-level inspection of the visibility score — where demand is high, how visible UOB is, and who the answers are grounded on. Read by category.</p>
 
     <div class="two-col">
       <div>
-        <h3 class="subhead"><span class="ic ic-branded">Branded · service</span> &nbsp;the strong core</h3>
+        <h3 class="subhead"><span class="ic ic-branded">Branded · service</span> &nbsp;Contact Centre</h3>
         <div class="table-wrap">
           <table class="data">
-            <thead><tr><th>Topic</th><th class="num">Visibility</th></tr></thead>
+            <thead><tr><th>Topic</th><th>Popularity</th><th class="num">Visibility</th></tr></thead>
             <tbody>
-              <tr><td>How much should I pay?</td><td class="num pos">78.0</td></tr>
-              <tr><td>Please waive the late fee</td><td class="num pos">77.3</td></tr>
-              <tr><td>Unrecognised transactions</td><td class="num pos">77.0</td></tr>
-              <tr><td>Please waive the annual fee</td><td class="num pos">76.5</td></tr>
-              <tr><td>Promotion eligibility</td><td class="num pos">75.6</td></tr>
-              <tr><td>Please waive the interest charge</td><td class="num pos">75.0</td></tr>
+              <tr><td>How much should I pay?</td><td class="muted">Medium</td><td class="num pos">78.0</td></tr>
+              <tr><td>Please waive the late fee</td><td class="muted">Low</td><td class="num pos">77.3</td></tr>
+              <tr><td>Unrecognised transactions</td><td class="muted">Medium</td><td class="num pos">77.0</td></tr>
+              <tr><td>Please waive the annual fee</td><td class="muted">Low</td><td class="num pos">76.5</td></tr>
+              <tr><td>Promotion eligibility</td><td class="muted">Low</td><td class="num pos">75.6</td></tr>
+              <tr><td>Please waive the interest charge</td><td class="muted">Low</td><td class="num pos">75.0</td></tr>
             </tbody>
           </table>
         </div>
       </div>
       <div>
-        <h3 class="subhead"><span class="ic ic-discovery">Unbranded · discovery</span> &nbsp;the open layer</h3>
+        <h3 class="subhead"><span class="ic ic-discovery">Unbranded · discovery</span> &nbsp;GWB Business Accounts</h3>
         <div class="table-wrap">
           <table class="data">
-            <thead><tr><th>Topic</th><th class="num">Visibility</th></tr></thead>
+            <thead><tr><th>Topic</th><th>Popularity</th><th class="num">Visibility</th></tr></thead>
             <tbody>
-              <tr><td>Bank &amp; Account Comparison</td><td class="num warn">65.0</td></tr>
-              <tr><td>Account Opening</td><td class="num warn">46.1</td></tr>
-              <tr><td>Fees, Rates &amp; Benefits</td><td class="num warn">41.0</td></tr>
-              <tr><td>Requirements &amp; Eligibility</td><td class="num warn">30.5</td></tr>
-              <tr><td class="muted">"best business accounts…" <span class="muted">(dark)</span></td><td class="num neg">0.0</td></tr>
-              <tr><td class="muted">"how to open company account" <span class="muted">(dark)</span></td><td class="num neg">0.0</td></tr>
+              <tr><td>Bank &amp; Account Comparison</td><td class="accent">High</td><td class="num warn">65.0</td></tr>
+              <tr><td>Account Opening</td><td class="accent">High</td><td class="num warn">46.1</td></tr>
+              <tr><td>Fees, Rates &amp; Benefits</td><td class="muted">Medium</td><td class="num warn">41.0</td></tr>
+              <tr><td>Requirements &amp; Eligibility</td><td class="muted">Medium</td><td class="num warn">30.5</td></tr>
+              <tr><td class="muted">"best business accounts…" (dark)</td><td class="muted">—</td><td class="num neg">0.0</td></tr>
+              <tr><td class="muted">"how to open company account" (dark)</td><td class="muted">—</td><td class="num neg">0.0</td></tr>
             </tbody>
           </table>
         </div>
       </div>
     </div>
+    <div class="note">
+      <strong>Demand vs visibility.</strong> The two high-popularity business-account topics are <em>Account Opening</em> (visibility 46.1) and <em>Bank &amp; Account Comparison</em> (65.0). Contact-centre topics are all medium or low popularity, at 65–78 visibility.
+    </div>
 
-    <h3 class="subhead">Branded vs unbranded — the category-authority gap</h3>
+    <h3 class="subhead">What grounds the answers — and who owns them</h3>
     <div class="table-wrap">
       <table class="data">
-        <thead><tr><th>Prompt type</th><th>What it measures</th><th class="num">Prompts</th><th>Visibility</th><th class="num">Dark</th></tr></thead>
+        <thead><tr><th>Category</th><th>Intent class</th><th class="num">All citations</th><th class="num">Owned</th><th>Owned share</th></tr></thead>
         <tbody>
-          <tr><td>Branded — service</td><td class="muted">Does UOB appear when named?</td><td class="num">42</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width:74.8%"></div></div><div class="bar-val">74.8</div></div></td><td class="num pos">0</td></tr>
-          <tr><td>Unbranded — discovery</td><td class="muted">Is UOB chosen unprompted?</td><td class="num">34</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:49.3%"></div></div><div class="bar-val">49.3</div></div></td><td class="num warn">2</td></tr>
+          <tr><td>Contact Centre</td><td><span class="ic ic-branded">Branded · service</span></td><td class="num">931</td><td class="num">390</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width:41.9%"></div></div><div class="bar-val">41.9%</div></div></td></tr>
+          <tr><td>GWB Business Accounts</td><td><span class="ic ic-discovery">Unbranded · discovery</span></td><td class="num">1,010</td><td class="num">26</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill neg" style="width:2.6%"></div></div><div class="bar-val">2.6%</div></div></td></tr>
         </tbody>
       </table>
     </div>
-    <div class="note alert">
-      <strong>Two measures, read separately.</strong> Branded prompts (74.8) capture visibility when UOB is named; unbranded prompts (49.3) capture whether the model <em>chooses</em> UOB unprompted — the harder, more valuable signal, and where the two dark prompts sit. That gap is the category-authority opportunity, and it closes with <strong>owned, authoritative content the model can ground on</strong> for business-account questions.
+    <div class="note">
+      <strong>Grounded, but the owned share splits sharply by category.</strong> Both categories' answers are heavily grounded in citations. On contact-centre (branded · service) questions, 41.9% of citations are UOB-owned pages; on business-account (unbranded · discovery) questions, the answers draw on 1,010 citations with 2.6% UOB-owned — the rest are third-party and competitor sources (B6).
     </div>
+
+    <h3 class="subhead">Prompt-level drill — answer-level inspection</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">Two representative prompts, one per category, with position, sentiment and citation sources at the answer level.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Prompt</th><th>Intent</th><th>Position</th><th>Sentiment</th><th>Citation sources</th></tr></thead>
+        <tbody>
+          <tr><td>"How do I waive my UOB late payment fee?"</td><td><span class="ic ic-branded">Branded · service</span></td><td>1st</td><td class="muted">Neutral</td><td>33 cited · <strong style="color:var(--positive-600);">11 UOB-owned</strong> / 22 other</td></tr>
+          <tr><td>"which bank is easiest to open a company account in Singapore?"</td><td><span class="ic ic-discovery">Unbranded · discovery</span></td><td>6–10</td><td class="muted">Neutral</td><td>39 cited · <strong style="color:var(--negative-600);">0 UOB-owned</strong> / 39 other</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption" style="margin-top: var(--s-150);">On the branded service prompt UOB is cited first and grounds the answer partly on its own pages; on the unbranded discovery prompt UOB sits 6th–10th with none of the 39 citations on a UOB page.</div>
   </section>
-
-  <!-- ============ B5 AGENTIC TRAFFIC (PENDING) ============ -->
-  <section class="section" id="agentic">
-    <div class="section-head">
-      <span class="section-eyebrow">B5</span>
-      <span class="section-title">Agentic traffic</span>
-      <span class="trust caution">◐ Pending CDN logs</span>
-    </div>
-    <p class="section-subtitle"><strong>Can agents reach and read the site?</strong> Crawl success, response codes, speed and machine-readable visibility. This layer needs CDN / server logs, which haven't been supplied — below is what it will report once they land.</p>
-
-    <div class="funnel">
-      <div class="funnel-row pending"><div class="stage"><span class="src pending">PENDING</span>Agentic crawl hits</div><div class="volume">—</div><div class="conv">—</div></div>
-      <div class="funnel-row pending"><div class="stage"><span class="src pending">PENDING</span>200 / 301 / 404 / 503 response mix</div><div class="volume">—</div><div class="conv">—</div></div>
-      <div class="funnel-row pending"><div class="stage"><span class="src pending">PENDING</span>Average response time (TTFB)</div><div class="volume">—</div><div class="conv">—</div></div>
-      <div class="funnel-row pending"><div class="stage"><span class="src pending">PENDING</span>Content visibility — readability by page</div><div class="volume">—</div><div class="conv">—</div></div>
-    </div>
-    <div class="funnel-legend">
-      <span><span class="lg pending">PENDING</span> requires CDN / server logs &amp; RUM telemetry</span>
-    </div>
-    <div class="note alert">
-      The owned-URL export shows no referral hits and blank content-visibility fields, so no crawl, access or readability conclusion can be drawn yet. <strong>Action:</strong> supply CDN logs to populate this layer.
-    </div>
-  </section>
-
-  <!-- ============ B6 URL INSPECTOR ============ -->
   <section class="section" id="citations">
     <div class="section-head">
-      <span class="section-eyebrow">B6</span>
+      <span class="section-eyebrow">B4</span>
       <span class="section-title">URL Inspector — authority map</span>
       <span class="trust ok">✓ Reliable</span>
     </div>
-    <p class="section-subtitle"><strong>Which URLs win citations?</strong> UOB's owned citations are concentrated in service pages. The open territory is business-account discovery, where publishers and challengers do the citing.</p>
+    <p class="section-subtitle"><strong>Which URLs win citations?</strong> UOB's owned citations concentrate in service pages; on business-account topics, third-party and competitor domains are the cited sources.</p>
 
     <div class="two-col">
       <div class="stat-list">
@@ -1396,7 +1355,7 @@
             <tr><td style="font-weight: 600;">airwallex.com</td><td class="num accent">5.7</td></tr>
             <tr><td style="font-weight: 600;">ocbc.com</td><td class="num accent">5.6</td></tr>
             <tr><td style="font-weight: 600;">statrys.com</td><td class="num">5.2</td></tr>
-            <tr><td style="font-weight: 700;">uob.com.sg <span class="muted" style="font-weight:400;">UOB owned</span></td><td class="num pos">5.1</td></tr>
+            <tr style="background: var(--positive-100);"><td style="font-weight: 700;">uob.com.sg <span class="ic ic-branded" style="margin-left:4px;">UOB owned</span></td><td class="num pos" style="font-weight:800;">5.1</td></tr>
             <tr><td class="muted" style="font-weight: 500;">reddit.com</td><td class="num muted">2.3</td></tr>
           </tbody>
         </table>
@@ -1417,102 +1376,151 @@
         </tbody>
       </table>
     </div>
-    <div class="caption" style="margin-top: var(--s-150);">Every winning page is a specific, task-oriented service page. There is no owned business-account page winning discovery yet — which is exactly the gap.</div>
+    <div class="caption" style="margin-top: var(--s-150);">Every top owned page is a specific, task-oriented service page. No owned business-account page appears among them.</div>
 
-    <h3 class="subhead">Who answers business-account discovery instead</h3>
+    <h3 class="subhead">Most-cited non-owned domains</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">Citation totals across all topics, not business-account only. Topic focus is from each domain's category tags.</p>
     <div class="table-wrap">
       <table class="data">
-        <thead><tr><th>Domain</th><th>Type</th><th class="num">Citations</th><th>Role</th></tr></thead>
+        <thead><tr><th>Domain</th><th>Type</th><th class="num">Citations</th><th>Topic focus</th></tr></thead>
         <tbody>
-          <tr><td>reddit.com</td><td><span class="tag-pill others">Others</span></td><td class="num">375</td><td class="muted">Community recommendations</td></tr>
-          <tr><td>wise.com</td><td><span class="tag-pill others">Others</span></td><td class="num">180</td><td class="muted">Transfer &amp; business-account comparison</td></tr>
-          <tr><td>airwallex.com</td><td><span class="tag-pill others">Others</span></td><td class="num">136</td><td class="muted">SME banking comparison</td></tr>
-          <tr><td>ocbc.com · dbs.com.sg</td><td><span class="tag-pill others">Others</span></td><td class="num">217</td><td class="muted">Direct competitor sources</td></tr>
-          <tr><td>statrys.com · growacross.com</td><td><span class="tag-pill earned">Earned</span></td><td class="num">161</td><td class="muted">SME comparison publishers</td></tr>
+          <tr><td>reddit.com</td><td><span class="tag-pill others">Others</span></td><td class="num">375</td><td class="muted">All topics (community)</td></tr>
+          <tr><td>wise.com</td><td><span class="tag-pill others">Others</span></td><td class="num">180</td><td class="muted">Mixed, incl. business accounts</td></tr>
+          <tr><td>airwallex.com</td><td><span class="tag-pill others">Others</span></td><td class="num">136</td><td class="muted">Business accounts</td></tr>
+          <tr><td>ocbc.com</td><td><span class="tag-pill others">Others</span></td><td class="num">111</td><td class="muted">Business accounts (competitor)</td></tr>
+          <tr><td>dbs.com.sg</td><td><span class="tag-pill others">Others</span></td><td class="num">106</td><td class="muted">Mixed (competitor)</td></tr>
+          <tr><td>statrys.com</td><td><span class="tag-pill others">Others</span></td><td class="num">98</td><td class="muted">Business accounts</td></tr>
         </tbody>
       </table>
     </div>
-    <div class="note">
-      <strong>The move:</strong> owned, AI-readable business-account content that answers "which UOB account suits which business" — with fees, requirements and comparison framing — so the model grounds on UOB instead of the aggregators.
-    </div>
+    <div class="caption" style="margin-top: var(--s-150);">UOB-affiliated earned domains are also cited (uobgroup.com 260, uob.com.my 95). On business-account topics specifically, the cited non-owned sources are led by specialist players — Airwallex, OCBC, Statrys and Wise. <span class="muted">Citation-attempt and referral-hit fields are not populated in this export, so the "considered but not converting" and "cited but not clicked" patterns can't be assessed yet.</span></div>
   </section>
-
-  <!-- ============ B7 REFERRAL TRAFFIC (PENDING) ============ -->
-  <section class="section" id="referral">
+  <!-- ============ B5 ACCESS & IMPACT (PENDING) ============ -->
+  <section class="section" id="access">
     <div class="section-head">
-      <span class="section-eyebrow">B7</span>
-      <span class="section-title">Referral traffic</span>
+      <span class="section-eyebrow">B5</span>
+      <span class="section-title">Access &amp; impact</span>
       <span class="trust caution">◐ Pending CDN logs</span>
     </div>
-    <p class="section-subtitle"><strong>Did that create real outcomes?</strong> From AI answer to on-site session and conversion. Visibility and citation success are measurable now; traffic impact is not yet — it needs CDN logs and event instrumentation.</p>
-
-    <div class="funnel">
-      <div class="funnel-row pending"><div class="stage"><span class="src pending">PENDING</span>Agentic crawl hits</div><div class="volume">—</div><div class="conv">—</div></div>
-      <div class="funnel-row pending"><div class="stage"><span class="src pending">PENDING</span>Citation attempts → times cited</div><div class="volume">—</div><div class="conv">—</div></div>
-      <div class="funnel-row pending"><div class="stage"><span class="src pending">PENDING</span>LLM referrals (AI-driven sessions)</div><div class="volume">—</div><div class="conv">—</div></div>
-      <div class="funnel-row pending"><div class="stage"><span class="src pending">PENDING</span>Landing-page, bounce &amp; conversion</div><div class="volume">—</div><div class="conv">—</div></div>
-    </div>
-    <div class="funnel-legend">
-      <span><span class="lg pending">PENDING</span> requires CDN logs + event-level instrumentation</span>
-    </div>
-    <div class="note">
-      Today's takeaway: UOB is winning the citation — the prerequisite for the referral. Once the logs land, this layer closes the loop from "is UOB cited?" to "did it drive a visit and an action?".
-    </div>
+    <p class="section-subtitle"><strong>Can agents reach the site, and does visibility turn into visits?</strong> The Agentic (access) and Referral (impact) layers need CDN logs and event instrumentation, which haven't been supplied — so crawl health, machine-readability and on-site outcomes aren't measurable yet.</p>
+    <div class="note alert">The owned-URL export shows zero citation attempts, zero referral hits and blank content-visibility fields. Once CDN logs land, these layers report crawl success and readability by page (access), then connect citations to sessions and conversions (impact) — closing the loop from "is UOB cited?" to "did it drive a visit and an action?".</div>
   </section>
-
   <!-- ======================= PART C ======================= -->
   <div class="part action">
-    <div class="part-eyebrow">Part C · Action</div>
-    <div class="part-title">What to do</div>
-    <div class="part-sub">Three moves: tidy the library, win the open territory, and keep the service core winning.</div>
+    <div class="part-eyebrow">Part C · Opportunities</div>
+    <div class="part-title">Where the opportunity is — and how to act</div>
+    <div class="part-sub">The data points to two opportunities — one to win, one to defend — plus housekeeping. Each is framed the same way: the evidence, why it matters, what to do, and how we'll know it worked.</div>
   </div>
-
-  <section class="section" id="actions">
+  <section class="section" id="picture">
     <div class="section-head">
       <span class="section-eyebrow">C1</span>
-      <span class="section-title">The plan</span>
+      <span class="section-title">The picture in one view</span>
+      
     </div>
-    <p class="section-subtitle">Three priorities, then the full list.</p>
+    <p class="section-subtitle">When people ask a <strong>UOB service question</strong>, is the bank the answer? When they ask a <strong>business-account question</strong>, is UOB chosen — or do third parties answer for it?</p>
 
-    <div class="actions">
-      <div class="action">
-        <div class="num-tag">01</div>
-        <h4>Win business-account &amp; SME discovery</h4>
-        <p>The one open territory. Build owned, AI-readable content answering "which UOB business account suits which business" — with fees, requirements and comparison framing — so the model grounds on UOB, not Reddit and Wise. The 91-vs-49 branded gap shows the upside is real.</p>
-      </div>
-      <div class="action">
-        <div class="num-tag">02</div>
-        <h4>Earn authority in the SME arena</h4>
-        <p>The model already cites Reddit, Wise, Airwallex and comparison publishers on these questions. Get UOB into that conversation with accurate, well-structured pages and earned coverage, so it is surfaced and cited alongside — and instead of — them. Unbranded discovery visibility is the measure to track here.</p>
-      </div>
-      <div class="action">
-        <div class="num-tag">03</div>
-        <h4>Protect &amp; scale the service core</h4>
-        <p>The card-service pages carry UOB's citation leadership. Treat them as the content-quality benchmark and extend the same clarity to adjacent service journeys.</p>
-      </div>
+    <div class="insight">
+      <span class="tag">Central insight</span>
+      <blockquote>
+        UOB is the <em>most-cited</em> brand in the set — 155 citations, ahead of OCBC (58) and DBS (52) — driven by its service topics, where it reaches 100% share of voice on several. Visibility is lower on <em>business-account discovery</em> (49.3 vs 74.8 branded): UOB leads share of voice there only narrowly, and no owned UOB page is among the cited sources.
+      </blockquote>
     </div>
 
-    <h3 class="subhead">Full prioritised list</h3>
+    <div class="gap-viz">
+      <div class="gap-card positive">
+        <div class="gap-label"><span class="ic ic-branded">Branded · service</span> &nbsp;"does UOB appear when named?"</div>
+        <div class="gap-num">74.4</div>
+        <div class="gap-desc">The service core averages 74.4 visibility with <em>zero</em> dark prompts. UOB reaches 100% share of voice on several core service topics — payment, transaction checks, and late-fee and interest-charge waivers — and leads share of voice on the rest.</div>
+        <div class="gap-example">e.g. "How do I waive my UOB late payment fee?"</div>
+      </div>
+      <div class="gap-card negative">
+        <div class="gap-label"><span class="ic ic-discovery">Unbranded · discovery</span> &nbsp;"is UOB chosen unprompted?"</div>
+        <div class="gap-num">49.3</div>
+        <div class="gap-desc">This layer holds both dark prompts and averages 49.3. On comparison and account-opening UOB leads share of voice but only narrowly (~13%, in a fragmented field), and no owned UOB business-account page is among the cited sources — those are specialist and competitor domains.</div>
+        <div class="gap-example">e.g. "best business accounts for small businesses"</div>
+      </div>
+    </div>
+  </section>
+  <!-- ============ C2 OPPORTUNITIES ============ -->
+  <section class="section" id="opportunities">
+    <div class="section-head">
+      <span class="section-eyebrow">C2</span>
+      <span class="section-title">The opportunities</span>
+    </div>
+    <p class="section-subtitle">Two to act on now, plus the housekeeping that keeps the data honest.</p>
+
+    <div class="opp">
+      <div class="opp-head"><span class="opp-title">1 · Win business-account &amp; SME discovery</span><span class="tag-pill">Manual opportunity</span><span class="ic ic-discovery">Unbranded · discovery</span></div>
+      <div class="opp-body">
+        <div class="opp-row"><div class="opp-k">Evidence</div><div class="opp-v">Business-account answers are heavily grounded — 1,010 citations — but only <strong>2.6%</strong> are UOB-owned; the rest are publishers and competitors (Reddit, Wise, Airwallex, OCBC, Statrys). <em>Account Opening</em> is High-popularity at <strong>46.1</strong> visibility with no owned page among 333 citations, and both dark prompts sit here. <span class="muted">Brand Presence + Data Insights + URL Inspector.</span></div></div>
+        <div class="opp-row"><div class="opp-k">Why it matters</div><div class="opp-v">This is where prospects choose a bank. Demand already exists and the model already answers confidently — it simply isn't choosing UOB's content as the source. The score is recoverable because the answer is being given; what's missing is owned authority. This is the pattern <em>"answers are sourced, but not from us."</em></div></div>
+        <div class="opp-row"><div class="opp-k">Action</div><div class="opp-v">Build owned, AI-readable business-account content that answers the discovery questions directly — an <strong>Account-Opening decision page</strong> (documents, eligibility, foreign-owned, timeline), a <strong>UOB-vs-others comparison</strong>, and <strong>fees / rates / multi-currency</strong> — and earn coverage in the SME-publisher arena where the citations currently land.</div></div>
+        <div class="opp-row"><div class="opp-k">How we'll know</div><div class="opp-v">Owned citation share on business-account topics rises above 2.6%; <em>Account Opening</em> and <em>Comparison</em> visibility climb out of the 40s–60s; the two dark prompts return a non-zero score.</div></div>
+      </div>
+    </div>
+
+    <div class="opp defend">
+      <div class="opp-head"><span class="opp-title">2 · Defend the service core</span><span class="tag-pill pos">Defend the win</span><span class="ic ic-branded">Branded · service</span></div>
+      <div class="opp-body">
+        <div class="opp-row"><div class="opp-k">Evidence</div><div class="opp-v">Contact-centre topics average <strong>74.4</strong> visibility with zero dark prompts, 100% share of voice on several core topics, 1st-position answers and neutral/positive sentiment. UOB owns <strong>41.9%</strong> of the citations on these questions. <span class="muted">Brand Presence + Data Insights + URL Inspector.</span></div></div>
+        <div class="opp-row"><div class="opp-k">Why it wins</div><div class="opp-v">It isn't luck. Specific, UOB-named questions meet owned, well-structured, AI-readable service pages (card customer-service, fee-waiver, card-services), so the model grounds answers on UOB's own content. That owned grounding is the asset that produces the high score.</div></div>
+        <div class="opp-row"><div class="opp-k">What erodes it</div><div class="opp-v">Those pages going stale or being restructured, competitors starting to be cited on the same topics, or sentiment slipping. Visibility is re-scored continuously, so a won topic is not permanently won.</div></div>
+        <div class="opp-row"><div class="opp-k">How to keep it</div><div class="opp-v">Keep the cited service pages accurate and current; treat them as the content-quality template; monitor weekly for visibility or sentiment drift and for new competitor citations; and extend the same page structure to adjacent service journeys before gaps open.</div></div>
+        <div class="opp-row"><div class="opp-k">How we'll know</div><div class="opp-v">Branded · service visibility holds in the mid-70s or above; owned citation share stays around 40%+; sentiment stays non-negative; no service topic drifts dark.</div></div>
+      </div>
+    </div>
+
+    <div class="opp house">
+      <div class="opp-head"><span class="opp-title">3 · Housekeeping &amp; enablement</span><span class="tag-pill">Direct fixes</span></div>
+      <div class="opp-body">
+        <div class="opp-row"><div class="opp-k">Remove</div><div class="opp-v">Delete the <strong>50 auto-generated prompts</strong> (all US, never curated). They don't reflect UOB customer questions and produced every weak result in the trial; removing them keeps the library measuring the real thing.</div></div>
+        <div class="opp-row"><div class="opp-k">Enable</div><div class="opp-v">Supply <strong>CDN logs</strong> to light up the Access and Impact layers — so crawl health becomes visible and the citation wins can be tied to on-site sessions and conversions.</div></div>
+      </div>
+    </div>
+  </section>
+  <!-- ============ C3 PRIORITISE & MEASURE ============ -->
+  <section class="section" id="prioritise">
+    <div class="section-head">
+      <span class="section-eyebrow">C3</span>
+      <span class="section-title">Prioritise &amp; measure</span>
+    </div>
+    <p class="section-subtitle">Ordered by impact × effort × strength of evidence — then the metrics that tell us each is working.</p>
+
     <div class="table-wrap">
       <table class="data">
-        <thead><tr><th>Priority</th><th>Action</th><th>Type</th><th>Impact</th><th>Effort</th></tr></thead>
+        <thead><tr><th>Priority</th><th>Move</th><th>Impact</th><th>Effort</th><th>Why this order</th></tr></thead>
         <tbody>
-          <tr><td><span class="tag-pill p0">P0</span></td><td>Build owned, AI-readable business-account comparison content</td><td class="muted">Content</td><td class="pos">High</td><td class="muted">High</td></tr>
-          <tr><td><span class="tag-pill p0">P0</span></td><td>Remove the 50 auto-generated prompts from the library</td><td class="muted">Config</td><td class="pos">High</td><td class="muted">Low</td></tr>
-          <tr><td><span class="tag-pill p1">P1</span></td><td>Earn citations in the SME-discovery arena (publishers, comparisons)</td><td class="muted">Authority</td><td class="pos">High</td><td class="muted">Med</td></tr>
-          <tr><td><span class="tag-pill p1">P1</span></td><td>Protect &amp; scale the proven service-content winners</td><td class="muted">Content</td><td class="pos">High</td><td class="muted">Med</td></tr>
-          <tr><td><span class="tag-pill p3">P3</span></td><td>Supply CDN logs to validate Agentic + Referral layers</td><td class="muted">Data / Technical</td><td class="muted">Med</td><td class="muted">Low</td></tr>
+          <tr><td><span class="tag-pill p0">P0</span></td><td>Build owned business-account discovery content</td><td class="num pos">High</td><td class="muted">High</td><td class="muted">Demand and grounding already exist (1,010 citations); only ownership is missing.</td></tr>
+          <tr><td><span class="tag-pill p0">P0</span></td><td>Remove the 50 auto-generated prompts</td><td class="num pos">High</td><td class="muted">Low</td><td class="muted">Quick hygiene; stops weak results distorting the read.</td></tr>
+          <tr><td><span class="tag-pill p1">P1</span></td><td>Defend &amp; extend the service core</td><td class="num pos">High</td><td class="muted">Med</td><td class="muted">Protects the largest source of owned citations.</td></tr>
+          <tr><td><span class="tag-pill p1">P1</span></td><td>Earn SME-publisher coverage</td><td class="num pos">High</td><td class="muted">Med</td><td class="muted">Reaches the domains already winning these citations.</td></tr>
+          <tr><td><span class="tag-pill p3">P3</span></td><td>Supply CDN logs (Access + Impact)</td><td class="muted">Med</td><td class="muted">Low</td><td class="muted">Unlocks two more measurement layers.</td></tr>
         </tbody>
       </table>
     </div>
+
+    <h3 class="subhead">What to watch next</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Opportunity</th><th>Metric to watch</th><th class="num">Now</th><th>Target / direction</th></tr></thead>
+        <tbody>
+          <tr><td>Win discovery</td><td>Owned citation share · business accounts</td><td class="num neg">2.6%</td><td><strong style="color:var(--positive-600);">Rising</strong></td></tr>
+          <tr><td>Win discovery</td><td>Account Opening visibility</td><td class="num warn">46.1</td><td><strong style="color:var(--positive-600);">Into the 60s</strong></td></tr>
+          <tr><td>Win discovery</td><td>Dark prompts</td><td class="num warn">2</td><td><strong style="color:var(--positive-600);">0</strong></td></tr>
+          <tr><td>Defend service</td><td>Branded · service visibility</td><td class="num pos">74.4</td><td class="muted">Hold mid-70s+</td></tr>
+          <tr><td>Defend service</td><td>Owned citation share · service</td><td class="num pos">41.9%</td><td class="muted">Hold ~40%+</td></tr>
+          <tr><td>All</td><td>Negative sentiment</td><td class="num pos">1.4%</td><td class="muted">Stays low</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption" style="margin-top: var(--s-150);">Visibility is re-scored continuously; review these weekly during the content build and monthly thereafter.</div>
 
     <div class="strategic">
       <span class="tag-pill">In short</span>
-      <div class="strategic-h">UOB owns the citation. The path to owning the <em>category</em> is already visible.</div>
-      <p class="strategic-p">UOB has the highest citation authority in the set — three times DBS, rising weekly, uncontested on service intent. The one open territory is business-account discovery, where owned, decision-stage content can take the answer back from the aggregators. The authority is there; the next move is reach.</p>
+      <div class="strategic-h">UOB leads brand citations in the set; business-account discovery is the open layer.</div>
+      <p class="strategic-p">UOB is the most-cited brand in the comparison set (155, ahead of OCBC 58 and DBS 52), with citations rising across the four weeks and 100% share of voice on several core service topics. The service core is won and worth defending; business-account discovery is the open opportunity — answers there are grounded on 1,010 citations with only 2.6% UOB-owned. Owned, decision-stage business-account content is the lever to raise it.</p>
     </div>
   </section>
-
   <!-- ============ FOOTER ============ -->
   <footer>
     <div class="footer-grid">

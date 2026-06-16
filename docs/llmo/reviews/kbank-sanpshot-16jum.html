@@ -1,0 +1,1561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasikornbank · Snapshot · Adobe LLM Optimiser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     Adobe Spectrum design tokens
+     ============================================================ */
+  :root {
+    /* Gray scale (Spectrum light) */
+    --gray-50:  #FFFFFF;
+    --gray-75:  #FAFAFA;
+    --gray-100: #F5F5F5;
+    --gray-200: #EAEAEA;
+    --gray-300: #E1E1E1;
+    --gray-400: #CACACA;
+    --gray-500: #B3B3B3;
+    --gray-600: #8E8E8E;
+    --gray-700: #6E6E6E;
+    --gray-800: #4B4B4B;
+    --gray-900: #2C2C2C;
+
+    /* Spectrum blue — primary accent */
+    --blue-400: #2680EB;
+    --blue-500: #1473E6;
+    --blue-600: #0D66D0;
+    --blue-700: #095ABA;
+    --blue-800: #064E9F;
+    --blue-100: #E0F2FF;
+    --blue-75:  #EDF7FF;
+
+    /* Semantic */
+    --positive-500: #2D9D78;
+    --positive-100: #DEF2EA;
+    --negative-500: #E34850;
+    --negative-600: #D7373F;
+    --negative-100: #FAE5E5;
+    --notice-500:   #E68619;
+    --notice-100:   #FBE8C9;
+    --informative-500: #1473E6;
+
+    /* Categorical (data viz) */
+    --cat-1: #1473E6;
+    --cat-2: #6431AB;
+    --cat-3: #C81E70;
+    --cat-4: #BD5F00;
+    --cat-5: #268E6C;
+
+    /* Adobe brand identifier — used only for product mark */
+    --adobe-red: #EB1000;
+    --adobe-logo: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABHCAYAAACQwsCOAAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAAAPkklEQVR42t1cbXBc1Xl+3vfc1WpXkiX5g2BblmzZlqlpsV2DwzgOKMGAMR+FAAZsQh0bbGNKJy2TuqXp2G6ZgTTTZCZpKZihNCFAY6eZUEhraCe22yTtNHy0TJoYsI0NFAz+QELSrnb3nvfpj7sLQpFsae+ubHpndnZnP84999n363nec65gDA8CTgD/1Pi6BxYhv76b8AK4OGMaYXWOutcnfr60K7uAgBeAY3VNwRiCJwr46888c1J77viKRisgEKjGH1rVi50t+PVv1iWXSF9uz3bArQD8WFyXjhWAuwFHANdmu26ZBWvuEYQExCO60jiPAmETxHBWAncC4PVj6FVjBaB0Ah64MJgu+ILQwAqe2ytcv4FtwPI1TU1tCvjNY3RtY3KSzVHs41ca//OKdg3P7hF6gVTs3I6QrMC3aqH2CsmtJYDO/08AbgEMABaIX99MAwmKVC7OE4TSFEa0wH9h8uTJ6cjiIR97ADcDKoDdVV8ztx28KGOkCV0l86RED+0D/WxYy1cyXZcJwF0xM/xpAeCWohUsdnr7NBcmCkKvVbIMD6AeHtPgfw+RG9vHHUABYPMa25pahSsLBnjAVatKU8D1UtnmeP7mdHq+AKx2Mqnq4LuKyWM937+pQzk+Z/SuynGpIN630tyCGtwOgJ0fZwCLgTyYpb2/W0vPglQ/qJPqsiDbxV97YX39xE7As4p/WtUA3F60vj+um3DBr6k7K2tGlerHXAdKDuZnoTBhjfImAbi7ismkahdUYgOLE5kNZ7KAnAhd1UN6VNQYoQrjLBeuBS4MOqtI66oCYLF08Tc0Nk5vFbsqC08RqomMBYJQQPsAzoTNu3f8c50CcHuVrLAqAJYC9+con58lYTJPeCVFxk4kgVFsAgwLLVw/0CM+DgBKJ+Bb0JKapf2rCQ8bQ9FiYDjMwNgi/qr1jcnpUiV+rFVwXycAN43vWt6uYXvWxOspAZDiDX6GsmYpdB2qxI8rPmCJ9/4Gww31BEmcokPgBSreMFVsdbX4cUUBvD6yPrsrlTqvReyiPnpSxJ0a+AgBNAP6uRpO3tr33hVFZuJOWwC3F5+X1Mit0xCKJ20sE8dQJU0BQD0NM5zcOdBDTkcARQF/eWNr8wwNrwvN4AUOpxTAiB+/T3I2+alNTZPmCWCVTCYVG2hXUbK/GofXzBYb30+EcVUXYXz4JVJp/FQJZZH23FHpZFKxgaIAvTDRAb3NkfAxaZuJkqIGKOJTaHH9MLaT113UMGVCJflxRQAs8l7cN25v5xz1czK02KWLM4iIqlDAmHYooORJfxaseXXQe10l+XFFACxW+TwvCG+bCEOh7JAfGUUtBcdEep9m8LMaLX4U8/AUFQnRYfmN+KDJdRoAWJLsb22Y2DHNcGUfScfyGkYSgegTDux2+uOHfWLVUWhUmcd1YjHNGK3V+XPuGzd+aaX4sVYg9ikAXirZtS0urA1NPJVSngUSCmUegbxiyR/8a0/PqwcR/LgeWswFsZOJTaTHbyJTMX4cF0DpBHx7c3PjDFdYBW8sOFNluRcpVgsL9jM49mih/vsA5BXqgxloBAHjTZeAyxBsDfzy32+eMq0S/DjWj0uS/RZkL5sNm5oFLSC13KBP0BKqOGz83s7ew0cIyF+z7+l91HfTgPMSjxgqIHnQTwdSn7LuWytR0mhM9zUAOhO2MSWeFs86kIDoO3R4IZ94BAD+CUj8dze6Drpge0IVWoHAL4B6GqYE+TVzMak+Lj8uG8Bi6WKbx487twX8dMaEiBeUfUpEX4W+dHe25zkC+ggQAsBLYeHhN6iWgGjc2pqg9pv5s2gtG5ozl8ftH5cNYCkALzJbP0VIT1ic0lQA5EXxOuR+AH43oDuigle3dhf+623DT9NCZUwuKwBMiHp6zmdh3QBPGjsAS5L9FbXNrVORX5mll1AYlGsbBrAWcPvguh8pNP39h8wG2B2dCz+HPtovioAVIdeul8A0wYVfbkrPi9M/1jJjnwLAitrCqjnia/NkqB+UwaOPfYD6hAZ4nfrknt63jxYXYrIIoAHAQz7x/X3U44FDYIiXTQRACPHTQLcI2AiAW8qMg+UC6AEkOlhYLUXJvlzvpQBJox6B2nNw2wBgx4DPtwL2IyB4vrf36Fta+3iaDoxWd8WVulw/PacjXHF1Q8MEAFYOP9Yy3DcAgK81pZbPdL6jj4jFe4XwyQD6BhPP/9l7fT8hoINXlx4pWuOeXGH7GwiQJDQ+P4ZkYTZTrOkaZyvL5cejvvAtgAnAcxTrxhthMSOSAsyL4BWGjwLE7iHmtKKonny1t/+nh8jnUipKSGxh1KCSJNFO2wAgUQ4/1lFanwrAjen0/DaGF/fAiBiSvQFMUYLXzHV/Jxl8d2DyGHwUrcPv84nv5NQhwfgAOkC7xGy2K8y9ryG9VAZ4WFUALPHeiwN/ywxYoiDwZcc+CBzhgwB4E/qDf36n792ByWOouEtAntLgWwe9HE1ECx0Y1wZB2gQa5wd2WzGZsCoAbga0E/Dnjxs3vtXZzTl6kixbshcAVNEjFuB/kHhocPIY4vsEoE92d3cdtOCHNSpSCWYS8WPDDNqyTc3NraPlxzoa61OAa5BbNUf8pCxgcSR7g/hxVH2dwYt/8F7vvxOQk21NKAIsL7nU/YehDACtgOQveYhv0zC10DK3j5YfjwZAT1DmCG5LMH6714EsKLCX+hgAG0kGLCYTfPn48Rf2+WBvSkRRgS6bgOopaFdd2dbWVjsafjwiAEuS/b31qU/PVJ6dNcbivQToFO4QtXt3gY8NLJhPduyO5hK+BrfNGABSkTal9tP7WfCtd/ccu3I0/eMRAViS7M8NdMMkDbUgMInnNr6OKgctufNbmcxhAm7ryAE0ANhZSP/dK6I9SWhglZD84ZBGgR0s3FEq1yoC4OYo9vnVzVOmtYJX5Yy0GKULo5Pqu3D4GZIPAZAdo/j9VsAMcDsyRw6/BTyZFKFUROai6wUxHX7JpqamEfePdQSxTwlgOXvXtGm+rmDiHSkxALQ6QPdB926ef2wPi7FtNGOUAP8Pl3roOFVcRZKJwQg/VbxbzP4RJ5OTfUE6AT8Zk9OtmltDM4Zq8dqVgBXU4XVJPIg9CMuhTysi3qpbj178kwMIXkgLtLjtLm5V6PIk2+BvXFJfP+mziPbzlQ1gSbK/e9z7V8+BtWZJcyyf9xqUSag7aK5ve86eOBHzOJkhR5Rvh99vwROMyEPsOKiA5E38LIfGNQFv4IcMqDwAS0LjPM3fVgcrn3Z8cDL6pKocgvvhU31975yIeYw0mTyVC7a/ykQmKXRehMJ4kwwF6uAxE/nbUSQPZQFYkuz/JJ1e2CK4oJdk3M3RItRjVLxaSG87GfMYSTIh4Hb0v/f6IXBnmoEIxRh3D55Q8yFstmLuPQ3pS6WIxagBnFT0/U/W4NapYmo0HzO+WJ2oHqD98ot9x/aMhHmMMJnIXse/OqISKYUxdUKlIK/GiTDMU7kDJ9l/rMOVLp8FwmX19ZNaGd5UMMIgjvHiiwGCQxI8ApSXPIZjJl869oe7XzP38rgoG8csrAkT0X7z7JD80lsbajpOxI/1RKXLtYnwlpnON+bAUMGyNykYwCTgXqPr/zfWbicQHAF0FxCM5HEiiSliJlvtbXXbvDgIYnVXQQCOlDzFzxCfvCRRc9OJSppguNIFgJtLrnWRZB9rh4cCPqka7LfEo/d3dR26H5U7dkexENszNd/rqM3fOx1I9qN8laP0OxOqBzDT29qWlpY/73zzzdKwHOr7H0keKwD7akPNss8n7B+TFvqwyIXL+kcFUMIgqrs0+Wzoki8poaHClIOmJB81BQGsVqCveb71xaPdX2f0R3IoSUoA/w+NdU8vc5nl3UYvMW+oEU1NfEIC9yjdzb/T1f/YLiD4TLFXPawFlnjvAuWGiUa8F2EQI6kBBJQ0LGPukkSYu4QA6E9uJQYgBeBlJLC6oeFp6el5dTOgg3lzKZv/0nTbIucuT8BLBED5nZPS/1orhrNN1wF4rHOI+KqDk4cA/ksNDbOnOlzaBxKQitwaRQBkzazHLOw1C/t89Nxbei699h++lzELj3vrb0XBLgly1wwXi4rMRDb19Ox8wydebgCcIXa7BgBc1jxnCJb8UVPTOUP1j3UIyR7nuXDdDFiyAPOVXCQu0fgBgAAy6Ln0Wj76ngkSCtNpkBsx/MLIUkct/zL0u945uAr0TARESPVTtKCLUdiIIfYf6+DkMQcTGmbAboE3ehF3KvZoDfaSXChsEczbNHHifInqMjccM3m2Jvz2AZNcQuAqIXOZmMubcZqEN1xZd8YnOgetr9aBvFcB3jU+f22H+jN6lCZRCDu1h0Dy6vxUeF1kmVXFRCfDMZNvH8ntf8v0X9ICEcYXWxWQHOA7JGy6XvtuGNw/1oG8lwBmM78xRQ+YQEicagCjJOQ1JNHK8BqgJYVhJPfdxRt47DXd1iUa9WArMAcPqMA4OwjXAJs/wo91IO+9p6Hh/A7Ywj7SROgEY3DjlZGJEJqjtxax9q839nyyyE9/Jbp8BggF4J09U5/ZTz1QJ3BAvFVjRZC03wvbxOb9ZfM3Fg9cX60DShecq+EdZ4hpOAa3CynDCmwiPTvQt/pE/PRHQADsyx1A4nFIAMeKZGMUBJwIop2ZuwZipqXSZVUq1TJVws9lDXEXSlbliMROyBTVyxZPmNCgw2yWKSWT3YXCEweg3om6SuwYFVBz3timtnxlY2N7iR/rlqIV/lYicfMsRTor5uX08Nwhg/l04Rk35v01BGQoQaKUTB7szf/ibUs8m1JIJdRqASUn5mfB11yD/lsAYEvUL4IHkGzR/HqwADUoTzv4imIniDTIDs2tLNZkdgKZC7+gPNyLAIkKJUMW11e3CtZOBtIAvArAbzQ3L+3QcHqW8CLUU1+7DMurNfSUFg2XrJrYOlmGWdNXYiZ/WtP7zH4v/5tUqUhNKIBmqf4sYcvd4+qu+mDjxUIrrGuMVJfTFLoiryKkT72fCalbFnZdh2HcuKRKHTmC3iMI/iaAwFVoaxdpSInn2SjcDgC6pjG9YILmLusl6YHAiiT+dHwQgIdCpIBPaHjTidx4S/H9Z1zyiTfpCgGgBpAx5+AF7n0apjkuvrMxvUB2Ntb97SWS++0ehFbuHrcxdGGAQADymNT4B5hadE9394vXA27HEBbG4j6+ZxvTey6W/gveB7zCXJzGE4Ug1TeIul2seTzoUV77PIP+rKhSpGZ4L5ZhPGWMvycAQF+niaDRapYCeHHjMKsbdkRERv5CgwfGa+rcjPlkBIL9qvh40vl9KF6aqgsAHIa77v8AXHWrzWYx28QAAAAASUVORK5CYII=');
+
+    /* Typography */
+    --font-sans:  'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --font-serif: 'Source Serif 4', Georgia, serif;
+    --font-mono:  'Source Code Pro', 'SF Mono', Menlo, monospace;
+
+    /* Type scale — 4-step, minimum 18px */
+    --t-sm:  18px;   /* body, labels, captions, table cells, pills, mono, footer */
+    --t-md:  24px;   /* subheads, section titles, insight, strategic h */
+    --t-lg:  40px;   /* KPI values, stat values, page title */
+    --t-xl:  64px;   /* hero gap numbers */
+
+    /* Spacing (Spectrum 8px grid) */
+    --s-50:   2px;
+    --s-75:   4px;
+    --s-100:  8px;
+    --s-150: 12px;
+    --s-200: 16px;
+    --s-300: 24px;
+    --s-400: 32px;
+    --s-500: 40px;
+    --s-600: 48px;
+    --s-700: 64px;
+    --s-800: 80px;
+    --s-900: 96px;
+
+    /* Radii */
+    --r-sm: 4px;
+    --r-md: 6px;
+    --r-lg: 8px;
+
+    /* Elevation */
+    --shadow-1: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-2: 0 2px 8px rgba(0,0,0,0.08), 0 0 0 1px var(--gray-200);
+  }
+
+  /* ============================================================
+     Base
+     ============================================================ */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--gray-100);
+    color: var(--gray-900);
+    line-height: 1.6;
+    font-size: var(--t-sm);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ============================================================
+     Top app bar — Adobe Spectrum style
+     ============================================================ */
+  .appbar {
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+    padding: var(--s-150) var(--s-400);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .appbar-left {
+    display: flex;
+    align-items: center;
+    gap: var(--s-200);
+  }
+  .adobe-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-150);
+  }
+  .adobe-mark .logo-img {
+    width: 36px;
+    height: 32px;
+    display: block;
+    flex-shrink: 0;
+    background-image: var(--adobe-logo);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .adobe-mark .product {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    letter-spacing: -0.005em;
+  }
+  .adobe-mark .product span {
+    color: var(--gray-700);
+    font-weight: 400;
+    margin-left: var(--s-75);
+  }
+  .appbar-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--gray-300);
+  }
+  .appbar-context {
+    font-family: var(--font-sans);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    font-weight: 500;
+  }
+  .appbar-right {
+    display: flex;
+    gap: var(--s-200);
+    align-items: center;
+  }
+  .filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    font-weight: 500;
+  }
+  .filter-chip .chip-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+  .filter-chip .chip-value {
+    color: var(--gray-900);
+    font-weight: 600;
+  }
+
+  /* ============================================================
+     Page container
+     ============================================================ */
+  .page {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--s-600) var(--s-500) var(--s-900);
+  }
+
+  /* ============================================================
+     Page header / hero
+     ============================================================ */
+  .page-header {
+    margin-bottom: var(--s-600);
+  }
+  .breadcrumb {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-200);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .breadcrumb a { color: var(--blue-600); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb-sep { color: var(--gray-400); }
+
+  h1.page-title {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--gray-900);
+    margin-bottom: var(--s-200);
+  }
+  h1.page-title .accent {
+    color: var(--blue-600);
+    font-weight: 700;
+  }
+  .page-lede {
+    font-size: var(--t-md);
+    line-height: 1.6;
+    color: var(--gray-800);
+    max-width: none;
+    font-weight: 400;
+  }
+
+  .info-banner {
+    margin-top: var(--s-400);
+    padding: var(--s-200) var(--s-300);
+    background: var(--blue-75);
+    border: 1px solid var(--blue-100);
+    border-left: 3px solid var(--blue-500);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    line-height: 1.6;
+    max-width: none;
+    display: flex;
+    gap: var(--s-200);
+    align-items: flex-start;
+  }
+  .info-banner .info-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    background: var(--blue-500);
+    border-radius: 50%;
+    color: white;
+    font-size: var(--t-sm);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .info-banner strong { font-weight: 600; }
+  .info-banner em { font-style: normal; color: var(--blue-700); font-weight: 600; }
+
+  /* ============================================================
+     Cards (Spectrum)
+     ============================================================ */
+  .card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-400);
+  }
+
+  /* ============================================================
+     Section block
+     ============================================================ */
+  .section {
+    margin-bottom: var(--s-600);
+  }
+  .section-head {
+    margin-bottom: var(--s-300);
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-200);
+    border-bottom: 1px solid var(--gray-300);
+    padding-bottom: var(--s-200);
+  }
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--blue-600);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .section-title {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    letter-spacing: -0.01em;
+  }
+  .section-subtitle {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    max-width: none;
+    line-height: 1.6;
+    margin-bottom: var(--s-300);
+  }
+
+  /* ============================================================
+     KPI tiles (Spectrum metric cards)
+     ============================================================ */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s-200);
+  }
+  .kpi {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-300);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .kpi:hover {
+    border-color: var(--gray-400);
+    box-shadow: var(--shadow-1);
+  }
+  .kpi .label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-150);
+    letter-spacing: 0;
+  }
+  .kpi .value {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--s-100);
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi .delta {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+  }
+  .kpi .delta.up { color: var(--positive-500); }
+  .kpi .delta.down { color: var(--negative-600); }
+  .kpi .delta.flat { color: var(--notice-500); }
+  .kpi .delta .arrow {
+    font-size: var(--t-sm);
+    line-height: 1;
+  }
+  @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .kpi-grid { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Insight callout (Spectrum status banner, scaled up)
+     ============================================================ */
+  .insight {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-400) var(--s-500);
+    position: relative;
+    overflow: hidden;
+  }
+  .insight::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 4px;
+    background: var(--blue-500);
+  }
+  .insight .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    text-transform: uppercase;
+    color: var(--blue-700);
+    background: var(--blue-100);
+    padding: 4px 10px;
+    border-radius: var(--r-sm);
+    font-weight: 600;
+    margin-bottom: var(--s-200);
+    letter-spacing: 0.04em;
+  }
+  .insight blockquote {
+    font-family: var(--font-sans);
+    font-size: var(--t-md);
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--gray-900);
+    letter-spacing: -0.01em;
+  }
+  .insight blockquote em {
+    font-style: normal;
+    color: var(--blue-600);
+    font-weight: 700;
+  }
+
+  /* ============================================================
+     Gap visualization (two-up)
+     ============================================================ */
+  .gap-viz {
+    margin-top: var(--s-300);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-200);
+  }
+  .gap-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-300) var(--s-400);
+  }
+  .gap-card.positive { border-top: 4px solid var(--positive-500); }
+  .gap-card.negative { border-top: 4px solid var(--negative-500); }
+  .gap-card .gap-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-100);
+  }
+  .gap-card .gap-num {
+    font-size: var(--t-xl);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--s-150);
+    font-variant-numeric: tabular-nums;
+  }
+  .gap-card.positive .gap-num { color: var(--positive-500); }
+  .gap-card.negative .gap-num { color: var(--negative-600); }
+  .gap-card .gap-desc {
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    line-height: 1.6;
+    max-width: none;
+  }
+  .gap-card .gap-example {
+    margin-top: var(--s-200);
+    padding-top: var(--s-200);
+    border-top: 1px solid var(--gray-200);
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+  @media (max-width: 720px) { .gap-viz { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Read-this-as note (Spectrum tip)
+     ============================================================ */
+  .note {
+    margin: var(--s-300) 0;
+    padding: var(--s-200) var(--s-300);
+    background: var(--gray-100);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    line-height: 1.65;
+    color: var(--gray-800);
+    border-left: 3px solid var(--gray-500);
+    max-width: none;
+  }
+  .note strong { color: var(--gray-900); font-weight: 600; }
+  .note em { font-style: normal; color: var(--blue-700); font-weight: 600; }
+  .note.alert {
+    background: var(--notice-100);
+    border-left-color: var(--notice-500);
+  }
+  .note.alert strong { color: var(--gray-900); }
+
+  /* ============================================================
+     Data tables (Spectrum)
+     ============================================================ */
+  .table-wrap {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  table.data {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--t-sm);
+  }
+  table.data thead {
+    background: var(--gray-100);
+    border-bottom: 1px solid var(--gray-300);
+  }
+  table.data th {
+    text-align: left;
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 600;
+    padding: var(--s-200);
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid var(--gray-300);
+    white-space: nowrap;
+  }
+  table.data th.num, table.data td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  table.data td {
+    padding: var(--s-200);
+    border-bottom: 1px solid var(--gray-200);
+    color: var(--gray-900);
+    vertical-align: middle;
+    font-size: var(--t-sm);
+  }
+  table.data td.num {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+  }
+  table.data tbody tr:hover { background: var(--gray-100); }
+  table.data tbody tr:last-child td { border-bottom: none; }
+  table.data .accent { color: var(--blue-600); font-weight: 600; }
+  table.data .muted { color: var(--gray-700); font-size: var(--t-sm); }
+  table.data .pos { color: var(--positive-500); font-weight: 600; }
+  table.data .neg { color: var(--negative-600); font-weight: 600; }
+  table.data .warn { color: var(--notice-500); font-weight: 600; }
+
+  /* Tags / pills (Spectrum tags) */
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 16px;
+    font-size: var(--t-sm);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .tag-pill.owned    { background: var(--blue-100);     color: var(--blue-700);     }
+  .tag-pill.earned   { background: var(--gray-200);     color: var(--gray-800);     }
+  .tag-pill.others   { background: var(--notice-100);   color: var(--notice-500);   }
+  .tag-pill.social   { background: var(--gray-100);     color: var(--gray-700);     }
+  .tag-pill.p0       { background: var(--negative-100); color: var(--negative-600); }
+  .tag-pill.p1       { background: var(--blue-100);     color: var(--blue-700);     }
+  .tag-pill.p2       { background: var(--notice-100);   color: var(--notice-500);   }
+  .tag-pill.p3       { background: var(--gray-200);     color: var(--gray-800);     }
+  .tag-pill.pos      { background: var(--positive-100); color: var(--positive-500); }
+  .tag-pill.neg      { background: var(--negative-100); color: var(--negative-600); }
+  .tag-pill.warn-tag { background: var(--notice-100);   color: var(--notice-500);   }
+
+  /* Inline bar */
+  .bar-cell { min-width: 140px; }
+  .bar { display: flex; align-items: center; gap: 10px; }
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill { height: 100%; background: var(--blue-500); border-radius: 3px; }
+  .bar-fill.pos  { background: var(--positive-500); }
+  .bar-fill.warn { background: var(--notice-500); }
+  .bar-fill.neg  { background: var(--negative-500); }
+  .bar-val {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    min-width: 48px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ============================================================
+     Two-column grid
+     ============================================================ */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-300);
+  }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+  .subhead {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin: var(--s-400) 0 var(--s-200);
+    letter-spacing: -0.005em;
+  }
+  .subhead:first-child { margin-top: 0; }
+
+  /* ============================================================
+     Source-type summary stat-blocks
+     ============================================================ */
+  .stat-list {
+    display: grid;
+    gap: var(--s-200);
+  }
+  .stat-row {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-200) var(--s-300);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--s-200);
+  }
+  .stat-row .stat-info { display: flex; flex-direction: column; gap: 2px; }
+  .stat-row .stat-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+  }
+  .stat-row .stat-desc {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+  }
+  .stat-row .stat-value {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .stat-row.owned .stat-value { color: var(--blue-600); }
+
+  /* ============================================================
+     Funnel
+     ============================================================ */
+  .funnel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-100);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-200);
+  }
+  .funnel-row {
+    display: grid;
+    grid-template-columns: 1fr 120px 80px;
+    align-items: center;
+    padding: var(--s-200);
+    background: var(--gray-100);
+    border-radius: var(--r-sm);
+    transition: background 0.15s;
+  }
+  .funnel-row:hover { background: var(--gray-200); }
+  .funnel-row .stage {
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    font-weight: 500;
+  }
+  .funnel-row .volume {
+    font-family: var(--font-sans);
+    font-size: var(--t-sm);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--gray-900);
+  }
+  .funnel-row .conv {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-align: right;
+  }
+  .funnel-row.final {
+    background: var(--blue-100);
+    border: 1px solid var(--blue-500);
+  }
+  .funnel-row.final .stage,
+  .funnel-row.final .volume { color: var(--blue-700); font-weight: 700; }
+  .funnel-row.final .conv { color: var(--blue-700); font-weight: 700; }
+  /* funnel source tags + pending placeholder */
+  .funnel-row .stage .src { display:inline-block; font-family: var(--font-mono); font-size:10px; line-height:1.4; font-weight:700; letter-spacing:0.04em; padding:2px 6px; border-radius:4px; margin-right:8px; vertical-align:1px; }
+  .funnel-row .stage .src.real    { background: var(--positive-100); color: var(--positive-600); }
+  .funnel-row .stage .src.trial   { background: var(--blue-100);     color: var(--blue-700);   }
+  .funnel-row .stage .src.pending { background: var(--gray-200);      color: var(--gray-600);   }
+  .funnel-row.pending { background: transparent; border:1px dashed var(--gray-300); }
+  .funnel-row.pending .stage, .funnel-row.pending .volume, .funnel-row.pending .conv { color: var(--gray-500); }
+  .funnel-legend { display:flex; gap: var(--s-300); flex-wrap:wrap; margin-top: var(--s-200); font-size: var(--t-sm); color: var(--gray-700); }
+  .funnel-legend > span { display:inline-flex; align-items:center; gap:6px; }
+  .funnel-legend .lg { font-family: var(--font-mono); font-size:10px; font-weight:700; letter-spacing:0.04em; padding:2px 6px; border-radius:4px; }
+  .funnel-legend .lg.real { background: var(--positive-100); color: var(--positive-600); }
+  .funnel-legend .lg.trial { background: var(--blue-100); color: var(--blue-700); }
+  .funnel-legend .lg.pending { background: var(--gray-200); color: var(--gray-600); }
+
+  /* ============================================================
+     Referral URL chips
+     ============================================================ */
+  .url-chip-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-100);
+    margin-top: var(--s-200);
+  }
+  .url-chip {
+    display: flex;
+    align-items: center;
+    gap: var(--s-150);
+    padding: var(--s-200);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+  }
+  .url-chip .hits {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--blue-600);
+    background: var(--blue-100);
+    padding: 5px 12px;
+    border-radius: var(--r-sm);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .url-chip .path {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .url-chip .warn { color: var(--notice-500); font-size: var(--t-sm); font-weight: 600; margin-left: auto; }
+  @media (max-width: 720px) { .url-chip-list { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Action cards
+     ============================================================ */
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s-200);
+  }
+  .action {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-top: 4px solid var(--blue-500);
+    border-radius: var(--r-md);
+    padding: var(--s-300);
+  }
+  .action .num-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: var(--blue-100);
+    color: var(--blue-700);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    border-radius: 50%;
+    margin-bottom: var(--s-200);
+  }
+  .action h4 {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--s-100);
+    line-height: 1.3;
+  }
+  .action p {
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    line-height: 1.6;
+  }
+  @media (max-width: 900px) { .actions { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Strategic posture
+     ============================================================ */
+  .strategic {
+    margin-top: var(--s-400);
+    padding: var(--s-400) var(--s-500);
+    background: linear-gradient(135deg, var(--blue-500) 0%, var(--blue-700) 100%);
+    border-radius: var(--r-md);
+    color: white;
+  }
+  .strategic .tag-pill {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    margin-bottom: var(--s-200);
+  }
+  .strategic .strategic-h {
+    font-size: var(--t-md);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--s-200);
+  }
+  .strategic .strategic-h em { font-style: normal; opacity: 0.85; }
+  .strategic .strategic-p {
+    font-size: var(--t-sm);
+    line-height: 1.6;
+    color: rgba(255,255,255,0.92);
+    max-width: none;
+  }
+
+  /* ============================================================
+     Footer
+     ============================================================ */
+  footer {
+    margin-top: var(--s-700);
+    padding-top: var(--s-400);
+    border-top: 1px solid var(--gray-300);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.6;
+  }
+  footer .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--s-400);
+    margin-bottom: var(--s-400);
+  }
+  footer h5 {
+    font-size: var(--t-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-900);
+    font-weight: 700;
+    margin-bottom: var(--s-150);
+  }
+  footer p { margin-bottom: var(--s-100); }
+  footer strong { color: var(--gray-900); font-weight: 600; }
+  footer em { font-style: italic; }
+  footer .credit {
+    text-align: center;
+    padding-top: var(--s-200);
+    border-top: 1px solid var(--gray-200);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-100);
+  }
+  footer .credit .logo-img {
+    width: 20px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    background-image: var(--adobe-logo);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  @media (max-width: 720px) { footer .footer-grid { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     TOC tabs (Spectrum tabs) — sticky, scrollspy-driven
+     ============================================================ */
+  .toc-tabs {
+    display: flex;
+    gap: 0;
+    margin: 0 0 var(--s-500);
+    overflow-x: auto;
+    position: sticky;
+    top: 64px;                           /* sits below the appbar */
+    z-index: 50;
+    background: var(--gray-100);
+    /* Use a wrapper-style bottom border via box-shadow to avoid layout shift */
+    box-shadow: inset 0 -1px 0 var(--gray-300);
+    scrollbar-width: thin;
+  }
+  .toc-tabs::-webkit-scrollbar { height: 4px; }
+  .toc-tabs::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 2px; }
+
+  .toc-tabs a {
+    padding: var(--s-200) var(--s-300);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    /* Underline pseudo-element instead of border — no layout shift, no focus-ring conflict */
+    transition: color 0.15s ease;
+  }
+  .toc-tabs a::after {
+    content: "";
+    position: absolute;
+    left: var(--s-300);
+    right: var(--s-300);
+    bottom: 0;
+    height: 2px;
+    background: transparent;
+    transition: background-color 0.15s ease;
+    pointer-events: none;
+  }
+  .toc-tabs a:hover { color: var(--blue-600); }
+  .toc-tabs a:hover::after { background: var(--blue-400); }
+  .toc-tabs a.active { color: var(--blue-700); font-weight: 600; }
+  .toc-tabs a.active::after { background: var(--blue-600); }
+
+  /* Suppress sticky mouse-click focus rings; keep keyboard focus accessible */
+  .toc-tabs a:focus { outline: none; }
+  .toc-tabs a:focus-visible {
+    outline: 2px solid var(--blue-500);
+    outline-offset: -4px;
+    border-radius: var(--r-sm);
+  }
+
+  .toc-tabs a .num {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-600);
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+  .toc-tabs a:hover .num,
+  .toc-tabs a.active .num { color: var(--blue-600); }
+
+  /* Scroll anchor offset — clears both sticky appbar + sticky TOC */
+  .section[id] { scroll-margin-top: 140px; }
+
+  /* Caption */
+  .caption {
+    margin-top: var(--s-100);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+  .caption strong { color: var(--gray-900); font-weight: 600; }
+
+  /* Print */
+  @media print {
+    body { background: white; font-size: 10pt; }
+    .appbar { position: static; box-shadow: none; }
+    .page { padding: var(--s-300); max-width: 100%; }
+    .section { page-break-inside: avoid; }
+    .actions, .insight, .strategic, .kpi-grid { page-break-inside: avoid; }
+    .toc-tabs { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<style>
+  /* ===== Structural additions ===== */
+  .part { margin: var(--s-700) 0 var(--s-500); padding: var(--s-500); border-radius: var(--r-md); background: var(--gray-900); color:#fff; position:relative; overflow:hidden; }
+  .part.measure { background: linear-gradient(135deg, var(--blue-600) 0%, var(--blue-800) 100%); }
+  .part.action  { background: var(--gray-900); }
+  .part .part-eyebrow { font-family: var(--font-mono); font-size: var(--t-sm); letter-spacing:0.08em; text-transform:uppercase; color:rgba(255,255,255,0.62); font-weight:600; margin-bottom: var(--s-100); }
+  .part .part-title { font-size: var(--t-lg); font-weight:800; line-height:1.1; letter-spacing:-0.02em; margin-bottom: var(--s-200); }
+  .part .part-sub { font-size: var(--t-md); line-height:1.45; color:rgba(255,255,255,0.9); max-width:none; font-weight:400; }
+  .part:first-of-type { margin-top: var(--s-400); }
+
+  .readiness { display:grid; grid-template-columns: 200px 1fr; gap: var(--s-400); align-items:center; background: var(--gray-50); border:1px solid var(--gray-200); border-left:4px solid var(--blue-500); border-radius: var(--r-md); padding: var(--s-400) var(--s-500); margin-bottom: var(--s-300); }
+  .readiness .score { font-size: 34px; font-weight:800; line-height:1; letter-spacing:-0.02em; color: var(--blue-600); }
+  .readiness .score small { display:block; font-size: var(--t-sm); font-weight:600; color: var(--gray-700); margin-top: var(--s-150); letter-spacing:0; line-height:1.4; }
+  .readiness .verdict h4 { font-size: var(--t-md); font-weight:700; color: var(--gray-900); margin-bottom: var(--s-100); }
+  .readiness .verdict p { font-size: var(--t-sm); color: var(--gray-800); line-height:1.55; max-width:none; }
+  @media (max-width:720px){ .readiness{ grid-template-columns:1fr; } }
+
+  .trust { display:inline-flex; align-items:center; gap:6px; font-family: var(--font-mono); font-size: var(--t-sm); font-weight:600; padding:4px 11px; border-radius: var(--r-sm); margin-left:auto; letter-spacing:0.02em; align-self:center; }
+  .trust.ok      { background: var(--positive-100); color: var(--positive-500); }
+  .trust.caution { background: var(--blue-100);      color: var(--blue-700);     }
+  .trust.partial { background: var(--notice-100);    color: var(--notice-500);   }
+  .legend { display:flex; gap: var(--s-300); flex-wrap:wrap; margin: var(--s-200) 0 var(--s-400); font-size: var(--t-sm); color: var(--gray-800); }
+  .legend span { display:inline-flex; align-items:center; gap:8px; }
+</style>
+
+<style>
+  .ic { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.03em; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+  .ic-cards { background: var(--positive-100); color: var(--positive-600); }
+  .ic-invest { background: var(--gray-200); color: var(--gray-700); }
+  .gloss { color: var(--gray-700); font-style: italic; }
+  .opp { border:1px solid var(--gray-200); border-left:4px solid var(--blue-500); border-radius: var(--r-md); padding: var(--s-400); margin-bottom: var(--s-300); background: var(--gray-50); }
+  .opp.defend { border-left-color: var(--positive-500); }
+  .opp.tech { border-left-color: var(--cat-2); }
+  .opp.house { border-left-color: var(--gray-400); }
+  .opp-head { display:flex; align-items:center; gap: var(--s-200); margin-bottom: var(--s-200); flex-wrap:wrap; }
+  .opp-title { font-size: 1.15rem; font-weight:700; color: var(--gray-900); letter-spacing:-0.01em; }
+  .opp-row { display:grid; grid-template-columns: 116px 1fr; gap: var(--s-300); padding: var(--s-200) 0; border-top:1px solid var(--gray-200); }
+  .opp-body .opp-row:first-child { border-top:none; }
+  .opp-k { font-family: var(--font-mono); font-size:11px; font-weight:700; letter-spacing:0.05em; color: var(--gray-600); text-transform:uppercase; padding-top:3px; }
+  .opp-v { font-size: var(--t-md); color: var(--gray-800); line-height:1.55; }
+  .opp-v strong { color: var(--gray-900); }
+  @media (max-width:640px){ .opp-row{ grid-template-columns:1fr; gap:var(--s-100);} }
+</style>
+
+<!-- ============ ADOBE APP BAR ============ -->
+<div class="appbar">
+  <div class="appbar-left">
+    <div class="adobe-mark">
+      <div class="logo-img" role="img" aria-label="Adobe"></div>
+      <div class="product">Adobe<span>LLM Optimiser</span></div>
+    </div>
+    <div class="appbar-divider"></div>
+    <div class="appbar-context">Kasikornbank · Snapshot</div>
+  </div>
+  <div class="appbar-right">
+    <div class="filter-chip"><span class="chip-label">Period</span><span class="chip-value">3 weeks · W21–W23</span></div>
+    <div class="filter-chip"><span class="chip-label">Library</span><span class="chip-value">98 prompts</span></div>
+    <div class="filter-chip"><span class="chip-label">Live layers</span><span class="chip-value">3 of 5</span></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ============ PAGE HEADER ============ -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="#">Customers</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="#">Kasikornbank</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>Snapshot</span>
+    </div>
+    <h1 class="page-title">KBank is the most-cited bank in the Thai set. <span class="accent">Investment-fund discovery is the open gap.</span></h1>
+    <p class="page-lede">
+      How AI assistants see Kasikornbank, over three weeks across 98 questions. KBank is the most-cited bank in the comparison set and ranks first in share of voice on every topic — but it leads only thinly in a fragmented field, and outside card promotions the answers are grounded on third-party aggregators, not KBank's own pages. Visibility is strongest on credit-card questions and weakest on investment-fund discovery, where demand is highest and almost no owned page is among the cited sources.
+    </p>
+
+    <div class="info-banner">
+      <div class="info-icon">i</div>
+      <div>
+        <strong>Scope.</strong> 98 prompts, all uploaded by KBank, Thailand market, weeks W21–W23 2026, three executions each, benchmarked against KTC, SCB, UOB, Krungsri and ttb. Three of LLM Optimiser's five layers are live (Brand Presence, Data Insights, URL Inspector); the Access layer is partly measurable through content-visibility (<a href="#access" style="color:var(--blue-600);text-decoration:none;font-weight:600;">B5</a>), while Agentic traffic and Referral await CDN logs — not yet configured.
+      </div>
+    </div>
+  </div>
+
+  <!-- TOC nav -->
+  <nav class="toc-tabs">
+    <a href="#setup"><span class="num">A1</span>Setup</a>
+    <a href="#coverage"><span class="num">A2</span>What's Covered</a>
+    <a href="#kpis"><span class="num">B1</span>Headline</a>
+    <a href="#brand"><span class="num">B2</span>Brand Presence</a>
+    <a href="#insights"><span class="num">B3</span>Data Insights</a>
+    <a href="#citations"><span class="num">B4</span>URL Inspector</a>
+    <a href="#access"><span class="num">B5</span>Access &amp; Impact</a>
+    <a href="#picture"><span class="num">C1</span>The Picture</a>
+    <a href="#opportunities"><span class="num">C2</span>Opportunities</a>
+    <a href="#prioritise"><span class="num">C3</span>Prioritise</a>
+  </nav>
+
+  <!-- ======================= PART A ======================= -->
+  <div class="part">
+    <div class="part-eyebrow">Part A · Setup &amp; scope</div>
+    <div class="part-title">What this trial covers</div>
+    <div class="part-sub">The scope behind the numbers — a clean, all-human library that splits naturally into two domains.</div>
+  </div>
+
+  <section class="section" id="setup">
+    <div class="section-head">
+      <span class="section-eyebrow">A1</span>
+      <span class="section-title">Setup at a glance</span>
+    </div>
+    <div class="readiness" style="border-left-color: var(--positive-500);">
+      <div class="score" style="color: var(--positive-500);">98 of 98<small>prompts uploaded<br>by KBank</small></div>
+      <div class="verdict">
+        <h4>Analyse all 98 uploaded prompts; they split cleanly into two domains.</h4>
+        <p>Every prompt in the export is human-uploaded for the Thailand market — there is no auto-generated set to strip out, so the read starts from a clean library. The 98 prompts fall into two domains of equal weight: <strong>credit cards</strong> (50 prompts) and <strong>investments / mutual funds</strong> (48 prompts). 89 are unbranded (discovery) and 9 are branded card questions.</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Setting</th><th>This trial</th><th>Note</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Analysed library</strong></td><td class="pos">98 uploaded prompts · Thailand</td><td class="muted">6 topics across two domains: credit cards and investments.</td></tr>
+          <tr><td><strong>Period</strong></td><td>W21–W23 2026 · 3 weeks</td><td class="muted">Three executions per prompt. W22 citations register incomplete — read momentum W21→W23.</td></tr>
+          <tr><td><strong>Comparison set</strong></td><td>KTC · SCB · UOB · Krungsri · ttb</td><td class="muted">Card issuers and universal banks in the Thai market.</td></tr>
+          <tr><td><strong>Two domains</strong></td><td>Cards (50) · Investments (48)</td><td class="muted">Both are largely unbranded discovery; 9 branded prompts sit in cards.</td></tr>
+          <tr><td><strong>Pending layers</strong></td><td class="warn">Agentic · Referral</td><td class="muted">No CDN configured. See B5 (Access &amp; Impact).</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section" id="coverage">
+    <div class="section-head">
+      <span class="section-eyebrow">A2</span>
+      <span class="section-title">What the trial covers</span>
+    </div>
+    <p class="section-subtitle">Two domains of near-equal size. <strong>Cards</strong> is KBank's relative strength; <strong>investments</strong> is the open territory — higher demand, far lower visibility, far more dark prompts.</p>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Domain</th><th>Topics</th><th class="num">Prompts</th><th class="num">Avg visibility</th><th class="num">Dark</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ic ic-cards">Cards</span> Credit cards</td><td class="muted">Rewards &amp; tiers · Deals &amp; application · Eligibility &amp; lifestyle</td><td class="num">50</td><td class="num pos">47.4</td><td class="num warn">9</td></tr>
+          <tr><td><span class="ic ic-invest">Investments</span> Mutual funds</td><td class="muted">Fund selection · New fund types · Channels to start</td><td class="num">48</td><td class="num warn">23.6</td><td class="num neg">16</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      The two domains behave very differently. On <strong>card</strong> questions KBank's owned promotion pages are cited and it often answers first; on <strong>investment</strong> questions the answers are grounded on fund aggregators and competitor asset managers, and almost no KBank-owned page is cited. Within investments, <em>fund selection</em> is the highest-demand topic and the weakest performer.
+    </div>
+  </section>
+
+  <!-- ======================= PART B ======================= -->
+  <div class="part measure">
+    <div class="part-eyebrow">Part B · What the data says</div>
+    <div class="part-title">What the AI assistants return</div>
+    <div class="part-sub">The evidence behind the opportunities, read across the live dashboards — Brand Presence with Data Insights inside it, then URL Inspector. Access is partly measurable; Impact awaits CDN logs.</div>
+  </div>
+
+  <section class="section" id="kpis">
+    <div class="section-head">
+      <span class="section-eyebrow">B1</span>
+      <span class="section-title">Headline metrics</span>
+      <span class="trust ok">✓ Reliable</span>
+    </div>
+    <p class="section-subtitle">The top row is cross-brand authority; the bottom row is KBank's visibility by domain.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="label">Brand Citations</div><div class="value">63</div><div class="delta up"><span class="arrow">▲</span> highest in the set · next: KTC 55, SCB 37</div></div>
+      <div class="kpi"><div class="label">Citations per mention</div><div class="value">0.43</div><div class="delta up"><span class="arrow">▲</span> highest in the set · most-cited per mention</div></div>
+      <div class="kpi"><div class="label">Owned Citation Share</div><div class="value">10.7%</div><div class="delta flat"><span class="arrow">●</span> 265 of 2,480 cited sources are KBank-owned</div></div>
+      <div class="kpi"><div class="label">Negative sentiment</div><div class="value">0%</div><div class="delta up"><span class="arrow">▲</span> 41% positive · 32% neutral · 27% unscored</div></div>
+      <div class="kpi"><div class="label">Cards visibility</div><div class="value">47.4</div><div class="delta up"><span class="arrow">▲</span> relative strength · branded prompts 86.4</div></div>
+      <div class="kpi"><div class="label">Investments visibility</div><div class="value">23.6</div><div class="delta down"><span class="arrow">▼</span> the open territory · 3.2% owned</div></div>
+      <div class="kpi"><div class="label">Dark prompts</div><div class="value">25</div><div class="delta flat"><span class="arrow">●</span> of 98 · 16 in investments</div></div>
+      <div class="kpi"><div class="label">Share of voice</div><div class="value">#1</div><div class="delta flat"><span class="arrow">●</span> on all 6 topics · but only 6–12%</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="brand">
+    <div class="section-head">
+      <span class="section-eyebrow">B2</span>
+      <span class="section-title">Brand presence</span>
+      <span class="trust ok">✓ Reliable</span>
+    </div>
+    <p class="section-subtitle"><strong>Are we visible?</strong> KBank is not the most-mentioned brand, but it is the most-cited, and it converts mentions into citations more efficiently than any peer.</p>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Brand</th><th class="num">Mentions</th><th class="num">Citations</th><th>Citations per mention</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Kasikornbank (กสิกรไทย)</strong></td><td class="num">146</td><td class="num accent">63</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width:100%"></div></div><div class="bar-val">0.43</div></div></td></tr>
+          <tr><td>KTC</td><td class="num">146</td><td class="num">55</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:88%"></div></div><div class="bar-val">0.38</div></div></td></tr>
+          <tr><td>Siam Commercial Bank</td><td class="num">147</td><td class="num">37</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:58%"></div></div><div class="bar-val">0.25</div></div></td></tr>
+          <tr><td>UOB (Thailand)</td><td class="num">94</td><td class="num">33</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:81%"></div></div><div class="bar-val">0.35</div></div></td></tr>
+          <tr><td>Krungsri</td><td class="num">103</td><td class="num">23</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:51%"></div></div><div class="bar-val">0.22</div></div></td></tr>
+          <tr><td>ttb (TMBThanachart)</td><td class="num">73</td><td class="num">15</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill" style="width:49%"></div></div><div class="bar-val">0.21</div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption" style="margin-top: var(--s-150);">SCB and KTC are mentioned about as often, but KBank is the most-cited brand (63, vs KTC 55 and SCB 37) and converts mentions to citations most efficiently (0.43, vs 0.38 for KTC and 0.25 for SCB). <span class="muted">(Cross-brand totals span all executions; competitor figures can't be split by domain.)</span></div>
+
+    <div class="two-col" style="margin-top: var(--s-300);">
+      <div class="card">
+        <div style="font-size: var(--t-sm); color: var(--gray-700); font-weight: 600; margin-bottom: var(--s-200); letter-spacing: 0.02em;">WEEKLY MOMENTUM · KBANK</div>
+        <table class="data" style="font-size: var(--t-sm);">
+          <thead><tr><th>Week</th><th class="num">Mentions</th><th class="num">Citations</th></tr></thead>
+          <tbody>
+            <tr><td>W21</td><td class="num">55</td><td class="num">30</td></tr>
+            <tr><td>W22 <span class="muted">incomplete</span></td><td class="num">36</td><td class="num warn">0</td></tr>
+            <tr><td>W23</td><td class="num">55</td><td class="num accent">33</td></tr>
+          </tbody>
+        </table>
+        <div class="caption" style="margin-top: var(--s-150);">W22 records 36 mentions but zero citations — a collection gap, not a real drop. Read momentum across the complete weeks: citations stable at ~30 (W21 30 → W23 33).</div>
+      </div>
+      <div>
+        <div class="note" style="margin-top: 0;"><strong>Sentiment</strong> — no negative sentiment across the library: 41% positive, 32% neutral, the remainder unscored (dark prompts).</div>
+        <div class="note alert" style="margin-top: var(--s-200);"><strong>Share of voice varies by topic</strong> — KBank ranks #1 on all six topics, but only at 6–12% in a fragmented field. It leads most clearly on card deals (12.5%) and is thinnest on fund selection (6.4%), the highest-demand topic (B4).</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="insights">
+    <div class="section-head">
+      <span class="section-eyebrow">B3</span>
+      <span class="section-title">Data insights</span>
+      <span class="trust ok">✓ Reliable</span>
+    </div>
+    <p class="section-subtitle"><strong>Are those strong answers — and what explains the score?</strong> Data Insights sits within Brand Presence: topic- and prompt-level inspection of the visibility score — where demand is high, how visible KBank is, and who the answers are grounded on. Read by domain.</p>
+
+    <div class="two-col">
+      <div>
+        <h3 class="subhead"><span class="ic ic-cards">Cards</span> &nbsp;Credit cards</h3>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>Topic</th><th>Popularity</th><th class="num">Visibility</th></tr></thead>
+            <tbody>
+              <tr><td>Branded card prompts <span class="muted">(name KBank)</span></td><td class="muted">—</td><td class="num pos">86.4</td></tr>
+              <tr><td>Deals &amp; application</td><td class="muted">Low</td><td class="num pos">55.2</td></tr>
+              <tr><td>Rewards, promotions &amp; tiers</td><td class="accent">Medium</td><td class="num pos">51.0</td></tr>
+              <tr><td>Eligibility &amp; lifestyle fit</td><td class="muted">Low</td><td class="num warn">20.9</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h3 class="subhead"><span class="ic ic-invest">Investments</span> &nbsp;Mutual funds</h3>
+        <div class="table-wrap">
+          <table class="data">
+            <thead><tr><th>Topic</th><th>Popularity</th><th class="num">Visibility</th></tr></thead>
+            <tbody>
+              <tr><td>Channels to start investing</td><td class="accent">Medium</td><td class="num warn">32.7</td></tr>
+              <tr><td>Fund selection &amp; returns</td><td class="accent">High</td><td class="num neg">22.5</td></tr>
+              <tr><td>New fund types &amp; opportunities</td><td class="accent">Medium</td><td class="num neg">19.9</td></tr>
+              <tr><td class="muted">16 of 48 investment prompts dark</td><td class="muted">—</td><td class="num neg">0.0</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="note">
+      <strong>Demand vs visibility.</strong> The highest-demand investment topic — <em>fund selection &amp; returns</em> (High popularity, 25 prompts) — is also the weakest, at 22.5 visibility with 10 dark prompts. Card topics carry medium/low demand at 51–55 visibility. The gap is largest exactly where prospective investors decide.
+    </div>
+
+    <h3 class="subhead">What grounds the answers — and who owns them</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Domain</th><th>Intent</th><th class="num">All citations</th><th class="num">Owned</th><th>Owned share</th></tr></thead>
+        <tbody>
+          <tr><td>Credit cards</td><td><span class="ic ic-cards">Mostly branded + discovery</span></td><td class="num">1,587</td><td class="num">236</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width:14.9%"></div></div><div class="bar-val">14.9%</div></div></td></tr>
+          <tr><td>Investments</td><td><span class="ic ic-invest">Unbranded · discovery</span></td><td class="num">893</td><td class="num">29</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill neg" style="width:3.2%"></div></div><div class="bar-val">3.2%</div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">
+      <strong>Grounded, but the owned share splits sharply by domain.</strong> Both domains' answers are heavily grounded in citations. On card questions, 14.9% of citations are KBank-owned pages; on investment questions, the answers draw on 893 citations with just 3.2% KBank-owned — the rest are fund aggregators, asset-manager rivals and publishers (B4).
+    </div>
+
+    <h3 class="subhead">Prompt-level drill — answer-level inspection</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">Two representative prompts, one per domain, with position, sentiment and citation sources at the answer level.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Prompt</th><th>Intent</th><th>Position</th><th>Sentiment</th><th>Citation sources</th></tr></thead>
+        <tbody>
+          <tr><td>"ตอนนี้บัตรเครดิตกสิกรมีโปรคืนเงินหรือแคชแบ็คอะไรบ้าง?"<br><span class="gloss">What cashback promotions does a KBank credit card have now?</span></td><td><span class="ic ic-cards">Branded · cards</span></td><td>1st</td><td class="muted">Positive</td><td><strong style="color:var(--positive-600);">KBank promo pages cited</strong> · grounded on owned content</td></tr>
+          <tr><td>"มีกองทุนรวมต่างประเทศตัวไหนน่าสนใจสำหรับกระจายการลงทุนระยะยาว?"<br><span class="gloss">Which foreign mutual funds are worth it for long-term diversification?</span></td><td><span class="ic ic-invest">Unbranded · investments</span></td><td>2nd</td><td class="muted">Neutral</td><td>13 cited · <strong style="color:var(--negative-600);">0 KBank-owned</strong> / 13 other</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption" style="margin-top: var(--s-150);">On the branded card prompt KBank is cited first and grounds the answer on its own promotion pages; on the unbranded fund prompt KBank sits 2nd with none of the 13 citations on a KBank page — they are SCBAM, aggregators and publishers.</div>
+  </section>
+
+  <section class="section" id="citations">
+    <div class="section-head">
+      <span class="section-eyebrow">B4</span>
+      <span class="section-title">URL Inspector — authority map</span>
+      <span class="trust ok">✓ Reliable</span>
+    </div>
+    <p class="section-subtitle"><strong>Which URLs win citations?</strong> KBank's owned citations concentrate almost entirely in credit-card pages; on investment topics, fund aggregators and competitor asset managers are the cited sources.</p>
+
+    <div class="two-col">
+      <div class="stat-list">
+        <div class="stat-row owned"><div class="stat-info"><div class="stat-label">KBank owned</div><div class="stat-desc">10.9% · kasikornbank.com, mostly card pages</div></div><div class="stat-value">348</div></div>
+        <div class="stat-row"><div class="stat-info"><div class="stat-label">Earned</div><div class="stat-desc">69.0% · incl. K-Asset (75), aggregators, publishers</div></div><div class="stat-value">2,201</div></div>
+        <div class="stat-row"><div class="stat-info"><div class="stat-label">Others &amp; competitors</div><div class="stat-desc">14.8% · SCBAM, Bangkok Bank, finnomena, SCB</div></div><div class="stat-value">473</div></div>
+        <div class="stat-row"><div class="stat-info"><div class="stat-label">Social</div><div class="stat-desc">5.3% · YouTube, Facebook, Instagram</div></div><div class="stat-value">168</div></div>
+      </div>
+      <div class="card">
+        <div style="font-size: var(--t-sm); color: var(--gray-700); font-weight: 600; margin-bottom: var(--s-200); letter-spacing: 0.02em;">CITATION EFFICIENCY · PER URL</div>
+        <table class="data" style="font-size: var(--t-sm);">
+          <tbody>
+            <tr><td style="font-weight: 600;">cardguruth.com <span class="muted">card publisher</span></td><td class="num accent">4.4</td></tr>
+            <tr><td style="font-weight: 600;">th.my-best.com <span class="muted">aggregator</span></td><td class="num accent">2.7</td></tr>
+            <tr><td style="font-weight: 600;">mutualfund.yuanta.co.th <span class="muted">fund aggregator</span></td><td class="num accent">2.6</td></tr>
+            <tr><td style="font-weight: 600;">chaimiles.com</td><td class="num">2.2</td></tr>
+            <tr style="background: var(--positive-100);"><td style="font-weight: 700;">kasikornbank.com <span class="ic ic-cards" style="margin-left:4px;">KBank owned</span></td><td class="num pos" style="font-weight:800;">1.8</td></tr>
+            <tr><td class="muted" style="font-weight: 500;">kasikornasset.com <span class="muted">K-Asset · earned</span></td><td class="num muted">1.4</td></tr>
+          </tbody>
+        </table>
+        <div class="caption" style="margin-top: var(--s-150);">KBank-owned pages are cited 1.8× per URL — below the specialist publishers and fund aggregators that win the discovery answers. The aggregator cardguruth is the most efficient (4.4× across 9 URLs).</div>
+      </div>
+    </div>
+
+    <h3 class="subhead">Top owned URLs — KBank's winning pages</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Owned page</th><th class="num">Times cited</th><th class="num">Prompts</th></tr></thead>
+        <tbody>
+          <tr><td>/th/promotion/creditcard/pages/index.aspx</td><td class="num accent">11</td><td class="num">6</td></tr>
+          <tr><td>/th/promotion/creditcard/category/dining</td><td class="num">8</td><td class="num">4</td></tr>
+          <tr><td>/th/personal/creditcard/Pages/CreditCard.aspx</td><td class="num">7</td><td class="num">3</td></tr>
+          <tr><td>/th/personal/article/creditcard/…/salary-15000-apply-creditcard</td><td class="num">6</td><td class="num">3</td></tr>
+          <tr><td>/en/credit-card <span class="muted">· /promotion/creditcard/shopping</span></td><td class="num">5</td><td class="num">3</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption" style="margin-top: var(--s-150);">154 of KBank's 197 cited owned URLs are credit-card pages; only 17 are investment pages. No owned fund-selection page appears among the most-cited — the fund answers are grounded on K-Asset (earned) and external aggregators.</div>
+
+    <h3 class="subhead">Most-cited non-owned domains</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">Citation totals across all topics — the domains the assistants reach for instead of KBank.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Domain</th><th>Type</th><th class="num">Citations</th><th>Topic focus</th></tr></thead>
+        <tbody>
+          <tr><td>ktc.co.th</td><td><span class="tag-pill others">Earned</span></td><td class="num">267</td><td class="muted">Cards (competitor issuer)</td></tr>
+          <tr><td>mutualfund.yuanta.co.th</td><td><span class="tag-pill others">Earned</span></td><td class="num">201</td><td class="muted">Funds (aggregator)</td></tr>
+          <tr><td>kasikornasset.com</td><td><span class="tag-pill earned">Earned · K-Asset</span></td><td class="num">75</td><td class="muted">Funds (KBank affiliate)</td></tr>
+          <tr><td>krungsricard.com</td><td><span class="tag-pill others">Earned</span></td><td class="num">75</td><td class="muted">Cards (competitor)</td></tr>
+          <tr><td>scbam.com</td><td><span class="tag-pill others">Others</span></td><td class="num">74</td><td class="muted">Funds (competitor asset mgr)</td></tr>
+          <tr><td>th.my-best.com</td><td><span class="tag-pill earned">Earned</span></td><td class="num">61</td><td class="muted">Cards &amp; funds (aggregator)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption" style="margin-top: var(--s-150);">On investment topics specifically, the cited sources are led by the fund aggregator yuanta (201) and competitor asset managers (SCBAM 74); KBank's own fund arm, K-Asset, is cited as an earned domain (75), not as KBank-owned content.</div>
+  </section>
+
+  <!-- ============ B5 ACCESS & IMPACT ============ -->
+  <section class="section" id="access">
+    <div class="section-head">
+      <span class="section-eyebrow">B5</span>
+      <span class="section-title">Access &amp; impact</span>
+      <span class="trust partial">◐ Partly live · content visibility</span>
+    </div>
+    <p class="section-subtitle"><strong>Can agents reach the site, and does visibility turn into visits?</strong> Agentic traffic and Referral impact need CDN logs, which aren't configured. But one half of Access — content readability — is already measurable, and it surfaces a concrete technical opportunity.</p>
+
+    <div class="note alert" style="margin-bottom: var(--s-300);"><strong>The content-visibility gap.</strong> Of 82 owned pages measured, <strong>47 render under half their content</strong> to an AI crawler. The mean is 48% content visibility, and content-gain ratios reach 88× — meaning a page that renders ~14,800 words to a browser exposes only ~170 in the raw HTML a crawler reads. Where content is invisible to the crawler, it cannot be cited, even when KBank has the answer on the page.</div>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Owned page</th><th class="num">Content visibility</th><th class="num">Gain ratio</th><th>Words: raw → rendered</th></tr></thead>
+        <tbody>
+          <tr><td>/th/rate/pages/foreign-exchange-kp.aspx</td><td class="num neg">14%</td><td class="num neg">7.2×</td><td class="muted">132 → 951</td></tr>
+          <tr><td>/th/promotion/creditcard/…/travel-tripdotcom.aspx</td><td class="num neg">5%</td><td class="num neg">20.3×</td><td class="muted">72 → 1,463</td></tr>
+          <tr><td>/th/propertyforsale</td><td class="num neg">14%</td><td class="num neg">7.3×</td><td class="muted">277 → 2,022</td></tr>
+          <tr><td>/th/personal/creditcard/pages/the-passion.aspx</td><td class="num warn">40%</td><td class="num warn">2.5×</td><td class="muted">4,724 → 11,757</td></tr>
+          <tr><td>/en/branch/pages/result.aspx</td><td class="num neg">1%</td><td class="num neg">87.9×</td><td class="muted">169 → 14,853</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption" style="margin-top: var(--s-150);">Pages where content renders client-side after the crawl. Several are card-promotion and rate pages that the assistants would otherwise cite. Pre-rendering these is a high-leverage, content-free fix (see C2).</div>
+
+    <div class="note" style="margin-top: var(--s-300);">The owned-URL export shows zero citation attempts and zero referral hits (blank Agentic and Referral fields). Once CDN logs land, these layers report crawl success by page (Access) and connect citations to sessions and conversions (Impact) — closing the loop from "is KBank cited?" to "did it drive a visit and an action?".</div>
+  </section>
+
+  <!-- ======================= PART C ======================= -->
+  <div class="part action">
+    <div class="part-eyebrow">Part C · Opportunities</div>
+    <div class="part-title">Where the opportunity is — and how to act</div>
+    <div class="part-sub">The data points to one opportunity to win, one to defend, and one technical fix that compounds both — plus housekeeping. Each is framed the same way: the evidence, why it matters, what to do, and how we'll know it worked.</div>
+  </div>
+
+  <section class="section" id="picture">
+    <div class="section-head">
+      <span class="section-eyebrow">C1</span>
+      <span class="section-title">The picture in one view</span>
+    </div>
+    <p class="section-subtitle">When people ask a <strong>card question</strong>, is KBank the answer? When they ask a <strong>fund question</strong>, is KBank chosen — or do aggregators and rivals answer for it?</p>
+
+    <div class="gap-viz">
+      <div class="gap-card positive">
+        <div class="gap-label"><span class="ic ic-cards">Cards</span> &nbsp;"does KBank appear on card questions?"</div>
+        <div class="gap-num">47.4</div>
+        <div class="gap-desc">The card domain averages 47.4 visibility, rising to <em>86.4</em> on the nine branded prompts, with no negative sentiment and frequent first-position answers. KBank's owned promotion pages are the cited sources, and it leads share of voice on every card topic.</div>
+        <div class="gap-example">e.g. "What cashback promotions does a KBank credit card have now?"</div>
+      </div>
+      <div class="gap-card negative">
+        <div class="gap-label"><span class="ic ic-invest">Investments</span> &nbsp;"is KBank chosen on fund questions?"</div>
+        <div class="gap-num">23.6</div>
+        <div class="gap-desc">This domain holds 16 of the 25 dark prompts and averages 23.6. On fund selection — the highest-demand topic — KBank leads share of voice only narrowly (6.4%), and just 3.2% of the 893 citations are KBank-owned; the rest are aggregators and competitor asset managers.</div>
+        <div class="gap-example">e.g. "Which foreign mutual funds suit long-term diversification?"</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ C2 OPPORTUNITIES ============ -->
+  <section class="section" id="opportunities">
+    <div class="section-head">
+      <span class="section-eyebrow">C2</span>
+      <span class="section-title">The opportunities</span>
+    </div>
+    <p class="section-subtitle">One to win, one to defend, one technical fix — plus the housekeeping that keeps the data honest.</p>
+
+    <div class="opp">
+      <div class="opp-head"><span class="opp-title">1 · Win investment-fund discovery</span><span class="tag-pill">Manual opportunity</span><span class="ic ic-invest">Unbranded · discovery</span></div>
+      <div class="opp-body">
+        <div class="opp-row"><div class="opp-k">Evidence</div><div class="opp-v">Investment answers are heavily grounded — 893 citations — but only <strong>3.2%</strong> are KBank-owned. <em>Fund selection &amp; returns</em> is the highest-demand topic at <strong>22.5</strong> visibility with 10 dark prompts. The cited sources are the aggregator yuanta mutualfund (201), my-best, wealthmagik and finnomena, plus rival SCBAM (74). KBank's own fund arm, K-Asset, appears only as an earned domain (75). <span class="muted">Brand Presence + Data Insights + URL Inspector.</span></div></div>
+        <div class="opp-row"><div class="opp-k">Why it matters</div><div class="opp-v">This is where prospective investors choose where to put their money. Demand already exists and the model already answers confidently — it simply isn't choosing KBank's content as the source. KBank has the products (K-Asset funds) but no AI-readable owned authority for fund-selection questions. This is the pattern <em>"answers are sourced, but not from us."</em></div></div>
+        <div class="opp-row"><div class="opp-k">Action</div><div class="opp-v">Build owned, AI-readable fund content that answers the discovery questions directly — <strong>fund-selection decision pages</strong> (by goal, risk and horizon), a <strong>fund comparison</strong>, and <strong>RMF / SSF / Thai ESG tax-fund guides</strong> — on kasikornbank.com and kasikornasset.com, and earn coverage in the fund-aggregator arena (my-best, finnomena, wealthmagik) where the citations currently land.</div></div>
+        <div class="opp-row"><div class="opp-k">How we'll know</div><div class="opp-v">Owned citation share on investment topics rises above 3.2%; <em>fund selection</em> visibility climbs out of the 20s; the 16 dark investment prompts return non-zero scores; KBank's share of voice on fund topics moves past the high single digits.</div></div>
+      </div>
+    </div>
+
+    <div class="opp defend">
+      <div class="opp-head"><span class="opp-title">2 · Defend &amp; extend the card core</span><span class="tag-pill pos">Defend the win</span><span class="ic ic-cards">Cards</span></div>
+      <div class="opp-body">
+        <div class="opp-row"><div class="opp-k">Evidence</div><div class="opp-v">Card questions average <strong>47.4</strong> visibility, rising to <strong>86.4</strong> on branded prompts, with first-position answers, no negative sentiment, and KBank owning <strong>14.9%</strong> of the citations. Owned promotion pages — cashback, dining, shopping, card-comparison — are the cited sources. <span class="muted">Brand Presence + Data Insights + URL Inspector.</span></div></div>
+        <div class="opp-row"><div class="opp-k">Why it wins</div><div class="opp-v">Specific card questions meet owned, well-structured, AI-readable promotion pages, so the model grounds answers on KBank's own content. That owned grounding is the asset that produces the high score.</div></div>
+        <div class="opp-row"><div class="opp-k">What erodes it</div><div class="opp-v">Promotions are time-bound — a citation to an expired promo page is a live risk as campaigns rotate. Competitors are close behind (KTC holds 7.3% share of voice on rewards, UOB 6.5%). Visibility is re-scored continuously, so a won topic is not permanently won.</div></div>
+        <div class="opp-row"><div class="opp-k">How to keep it</div><div class="opp-v">Keep cited promotion pages current as campaigns rotate; treat them as the content-quality template for the fund build; monitor weekly for visibility drift and new competitor citations; and extend the same owned-page structure to investment journeys before gaps open.</div></div>
+        <div class="opp-row"><div class="opp-k">How we'll know</div><div class="opp-v">Card visibility holds in the high 40s or above; owned citation share stays around 15%; sentiment stays non-negative; no card topic drifts dark.</div></div>
+      </div>
+    </div>
+
+    <div class="opp tech">
+      <div class="opp-head"><span class="opp-title">3 · Pre-render the owned estate</span><span class="tag-pill p1">Technical · high leverage</span><span class="ic ic-cards" style="background:var(--blue-100);color:var(--blue-700);">Access</span></div>
+      <div class="opp-body">
+        <div class="opp-row"><div class="opp-k">Evidence</div><div class="opp-v"><strong>47 of 82</strong> measured owned pages render under half their content to an AI crawler; the mean is 48% content visibility and gain ratios reach <strong>88×</strong>. Affected pages include card-promotion, foreign-exchange-rate and property pages — content the assistants would otherwise cite. <span class="muted">Access (content visibility).</span></div></div>
+        <div class="opp-row"><div class="opp-k">Why it matters</div><div class="opp-v">Where content renders client-side after the crawl, the crawler sees a fraction of the page, so it cannot cite it — even when KBank has the best answer. This silently caps both opportunities above: building fund content won't pay off if the crawler can't read it.</div></div>
+        <div class="opp-row"><div class="opp-k">Action</div><div class="opp-v">Server-side render or pre-render the priority owned pages so the raw HTML carries the content. It is a content-free engineering fix that compounds with opportunities 1 and 2 — start with the cited card pages and the fund pages built for opportunity 1.</div></div>
+        <div class="opp-row"><div class="opp-k">How we'll know</div><div class="opp-v">Content visibility on priority pages climbs toward 90%+; gain ratios fall toward 1×; citations on pre-rendered pages rise.</div></div>
+      </div>
+    </div>
+
+    <div class="opp house">
+      <div class="opp-head"><span class="opp-title">4 · Housekeeping &amp; enablement</span><span class="tag-pill">Direct fixes</span></div>
+      <div class="opp-body">
+        <div class="opp-row"><div class="opp-k">Enable CDN</div><div class="opp-v">Supply <strong>CDN logs</strong> to light up the Agentic (Access) and Referral (Impact) layers — so crawl health becomes visible and the citation wins can be tied to on-site sessions and conversions.</div></div>
+        <div class="opp-row"><div class="opp-k">Fix tracking</div><div class="opp-v">Complete the <strong>Market-Tracking competitor list</strong> — KTC, UOB and ttb register zero there yet appear with real mentions and citations in Brand Presence, so the tracked-competitor configuration is incomplete.</div></div>
+        <div class="opp-row"><div class="opp-k">Tidy library</div><div class="opp-v">Remove the leftover <strong>blank template prompt set</strong> (generic US/GB "Card Services" rows that ship with the tool) so the export contains only KBank's 98 curated prompts.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ C3 PRIORITISE & MEASURE ============ -->
+  <section class="section" id="prioritise">
+    <div class="section-head">
+      <span class="section-eyebrow">C3</span>
+      <span class="section-title">Prioritise &amp; measure</span>
+    </div>
+    <p class="section-subtitle">Ordered by impact × effort × strength of evidence — then the metrics that tell us each is working.</p>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Priority</th><th>Move</th><th>Impact</th><th>Effort</th><th>Why this order</th></tr></thead>
+        <tbody>
+          <tr><td><span class="tag-pill p0">P0</span></td><td>Pre-render priority owned pages</td><td class="num pos">High</td><td class="muted">Low</td><td class="muted">Content-free fix; unblocks citations the data shows are being suppressed.</td></tr>
+          <tr><td><span class="tag-pill p0">P0</span></td><td>Build owned investment-fund discovery content</td><td class="num pos">High</td><td class="muted">High</td><td class="muted">Demand and grounding already exist (893 citations); only ownership is missing.</td></tr>
+          <tr><td><span class="tag-pill p1">P1</span></td><td>Defend &amp; extend the card core</td><td class="num pos">High</td><td class="muted">Med</td><td class="muted">Protects the largest source of owned citations; promos expire.</td></tr>
+          <tr><td><span class="tag-pill p1">P1</span></td><td>Earn fund-aggregator coverage</td><td class="num pos">High</td><td class="muted">Med</td><td class="muted">Reaches the domains already winning the fund citations.</td></tr>
+          <tr><td><span class="tag-pill p2">P2</span></td><td>Supply CDN logs (Access + Impact)</td><td class="muted">Med</td><td class="muted">Low</td><td class="muted">Unlocks the two remaining measurement layers.</td></tr>
+          <tr><td><span class="tag-pill p3">P3</span></td><td>Fix Market-Tracking config &amp; tidy library</td><td class="muted">Low</td><td class="muted">Low</td><td class="muted">Quick hygiene; keeps the cross-brand read complete and honest.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3 class="subhead">What to watch next</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Opportunity</th><th>Metric to watch</th><th class="num">Now</th><th>Target / direction</th></tr></thead>
+        <tbody>
+          <tr><td>Win investments</td><td>Owned citation share · investments</td><td class="num neg">3.2%</td><td><strong style="color:var(--positive-600);">Rising</strong></td></tr>
+          <tr><td>Win investments</td><td>Fund-selection visibility</td><td class="num neg">22.5</td><td><strong style="color:var(--positive-600);">Into the 40s</strong></td></tr>
+          <tr><td>Win investments</td><td>Dark prompts · investments</td><td class="num warn">16</td><td><strong style="color:var(--positive-600);">Toward 0</strong></td></tr>
+          <tr><td>Pre-render</td><td>Owned pages under 50% content visibility</td><td class="num warn">47 of 82</td><td><strong style="color:var(--positive-600);">Falling</strong></td></tr>
+          <tr><td>Defend cards</td><td>Card visibility</td><td class="num pos">47.4</td><td class="muted">Hold high-40s+</td></tr>
+          <tr><td>All</td><td>Negative sentiment</td><td class="num pos">0%</td><td class="muted">Stays low</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption" style="margin-top: var(--s-150);">Visibility is re-scored continuously; review these weekly during the content build and monthly thereafter.</div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h5>Method</h5>
+        <p>Adobe LLM Optimiser, Kasikornbank, weeks W21–W23 2026, benchmarked against KTC, SCB, UOB, Krungsri and ttb. Per-prompt analysis covers all 98 uploaded prompts (three executions each). W22 citations are incomplete and excluded from momentum.</p>
+      </div>
+      <div>
+        <h5>Coverage</h5>
+        <p>Three of five layers are live: Brand Presence, Data Insights, URL Inspector. Access is partly live via content visibility; Agentic traffic and Referral await CDN logs.</p>
+      </div>
+      <div>
+        <h5>Notes</h5>
+        <p>The cross-brand comparison (B2) spans all executions; read this as a visibility and citation snapshot. Domain splits (Cards / Investments) are derived from the six prompt topics.</p>
+      </div>
+    </div>
+    <div class="credit">
+      <span class="logo-img" role="img" aria-label="Adobe"></span>
+      <span>Generated by Adobe LLM Optimiser · Kasikornbank · June 2026</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // Scrollspy — highlights the TOC tab matching the section currently in view.
+  (function() {
+    const tabs = document.querySelectorAll('.toc-tabs a');
+    if (!tabs.length) return;
+    const tocContainer = tabs[0].parentElement;
+    const tabByHash = new Map();
+    tabs.forEach(t => tabByHash.set(t.getAttribute('href'), t));
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    if (!sections.length) return;
+    let suspendUntil = 0;
+    let lastHash = null;
+    const ensureTabVisible = (tab) => {
+      if (!tab || tocContainer.scrollWidth <= tocContainer.clientWidth) return;
+      const pad = 24;
+      const tabLeft = tab.offsetLeft;
+      const tabRight = tabLeft + tab.offsetWidth;
+      const viewLeft = tocContainer.scrollLeft;
+      const viewRight = viewLeft + tocContainer.clientWidth;
+      if (tabLeft < viewLeft + pad) {
+        tocContainer.scrollTo({ left: Math.max(0, tabLeft - pad), behavior: 'smooth' });
+      } else if (tabRight > viewRight - pad) {
+        tocContainer.scrollTo({ left: tabRight - tocContainer.clientWidth + pad, behavior: 'smooth' });
+      }
+    };
+    const setActive = (hash) => {
+      if (hash === lastHash) return;
+      lastHash = hash;
+      tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === hash));
+      ensureTabVisible(tabByHash.get(hash));
+    };
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      if (Date.now() < suspendUntil) return;
+      const scanLine = window.innerHeight * 0.33;
+      let current = sections[0];
+      for (const s of sections) {
+        if (s.getBoundingClientRect().top <= scanLine) current = s;
+        else break;
+      }
+      setActive('#' + current.id);
+    };
+    const onScroll = () => {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    tabs.forEach(t => {
+      t.addEventListener('click', () => {
+        const target = t.getAttribute('href');
+        setActive(target);
+        if (!prefersReducedMotion) { suspendUntil = Date.now() + 900; }
+        setTimeout(() => t.blur(), 0);
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

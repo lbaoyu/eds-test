@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasikornbank · Prompt Library Audit · Adobe LLM Optimiser</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     Adobe Spectrum design tokens
+     ============================================================ */
+  :root {
+    /* Gray scale (Spectrum light) */
+    --gray-50:  #FFFFFF;
+    --gray-75:  #FAFAFA;
+    --gray-100: #F5F5F5;
+    --gray-200: #EAEAEA;
+    --gray-300: #E1E1E1;
+    --gray-400: #CACACA;
+    --gray-500: #B3B3B3;
+    --gray-600: #8E8E8E;
+    --gray-700: #6E6E6E;
+    --gray-800: #4B4B4B;
+    --gray-900: #2C2C2C;
+
+    /* Spectrum blue — primary accent */
+    --blue-400: #2680EB;
+    --blue-500: #1473E6;
+    --blue-600: #0D66D0;
+    --blue-700: #095ABA;
+    --blue-800: #064E9F;
+    --blue-100: #E0F2FF;
+    --blue-75:  #EDF7FF;
+
+    /* Semantic */
+    --positive-500: #2D9D78;
+    --positive-100: #DEF2EA;
+    --negative-500: #E34850;
+    --negative-600: #D7373F;
+    --negative-100: #FAE5E5;
+    --notice-500:   #E68619;
+    --notice-100:   #FBE8C9;
+    --informative-500: #1473E6;
+
+    /* Categorical (data viz) */
+    --cat-1: #1473E6;
+    --cat-2: #6431AB;
+    --cat-3: #C81E70;
+    --cat-4: #BD5F00;
+    --cat-5: #268E6C;
+
+    /* Adobe brand identifier — used only for product mark */
+    --adobe-red: #EB1000;
+    --adobe-logo: url('data:image/png;base64,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');
+
+    /* Typography */
+    --font-sans:  'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --font-serif: 'Source Serif 4', Georgia, serif;
+    --font-mono:  'Source Code Pro', 'SF Mono', Menlo, monospace;
+
+    /* Type scale — 4-step, minimum 18px */
+    --t-sm:  18px;   /* body, labels, captions, table cells, pills, mono, footer */
+    --t-md:  24px;   /* subheads, section titles, insight, strategic h */
+    --t-lg:  40px;   /* KPI values, stat values, page title */
+    --t-xl:  64px;   /* hero gap numbers */
+
+    /* Spacing (Spectrum 8px grid) */
+    --s-50:   2px;
+    --s-75:   4px;
+    --s-100:  8px;
+    --s-150: 12px;
+    --s-200: 16px;
+    --s-300: 24px;
+    --s-400: 32px;
+    --s-500: 40px;
+    --s-600: 48px;
+    --s-700: 64px;
+    --s-800: 80px;
+    --s-900: 96px;
+
+    /* Radii */
+    --r-sm: 4px;
+    --r-md: 6px;
+    --r-lg: 8px;
+
+    /* Elevation */
+    --shadow-1: 0 1px 4px rgba(0,0,0,0.06);
+    --shadow-2: 0 2px 8px rgba(0,0,0,0.08), 0 0 0 1px var(--gray-200);
+  }
+
+  /* ============================================================
+     Base
+     ============================================================ */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--gray-100);
+    color: var(--gray-900);
+    line-height: 1.6;
+    font-size: var(--t-sm);
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* ============================================================
+     Top app bar — Adobe Spectrum style
+     ============================================================ */
+  .appbar {
+    background: var(--gray-50);
+    border-bottom: 1px solid var(--gray-200);
+    padding: var(--s-150) var(--s-400);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .appbar-left {
+    display: flex;
+    align-items: center;
+    gap: var(--s-200);
+  }
+  .adobe-mark {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s-150);
+  }
+  .adobe-mark .logo-img {
+    width: 36px;
+    height: 32px;
+    display: block;
+    flex-shrink: 0;
+    background-image: var(--adobe-logo);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  .adobe-mark .product {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    letter-spacing: -0.005em;
+  }
+  .adobe-mark .product span {
+    color: var(--gray-700);
+    font-weight: 400;
+    margin-left: var(--s-75);
+  }
+  .appbar-divider {
+    width: 1px;
+    height: 20px;
+    background: var(--gray-300);
+  }
+  .appbar-context {
+    font-family: var(--font-sans);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    font-weight: 500;
+  }
+  .appbar-right {
+    display: flex;
+    gap: var(--s-200);
+    align-items: center;
+  }
+  .filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 14px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    font-weight: 500;
+  }
+  .filter-chip .chip-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-transform: none;
+    letter-spacing: 0;
+    font-weight: 400;
+  }
+  .filter-chip .chip-value {
+    color: var(--gray-900);
+    font-weight: 600;
+  }
+
+  /* ============================================================
+     Page container
+     ============================================================ */
+  .page {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: var(--s-600) var(--s-500) var(--s-900);
+  }
+
+  /* ============================================================
+     Page header / hero
+     ============================================================ */
+  .page-header {
+    margin-bottom: var(--s-600);
+  }
+  .breadcrumb {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-200);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .breadcrumb a { color: var(--blue-600); text-decoration: none; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb-sep { color: var(--gray-400); }
+
+  h1.page-title {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--gray-900);
+    margin-bottom: var(--s-200);
+  }
+  h1.page-title .accent {
+    color: var(--blue-600);
+    font-weight: 700;
+  }
+  .page-lede {
+    font-size: var(--t-md);
+    line-height: 1.6;
+    color: var(--gray-800);
+    max-width: none;
+    font-weight: 400;
+  }
+
+  .info-banner {
+    margin-top: var(--s-400);
+    padding: var(--s-200) var(--s-300);
+    background: var(--blue-75);
+    border: 1px solid var(--blue-100);
+    border-left: 3px solid var(--blue-500);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    line-height: 1.6;
+    max-width: none;
+    display: flex;
+    gap: var(--s-200);
+    align-items: flex-start;
+  }
+  .info-banner .info-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    background: var(--blue-500);
+    border-radius: 50%;
+    color: white;
+    font-size: var(--t-sm);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+  .info-banner strong { font-weight: 600; }
+  .info-banner em { font-style: normal; color: var(--blue-700); font-weight: 600; }
+
+  /* ============================================================
+     Cards (Spectrum)
+     ============================================================ */
+  .card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-400);
+  }
+
+  /* ============================================================
+     Section block
+     ============================================================ */
+  .section {
+    margin-bottom: var(--s-600);
+  }
+  .section-head {
+    margin-bottom: var(--s-300);
+    display: flex;
+    align-items: baseline;
+    gap: var(--s-200);
+    border-bottom: 1px solid var(--gray-300);
+    padding-bottom: var(--s-200);
+  }
+  .section-eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--blue-600);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .section-title {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    letter-spacing: -0.01em;
+  }
+  .section-subtitle {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    max-width: none;
+    line-height: 1.6;
+    margin-bottom: var(--s-300);
+  }
+
+  /* ============================================================
+     KPI tiles (Spectrum metric cards)
+     ============================================================ */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--s-200);
+  }
+  .kpi {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-300);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .kpi:hover {
+    border-color: var(--gray-400);
+    box-shadow: var(--shadow-1);
+  }
+  .kpi .label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-150);
+    letter-spacing: 0;
+  }
+  .kpi .value {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--s-100);
+    font-variant-numeric: tabular-nums;
+  }
+  .kpi .delta {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+  }
+  .kpi .delta.up { color: var(--positive-500); }
+  .kpi .delta.down { color: var(--negative-600); }
+  .kpi .delta.flat { color: var(--notice-500); }
+  .kpi .delta .arrow {
+    font-size: var(--t-sm);
+    line-height: 1;
+  }
+  @media (max-width: 900px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 540px) { .kpi-grid { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Insight callout (Spectrum status banner, scaled up)
+     ============================================================ */
+  .insight {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-400) var(--s-500);
+    position: relative;
+    overflow: hidden;
+  }
+  .insight::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 4px;
+    background: var(--blue-500);
+  }
+  .insight .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    text-transform: uppercase;
+    color: var(--blue-700);
+    background: var(--blue-100);
+    padding: 4px 10px;
+    border-radius: var(--r-sm);
+    font-weight: 600;
+    margin-bottom: var(--s-200);
+    letter-spacing: 0.04em;
+  }
+  .insight blockquote {
+    font-family: var(--font-sans);
+    font-size: var(--t-md);
+    line-height: 1.4;
+    font-weight: 600;
+    color: var(--gray-900);
+    letter-spacing: -0.01em;
+  }
+  .insight blockquote em {
+    font-style: normal;
+    color: var(--blue-600);
+    font-weight: 700;
+  }
+
+  /* ============================================================
+     Gap visualization (two-up)
+     ============================================================ */
+  .gap-viz {
+    margin-top: var(--s-300);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-200);
+  }
+  .gap-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-300) var(--s-400);
+  }
+  .gap-card.positive { border-top: 4px solid var(--positive-500); }
+  .gap-card.negative { border-top: 4px solid var(--negative-500); }
+  .gap-card .gap-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+    margin-bottom: var(--s-100);
+  }
+  .gap-card .gap-num {
+    font-size: var(--t-xl);
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--s-150);
+    font-variant-numeric: tabular-nums;
+  }
+  .gap-card.positive .gap-num { color: var(--positive-500); }
+  .gap-card.negative .gap-num { color: var(--negative-600); }
+  .gap-card .gap-desc {
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    line-height: 1.6;
+    max-width: none;
+  }
+  .gap-card .gap-example {
+    margin-top: var(--s-200);
+    padding-top: var(--s-200);
+    border-top: 1px solid var(--gray-200);
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+  @media (max-width: 720px) { .gap-viz { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Read-this-as note (Spectrum tip)
+     ============================================================ */
+  .note {
+    margin: var(--s-300) 0;
+    padding: var(--s-200) var(--s-300);
+    background: var(--gray-100);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+    line-height: 1.65;
+    color: var(--gray-800);
+    border-left: 3px solid var(--gray-500);
+    max-width: none;
+  }
+  .note strong { color: var(--gray-900); font-weight: 600; }
+  .note em { font-style: normal; color: var(--blue-700); font-weight: 600; }
+  .note.alert {
+    background: var(--notice-100);
+    border-left-color: var(--notice-500);
+  }
+  .note.alert strong { color: var(--gray-900); }
+
+  /* ============================================================
+     Data tables (Spectrum)
+     ============================================================ */
+  .table-wrap {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    overflow: hidden;
+  }
+  table.data {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--t-sm);
+  }
+  table.data thead {
+    background: var(--gray-100);
+    border-bottom: 1px solid var(--gray-300);
+  }
+  table.data th {
+    text-align: left;
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 600;
+    padding: var(--s-200);
+    letter-spacing: 0.02em;
+    border-bottom: 1px solid var(--gray-300);
+    white-space: nowrap;
+  }
+  table.data th.num, table.data td.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+  table.data td {
+    padding: var(--s-200);
+    border-bottom: 1px solid var(--gray-200);
+    color: var(--gray-900);
+    vertical-align: middle;
+    font-size: var(--t-sm);
+  }
+  table.data td.num {
+    font-family: var(--font-sans);
+    font-weight: 500;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+  }
+  table.data tbody tr:hover { background: var(--gray-100); }
+  table.data tbody tr:last-child td { border-bottom: none; }
+  table.data .accent { color: var(--blue-600); font-weight: 600; }
+  table.data .muted { color: var(--gray-700); font-size: var(--t-sm); }
+  table.data .pos { color: var(--positive-500); font-weight: 600; }
+  table.data .neg { color: var(--negative-600); font-weight: 600; }
+  table.data .warn { color: var(--notice-500); font-weight: 600; }
+
+  /* Tags / pills (Spectrum tags) */
+  .tag-pill {
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 16px;
+    font-size: var(--t-sm);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .tag-pill.owned    { background: var(--blue-100);     color: var(--blue-700);     }
+  .tag-pill.earned   { background: var(--gray-200);     color: var(--gray-800);     }
+  .tag-pill.others   { background: var(--notice-100);   color: var(--notice-500);   }
+  .tag-pill.social   { background: var(--gray-100);     color: var(--gray-700);     }
+  .tag-pill.p0       { background: var(--negative-100); color: var(--negative-600); }
+  .tag-pill.p1       { background: var(--blue-100);     color: var(--blue-700);     }
+  .tag-pill.p2       { background: var(--notice-100);   color: var(--notice-500);   }
+  .tag-pill.p3       { background: var(--gray-200);     color: var(--gray-800);     }
+  .tag-pill.pos      { background: var(--positive-100); color: var(--positive-500); }
+  .tag-pill.neg      { background: var(--negative-100); color: var(--negative-600); }
+  .tag-pill.warn-tag { background: var(--notice-100);   color: var(--notice-500);   }
+
+  /* Inline bar */
+  .bar-cell { min-width: 140px; }
+  .bar { display: flex; align-items: center; gap: 10px; }
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill { height: 100%; background: var(--blue-500); border-radius: 3px; }
+  .bar-fill.pos  { background: var(--positive-500); }
+  .bar-fill.warn { background: var(--notice-500); }
+  .bar-fill.neg  { background: var(--negative-500); }
+  .bar-val {
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    min-width: 48px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ============================================================
+     Two-column grid
+     ============================================================ */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-300);
+  }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+  .subhead {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin: var(--s-400) 0 var(--s-200);
+    letter-spacing: -0.005em;
+  }
+  .subhead:first-child { margin-top: 0; }
+
+  /* ============================================================
+     Source-type summary stat-blocks
+     ============================================================ */
+  .stat-list {
+    display: grid;
+    gap: var(--s-200);
+  }
+  .stat-row {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-200) var(--s-300);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--s-200);
+  }
+  .stat-row .stat-info { display: flex; flex-direction: column; gap: 2px; }
+  .stat-row .stat-label {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    font-weight: 500;
+  }
+  .stat-row .stat-desc {
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+  }
+  .stat-row .stat-value {
+    font-family: var(--font-sans);
+    font-size: var(--t-lg);
+    font-weight: 700;
+    color: var(--gray-900);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .stat-row.owned .stat-value { color: var(--blue-600); }
+
+  /* ============================================================
+     Funnel
+     ============================================================ */
+  .funnel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-100);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-md);
+    padding: var(--s-200);
+  }
+  .funnel-row {
+    display: grid;
+    grid-template-columns: 1fr 120px 80px;
+    align-items: center;
+    padding: var(--s-200);
+    background: var(--gray-100);
+    border-radius: var(--r-sm);
+    transition: background 0.15s;
+  }
+  .funnel-row:hover { background: var(--gray-200); }
+  .funnel-row .stage {
+    font-size: var(--t-sm);
+    color: var(--gray-900);
+    font-weight: 500;
+  }
+  .funnel-row .volume {
+    font-family: var(--font-sans);
+    font-size: var(--t-sm);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--gray-900);
+  }
+  .funnel-row .conv {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-align: right;
+  }
+  .funnel-row.final {
+    background: var(--blue-100);
+    border: 1px solid var(--blue-500);
+  }
+  .funnel-row.final .stage,
+  .funnel-row.final .volume { color: var(--blue-700); font-weight: 700; }
+  .funnel-row.final .conv { color: var(--blue-700); font-weight: 700; }
+  /* funnel source tags + pending placeholder */
+  .funnel-row .stage .src { display:inline-block; font-family: var(--font-mono); font-size:10px; line-height:1.4; font-weight:700; letter-spacing:0.04em; padding:2px 6px; border-radius:4px; margin-right:8px; vertical-align:1px; }
+  .funnel-row .stage .src.real    { background: var(--positive-100); color: var(--positive-600); }
+  .funnel-row .stage .src.trial   { background: var(--blue-100);     color: var(--blue-700);   }
+  .funnel-row .stage .src.pending { background: var(--gray-200);      color: var(--gray-600);   }
+  .funnel-row.pending { background: transparent; border:1px dashed var(--gray-300); }
+  .funnel-row.pending .stage, .funnel-row.pending .volume, .funnel-row.pending .conv { color: var(--gray-500); }
+  .funnel-legend { display:flex; gap: var(--s-300); flex-wrap:wrap; margin-top: var(--s-200); font-size: var(--t-sm); color: var(--gray-700); }
+  .funnel-legend > span { display:inline-flex; align-items:center; gap:6px; }
+  .funnel-legend .lg { font-family: var(--font-mono); font-size:10px; font-weight:700; letter-spacing:0.04em; padding:2px 6px; border-radius:4px; }
+  .funnel-legend .lg.real { background: var(--positive-100); color: var(--positive-600); }
+  .funnel-legend .lg.trial { background: var(--blue-100); color: var(--blue-700); }
+  .funnel-legend .lg.pending { background: var(--gray-200); color: var(--gray-600); }
+
+  /* ============================================================
+     Referral URL chips
+     ============================================================ */
+  .url-chip-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--s-100);
+    margin-top: var(--s-200);
+  }
+  .url-chip {
+    display: flex;
+    align-items: center;
+    gap: var(--s-150);
+    padding: var(--s-200);
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: var(--r-sm);
+    font-size: var(--t-sm);
+  }
+  .url-chip .hits {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--blue-600);
+    background: var(--blue-100);
+    padding: 5px 12px;
+    border-radius: var(--r-sm);
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .url-chip .path {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .url-chip .warn { color: var(--notice-500); font-size: var(--t-sm); font-weight: 600; margin-left: auto; }
+  @media (max-width: 720px) { .url-chip-list { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Action cards
+     ============================================================ */
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--s-200);
+  }
+  .action {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-top: 4px solid var(--blue-500);
+    border-radius: var(--r-md);
+    padding: var(--s-300);
+  }
+  .action .num-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: var(--blue-100);
+    color: var(--blue-700);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: var(--t-sm);
+    border-radius: 50%;
+    margin-bottom: var(--s-200);
+  }
+  .action h4 {
+    font-size: var(--t-md);
+    font-weight: 700;
+    color: var(--gray-900);
+    margin-bottom: var(--s-100);
+    line-height: 1.3;
+  }
+  .action p {
+    font-size: var(--t-sm);
+    color: var(--gray-800);
+    line-height: 1.6;
+  }
+  @media (max-width: 900px) { .actions { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     Strategic posture
+     ============================================================ */
+  .strategic {
+    margin-top: var(--s-400);
+    padding: var(--s-400) var(--s-500);
+    background: linear-gradient(135deg, var(--blue-500) 0%, var(--blue-700) 100%);
+    border-radius: var(--r-md);
+    color: white;
+  }
+  .strategic .tag-pill {
+    background: rgba(255,255,255,0.15);
+    color: white;
+    margin-bottom: var(--s-200);
+  }
+  .strategic .strategic-h {
+    font-size: var(--t-md);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+    margin-bottom: var(--s-200);
+  }
+  .strategic .strategic-h em { font-style: normal; opacity: 0.85; }
+  .strategic .strategic-p {
+    font-size: var(--t-sm);
+    line-height: 1.6;
+    color: rgba(255,255,255,0.92);
+    max-width: none;
+  }
+
+  /* ============================================================
+     Footer
+     ============================================================ */
+  footer {
+    margin-top: var(--s-700);
+    padding-top: var(--s-400);
+    border-top: 1px solid var(--gray-300);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.6;
+  }
+  footer .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: var(--s-400);
+    margin-bottom: var(--s-400);
+  }
+  footer h5 {
+    font-size: var(--t-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--gray-900);
+    font-weight: 700;
+    margin-bottom: var(--s-150);
+  }
+  footer p { margin-bottom: var(--s-100); }
+  footer strong { color: var(--gray-900); font-weight: 600; }
+  footer em { font-style: italic; }
+  footer .credit {
+    text-align: center;
+    padding-top: var(--s-200);
+    border-top: 1px solid var(--gray-200);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--s-100);
+  }
+  footer .credit .logo-img {
+    width: 20px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    background-image: var(--adobe-logo);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  @media (max-width: 720px) { footer .footer-grid { grid-template-columns: 1fr; } }
+
+  /* ============================================================
+     TOC tabs (Spectrum tabs) — sticky, scrollspy-driven
+     ============================================================ */
+  .toc-tabs {
+    display: flex;
+    gap: 0;
+    margin: 0 0 var(--s-500);
+    overflow-x: auto;
+    position: sticky;
+    top: 64px;                           /* sits below the appbar */
+    z-index: 50;
+    background: var(--gray-100);
+    /* Use a wrapper-style bottom border via box-shadow to avoid layout shift */
+    box-shadow: inset 0 -1px 0 var(--gray-300);
+    scrollbar-width: thin;
+  }
+  .toc-tabs::-webkit-scrollbar { height: 4px; }
+  .toc-tabs::-webkit-scrollbar-thumb { background: var(--gray-300); border-radius: 2px; }
+
+  .toc-tabs a {
+    padding: var(--s-200) var(--s-300);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    text-decoration: none;
+    font-weight: 500;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    /* Underline pseudo-element instead of border — no layout shift, no focus-ring conflict */
+    transition: color 0.15s ease;
+  }
+  .toc-tabs a::after {
+    content: "";
+    position: absolute;
+    left: var(--s-300);
+    right: var(--s-300);
+    bottom: 0;
+    height: 2px;
+    background: transparent;
+    transition: background-color 0.15s ease;
+    pointer-events: none;
+  }
+  .toc-tabs a:hover { color: var(--blue-600); }
+  .toc-tabs a:hover::after { background: var(--blue-400); }
+  .toc-tabs a.active { color: var(--blue-700); font-weight: 600; }
+  .toc-tabs a.active::after { background: var(--blue-600); }
+
+  /* Suppress sticky mouse-click focus rings; keep keyboard focus accessible */
+  .toc-tabs a:focus { outline: none; }
+  .toc-tabs a:focus-visible {
+    outline: 2px solid var(--blue-500);
+    outline-offset: -4px;
+    border-radius: var(--r-sm);
+  }
+
+  .toc-tabs a .num {
+    font-family: var(--font-mono);
+    font-size: var(--t-sm);
+    color: var(--gray-600);
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+  .toc-tabs a:hover .num,
+  .toc-tabs a.active .num { color: var(--blue-600); }
+
+  /* Scroll anchor offset — clears both sticky appbar + sticky TOC */
+  .section[id] { scroll-margin-top: 140px; }
+
+  /* Caption */
+  .caption {
+    margin-top: var(--s-100);
+    font-size: var(--t-sm);
+    color: var(--gray-700);
+    line-height: 1.5;
+  }
+  .caption strong { color: var(--gray-900); font-weight: 600; }
+
+  /* Print */
+  @media print {
+    body { background: white; font-size: 10pt; }
+    .appbar { position: static; box-shadow: none; }
+    .page { padding: var(--s-300); max-width: 100%; }
+    .section { page-break-inside: avoid; }
+    .actions, .insight, .strategic, .kpi-grid { page-break-inside: avoid; }
+    .toc-tabs { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<style>
+  .status { display:inline-flex; align-items:center; gap:7px; font-weight:700; font-size: var(--t-sm); padding:4px 12px; border-radius:14px; white-space:nowrap; }
+  .status.pass { background: var(--positive-100); color: var(--positive-500); }
+  .status.warn { background: var(--notice-100);   color: var(--notice-500);   }
+  .status.fail { background: var(--negative-100); color: var(--negative-600); }
+  .status .dot { width:8px; height:8px; border-radius:50%; background: currentColor; }
+  .readiness { display:grid; grid-template-columns: 170px 1fr; gap: var(--s-400); align-items:center; background: var(--gray-50); border:1px solid var(--gray-200); border-left:4px solid var(--notice-500); border-radius: var(--r-md); padding: var(--s-400) var(--s-500); margin-bottom: var(--s-300); }
+  .readiness .score { font-size: 48px; font-weight:800; line-height:1; letter-spacing:-0.03em; color: var(--notice-500); font-variant-numeric: tabular-nums; }
+  .readiness .score small { display:block; font-size: var(--t-sm); font-weight:600; color: var(--gray-700); margin-top: var(--s-100); letter-spacing:0; line-height:1.4; }
+  .readiness .verdict h4 { font-size: var(--t-md); font-weight:700; color: var(--gray-900); margin-bottom: var(--s-100); }
+  .readiness .verdict p { font-size: var(--t-sm); color: var(--gray-800); line-height:1.55; max-width:none; }
+  @media (max-width:720px){ .readiness{ grid-template-columns:1fr; } }
+  .rewrite { display:grid; grid-template-columns: 1fr 1fr; gap:var(--s-200); margin-bottom: var(--s-200); }
+  .rewrite .before, .rewrite .after { padding: var(--s-300); border-radius: var(--r-md); border:1px solid var(--gray-200); }
+  .rewrite .before { background: var(--negative-100); border-color: #f3cccc; }
+  .rewrite .after  { background: var(--positive-100); border-color: #c7e6da; }
+  .rewrite .rw-label { font-family: var(--font-mono); font-size: var(--t-sm); font-weight:700; letter-spacing:0.04em; text-transform:uppercase; margin-bottom: var(--s-100); }
+  .rewrite .before .rw-label { color: var(--negative-600); }
+  .rewrite .after .rw-label { color: var(--positive-500); }
+  .rewrite .rw-text { font-size: var(--t-sm); color: var(--gray-900); line-height:1.5; }
+  .rewrite .rw-gloss { font-size: var(--t-sm); color: var(--gray-700); font-style: italic; margin-top: 4px; }
+  @media (max-width:720px){ .rewrite{ grid-template-columns:1fr; } }
+  .gloss { color: var(--gray-700); font-style: italic; }
+</style>
+
+<style>
+  .spine-flow { display:flex; align-items:center; flex-wrap:wrap; gap: var(--s-150); margin: var(--s-300) 0 0; font-family: var(--font-mono); font-weight:700; font-size: var(--t-sm); letter-spacing:0.02em; }
+  .spine-flow .sf { color: var(--blue-600); }
+  .spine-flow .sf.pending { color: var(--gray-500); }
+  .spine-flow .arr { color: var(--gray-400); font-weight:400; }
+  .ic { font-family: var(--font-mono); font-size: 11px; font-weight: 700; letter-spacing: 0.03em; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+  .ic-cards { background: var(--positive-100); color: var(--positive-600); }
+  .ic-invest { background: var(--gray-200); color: var(--gray-700); }
+  .spine-flow .sf-note { font-family: var(--font-sans); font-weight:600; color: var(--gray-700); margin-left: var(--s-200); }
+  .spine-flow .sf-note strong { color: var(--gray-900); }
+</style>
+
+<!-- ============ ADOBE APP BAR ============ -->
+<div class="appbar">
+  <div class="appbar-left">
+    <div class="adobe-mark">
+      <div class="logo-img" role="img" aria-label="Adobe"></div>
+      <div class="product">Adobe<span>LLM Optimiser</span></div>
+    </div>
+    <div class="appbar-divider"></div>
+    <div class="appbar-context">Kasikornbank · Prompt Library Audit</div>
+  </div>
+  <div class="appbar-right">
+    <div class="filter-chip"><span class="chip-label">Library</span><span class="chip-value">98 prompts</span></div>
+    <div class="filter-chip"><span class="chip-label">Market</span><span class="chip-value">Thailand</span></div>
+    <div class="filter-chip"><span class="chip-label">Stage</span><span class="chip-value">Post-run review</span></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- ============ PAGE HEADER ============ -->
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="#">Customers</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="#">Kasikornbank</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>Prompt Library Audit</span>
+    </div>
+    <h1 class="page-title">A clean, all-human library. <span class="accent">The numbers behind the Snapshot can be trusted.</span></h1>
+    <p class="page-lede">
+      An audit of the prompt library behind the KBank snapshot — the instrument that produces the results. All 98 prompts are human-uploaded for the Thailand market; there is no auto-generated set to remove. 25 return no visibility, and they cluster exactly where the opportunity is — investment-fund discovery — so the library is correctly surfacing the gap. What to do about it lives in the Snapshot.
+    </p>
+
+    <div class="info-banner">
+      <div class="info-icon">i</div>
+      <div>
+        <strong>Where this sits.</strong> The Core Dashboards read in one order — Visibility, Validation, Access, Sources, Impact. This audit is the instrument behind the <em>Validation</em> layer (Data Insights): it validates answer quality, grounding and opportunity gaps. Every figure was verified against the export.
+      </div>
+    </div>
+
+    <div class="spine-flow">
+      <span class="sf pending">Visibility</span><span class="arr">→</span>
+      <span class="sf">Validation</span><span class="arr">→</span>
+      <span class="sf pending">Access</span><span class="arr">→</span>
+      <span class="sf pending">Sources</span><span class="arr">→</span>
+      <span class="sf pending">Impact</span>
+      <span class="sf-note">— this audit is the instrument behind <strong>Validation</strong> (Data Insights)</span>
+    </div>
+  </div>
+
+  <!-- TOC nav -->
+  <nav class="toc-tabs">
+    <a href="#summary"><span class="num">01</span>Verdict &amp; Readiness</a>
+    <a href="#facts"><span class="num">02</span>Key Facts</a>
+    <a href="#strengths"><span class="num">03</span>What's Strong &amp; Why</a>
+    <a href="#issues"><span class="num">04</span>What To Fix</a>
+    <a href="#mix"><span class="num">05</span>Branded vs Unbranded</a>
+    <a href="#rewrite"><span class="num">06</span>Adding Prompts Well</a>
+  </nav>
+
+  <section class="section" id="summary">
+    <div class="section-head">
+      <span class="section-eyebrow">01</span>
+      <span class="section-title">Summary &amp; readiness</span>
+    </div>
+    <p class="section-subtitle">Is the prompt library — the instrument behind the Snapshot — sound and complete enough to trust the read?</p>
+
+    <div class="readiness" style="border-left-color: var(--positive-500);">
+      <div class="score" style="color: var(--positive-500);">4&#8202;/&#8202;5<small>library<br>readiness</small></div>
+      <div class="verdict">
+        <h4>A sound, all-human library — with a few enablement tidy-ups.</h4>
+        <p>Read the two domains apart. The 50 <strong>card</strong> prompts average 47.4 — rising to 86.4 on the nine branded ones — and the model consistently surfaces KBank from its owned promotion pages. The 48 <strong>investment</strong> prompts average 23.6 and hold 16 of the 25 dark prompts — on fund questions that don't name KBank, the bank is surfaced far less consistently. Both domains are well-formed and measure the right questions, so the Snapshot's read is trustworthy. The dark prompts are real demand KBank doesn't yet answer, not library faults. Three enablement notes: configure CDN to light up Access and Impact; complete the Market-Tracking competitor list; and remove a leftover blank template prompt set from the export.</p>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Dimension</th><th>Rating</th><th>Read</th></tr></thead>
+        <tbody>
+          <tr><td>Branded · cards</td><td><span class="status pass"><span class="dot"></span>5 / 5</span></td><td class="muted">"Does KBank appear when named?" — 86.4 avg, 0 of 9 dark, all first-position.</td></tr>
+          <tr><td>Unbranded · cards</td><td><span class="status pass"><span class="dot"></span>4 / 5</span></td><td class="muted">Relative strength — owned promo pages cited; 9 dark across 41 prompts.</td></tr>
+          <tr><td>Unbranded · investments</td><td><span class="status warn"><span class="dot"></span>3 / 5</span></td><td class="muted">"Is KBank chosen unprompted?" — 23.6 avg, 16 dark. The build target; highest demand.</td></tr>
+          <tr><td>Topic / category structure</td><td><span class="status pass"><span class="dot"></span>5 / 5</span></td><td class="muted">6 topics map 1:1 to categories. No mis-mapping or duplication.</td></tr>
+          <tr><td>Library hygiene</td><td><span class="status warn"><span class="dot"></span>action</span></td><td class="muted">Leftover blank template prompts to remove; Market-Tracking config incomplete.</td></tr>
+          <tr><td>Measurement layers</td><td><span class="status warn"><span class="dot"></span>pending</span></td><td class="muted">CDN not configured — Access (agentic) and Impact (referral) await logs.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="note alert">
+      <strong>Bottom line:</strong> the 98 uploaded prompts are well-formed and measure the right questions — the Snapshot's read can be trusted. Build owned investment-fund content (the opportunity), configure CDN to complete measurement, and tidy the tracking config. The strategy for the fund-discovery opportunity is in the Snapshot.
+    </div>
+  </section>
+
+  <section class="section" id="facts">
+    <div class="section-head">
+      <span class="section-eyebrow">02</span>
+      <span class="section-title">Key facts</span>
+    </div>
+    <p class="section-subtitle">The numbers behind the assessment — all verified against the export.</p>
+
+    <div class="two-col">
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Library</th><th class="num">Value</th></tr></thead>
+          <tbody>
+            <tr><td>Uploaded prompts (analysed)</td><td class="num pos">98</td></tr>
+            <tr><td>Auto-generated (excluded)</td><td class="num pos">0</td></tr>
+            <tr><td>Topics</td><td class="num">6</td></tr>
+            <tr><td>Categories</td><td class="num">6</td></tr>
+            <tr><td>Domains · Cards : Investments</td><td class="num">50 : 48</td></tr>
+            <tr><td>Branded : unbranded</td><td class="num">9 : 89</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="table-wrap">
+        <table class="data">
+          <thead><tr><th>Performance</th><th class="num">Value</th></tr></thead>
+          <tbody>
+            <tr><td>Cards — avg visibility</td><td class="num pos">47.4</td></tr>
+            <tr><td>Investments — avg visibility</td><td class="num warn">23.6</td></tr>
+            <tr><td>Zero-visibility prompts</td><td class="num warn">25</td></tr>
+            <tr><td>— of which investments</td><td class="num neg">16 / 25</td></tr>
+            <tr><td>Branded — avg visibility</td><td class="num pos">86.4</td></tr>
+            <tr><td>Owned citation share</td><td class="num">10.7%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="caption">The export's Origin field marks every prompt as human-uploaded and every market as Thailand. Counts, splits, zero-visibility figures and per-domain visibility were all confirmed against it; W22 citations are incomplete and excluded from momentum.</div>
+  </section>
+
+  <section class="section" id="strengths">
+    <div class="section-head">
+      <span class="section-eyebrow">03</span>
+      <span class="section-title">What's strong &amp; why</span>
+    </div>
+    <p class="section-subtitle">The credit-card domain — the topics the assistants answer with the highest visibility, especially when KBank is named.</p>
+
+    <div class="two-col">
+      <div>
+        <h3 class="subhead">Strongest topics</h3>
+        <div class="table-wrap">
+          <table class="data">
+            <tbody>
+              <tr><td>Branded card prompts <span class="muted">86.4</span></td><td><span class="tag-pill pos">Strong</span></td></tr>
+              <tr><td>Deals &amp; application <span class="muted">55.2</span></td><td><span class="tag-pill pos">Strong</span></td></tr>
+              <tr><td>Rewards, promotions &amp; tiers <span class="muted">51.0</span></td><td><span class="tag-pill pos">Strong</span></td></tr>
+              <tr><td>Eligibility &amp; lifestyle fit <span class="muted">20.9</span></td><td><span class="tag-pill warn-tag">Mixed</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div>
+        <h3 class="subhead">Examples <span class="gloss" style="font-weight:400;">(branded card prompts)</span></h3>
+        <div class="card">
+          <div style="font-family: var(--font-mono); font-size: var(--t-sm); line-height:1.8; color: var(--gray-800);">
+            ตอนนี้บัตรเครดิตกสิกรมีโปรคืนเงินหรือแคชแบ็คอะไรบ้าง?<br>
+            <span class="gloss">— What cashback promotions does a KBank card have now?</span><br>
+            รีวิวบัตรเครดิต Platinum กสิกร: สะสมพอยท์คุ้มไหม?<br>
+            <span class="gloss">— KBank Platinum review: is points-earning worth it?</span><br>
+            ปี 2026 บัตรเครดิตกสิกรใบไหนเหมาะกับไลฟ์สไตล์แต่ละแบบ?<br>
+            <span class="gloss">— Which KBank card fits each spending lifestyle?</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <strong>The shared pattern:</strong> a concrete card task, one clear ask, and an obvious owned page for the model to ground on. Branded card questions reach 86.4 visibility at first position because KBank's promotion pages answer them directly. (Investment questions are different — unbranded discovery against a field of fund aggregators — see Section 05.)
+    </div>
+  </section>
+
+  <section class="section" id="issues">
+    <div class="section-head">
+      <span class="section-eyebrow">04</span>
+      <span class="section-title">What to fix — housekeeping</span>
+    </div>
+    <p class="section-subtitle">Three enablement items that keep the library trustworthy and the measurement complete — the analysis and strategy live in the Snapshot.</p>
+
+    <h3 class="subhead">1. Configure CDN to complete measurement</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">No CDN is connected, so the Access (agentic crawl) and Impact (referral) layers can't report — the owned-URL export shows zero citation attempts and zero referral hits. One half of Access, content visibility, is already measurable and surfaces a real prerender opportunity (see the Snapshot); supplying CDN logs lights up the rest.</p>
+
+    <h3 class="subhead">2. Complete the Market-Tracking competitor list</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">KTC, UOB and ttb register zero mentions and citations in Market Tracking, yet appear with real figures in Brand Presence (KTC 55 citations, UOB 33, ttb 15). The tracked-competitor configuration is incomplete; aligning it makes the cross-brand read consistent across dashboards.</p>
+
+    <h3 class="subhead">3. Remove the leftover blank template prompts</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">The export also carries a small generic template set (US / GB "Card Services" rows that ship with the tool). They aren't KBank's curated prompts and aren't analysed here; removing them keeps the library to KBank's 98.</p>
+  </section>
+
+  <section class="section" id="mix">
+    <div class="section-head">
+      <span class="section-eyebrow">05</span>
+      <span class="section-title">Branded vs unbranded — what it measures</span>
+    </div>
+    <p class="section-subtitle">The branded / unbranded split, measured separately. KBank's nine branded prompts all sit in cards; the rest of the library is unbranded discovery.</p>
+
+    <div class="kpi-grid" style="grid-template-columns: repeat(3,1fr);">
+      <div class="kpi"><div class="label">Branded</div><div class="value">86.4</div><div class="delta up"><span class="arrow">▲</span> "does KBank appear when named?" · 0 dark</div></div>
+      <div class="kpi"><div class="label">Unbranded — discovery</div><div class="value">30.7</div><div class="delta flat"><span class="arrow">●</span> "is KBank chosen unprompted?" · 25 dark</div></div>
+      <div class="kpi"><div class="label">The gap</div><div class="value">56 pts</div><div class="delta flat"><span class="arrow">●</span> branded vs unbranded difference</div></div>
+    </div>
+
+    <h3 class="subhead">What grounds the answers — and who owns them</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Domain</th><th>Intent class</th><th class="num">All citations</th><th class="num">Owned</th><th>Owned share</th></tr></thead>
+        <tbody>
+          <tr><td>Credit cards</td><td><span class="ic ic-cards">Branded + discovery</span></td><td class="num">1,587</td><td class="num">236</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width:14.9%"></div></div><div class="bar-val">14.9%</div></div></td></tr>
+          <tr><td>Investments</td><td><span class="ic ic-invest">Unbranded · discovery</span></td><td class="num">893</td><td class="num">29</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill neg" style="width:3.2%"></div></div><div class="bar-val">3.2%</div></div></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption" style="margin-top: var(--s-150);">Both domains' answers are heavily grounded; owned share differs sharply — 14.9% on cards vs 3.2% on investments. Across branded vs unbranded the same split appears: 35.5% owned when KBank is named, 6.3% when it isn't.</div>
+
+    <div class="note alert">
+      <strong>Two questions, measured separately.</strong> A branded prompt captures whether the model surfaces KBank when the customer names it (86.4). An unbranded prompt captures whether the model selects KBank when the customer does not — a structurally lower scale (30.7). The 25 dark prompts are unbranded discovery, 16 of them investment questions; on those topics the URL Inspector shows the cited sources are fund aggregators (yuanta mutualfund, my-best, finnomena) and competitor asset managers (SCBAM), with KBank's own K-Asset cited as earned, not owned.
+    </div>
+  </section>
+
+  <section class="section" id="rewrite">
+    <div class="section-head">
+      <span class="section-eyebrow">06</span>
+      <span class="section-title">Adding prompts well</span>
+    </div>
+    <p class="section-subtitle">KBank's uploaded prompts are well-formed, including the dark ones — they are sound real-customer questions. The guidance here is therefore light: keep prompts true to their intent class, and add new ones the same way as the library grows.</p>
+
+    <h3 class="subhead">Match the intent class</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">Branded prompts (card questions naming KBank) and unbranded prompts (fund and card discovery) measure two different things, so each stays in its own class. A dark unbranded prompt is a signal to strengthen content for that topic — the 16 dark investment prompts are exactly the discovery questions KBank wants to win.</p>
+
+    <h3 class="subhead">When a prompt genuinely needs work, refine within its intent class</h3>
+    <p class="section-subtitle" style="margin-bottom: var(--s-200);">If a prompt is vague or multi-intent, sharpen it for clarity and context — keeping it unbranded if it is a discovery question. Add a goal, a risk level or a horizon.</p>
+
+    <div class="rewrite">
+      <div class="before"><div class="rw-label">Vague</div><div class="rw-text">กองทุนต่างประเทศตัวไหนดี</div><div class="rw-gloss">"Which foreign fund is good?"</div></div>
+      <div class="after"><div class="rw-label">Clearer · still unbranded</div><div class="rw-text">กองทุนหุ้นต่างประเทศตัวไหนเหมาะกับการลงทุนระยะยาวและรับความผันผวนได้?</div><div class="rw-gloss">"Which foreign equity fund suits long-term investing with higher volatility tolerance?"</div></div>
+    </div>
+    <div class="rewrite">
+      <div class="before"><div class="rw-label">Thin</div><div class="rw-text">กองทุนลดหย่อนภาษี</div><div class="rw-gloss">"Tax-saving fund"</div></div>
+      <div class="after"><div class="rw-label">Clearer · still unbranded</div><div class="rw-text">ปี 2569 กองทุน Thai ESG / RMF / SSF ตัวไหนเหมาะกับการลดหย่อนภาษีและเป้าหมายเกษียณ?</div><div class="rw-gloss">"For 2026, which Thai ESG / RMF / SSF fund suits tax relief and a retirement goal?"</div></div>
+    </div>
+
+    <h3 class="subhead">Five qualities of a strong prompt</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Quality</th><th>What it means</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Natural</strong></td><td class="muted">Sounds like a real customer question.</td></tr>
+          <tr><td><strong>Clear</strong></td><td class="muted">Intent obvious on first read.</td></tr>
+          <tr><td><strong>Specific</strong></td><td class="muted">Points to a real use case — goal, risk, horizon, lifestyle.</td></tr>
+          <tr><td><strong>Focused</strong></td><td class="muted">One main ask, not several.</td></tr>
+          <tr><td><strong>True to intent</strong></td><td class="muted">Branded prompts stay branded; unbranded stay unbranded.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h5>Method</h5>
+        <p>Reviewed against LLM Optimiser prompt-design and measurement-readiness practice. Analysis covers all 98 uploaded prompts (three executions each, weeks W21–W23 2026). All figures verified against the export; W22 citations are incomplete and excluded from momentum.</p>
+      </div>
+      <div>
+        <h5>Relationship to the Snapshot</h5>
+        <p>This audit is the instrument behind the Validation layer (Data Insights); the Snapshot reads all five layers. A cleaner, fully configured library sharpens the next read.</p>
+      </div>
+      <div>
+        <h5>Scope</h5>
+        <p>Post-run prompt-readiness review. Structural facts verified; CDN-dependent layers (Access, Impact) validated once logs are connected.</p>
+      </div>
+    </div>
+    <div class="credit">
+      <span class="logo-img" role="img" aria-label="Adobe"></span>
+      <span>Generated by Adobe LLM Optimiser · Kasikornbank · Prompt Library Audit · June 2026</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+  // Scrollspy — highlights the TOC tab matching the section currently in view.
+  (function() {
+    const tabs = document.querySelectorAll('.toc-tabs a');
+    if (!tabs.length) return;
+    const tocContainer = tabs[0].parentElement;
+    const tabByHash = new Map();
+    tabs.forEach(t => tabByHash.set(t.getAttribute('href'), t));
+    const sections = Array.from(document.querySelectorAll('section[id]'));
+    if (!sections.length) return;
+    let suspendUntil = 0;
+    let lastHash = null;
+    const ensureTabVisible = (tab) => {
+      if (!tab || tocContainer.scrollWidth <= tocContainer.clientWidth) return;
+      const pad = 24;
+      const tabLeft = tab.offsetLeft;
+      const tabRight = tabLeft + tab.offsetWidth;
+      const viewLeft = tocContainer.scrollLeft;
+      const viewRight = viewLeft + tocContainer.clientWidth;
+      if (tabLeft < viewLeft + pad) {
+        tocContainer.scrollTo({ left: Math.max(0, tabLeft - pad), behavior: 'smooth' });
+      } else if (tabRight > viewRight - pad) {
+        tocContainer.scrollTo({ left: tabRight - tocContainer.clientWidth + pad, behavior: 'smooth' });
+      }
+    };
+    const setActive = (hash) => {
+      if (hash === lastHash) return;
+      lastHash = hash;
+      tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === hash));
+      ensureTabVisible(tabByHash.get(hash));
+    };
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      if (Date.now() < suspendUntil) return;
+      const scanLine = window.innerHeight * 0.33;
+      let current = sections[0];
+      for (const s of sections) {
+        if (s.getBoundingClientRect().top <= scanLine) current = s;
+        else break;
+      }
+      setActive('#' + current.id);
+    };
+    const onScroll = () => {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    tabs.forEach(t => {
+      t.addEventListener('click', () => {
+        const target = t.getAttribute('href');
+        setActive(target);
+        if (!prefersReducedMotion) { suspendUntil = Date.now() + 900; }
+        setTimeout(() => t.blur(), 0);
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>

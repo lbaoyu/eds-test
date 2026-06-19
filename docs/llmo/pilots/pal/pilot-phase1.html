@@ -189,7 +189,7 @@
     }
     .kpi-row{
       display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));
+      grid-template-columns:repeat(5,minmax(0,1fr));
       gap:16px;
       margin-top:16px;
     }
@@ -271,8 +271,8 @@
       <h1>Philippine Airlines</h1>
       <p class="subtitle">
         Customer-facing pilot configuration summary covering brand setup, market scope, competitor benchmarking,
-        category strategy, the full 200-prompt pilot library, and the proposed before/after measurement framework
-        to define pilot success.
+        refined category strategy, the refreshed 200-prompt pilot library, and the proposed before/after
+        measurement framework to define pilot success.
       </p>
     </section>
 
@@ -282,11 +282,10 @@
         <p>
           For the initial Adobe LLM Optimizer pilot, Philippine Airlines should be configured as a
           <strong>single primary brand</strong> using <strong>https://philippineairlines.com/</strong>, with the
-          brand monitored first in the <strong>Philippines (PH)</strong> market. While several category areas are
-          valid for the brand, the pilot should concentrate prompt coverage on just
-          <strong>two priority categories</strong>: <strong>Booking &amp; Destinations</strong> and
-          <strong>Baggage &amp; Travel Policies</strong>. This focused model provides stronger signal, clearer
-          visibility trends, and more actionable pilot insights than spreading the prompt budget too broadly.
+          brand monitored first in the <strong>Philippines (PH)</strong> market. The refreshed prompt library below
+          has been refined to follow a stronger test-case structure: each prompt is written as a realistic customer
+          question, focused on one clear intent, grouped into stable topics, and balanced across discovery,
+          evaluation, decision, use, and policy-sensitive moments.
         </p>
       </div>
 
@@ -306,6 +305,10 @@
         <div class="kpi">
           <div class="label">Focus Categories</div>
           <div class="value">2</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Topics</div>
+          <div class="value">8</div>
         </div>
       </div>
     </section>
@@ -379,7 +382,7 @@
       <h2>Category Strategy</h2>
       <p>
         Several categories are valid for the Philippine Airlines brand, and it is appropriate to list them in the
-        overall category model. However, for the pilot, prompt investment should be concentrated in just two
+        overall category model. For the pilot, however, prompt investment should be concentrated in just two
         categories to improve focus, signal quality, and actionability.
       </p>
 
@@ -402,8 +405,9 @@
             <span class="pill focus">Baggage &amp; Travel Policies</span>
           </div>
           <p style="margin-top:14px;">
-            This concentrated approach creates stronger signal than distributing the pilot budget evenly across all
-            valid categories.
+            The prompt bank has been refreshed into a more stable structure with <strong>8 topics</strong> and
+            <strong>25 prompts per topic</strong>. This keeps each topic deep enough to measure well while avoiding
+            unnecessary overlap and fragmentation.
           </p>
         </div>
       </div>
@@ -412,6 +416,7 @@
         <thead>
           <tr>
             <th>Category</th>
+            <th>Topics</th>
             <th>Prompt Allocation</th>
             <th>Purpose</th>
           </tr>
@@ -419,288 +424,334 @@
         <tbody>
           <tr>
             <td>Booking &amp; Destinations</td>
-            <td>110</td>
-            <td>Travel discovery, route research, and booking-related visibility</td>
+            <td>4</td>
+            <td>100</td>
+            <td>Travel discovery, airline evaluation, fare choice, and booking readiness</td>
           </tr>
           <tr>
             <td>Baggage &amp; Travel Policies</td>
-            <td>90</td>
-            <td>Policy clarity, baggage rules, and owned-content representation</td>
+            <td>4</td>
+            <td>100</td>
+            <td>Baggage clarity, special-item handling, flexibility, check-in, and travel readiness</td>
           </tr>
         </tbody>
       </table>
     </section>
 
     <section class="section">
+      <h2>Refined Prompt Design Principles</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>How the Prompt Set Was Refreshed</h3>
+          <ul>
+            <li>Converted prompts into <strong>test cases</strong>, not short keyword fragments.</li>
+            <li>Reduced repetitive route variations that added little new measurement value.</li>
+            <li>Kept each prompt focused on <strong>one clear customer need</strong>.</li>
+            <li>Improved balance across <strong>discover, evaluate, choose, use, and fix</strong> moments.</li>
+            <li>Used more branded prompts where <strong>policy, flexibility, or service rules</strong> change the answer.</li>
+            <li>Kept topics stable and easier to govern over time.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Resulting Structure</h3>
+          <ul>
+            <li><strong>2 categories</strong> for pilot focus</li>
+            <li><strong>8 total topics</strong></li>
+            <li><strong>25 prompts per topic</strong></li>
+            <li>Stronger coverage of both <strong>high-value commercial journeys</strong> and <strong>trust-critical policy journeys</strong></li>
+            <li>A cleaner baseline for before/after measurement</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
       <h2>Full 200-Prompt Pilot Library</h2>
       <p>
-        The prompt set below is designed for the PH market, aligned to the two chosen pilot categories, and built
-        to balance broad discovery prompts with brand-specific prompts. The structure uses six topics total: three
-        under Booking &amp; Destinations and three under Baggage &amp; Travel Policies.
+        The prompt set below is designed for the PH market, aligned to the two chosen pilot categories, and
+        refreshed to follow a stronger customer-intent structure. The library uses <strong>8 topics</strong>, with
+        <strong>25 prompts per topic</strong>.
       </p>
 
       <div class="grid-3">
         <div class="card">
           <div class="tag red">Category 1</div>
           <h3>Booking &amp; Destinations</h3>
-          <p>110 prompts across three topics focused on route discovery, trip planning, and airline comparison.</p>
+          <p>100 prompts across four topics focused on route discovery, airline evaluation, fare choice, and booking readiness.</p>
         </div>
         <div class="card">
           <div class="tag blue">Category 2</div>
           <h3>Baggage &amp; Travel Policies</h3>
-          <p>90 prompts across three topics focused on baggage rules, fare flexibility, and pre-travel policies.</p>
+          <p>100 prompts across four topics focused on baggage rules, special-item handling, flexibility, check-in, and travel readiness.</p>
         </div>
         <div class="card">
-          <div class="tag green">Mix Strategy</div>
-          <h3>Branded + Unbranded</h3>
-          <p>A practical pilot mix with strong unbranded coverage and a smaller branded layer for direct brand tracking.</p>
+          <div class="tag green">Prompt Shape</div>
+          <h3>Realistic Test Cases</h3>
+          <p>Each prompt is written to reflect a realistic customer question that can be measured consistently over time.</p>
         </div>
       </div>
 
       <details open>
-        <summary>Topic 1 — Booking &amp; Destinations: Route Discovery &amp; Direct Flights (Prompts 1–40)</summary>
+        <summary>Topic 1 — Booking &amp; Destinations: Discover Routes &amp; Destinations (Prompts 1–25)</summary>
         <div class="details-body">
           <ol class="prompt-list">
-            <li>best airline from Manila to Tokyo</li>
-            <li>direct flights from Manila to Tokyo</li>
-            <li>best direct flights from Manila to Osaka</li>
-            <li>direct flights from Cebu to Tokyo</li>
-            <li>airline options from Manila to Seoul</li>
-            <li>best airline from Manila to Seoul</li>
-            <li>direct flights from Manila to Singapore</li>
-            <li>best flights from Manila to Singapore</li>
-            <li>direct flights from Manila to Hong Kong</li>
-            <li>best airline from Manila to Hong Kong</li>
-            <li>direct flights from Manila to Sydney</li>
-            <li>best airline from Manila to Sydney</li>
-            <li>direct flights from Manila to Melbourne</li>
-            <li>best airline from Manila to Melbourne</li>
-            <li>direct flights from Manila to Los Angeles</li>
-            <li>best airline from Manila to Los Angeles</li>
-            <li>direct flights from Manila to San Francisco</li>
-            <li>best airline from Manila to San Francisco</li>
-            <li>direct flights from Manila to Vancouver</li>
-            <li>best airline from Manila to Vancouver</li>
-            <li>where can I fly direct from Manila</li>
-            <li>which airline has the best direct flights from the Philippines</li>
-            <li>best airline for flights from the Philippines to Japan</li>
-            <li>best airline for flights from the Philippines to the US</li>
-            <li>best airline for flights from the Philippines to Australia</li>
-            <li>how to find nonstop international flights from Manila</li>
-            <li>which airlines fly from Cebu to major international destinations</li>
-            <li>best airline for Southeast Asia trips from Manila</li>
-            <li>best airline for family travel from Manila to Tokyo</li>
-            <li>best airline for business travel from Manila to Singapore</li>
-            <li>does Philippine Airlines fly direct from Manila to Tokyo</li>
-            <li>does Philippine Airlines fly direct from Manila to Los Angeles</li>
-            <li>does Philippine Airlines fly direct from Manila to Sydney</li>
-            <li>Philippine Airlines direct international routes from Manila</li>
-            <li>best direct destinations on Philippine Airlines from Manila</li>
-            <li>where does Philippine Airlines fly nonstop from the Philippines</li>
-            <li>Philippine Airlines flights to Japan from Manila</li>
-            <li>Philippine Airlines flights to the US from Manila</li>
-            <li>Philippine Airlines flights to Australia from Manila</li>
-            <li>is Philippine Airlines good for long haul direct flights</li>
+            <li>Which airlines offer nonstop flights from Manila to Tokyo?</li>
+            <li>What are the best nonstop flight options from Manila to Osaka?</li>
+            <li>Which airlines fly direct from Manila to Seoul?</li>
+            <li>What are the most convenient flights from Manila to Singapore for a short trip?</li>
+            <li>Which airlines offer direct flights from Manila to Hong Kong?</li>
+            <li>What are the best flight options from Manila to Sydney?</li>
+            <li>Which airlines fly nonstop from Manila to Melbourne?</li>
+            <li>What are the best flight options from Manila to Los Angeles?</li>
+            <li>Which airlines offer direct flights from Manila to San Francisco?</li>
+            <li>What are the best ways to fly from Manila to Vancouver?</li>
+            <li>Which international destinations can I reach nonstop from Manila?</li>
+            <li>Which international destinations can I fly to from Cebu without a stop?</li>
+            <li>What are the best airline options from the Philippines to Japan?</li>
+            <li>What are the best airline options from the Philippines to the United States?</li>
+            <li>What are the best airline options from the Philippines to Australia?</li>
+            <li>Which airline is best for a weekend trip from Manila to Hong Kong?</li>
+            <li>Which airline is best for a family trip from Manila to Tokyo?</li>
+            <li>Which airline is best for an overnight flight from Manila to Singapore?</li>
+            <li>Which airline is best for a long-haul nonstop flight from Manila?</li>
+            <li>Which airline has the most convenient schedule from Manila to Seoul?</li>
+            <li>Does Philippine Airlines fly nonstop from Manila to Tokyo?</li>
+            <li>Does Philippine Airlines fly nonstop from Manila to Los Angeles?</li>
+            <li>Which international destinations can I fly to nonstop with Philippine Airlines from Manila?</li>
+            <li>Is Philippine Airlines a good option for nonstop flights from the Philippines to Japan?</li>
+            <li>What long-haul destinations can I book on Philippine Airlines from Manila?</li>
           </ol>
         </div>
       </details>
 
       <details>
-        <summary>Topic 2 — Booking &amp; Destinations: Travel Planning from the Philippines (Prompts 41–75)</summary>
+        <summary>Topic 2 — Booking &amp; Destinations: Evaluate Airlines &amp; Itineraries (Prompts 26–50)</summary>
         <div class="details-body">
-          <ol class="prompt-list" start="41">
-            <li>best time to book flights from Manila to Tokyo</li>
-            <li>how early should I book flights from Manila to Singapore</li>
-            <li>best airline for first time international travel from the Philippines</li>
-            <li>how to plan a multi city Asia trip from Manila</li>
-            <li>what is the best airline for a Japan vacation from the Philippines</li>
-            <li>what is the best airline for a US vacation from the Philippines</li>
-            <li>best airline for holiday travel from Manila</li>
-            <li>cheapest months to fly from Manila to Tokyo</li>
-            <li>how to choose an airline for Philippines to Australia travel</li>
-            <li>best airline for couples traveling from Manila to Seoul</li>
-            <li>best airline for family trips from the Philippines to Hong Kong</li>
-            <li>best airline for senior travelers flying from Manila</li>
-            <li>best airline for comfortable overnight flights from Manila</li>
-            <li>best airline for long layover vs nonstop from the Philippines</li>
-            <li>how to choose between nonstop and connecting flights from Manila</li>
-            <li>best airline for baggage inclusion on Asia routes from Manila</li>
-            <li>best airline for seat comfort on flights from Manila to North America</li>
-            <li>best airline for reliable flights from Manila to Japan</li>
-            <li>how to compare airlines for Manila to Los Angeles flights</li>
-            <li>how to compare airlines for Manila to Sydney flights</li>
-            <li>how to choose the right fare for an international trip from Manila</li>
-            <li>what to know before booking an international flight from the Philippines</li>
-            <li>is Philippine Airlines a good choice for travel to Japan</li>
-            <li>is Philippine Airlines a good choice for travel to the US</li>
-            <li>is Philippine Airlines a good choice for travel to Australia</li>
-            <li>how to book Philippine Airlines international flights online</li>
-            <li>best Philippine Airlines destinations for vacation travelers</li>
-            <li>Philippine Airlines route options from Manila for family trips</li>
-            <li>Philippine Airlines travel options from the Philippines to Southeast Asia</li>
-            <li>Philippine Airlines nonstop vs connecting flight options</li>
-            <li>what should I know before booking with Philippine Airlines</li>
-            <li>when should I book Philippine Airlines flights for better options</li>
-            <li>is Philippine Airlines good for first time international travelers</li>
-            <li>Philippine Airlines best routes for leisure travel from Manila</li>
-            <li>how to plan a trip from Manila using Philippine Airlines</li>
+          <ol class="prompt-list" start="26">
+            <li>Which airline is better for flights from Manila to Tokyo: Philippine Airlines or Japan Airlines?</li>
+            <li>Which airline is better for flights from Manila to Singapore: Philippine Airlines or Singapore Airlines?</li>
+            <li>Which airline is better for flights from Manila to Hong Kong: Philippine Airlines or Cathay Pacific?</li>
+            <li>Which airline is better for regional trips from Manila: Philippine Airlines or AirAsia Philippines?</li>
+            <li>Which airline is better for international trips from Manila: Philippine Airlines or Cebu Pacific?</li>
+            <li>Which airline offers the best balance of comfort and price from Manila to Tokyo?</li>
+            <li>Which airline is most reliable for flights from Manila to Japan?</li>
+            <li>Which airline is best for family travel from Manila to Hong Kong?</li>
+            <li>Which airline is best for business travel from Manila to Singapore?</li>
+            <li>Which airline is best for long-haul comfort from Manila to Los Angeles?</li>
+            <li>Which airline gives the smoothest experience for a first international trip from Manila?</li>
+            <li>Which airline is better if I want checked baggage included on a flight from Manila to Tokyo?</li>
+            <li>Which airline is better if I want a premium economy or business-class option from Manila?</li>
+            <li>Which airline is better for travelers who want fewer connections from the Philippines to North America?</li>
+            <li>Is Philippine Airlines better than Cebu Pacific for international travel from Manila?</li>
+            <li>Is Philippine Airlines better than AirAsia Philippines for comfort on regional trips?</li>
+            <li>Is Philippine Airlines a better option than Singapore Airlines for value on flights from Manila?</li>
+            <li>Is Philippine Airlines a better option than Cathay Pacific for nonstop long-haul travel?</li>
+            <li>Is Philippine Airlines a good choice for a family trip from Manila to Tokyo?</li>
+            <li>Is Philippine Airlines a good choice for a first trip from Manila to the United States?</li>
+            <li>How does Philippine Airlines compare with Japan Airlines for flights to Tokyo?</li>
+            <li>How does Philippine Airlines compare with Cathay Pacific for flights to North America?</li>
+            <li>How does Philippine Airlines compare with Singapore Airlines for trips to Southeast Asia?</li>
+            <li>How does Philippine Airlines compare with Cebu Pacific for value on international routes?</li>
+            <li>How does Philippine Airlines compare with AirAsia Philippines for regional travel from Manila?</li>
           </ol>
         </div>
       </details>
 
       <details>
-        <summary>Topic 3 — Booking &amp; Destinations: Airline Comparison for Key Destinations (Prompts 76–110)</summary>
+        <summary>Topic 3 — Booking &amp; Destinations: Choose Fares, Cabins &amp; Booking Options (Prompts 51–75)</summary>
+        <div class="details-body">
+          <ol class="prompt-list" start="51">
+            <li>What type of airline ticket is best for an international trip from Manila if I want flexibility?</li>
+            <li>Should I book a nonstop or connecting flight from Manila to Tokyo?</li>
+            <li>How do I choose between economy, premium economy, and business class for a long-haul trip from Manila?</li>
+            <li>What should I look for when choosing an airline fare from Manila to the United States?</li>
+            <li>Which airline fare is best for a family traveling from Manila with checked bags?</li>
+            <li>Which airline is best if I want to choose my seat before flying?</li>
+            <li>Which airline is best if I care most about legroom on a long flight from Manila?</li>
+            <li>Which airline is best if I want meals and baggage included in the ticket price?</li>
+            <li>How do I compare airline fares from Manila without missing extra fees?</li>
+            <li>What is the best way to choose a flight for a first-time international traveler from the Philippines?</li>
+            <li>What should I check before booking an overnight flight from Manila?</li>
+            <li>Which airline is best for travelers who want a premium cabin from Manila to the United States?</li>
+            <li>Which airline is best for travelers who want a lower fare with basic inclusions?</li>
+            <li>How do I decide if a fare upgrade is worth it on a long-haul flight?</li>
+            <li>What should I compare before booking a flight from Manila to Australia?</li>
+            <li>Which Philippine Airlines fare is best for an international trip if I need flexibility?</li>
+            <li>Does Philippine Airlines include meals and seat selection on international fares?</li>
+            <li>Is Philippine Airlines economy a good option for a long-haul trip from Manila?</li>
+            <li>Is Philippine Airlines premium economy worth it for flights from Manila to the United States?</li>
+            <li>Is Philippine Airlines business class a good option for flights from Manila to Australia?</li>
+            <li>How do I choose the right Philippine Airlines fare for a family trip?</li>
+            <li>What should I check before booking a Philippine Airlines international ticket?</li>
+            <li>Can I choose my seat when booking a Philippine Airlines international flight?</li>
+            <li>What is included in a Philippine Airlines international economy fare?</li>
+            <li>How do I decide between economy and premium economy on Philippine Airlines?</li>
+          </ol>
+        </div>
+      </details>
+
+      <details>
+        <summary>Topic 4 — Booking &amp; Destinations: Book &amp; Prepare for Departure (Prompts 76–100)</summary>
         <div class="details-body">
           <ol class="prompt-list" start="76">
-            <li>Philippine Airlines vs Cebu Pacific for Japan flights</li>
-            <li>Philippine Airlines vs AirAsia Philippines for regional travel</li>
-            <li>Philippine Airlines vs Singapore Airlines for flights from Manila</li>
-            <li>Philippine Airlines vs Cathay Pacific for flights to North America</li>
-            <li>Philippine Airlines vs Japan Airlines for Japan routes</li>
-            <li>best airline from Manila to Tokyo Philippine Airlines or Japan Airlines</li>
-            <li>best airline from Manila to Los Angeles Philippine Airlines or Cathay Pacific</li>
-            <li>best airline from Manila to Singapore Philippine Airlines or Singapore Airlines</li>
-            <li>best airline from Manila to Hong Kong Philippine Airlines or Cathay Pacific</li>
-            <li>best airline from Manila to Sydney Philippine Airlines or Singapore Airlines</li>
-            <li>which airline is better for baggage from Manila to Tokyo</li>
-            <li>which airline is better for comfort from Manila to Los Angeles</li>
-            <li>which airline is better for direct flights from the Philippines</li>
-            <li>which airline is better for family travel from Manila to Japan</li>
-            <li>which airline is better for premium cabin travel from Manila</li>
-            <li>which airline is better for international flights from the Philippines</li>
-            <li>best full service airline from the Philippines</li>
-            <li>best airline for Japan trips from the Philippines Cebu Pacific or Philippine Airlines</li>
-            <li>best airline for Southeast Asia from Manila AirAsia or Philippine Airlines</li>
-            <li>best airline for business travel from Manila Singapore Airlines or Philippine Airlines</li>
-            <li>best airline for long haul flights from Manila Cathay Pacific or Philippine Airlines</li>
-            <li>is Philippine Airlines better than Cebu Pacific for international flights</li>
-            <li>is Philippine Airlines better than AirAsia Philippines for comfort</li>
-            <li>is Philippine Airlines better than Singapore Airlines for value</li>
-            <li>is Philippine Airlines better than Cathay Pacific for nonstop options</li>
-            <li>is Philippine Airlines better than Japan Airlines for Manila to Tokyo</li>
-            <li>compare Philippine Airlines baggage and fare value with competitors</li>
-            <li>compare Philippine Airlines direct routes with other airlines from Manila</li>
-            <li>compare Philippine Airlines seat comfort with other Asia carriers</li>
-            <li>compare Philippine Airlines cabin experience with competitors</li>
-            <li>compare Philippine Airlines for family travel vs Cebu Pacific</li>
-            <li>compare Philippine Airlines for long haul travel vs Cathay Pacific</li>
-            <li>compare Philippine Airlines for Japan travel vs Japan Airlines</li>
-            <li>compare Philippine Airlines for Singapore travel vs Singapore Airlines</li>
-            <li>compare Philippine Airlines for regional trips vs AirAsia Philippines</li>
+            <li>How do I book an international flight from Manila online?</li>
+            <li>What is the best way to book a family trip from Manila with one airline?</li>
+            <li>What should I prepare before booking a long-haul flight from the Philippines?</li>
+            <li>How early should I book an international flight from Manila for better choices?</li>
+            <li>What should I check after I book an international flight from Manila?</li>
+            <li>How do I know if a flight schedule from Manila gives me enough connection time?</li>
+            <li>What should I review before paying for an airline ticket online?</li>
+            <li>What is the safest way to book an international airline ticket online?</li>
+            <li>What details should match my passport when I book an international flight?</li>
+            <li>What should I do after booking a flight if I need special assistance at the airport?</li>
+            <li>How do I manage my flight booking after purchase?</li>
+            <li>What should I do if I need to change my passenger details before an international trip?</li>
+            <li>How do I add baggage after booking an international flight?</li>
+            <li>What should I do if my itinerary changes before departure?</li>
+            <li>How do I prepare for a first international flight from the Philippines after booking?</li>
+            <li>How do I book an international flight on Philippine Airlines?</li>
+            <li>How do I manage a Philippine Airlines booking online?</li>
+            <li>How do I add baggage to a Philippine Airlines booking after purchase?</li>
+            <li>How do I request special assistance on Philippine Airlines before departure?</li>
+            <li>How do I select seats after booking on Philippine Airlines?</li>
+            <li>How do I review my Philippine Airlines itinerary before the trip?</li>
+            <li>What should I prepare before a Philippine Airlines long-haul flight?</li>
+            <li>How do I update passenger details on a Philippine Airlines booking?</li>
+            <li>What should I do if my Philippine Airlines schedule changes before departure?</li>
+            <li>How early should I book Philippine Airlines international flights?</li>
           </ol>
         </div>
       </details>
 
       <details>
-        <summary>Topic 4 — Baggage &amp; Travel Policies: Baggage Allowance &amp; Fees (Prompts 111–140)</summary>
+        <summary>Topic 5 — Baggage &amp; Travel Policies: Understand Baggage Basics (Prompts 101–125)</summary>
         <div class="details-body">
-          <ol class="prompt-list" start="111">
-            <li>best airline baggage allowance from Manila to Tokyo</li>
-            <li>what airline has the best baggage allowance from the Philippines</li>
-            <li>baggage allowance for international flights from Manila</li>
-            <li>carry on baggage rules for flights from Manila to Japan</li>
-            <li>checked baggage rules for flights from Manila to the US</li>
-            <li>best airline for travelers with more luggage from Manila</li>
-            <li>excess baggage fees on international flights from the Philippines</li>
-            <li>hand carry size rules for international airlines from Manila</li>
-            <li>how to compare airline baggage policies from the Philippines</li>
-            <li>which airline includes baggage on flights from Manila to Singapore</li>
-            <li>best airline baggage policy for family travel from Manila</li>
-            <li>best airline baggage policy for students flying internationally from the Philippines</li>
-            <li>baggage fees comparison for Manila to Tokyo flights</li>
-            <li>baggage fees comparison for Manila to Los Angeles flights</li>
-            <li>baggage allowance for sports equipment on international flights</li>
-            <li>baggage policy for stroller and baby items on international flights</li>
-            <li>what counts as cabin baggage on international flights</li>
-            <li>how strict are airlines about carry on weight from Manila</li>
-            <li>best airline if I need checked baggage from the Philippines</li>
-            <li>what happens if my bag is overweight on an international flight</li>
-            <li>Philippine Airlines baggage allowance for international economy flights</li>
-            <li>Philippine Airlines carry on baggage policy</li>
-            <li>Philippine Airlines checked baggage policy for international travel</li>
-            <li>Philippine Airlines excess baggage fees</li>
-            <li>Philippine Airlines baggage rules for flights to Japan</li>
-            <li>Philippine Airlines baggage rules for flights to the US</li>
-            <li>Philippine Airlines baggage rules for flights to Australia</li>
-            <li>how much baggage is included on Philippine Airlines</li>
-            <li>is Philippine Airlines good for travelers with more luggage</li>
-            <li>does Philippine Airlines include checked baggage on international flights</li>
+          <ol class="prompt-list" start="101">
+            <li>What baggage allowance should I expect on an international flight from Manila?</li>
+            <li>Which airline includes checked baggage on flights from Manila to Tokyo?</li>
+            <li>What carry-on rules do airlines usually apply on international flights from Manila?</li>
+            <li>How do I compare baggage allowance across airlines before I book?</li>
+            <li>Which airline is best if I need both carry-on and checked baggage included?</li>
+            <li>What counts as cabin baggage on an international flight?</li>
+            <li>How strict are airlines about carry-on weight on international flights from Manila?</li>
+            <li>What happens if my checked bag is overweight on an international flight?</li>
+            <li>Which airline is best for travelers carrying more luggage from the Philippines?</li>
+            <li>How do baggage rules differ between regional and long-haul international flights?</li>
+            <li>Which airline is better for baggage allowance from Manila to Tokyo?</li>
+            <li>Which airline is better for baggage allowance from Manila to Los Angeles?</li>
+            <li>What is the best airline for a family traveling with several checked bags from Manila?</li>
+            <li>Which airline is best for students flying internationally with extra luggage?</li>
+            <li>What baggage rules should I check before booking an international flight?</li>
+            <li>What is the Philippine Airlines baggage allowance for international economy flights?</li>
+            <li>What is the Philippine Airlines carry-on baggage policy for international travel?</li>
+            <li>Does Philippine Airlines include checked baggage on international fares?</li>
+            <li>How much baggage is included on Philippine Airlines flights to Japan?</li>
+            <li>How much baggage is included on Philippine Airlines flights to the United States?</li>
+            <li>How much baggage is included on Philippine Airlines flights to Australia?</li>
+            <li>How strict is Philippine Airlines about cabin baggage size and weight?</li>
+            <li>What happens if my bag is overweight on Philippine Airlines?</li>
+            <li>Is Philippine Airlines a good option if I need more checked baggage?</li>
+            <li>How do I pay for extra baggage on Philippine Airlines?</li>
           </ol>
         </div>
       </details>
 
       <details>
-        <summary>Topic 5 — Baggage &amp; Travel Policies: Ticket Changes, Refunds &amp; Fare Rules (Prompts 141–170)</summary>
+        <summary>Topic 6 — Baggage &amp; Travel Policies: Handle Special &amp; Excess Baggage Scenarios (Prompts 126–150)</summary>
         <div class="details-body">
-          <ol class="prompt-list" start="141">
-            <li>best airline refund policy from the Philippines</li>
-            <li>best airline for flexible international tickets from Manila</li>
-            <li>how to change an international flight from Manila</li>
-            <li>what airline has the easiest rebooking policy from the Philippines</li>
-            <li>how refunds work for international airline tickets</li>
-            <li>how to compare airline fare rules before booking</li>
-            <li>best airline for flexible travel plans from Manila to Tokyo</li>
-            <li>best airline for rebooking options from Manila to Los Angeles</li>
-            <li>what happens if I miss my international flight from Manila</li>
-            <li>can I change my flight date after booking an international ticket</li>
-            <li>how airline cancellation policies differ for international travel</li>
-            <li>how refundable fares work on international flights</li>
-            <li>how nonrefundable tickets work on international flights</li>
-            <li>what airline has the best change policy from Manila</li>
-            <li>how to avoid airline change fees on international trips</li>
-            <li>what should I check in fare rules before I book a flight</li>
-            <li>Philippine Airlines flight change policy</li>
-            <li>Philippine Airlines cancellation policy</li>
-            <li>Philippine Airlines refund policy for international tickets</li>
-            <li>how to rebook a Philippine Airlines international flight</li>
-            <li>can I change my Philippine Airlines ticket online</li>
-            <li>are Philippine Airlines fares refundable</li>
-            <li>what happens if I miss a Philippine Airlines flight</li>
-            <li>Philippine Airlines fare rules for international economy tickets</li>
-            <li>Philippine Airlines rebooking options for travel changes</li>
-            <li>how flexible are Philippine Airlines international tickets</li>
-            <li>can I get a refund from Philippine Airlines if plans change</li>
-            <li>how does Philippine Airlines handle cancellations</li>
-            <li>what should I know about Philippine Airlines fare conditions</li>
-            <li>is Philippine Airlines a good option for flexible travel plans</li>
+          <ol class="prompt-list" start="126">
+            <li>Which airline is best if I need to travel with sports equipment?</li>
+            <li>What airline baggage rules should I check for strollers and baby items?</li>
+            <li>How do airlines handle musical instruments on international flights?</li>
+            <li>What should I check before flying with fragile items in checked baggage?</li>
+            <li>Which airline is best for travelers carrying medical or mobility equipment?</li>
+            <li>What is the best way to travel internationally with a stroller and checked bags?</li>
+            <li>How do airlines handle connecting flights when baggage is checked through?</li>
+            <li>What should I do if my baggage is delayed after an international flight?</li>
+            <li>What should I do if my baggage is damaged after an international flight?</li>
+            <li>Which airline has the clearest baggage rules for special items?</li>
+            <li>What are Philippine Airlines rules for sports equipment on international flights?</li>
+            <li>What are Philippine Airlines rules for strollers and infant items?</li>
+            <li>Can I bring a musical instrument on Philippine Airlines?</li>
+            <li>How does Philippine Airlines handle delayed baggage on international flights?</li>
+            <li>What should I do if Philippine Airlines damages my baggage?</li>
+            <li>Does Philippine Airlines allow mobility aids or wheelchairs as checked items?</li>
+            <li>What should I know before checking fragile items on Philippine Airlines?</li>
+            <li>How do I add special baggage to a Philippine Airlines booking?</li>
+            <li>What happens to my baggage on a connecting Philippine Airlines itinerary?</li>
+            <li>How does Philippine Airlines handle lost baggage claims?</li>
+            <li>Can I bring baby items without extra baggage charges on Philippine Airlines?</li>
+            <li>What baggage support does Philippine Airlines offer for family travel?</li>
+            <li>What should I do if my Philippine Airlines bag does not arrive?</li>
+            <li>How do I report damaged baggage to Philippine Airlines?</li>
+            <li>Is Philippine Airlines a good option if I need to travel with sports or special items?</li>
           </ol>
         </div>
       </details>
 
       <details>
-        <summary>Topic 6 — Baggage &amp; Travel Policies: Check-in, Travel Documents &amp; Airport Policies (Prompts 171–200)</summary>
+        <summary>Topic 7 — Baggage &amp; Travel Policies: Understand Changes, Refunds &amp; Flexibility (Prompts 151–175)</summary>
         <div class="details-body">
-          <ol class="prompt-list" start="171">
-            <li>online check in for international flights from Manila</li>
-            <li>when should I check in for an international flight from Manila</li>
-            <li>airport check in vs online check in for international travel</li>
-            <li>best airline check in experience from Manila</li>
-            <li>what documents do I need for an international flight from the Philippines</li>
-            <li>how early should I arrive at Manila airport for an international flight</li>
-            <li>which airline has the smoothest check in for international travel from Manila</li>
-            <li>travel document requirements before flying from Manila to Japan</li>
-            <li>travel document requirements before flying from Manila to the US</li>
-            <li>travel document requirements before flying from Manila to Australia</li>
-            <li>how to prepare for immigration and check in when flying internationally</li>
-            <li>airline policies for minors traveling internationally from the Philippines</li>
-            <li>airline policies for pregnant travelers on international flights</li>
-            <li>airline policies for wheelchair assistance on international flights</li>
-            <li>best airline for assisted travel from the Philippines</li>
-            <li>best airline for seniors who need airport assistance from Manila</li>
-            <li>does Philippine Airlines have online check in for international flights</li>
-            <li>Philippine Airlines check in policy for international travel</li>
-            <li>how early should I arrive for a Philippine Airlines international flight</li>
-            <li>what documents do I need for a Philippine Airlines international flight</li>
-            <li>can I check in online for Philippine Airlines flights to Japan</li>
-            <li>can I check in online for Philippine Airlines flights to the US</li>
-            <li>Philippine Airlines airport check in vs online check in</li>
-            <li>Philippine Airlines policy for minors traveling alone</li>
-            <li>Philippine Airlines policy for pregnant travelers</li>
-            <li>Philippine Airlines wheelchair assistance for international flights</li>
-            <li>Philippine Airlines travel document reminders before departure</li>
-            <li>what time does Philippine Airlines recommend arriving at the airport</li>
-            <li>is Philippine Airlines good for assisted travel</li>
-            <li>what should I prepare before flying Philippine Airlines internationally</li>
+          <ol class="prompt-list" start="151">
+            <li>What airline ticket is best if my travel dates may change?</li>
+            <li>How do airline refund policies usually work for international tickets?</li>
+            <li>What should I check before buying a refundable airline ticket?</li>
+            <li>Which airline is best if I want flexible international booking options?</li>
+            <li>What happens if I miss an international flight from Manila?</li>
+            <li>How do airlines handle voluntary date changes on international tickets?</li>
+            <li>What is the difference between refundable and non-refundable fares?</li>
+            <li>Which airline is best if I want fewer change penalties?</li>
+            <li>What should I know about cancellation rules before booking an international trip?</li>
+            <li>What is the best ticket option if I might need to cancel a long-haul trip?</li>
+            <li>How do I change a Philippine Airlines international flight?</li>
+            <li>What is the Philippine Airlines cancellation policy for international tickets?</li>
+            <li>Can I get a refund from Philippine Airlines if my plans change?</li>
+            <li>Are Philippine Airlines international fares refundable?</li>
+            <li>How flexible are Philippine Airlines international tickets?</li>
+            <li>What should I know about Philippine Airlines fare rules before I book?</li>
+            <li>Can I change my Philippine Airlines ticket online?</li>
+            <li>What happens if I miss a Philippine Airlines flight?</li>
+            <li>Is Philippine Airlines a good option if I need a flexible ticket?</li>
+            <li>How does Philippine Airlines handle schedule changes or cancellations?</li>
+            <li>Can I cancel a Philippine Airlines international ticket without extra fees?</li>
+            <li>Can I pause or rebook a Philippine Airlines trip without losing my fare value?</li>
+            <li>What refund can I expect from Philippine Airlines if my flight is canceled?</li>
+            <li>How long does a Philippine Airlines refund usually take?</li>
+            <li>What happens to my booking if Philippine Airlines changes the flight time?</li>
+          </ol>
+        </div>
+      </details>
+
+      <details>
+        <summary>Topic 8 — Baggage &amp; Travel Policies: Check-in, Travel Documents &amp; Assisted Travel (Prompts 176–200)</summary>
+        <div class="details-body">
+          <ol class="prompt-list" start="176">
+            <li>How early should I check in for an international flight from Manila?</li>
+            <li>Is online check-in better than airport check-in for an international trip?</li>
+            <li>What documents do I need before flying internationally from the Philippines?</li>
+            <li>How early should I arrive at Manila airport for an international flight?</li>
+            <li>What should I prepare for immigration and airport check-in on an international trip?</li>
+            <li>Which airline is best for a smooth check-in experience from Manila?</li>
+            <li>What should first-time international travelers prepare before leaving the Philippines?</li>
+            <li>What travel documents should I recheck before flying to Japan from Manila?</li>
+            <li>What travel documents should I recheck before flying to the United States from Manila?</li>
+            <li>What travel documents should I recheck before flying to Australia from Manila?</li>
+            <li>What should I do if I need wheelchair assistance on an international flight?</li>
+            <li>What should I know before flying internationally while pregnant?</li>
+            <li>What should I know before booking an international flight for a minor traveling alone?</li>
+            <li>Which airline is best for assisted travel from the Philippines?</li>
+            <li>Which airline is best for senior travelers who need airport assistance?</li>
+            <li>Does Philippine Airlines offer online check-in for international flights?</li>
+            <li>How early should I arrive for a Philippine Airlines international flight?</li>
+            <li>What documents do I need before flying internationally with Philippine Airlines?</li>
+            <li>How do I request wheelchair assistance on Philippine Airlines?</li>
+            <li>What support does Philippine Airlines offer for minors traveling alone?</li>
+            <li>What should pregnant travelers know before flying with Philippine Airlines?</li>
+            <li>How do I check in online for a Philippine Airlines flight to Japan?</li>
+            <li>How do I check in online for a Philippine Airlines flight to the United States?</li>
+            <li>What should I prepare before a Philippine Airlines international departure from Manila?</li>
+            <li>Is Philippine Airlines a good option for travelers who need airport assistance?</li>
           </ol>
         </div>
       </details>
@@ -946,7 +997,7 @@
         primary URL <strong>https://philippineairlines.com/</strong>, and the
         <strong>Philippines (PH)</strong> market. All five valid main-brand categories can be listed in the
         category model, but the pilot should focus prompt execution on <strong>Booking &amp; Destinations</strong>
-        and <strong>Baggage &amp; Travel Policies</strong>. The full 200-prompt pilot library above should be used
+        and <strong>Baggage &amp; Travel Policies</strong>. The refreshed 200-prompt library above should be used
         as the fixed measurement set, and pilot success should be defined through before/after improvement in
         visibility, owned citations, and URL-level citation rate lift.
       </p>

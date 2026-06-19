@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Philippine Airlines - Adobe LLM Optimizer Pilot Configuration</title>
+  <title>Philippine Airlines - Rebalanced 200-Prompt Pilot Library</title>
   <style>
     :root{
       --adobe-red:#EB1000;
@@ -15,10 +15,9 @@
       --soft:#FFF4F2;
       --soft-2:#F9FAFB;
       --soft-3:#FFFBF5;
-      --success:#0E8A16;
-      --blue:#0B57D0;
       --green:#15803d;
       --amber:#a16207;
+      --blue:#155EEF;
     }
     *{box-sizing:border-box}
     body{
@@ -113,61 +112,61 @@
       padding:18px 18px 18px 16px;
       border-radius:14px;
     }
-    .success-box{
+    .info{
       background:#F8FBFF;
       border:1px solid #D8E8FF;
       border-radius:16px;
       padding:18px;
     }
-    .example-box{
+    .warn{
       background:var(--soft-3);
       border:1px solid #F3D7A8;
-      border-radius:14px;
-      padding:16px;
+      border-radius:16px;
+      padding:18px;
     }
+    .kpi-row{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:16px;
+      margin-top:16px;
+    }
+    .kpi{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:18px;
+    }
+    .kpi .label{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#777;
+      margin-bottom:8px;
+    }
+    .kpi .value{
+      font-size:28px;
+      font-weight:700;
+      color:var(--ink);
+    }
+    .pill{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:13px;
+      font-weight:700;
+      margin:4px 6px 0 0;
+      background:#fff;
+      border:1px solid var(--line);
+    }
+    .u{color:#155eef;background:#eff4ff;border-color:#d0ddff}
+    .b{color:#b42318;background:#fef3f2;border-color:#fecdca}
+    .r{color:#087443;background:#ecfdf3;border-color:#abefc6}
     ul{
       margin:8px 0 0 20px;
       padding:0;
       color:var(--muted);
     }
     li{margin:8px 0}
-    .pill-list{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:10px;
-    }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      padding:10px 14px;
-      border-radius:999px;
-      background:#fff;
-      border:1px solid var(--line);
-      font-size:14px;
-      color:var(--ink);
-      font-weight:600;
-    }
-    .pill.focus{
-      background:var(--soft);
-      border-color:#F1B3AE;
-      color:var(--adobe-red-dark);
-    }
-    .tag{
-      display:inline-block;
-      font-size:12px;
-      font-weight:700;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-      padding:6px 10px;
-      border-radius:999px;
-      background:#F3F4F6;
-      color:#555;
-      margin-bottom:10px;
-    }
-    .tag.red{background:#FDECEC;color:#8F1D14}
-    .tag.blue{background:#EAF2FF;color:#114BA3}
-    .tag.green{background:#EAF8EE;color:#1F6B37}
     table{
       width:100%;
       border-collapse:collapse;
@@ -190,78 +189,6 @@
       vertical-align:top;
       color:var(--muted);
       background:#fff;
-    }
-    .kpi-row{
-      display:grid;
-      grid-template-columns:repeat(5,minmax(0,1fr));
-      gap:16px;
-      margin-top:16px;
-    }
-    .kpi{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:18px;
-    }
-    .kpi .label{
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      color:#777;
-      margin-bottom:8px;
-    }
-    .kpi .value{
-      font-size:28px;
-      font-weight:700;
-      color:var(--ink);
-    }
-    .check{color:var(--success);font-weight:700}
-    .formula-row{
-      display:grid;
-      grid-template-columns:1fr auto 1fr auto 1fr;
-      gap:10px;
-      align-items:center;
-      margin-top:14px;
-    }
-    .formula-part{
-      border-radius:14px;
-      padding:14px 16px;
-      text-align:center;
-      color:#fff;
-      font-weight:700;
-      font-size:18px;
-    }
-    .formula-user{background:#4361ee;}
-    .formula-need{background:#34a853;}
-    .formula-context{background:#f4a62a;}
-    .formula-plus{
-      font-size:28px;
-      font-weight:700;
-      color:#888;
-      text-align:center;
-    }
-    .note{
-      font-size:13px;
-      color:#777;
-      margin-top:10px;
-    }
-    .formula{
-      display:block;
-      padding:10px 12px;
-      background:#F4F4F4;
-      border-radius:10px;
-      font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size:13px;
-      color:#333;
-      margin:8px 0 10px;
-      white-space:pre-wrap;
-    }
-    code{
-      background:#F4F4F4;
-      padding:2px 6px;
-      border-radius:6px;
-      font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size:13px;
     }
     details{
       border:1px solid var(--line);
@@ -289,9 +216,19 @@
       margin:6px 0;
       break-inside:avoid;
     }
+    .formula{
+      display:block;
+      padding:10px 12px;
+      background:#F4F4F4;
+      border-radius:10px;
+      font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size:13px;
+      color:#333;
+      margin:8px 0 10px;
+      white-space:pre-wrap;
+    }
     @media (max-width:960px){
-      .grid,.grid-3,.kpi-row,.formula-row{grid-template-columns:1fr}
-      .formula-plus{display:none}
+      .grid,.grid-3,.kpi-row{grid-template-columns:1fr}
       h1{font-size:30px}
       .page{padding:24px 16px 40px}
       .hero,.section{padding:22px}
@@ -300,13 +237,13 @@
 </head>
 <body>
   <div class="page">
+
     <section class="hero">
-      <div class="eyebrow">Adobe LLM Optimizer Pilot Configuration</div>
-      <h1>Philippine Airlines</h1>
+      <div class="eyebrow">Adobe LLM Optimizer Pilot</div>
+      <h1>Philippine Airlines - Rebalanced 200-Prompt Library</h1>
       <p class="subtitle">
-        Customer-facing pilot configuration summary covering brand setup, market scope, competitor benchmarking,
-        refined category strategy, a refreshed 200-prompt pilot library, and the before/after measurement framework
-        to define pilot success.
+        Revised prompt set for the pilot, rebalanced topic by topic to improve the mix between
+        unbranded discovery prompts and branded Philippine Airlines prompts.
       </p>
     </section>
 
@@ -314,35 +251,29 @@
       <h2>Executive Summary</h2>
       <div class="highlight">
         <p>
-          For the initial Adobe LLM Optimizer pilot, Philippine Airlines should be configured as a
-          <strong>single primary brand</strong> using <strong>https://philippineairlines.com/</strong>, with the
-          brand monitored first in the <strong>Philippines (PH)</strong> market. The prompt library below has been
-          refreshed to follow a stronger design pattern: each prompt is treated as a
-          <strong>repeatable customer test case</strong>, not a short keyword phrase.
+          The full 200-prompt library has been rebalanced using a <strong>topic-sensitive</strong> approach rather
+          than a single blanket ratio. Discovery and comparison topics now lean more heavily toward
+          <strong>unbranded prompts</strong>, while policy, baggage, flexibility, check-in, and assistance topics
+          retain a stronger <strong>branded prompt</strong> presence where airline-specific rules matter more.
         </p>
         <p>
-          To improve clarity and consistency, prompts have been rewritten using a simple guiding formula:
-          <strong>User + Need + Context</strong>. This helps make prompts more realistic, more measurable, and
-          easier to map to clear topics without becoming overly long or artificial.
+          The revised mix is <strong>120 unbranded</strong> and <strong>80 branded</strong>, or
+          <strong>60% unbranded / 40% branded overall</strong>.
         </p>
       </div>
 
       <div class="kpi-row">
         <div class="kpi">
-          <div class="label">Primary Brand</div>
-          <div class="value">1</div>
-        </div>
-        <div class="kpi">
-          <div class="label">Primary Market</div>
-          <div class="value">PH</div>
-        </div>
-        <div class="kpi">
-          <div class="label">Pilot Prompts</div>
+          <div class="label">Total Prompts</div>
           <div class="value">200</div>
         </div>
         <div class="kpi">
-          <div class="label">Focus Categories</div>
-          <div class="value">2</div>
+          <div class="label">Unbranded</div>
+          <div class="value">120</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Branded</div>
+          <div class="value">80</div>
         </div>
         <div class="kpi">
           <div class="label">Topics</div>
@@ -352,283 +283,231 @@
     </section>
 
     <section class="section">
-      <h2>Brand Configuration</h2>
+      <h2>How the Mix Was Decided</h2>
       <div class="grid">
-        <div class="card">
-          <h3>Recommended Setup</h3>
-          <table>
-            <thead>
-              <tr>
-                <th>Field</th>
-                <th>Recommendation</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Brand name</td>
-                <td>Philippine Airlines</td>
-              </tr>
-              <tr>
-                <td>Primary URL</td>
-                <td>https://philippineairlines.com/</td>
-              </tr>
-              <tr>
-                <td>Vertical</td>
-                <td>Travel</td>
-              </tr>
-              <tr>
-                <td>Market</td>
-                <td>Philippines (PH)</td>
-              </tr>
-              <tr>
-                <td>Alias</td>
-                <td>Philippine Air Lines</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="card">
-          <h3>Configuration Notes</h3>
+        <div class="info">
+          <h3>Topics That Should Lean Unbranded</h3>
           <ul>
-            <li><span class="check">✓</span> Use a single main brand for the pilot.</li>
-            <li><span class="check">✓</span> Use the non-<code>www</code> primary URL.</li>
-            <li><span class="check">✓</span> Treat market as the <strong>monitoring context</strong>, not the airline's full operating footprint.</li>
-            <li><span class="check">✓</span> Keep aliases tight and high-confidence.</li>
-            <li><strong>Do not use initially:</strong> <code>PAL</code> as an alias, due to ambiguity.</li>
+            <li>Route discovery</li>
+            <li>Destination planning</li>
+            <li>Airline comparison</li>
+            <li>Fare and cabin evaluation before brand selection</li>
           </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Competitor Benchmarking</h2>
-      <p>
-        For the initial pilot, competitor tracking should start with a focused comparison set that reflects both
-        local and international airline consideration for travelers in the PH market.
-      </p>
-      <div class="pill-list">
-        <span class="pill">Cebu Pacific</span>
-        <span class="pill">AirAsia Philippines</span>
-        <span class="pill">Singapore Airlines</span>
-        <span class="pill">Cathay Pacific</span>
-        <span class="pill">Japan Airlines</span>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Category Strategy</h2>
-      <p>
-        Several categories are valid for the Philippine Airlines brand, and it is appropriate to list them in the
-        overall category model. For the pilot, however, prompt investment should be concentrated in just two
-        categories to improve focus, signal quality, and actionability.
-      </p>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Valid Main-Brand Categories</h3>
-          <div class="pill-list">
-            <span class="pill">Booking &amp; Destinations</span>
-            <span class="pill">Fares, Seats &amp; Cabin Experience</span>
-            <span class="pill">Baggage &amp; Travel Policies</span>
-            <span class="pill">Check-in, Flight Changes &amp; Disruptions</span>
-            <span class="pill">Mabuhay Miles &amp; Loyalty</span>
-          </div>
+          <p style="margin-top:12px;">
+            These topics should test whether Philippine Airlines appears naturally in category-level consideration.
+          </p>
         </div>
 
-        <div class="card">
-          <h3>Pilot Focus Categories</h3>
-          <div class="pill-list">
-            <span class="pill focus">Booking &amp; Destinations</span>
-            <span class="pill focus">Baggage &amp; Travel Policies</span>
-          </div>
-          <p style="margin-top:14px;">
-            The prompt bank is organized into <strong>8 stable topics</strong> with
-            <strong>25 prompts per topic</strong>. This creates enough depth to measure consistently while keeping
-            the structure clear and manageable.
+        <div class="warn">
+          <h3>Topics That Can Lean Branded</h3>
+          <ul>
+            <li>Baggage rules and special-item handling</li>
+            <li>Refunds, cancellations, and ticket flexibility</li>
+            <li>Check-in, assistance, and booking management</li>
+            <li>Questions where the answer depends on Philippine Airlines-specific rules</li>
+          </ul>
+          <p style="margin-top:12px;">
+            These topics are stronger when the prompts test the accuracy and visibility of airline-specific answers.
           </p>
         </div>
       </div>
 
+      <div class="card" style="margin-top:18px;">
+        <h3>Prompt Design Rule</h3>
+        <p>
+          Each prompt is written as a realistic test case, following the structure:
+        </p>
+        <span class="formula">User + Need + Context</span>
+        <p>
+          This keeps prompts natural, measurable, and easier to group into stable topics.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Final Mix by Topic</h2>
       <table>
         <thead>
           <tr>
-            <th>Category</th>
-            <th>Topics</th>
-            <th>Prompt Allocation</th>
-            <th>Purpose</th>
+            <th>Topic</th>
+            <th>Unbranded</th>
+            <th>Branded</th>
+            <th>Total</th>
+            <th>Mix rationale</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Booking &amp; Destinations</td>
-            <td>4</td>
-            <td>100</td>
-            <td>Travel discovery, airline evaluation, fare choice, and booking readiness</td>
+            <td>1. Discover Routes &amp; Destination Options</td>
+            <td>23</td>
+            <td>2</td>
+            <td>25</td>
+            <td>Discovery should mostly test whether Philippine Airlines appears naturally without being named.</td>
           </tr>
           <tr>
-            <td>Baggage &amp; Travel Policies</td>
-            <td>4</td>
-            <td>100</td>
-            <td>Baggage clarity, special-item handling, flexibility, check-in, and travel readiness</td>
+            <td>2. Compare Airlines for the Right Choice</td>
+            <td>15</td>
+            <td>10</td>
+            <td>25</td>
+            <td>Comparison needs strong category coverage, but branded prompts still matter for direct brand-vs-brand evaluation.</td>
+          </tr>
+          <tr>
+            <td>3. Choose the Right Fare, Cabin &amp; Inclusions</td>
+            <td>17</td>
+            <td>8</td>
+            <td>25</td>
+            <td>Early fare and cabin decisions should lean unbranded before shifting into Philippine Airlines-specific evaluation.</td>
+          </tr>
+          <tr>
+            <td>4. Book, Manage &amp; Get Ready to Fly</td>
+            <td>14</td>
+            <td>11</td>
+            <td>25</td>
+            <td>Balanced topic: generic booking behavior and Philippine Airlines-specific booking flows both matter.</td>
+          </tr>
+          <tr>
+            <td>5. Understand Baggage Basics Before Booking</td>
+            <td>16</td>
+            <td>9</td>
+            <td>25</td>
+            <td>Starts with broad baggage comparison, then moves into Philippine Airlines baggage specifics.</td>
+          </tr>
+          <tr>
+            <td>6. Handle Special, Family &amp; Excess Baggage Scenarios</td>
+            <td>12</td>
+            <td>13</td>
+            <td>25</td>
+            <td>Special-item handling is highly airline-specific, so a near-balanced mix is appropriate.</td>
+          </tr>
+          <tr>
+            <td>7. Understand Changes, Refunds &amp; Flexible Travel Rules</td>
+            <td>9</td>
+            <td>16</td>
+            <td>25</td>
+            <td>This topic should be branded-heavy because fare conditions and change rules vary by airline.</td>
+          </tr>
+          <tr>
+            <td>8. Check-in, Travel Documents &amp; Assisted Travel</td>
+            <td>14</td>
+            <td>11</td>
+            <td>25</td>
+            <td>Generic readiness questions matter, but Philippine Airlines workflows also need direct testing.</td>
           </tr>
         </tbody>
       </table>
-    </section>
 
-    <section class="section">
-      <h2>Prompt Formula Applied</h2>
-      <p>
-        When a prompt feels too thin or too broad, it is strengthened using three parts:
-        <strong>User + Need + Context</strong>. This is a practical guide, not a rigid rule.
-      </p>
-
-      <div class="formula-row">
-        <div class="formula-part formula-user">User</div>
-        <div class="formula-plus">+</div>
-        <div class="formula-part formula-need">Need</div>
-        <div class="formula-plus">+</div>
-        <div class="formula-part formula-context">Context</div>
-      </div>
-
-      <p class="note">
-        Use just enough context to make the question realistic and measurable, without turning it into an unnatural script.
-      </p>
-
-      <div class="grid" style="margin-top:16px;">
-        <div class="example-box">
-          <h4>Example 1</h4>
-          <p><strong>User:</strong> family traveler</p>
-          <p><strong>Need:</strong> choose an airline</p>
-          <p><strong>Context:</strong> Manila to Tokyo with checked bags</p>
-          <p><strong>Prompt:</strong> Which airline is best for a family flying from Manila to Tokyo with checked bags?</p>
-        </div>
-
-        <div class="example-box">
-          <h4>Example 2</h4>
-          <p><strong>User:</strong> first-time international traveler</p>
-          <p><strong>Need:</strong> prepare for departure</p>
-          <p><strong>Context:</strong> leaving Manila for Japan</p>
-          <p><strong>Prompt:</strong> What should a first-time international traveler prepare before flying from Manila to Japan?</p>
-        </div>
-      </div>
-
-      <div class="grid" style="margin-top:18px;">
+      <div class="grid-3" style="margin-top:18px;">
         <div class="card">
-          <h3>How the Formula Changed the Prompt Set</h3>
-          <ul>
-            <li>Short fragments were rewritten into <strong>real customer questions</strong>.</li>
-            <li>Prompts now carry clearer customer context such as <strong>family travel, first-time travel, long-haul travel, flexible travel, and special-assistance needs</strong>.</li>
-            <li>Overlapping route-only variations were reduced where they did not add distinct measurement value.</li>
-            <li>Policy-sensitive prompts were made more <strong>brand-specific</strong> where the answer depends on Philippine Airlines rules.</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Resulting Design Principles</h3>
-          <ul>
-            <li>Each prompt should reflect <strong>one clear job-to-be-done</strong>.</li>
-            <li>Each topic should stay <strong>stable</strong> over time.</li>
-            <li>Prompts should cover both <strong>discovery</strong> and <strong>trust-critical support moments</strong>.</li>
-            <li>The pilot should balance <strong>unbranded category visibility</strong> with <strong>branded policy and service accuracy</strong>.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Full 200-Prompt Pilot Library</h2>
-      <p>
-        The prompt set below is designed for the PH market, aligned to the two chosen pilot categories, and
-        refreshed using the <strong>User + Need + Context</strong> formula where it improves clarity.
-      </p>
-
-      <div class="grid-3">
-        <div class="card">
-          <div class="tag red">Category 1</div>
           <h3>Booking &amp; Destinations</h3>
-          <p>100 prompts across four topics focused on route discovery, airline evaluation, fare choice, and booking readiness.</p>
+          <p>
+            <span class="pill u">69 unbranded</span>
+            <span class="pill b">31 branded</span>
+          </p>
+          <p>
+            This category now clearly leans unbranded to better measure natural visibility and category-level
+            consideration.
+          </p>
         </div>
+
         <div class="card">
-          <div class="tag blue">Category 2</div>
           <h3>Baggage &amp; Travel Policies</h3>
-          <p>100 prompts across four topics focused on baggage rules, special-item handling, flexibility, check-in, and assisted travel.</p>
+          <p>
+            <span class="pill u">51 unbranded</span>
+            <span class="pill b">49 branded</span>
+          </p>
+          <p>
+            This category remains close to balanced because airline-specific rules and workflows are central to the
+            value of the pilot.
+          </p>
         </div>
+
         <div class="card">
-          <div class="tag green">Prompt Shape</div>
-          <h3>Stronger Test Cases</h3>
-          <p>Each prompt is phrased as a realistic customer question that can be measured consistently over time.</p>
+          <h3>Overall Mix</h3>
+          <p>
+            <span class="pill r">120 unbranded</span>
+            <span class="pill b">80 branded</span>
+          </p>
+          <p>
+            This is the final recommended mix for the 200-prompt pilot.
+          </p>
         </div>
       </div>
+    </section>
+
+    <section class="section">
+      <h2>Rebalanced Full 200-Prompt Library</h2>
+      <p>
+        The list below reflects the revised topic-level branded and unbranded balance.
+      </p>
 
       <details open>
-        <summary>Topic 1 — Booking &amp; Destinations: Discover Routes &amp; Destination Options (Prompts 1–25)</summary>
+        <summary>Topic 1 — Discover Routes &amp; Destination Options (23 unbranded / 2 branded)</summary>
         <div class="details-body">
           <ol class="prompt-list">
             <li>Which airlines offer nonstop flights from Manila to Tokyo for a short leisure trip?</li>
-            <li>Which airline is best for a traveler looking for a nonstop flight from Manila to Osaka?</li>
-            <li>What are the best flight options for a business traveler going from Manila to Seoul?</li>
+            <li>Which airlines offer the easiest one-stop options from Manila to Osaka for a first-time visitor?</li>
+            <li>What are the best flight options from Manila to Seoul for a business traveler who wants a convenient schedule?</li>
             <li>Which airlines offer direct flights from Manila to Singapore for a two- or three-day work trip?</li>
-            <li>Which airlines offer direct flights from Manila to Hong Kong for a weekend trip?</li>
-            <li>What are the best airline options for a family planning a trip from Manila to Sydney?</li>
-            <li>Which airlines are most convenient for a traveler flying from Manila to Melbourne?</li>
-            <li>Which airlines offer strong long-haul options from Manila to Los Angeles?</li>
-            <li>What are the best flight choices from Manila to San Francisco for a first-time US visitor?</li>
-            <li>Which airline is best for flying from Manila to Vancouver with checked baggage included?</li>
+            <li>What are the best airline options from Manila to Hong Kong for a quick weekend getaway?</li>
+            <li>Which airlines offer strong long-haul options from Manila to Los Angeles for a traveler who wants fewer stops?</li>
+            <li>What are the best airline choices from Manila to San Francisco for a first-time visitor to the United States?</li>
+            <li>Which airlines are most convenient for a traveler flying from Manila to Vancouver with one checked bag?</li>
+            <li>What are the best flight options from Manila to Sydney for a family planning a holiday trip?</li>
+            <li>Which airlines are most convenient for a traveler flying from Manila to Melbourne during peak season?</li>
             <li>What international destinations can a traveler reach nonstop from Manila?</li>
             <li>What international destinations can a traveler reach from Cebu without a long layover?</li>
-            <li>Which airline is best for a traveler going from the Philippines to Japan for vacation?</li>
-            <li>Which airline is best for someone flying from the Philippines to the United States for the first time?</li>
-            <li>Which airline is best for a traveler going from the Philippines to Australia with one checked bag?</li>
+            <li>Which airlines are best for a traveler going from the Philippines to Japan for a vacation?</li>
+            <li>Which airlines are best for someone flying from the Philippines to the United States for the first time?</li>
+            <li>Which airlines are best for a traveler going from the Philippines to Australia with one checked bag?</li>
             <li>Which airline is best for a family planning a school-holiday trip from Manila to Tokyo?</li>
-            <li>Which airline is best for an older traveler flying from Manila to Singapore?</li>
+            <li>Which airline is best for an older traveler flying from Manila to Singapore who wants an easy airport experience?</li>
             <li>Which airline is best for a traveler who wants the fewest stops from Manila to North America?</li>
-            <li>Which airline is best for an overnight trip from Manila to a major Asian city?</li>
-            <li>Which airline has the most convenient schedule for a traveler going from Manila to Hong Kong after work?</li>
+            <li>Which airline is best for an overnight trip from Manila to a major Southeast Asian city?</li>
+            <li>Which airline has the most convenient schedule for a traveler leaving Manila after work for Hong Kong?</li>
+            <li>Which airline is best for a leisure traveler looking for a direct flight from Manila to Tokyo with baggage included?</li>
+            <li>Which airline is best for a traveler planning a nonstop long-haul trip from Manila to Los Angeles?</li>
+            <li>Which airline is best for a traveler planning a Japan trip from the Philippines and wanting a nonstop option?</li>
             <li>Does Philippine Airlines offer nonstop flights from Manila to Tokyo for leisure travelers?</li>
-            <li>Does Philippine Airlines offer nonstop flights from Manila to Los Angeles for long-haul travelers?</li>
-            <li>Which international destinations can I fly to nonstop with Philippine Airlines from Manila?</li>
-            <li>Is Philippine Airlines a good option for a traveler planning a nonstop trip from the Philippines to Japan?</li>
             <li>What long-haul destinations can a traveler book on Philippine Airlines from Manila?</li>
           </ol>
         </div>
       </details>
 
       <details>
-        <summary>Topic 2 — Booking &amp; Destinations: Compare Airlines for the Right Choice (Prompts 26–50)</summary>
+        <summary>Topic 2 — Compare Airlines for the Right Choice (15 unbranded / 10 branded)</summary>
         <div class="details-body">
           <ol class="prompt-list" start="26">
-            <li>Which airline is better for a family flying from Manila to Tokyo: Philippine Airlines or Japan Airlines?</li>
-            <li>Which airline is better for a business traveler flying from Manila to Singapore: Philippine Airlines or Singapore Airlines?</li>
-            <li>Which airline is better for a short trip from Manila to Hong Kong: Philippine Airlines or Cathay Pacific?</li>
-            <li>Which airline is better for a budget-conscious traveler on a regional trip from Manila: Philippine Airlines or AirAsia Philippines?</li>
-            <li>Which airline is better for international travel from Manila with baggage included: Philippine Airlines or Cebu Pacific?</li>
+            <li>Which airline is better for a family flying from Manila to Tokyo during a school break?</li>
+            <li>Which airline is better for a business traveler flying from Manila to Singapore who wants a smooth airport experience?</li>
+            <li>Which airline is better for a short trip from Manila to Hong Kong with only a carry-on bag?</li>
+            <li>Which airline is better for a budget-conscious traveler taking a regional trip from Manila?</li>
+            <li>Which airline is better for an international traveler from Manila who wants baggage included in the ticket?</li>
             <li>Which airline offers the best mix of comfort and value for a traveler going from Manila to Tokyo?</li>
             <li>Which airline is most reliable for a traveler flying from Manila to Japan during peak season?</li>
-            <li>Which airline is best for parents traveling from Manila to Hong Kong with children?</li>
+            <li>Which airline is best for parents traveling from Manila to Hong Kong with children and checked bags?</li>
             <li>Which airline is best for a business traveler who wants a smooth trip from Manila to Singapore?</li>
-            <li>Which airline is best for long-haul comfort from Manila to Los Angeles?</li>
+            <li>Which airline is best for long-haul comfort from Manila to Los Angeles for someone who does not want a complex connection?</li>
             <li>Which airline gives a first-time international traveler the easiest experience from Manila?</li>
             <li>Which airline is better for a traveler who wants checked baggage included on a flight from Manila to Tokyo?</li>
             <li>Which airline is better for a traveler who wants a premium cabin option from Manila to the United States?</li>
             <li>Which airline is better for a traveler who wants the fewest connections from the Philippines to North America?</li>
-            <li>Is Philippine Airlines better than Cebu Pacific for a traveler booking an international trip from Manila?</li>
-            <li>Is Philippine Airlines better than AirAsia Philippines for a traveler who values comfort on a regional route?</li>
-            <li>Is Philippine Airlines a better value than Singapore Airlines for a traveler flying from Manila?</li>
-            <li>Is Philippine Airlines a better option than Cathay Pacific for a traveler who prefers nonstop long-haul flights?</li>
-            <li>Is Philippine Airlines a good choice for a family traveling from Manila to Tokyo during a school break?</li>
+            <li>Which airline is better for a traveler who values schedule convenience over the lowest fare from Manila to Hong Kong?</li>
+            <li>Is Philippine Airlines better than Cebu Pacific for an international trip from Manila with one checked bag?</li>
+            <li>Is Philippine Airlines better than AirAsia Philippines for a regional trip when comfort matters more than the lowest fare?</li>
+            <li>Is Philippine Airlines a better value than Singapore Airlines for a traveler flying from Manila to Singapore?</li>
+            <li>Is Philippine Airlines a better option than Cathay Pacific for a traveler who prefers fewer stops to North America?</li>
+            <li>Is Philippine Airlines a good choice for a family traveling from Manila to Tokyo during a school holiday?</li>
             <li>Is Philippine Airlines a good choice for a first-time traveler flying from Manila to the United States?</li>
             <li>How does Philippine Airlines compare with Japan Airlines for a traveler flying to Tokyo from Manila?</li>
             <li>How does Philippine Airlines compare with Cathay Pacific for a traveler going from Manila to North America?</li>
             <li>How does Philippine Airlines compare with Singapore Airlines for a traveler going from Manila to Southeast Asia?</li>
             <li>How does Philippine Airlines compare with Cebu Pacific for value on international trips from Manila?</li>
-            <li>How does Philippine Airlines compare with AirAsia Philippines for a short regional trip from Manila?</li>
           </ol>
         </div>
       </details>
 
       <details>
-        <summary>Topic 3 — Booking &amp; Destinations: Choose the Right Fare, Cabin &amp; Inclusions (Prompts 51–75)</summary>
+        <summary>Topic 3 — Choose the Right Fare, Cabin &amp; Inclusions (17 unbranded / 8 branded)</summary>
         <div class="details-body">
           <ol class="prompt-list" start="51">
             <li>What type of airline ticket is best for a traveler from Manila who may need to change dates?</li>
@@ -646,22 +525,22 @@
             <li>Which airline is best for a traveler who wants a lower fare with basic inclusions on an international trip?</li>
             <li>How can a traveler decide if a fare upgrade is worth it on a long-haul flight from Manila?</li>
             <li>What should a traveler compare before booking a flight from Manila to Australia?</li>
+            <li>Which airline fare is best for a traveler from Manila who wants flexibility but does not want to overpay?</li>
+            <li>Which airline is best for a traveler who wants included baggage, meals, and fewer surprise fees on a long-haul route?</li>
             <li>Which Philippine Airlines fare is best for a traveler who wants flexibility on an international trip?</li>
-            <li>Does Philippine Airlines include meals and seat selection on international fares for long-haul travelers?</li>
+            <li>Does Philippine Airlines include meals on international fares for long-haul travelers?</li>
+            <li>Does Philippine Airlines include seat selection on international fares for travelers booking early?</li>
             <li>Is Philippine Airlines economy a good option for a traveler flying long haul from Manila?</li>
             <li>Is Philippine Airlines premium economy worth it for a traveler flying from Manila to the United States?</li>
             <li>Is Philippine Airlines business class a good option for a traveler going from Manila to Australia?</li>
             <li>How should a family choose the right Philippine Airlines fare for an international trip?</li>
-            <li>What should a traveler check before booking a Philippine Airlines international ticket?</li>
-            <li>Can a traveler choose seats when booking a Philippine Airlines international flight?</li>
             <li>What is included in a Philippine Airlines international economy fare for a long-haul trip?</li>
-            <li>How should a traveler decide between economy and premium economy on Philippine Airlines?</li>
           </ol>
         </div>
       </details>
 
       <details>
-        <summary>Topic 4 — Booking &amp; Destinations: Book, Manage &amp; Get Ready to Fly (Prompts 76–100)</summary>
+        <summary>Topic 4 — Book, Manage &amp; Get Ready to Fly (14 unbranded / 11 branded)</summary>
         <div class="details-body">
           <ol class="prompt-list" start="76">
             <li>How should a traveler book an international flight from Manila online safely?</li>
@@ -678,7 +557,6 @@
             <li>What should a traveler do if a passenger detail needs to be corrected before an international trip?</li>
             <li>How can a traveler add baggage after booking an international flight?</li>
             <li>What should a traveler do if the itinerary changes before departure?</li>
-            <li>How should a first-time international traveler from the Philippines prepare after booking?</li>
             <li>How can a traveler book an international flight on Philippine Airlines?</li>
             <li>How can a traveler manage a Philippine Airlines booking online after purchase?</li>
             <li>How can a traveler add baggage to a Philippine Airlines booking after checkout?</li>
@@ -689,12 +567,13 @@
             <li>How can a traveler update passenger details on a Philippine Airlines booking?</li>
             <li>What should a traveler do if a Philippine Airlines schedule changes before departure?</li>
             <li>How early should a traveler book Philippine Airlines international flights for better options?</li>
+            <li>How can a traveler check the status of a Philippine Airlines booking before leaving for the airport?</li>
           </ol>
         </div>
       </details>
 
       <details>
-        <summary>Topic 5 — Baggage &amp; Travel Policies: Understand Baggage Basics Before Booking (Prompts 101–125)</summary>
+        <summary>Topic 5 — Understand Baggage Basics Before Booking (16 unbranded / 9 branded)</summary>
         <div class="details-body">
           <ol class="prompt-list" start="101">
             <li>What baggage allowance should a traveler expect on an international flight from Manila?</li>
@@ -712,6 +591,7 @@
             <li>What is the best airline for a family traveling from Manila with several checked bags?</li>
             <li>Which airline is best for a student traveling internationally with extra luggage?</li>
             <li>What baggage rules should a traveler check before booking an international flight?</li>
+            <li>Which airline is best for a traveler who wants clear baggage rules and fewer surprises at the airport?</li>
             <li>What is the Philippine Airlines baggage allowance for an international economy traveler?</li>
             <li>What is the Philippine Airlines carry-on baggage policy for an international trip?</li>
             <li>Does Philippine Airlines include checked baggage on international fares?</li>
@@ -720,14 +600,13 @@
             <li>How much baggage is included on Philippine Airlines for a traveler flying to Australia?</li>
             <li>How strict is Philippine Airlines about cabin baggage size and weight for international passengers?</li>
             <li>What happens if a Philippine Airlines passenger checks in with an overweight bag?</li>
-            <li>Is Philippine Airlines a good option for a traveler who needs more checked baggage?</li>
             <li>How can a traveler pay for extra baggage on Philippine Airlines before the flight?</li>
           </ol>
         </div>
       </details>
 
       <details>
-        <summary>Topic 6 — Baggage &amp; Travel Policies: Handle Special, Family &amp; Excess Baggage Scenarios (Prompts 126–150)</summary>
+        <summary>Topic 6 — Handle Special, Family &amp; Excess Baggage Scenarios (12 unbranded / 13 branded)</summary>
         <div class="details-body">
           <ol class="prompt-list" start="126">
             <li>Which airline is best for a traveler who needs to bring sports equipment on an international trip?</li>
@@ -740,6 +619,8 @@
             <li>What should a traveler do if checked baggage is delayed after an international flight?</li>
             <li>What should a traveler do if checked baggage is damaged after an international flight?</li>
             <li>Which airline has the clearest baggage rules for special or oversized items?</li>
+            <li>Which airline is best for a traveler carrying ski, golf, or dive equipment on a long-haul trip?</li>
+            <li>What should a traveler check before flying internationally with a wheelchair or mobility aid?</li>
             <li>What are Philippine Airlines rules for sports equipment on international flights?</li>
             <li>What are Philippine Airlines rules for strollers and infant items on international trips?</li>
             <li>Can a traveler bring a musical instrument on Philippine Airlines?</li>
@@ -753,14 +634,12 @@
             <li>Can parents bring baby items on Philippine Airlines without extra baggage charges?</li>
             <li>What baggage support does Philippine Airlines offer for a family traveling internationally?</li>
             <li>What should a traveler do if a Philippine Airlines checked bag does not arrive?</li>
-            <li>How can a traveler report damaged baggage to Philippine Airlines after landing?</li>
-            <li>Is Philippine Airlines a good option for a traveler bringing sports or special items?</li>
           </ol>
         </div>
       </details>
 
       <details>
-        <summary>Topic 7 — Baggage &amp; Travel Policies: Understand Changes, Refunds &amp; Flexible Travel Rules (Prompts 151–175)</summary>
+        <summary>Topic 7 — Understand Changes, Refunds &amp; Flexible Travel Rules (9 unbranded / 16 branded)</summary>
         <div class="details-body">
           <ol class="prompt-list" start="151">
             <li>What type of airline ticket is best for a traveler whose international dates may change?</li>
@@ -772,7 +651,6 @@
             <li>What is the difference between refundable and non-refundable fares for an international traveler?</li>
             <li>Which airline is best for a traveler who wants lower change penalties?</li>
             <li>What should a traveler know about cancellation rules before booking an international trip?</li>
-            <li>What is the best ticket option for a traveler who might need to cancel a long-haul trip?</li>
             <li>How can a traveler change a Philippine Airlines international flight after booking?</li>
             <li>What is the Philippine Airlines cancellation policy for an international ticket?</li>
             <li>Can a traveler get a refund from Philippine Airlines if plans change before departure?</li>
@@ -784,16 +662,17 @@
             <li>Is Philippine Airlines a good option for a traveler who needs a flexible ticket?</li>
             <li>How does Philippine Airlines handle schedule changes or cancellations after booking?</li>
             <li>Can a traveler cancel a Philippine Airlines international ticket without large penalties?</li>
-            <li>Can a traveler pause or rebook a Philippine Airlines trip without losing fare value?</li>
+            <li>Can a traveler rebook a Philippine Airlines trip without losing fare value?</li>
             <li>What refund can a traveler expect from Philippine Airlines if the flight is canceled?</li>
             <li>How long does a Philippine Airlines refund usually take after cancellation?</li>
             <li>What happens to a booking if Philippine Airlines changes the departure time?</li>
+            <li>What should a traveler do if Philippine Airlines cancels a flight close to departure?</li>
           </ol>
         </div>
       </details>
 
       <details>
-        <summary>Topic 8 — Baggage &amp; Travel Policies: Check-in, Travel Documents &amp; Assisted Travel (Prompts 176–200)</summary>
+        <summary>Topic 8 — Check-in, Travel Documents &amp; Assisted Travel (14 unbranded / 11 branded)</summary>
         <div class="details-body">
           <ol class="prompt-list" start="176">
             <li>How early should a traveler check in for an international flight from Manila?</li>
@@ -809,7 +688,6 @@
             <li>What should a traveler do if wheelchair assistance is needed on an international flight?</li>
             <li>What should a pregnant traveler know before flying internationally?</li>
             <li>What should a parent know before booking an international flight for a minor traveling alone?</li>
-            <li>Which airline is best for a traveler who needs assistance at the airport?</li>
             <li>Which airline is best for a senior traveler who needs check-in and boarding support?</li>
             <li>Does Philippine Airlines offer online check-in for international travelers?</li>
             <li>How early should a Philippine Airlines passenger arrive for an international flight from Manila?</li>
@@ -821,229 +699,26 @@
             <li>How can a traveler check in online for a Philippine Airlines flight to the United States?</li>
             <li>What should a traveler prepare before a Philippine Airlines international departure from Manila?</li>
             <li>Is Philippine Airlines a good option for travelers who need airport assistance?</li>
+            <li>How does Philippine Airlines handle check-in for passengers who need extra support at the airport?</li>
           </ol>
         </div>
       </details>
     </section>
 
     <section class="section">
-      <h2>Pilot Success Measurement Framework</h2>
-      <p>
-        The pilot should use a fixed before/after measurement method. The same 200 prompts, the same PH market
-        scope, the same competitor set, and the same platform filters should be kept constant across the baseline
-        and post-change measurement windows.
-      </p>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Recommended Measurement Setup</h3>
-          <ul>
-            <li><strong>Baseline window:</strong> 2–4 weekly snapshots before content changes</li>
-            <li><strong>Post-change window:</strong> 4 weekly snapshots after launch of content updates</li>
-            <li><strong>Prompt set:</strong> keep the exact same 200 prompts throughout the pilot</li>
-            <li><strong>Scope:</strong> PH market, same competitor list, same platform filters</li>
-            <li><strong>Priority URLs:</strong> select 8–10 target URLs mapped to the two pilot categories</li>
-          </ul>
-        </div>
-
-        <div class="card">
-          <h3>Why This Works</h3>
-          <ul>
-            <li>Measures actual movement on the prompts that matter most</li>
-            <li>Supports URL-level and category-level analysis</li>
-            <li>Reduces noise from changing prompt scope mid-pilot</li>
-            <li>Aligns success definition to measurable citation and visibility lift</li>
-          </ul>
-        </div>
-      </div>
-
-      <h3 style="margin-top:22px;">Primary Pilot Metrics</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Metric</th>
-            <th>What it shows</th>
-            <th>How to use it in the pilot</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Visibility Score</td>
-            <td>Overall strength of brand presence in AI-generated responses</td>
-            <td>Use as the top-line pilot KPI across the full 200-prompt set and by the two focus categories</td>
-          </tr>
-          <tr>
-            <td>Unique Prompts with Owned Citations</td>
-            <td>How many tracked prompts cite a Philippine Airlines URL</td>
-            <td>Use as the clearest coverage KPI for whether more prompts are producing owned citations</td>
-          </tr>
-          <tr>
-            <td>Total Times Cited</td>
-            <td>Total volume of citations to Philippine Airlines URLs</td>
-            <td>Use to confirm whether citations are increasing in frequency, not just breadth</td>
-          </tr>
-          <tr>
-            <td>Sentiment Distribution</td>
-            <td>Whether mentions are positive, neutral, or negative</td>
-            <td>Use as a quality check so pilot gains are not accompanied by worsening sentiment</td>
-          </tr>
-          <tr>
-            <td>Referral Hits from LLMs</td>
-            <td>Human visits originating from AI-generated citations</td>
-            <td>Use as a downstream KPI if sufficient traffic volume exists during the pilot window</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h3 style="margin-top:22px;">URL-Level Before / After Metrics</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Metric</th>
-            <th>Definition</th>
-            <th>Use in pilot</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Citation Rate</td>
-            <td># prompts that cited the URL in a week ÷ # prompts in that URL's relevant prompt pool</td>
-            <td>Primary page-level KPI for whether each priority URL is earning citations more often</td>
-          </tr>
-          <tr>
-            <td>CRD (Citation Rate Delta)</td>
-            <td>Average post-change citation rate − baseline citation rate</td>
-            <td>Primary improvement metric for each priority URL</td>
-          </tr>
-          <tr>
-            <td>CCS (Citation Consistency Score)</td>
-            <td>Weeks cited post-change ÷ total post-change weeks</td>
-            <td>Shows whether gains are durable or only one-week spikes</td>
-          </tr>
-          <tr>
-            <td>Prompts Cited In</td>
-            <td>How many unique prompts cited that URL</td>
-            <td>Use to identify which URLs are expanding prompt coverage after changes</td>
-          </tr>
-          <tr>
-            <td>Referral Hits</td>
-            <td>User visits from AI-generated citations to that URL</td>
-            <td>Useful as a secondary value KPI where traffic is visible</td>
-          </tr>
-          <tr>
-            <td>Agentic Hits</td>
-            <td>AI agent traffic to the URL</td>
-            <td>Helpful secondary KPI to understand AI demand and content retrieval behavior</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h2 style="margin-top:26px;">Metrics Guide with Examples</h2>
-      <p>
-        The section below adds a practical interpretation layer so teams can read the pilot metrics consistently.
-      </p>
-
-      <div class="grid">
-        <div class="example-box">
-          <h4>1) Visibility Score</h4>
-          <p><strong>What it means:</strong> a roll-up view of how strong the brand's overall presence is in AI-generated answers.</p>
-          <p><strong>Example:</strong> if Booking &amp; Destinations rises from <strong>42</strong> to <strong>54</strong>, that indicates meaningful improvement in overall brand visibility for that category.</p>
-        </div>
-
-        <div class="example-box">
-          <h4>2) Unique Prompts with Owned Citations</h4>
-          <p><strong>What it means:</strong> how many tracked prompts cited a Philippine Airlines URL at least once.</p>
-          <p><strong>Example:</strong> baseline = <strong>48</strong> prompts with owned citations; post-change = <strong>63</strong>. That means owned citations expanded across <strong>15</strong> additional prompts.</p>
-        </div>
-
-        <div class="example-box">
-          <h4>3) Total Times Cited</h4>
-          <p><strong>What it means:</strong> total citation volume across the measured prompt set.</p>
-          <p><strong>Example:</strong> baseline = <strong>120</strong> total citations; post-change = <strong>168</strong>. That is a <strong>40%</strong> increase in citation volume.</p>
-        </div>
-      </div>
-
-      <div class="grid" style="margin-top:18px;">
-        <div class="example-box">
-          <h4>4) Citation Rate</h4>
-          <span class="formula">Citation Rate = # prompts that cited the URL in that week
-÷ # prompts in the URL's relevant prompt pool</span>
-          <p><strong>Example:</strong> if a baggage page is relevant to <strong>20</strong> prompts and is cited by <strong>5</strong> of them in a week, the Citation Rate is <strong>25%</strong>.</p>
-        </div>
-
-        <div class="example-box">
-          <h4>5) CRD (Citation Rate Delta)</h4>
-          <span class="formula">CRD = Average post-change citation rate − Baseline citation rate</span>
-          <p><strong>Example:</strong> baseline Citation Rate = <strong>25%</strong>; post-change average = <strong>40%</strong>. CRD = <strong>+15 points</strong>.</p>
-        </div>
-
-        <div class="example-box">
-          <h4>6) CCS (Citation Consistency Score)</h4>
-          <span class="formula">CCS = Weeks cited post-change ÷ Total post-change weeks</span>
-          <p><strong>Example:</strong> if a page is cited in <strong>3</strong> out of <strong>4</strong> post-change weeks, CCS = <strong>0.75</strong>.</p>
-        </div>
-      </div>
-
-      <div class="grid" style="margin-top:18px;">
-        <div class="example-box">
-          <h4>7) Prompts Cited In</h4>
-          <p><strong>What it means:</strong> how many unique prompts cited a given URL.</p>
-          <p><strong>Example:</strong> a route page cited in <strong>7</strong> prompts after the change, versus <strong>3</strong> before, is now winning across a broader prompt set.</p>
-        </div>
-
-        <div class="example-box">
-          <h4>8) Referral Hits</h4>
-          <p><strong>What it means:</strong> user visits coming from AI-generated citations.</p>
-          <p><strong>Example:</strong> if a baggage page moves from <strong>12</strong> referral hits to <strong>24</strong>, the page is not only being cited more, but is also attracting more human visits.</p>
-        </div>
-
-        <div class="example-box">
-          <h4>9) Agentic Hits</h4>
-          <p><strong>What it means:</strong> visits from AI agents or crawlers to a page.</p>
-          <p><strong>Example:</strong> a page can have high Agentic Hits but low citations, which usually means AI systems are checking the page but not selecting it often in answers.</p>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:18px;">
-        <h3>How the Metrics Work Together</h3>
-        <ul>
-          <li><strong>Visibility Score</strong> tells the broad story.</li>
-          <li><strong>Unique Prompts with Owned Citations</strong> tells whether coverage improved.</li>
-          <li><strong>Total Times Cited</strong> tells whether citation frequency improved.</li>
-          <li><strong>Citation Rate / CRD / CCS</strong> tell whether target URLs improved and whether gains lasted.</li>
-          <li><strong>Referral Hits</strong> and <strong>Agentic Hits</strong> add business and retrieval context.</li>
-        </ul>
-      </div>
-
-      <h3 style="margin-top:22px;">Suggested Success Thresholds for the Pilot</h3>
-      <div class="success-box">
-        <ul>
-          <li><strong>Top-line success:</strong> Visibility Score improves for the full pilot prompt set and for at least one of the two focus categories.</li>
-          <li><strong>Citation coverage success:</strong> Unique Prompts with Owned Citations improves by <strong>15%+</strong> versus baseline.</li>
-          <li><strong>Citation volume success:</strong> Total Times Cited improves by <strong>20%+</strong> versus baseline.</li>
-          <li><strong>URL-level success:</strong> At least <strong>5 of 10</strong> priority URLs show positive <strong>CRD</strong>.</li>
-          <li><strong>Durability success:</strong> At least <strong>3 of 10</strong> priority URLs show meaningful post-change consistency, indicated by healthy <strong>CCS</strong>.</li>
-          <li><strong>Quality guardrail:</strong> Sentiment should remain stable or improve.</li>
-          <li><strong>Value signal:</strong> Referral Hits from LLMs should trend upward on improved URLs when traffic volume is sufficient to measure.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="section">
       <h2>Final Recommendation</h2>
       <p>
-        Philippine Airlines should begin the Adobe LLM Optimizer pilot with a <strong>single brand</strong>, the
-        primary URL <strong>https://philippineairlines.com/</strong>, and the
-        <strong>Philippines (PH)</strong> market. All five valid main-brand categories can be listed in the
-        category model, but the pilot should focus prompt execution on <strong>Booking &amp; Destinations</strong>
-        and <strong>Baggage &amp; Travel Policies</strong>.
+        This revised prompt library is better suited for the pilot because it uses
+        <strong>unbranded prompts to test natural category visibility</strong> where that matters most, while still
+        preserving a strong set of <strong>branded prompts to test airline-specific accuracy</strong> in baggage,
+        changes, refunds, check-in, and assistance workflows.
       </p>
       <p>
-        The refreshed 200-prompt library above should be used as the fixed measurement set. It now applies a more
-        consistent prompt formula where helpful, making the prompt bank stronger as a baseline for before/after
-        measurement and easier to govern over time.
+        The result is a stronger and more credible pilot design for measuring both
+        <strong>emergent brand visibility</strong> and <strong>brand-specific answer quality</strong>.
       </p>
     </section>
+
   </div>
 </body>
 </html>

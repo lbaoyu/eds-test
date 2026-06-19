@@ -15,8 +15,6 @@
       --soft:#FFF4F2;
       --soft-2:#F9FAFB;
       --success:#0E8A16;
-      --blue:#0B57D0;
-      --amber:#B45309;
     }
     *{box-sizing:border-box}
     body{
@@ -214,10 +212,6 @@
       color:var(--ink);
     }
     .check{color:var(--success);font-weight:700}
-    .small{
-      font-size:13px;
-      color:#777;
-    }
     .formula{
       display:block;
       padding:10px 12px;
@@ -261,17 +255,6 @@
     ol.prompt-list li{
       margin:6px 0;
       break-inside:avoid;
-    }
-    .sources{
-      font-size:13px;
-      color:#666;
-    }
-    .sources a{
-      color:var(--blue);
-      text-decoration:none;
-    }
-    .sources li{
-      margin:6px 0;
     }
     @media (max-width:960px){
       .grid,.grid-3,.kpi-row{grid-template-columns:1fr}
@@ -728,8 +711,8 @@
       <p>
         The pilot should use a fixed before/after measurement method. The same 200 prompts, the same PH market
         scope, the same competitor set, and the same platform filters should be kept constant across the baseline
-        and post-change measurement windows. This makes the results easier to interpret and supports a cleaner
-        pilot success story.
+        and post-change measurement windows. This makes the results easier to interpret and supports a clean
+        before/after view of progress.
       </p>
 
       <div class="grid">
@@ -767,7 +750,7 @@
         <tbody>
           <tr>
             <td>Visibility Score</td>
-            <td>Overall strength of brand presence in LLM responses</td>
+            <td>Overall strength of brand presence in AI-generated responses</td>
             <td>Use as the top-line pilot KPI across the full 200-prompt set and by the two focus categories</td>
           </tr>
           <tr>
@@ -825,7 +808,7 @@
           </tr>
           <tr>
             <td>Referral Hits</td>
-            <td>User visits from LLM citations to that URL</td>
+            <td>User visits from AI-generated citations to that URL</td>
             <td>Useful as a secondary value KPI where traffic is visible</td>
           </tr>
           <tr>
@@ -839,7 +822,7 @@
       <h2 style="margin-top:26px;">Metrics Guide with Examples</h2>
       <p>
         The section below adds a practical interpretation layer so teams can read the pilot metrics consistently.
-        These examples use simple sample numbers to show what "improvement" means.
+        These examples use simple sample numbers to show what improvement means.
       </p>
 
       <div class="grid">
@@ -853,7 +836,7 @@
         <div class="example-box">
           <h4>2) Unique Prompts with Owned Citations</h4>
           <p><strong>What it means:</strong> how many tracked prompts cited a Philippine Airlines URL at least once.</p>
-          <p><strong>How to read it:</strong> this is the best "coverage" metric.</p>
+          <p><strong>How to read it:</strong> this is the best coverage metric.</p>
           <p><strong>Example:</strong> baseline = <strong>48</strong> prompts with owned citations; post-change = <strong>63</strong>. That means owned citations expanded across <strong>15</strong> additional prompts.</p>
         </div>
 
@@ -870,7 +853,7 @@
           <h4>4) Citation Rate</h4>
           <p><strong>What it means:</strong> the share of relevant prompts that cited a specific URL in a given week.</p>
           <span class="formula">Citation Rate = # prompts that cited the URL in that week
-              ÷ # prompts in the URL's relevant prompt pool</span>
+÷ # prompts in the URL's relevant prompt pool</span>
           <p><strong>Example:</strong> if a baggage policy page has a relevant pool of <strong>20</strong> prompts, and <strong>5</strong> of those prompts cite the page in Week 1, then the Citation Rate is <strong>25%</strong>.</p>
         </div>
 
@@ -929,14 +912,13 @@
 
       <h3 style="margin-top:22px;">Suggested Success Thresholds for the Pilot</h3>
       <div class="success-box">
-        <p><strong>Important:</strong> the thresholds below are <strong>proposed pilot targets</strong>, not Adobe product defaults.</p>
         <ul>
           <li><strong>Top-line success:</strong> Visibility Score improves for the full pilot prompt set and for at least one of the two focus categories.</li>
           <li><strong>Citation coverage success:</strong> Unique Prompts with Owned Citations improves by <strong>15%+</strong> versus baseline.</li>
           <li><strong>Citation volume success:</strong> Total Times Cited improves by <strong>20%+</strong> versus baseline.</li>
           <li><strong>URL-level success:</strong> At least <strong>5 of 10</strong> priority URLs show positive <strong>CRD</strong>.</li>
           <li><strong>Durability success:</strong> At least <strong>3 of 10</strong> priority URLs show meaningful post-change consistency, indicated by healthy <strong>CCS</strong>.</li>
-          <li><strong>Quality guardrail:</strong> Sentiment should remain stable or improve; pilot gains should not be driven by deteriorating brand perception.</li>
+          <li><strong>Quality guardrail:</strong> Sentiment should remain stable or improve.</li>
           <li><strong>Value signal:</strong> Referral Hits from LLMs should trend upward on improved URLs when traffic volume is sufficient to measure.</li>
         </ul>
       </div>
@@ -951,7 +933,7 @@
           <p>Broader citation lift, durable URL-level gains, and visible movement in referral traffic.</p>
         </div>
         <div class="card">
-          <h4>Pilot Story</h4>
+          <h4>Success Story</h4>
           <p>Philippine Airlines becomes more visible, more frequently cited, and better represented for the two most important pilot categories.</p>
         </div>
       </div>
@@ -968,21 +950,6 @@
         as the fixed measurement set, and pilot success should be defined through before/after improvement in
         visibility, owned citations, and URL-level citation rate lift.
       </p>
-    </section>
-
-    <section class="section">
-      <h2>Sources</h2>
-      <ul class="sources">
-        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/essentials/best-practices-topics-prompts">Best Practices for Categories, Topics, Prompts, and Others 4/5</a></li>
-        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/essentials/best-practices-topics-prompts">Best Practices for Categories, Topics, Prompts, and Others 5/5</a></li>
-        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/essentials/best-practices">LLM Optimizer best practices 4/6</a></li>
-        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/dashboards/dashboards-overview">Dashboards Overview 1/1</a></li>
-        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3624788453/LLMO+Documentation">LLMO Documentation</a></li>
-        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3805219206/TOC+Opportunity+%E2%80%94+Overview+Impact+Case+Study">TOC Opportunity — Overview, Impact &amp; Case Study</a></li>
-        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3847835347/TOC+Opportunity+%E2%80%94+Technical+Deep+Dive+Impact">TOC Opportunity — Technical Deep Dive &amp; Impact</a></li>
-        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3805233888/FAQ+Structured+Data+-+LLM+Impact+Framework">FAQ Structured Data - LLM Impact Framework</a></li>
-        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3655538980/LLMO+-+Pipeline+Review+PLG+SLG">LLMO - Pipeline Review, PLG &amp; SLG</a></li>
-      </ul>
     </section>
   </div>
 </body>

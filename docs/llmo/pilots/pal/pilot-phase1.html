@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Philippine Airlines - Adobe LLM Optimizer Trial Configuration Summary</title>
+  <style>
+    :root{
+      --adobe-red:#EB1000;
+      --adobe-red-dark:#C60C00;
+      --ink:#2C2C2C;
+      --muted:#5C5C5C;
+      --bg:#F5F5F5;
+      --card:#FFFFFF;
+      --line:#E6E6E6;
+      --soft:#FFF4F2;
+      --soft-2:#F9FAFB;
+      --success:#0E8A16;
+    }
+
+    *{box-sizing:border-box}
+
+    body{
+      margin:0;
+      font-family:Adobe Clean, Segoe UI, Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#FAFAFA 0%, #F3F3F3 100%);
+      color:var(--ink);
+      line-height:1.55;
+    }
+
+    .page{
+      max-width:1100px;
+      margin:0 auto;
+      padding:40px 24px 56px;
+    }
+
+    .hero{
+      background:linear-gradient(135deg,var(--adobe-red) 0%, var(--adobe-red-dark) 100%);
+      color:#fff;
+      border-radius:20px;
+      padding:36px 36px 28px;
+      box-shadow:0 18px 40px rgba(0,0,0,.12);
+    }
+
+    .eyebrow{
+      display:inline-block;
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      padding:6px 10px;
+      border:1px solid rgba(255,255,255,.28);
+      border-radius:999px;
+      margin-bottom:16px;
+      background:rgba(255,255,255,.08);
+    }
+
+    h1{
+      margin:0 0 10px;
+      font-size:36px;
+      line-height:1.12;
+      font-weight:700;
+    }
+
+    .subtitle{
+      margin:0;
+      max-width:860px;
+      font-size:17px;
+      color:rgba(255,255,255,.92);
+    }
+
+    .section{
+      margin-top:28px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:28px;
+      box-shadow:0 8px 22px rgba(0,0,0,.04);
+    }
+
+    h2{
+      margin:0 0 14px;
+      font-size:24px;
+      color:var(--ink);
+    }
+
+    h3{
+      margin:0 0 10px;
+      font-size:18px;
+      color:var(--ink);
+    }
+
+    p{
+      margin:0 0 14px;
+      color:var(--muted);
+      font-size:15px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:18px;
+    }
+
+    .card{
+      background:var(--soft-2);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:18px;
+    }
+
+    .highlight{
+      background:var(--soft);
+      border-left:4px solid var(--adobe-red);
+      padding:18px 18px 18px 16px;
+      border-radius:14px;
+    }
+
+    ul{
+      margin:8px 0 0 20px;
+      padding:0;
+      color:var(--muted);
+    }
+
+    li{margin:8px 0}
+
+    .pill-list{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:10px;
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--line);
+      font-size:14px;
+      color:var(--ink);
+      font-weight:600;
+    }
+
+    .pill.focus{
+      background:var(--soft);
+      border-color:#F1B3AE;
+      color:var(--adobe-red-dark);
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:12px;
+      font-size:14px;
+      overflow:hidden;
+      border-radius:14px;
+      border:1px solid var(--line);
+    }
+
+    thead th{
+      background:#2F2F2F;
+      color:#fff;
+      text-align:left;
+      padding:14px 16px;
+      font-weight:700;
+    }
+
+    tbody td{
+      padding:14px 16px;
+      border-top:1px solid var(--line);
+      vertical-align:top;
+      color:var(--muted);
+      background:#fff;
+    }
+
+    .kpi-row{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:16px;
+      margin-top:16px;
+    }
+
+    .kpi{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:18px;
+      text-align:left;
+    }
+
+    .kpi .label{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:#777;
+      margin-bottom:8px;
+    }
+
+    .kpi .value{
+      font-size:28px;
+      font-weight:700;
+      color:var(--ink);
+    }
+
+    .footer-note{
+      margin-top:18px;
+      font-size:13px;
+      color:#777;
+    }
+
+    .check{
+      color:var(--success);
+      font-weight:700;
+    }
+
+    @media (max-width: 860px){
+      .grid,
+      .kpi-row{
+        grid-template-columns:1fr;
+      }
+      h1{font-size:30px}
+      .page{padding:24px 16px 40px}
+      .hero,.section{padding:22px}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="eyebrow">Adobe LLM Optimizer Trial Configuration</div>
+      <h1>Philippine Airlines</h1>
+      <p class="subtitle">
+        Recommended customer-facing setup for the initial Adobe LLM Optimizer trial, covering brand configuration,
+        market scope, competitors, category model, and prompt allocation strategy.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Executive Summary</h2>
+      <div class="highlight">
+        <p>
+          For the initial Adobe LLM Optimizer trial, Philippine Airlines should be configured as a
+          <strong>single primary brand</strong> using <strong>https://philippineairlines.com/</strong>, with the
+          brand monitored first in the <strong>Philippines (PH)</strong> market. While several category areas are
+          valid for the brand, the trial should concentrate prompt coverage on just
+          <strong>two priority categories</strong>: <strong>Booking &amp; Destinations</strong> and
+          <strong>Baggage &amp; Travel Policies</strong>. This focused model provides stronger signal and clearer
+          early insights than spreading the prompt budget too broadly.
+        </p>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="label">Primary Brand</div>
+          <div class="value">1</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Primary Market</div>
+          <div class="value">PH</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Trial Prompts</div>
+          <div class="value">200</div>
+        </div>
+        <div class="kpi">
+          <div class="label">Focus Categories</div>
+          <div class="value">2</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Brand Configuration</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Recommended Setup</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>Recommendation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Brand name</td>
+                <td>Philippine Airlines</td>
+              </tr>
+              <tr>
+                <td>Primary URL</td>
+                <td>https://philippineairlines.com/</td>
+              </tr>
+              <tr>
+                <td>Vertical</td>
+                <td>Travel</td>
+              </tr>
+              <tr>
+                <td>Market</td>
+                <td>Philippines (PH)</td>
+              </tr>
+              <tr>
+                <td>Alias</td>
+                <td>Philippine Air Lines</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card">
+          <h3>Configuration Notes</h3>
+          <ul>
+            <li><span class="check">✓</span> Use a single main brand for the trial.</li>
+            <li><span class="check">✓</span> Use the non-<code>www</code> primary URL.</li>
+            <li><span class="check">✓</span> Treat market as the <strong>monitoring context</strong>, not the airline's full operating footprint.</li>
+            <li><span class="check">✓</span> Keep aliases tight and high-confidence.</li>
+            <li><strong>Do not use initially:</strong> <code>PAL</code> as an alias, due to ambiguity.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Competitor Benchmarking</h2>
+      <p>
+        For the initial trial, competitor tracking should start with a focused comparison set that reflects
+        both local and international airline consideration for travelers in the PH market.
+      </p>
+
+      <div class="pill-list">
+        <span class="pill">Cebu Pacific</span>
+        <span class="pill">AirAsia Philippines</span>
+        <span class="pill">Singapore Airlines</span>
+        <span class="pill">Cathay Pacific</span>
+        <span class="pill">Japan Airlines</span>
+      </div>
+
+      <p class="footer-note">
+        Competitors should be evaluated in the same PH monitoring context as the main brand.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Category Strategy</h2>
+      <p>
+        Several categories are valid for the Philippine Airlines brand, and it is appropriate to list them in
+        the overall brand/category model. However, for the trial, prompt investment should be concentrated in
+        just two categories to improve focus, signal quality, and actionability.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Valid Main-Brand Categories</h3>
+          <div class="pill-list">
+            <span class="pill">Booking &amp; Destinations</span>
+            <span class="pill">Fares, Seats &amp; Cabin Experience</span>
+            <span class="pill">Baggage &amp; Travel Policies</span>
+            <span class="pill">Check-in, Flight Changes &amp; Disruptions</span>
+            <span class="pill">Mabuhay Miles &amp; Loyalty</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Trial Focus Categories</h3>
+          <div class="pill-list">
+            <span class="pill focus">Booking &amp; Destinations</span>
+            <span class="pill focus">Baggage &amp; Travel Policies</span>
+          </div>
+          <p style="margin-top:14px;">
+            This concentrated approach creates stronger signal than distributing the trial budget evenly across
+            all valid categories.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Prompt Allocation Approach</h2>
+      <p>
+        The full 200-prompt trial allowance should be used, but concentrated in the two selected categories.
+        This provides a strong mix of commercial discovery prompts and high-confidence policy/support prompts.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Prompt Allocation</th>
+            <th>Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Booking &amp; Destinations</td>
+            <td>110</td>
+            <td>Travel discovery, route research, and booking-related visibility</td>
+          </tr>
+          <tr>
+            <td>Baggage &amp; Travel Policies</td>
+            <td>90</td>
+            <td>Policy clarity, baggage rules, and owned-content representation</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="footer-note">
+        Recommended approach: use all 200 prompts, but avoid spreading them too thinly across too many
+        categories during the trial phase.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Final Recommendation</h2>
+      <p>
+        Philippine Airlines should begin the Adobe LLM Optimizer trial with a <strong>single brand</strong>,
+        the primary URL <strong>https://philippineairlines.com/</strong>, and the
+        <strong>Philippines (PH)</strong> market. All five valid main-brand categories can be listed in the
+        category model, but the trial should focus prompt execution on <strong>Booking &amp; Destinations</strong>
+        and <strong>Baggage &amp; Travel Policies</strong>. The recommended prompt allocation is
+        <strong>110 prompts</strong> for Booking &amp; Destinations and <strong>90 prompts</strong> for
+        Baggage &amp; Travel Policies.
+      </p>
+    </section>
+  </div>
+</body>
+</html>

@@ -10,14 +10,13 @@
       --adobe-red-dark:#C60C00;
       --ink:#2C2C2C;
       --muted:#5C5C5C;
-      --bg:#F5F5F5;
       --card:#FFFFFF;
       --line:#E6E6E6;
       --soft:#FFF4F2;
       --soft-2:#F9FAFB;
       --success:#0E8A16;
-      --warning:#B45309;
       --blue:#0B57D0;
+      --amber:#B45309;
     }
     *{box-sizing:border-box}
     body{
@@ -58,7 +57,7 @@
     }
     .subtitle{
       margin:0;
-      max-width:920px;
+      max-width:940px;
       font-size:17px;
       color:rgba(255,255,255,.92);
     }
@@ -78,6 +77,11 @@
     h3{
       margin:0 0 10px;
       font-size:18px;
+      color:var(--ink);
+    }
+    h4{
+      margin:0 0 8px;
+      font-size:16px;
       color:var(--ink);
     }
     p{
@@ -107,6 +111,18 @@
       padding:18px 18px 18px 16px;
       border-radius:14px;
     }
+    .success-box{
+      background:#F8FBFF;
+      border:1px solid #D8E8FF;
+      border-radius:16px;
+      padding:18px;
+    }
+    .example-box{
+      background:#FFFBF5;
+      border:1px solid #F3D7A8;
+      border-radius:14px;
+      padding:16px;
+    }
     ul{
       margin:8px 0 0 20px;
       padding:0;
@@ -135,14 +151,29 @@
       border-color:#F1B3AE;
       color:var(--adobe-red-dark);
     }
+    .tag{
+      display:inline-block;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#F3F4F6;
+      color:#555;
+      margin-bottom:10px;
+    }
+    .tag.red{background:#FDECEC;color:#8F1D14}
+    .tag.blue{background:#EAF2FF;color:#114BA3}
+    .tag.green{background:#EAF8EE;color:#1F6B37}
     table{
       width:100%;
       border-collapse:collapse;
       margin-top:12px;
       font-size:14px;
-      overflow:hidden;
-      border-radius:14px;
       border:1px solid var(--line);
+      border-radius:14px;
+      overflow:hidden;
     }
     thead th{
       background:#2F2F2F;
@@ -169,7 +200,6 @@
       border:1px solid var(--line);
       border-radius:16px;
       padding:18px;
-      text-align:left;
     }
     .kpi .label{
       font-size:12px;
@@ -183,32 +213,33 @@
       font-weight:700;
       color:var(--ink);
     }
-    .tag{
-      display:inline-block;
-      font-size:12px;
-      font-weight:700;
-      letter-spacing:.04em;
-      text-transform:uppercase;
-      padding:6px 10px;
-      border-radius:999px;
-      background:#F3F4F6;
-      color:#555;
-      margin-bottom:10px;
-    }
-    .tag.red{background:#FDECEC;color:#8F1D14}
-    .tag.blue{background:#EAF2FF;color:#114BA3}
-    .tag.green{background:#EAF8EE;color:#1F6B37}
-    .footer-note{
-      margin-top:18px;
+    .check{color:var(--success);font-weight:700}
+    .small{
       font-size:13px;
       color:#777;
     }
-    .check{color:var(--success);font-weight:700}
+    .formula{
+      display:block;
+      padding:10px 12px;
+      background:#F4F4F4;
+      border-radius:10px;
+      font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size:13px;
+      color:#333;
+      margin:8px 0 10px;
+      white-space:pre-wrap;
+    }
+    code{
+      background:#F4F4F4;
+      padding:2px 6px;
+      border-radius:6px;
+      font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size:13px;
+    }
     details{
       border:1px solid var(--line);
       border-radius:14px;
       background:#fff;
-      padding:0;
       overflow:hidden;
       margin-top:14px;
     }
@@ -226,40 +257,23 @@
       margin:0 0 0 22px;
       padding:0;
       color:var(--muted);
-      columns:1;
     }
     ol.prompt-list li{
       margin:6px 0;
       break-inside:avoid;
     }
-    .metric-box{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:16px;
-    }
-    .metric-box h4{
-      margin:0 0 8px;
-      font-size:16px;
-    }
-    .small{
+    .sources{
       font-size:13px;
-      color:#777;
+      color:#666;
     }
-    .success-box{
-      background:#F8FBFF;
-      border:1px solid #D8E8FF;
-      border-radius:16px;
-      padding:18px;
+    .sources a{
+      color:var(--blue);
+      text-decoration:none;
     }
-    code{
-      background:#F4F4F4;
-      padding:2px 6px;
-      border-radius:6px;
-      font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-      font-size:13px;
+    .sources li{
+      margin:6px 0;
     }
-    @media (max-width: 960px){
+    @media (max-width:960px){
       .grid,.grid-3,.kpi-row{grid-template-columns:1fr}
       h1{font-size:30px}
       .page{padding:24px 16px 40px}
@@ -369,7 +383,6 @@
         For the initial pilot, competitor tracking should start with a focused comparison set that reflects both
         local and international airline consideration for travelers in the PH market.
       </p>
-
       <div class="pill-list">
         <span class="pill">Cebu Pacific</span>
         <span class="pill">AirAsia Philippines</span>
@@ -823,6 +836,97 @@
         </tbody>
       </table>
 
+      <h2 style="margin-top:26px;">Metrics Guide with Examples</h2>
+      <p>
+        The section below adds a practical interpretation layer so teams can read the pilot metrics consistently.
+        These examples use simple sample numbers to show what "improvement" means.
+      </p>
+
+      <div class="grid">
+        <div class="example-box">
+          <h4>1) Visibility Score</h4>
+          <p><strong>What it means:</strong> a roll-up view of how strong the brand's overall presence is in AI-generated answers.</p>
+          <p><strong>How to read it:</strong> if the score moves up after the content changes, the brand is generally becoming more visible and better represented for the tracked prompts.</p>
+          <p><strong>Example:</strong> if Booking &amp; Destinations rises from <strong>42</strong> to <strong>54</strong>, that is a meaningful top-line improvement for that category.</p>
+        </div>
+
+        <div class="example-box">
+          <h4>2) Unique Prompts with Owned Citations</h4>
+          <p><strong>What it means:</strong> how many tracked prompts cited a Philippine Airlines URL at least once.</p>
+          <p><strong>How to read it:</strong> this is the best "coverage" metric.</p>
+          <p><strong>Example:</strong> baseline = <strong>48</strong> prompts with owned citations; post-change = <strong>63</strong>. That means owned citations expanded across <strong>15</strong> additional prompts.</p>
+        </div>
+
+        <div class="example-box">
+          <h4>3) Total Times Cited</h4>
+          <p><strong>What it means:</strong> total citation volume across the measured prompt set.</p>
+          <p><strong>How to read it:</strong> this tells you whether citation frequency is increasing, even if the number of unique prompts stays similar.</p>
+          <p><strong>Example:</strong> baseline = <strong>120</strong> total citations; post-change = <strong>168</strong>. That is a <strong>40%</strong> increase in citation volume.</p>
+        </div>
+      </div>
+
+      <div class="grid" style="margin-top:18px;">
+        <div class="example-box">
+          <h4>4) Citation Rate</h4>
+          <p><strong>What it means:</strong> the share of relevant prompts that cited a specific URL in a given week.</p>
+          <span class="formula">Citation Rate = # prompts that cited the URL in that week
+              ÷ # prompts in the URL's relevant prompt pool</span>
+          <p><strong>Example:</strong> if a baggage policy page has a relevant pool of <strong>20</strong> prompts, and <strong>5</strong> of those prompts cite the page in Week 1, then the Citation Rate is <strong>25%</strong>.</p>
+        </div>
+
+        <div class="example-box">
+          <h4>5) CRD (Citation Rate Delta)</h4>
+          <p><strong>What it means:</strong> the change in citation rate from baseline to post-change average.</p>
+          <span class="formula">CRD = Average post-change citation rate − Baseline citation rate</span>
+          <p><strong>Example:</strong> baseline Citation Rate = <strong>25%</strong>; post-change average = <strong>40%</strong>. CRD = <strong>+15 points</strong>.</p>
+        </div>
+
+        <div class="example-box">
+          <h4>6) CCS (Citation Consistency Score)</h4>
+          <p><strong>What it means:</strong> whether the improvement is durable over time.</p>
+          <span class="formula">CCS = Weeks cited post-change ÷ Total post-change weeks</span>
+          <p><strong>Example:</strong> if a page is cited in <strong>3</strong> out of <strong>4</strong> post-change weeks, CCS = <strong>0.75</strong>. That is more durable than a page cited only once in 4 weeks.</p>
+        </div>
+      </div>
+
+      <div class="grid" style="margin-top:18px;">
+        <div class="example-box">
+          <h4>7) Prompts Cited In</h4>
+          <p><strong>What it means:</strong> how many unique prompts cited a given URL.</p>
+          <p><strong>How to read it:</strong> it indicates breadth at the URL level.</p>
+          <p><strong>Example:</strong> a route page cited in <strong>7</strong> prompts after the change, versus <strong>3</strong> before, is now winning across a broader prompt set.</p>
+        </div>
+
+        <div class="example-box">
+          <h4>8) Referral Hits</h4>
+          <p><strong>What it means:</strong> user visits coming from AI-generated citations.</p>
+          <p><strong>How to read it:</strong> this is a downstream value signal, not always an early pilot signal.</p>
+          <p><strong>Example:</strong> if a baggage page moves from <strong>12</strong> referral hits to <strong>24</strong>, the page is not only being cited more, but is also attracting more human visits from AI experiences.</p>
+        </div>
+
+        <div class="example-box">
+          <h4>9) Agentic Hits</h4>
+          <p><strong>What it means:</strong> visits from AI agents or crawlers to a page.</p>
+          <p><strong>How to read it:</strong> it helps explain AI demand and retrieval activity, but it is not the same as citation success.</p>
+          <p><strong>Example:</strong> a page can have high Agentic Hits but low citations, which usually means AI systems are checking the page but not selecting it often in answers.</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px;">
+        <h3>How the Metrics Work Together</h3>
+        <ul>
+          <li><strong>Visibility Score</strong> tells the broad story.</li>
+          <li><strong>Unique Prompts with Owned Citations</strong> tells whether coverage improved.</li>
+          <li><strong>Total Times Cited</strong> tells whether citation frequency improved.</li>
+          <li><strong>Citation Rate / CRD / CCS</strong> tell whether target URLs improved and whether gains lasted.</li>
+          <li><strong>Referral Hits</strong> and <strong>Agentic Hits</strong> add business and retrieval context.</li>
+        </ul>
+        <p>
+          In practice, the strongest pilot story is usually:
+          <strong>higher visibility score + more prompts with owned citations + positive CRD across multiple priority URLs + stable or better sentiment</strong>.
+        </p>
+      </div>
+
       <h3 style="margin-top:22px;">Suggested Success Thresholds for the Pilot</h3>
       <div class="success-box">
         <p><strong>Important:</strong> the thresholds below are <strong>proposed pilot targets</strong>, not Adobe product defaults.</p>
@@ -838,23 +942,19 @@
       </div>
 
       <div class="grid-3" style="margin-top:18px;">
-        <div class="metric-box">
+        <div class="card">
           <h4>Minimum Success</h4>
           <p>Clear improvement in owned citation coverage and positive movement on multiple priority URLs.</p>
         </div>
-        <div class="metric-box">
+        <div class="card">
           <h4>Strong Success</h4>
           <p>Broader citation lift, durable URL-level gains, and visible movement in referral traffic.</p>
         </div>
-        <div class="metric-box">
+        <div class="card">
           <h4>Pilot Story</h4>
           <p>Philippine Airlines becomes more visible, more frequently cited, and better represented for the two most important pilot categories.</p>
         </div>
       </div>
-
-      <p class="footer-note">
-        Recommended reporting cadence: capture a baseline readout before content changes, then run weekly post-change updates with a formal pilot summary after the fourth post-change week.
-      </p>
     </section>
 
     <section class="section">
@@ -868,6 +968,21 @@
         as the fixed measurement set, and pilot success should be defined through before/after improvement in
         visibility, owned citations, and URL-level citation rate lift.
       </p>
+    </section>
+
+    <section class="section">
+      <h2>Sources</h2>
+      <ul class="sources">
+        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/essentials/best-practices-topics-prompts">Best Practices for Categories, Topics, Prompts, and Others 4/5</a></li>
+        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/essentials/best-practices-topics-prompts">Best Practices for Categories, Topics, Prompts, and Others 5/5</a></li>
+        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/essentials/best-practices">LLM Optimizer best practices 4/6</a></li>
+        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/dashboards/dashboards-overview">Dashboards Overview 1/1</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3624788453/LLMO+Documentation">LLMO Documentation</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3805219206/TOC+Opportunity+%E2%80%94+Overview+Impact+Case+Study">TOC Opportunity — Overview, Impact &amp; Case Study</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3847835347/TOC+Opportunity+%E2%80%94+Technical+Deep+Dive+Impact">TOC Opportunity — Technical Deep Dive &amp; Impact</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3805233888/FAQ+Structured+Data+-+LLM+Impact+Framework">FAQ Structured Data - LLM Impact Framework</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3655538980/LLMO+-+Pipeline+Review+PLG+SLG">LLMO - Pipeline Review, PLG &amp; SLG</a></li>
+      </ul>
     </section>
   </div>
 </body>

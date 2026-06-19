@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Philippine Airlines - Rebalanced 200-Prompt Pilot Library</title>
+  <title>Philippine Airlines - Adobe LLM Optimizer Pilot Strategy</title>
   <style>
     :root{
       --adobe-red:#EB1000;
@@ -15,9 +15,9 @@
       --soft:#FFF4F2;
       --soft-2:#F9FAFB;
       --soft-3:#FFFBF5;
+      --blue:#155EEF;
       --green:#15803d;
       --amber:#a16207;
-      --blue:#155EEF;
     }
     *{box-sizing:border-box}
     body{
@@ -58,7 +58,7 @@
     }
     .subtitle{
       margin:0;
-      max-width:940px;
+      max-width:980px;
       font-size:17px;
       color:rgba(255,255,255,.92);
     }
@@ -126,7 +126,7 @@
     }
     .kpi-row{
       display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));
+      grid-template-columns:repeat(5,minmax(0,1fr));
       gap:16px;
       margin-top:16px;
     }
@@ -239,174 +239,148 @@
   <div class="page">
 
     <section class="hero">
-      <div class="eyebrow">Adobe LLM Optimizer Pilot</div>
-      <h1>Philippine Airlines - Rebalanced 200-Prompt Library</h1>
+      <div class="eyebrow">Adobe LLM Optimizer Pilot Strategy</div>
+      <h1>Philippine Airlines</h1>
       <p class="subtitle">
-        Revised prompt set for the pilot, rebalanced topic by topic to improve the mix between
-        unbranded discovery prompts and branded Philippine Airlines prompts.
+        Pilot configuration, prompt architecture, branded versus unbranded mix, 200-prompt library,
+        and measurement framework for evaluating improvement in visibility, citation coverage,
+        and answer accuracy.
       </p>
     </section>
 
     <section class="section">
-      <h2>Executive Summary</h2>
+      <h2>Pilot Scope</h2>
       <div class="highlight">
         <p>
-          The full 200-prompt library has been rebalanced using a <strong>topic-sensitive</strong> approach rather
-          than a single blanket ratio. Discovery and comparison topics now lean more heavily toward
-          <strong>unbranded prompts</strong>, while policy, baggage, flexibility, check-in, and assistance topics
-          retain a stronger <strong>branded prompt</strong> presence where airline-specific rules matter more.
-        </p>
-        <p>
-          The revised mix is <strong>120 unbranded</strong> and <strong>80 branded</strong>, or
-          <strong>60% unbranded / 40% branded overall</strong>.
+          The pilot is structured around a single brand, a single primary market, and two priority categories.
+          This design concentrates measurement on the highest-value travel discovery and policy-sensitive journeys
+          rather than spreading coverage too broadly.
         </p>
       </div>
 
       <div class="kpi-row">
         <div class="kpi">
-          <div class="label">Total Prompts</div>
-          <div class="value">200</div>
+          <div class="label">Brand</div>
+          <div class="value">1</div>
         </div>
         <div class="kpi">
-          <div class="label">Unbranded</div>
-          <div class="value">120</div>
+          <div class="label">Market</div>
+          <div class="value">PH</div>
         </div>
         <div class="kpi">
-          <div class="label">Branded</div>
-          <div class="value">80</div>
+          <div class="label">Categories in Focus</div>
+          <div class="value">2</div>
         </div>
         <div class="kpi">
           <div class="label">Topics</div>
           <div class="value">8</div>
         </div>
+        <div class="kpi">
+          <div class="label">Prompts</div>
+          <div class="value">200</div>
+        </div>
       </div>
     </section>
 
     <section class="section">
-      <h2>How the Mix Was Decided</h2>
-      <div class="grid">
-        <div class="info">
-          <h3>Topics That Should Lean Unbranded</h3>
-          <ul>
-            <li>Route discovery</li>
-            <li>Destination planning</li>
-            <li>Airline comparison</li>
-            <li>Fare and cabin evaluation before brand selection</li>
-          </ul>
-          <p style="margin-top:12px;">
-            These topics should test whether Philippine Airlines appears naturally in category-level consideration.
-          </p>
-        </div>
-
-        <div class="warn">
-          <h3>Topics That Can Lean Branded</h3>
-          <ul>
-            <li>Baggage rules and special-item handling</li>
-            <li>Refunds, cancellations, and ticket flexibility</li>
-            <li>Check-in, assistance, and booking management</li>
-            <li>Questions where the answer depends on Philippine Airlines-specific rules</li>
-          </ul>
-          <p style="margin-top:12px;">
-            These topics are stronger when the prompts test the accuracy and visibility of airline-specific answers.
-          </p>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:18px;">
-        <h3>Prompt Design Rule</h3>
-        <p>
-          Each prompt is written as a realistic test case, following the structure:
-        </p>
-        <span class="formula">User + Need + Context</span>
-        <p>
-          This keeps prompts natural, measurable, and easier to group into stable topics.
-        </p>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Final Mix by Topic</h2>
+      <h2>Configuration Summary</h2>
       <table>
         <thead>
           <tr>
-            <th>Topic</th>
-            <th>Unbranded</th>
-            <th>Branded</th>
-            <th>Total</th>
-            <th>Mix rationale</th>
+            <th>Area</th>
+            <th>Recommendation</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>1. Discover Routes &amp; Destination Options</td>
-            <td>23</td>
-            <td>2</td>
-            <td>25</td>
-            <td>Discovery should mostly test whether Philippine Airlines appears naturally without being named.</td>
+            <td>Brand name</td>
+            <td>Philippine Airlines</td>
           </tr>
           <tr>
-            <td>2. Compare Airlines for the Right Choice</td>
-            <td>15</td>
-            <td>10</td>
-            <td>25</td>
-            <td>Comparison needs strong category coverage, but branded prompts still matter for direct brand-vs-brand evaluation.</td>
+            <td>Primary URL</td>
+            <td>https://philippineairlines.com/</td>
           </tr>
           <tr>
-            <td>3. Choose the Right Fare, Cabin &amp; Inclusions</td>
-            <td>17</td>
-            <td>8</td>
-            <td>25</td>
-            <td>Early fare and cabin decisions should lean unbranded before shifting into Philippine Airlines-specific evaluation.</td>
+            <td>Vertical</td>
+            <td>Travel</td>
           </tr>
           <tr>
-            <td>4. Book, Manage &amp; Get Ready to Fly</td>
-            <td>14</td>
-            <td>11</td>
-            <td>25</td>
-            <td>Balanced topic: generic booking behavior and Philippine Airlines-specific booking flows both matter.</td>
+            <td>Market</td>
+            <td>Philippines (PH)</td>
           </tr>
           <tr>
-            <td>5. Understand Baggage Basics Before Booking</td>
-            <td>16</td>
-            <td>9</td>
-            <td>25</td>
-            <td>Starts with broad baggage comparison, then moves into Philippine Airlines baggage specifics.</td>
+            <td>Alias</td>
+            <td>Philippine Air Lines</td>
           </tr>
           <tr>
-            <td>6. Handle Special, Family &amp; Excess Baggage Scenarios</td>
-            <td>12</td>
-            <td>13</td>
-            <td>25</td>
-            <td>Special-item handling is highly airline-specific, so a near-balanced mix is appropriate.</td>
+            <td>Competitors</td>
+            <td>Cebu Pacific, AirAsia Philippines, Singapore Airlines, Cathay Pacific, Japan Airlines</td>
           </tr>
           <tr>
-            <td>7. Understand Changes, Refunds &amp; Flexible Travel Rules</td>
-            <td>9</td>
-            <td>16</td>
-            <td>25</td>
-            <td>This topic should be branded-heavy because fare conditions and change rules vary by airline.</td>
+            <td>Valid categories</td>
+            <td>Booking &amp; Destinations; Fares, Seats &amp; Cabin Experience; Baggage &amp; Travel Policies; Check-in, Flight Changes &amp; Disruptions; Mabuhay Miles &amp; Loyalty</td>
           </tr>
           <tr>
-            <td>8. Check-in, Travel Documents &amp; Assisted Travel</td>
-            <td>14</td>
-            <td>11</td>
-            <td>25</td>
-            <td>Generic readiness questions matter, but Philippine Airlines workflows also need direct testing.</td>
+            <td>Pilot focus categories</td>
+            <td>Booking &amp; Destinations; Baggage &amp; Travel Policies</td>
           </tr>
         </tbody>
       </table>
+    </section>
 
-      <div class="grid-3" style="margin-top:18px;">
+    <section class="section">
+      <h2>Prompt Strategy</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Prompt Design Standard</h3>
+          <p>Prompts are written as realistic customer test cases rather than short keyword fragments.</p>
+          <span class="formula">User + Need + Context</span>
+          <ul>
+            <li>One clear intent per prompt</li>
+            <li>Natural customer wording</li>
+            <li>Stable topic grouping</li>
+            <li>Measurable before-and-after comparison</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Topic Architecture</h3>
+          <ul>
+            <li>4 topics under Booking &amp; Destinations</li>
+            <li>4 topics under Baggage &amp; Travel Policies</li>
+            <li>25 prompts per topic</li>
+            <li>8 topics total / 200 prompts total</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Branded vs. Unbranded Prompt Mix</h2>
+      <p>
+        The prompt mix is not based on a single generic ratio. It is determined by topic intent.
+        Discovery and comparison topics are weighted more heavily toward unbranded prompts to test
+        natural category visibility. Policy and operational topics retain stronger branded coverage
+        because answer quality depends more directly on airline-specific rules.
+      </p>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>Overall Mix</h3>
+          <p>
+            <span class="pill u">120 unbranded</span>
+            <span class="pill b">80 branded</span>
+          </p>
+          <p>Overall pilot mix: <strong>60% unbranded / 40% branded</strong>.</p>
+        </div>
+
         <div class="card">
           <h3>Booking &amp; Destinations</h3>
           <p>
             <span class="pill u">69 unbranded</span>
             <span class="pill b">31 branded</span>
           </p>
-          <p>
-            This category now clearly leans unbranded to better measure natural visibility and category-level
-            consideration.
-          </p>
+          <p>Weighted toward category discovery, airline selection, and natural emergence.</p>
         </div>
 
         <div class="card">
@@ -415,33 +389,77 @@
             <span class="pill u">51 unbranded</span>
             <span class="pill b">49 branded</span>
           </p>
-          <p>
-            This category remains close to balanced because airline-specific rules and workflows are central to the
-            value of the pilot.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Overall Mix</h3>
-          <p>
-            <span class="pill r">120 unbranded</span>
-            <span class="pill b">80 branded</span>
-          </p>
-          <p>
-            This is the final recommended mix for the 200-prompt pilot.
-          </p>
+          <p>Near-balanced because baggage, refunds, check-in, and assistance often require brand-specific answers.</p>
         </div>
       </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Topic</th>
+            <th>Unbranded</th>
+            <th>Branded</th>
+            <th>Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Discover Routes &amp; Destination Options</td>
+            <td>23</td>
+            <td>2</td>
+            <td>Tests whether Philippine Airlines appears naturally in route and destination exploration.</td>
+          </tr>
+          <tr>
+            <td>Compare Airlines for the Right Choice</td>
+            <td>15</td>
+            <td>10</td>
+            <td>Preserves category-level comparison while retaining direct PAL vs. competitor comparisons.</td>
+          </tr>
+          <tr>
+            <td>Choose the Right Fare, Cabin &amp; Inclusions</td>
+            <td>17</td>
+            <td>8</td>
+            <td>Primarily category-led evaluation before narrowing into PAL fare and cabin choices.</td>
+          </tr>
+          <tr>
+            <td>Book, Manage &amp; Get Ready to Fly</td>
+            <td>14</td>
+            <td>11</td>
+            <td>Balanced between generic booking behavior and PAL booking workflows.</td>
+          </tr>
+          <tr>
+            <td>Understand Baggage Basics Before Booking</td>
+            <td>16</td>
+            <td>9</td>
+            <td>Starts with baggage comparison, then moves into airline-specific baggage understanding.</td>
+          </tr>
+          <tr>
+            <td>Handle Special, Family &amp; Excess Baggage Scenarios</td>
+            <td>12</td>
+            <td>13</td>
+            <td>Special-item handling is highly airline-specific, so a near-balanced mix is appropriate.</td>
+          </tr>
+          <tr>
+            <td>Understand Changes, Refunds &amp; Flexible Travel Rules</td>
+            <td>9</td>
+            <td>16</td>
+            <td>Branded-heavy because cancellation, refund, and flexibility rules vary by airline.</td>
+          </tr>
+          <tr>
+            <td>Check-in, Travel Documents &amp; Assisted Travel</td>
+            <td>14</td>
+            <td>11</td>
+            <td>Balances generic travel readiness with PAL-specific operational workflows.</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <section class="section">
-      <h2>Rebalanced Full 200-Prompt Library</h2>
-      <p>
-        The list below reflects the revised topic-level branded and unbranded balance.
-      </p>
+      <h2>200-Prompt Library</h2>
 
       <details open>
-        <summary>Topic 1 — Discover Routes &amp; Destination Options (23 unbranded / 2 branded)</summary>
+        <summary>Topic 1 — Discover Routes &amp; Destination Options</summary>
         <div class="details-body">
           <ol class="prompt-list">
             <li>Which airlines offer nonstop flights from Manila to Tokyo for a short leisure trip?</li>
@@ -474,7 +492,7 @@
       </details>
 
       <details>
-        <summary>Topic 2 — Compare Airlines for the Right Choice (15 unbranded / 10 branded)</summary>
+        <summary>Topic 2 — Compare Airlines for the Right Choice</summary>
         <div class="details-body">
           <ol class="prompt-list" start="26">
             <li>Which airline is better for a family flying from Manila to Tokyo during a school break?</li>
@@ -507,7 +525,7 @@
       </details>
 
       <details>
-        <summary>Topic 3 — Choose the Right Fare, Cabin &amp; Inclusions (17 unbranded / 8 branded)</summary>
+        <summary>Topic 3 — Choose the Right Fare, Cabin &amp; Inclusions</summary>
         <div class="details-body">
           <ol class="prompt-list" start="51">
             <li>What type of airline ticket is best for a traveler from Manila who may need to change dates?</li>
@@ -540,7 +558,7 @@
       </details>
 
       <details>
-        <summary>Topic 4 — Book, Manage &amp; Get Ready to Fly (14 unbranded / 11 branded)</summary>
+        <summary>Topic 4 — Book, Manage &amp; Get Ready to Fly</summary>
         <div class="details-body">
           <ol class="prompt-list" start="76">
             <li>How should a traveler book an international flight from Manila online safely?</li>
@@ -573,7 +591,7 @@
       </details>
 
       <details>
-        <summary>Topic 5 — Understand Baggage Basics Before Booking (16 unbranded / 9 branded)</summary>
+        <summary>Topic 5 — Understand Baggage Basics Before Booking</summary>
         <div class="details-body">
           <ol class="prompt-list" start="101">
             <li>What baggage allowance should a traveler expect on an international flight from Manila?</li>
@@ -606,7 +624,7 @@
       </details>
 
       <details>
-        <summary>Topic 6 — Handle Special, Family &amp; Excess Baggage Scenarios (12 unbranded / 13 branded)</summary>
+        <summary>Topic 6 — Handle Special, Family &amp; Excess Baggage Scenarios</summary>
         <div class="details-body">
           <ol class="prompt-list" start="126">
             <li>Which airline is best for a traveler who needs to bring sports equipment on an international trip?</li>
@@ -639,7 +657,7 @@
       </details>
 
       <details>
-        <summary>Topic 7 — Understand Changes, Refunds &amp; Flexible Travel Rules (9 unbranded / 16 branded)</summary>
+        <summary>Topic 7 — Understand Changes, Refunds &amp; Flexible Travel Rules</summary>
         <div class="details-body">
           <ol class="prompt-list" start="151">
             <li>What type of airline ticket is best for a traveler whose international dates may change?</li>
@@ -672,7 +690,7 @@
       </details>
 
       <details>
-        <summary>Topic 8 — Check-in, Travel Documents &amp; Assisted Travel (14 unbranded / 11 branded)</summary>
+        <summary>Topic 8 — Check-in, Travel Documents &amp; Assisted Travel</summary>
         <div class="details-body">
           <ol class="prompt-list" start="176">
             <li>How early should a traveler check in for an international flight from Manila?</li>
@@ -706,17 +724,127 @@
     </section>
 
     <section class="section">
-      <h2>Final Recommendation</h2>
+      <h2>Measurement Framework</h2>
       <p>
-        This revised prompt library is better suited for the pilot because it uses
-        <strong>unbranded prompts to test natural category visibility</strong> where that matters most, while still
-        preserving a strong set of <strong>branded prompts to test airline-specific accuracy</strong> in baggage,
-        changes, refunds, check-in, and assistance workflows.
+        Pilot measurement should use a fixed before-and-after method. The same prompt set, market scope,
+        competitor set, and reporting filters should remain constant across the baseline and post-change periods.
       </p>
-      <p>
-        The result is a stronger and more credible pilot design for measuring both
-        <strong>emergent brand visibility</strong> and <strong>brand-specific answer quality</strong>.
-      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Measurement Setup</h3>
+          <ul>
+            <li>Baseline window: 2-4 weekly snapshots before content changes</li>
+            <li>Post-change window: 4 weekly snapshots after content deployment</li>
+            <li>Prompt set: same 200 prompts throughout the pilot</li>
+            <li>Scope: PH market and the same competitor set throughout</li>
+            <li>Priority URLs: 8-10 URLs mapped to the two pilot categories</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Primary Pilot Metrics</h3>
+          <ul>
+            <li>Visibility Score</li>
+            <li>Unique Prompts with Owned Citations</li>
+            <li>Total Times Cited</li>
+            <li>Sentiment Distribution</li>
+            <li>Referral Hits from LLMs</li>
+            <li>Citation Rate</li>
+            <li>CRD (Citation Rate Delta)</li>
+            <li>CCS (Citation Consistency Score)</li>
+          </ul>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Definition</th>
+            <th>Use in pilot evaluation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Visibility Score</td>
+            <td>Overall strength of brand presence across the tracked prompt set</td>
+            <td>Top-line indicator of visibility improvement</td>
+          </tr>
+          <tr>
+            <td>Unique Prompts with Owned Citations</td>
+            <td>Number of prompts that cite a Philippine Airlines URL at least once</td>
+            <td>Measures citation breadth and category coverage</td>
+          </tr>
+          <tr>
+            <td>Total Times Cited</td>
+            <td>Total citation volume across the prompt set</td>
+            <td>Measures citation frequency and repeatability</td>
+          </tr>
+          <tr>
+            <td>Citation Rate</td>
+            <td>Prompts citing a URL in a week ÷ prompts relevant to that URL</td>
+            <td>Measures URL-level citation performance</td>
+          </tr>
+          <tr>
+            <td>CRD</td>
+            <td>Average post-change citation rate − baseline citation rate</td>
+            <td>Measures URL-level improvement after optimization</td>
+          </tr>
+          <tr>
+            <td>CCS</td>
+            <td>Weeks cited post-change ÷ total post-change weeks</td>
+            <td>Measures durability and consistency of gains</td>
+          </tr>
+          <tr>
+            <td>Referral Hits</td>
+            <td>Visits originating from AI-generated citations</td>
+            <td>Measures downstream traffic value where volume is sufficient</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>Success Criteria</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th>Target</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Top-line visibility</td>
+            <td>Visibility Score improves for the full prompt set and at least one focus category</td>
+          </tr>
+          <tr>
+            <td>Citation coverage</td>
+            <td>Unique Prompts with Owned Citations improves by 15% or more</td>
+          </tr>
+          <tr>
+            <td>Citation volume</td>
+            <td>Total Times Cited improves by 20% or more</td>
+          </tr>
+          <tr>
+            <td>URL-level improvement</td>
+            <td>At least 5 of 10 priority URLs show positive CRD</td>
+          </tr>
+          <tr>
+            <td>Durability</td>
+            <td>At least 3 of 10 priority URLs show strong CCS across the post-change period</td>
+          </tr>
+          <tr>
+            <td>Quality guardrail</td>
+            <td>Sentiment remains stable or improves</td>
+          </tr>
+          <tr>
+            <td>Traffic value</td>
+            <td>Referral Hits trend upward on improved URLs where traffic volume is measurable</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
   </div>

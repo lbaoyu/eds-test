@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A concise GEO explainer covering retrieval, passage selection, web search, non-search answers, and why SEO still matters in AI-assisted search." />
+  <title>SEO, GEO, Retrieval &amp; Passage Selection — Field Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      /* Adobe brand */
+      --adobe-red:#EB1000;
+      --adobe-red-dark:#B30D00;
+      --adobe-red-tint:#FCEBE9;
+      --adobe-red-line:#F6C4BE;
+
+      /* Spectrum gray scale (light) */
+      --gray-50:#ffffff;
+      --gray-75:#fafafa;
+      --gray-100:#f5f5f5;
+      --gray-200:#eaeaea;
+      --gray-300:#e1e1e1;
+      --gray-400:#cacaca;
+      --gray-600:#8e8e8e;
+      --gray-700:#6e6e6e;
+      --gray-800:#4b4b4b;
+      --ink:#1f1f1f;
+
+      /* Spectrum semantic */
+      --positive:#2D9D78;
+      --positive-tint:#EAF6F1;
+      --positive-line:#BFE3D5;
+      --notice:#B5740E;
+      --notice-tint:#FBF2E1;
+      --notice-line:#F0DBAD;
+
+      --font-sans:"Source Sans 3","Adobe Clean",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      --font-mono:"Source Code Pro",ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+
+      --radius:8px;
+      --radius-sm:4px;
+      --maxw:1100px;
+
+      --header-h:72px;
+      --tabs-h:52px;
+
+      --shadow-sm:0 1px 2px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.05);
+      --shadow-md:0 2px 8px rgba(0,0,0,.06),0 6px 20px rgba(0,0,0,.05);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *{animation:none!important;transition:none!important}
+    }
+
+    body{
+      margin:0;
+      font-family:var(--font-sans);
+      background:var(--gray-75);
+      color:var(--ink);
+      font-size:18px;
+      line-height:1.7;
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+
+    /* ---------- Header ---------- */
+    .site-header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:saturate(180%) blur(8px);
+      border-bottom:1px solid var(--gray-200);
+    }
+    .progress-track{
+      height:3px;
+      background:transparent;
+    }
+    .progress-fill{
+      height:3px;
+      width:0%;
+      background:var(--adobe-red);
+      transition:width .08s linear;
+    }
+    .header-inner{
+      max-width:var(--maxw);
+      margin:0 auto;
+      height:var(--header-h);
+      padding:0 24px;
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .logo{
+      width:30px;
+      height:auto;
+      flex:0 0 auto;
+      display:block;
+    }
+    .brand-text{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+    .brand-kicker{
+      font-size:.72rem;
+      font-weight:700;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--adobe-red);
+    }
+    .brand-title{
+      font-size:1.02rem;
+      font-weight:700;
+      color:var(--ink);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .header-spacer{flex:1 1 auto}
+    .header-meta{
+      font-size:.82rem;
+      color:var(--gray-700);
+      font-weight:600;
+      white-space:nowrap;
+    }
+    @media(max-width:640px){.header-meta{display:none}}
+
+    /* ---------- Tab navigation (scrollspy) ---------- */
+    .tabnav{
+      position:sticky;
+      top:var(--header-h);
+      z-index:40;
+      background:#fff;
+      border-bottom:1px solid var(--gray-200);
+    }
+    .tabnav-inner{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:0 12px;
+      display:flex;
+      gap:2px;
+      height:var(--tabs-h);
+      overflow-x:auto;
+      scrollbar-width:thin;
+    }
+    .tabnav-inner::-webkit-scrollbar{height:6px}
+    .tabnav-inner::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:99px}
+    .tab{
+      appearance:none;
+      border:0;
+      background:transparent;
+      font-family:inherit;
+      font-size:.92rem;
+      font-weight:600;
+      color:var(--gray-700);
+      padding:0 14px;
+      height:100%;
+      white-space:nowrap;
+      cursor:pointer;
+      position:relative;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      transition:color .15s ease;
+    }
+    .tab .tab-idx{
+      font-size:.78rem;
+      font-weight:700;
+      color:var(--gray-400);
+      transition:color .15s ease;
+    }
+    .tab:hover{color:var(--ink)}
+    .tab::after{
+      content:"";
+      position:absolute;
+      left:14px;right:14px;bottom:0;
+      height:2px;
+      background:var(--adobe-red);
+      transform:scaleX(0);
+      transform-origin:center;
+      transition:transform .18s ease;
+    }
+    .tab[aria-current="true"]{color:var(--adobe-red)}
+    .tab[aria-current="true"] .tab-idx{color:var(--adobe-red)}
+    .tab[aria-current="true"]::after{transform:scaleX(1)}
+    .tab:focus-visible{outline:2px solid var(--adobe-red);outline-offset:-2px;border-radius:var(--radius-sm)}
+
+    /* ---------- Layout ---------- */
+    .wrap{
+      max-width:var(--maxw);
+      margin:0 auto;
+      padding:0 24px 96px;
+    }
+
+    section.block{
+      scroll-margin-top:calc(var(--header-h) + var(--tabs-h) + 16px);
+      padding-top:44px;
+    }
+
+    h1,h2,h3{margin:0 0 16px;line-height:1.18;letter-spacing:-.015em;color:var(--ink)}
+    h1{font-size:clamp(2.1rem,4.4vw,3.1rem);font-weight:900}
+    h2{font-size:clamp(1.5rem,2.6vw,1.95rem);font-weight:700}
+    h3{font-size:1.12rem;font-weight:700;margin-top:0}
+
+    .section-head{
+      display:flex;
+      align-items:baseline;
+      gap:14px;
+      margin-bottom:6px;
+      padding-bottom:14px;
+      border-bottom:1px solid var(--gray-200);
+    }
+    .section-num{
+      font-size:.95rem;
+      font-weight:900;
+      color:var(--adobe-red);
+      font-variant-numeric:tabular-nums;
+      flex:0 0 auto;
+      padding-top:.35em;
+    }
+    .section-head h2{margin:0}
+
+    p{margin:0 0 16px;max-width:78ch}
+    strong{font-weight:700;color:var(--ink)}
+    em{font-style:italic}
+    a{color:var(--adobe-red);text-decoration:none;border-bottom:1px solid var(--adobe-red-line)}
+    a:hover{border-bottom-color:var(--adobe-red)}
+
+    /* ---------- Hero ---------- */
+    .hero{
+      margin-top:40px;
+      background:#fff;
+      border:1px solid var(--gray-200);
+      border-top:4px solid var(--adobe-red);
+      border-radius:var(--radius);
+      padding:40px 36px 32px;
+      box-shadow:var(--shadow-md);
+    }
+    .hero h1{margin-bottom:18px}
+    .lede{
+      font-size:1.18rem;
+      color:var(--gray-800);
+      max-width:74ch;
+      margin-bottom:0;
+    }
+    .feature-statement{
+      margin:26px 0 4px;
+      padding:18px 22px;
+      background:var(--adobe-red-tint);
+      border:1px solid var(--adobe-red-line);
+      border-radius:var(--radius);
+      font-size:1.18rem;
+    }
+    .feature-statement .label{
+      display:block;
+      font-size:.74rem;
+      font-weight:700;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:var(--adobe-red);
+      margin-bottom:4px;
+    }
+    .feature-statement em{font-weight:600;color:var(--ink)}
+
+    .pillbar{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+    .pill{
+      display:inline-block;
+      padding:7px 14px;
+      border:1px solid var(--gray-300);
+      border-radius:999px;
+      background:var(--gray-75);
+      color:var(--gray-800);
+      font-size:.9rem;
+      font-weight:600;
+    }
+
+    /* ---------- Cards ---------- */
+    .grid{
+      display:grid;
+      gap:18px;
+      grid-template-columns:repeat(auto-fit,minmax(270px,1fr));
+      margin-top:22px;
+    }
+    .card{
+      background:#fff;
+      border:1px solid var(--gray-200);
+      border-radius:var(--radius);
+      padding:22px;
+      box-shadow:var(--shadow-sm);
+    }
+    .card h3{margin-bottom:10px}
+    .card .muted{color:var(--gray-700);margin-bottom:0}
+    .muted{color:var(--gray-700)}
+
+    /* gate cards get a numbered red marker */
+    .card.gate h3{display:flex;align-items:center;gap:10px}
+    .card.gate h3::before{
+      content:attr(data-gate);
+      flex:0 0 auto;
+      width:30px;height:30px;
+      display:inline-flex;align-items:center;justify-content:center;
+      background:var(--adobe-red);
+      color:#fff;
+      border-radius:var(--radius-sm);
+      font-size:.85rem;font-weight:900;
+    }
+
+    /* ---------- Quotes & callouts ---------- */
+    .quote{
+      margin:22px 0;
+      padding:18px 22px;
+      border-left:4px solid var(--adobe-red);
+      background:var(--adobe-red-tint);
+      border-radius:0 var(--radius) var(--radius) 0;
+      font-size:1.08rem;
+      max-width:none;
+    }
+    .quote strong{color:var(--adobe-red-dark)}
+
+    .callout{
+      margin:20px 0;
+      padding:18px 22px;
+      border:1px solid var(--gray-300);
+      border-left-width:4px;
+      border-left-color:var(--gray-600);
+      border-radius:var(--radius);
+      background:#fff;
+      box-shadow:var(--shadow-sm);
+    }
+    .callout p{margin:0}
+    .callout.good{
+      border-color:var(--positive-line);
+      border-left-color:var(--positive);
+      background:var(--positive-tint);
+    }
+    .callout.good strong{color:#1f7a5c}
+    .callout.warn{
+      border-color:var(--notice-line);
+      border-left-color:var(--notice);
+      background:var(--notice-tint);
+    }
+    .callout.warn strong{color:#8a5907}
+
+    /* ---------- Code ---------- */
+    pre{
+      background:var(--gray-100);
+      border:1px solid var(--gray-200);
+      border-left:4px solid var(--adobe-red);
+      border-radius:var(--radius);
+      padding:18px 20px;
+      overflow:auto;
+      margin:18px 0;
+    }
+    code,kbd{
+      font-family:var(--font-mono);
+      font-size:.92em;
+      background:var(--gray-100);
+      padding:.14em .4em;
+      border-radius:var(--radius-sm);
+      color:var(--ink);
+    }
+    pre code{background:transparent;padding:0;font-size:.92rem;line-height:1.6;color:var(--gray-800)}
+
+    /* ---------- Lists ---------- */
+    ul,ol{padding-left:1.3rem;max-width:78ch}
+    li{margin:0 0 9px}
+    .card ul,.card ol{max-width:none}
+    .card li{margin:0 0 7px}
+
+    /* ---------- Tables ---------- */
+    table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      margin:20px 0 12px;
+      background:#fff;
+      border:1px solid var(--gray-200);
+      border-radius:var(--radius);
+      overflow:hidden;
+      box-shadow:var(--shadow-sm);
+    }
+    th,td{
+      text-align:left;
+      padding:14px 18px;
+      border-bottom:1px solid var(--gray-200);
+      vertical-align:top;
+    }
+    th{
+      background:var(--gray-100);
+      font-weight:700;
+      font-size:.82rem;
+      letter-spacing:.05em;
+      text-transform:uppercase;
+      color:var(--gray-800);
+    }
+    td{color:var(--ink)}
+    tr:last-child td{border-bottom:0}
+    tbody tr:hover{background:var(--gray-75)}
+
+    /* ---------- Footer ---------- */
+    .footer{
+      margin-top:56px;
+      padding-top:24px;
+      border-top:1px solid var(--gray-200);
+      color:var(--gray-700);
+      font-size:.95rem;
+    }
+    .footer p{max-width:none}
+    .footer-brand{
+      display:flex;align-items:center;gap:10px;
+      margin-bottom:14px;
+    }
+    .footer-brand .footer-logo{width:22px;height:auto;display:block}
+    .footer-brand span{font-weight:700;color:var(--ink);font-size:.95rem}
+
+    @media(max-width:640px){
+      body{font-size:17px}
+      .hero{padding:28px 22px}
+      .wrap{padding:0 18px 72px}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="header-inner">
+      <img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAByCAYAAACbZNnZAAAV/UlEQVR42u1da3Bc1ZH++pw7D81IM3o/MH7IIbFNeAUBAQKxHDCQjYFsYjkOJmCCsOTdrd0/+yP/HP/Y36nd2kpVssE2eS4yr8Duwm4AG0LMEgcCmIDB6wB2bMl6WSPN+95zen/cO7KwZVsjje6ZwTpVqnKpbM+Zc7r7fN39dTehAtc2QGwH9HB97LowO1dmCbYGhJ97EABLQKSYUov+/h/7aPt2XYlnSZW2YS7seds2OfSDf/pjAzmXpeDz7bv78ARBIBlt+FLz8aFXAQgCVCWdp1WBQisIUCM/+uGtUVKXjRAcA/df0B4nDh2gzPhWItrXx7xgAXzQPEFEejBmPRUj++4JwDElyOw+A2AtUqhpW9V47Nhf2BXQinkORMVdPqATy9o+Z0HdkQSYAWlQe8gBdFzoamQS3wEIeyvsTEWFGQACCLmTJ7trSIc0oMiwFSOAMgC0yn6X77g91AkoriDLKipI+4kANXzJtTHW+XvT7uGLMpBIkQVUDdQlJ37/yl+Riw/FggCUeO31TL0efW99Lam2nIu2y2b/RAxopxckpjoJCwJQqtUJqG3MglW2x6HysrEEyAmAg5z7ykhz02UEaK6Qs62ITTIgCeB/uKj+xio416ZdlC3LbI+qhthy8omHQFQxHlYFgUCCk071hokJ5elmyRQA0va3x1atqqcKAYOiArRfEKCOtbUuEex8fcKw63cubyAPqDipJvvEka6puGVBAOYG/gQABHKJ++NCR1UZuH7nEAI4rku4hfv6ZGcFhIWpzLWfAODo9deHQ+/u/1OVVO1ZhqYyFlwGdBVDZK34msaRxEso8/xAuVsAQQBHD7+3LkaqPVPml+9plA4SoFW2l0iUvTtY7gLAIIJjZ3rdGGD5+9cMyCTAFtvrRpc2L/XAoFgQgNm5fnqwoeELQW2vTgJMFQCqCCAFqBjpqDM+vrnc8wPl7wXYiZ6oZMmVlWcXGQDs5O/n69dXdZaxSyjKVPuJADV+yVVNBL0h6fnZlROxgMgAOkZO+9AHz64r5/xAWW6q4D/nRw/dU0u6zuHydf3OIQQMAbDOlXV+oBwFgDoBxVu2BJSTfSjvnlvFEVcIEEkGB1mtPtFYc1W55gfKbkNe5I9Hn959S7XQn0+j/F2/s8kAA6qatCQn95Anw7QgADNy/QScdPJvLDAqiV41zZJJAND2t8Y7PttYjvkBUYbar4fa6lYESN1WrnH/YlxCG1C1pBoyh49uRBmC2bISANdfJnA6+WC5UL5KIATIAyBW3bxnj4Uyc2epjLSfCODRjo64839vHgySarVd8y9Q4YsBHWESWRlb2ziaeN4LcqkFCzCN6+d8+P76OKnWfJlRvuaoZTpADK3TvSCB3QsWYHoLAGYM1gZfqyb7mnJk/czhu7FLaBRZJ77o8pajRw+XS/2AKJMDkgTwUFPTTWE416TdoMmn4vILYFABKiZ0lUgObz6FdxaeAADwTCKB1UQ5U77mKgQiDYBV/r7+K9ZG1wBOObiEogy0X2wA1Ghb+xKp7LuTnkXAp2+JLKBjQi+xju27eyruuaAFoGAKnczA/XGhoxpwKt31O4cVYCZm7eR7QAKdFzoGYIDWAOpYx7oI69wDGc8i4FO6CJATDAShbhprqbuGAN1n2AqIMhBADh/57dfipNuzbuDnUysA3lJR0sJOJ7YAhK4L/Alw4/52ZisT4wJZMgUAxOv7r7i82XR+wJgA9BUoX231Xwhq+8uVQvkqhUvo1Q/UyY8P3WMaDBoTgK7CcaTGe6KCJXwOjbIba2BTh54HwMh3/2HLlkCnwbCwEdNTiPv3L1/ebI18fNASqs5msF/ovxBlMiYB7ufqKJNIBmu+2jI0/pyp/IARC1AweXLsxD1x0nW2v5QvlgA0U4oZWWFO87QlGMhler1iUmPWyPfV6VG+2Ml2G6B8qTgAbYV/wCL4RIzAhhjHcoLBFtQdiYsu+qwpypjvHzgZ93/6iVurBftK+fLefZlkoQMt7f8GWD/XmkwhcNJufiCUSw5/19STbMICMEiAM4mtFrTflC9dDSAnrN/Wv3fwSNPiS14eY3kkDEg2E5Vz8wPsfGfoxrtqTLiEwmftdylfrXUrLajbPcqXry3eCEQiFPkJWIPePpASUv6iyhMOAzhA5ABVK/QiOvj8X5twCYX/35nAmeSDMdJBj/Llm/aHADnO8njj8i//mj3qPsXqfjbBwhauFTACxBSYHSfXw8y012dBFD5qPwHQox23xInVvSn42+WLAR0BQFawj/Y9MwH3wkXjkcH3bMi91easgEwCCAu+4cTFLV/c7oJB+akTgL0e+NMf7lsfI6fV7y5fbiJGKCmCuwDGboD3AgKsQeHqhwFjYBAEqAg0iYmxLX7jQN8uoBNQzCyUdnr8bu7rFmiAbMhX6ofH3ypwEDpdIaSRz9z8XwkWfwkZAoNeSTkIzjeTK1e0+QkG/XK/PMpX3Zeq2L42ZYDyRUwIWMGfgPUkB4EA3gPIVfuenpCB8K8i5p4BcgCnVuhY5sRH9/oJBn0RgEnKl5PZGiKGnyFPBjgIyHEWA1i28pmCNZpimTQAOOG6n01o4dCpKLHvLmEWgNL2g9zVFez0yQoIHy5AbADU8daWpZa27zLQ4FlFARACj9a//nqiYI2maJ/eBojWY8cOOJAvVXuA0YRLmAF0DekVwy/+5na/Ssrn/QP2etU+ljN+f8xAly8C5IQWSkfrd52yRmfgEwFmkAjuJCaTdDSWxFB2stc7Iq5oAWCv1PtYx9UR5HObM+S76zkJ/lr6B97c5lmj6QAqADReeuXTCRbHQ66FMhIZTDI4SPrWobbWlX7kB8Q8a78kgMMfH1oXE7o9y/5TvgQDMhTdCdaupk9vJZgBSftenRAi8GjE3DNAGlA1pIOcG+v2o6R8Xi+jE9AgAcfJbmX4O0/lFPiTAw01n3nqdPA3PVBlyGjDIxMslEF2kksZc/KbRjuujs+3SzhvAjBJ+WqtvzrI9s1J7z32G/xpEeqjP79xBvg7fW3w2rnVH+9/y4Z8pdpr8GDCCuQBFReqVX/8wTfn2yWcNwEoUL44Pd4TJf+7fJGb9lVUFdnl3TvP6DxYA8HoTmGwNIHgHpaysz28jUXnPJ7dvAhAocvXxPL2ZgGnK+WZNj+1vxqgvAjsaxkY/WMRhZgKAAJXXvNUguVA0FyCSKYAHYZz3egP62+geXSd50UACiYrM9a/qZZ0Xd5n148BCCbACu9grWdciFk46PrnX0gAYnd0ilD47g8CuooYjsoWuoxVjAWgzknKV74753+lhw4CcpzkQPDSq84L/s56/JHYrqRhMJgEIFXu68MXtV08Xy1nxTxIrvAoX2urSV+aZn/r/BnQUQAg67G6l14e2wNYxfQYJkBtA0TzwOgbNtOrUYNg0AZUnHS1ziTum6+Ws2Je7oAInElslTRj8FVazWHSkKFdAM+qALNzEgxGdpqsVCGAsgCgcw98uPq+cOc8EGjEPGi/HmqtXxlgdZuBah838sdiX9PIxOseGJ2NALhgcNHyJxIsB4OGIoNeTwFdw/YlNe899VUCWJf4PEXp9wxwJvlgjXApXz4DJ0gmCCv0sJf2lbP8EsyArHvr7TGIwOOmIoOFvRABOp+Zl5azooSHTwSok1euri1QvuAv/tNBQCY0DaUWfebXswN/p1YhMkih2h0pFsb6FRVG0lnsfGVgUePlpS4pL9kFFbTNPrJ/fYyc1rzPpd4F8Cek1bf0wDsnzxf5O9/yIoPU2N//ep6s31efis+YcAlVDWlLpsa7S11SXrIL6vQoX8z2Fgf+VzgQIFNMimVsp8f5K4lQExFbVtXDplgiUwJDgLY3Hrm0tCPpRIkkVALAUFvdTVWsfB/syG7cn7Kw/rdpZPR1BmhDCbS18IRYjW1PJliMBAxFBgmgHKDiUM3R/g8LBkCWjQDsBkAgpmymN0waJhCzBMEKhHbOBfydDQzGDx4cAazHol6cwIQJEABsAhxWW/r6SldOTyXQPkGAHm1rW8KpE+9C6IjypNYn7ecgQHmWQ8ElN6yoPfDKyUL5eamsGwFquKX+i1b25Kt5l9Noqqxeh5lENhDvbB4ee6kUJeVztgCF6JS2JzbHzAx2VBEAEIHdtQd+N2fwN42GKAaooXdkf05b+02CQQJ0iBjslK6kXMxRIqkTUMc6OiIqn3kg47/r54E/oam6tmTgb1owuJ20CFbttGC0qYRMArDYufP40qVLC4RWYwKw19O2wMeH7owLvSzrv+unogDZZL3WeKS/ZODvbGAwVLf88QTLUZNgUAFOjFTUGh+839ubUQHQIAF2sr1+U74KywIBwaodRDRvxSYFMBg7/NYQRPBJk2liTI6ky23m67vmPJJu1gLQB8jtgB5qbekIsP1lvylfBc5fguVgtnHVE/DjUpghwtU7MyyMNbMmt4BExYRuHzrsjqSbi9czawGYjEalR7ZUCxYGUqYqAoADoSeWvPfaaKnB39nAYP3xwVezwnojahAMFlSA7XzvXFvOzkoAtnkTsSeWX9EMqK4kly4wUYzrn2bSQoZ2+vj6SCLS0grvCsBco1+vpJyD7Kw+0dZw1VzyA7MSgALwyJw8fG+cVJ1twPWrJlAe1msNAyP7t/k3ol0BgEMNuxNajAUMNpWYHEmXSjw0l/zAbAVA8ZYfBVjnuvM+Bn2mfHlYGoAI7SAi/r5PnkcBDLYOfnSCRfCpapiLDKJQUk76W+MdV896JJ2YxeG7pd6//t5t1VCr/B7syAAHADkGORKquvhJX8DfmbsghMO7skzGuptPUsbgNGQOv7ux4Jb7YQEYRKBsstcQ5UtVA2AKPB4//v7IfIO/s4BBNP3Lj19Js3wz4p6hKStA7kg6u5v7WHbOYh+iSO0TBOjx1vqVEpOUL781QKaYtAxFHp6vyN+MAmAbNigRrHokaBYMijSgI1BXjvTWrplN/YAo/jOBbCbZXUOTlC9fwV8UoBys3zcMjOyfr8jfTDAQAKBx0aNjWo6bBIOfGEk3i5JyUYT2EwH65OrVtcTOJgPVPmAAARCEFdpFRHMKgMwVDPYBsvn99/tZWs+YBIPsUcYEq6+NLVm8vNiS8hn/Re+w2X57f1eMdKuBah8X/LEYyTesePwTmmhgdQFgZhKR6oezLIyCQXbrB8J24sQD3l2VXgA6P0H5YhOULxX1wN+iD94Y9hv8TWd6AeCd7sd+mxHiQMRtRaANWQE3PwB1X//atdHOIlxCMVMzAwAn25puqoK6JmVgqicDMscCVlXNTxlsHQIsLsHPnlN/lsVvCXLN9jWO0NYjoSlCYQIMZgEVI7VE/mHfXcXkB2YkAAXKl52Z2Bryv8Gzy4oFKE3yxYaBkd8R4HwOyJE7Ym5OP2tO/Xk2gRQNAFTT+O8JLZLSFSRjVonB0F4x6d4Z3hHNxLwQoEdbW5dyevBPflO+vD3oCCAy4diToqb+OdZOiKlU7z9xmMjKOPiw+aOj/8HMRdHJ+gC5gUgNxQK/ilF+4zjgwOcG2FOPymLBTqTluqb+/tf7AHk+L+m8l7gHsNaAnMH66LY6nfz+SVdbLP+lG6gCEGYCU2n/3yCAIS2TwStWLal95UBRnMICL2+oIX5L2Jl4PkNamxp9x4BTC1gJDv64KZHvmQlnkM7n+gHA8Y51VYHDz/0pDGdZ1ufQ7+mWYJ6eHxUFQuMU3dR6MvVLV+jhFOMiY8uPrMFH//bNKDmXpg2dEQNsAaRYngwv/fzKmrffHjxfcwxx3ogXwIGPX74zxs4y04Mdvc+25uFHCoCFdjaCaDb5dUk/7rGFFXwkNAUbmHAJbW8kXe4vkyPpxKxBYGeB8mVnt/KncprvKTOeAkjA+cqx9vYls+jPpwEg2tr+qzEt0ybBIAGUJ0Apu5tnMJJOnAvcAOCxxS0dQbZvnvgUD3b0yJYqRioaGO3/erExkgIhI/Luu0fZCv5njcHIIAEizdDVUJ8ffXr3LefLD4hzRboIxLnxkZ6oZJMZL78Ozn30hd7IzEXTvboAgBkcDO+wDaaJJ70BYqj0xHnzA9NussCwGWhf1kLa6UoyjJEgfVwyBbClnGtPLl58mac5RVkBBqi5/tYXJ1i8X0XmIoMAxATAkvQdg+3LPneuJ23aX37f+70YG9xUJ3St4z/lyxQWUDWkLJUa2TATAHX6P98LSHr3sbwQgZ+GeXJMnZEnTQMqRjokxgYeOJfHJ87iF6p3urqCrHPduSLfwwpfIgtAs7P+na5tRffsd70HRiAe/2WCRcYymyYWaQBa5b8zdOONZx1Jd8bFvuh11Wp++fm1JihfhnGAyAK6ip2VzXv++YZie/YXTG3dkcGPNMlnDXMGRQ5QcaEX0cEDZx1JJ87q+mXTW6VbCatxAS0GdJgY0PmNs5wj5Q6jDVXvcGAcDEKB4ahsDzPTdC6hOO3LCwL0cEvzqgDstUlcEODvDDCYAQCVu+uDa6+NzSJJpBmgpi/c+/wEy0NVBtPEdKrl7A0jFzd8cTqXUEyDH6CyCVOUr7KICWQBXU36oviH769lgPYWoQTesyHpuX/NiUD45+EpgSJDS0eISaeSPQCdwaEUU7Tf6/J1Ra3g/D0mKF9lgwQBLcEs7Oy3iYiHigdyGmBwbesvEiyz0mwBiUwCgFbfGFy5uG3DaRZtUgD2Tnb5OtQVN0D5KjMcIFMAQdtrBxefeWgzAYN9gGw5fPiwYvqfqKdcpiyaDag6oWLyxPCm08GgmAL+XMqXtrfYJvthlckz4LgIOkap0bvOhqDPtZo8MCgC4R0aBG02iUZZAhyVe/AdbyQdTRUAL2+MobammwuUL7pAzf8nETTAOr+xGIbNVIUCQI2Xdfx3UonDhsGgyDB0DemVzS//5rapLWcFMDnYkSkz3hsifcG5fudA0JDavnGorW7F9iIzhIWppPTSS1mygr80NaJ+6ssmBIMznxxJJwqDHftbmpcRO3clcYoEeqEvDTgx4iDlc+u9Z0AUaQU0AHAk+rNxTTmTI+oByCSDA9Brh5e2rCoErUTBClj58c1xoSPOBQz+zhJNg1b5DVNq74oCgwyI5uMjhxwRfKHaoBUg94NVjdBBlUh0F76fgNfli7W9OQNg4fI/+XamAQ5q+/ITf1d/nVcRVJQV2OtNJZWB8MOaidjg+RIgUgBI5zeNLu+IC8ARBHD4zwfXxeEsNU35KlcsGCUmYnsjQC66Lx4MIt1527NJkh+ZBIMARB5QtUK16LEPvuEmOoSEA9XjchgW1nSHliaAsum7j7VdHVkDOEXGBHgPYC3ZvTtDMmAcDBIARWDlpB/ibSxoaHHrNSIx+DsttORTf2dhTblABnQVk5Wpbvha87HhZ2fBGhYE6MSKZSvUiaNvayipDZ11ge4umdiONK6h4brw0w06d2cSC7b/XPGAGgBDsuqZppHU3SAquicRA4KI9GDMeq4Jzu0TMOdqaQDVAIYo8ILFVeHnRjjygl6457O/AQCPCQhoTmLDhtk3pGKmQG3T95J25jcZprxJvJUDQKSd/wfyHk5TnXLbnAAAAABJRU5ErkJggg==" alt="Adobe" />
+      <div class="brand-text">
+        <span class="brand-kicker">Field Reference</span>
+        <span class="brand-title">SEO, GEO, Retrieval &amp; Passage Selection</span>
+      </div>
+      <span class="header-spacer"></span>
+      <span class="header-meta">Adobe Brand Visibility</span>
+    </div>
+  </header>
+
+  <!-- ============ TAB NAV (scrollspy) ============ -->
+  <nav class="tabnav" aria-label="Section navigation">
+    <div class="tabnav-inner" id="tabnav">
+      <button class="tab" data-target="s1"><span class="tab-idx">01</span>Answer Paths</button>
+      <button class="tab" data-target="s2"><span class="tab-idx">02</span>Web Search Flow</button>
+      <button class="tab" data-target="s3"><span class="tab-idx">03</span>Passage Extraction</button>
+      <button class="tab" data-target="s4"><span class="tab-idx">04</span>Search-Path GEO</button>
+      <button class="tab" data-target="s5"><span class="tab-idx">05</span>Non-Search GEO</button>
+      <button class="tab" data-target="s6"><span class="tab-idx">06</span>Content in Weights</button>
+      <button class="tab" data-target="s7"><span class="tab-idx">07</span>JavaScript Risk</button>
+      <button class="tab" data-target="s8"><span class="tab-idx">08</span>Keywords Still Matter</button>
+      <button class="tab" data-target="s9"><span class="tab-idx">09</span>Core Framework</button>
+    </div>
+  </nav>
+
+  <main class="wrap">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero">
+      <h1>SEO, GEO, Retrieval &amp; Passage Selection</h1>
+      <p class="lede">
+        In AI-assisted search, there are two broad answer paths: <strong>search-augmented answers</strong> and <strong>non-search answers</strong>.
+        The key GEO insight is simple: <strong>SEO gets you into the retrieval set; GEO helps you survive the passage-selection step.</strong>
+      </p>
+
+      <div class="feature-statement">
+        <span class="label">Sharpened version</span>
+        <em>SEO gets you retrieved. GEO gets you used.</em>
+      </div>
+
+      <div class="pillbar">
+        <span class="pill">SEO = retrieval eligibility</span>
+        <span class="pill">GEO = passage selection + citation likelihood</span>
+        <span class="pill">Non-search GEO = brand/entity familiarity</span>
+        <span class="pill">Retrieval is necessary</span>
+        <span class="pill">Passage selection is decisive</span>
+      </div>
+    </section>
+
+    <!-- ============ 1 ============ -->
+    <section class="block" id="s1">
+      <div class="section-head">
+        <span class="section-num">01</span>
+        <h2>Two answer paths in AI assistants</h2>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Path A: Search-augmented answer</h3>
+          <p class="muted">
+            The system decides live web retrieval is useful, runs search, gathers candidate pages,
+            extracts relevant passages, and uses them to ground the answer.
+          </p>
+          <ul>
+            <li>User prompt is classified</li>
+            <li>System may trigger web search</li>
+            <li>Queries may be rewritten internally</li>
+            <li>Candidate pages are retrieved</li>
+            <li>Relevant passages are extracted</li>
+            <li>The model synthesizes a final response</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Path B: Non-search answer</h3>
+          <p class="muted">
+            The system answers from the model's trained weights, conversation context,
+            and any already-available context rather than live web retrieval.
+          </p>
+          <ul>
+            <li>No live fetch from your page at answer time</li>
+            <li>No runtime passage extraction from your site in the usual web-search sense</li>
+            <li>Influence comes from prior training exposure and entity familiarity</li>
+            <li>Consistency across the public web matters more than one page alone</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ 2 ============ -->
+    <section class="block" id="s2">
+      <div class="section-head">
+        <span class="section-num">02</span>
+        <h2>What happens when web search is used</h2>
+      </div>
+
+      <ol>
+        <li><strong>Prompt classification:</strong> the system decides whether live search is helpful.</li>
+        <li><strong>Query rewriting:</strong> it may transform the user prompt into one or more search-friendly queries.</li>
+        <li><strong>Retrieval:</strong> it pulls a candidate set of pages from the web/search layer.</li>
+        <li><strong>Filtering and ranking:</strong> it narrows that set to the most relevant pages.</li>
+        <li><strong>Passage extraction:</strong> it selects chunks, paragraphs, bullets, or sections useful for the answer.</li>
+        <li><strong>Grounding:</strong> those passages are inserted into the model context.</li>
+        <li><strong>Synthesis:</strong> the model generates a concise answer from the grounded context.</li>
+        <li><strong>Citation:</strong> the product may attach source links to the response.</li>
+      </ol>
+
+      <div class="callout good">
+        <p><strong>Critical point:</strong> your page generally needs to be <strong>retrieved into the candidate set first</strong>
+        before it can be used for passage extraction and grounding.</p>
+      </div>
+
+      <div class="quote">
+        <strong>Best executive phrasing:</strong> You can lose after retrieval, but you usually cannot win without it.
+      </div>
+    </section>
+
+    <!-- ============ 3 ============ -->
+    <section class="block" id="s3">
+      <div class="section-head">
+        <span class="section-num">03</span>
+        <h2>What passage extraction really means</h2>
+      </div>
+
+      <p>
+        Passage extraction usually applies to <strong>search-augmented answers</strong>. The system often works at the
+        <strong>chunk or passage level</strong>, not just the page level.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Situation</th>
+            <th>How your content is used</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Web search is used</td>
+            <td>Your page can be retrieved, a useful passage can be extracted, and that passage can influence or support the final answer.</td>
+          </tr>
+          <tr>
+            <td>Web search is not used</td>
+            <td>Your page is not usually fetched live at answer time; influence is indirect through prior training or preexisting context.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout warn">
+        <p><strong>Important nuance:</strong> a page does not necessarily have to appear as a visible top result shown to the user.
+        It just needs to be in the <strong>internal retrieved set</strong> considered by the system.</p>
+      </div>
+    </section>
+
+    <!-- ============ 4 ============ -->
+    <section class="block" id="s4">
+      <div class="section-head">
+        <span class="section-num">04</span>
+        <h2>What matters for GEO in the search path</h2>
+      </div>
+
+      <div class="grid">
+        <article class="card">
+          <h3>Retrieval readiness</h3>
+          <ul>
+            <li>Indexable and crawlable pages</li>
+            <li>Clear canonical setup</li>
+            <li>Accessible HTML</li>
+            <li>Fast and stable rendering</li>
+            <li>Strong topical relevance</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Passage survival</h3>
+          <ul>
+            <li>Direct answers near the top</li>
+            <li>Strong headings and subheadings</li>
+            <li>Self-contained paragraphs</li>
+            <li>Specific, fact-dense language</li>
+            <li>Easy-to-quote bullets and summaries</li>
+          </ul>
+        </article>
+
+        <article class="card">
+          <h3>Trust and clarity</h3>
+          <ul>
+            <li>Clear entity naming</li>
+            <li>Current and attributable facts</li>
+            <li>Consistent terminology</li>
+            <li>Less fluff, more evidence</li>
+            <li>Strong alignment to user intent</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ 5 ============ -->
+    <section class="block" id="s5">
+      <div class="section-head">
+        <span class="section-num">05</span>
+        <h2>What matters for GEO in the non-search path</h2>
+      </div>
+
+      <p>
+        If no live search happens, your influence usually comes from <strong>training-time exposure</strong> and
+        <strong>entity familiarity</strong>, not runtime passage extraction.
+      </p>
+
+      <ul>
+        <li><strong>Entity clarity:</strong> use the same brand, product, and topic language consistently.</li>
+        <li><strong>Definitional content:</strong> clearly state what you are, who you serve, and how you differ.</li>
+        <li><strong>Broad public-web mentions:</strong> third-party references help the model learn durable associations.</li>
+        <li><strong>Topical authority:</strong> cover your niche deeply and coherently.</li>
+        <li><strong>Consistency:</strong> the same core message should appear across your site and external references.</li>
+      </ul>
+
+      <div class="quote">
+        <strong>Non-search GEO rule:</strong> optimize for being <em>well-known, well-defined, and consistently described</em>,
+        not just for one query ranking.
+      </div>
+    </section>
+
+    <!-- ============ 6 ============ -->
+    <section class="block" id="s6">
+      <div class="section-head">
+        <span class="section-num">06</span>
+        <h2>How page content exists in trained weights</h2>
+      </div>
+
+      <p>
+        A web page is <strong>not stored like a saved HTML file</strong> inside the model. During training, the text is broken into tokens,
+        and the model learns by adjusting billions of numeric weights to get better at predicting the next token.
+      </p>
+
+      <div class="callout">
+        <p><strong>Best plain-English explanation:</strong> your page does not become a retrievable document inside the model;
+        it becomes a tiny statistical influence on the model's future predictions.</p>
+      </div>
+
+      <ul>
+        <li>Not a database row</li>
+        <li>Not a clean paragraph archive</li>
+        <li>Not a reliable source that can be fetched on demand</li>
+        <li>More like compressed pattern learning and association building</li>
+      </ul>
+    </section>
+
+    <!-- ============ 7 ============ -->
+    <section class="block" id="s7">
+      <div class="section-head">
+        <span class="section-num">07</span>
+        <h2>JavaScript and content accessibility</h2>
+      </div>
+
+      <p>
+        If web search is used, do <strong>not</strong> assume the retrieval system will execute client-side JavaScript like a full browser in every case.
+        The safest GEO assumption is:
+      </p>
+
+      <pre><code>Critical content should be available in raw HTML, SSR, or prerendered output,
+not only after JavaScript runs.</code></pre>
+
+      <p>
+        If the important answer content only appears after heavy client-side rendering,
+        you increase the risk that the system cannot reliably retrieve or extract it.
+      </p>
+    </section>
+
+    <!-- ============ 8 ============ -->
+    <section class="block" id="s8">
+      <div class="section-head">
+        <span class="section-num">08</span>
+        <h2>Why keyword-based search still matters</h2>
+      </div>
+
+      <p>
+        Even if more users move to AI assistants, <strong>keyword and query relevance still matter</strong> because retrieval remains the entry gate.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Discipline</th>
+            <th>Main job</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>SEO</td>
+            <td>Make the engine find your page</td>
+          </tr>
+          <tr>
+            <td>GEO</td>
+            <td>Make the engine choose and use your passage</td>
+          </tr>
+          <tr>
+            <td>Non-search GEO</td>
+            <td>Make the model recognize and associate your brand/topic even without live retrieval</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="quote">
+        <strong>Bottom line:</strong> keyword-based search is still relevant because it helps drive retrieval eligibility.
+        It is just <em>no longer sufficient on its own</em>.
+      </div>
+    </section>
+
+    <!-- ============ 9 ============ -->
+    <section class="block" id="s9">
+      <div class="section-head">
+        <span class="section-num">09</span>
+        <h2>The core framework to keep</h2>
+      </div>
+
+      <div class="grid">
+        <article class="card gate">
+          <h3 data-gate="1">Be found</h3>
+          <p class="muted">Can the system retrieve your page at all?</p>
+        </article>
+
+        <article class="card gate">
+          <h3 data-gate="2">Be extracted</h3>
+          <p class="muted">Can it pull a clean, useful passage from the page?</p>
+        </article>
+
+        <article class="card gate">
+          <h3 data-gate="3">Be trusted</h3>
+          <p class="muted">Is the passage clear, current, credible, and worth citing?</p>
+        </article>
+      </div>
+
+      <div class="callout good">
+        <p><strong>The key insight:</strong> <em>SEO gets you into the retrieval set; GEO helps you survive the passage-selection step.</em></p>
+      </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+      <div class="footer-brand">
+        <img class="footer-logo" src="data:image/png;base64,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" alt="Adobe" />
+        <span>Adobe</span>
+      </div>
+      <p>
+        This reference preserves the main ideas discussed: retrieval first, passage selection second,
+        non-search answers rely more on trained familiarity, and JavaScript-only content is risky for retrieval.
+      </p>
+    </footer>
+
+  </main>
+
+  <script>
+    (function(){
+      // Reading-progress bar
+      var fill = document.getElementById('progressFill');
+      function updateProgress(){
+        var doc = document.documentElement;
+        var max = doc.scrollHeight - doc.clientHeight;
+        var pct = max > 0 ? (doc.scrollTop || window.pageYOffset) / max * 100 : 0;
+        fill.style.width = Math.min(100, Math.max(0, pct)) + '%';
+      }
+      window.addEventListener('scroll', updateProgress, {passive:true});
+      window.addEventListener('resize', updateProgress);
+      updateProgress();
+
+      // Tab nav: click to scroll
+      var tabnav = document.getElementById('tabnav');
+      var tabs = Array.prototype.slice.call(tabnav.querySelectorAll('.tab'));
+      var sections = tabs.map(function(t){ return document.getElementById(t.dataset.target); });
+
+      tabs.forEach(function(tab){
+        tab.addEventListener('click', function(){
+          var target = document.getElementById(tab.dataset.target);
+          if(target){ target.scrollIntoView({behavior:'smooth', block:'start'}); }
+        });
+      });
+
+      function setActive(idx){
+        tabs.forEach(function(t,i){
+          if(i === idx){
+            t.setAttribute('aria-current','true');
+            // keep the active tab visible in the scroller
+            var tabLeft = t.offsetLeft, tabRight = tabLeft + t.offsetWidth;
+            var viewLeft = tabnav.scrollLeft, viewRight = viewLeft + tabnav.clientWidth;
+            if(tabLeft < viewLeft){ tabnav.scrollTo({left:tabLeft - 16, behavior:'smooth'}); }
+            else if(tabRight > viewRight){ tabnav.scrollTo({left:tabRight - tabnav.clientWidth + 16, behavior:'smooth'}); }
+          } else {
+            t.removeAttribute('aria-current');
+          }
+        });
+      }
+
+      // Scrollspy via IntersectionObserver
+      var visible = {};
+      var obs = new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          visible[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0;
+        });
+        // pick the section with the greatest visibility
+        var best = -1, bestRatio = 0;
+        sections.forEach(function(s,i){
+          var r = visible[s.id] || 0;
+          if(r > bestRatio){ bestRatio = r; best = i; }
+        });
+        if(best >= 0) setActive(best);
+      }, {
+        rootMargin: '-' + (72 + 52 + 8) + 'px 0px -55% 0px',
+        threshold:[0,0.1,0.25,0.5,0.75,1]
+      });
+      sections.forEach(function(s){ if(s) obs.observe(s); });
+
+      setActive(0);
+    })();
+  </script>
+</body>
+</html>

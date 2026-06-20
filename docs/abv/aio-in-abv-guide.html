@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adobe Brand Visibility Enablement Primer — Semrush AIO Focus</title>
+  <style>
+    :root{
+      --adobe-red:#FA0F00;
+      --adobe-red-dark:#D60D00;
+      --ink:#1f1f1f;
+      --muted:#5c5c5c;
+      --bg:#f7f7f8;
+      --card:#ffffff;
+      --line:#e7e7ea;
+      --soft:#fff3f2;
+      --soft-2:#f3f6ff;
+      --green:#0f7b45;
+      --amber:#b26b00;
+      --shadow:0 10px 30px rgba(0,0,0,.06);
+      --radius:18px;
+      --max:1180px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Arial,Helvetica,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(250,15,0,.06), transparent 30%),
+        linear-gradient(180deg,#fcfcfd 0%, #f6f7f9 100%);
+      line-height:1.55;
+    }
+    a{color:var(--adobe-red-dark); text-decoration:none}
+    a:hover{text-decoration:underline}
+    .shell{max-width:var(--max); margin:0 auto; padding:32px 24px 80px}
+    .hero{
+      background:linear-gradient(135deg,#1e1e22 0%, #2d2d34 50%, #421a18 100%);
+      color:#fff;
+      border-radius:28px;
+      padding:40px 40px 28px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero:before{
+      content:"";
+      position:absolute; inset:auto -10% -35% auto;
+      width:380px; height:380px; border-radius:50%;
+      background:radial-gradient(circle, rgba(250,15,0,.35), rgba(250,15,0,0));
+      filter:blur(10px);
+    }
+    .eyebrow{
+      display:inline-block;
+      background:rgba(255,255,255,.12);
+      border:1px solid rgba(255,255,255,.16);
+      color:#ffd8d4;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+    }
+    h1,h2,h3,h4{line-height:1.15; margin:0 0 14px}
+    h1{font-size:42px; letter-spacing:-.03em; margin-top:14px}
+    h2{font-size:30px; letter-spacing:-.02em; margin-top:8px}
+    h3{font-size:22px; letter-spacing:-.01em}
+    h4{font-size:17px}
+    p{margin:0 0 14px}
+    .lede{font-size:18px; color:#f2f2f5; max-width:900px}
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.3fr .9fr;
+      gap:22px;
+      margin-top:24px;
+      position:relative;
+      z-index:1;
+    }
+    .hero-card{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.11);
+      border-radius:20px;
+      padding:18px 18px 14px;
+      backdrop-filter:blur(8px);
+    }
+    .hero-card h3{font-size:16px; color:#fff; margin-bottom:10px}
+    .hero-card ul{margin:0; padding-left:18px; color:#f5f5f7}
+    .hero-card li{margin:8px 0}
+    .toc{
+      margin:28px 0 0;
+      display:flex; flex-wrap:wrap; gap:10px;
+    }
+    .toc a{
+      color:#fff;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.11);
+      padding:10px 12px;
+      border-radius:999px;
+      font-size:13px;
+    }
+    .section{
+      margin-top:28px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+    .subtle{color:var(--muted)}
+    .grid-2,.grid-3,.grid-4{
+      display:grid; gap:18px;
+    }
+    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+    }
+    .accent{
+      border:1px solid #ffd9d6;
+      background:linear-gradient(180deg,#fff 0%, #fff6f5 100%);
+    }
+    .callout{
+      background:var(--soft);
+      border-left:5px solid var(--adobe-red);
+      border-radius:14px;
+      padding:16px 18px;
+      margin:16px 0;
+    }
+    .callout.info{
+      background:var(--soft-2);
+      border-left-color:#4c72ff;
+    }
+    .pill{
+      display:inline-block;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      background:#f1f1f4;
+      color:#40404a;
+      margin:0 8px 8px 0;
+    }
+    .pill.red{background:#ffe8e5; color:#8d140d}
+    .pill.green{background:#e9f8f1; color:#0c6b3c}
+    .pill.amber{background:#fff4df; color:#8a5a00}
+    .metric{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      background:linear-gradient(180deg,#fff, #fafafb);
+    }
+    .metric .k{font-size:28px; font-weight:800; letter-spacing:-.03em}
+    .metric .t{font-size:13px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em}
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin:12px 0 8px;
+      font-size:14px;
+    }
+    th,td{
+      text-align:left;
+      vertical-align:top;
+      border-bottom:1px solid var(--line);
+      padding:12px 10px;
+    }
+    th{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      color:var(--muted);
+      background:#fafafb;
+    }
+    code{
+      background:#f3f3f6;
+      border:1px solid #ececf0;
+      padding:2px 6px;
+      border-radius:6px;
+      font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+      font-size:.95em;
+    }
+    .quote{
+      font-size:22px;
+      line-height:1.35;
+      letter-spacing:-.02em;
+      margin:0;
+      color:#24242a;
+    }
+    .flow{
+      display:grid; gap:14px;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      margin-top:16px;
+    }
+    .flow .step{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg,#fff, #fbfbfc);
+      border-radius:16px;
+      padding:16px;
+      position:relative;
+    }
+    .flow .step:not(:last-child):after{
+      content:"→";
+      position:absolute;
+      right:-13px;
+      top:50%;
+      transform:translateY(-50%);
+      color:var(--adobe-red);
+      font-weight:800;
+      font-size:22px;
+      background:#fff;
+      width:26px; height:26px; line-height:26px; text-align:center; border-radius:50%;
+      border:1px solid var(--line);
+    }
+    .sources{
+      margin-top:12px;
+      padding-top:10px;
+      border-top:1px dashed var(--line);
+      font-size:13px;
+      color:var(--muted);
+    }
+    .sources strong{color:#333}
+    .sources ul{margin:8px 0 0; padding-left:18px}
+    .sources li{margin:6px 0}
+    .footer{
+      margin-top:26px;
+      padding:18px 0 0;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .badge{
+      display:inline-block;
+      font-size:11px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      color:#fff;
+      background:var(--adobe-red);
+      border-radius:999px;
+      padding:6px 9px;
+      margin-bottom:10px;
+    }
+    .small{font-size:13px}
+    .checklist li{margin:8px 0}
+    .columns{
+      columns:2;
+      column-gap:22px;
+    }
+    .columns li{break-inside:avoid}
+    @media (max-width: 980px){
+      .hero-grid,.grid-2,.grid-3,.grid-4,.flow{grid-template-columns:1fr}
+      .flow .step:not(:last-child):after{display:none}
+      .columns{columns:1}
+      h1{font-size:34px}
+      .shell{padding:18px}
+      .hero{padding:28px 22px}
+      .section{padding:22px}
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section class="hero">
+      <span class="eyebrow">Internal Enablement • Adobe Brand Visibility</span>
+      <h1>Semrush AIO Enablement Primer</h1>
+      <p class="lede">
+        A reorganized, education-first guide to <strong>Adobe Brand Visibility</strong> with a deliberate focus on the
+        <strong>Semrush AIO side</strong>: key concepts, terms, mental models, modules, measurement logic, and safe
+        customer-facing explanations.
+      </p>
+
+      <div class="hero-grid">
+        <div class="hero-card">
+          <h3>What this document is optimized for</h3>
+          <ul>
+            <li><strong>Enablement before selling</strong> — understand the model before memorizing talk tracks.</li>
+            <li><strong>Clear role separation</strong> — Semrush as the market-intelligence layer; Adobe as the activation and measurement layer.</li>
+            <li><strong>Safe positioning</strong> — useful with customers without over-claiming current product unification.</li>
+            <li><strong>Operational clarity</strong> — how prompts, topics, competitors, edge/source optimizations, and measurement fit together.</li>
+          </ul>
+        </div>
+        <div class="hero-card">
+          <h3>Executive summary</h3>
+          <ul>
+            <li><strong>Semrush AIO</strong> helps determine <em>what matters in the market</em>.</li>
+            <li><strong>LLM Optimizer / ABV optimization layer</strong> helps determine <em>what to change and whether it worked</em>.</li>
+            <li><strong>AIO metrics</strong> are best for strategic market narrative.</li>
+            <li><strong>LLMO metrics</strong> are best for operational proof and business impact.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="toc">
+        <a href="#frame">1. Product frame</a>
+        <a href="#mental-models">2. Mental models</a>
+        <a href="#glossary">3. Concepts & terms</a>
+        <a href="#modules">4. Semrush AIO modules</a>
+        <a href="#measurement">5. Measurement model</a>
+        <a href="#optimization">6. Edge vs source</a>
+        <a href="#attribution">7. Attribution</a>
+        <a href="#messaging">8. Customer messaging</a>
+        <a href="#objections">9. Objections</a>
+        <a href="#sources">10. References</a>
+      </div>
+    </section>
+
+    <section id="frame" class="section">
+      <span class="badge">Section 1</span>
+      <h2>Adobe Brand Visibility in one page</h2>
+      <p class="quote">
+        Semrush tells you <strong>where you are winning or losing across the market</strong>. Adobe helps you
+        <strong>act on that insight on owned surfaces</strong> and <strong>connect the work to outcomes</strong>.
+      </p>
+
+      <div class="callout">
+        <strong>Most useful orientation:</strong> do not think of ABV as "just another SEO dashboard." Think of it as a
+        <strong>GEO operating model</strong> for AI-native discovery: discover → prioritize → activate → measure → repeat.
+      </div>
+
+      <div class="grid-4" style="margin-top:16px">
+        <div class="metric">
+          <div class="t">Semrush role</div>
+          <div class="k">Intelligence</div>
+          <p class="small">Prompt universe, competitor movement, topic gaps, share of voice, sentiment, market context.</p>
+        </div>
+        <div class="metric">
+          <div class="t">Adobe role</div>
+          <div class="k">Activation</div>
+          <p class="small">Opportunities, edge/source optimization, agentic traffic, referral traffic, business impact.</p>
+        </div>
+        <div class="metric">
+          <div class="t">Best Semrush question</div>
+          <div class="k">"Where?"</div>
+          <p class="small">Where are we absent, weak, or losing to competitors?</p>
+        </div>
+        <div class="metric">
+          <div class="t">Best Adobe question</div>
+          <div class="k">"Now what?"</div>
+          <p class="small">What should we fix first, and did it change visibility or revenue?</p>
+        </div>
+      </div>
+
+      <div class="sources">
+        <strong>Sources</strong>
+        <ul>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/6a31ef2ee22e33de679907aa">Adobe Brand Visibility Pitch Deck</a></li>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/69f22717bc2ef5879b28d11e">Adobe Brand Visibility Narrative with Semrush</a></li>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/69eff245ffa90cb55c1781e7">Adobe + Semrush Day 1 GEO Messaging</a></li>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/69fa786896774c2e4b937175">Field Guidance for LLMO + Semrush Enterprise AIO Bundle</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="mental-models" class="section">
+      <span class="badge">Section 2</span>
+      <h2>Mental models to learn first</h2>
+      <div class="grid-2">
+        <div class="card accent">
+          <h3>1) This is not "SEO with a new label"</h3>
+          <p>
+            The category is about <strong>how brands are represented in AI-generated answers</strong> — mentions, citations,
+            sentiment, platform spread, answer framing, and discoverability — not only traditional blue-link rankings.
+          </p>
+        </div>
+        <div class="card accent">
+          <h3>2) Semrush AIO is the outside-in layer</h3>
+          <p>
+            Think of Semrush as the <strong>external market scanner</strong>: what prompts matter, how competitors are winning,
+            where topic gaps exist, and which opportunities deserve attention first.
+          </p>
+        </div>
+        <div class="card accent">
+          <h3>3) Adobe is the inside-out layer</h3>
+          <p>
+            Adobe is strongest at <strong>owned-surface activation and measurement</strong>: edge/source optimization,
+            agentic and referral traffic, and downstream business impact.
+          </p>
+        </div>
+        <div class="card accent">
+          <h3>4) Prompt quality determines measurement quality</h3>
+          <p>
+            A bad prompt set gives a false picture of AI visibility. A good prompt set includes <strong>branded, non-branded,
+            comparison, task, commercial, and journey-stage coverage</strong>.
+          </p>
+        </div>
+        <div class="card accent">
+          <h3>5) Think in loops, not dashboards</h3>
+          <p>
+            The durable motion is <code>discover → prioritize → activate → measure → repeat</code>. A visibility score
+            matters only when it changes decisions and behavior.
+          </p>
+        </div>
+        <div class="card accent">
+          <h3>6) Treat market and operational scores as different lenses</h3>
+          <p>
+            <strong>AIO</strong> is the market-wide lens. <strong>LLMO</strong> is the operational lens. They are both useful,
+            but they are <strong>not interchangeable and should not be directly compared</strong>.
+          </p>
+        </div>
+      </div>
+
+      <div class="sources">
+        <strong>Sources</strong>
+        <ul>
+          <li><a href="https://wiki.corp.adobe.com/spaces/WEM/pages/3865786606/Digital+Insights+Report-+AI+visibility+gap">Digital Insights Report- AI visibility gap</a></li>
+          <li><a href="https://wiki.corp.adobe.com/spaces/adobedotcom/pages/3774285701/SEO+AIO+Best+Practices">SEO &amp; AIO Best Practices</a></li>
+          <li><a href="https://wiki.corp.adobe.com/spaces/WEM/pages/3631628012/2026+Summit+Demo+Booth+Plan+-+Brand+Visibility">2026 Summit Demo Booth Plan - Brand Visibility</a></li>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/6a02210e9ae1cfd6939fa7eb">Guide for using LLM Optimizer with Semrush AIO</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="glossary" class="section">
+      <span class="badge">Section 3</span>
+      <h2>Concepts and terms that matter</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Term</th>
+            <th>Simple definition</th>
+            <th>Why it matters</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>AIO</strong></td>
+            <td>AI Optimization; here, the Semrush intelligence side for AI visibility analysis.</td>
+            <td>Used for market discovery, competitor benchmarking, and prompt/topic prioritization.</td>
+          </tr>
+          <tr>
+            <td><strong>GEO</strong></td>
+            <td>Generative Engine Optimization.</td>
+            <td>The broader discipline of improving how brands appear in AI-generated answers.</td>
+          </tr>
+          <tr>
+            <td><strong>AI Visibility</strong></td>
+            <td>How often and how well a brand appears across AI search/chat surfaces.</td>
+            <td>The top-line concept the category tries to improve.</td>
+          </tr>
+          <tr>
+            <td><strong>Prompt</strong></td>
+            <td>A user question or query pattern evaluated by an AI system.</td>
+            <td>The core measurement unit for both prompt research and tracking.</td>
+          </tr>
+          <tr>
+            <td><strong>Prompt set</strong></td>
+            <td>The curated list of prompts a brand chooses to monitor.</td>
+            <td>Defines the frame of the operational measurement program.</td>
+          </tr>
+          <tr>
+            <td><strong>Topic</strong></td>
+            <td>A thematic cluster that groups related prompts.</td>
+            <td>Useful for prioritization and strategic content planning.</td>
+          </tr>
+          <tr>
+            <td><strong>Mention</strong></td>
+            <td>The AI answer names the brand.</td>
+            <td>Basic visibility signal.</td>
+          </tr>
+          <tr>
+            <td><strong>Citation</strong></td>
+            <td>The AI answer references the brand's content or site as a source.</td>
+            <td>Usually higher-value than a mere mention.</td>
+          </tr>
+          <tr>
+            <td><strong>Share of voice</strong></td>
+            <td>Relative brand visibility versus competitors.</td>
+            <td>Best for category and executive narrative.</td>
+          </tr>
+          <tr>
+            <td><strong>Sentiment</strong></td>
+            <td>Whether AI responses frame the brand positively, neutrally, or negatively.</td>
+            <td>Prevents teams from mistaking more visibility for better brand perception.</td>
+          </tr>
+          <tr>
+            <td><strong>Domain intelligence</strong></td>
+            <td>Site-level intelligence about a web property such as <code>adobe.com</code>.</td>
+            <td>Different from page-level, topic-level, or prompt-level analysis.</td>
+          </tr>
+          <tr>
+            <td><strong>Agentic traffic</strong></td>
+            <td>AI agents and bots visiting owned pages.</td>
+            <td>A leading signal that AI systems are reading site content.</td>
+          </tr>
+          <tr>
+            <td><strong>Referral traffic</strong></td>
+            <td>Human traffic arriving from AI-generated citations or answers.</td>
+            <td>Bridges visibility work to business outcomes.</td>
+          </tr>
+          <tr>
+            <td><strong>Optimize at Edge</strong></td>
+            <td>Serve AI-friendly changes at the CDN/edge layer.</td>
+            <td>Fast and reversible way to improve agent-visible content.</td>
+          </tr>
+          <tr>
+            <td><strong>Optimize at Source</strong></td>
+            <td>Change the origin content itself.</td>
+            <td>Best when the human-facing experience should also change.</td>
+          </tr>
+          <tr>
+            <td><strong>Closed-loop measurement</strong></td>
+            <td>Connecting optimizations to traffic, engagement, conversion, or revenue.</td>
+            <td>Critical for proving value beyond visibility reports.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout info">
+        <strong>Domain, page, topic, prompt:</strong><br />
+        <span class="pill">Domain-level = whole site</span>
+        <span class="pill">Page-level = one URL</span>
+        <span class="pill">Topic-level = one subject area</span>
+        <span class="pill">Prompt-level = one user question</span>
+      </div>
+
+      <div class="sources">
+        <strong>Sources</strong>
+        <ul>
+          <li><a href="https://wiki.corp.adobe.com/spaces/adobedotcom/pages/3774285701/SEO+AIO+Best+Practices">SEO &amp; AIO Best Practices</a></li>
+          <li><a href="https://wiki.corp.adobe.com/spaces/WEM/pages/3865786606/Digital+Insights+Report-+AI+visibility+gap">Digital Insights Report- AI visibility gap</a></li>
+          <li><a href="https://wiki.corp.adobe.com/spaces/WEM/pages/3687832446/8+-+Semrush">8 - Semrush</a></li>
+          <li><a href="https://wiki.corp.adobe.com/spaces/seoteam/pages/3609418863/Query+Fan-Out+Analysis+using+Azure+OpenAI+or+Gemini">Query Fan-Out Analysis using Azure OpenAI or Gemini</a></li>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/6a31ef2ee22e33de679907aa">Adobe Brand Visibility Pitch Deck</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="modules" class="section">
+      <span class="badge">Section 4</span>
+      <h2>Semrush AIO modules — what each one is really for</h2>
+
+      <div class="flow">
+        <div class="step">
+          <h4>Visibility Overview</h4>
+          <p>Baseline the category and your starting position.</p>
+        </div>
+        <div class="step">
+          <h4>Prompt Research</h4>
+          <p>Narrow the universe to prompts that matter.</p>
+        </div>
+        <div class="step">
+          <h4>Competitor Research</h4>
+          <p>Find where competitors are winning and you are absent.</p>
+        </div>
+        <div class="step">
+          <h4>Prompt Tracking</h4>
+          <p>Monitor movement on the prompts you chose to care about.</p>
+        </div>
+        <div class="step">
+          <h4>Traffic Analysis</h4>
+          <p>Add demand and trend context to prioritization.</p>
+        </div>
+      </div>
+
+      <table style="margin-top:20px">
+        <thead>
+          <tr>
+            <th>Module</th>
+            <th>Primary job</th>
+            <th>Best question</th>
+            <th>Best output</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Visibility Overview</strong></td>
+            <td>Market-level baseline</td>
+            <td>How visible are we right now across platforms and topics?</td>
+            <td>Visibility score, mentions, citations, sentiment, platform spread</td>
+          </tr>
+          <tr>
+            <td><strong>Prompt Research</strong></td>
+            <td>Prompt-universe reduction</td>
+            <td>Which prompts and intent clusters are worth tracking?</td>
+            <td>Prioritized prompt candidates and topic clusters</td>
+          </tr>
+          <tr>
+            <td><strong>Competitor Research</strong></td>
+            <td>Gap detection</td>
+            <td>Where do competitors appear and we do not?</td>
+            <td>Missing/weak/shared/strong/unique competitive map</td>
+          </tr>
+          <tr>
+            <td><strong>Prompt Tracking</strong></td>
+            <td>Ongoing scorekeeping</td>
+            <td>Are we improving on the monitored prompts?</td>
+            <td>Trend view for the chosen prompt program</td>
+          </tr>
+          <tr>
+            <td><strong>Traffic Analysis</strong></td>
+            <td>Demand context</td>
+            <td>Which topics or prompts show meaningful demand and momentum?</td>
+            <td>Trend-informed prioritization</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="grid-2" style="margin-top:18px">
+        <div class="card">
+          <h3>Most important module lesson</h3>
+          <p>
+            <strong>Prompt Research</strong> is usually the pivotal step. Without a well-formed prompt set, every later
+            visibility number becomes less meaningful.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Most important competitor lesson</h3>
+          <p>
+            The <strong>Missing / Weak / Shared / Strong / Unique</strong> framing is one of the easiest ways to teach
+            non-experts how competitive GEO actually works.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Fast memory hook</strong><br />
+        <strong>Visibility Overview</strong> tells you <em>how you are doing</em>.<br />
+        <strong>Prompt Research</strong> tells you <em>what to care about</em>.<br />
+        <strong>Competitor Research</strong> tells you <em>where the battle is</em>.<br />
+        <strong>Prompt Tracking</strong> tells you <em>whether the program is moving</em>.
+      </div>
+
+      <div class="sources">
+        <strong>Sources</strong>
+        <ul>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/6a02210e9ae1cfd6939fa7eb">Guide for using LLM Optimizer with Semrush AIO</a></li>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/69efd931d260268c1c64ca22">Adobe LLMO &amp; Semrush Enterprise AIO Pitch Slides</a></li>
+          <li><a href="https://adobe.sharepoint.com/sites/ContentSupplyChainSpecialists/Shared%20Documents/LLM%20Optimizer/Semrush/AIO%20and%20LLMO%20Together/Using_semrushaio_llm_optimizer_guide.pdf">Using_semrushaio_llm_optimizer_guide.pdf</a></li>
+          <li><a href="https://wiki.corp.adobe.com/spaces/WEM/pages/3687832446/8+-+Semrush">8 - Semrush</a></li>
+          <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3908163571/Serenity+Semrush+Integration+%E2%80%94+API+Landscape+Findings">Serenity &amp; Semrush Integration — API Landscape &amp; Findings</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="measurement" class="section">
+      <span class="badge">Section 5</span>
+      <h2>Measurement model — how to avoid the most common confusion</h2>
+
+      <div class="callout">
+        <strong>Core rule:</strong> <strong>AIO</strong> and <strong>LLMO</strong> are both useful, but they answer
+        <strong>different questions</strong>. Keep them as separate reporting streams.
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Lens</th>
+            <th>What it measures</th>
+            <th>Best reporting cadence</th>
+            <th>Best audience</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Semrush AIO</strong></td>
+            <td>Market-wide visibility across a much broader prompt universe</td>
+            <td>Quarterly / strategic reviews</td>
+            <td>Executives, category owners, strategy leads</td>
+          </tr>
+          <tr>
+            <td><strong>LLM Optimizer</strong></td>
+            <td>Operational visibility within the curated prompt program plus traffic and business impact</td>
+            <td>Weekly / monthly operating reviews</td>
+            <td>SEO, content, growth, operations, implementation teams</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="grid-2">
+        <div class="card accent">
+          <h3>Use AIO when the question is strategic</h3>
+          <ul class="checklist">
+            <li>Are we gaining or losing share in the category?</li>
+            <li>Which competitors are moving faster?</li>
+            <li>Which topics matter most in the market?</li>
+            <li>How is AI sentiment evolving?</li>
+          </ul>
+        </div>
+        <div class="card accent">
+          <h3>Use LLMO when the question is operational</h3>
+          <ul class="checklist">
+            <li>Which opportunity should we fix first?</li>
+            <li>Did the page-level or prompt-level program improve?</li>
+            <li>Did agentic or referral traffic change?</li>
+            <li>Did the work affect engagement, conversion, or revenue?</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <strong>Safe phrasing to teach teams:</strong><br />
+        "<strong>AIO is the strategic market lens.</strong>"<br />
+        "<strong>LLMO is the operational scoreboard.</strong>"
+      </div>
+
+      <div class="sources">
+        <strong>Sources</strong>
+        <ul>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/6a02210e9ae1cfd6939fa7eb">Guide for using LLM Optimizer with Semrush AIO</a></li>
+          <li><a href="https://adobe.sharepoint.com/sites/ContentSupplyChainSpecialists/Shared%20Documents/LLM%20Optimizer/Semrush/AIO%20and%20LLMO%20Together/Using_semrushaio_llm_optimizer_guide.pdf">Using_semrushaio_llm_optimizer_guide.pdf</a></li>
+          <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3762897108/Integrating+with+AA">Integrating with AA</a></li>
+          <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/essentials/best-practices">LLM Optimizer best practices</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="optimization" class="section">
+      <span class="badge">Section 6</span>
+      <h2>Optimization layers — edge vs source</h2>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Optimize at Edge</h3>
+          <p>
+            AI-friendly changes are served at the CDN/edge layer, typically to targeted AI user agents. This is fast,
+            reversible, and useful when the main goal is improving <strong>agent-visible</strong> content without waiting
+            for full origin changes.
+          </p>
+          <p><span class="pill red">Fast</span><span class="pill red">Reversible</span><span class="pill red">Agent-focused</span></p>
+        </div>
+        <div class="card">
+          <h3>Optimize at Source</h3>
+          <p>
+            The origin content itself is updated. This is the stronger choice when the human-facing experience should also
+            improve and when permanent editorial or structural improvements are desired.
+          </p>
+          <p><span class="pill green">Durable</span><span class="pill green">Human-visible</span><span class="pill green">Editorial</span></p>
+        </div>
+      </div>
+
+      <div class="callout">
+        <strong>Practical teaching rule:</strong> teams should not obsess over which layer is "more real." The right
+        question is <strong>which layer produces the intended outcome fastest and most safely</strong>.
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Question</th>
+            <th>Best answer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Which system should track improvement after edge or source changes?</td>
+            <td><strong>Both</strong> — use <strong>LLMO</strong> for operational and business impact, and <strong>AIO</strong> for market-level movement.</td>
+          </tr>
+          <tr>
+            <td>Should edge and source be combined into one score?</td>
+            <td><strong>No</strong> — treat outcomes as combined program lift unless the changes were staged separately.</td>
+          </tr>
+          <tr>
+            <td>Can you attribute lift cleanly to edge vs source if both changed together?</td>
+            <td><strong>Usually no</strong> — not without staged rollout or controlled comparison.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="sources">
+        <strong>Sources</strong>
+        <ul>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/6a31ef2ee22e33de679907aa">Adobe Brand Visibility Pitch Deck</a></li>
+          <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/resources/optimize-at-edge/overview">Optimize at Edge</a></li>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/69fa787891148a0bcdc7541f">Adobe LLMO &amp; Semrush Enterprise AIO Pitch Slides</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="attribution" class="section">
+      <span class="badge">Section 7</span>
+      <h2>Attribution — why LLMO opportunities map more directly to LLMO than to AIO</h2>
+
+      <div class="grid-2">
+        <div class="card accent">
+          <h3>Direct linkage: LLMO</h3>
+          <p>
+            LLMO opportunities typically point to <strong>specific owned pages, content structures, crawlability issues,
+            summaries, FAQs, or edge/source changes</strong>. That makes them easier to tie to the curated prompt program,
+            agentic traffic, referral traffic, and business outcomes.
+          </p>
+        </div>
+        <div class="card accent">
+          <h3>Indirect linkage: AIO</h3>
+          <p>
+            AIO tracks a broader market and competitive prompt universe. Improvements can show up as better share of voice,
+            citations, or sentiment, but usually as <strong>market movement</strong>, not as clean 1:1 proof that one
+            opportunity caused one score change.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <strong>Best teaching sentence:</strong><br />
+        "<strong>LLMO opportunities usually have direct operational attribution.</strong> Their effect on
+        <strong>AIO</strong> is usually second-order: broader market lift, not clean single-opportunity causality."
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>If the question is…</th>
+            <th>Use this first</th>
+            <th>Why</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Did this opportunity improve the monitored program?</td>
+            <td><strong>LLMO</strong></td>
+            <td>Closest to the change and best aligned to prompt, page, and outcome tracking.</td>
+          </tr>
+          <tr>
+            <td>Did our category position improve after several rounds of optimization?</td>
+            <td><strong>AIO</strong></td>
+            <td>Best view for market-wide share and competitor movement.</td>
+          </tr>
+          <tr>
+            <td>Can we isolate edge vs source contribution?</td>
+            <td><strong>Only if staged</strong></td>
+            <td>Otherwise most signals show combined lift.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="sources">
+        <strong>Sources</strong>
+        <ul>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/6a02210e9ae1cfd6939fa7eb">Guide for using LLM Optimizer with Semrush AIO</a></li>
+          <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/essentials/overview">LLM Optimizer Overview</a></li>
+          <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/essentials/best-practices">LLM Optimizer best practices</a></li>
+          <li><a href="https://wiki.corp.adobe.com/spaces/VaaS/pages/3625448218/LLM+Optimizer+GEO+Research+Collaborations">LLM Optimizer (GEO) + Research Collaborations</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="messaging" class="section">
+      <span class="badge">Section 8</span>
+      <h2>Customer-facing enablement — the Semrush side</h2>
+
+      <div class="callout">
+        <strong>Safe, customer-ready positioning:</strong><br />
+        "<strong>Semrush gives Adobe Brand Visibility the market intelligence layer</strong>: where your brand is winning
+        or losing across AI search, which prompts and topics matter most, how competitors are performing, and where to
+        focus optimization effort first."
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>60-second executive version</h3>
+          <p>
+            AI is increasingly where customers start. Semrush helps brands understand <strong>how they show up across that
+            market</strong>, <strong>which competitors are winning</strong>, and <strong>which discovery moments matter most</strong>.
+            Adobe then helps operationalize that insight and connect it to outcomes.
+          </p>
+        </div>
+        <div class="card">
+          <h3>SEO / digital lead version</h3>
+          <p>
+            The Semrush side answers the next-level question beyond "AI visibility matters": <strong>where exactly are we
+            losing, against whom, and on which prompts or topics?</strong> That creates a more defensible roadmap.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Cross-functional version</h3>
+          <p>
+            Most teams have internal analytics, but not a category-level view of AI visibility. Semrush fills that gap
+            with <strong>prompt intelligence, competitor benchmarking, sentiment, and topic opportunity discovery</strong>.
+          </p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:20px">Discovery questions that open the right conversation</h3>
+      <ul class="columns">
+        <li>How are you measuring how your brand shows up in AI-generated answers today?</li>
+        <li>Do you have a competitive view, or mostly an internal view?</li>
+        <li>How confident are you that your current prompt set reflects real demand and commercial intent?</li>
+        <li>Which products, categories, or use cases matter most for AI-driven discovery this year?</li>
+        <li>Can you tell where competitors are being cited and you are not?</li>
+        <li>When visibility shifts, can you tell whether it's demand, competition, or content gaps?</li>
+      </ul>
+
+      <h3 style="margin-top:20px">Do say / avoid saying</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Do say</th>
+            <th>Avoid saying</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Semrush gives you the market-wide intelligence layer.</td>
+            <td>Everything is already fully unified into one Adobe metric model.</td>
+          </tr>
+          <tr>
+            <td>Semrush helps identify the prompts, topics, and competitor gaps that matter most.</td>
+            <td>We know the exact private prompts users typed into ChatGPT.</td>
+          </tr>
+          <tr>
+            <td>Adobe and Semrush solve different parts of the workflow.</td>
+            <td>The two visibility scores are directly comparable.</td>
+          </tr>
+          <tr>
+            <td>Use Semrush for strategic market context; use Adobe for execution and business measurement.</td>
+            <td>One optimization fully explains all market movement.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="sources">
+        <strong>Sources</strong>
+        <ul>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/69fa786896774c2e4b937175">Field Guidance for LLMO + Semrush Enterprise AIO Bundle</a></li>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/69eff245ffa90cb55c1781e7">Adobe + Semrush Day 1 GEO Messaging</a></li>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/69f22717bc2ef5879b28d11e">Adobe Brand Visibility Narrative with Semrush</a></li>
+          <li><a href="https://wiki.corp.adobe.com/spaces/WEM/pages/3631628012/2026+Summit+Demo+Booth+Plan+-+Brand+Visibility">2026 Summit Demo Booth Plan - Brand Visibility</a></li>
+          <li><a href="https://wiki.corp.adobe.com/spaces/tamteamjapan/pages/3670341052/KT+-+LLMO+Memo">KT - LLMO Memo</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="objections" class="section">
+      <span class="badge">Section 9</span>
+      <h2>Objection handling — Semrush side</h2>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>"We already have SEO tools."</h3>
+          <p><strong>Response:</strong> That can actually increase the value here. Traditional SEO tools may help with rankings and keyword intelligence, but the Semrush side adds the <strong>AI prompt intelligence, competitor AI share of voice, and market-wide context</strong> that most SEO stacks do not surface cleanly.</p>
+        </div>
+        <div class="card">
+          <h3>"Why not just use Adobe's side?"</h3>
+          <p><strong>Response:</strong> Adobe is strongest at activation and measurement on owned surfaces. Semrush provides the broader market signal — which prompts matter, where competitors are winning, and which topics deserve action.</p>
+        </div>
+        <div class="card">
+          <h3>"Can't we just build our own prompt list?"</h3>
+          <p><strong>Response:</strong> You can curate prompts, but the hard part is prioritization and coverage. Semrush helps reduce guesswork by bringing larger-scale market and intent signals into prompt selection.</p>
+        </div>
+        <div class="card">
+          <h3>"Do you have actual private prompts from ChatGPT?"</h3>
+          <p><strong>Response:</strong> No platform has access to private LLM conversation logs. The value here comes from high-scale market signals and realistic proxies that make prioritization and competitive analysis stronger.</p>
+        </div>
+        <div class="card">
+          <h3>"Is this one unified product now?"</h3>
+          <p><strong>Response:</strong> The right framing today is a <strong>combined solution with complementary strengths</strong>: Semrush for market intelligence and Adobe for optimization and business measurement, with further integrated experience evolving.</p>
+        </div>
+        <div class="card">
+          <h3>"We care about outcomes, not more dashboards."</h3>
+          <p><strong>Response:</strong> That is precisely why the Semrush side matters. It makes prioritization better. Adobe then closes the loop by showing whether those choices changed traffic, engagement, conversion, or revenue.</p>
+        </div>
+      </div>
+
+      <div class="callout info">
+        <strong>Best objection-handling posture:</strong> listen for whether the concern is about
+        <strong>value</strong>, <strong>feasibility</strong>, or <strong>ownership</strong>, then answer at that level
+        instead of jumping straight to features.
+      </div>
+
+      <div class="sources">
+        <strong>Sources</strong>
+        <ul>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/69fa786896774c2e4b937175">Field Guidance for LLMO + Semrush Enterprise AIO Bundle</a></li>
+          <li><a href="https://adobe.sharepoint.com/sites/FieldEngineeringOrg/Scaled%20Programs/Enablement/2026%20Enablement%20Copies/2026%20-%20May%20-%20Influence%20%26%20Objection%20Handling%20for%20Impact/Influencing_with_Impact_May%2028%202026.pptx">Influencing_with_Impact_May 28 2026.pptx</a></li>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/69dd188399ce070bb1542196">FLM Pipeline Progression Review Guide</a></li>
+          <li><a href="https://fieldreadiness-adobe.highspot.com/items/6a31f9c1b43a9e968696a002">Adobe Brand Visibility FAQ</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="sources" class="section">
+      <span class="badge">Section 10</span>
+      <h2>Reference set used for this document</h2>
+      <p class="subtle">Curated to the sources that most directly supported the educational flow above.</p>
+
+      <ul class="checklist">
+        <li><a href="https://fieldreadiness-adobe.highspot.com/items/6a31ef2ee22e33de679907aa">Adobe Brand Visibility Pitch Deck</a></li>
+        <li><a href="https://fieldreadiness-adobe.highspot.com/items/69f22717bc2ef5879b28d11e">Adobe Brand Visibility Narrative with Semrush</a></li>
+        <li><a href="https://fieldreadiness-adobe.highspot.com/items/69eff245ffa90cb55c1781e7">Adobe + Semrush Day 1 GEO Messaging</a></li>
+        <li><a href="https://fieldreadiness-adobe.highspot.com/items/69fa786896774c2e4b937175">Field Guidance for LLMO + Semrush Enterprise AIO Bundle</a></li>
+        <li><a href="https://fieldreadiness-adobe.highspot.com/items/6a02210e9ae1cfd6939fa7eb">Guide for using LLM Optimizer with Semrush AIO</a></li>
+        <li><a href="https://adobe.sharepoint.com/sites/ContentSupplyChainSpecialists/Shared%20Documents/LLM%20Optimizer/Semrush/AIO%20and%20LLMO%20Together/Using_semrushaio_llm_optimizer_guide.pdf">Using_semrushaio_llm_optimizer_guide.pdf</a></li>
+        <li><a href="https://adobe.sharepoint.com/sites/ContentXSCKnowledgeHub/Shared%20Documents/Knowledge%20Hub/AEM/LLM-Optimizer/Semrush/Semrush-AIO-Adobe-LLMO-Research-Brief-Unpublished.docx">Semrush Enterprise AIO Research Brief: Capabilities, Enterprise Value &amp; Complementarity with Adobe LLM Optimizer</a></li>
+        <li><a href="https://fieldreadiness-adobe.highspot.com/items/69efd931d260268c1c64ca22">Adobe LLMO &amp; Semrush Enterprise AIO Pitch Slides</a></li>
+        <li><a href="https://fieldreadiness-adobe.highspot.com/items/69fa787891148a0bcdc7541f">Adobe LLMO &amp; Semrush Enterprise AIO Pitch Slides</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/WEM/pages/3687832446/8+-+Semrush">8 - Semrush</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/WEM/pages/3631628012/2026+Summit+Demo+Booth+Plan+-+Brand+Visibility">2026 Summit Demo Booth Plan - Brand Visibility</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/adobedotcom/pages/3774285701/SEO+AIO+Best+Practices">SEO &amp; AIO Best Practices</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/WEM/pages/3865786606/Digital+Insights+Report-+AI+visibility+gap">Digital Insights Report- AI visibility gap</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3908163571/Serenity+Semrush+Integration+%E2%80%94+API+Landscape+Findings">Serenity &amp; Semrush Integration — API Landscape &amp; Findings</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3762897108/Integrating+with+AA">Integrating with AA</a></li>
+        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/essentials/overview">LLM Optimizer Overview</a></li>
+        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/essentials/best-practices">LLM Optimizer best practices</a></li>
+        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/resources/optimize-at-edge/overview">Optimize at Edge</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/VaaS/pages/3625448218/LLM+Optimizer+GEO+Research+Collaborations">LLM Optimizer (GEO) + Research Collaborations</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/tamteamjapan/pages/3670341052/KT+-+LLMO+Memo">KT - LLMO Memo</a></li>
+        <li><a href="https://fieldreadiness-adobe.highspot.com/items/6a31f9c1b43a9e968696a002">Adobe Brand Visibility FAQ</a></li>
+      </ul>
+
+      <div class="footer">
+        <p>
+          <strong>Document posture:</strong> enablement-first, education-heavy, and deliberately careful about product-boundary claims.
+          Where current guidance distinguishes between <strong>market-wide AIO signals</strong> and <strong>operational LLMO signals</strong>,
+          that distinction has been preserved rather than flattened.
+        </p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

@@ -774,7 +774,7 @@
           <div class="slide-inner">
             <div class="head">
               <h1 class="title">Weak Prompts vs. <span class="r">Strong Prompts</span></h1>
-              <p class="subtitle">Weak prompts add noise; strong ones make clean, trackable test cases. The fix is rarely &ldquo;longer.&rdquo;</p>
+              <p class="subtitle">A monitored prompt is a test case: realistic, specific, repeatable. Weak ones fail one of those &mdash; and the fix is rarely just &ldquo;longer.&rdquo;</p>
             </div>
             <div class="body">
             <div class="cmp">
@@ -783,30 +783,35 @@
               <div class="hd">Strong prompt</div>
               <div class="hd">Why the strong one wins</div>
 
-              <div class="prob">Too generic</div>
+              <div class="prob">Too vague</div>
               <div><span class="prompt wk">camping gear</span></div>
+              <div><span class="prompt ok">best cooler for multi-day camping</span></div>
+              <div class="why">Specific enough that answers don't drift</div>
+
+              <div class="prob">Too unnatural</div>
+              <div><span class="prompt wk">sleeping bag cold weather best cheap</span></div>
+              <div><span class="prompt ok">what's the best sleeping bag for cold-weather camping?</span></div>
+              <div class="why">Reads like a real question, not a keyword</div>
+
+              <div class="prob">Missing context</div>
+              <div><span class="prompt wk">which one's better?</span></div>
+              <div><span class="prompt ok">is a budget or premium family tent better for car camping?</span></div>
+              <div class="why">Self-contained &mdash; each prompt runs on its own</div>
+
+              <div class="prob">Too many tasks</div>
+              <div><span class="prompt wk">best tent, how to pitch it, and what to pack</span></div>
               <div><span class="prompt ok">best budget family tent for car camping</span></div>
-              <div class="why">Names a real buyer and use case</div>
-
-              <div class="prob">Too broad</div>
-              <div><span class="prompt wk">best outdoor brand</span></div>
-              <div><span class="prompt ok">best cooler for a week-long camping trip</span></div>
-              <div class="why">Clear intent, less guesswork</div>
-
-              <div class="prob">No edge</div>
-              <div><span class="prompt wk">tent features</span></div>
-              <div><span class="prompt ok">budget family tent vs. premium &mdash; which to buy</span></div>
-              <div class="why">Surfaces a real decision</div>
+              <div class="why">One job per prompt keeps results stable</div>
 
               <div class="prob">Low intent</div>
               <div><span class="prompt wk">how does a tent work</span></div>
               <div><span class="prompt ok">where to buy a 4-person tent online</span></div>
-              <div class="why">Buying-stage, easy to optimize</div>
+              <div class="why">Buying-stage prompts are the ones cited</div>
 
               <div class="prob">Hard to own</div>
               <div><span class="prompt wk">what is camping</span></div>
               <div><span class="prompt ok">beginner backpacking gear checklist</span></div>
-              <div class="why">Maps to real pages and topics</div>
+              <div class="why">Maps to a real page you can optimize</div>
             </div>
             </div>
             <div class="banner">The goal isn't <strong>more prompts</strong> &mdash; it's <strong>prompts worth tracking</strong>.</div>

@@ -7,12 +7,10 @@
   <style>
     :root {
       --adobe-red: #eb1000;
-      --adobe-red-dark: #c60c00;
       --ink: #1f1f1f;
       --text: #3a3a3a;
       --muted: #6b6b6b;
       --line: #e8e8ea;
-      --bg: #f6f6f7;
       --surface: #ffffff;
       --surface-soft: #fcfcfc;
       --success: #0f7b5f;
@@ -296,33 +294,34 @@
       break-inside: avoid;
     }
 
-    .before-after {
-      display: grid;
-      gap: 14px;
-      margin-top: 14px;
+    .topic-box {
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #fff 0%, #fcfcfc 100%);
     }
 
-    .pair {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      align-items: stretch;
+    .merge-card {
+      padding: 22px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #fff 0%, #fcfcfc 100%);
+      border: 1px solid var(--line);
     }
 
-    .pair .side {
+    .merge-list {
+      margin: 10px 0 16px;
+      padding-left: 18px;
+    }
+
+    .merge-list li {
+      margin: 6px 0;
+    }
+
+    .canonical-box {
       padding: 16px 18px;
       border-radius: 14px;
-      border: 1px solid var(--line);
-      background: var(--surface-soft);
-    }
-
-    .pair .side.before {
-      background: #fff;
-    }
-
-    .pair .side.after {
+      border: 1px solid rgba(235,16,0,0.14);
       background: #fff8f7;
-      border-color: rgba(235,16,0,0.14);
     }
 
     .label {
@@ -347,13 +346,6 @@
       color: var(--muted);
     }
 
-    .topic-box {
-      padding: 20px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, #fff 0%, #fcfcfc 100%);
-    }
-
     .footer-note {
       margin-top: 20px;
       font-size: 14px;
@@ -361,7 +353,7 @@
     }
 
     @media (max-width: 960px) {
-      .grid-2, .grid-3, .pair {
+      .grid-2, .grid-3 {
         grid-template-columns: 1fr;
       }
 
@@ -450,33 +442,16 @@
     <section class="section">
       <h2>Branded Wording Approach</h2>
       <p>
-        Because this category functions as a UOB card FAQ, the default prompt style should be <strong>branded</strong>.
-        Customers in this journey are typically looking for help with a specific UOB card, statement, charge, bill payment, or waiver request rather than broad banking guidance.
+        This category works best as a <strong>fully branded UOB card FAQ</strong>. Most customers in this journey are not exploring options;
+        they are looking for help with a specific UOB card, statement, charge, bill payment, or waiver request.
       </p>
 
-      <div class="grid grid-2" style="margin-top: 18px;">
-        <div class="topic-box">
-          <h3>Best practice for Card Services</h3>
-          <ul class="list-tight">
-            <li>Use <strong>UOB</strong> plus card context where the issue is clearly card-related.</li>
-            <li>Keep prompts direct, service-led, and operational.</li>
-            <li>Use product-specific wording for statements, bill payments, fee waivers, and card declines.</li>
-          </ul>
-        </div>
-        <div class="topic-box">
-          <h3>What to avoid</h3>
-          <ul class="list-tight">
-            <li>Broad generic banking prompts when the topic is clearly a UOB card issue.</li>
-            <li>Overly mixed prompts that combine card servicing with transfer support.</li>
-            <li>Trying to "fix" out-of-scope prompts by making them more branded instead of moving them.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="callout" style="margin-top: 18px;">
-        <h4>Recommended principle</h4>
+      <div class="callout">
+        <h4>Concise recommendation</h4>
         <p>
-          Treat Card Services as a branded servicing category by default. Prompts should usually reference UOB and, where helpful, explicitly reference the card, card statement, or card bill payment context.
+          Use <strong>UOB</strong> by default, and add explicit <strong>card context</strong> where it improves clarity,
+          such as <em>UOB credit card</em>, <em>UOB card statement</em>, or <em>UOB credit card bill payment</em>.
+          If a prompt is really about transfers, account benefits, or digital banking support, it should be moved or reviewed rather than simply made more branded.
         </p>
       </div>
     </section>
@@ -525,94 +500,61 @@
         The clearest overlap appears in waiver-related intents and card-decline wording. These should be consolidated into stronger canonical prompts.
       </p>
 
-      <div class="grid grid-2" style="margin-top: 16px;">
-        <div class="card">
+      <div class="grid grid-2">
+        <div class="merge-card">
           <h3>Annual Fee Waiver</h3>
-          <div class="before-after">
-            <div class="pair">
-              <div class="side before">
-                <div class="label">Before</div>
-                <div class="prompt">How do I request an annual fee waiver for UOB?</div>
-              </div>
-              <div class="side before">
-                <div class="label">Before</div>
-                <div class="prompt">How do I waive my UOB credit card annual fee?</div>
-              </div>
-            </div>
-            <div class="pair">
-              <div class="side before">
-                <div class="label">Before</div>
-                <div class="prompt">Will UOB waive my annual fee if I ask?</div>
-              </div>
-              <div class="side after">
-                <div class="label">After</div>
-                <div class="prompt">How do I request an annual fee waiver for my UOB credit card?</div>
-                <div class="justification">These prompts all lead to the same core servicing need and should be handled under one canonical intent.</div>
-              </div>
-            </div>
+          <div class="label">Before</div>
+          <ul class="merge-list">
+            <li>How do I request an annual fee waiver for UOB?</li>
+            <li>How do I waive my UOB credit card annual fee?</li>
+            <li>Will UOB waive my annual fee if I ask?</li>
+          </ul>
+          <div class="canonical-box">
+            <div class="label">After</div>
+            <div class="prompt">How do I request an annual fee waiver for my UOB credit card?</div>
+            <div class="justification">These prompts all lead to the same servicing need and should be handled under one canonical intent.</div>
           </div>
         </div>
 
-        <div class="card">
+        <div class="merge-card">
           <h3>Interest Waiver</h3>
-          <div class="before-after">
-            <div class="pair">
-              <div class="side before">
-                <div class="label">Before</div>
-                <div class="prompt">Can UOB waive the interest on my credit card?</div>
-              </div>
-              <div class="side before">
-                <div class="label">Before</div>
-                <div class="prompt">How do I waive interest charges on my UOB credit card?</div>
-              </div>
-            </div>
-            <div class="side after">
-              <div class="label">After</div>
-              <div class="prompt">Can I request a waiver of interest charges on my UOB credit card?</div>
-              <div class="justification">Both prompts ask for the same outcome and should be consolidated.</div>
-            </div>
+          <div class="label">Before</div>
+          <ul class="merge-list">
+            <li>Can UOB waive the interest on my credit card?</li>
+            <li>How do I waive interest charges on my UOB credit card?</li>
+          </ul>
+          <div class="canonical-box">
+            <div class="label">After</div>
+            <div class="prompt">Can I request a waiver of interest charges on my UOB credit card?</div>
+            <div class="justification">Both prompts ask for the same outcome and should be consolidated.</div>
           </div>
         </div>
 
-        <div class="card">
+        <div class="merge-card">
           <h3>Late Fee Waiver</h3>
-          <div class="before-after">
-            <div class="pair">
-              <div class="side before">
-                <div class="label">Before</div>
-                <div class="prompt">How do I waive my UOB late payment fee?</div>
-              </div>
-              <div class="side before">
-                <div class="label">Before</div>
-                <div class="prompt">How do I waive UOB late charges?</div>
-              </div>
-            </div>
-            <div class="side after">
-              <div class="label">After</div>
-              <div class="prompt">Can I request a waiver of my UOB credit card late payment fee?</div>
-              <div class="justification">This is a single fee-waiver intent expressed in two ways and benefits from clearer card context.</div>
-            </div>
+          <div class="label">Before</div>
+          <ul class="merge-list">
+            <li>How do I waive my UOB late payment fee?</li>
+            <li>How do I waive UOB late charges?</li>
+          </ul>
+          <div class="canonical-box">
+            <div class="label">After</div>
+            <div class="prompt">Can I request a waiver of my UOB credit card late payment fee?</div>
+            <div class="justification">This is a single fee-waiver intent expressed in two ways and benefits from clearer card context.</div>
           </div>
         </div>
 
-        <div class="card">
+        <div class="merge-card">
           <h3>Card Decline</h3>
-          <div class="before-after">
-            <div class="pair">
-              <div class="side before">
-                <div class="label">Before</div>
-                <div class="prompt">Why was my UOB credit card declined or why did my transaction fail?</div>
-              </div>
-              <div class="side before">
-                <div class="label">Before</div>
-                <div class="prompt">My UOB card was declined — could it be due to my credit limit or daily limit?</div>
-              </div>
-            </div>
-            <div class="side after">
-              <div class="label">After</div>
-              <div class="prompt">Why was my UOB card transaction declined?</div>
-              <div class="justification">This creates one cleaner entry point for card-decline troubleshooting.</div>
-            </div>
+          <div class="label">Before</div>
+          <ul class="merge-list">
+            <li>Why was my UOB credit card declined or why did my transaction fail?</li>
+            <li>My UOB card was declined — could it be due to my credit limit or daily limit?</li>
+          </ul>
+          <div class="canonical-box">
+            <div class="label">After</div>
+            <div class="prompt">Why was my UOB card transaction declined?</div>
+            <div class="justification">This creates one cleaner entry point for card-decline troubleshooting.</div>
           </div>
         </div>
       </div>
@@ -624,71 +566,43 @@
         A small number of prompts would work better if they were simplified into a single clear customer need and kept tightly within the card-support context.
       </p>
 
-      <div class="before-after">
-        <div class="pair">
-          <div class="side before">
-            <div class="label">Before</div>
-            <div class="prompt">What are the charges on my UOB statement — annual fee, late fee, or interest?</div>
-            <div class="justification">Combines multiple charge types into one question.</div>
-          </div>
-          <div class="side after">
-            <div class="label">After</div>
-            <div class="prompt">Why are there fees or interest charges on my UOB credit card statement?</div>
-            <div class="justification">Simplifies the question while keeping the issue clearly tied to a card statement.</div>
-          </div>
-        </div>
-
-        <div class="pair">
-          <div class="side before">
-            <div class="label">Before</div>
-            <div class="prompt">How do I pay my UOB credit card bill — AXS, bank transfer, or TMRW app?</div>
-            <div class="justification">Hardcodes answer options into the prompt itself.</div>
-          </div>
-          <div class="side after">
-            <div class="label">After</div>
-            <div class="prompt">How can I pay my UOB credit card bill?</div>
-            <div class="justification">Cleaner phrasing lets the answer present the available payment methods.</div>
-          </div>
-        </div>
-
-        <div class="pair">
-          <div class="side before">
-            <div class="label">Before</div>
-            <div class="prompt">Why was my UOB bill payment or fund transfer declined?</div>
-            <div class="justification">Combines card bill payment and transfer support into one question.</div>
-          </div>
-          <div class="side after">
-            <div class="label">After</div>
-            <div class="prompt">Why was my UOB credit card bill payment declined?</div>
-            <div class="justification">Keeps the prompt aligned to Card Services and removes the transfer path.</div>
-          </div>
-        </div>
-
-        <div class="pair">
-          <div class="side before">
-            <div class="label">Before</div>
-            <div class="prompt">I set up the UOB digital token but I still cannot make transfers or payments</div>
-            <div class="justification">Statement-style prompt mixing transfers and payments.</div>
-          </div>
-          <div class="side after">
-            <div class="label">After</div>
-            <div class="prompt">I set up my UOB digital token but still cannot complete a payment</div>
-            <div class="justification">Makes the wording more focused, though this area may still need category review later.</div>
-          </div>
-        </div>
-
-        <div class="pair">
-          <div class="side before">
-            <div class="label">Before</div>
-            <div class="prompt">I transferred money using UOB but the recipient has not received it yet</div>
-            <div class="justification">This is clearer as a customer issue than as a statement.</div>
-          </div>
-          <div class="side after">
-            <div class="label">After</div>
-            <div class="prompt">Why has the recipient not received my transfer yet?</div>
-            <div class="justification">Improves wording, though the prompt still feels closer to transfer support than card servicing.</div>
-          </div>
-        </div>
+      <div class="table-wrap" style="margin-top: 12px;">
+        <table>
+          <thead>
+            <tr>
+              <th>Before</th>
+              <th>After</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>What are the charges on my UOB statement — annual fee, late fee, or interest?</td>
+              <td>Why are there fees or interest charges on my UOB credit card statement?</td>
+              <td>Simplifies the question while keeping the issue clearly tied to a card statement.</td>
+            </tr>
+            <tr>
+              <td>How do I pay my UOB credit card bill — AXS, bank transfer, or TMRW app?</td>
+              <td>How can I pay my UOB credit card bill?</td>
+              <td>Lets the answer present the payment methods instead of hardcoding them into the prompt.</td>
+            </tr>
+            <tr>
+              <td>Why was my UOB bill payment or fund transfer declined?</td>
+              <td>Why was my UOB credit card bill payment declined?</td>
+              <td>Removes the transfer path and keeps the prompt aligned to Card Services.</td>
+            </tr>
+            <tr>
+              <td>I set up the UOB digital token but I still cannot make transfers or payments</td>
+              <td>I set up my UOB digital token but still cannot complete a payment</td>
+              <td>Makes the wording more focused, though this area may still need category review later.</td>
+            </tr>
+            <tr>
+              <td>I transferred money using UOB but the recipient has not received it yet</td>
+              <td>Why has the recipient not received my transfer yet?</td>
+              <td>Improves wording, though the prompt still feels closer to transfer support than card servicing.</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </section>
 

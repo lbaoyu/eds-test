@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GWB Business Banking Prompt Review</title>
+  <style>
+    :root {
+      --adobe-red: #eb1000;
+      --adobe-red-dark: #c60c00;
+      --ink: #1f1f1f;
+      --text: #3a3a3a;
+      --muted: #6b6b6b;
+      --line: #e8e8ea;
+      --bg: #f6f6f7;
+      --surface: #ffffff;
+      --surface-soft: #fcfcfc;
+      --accent: #fff4f2;
+      --success: #0f7b5f;
+      --warning: #b25a00;
+      --info: #0b63c7;
+      --shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #f7f7f8 0%, #f3f3f4 100%);
+      color: var(--text);
+      font-family: "Adobe Clean", "Segoe UI", Roboto, Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 34px 20px 64px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 42px 40px;
+      border-radius: var(--radius-xl);
+      background:
+        radial-gradient(circle at top right, rgba(235, 16, 0, 0.12), transparent 28%),
+        linear-gradient(135deg, #ffffff 0%, #fff7f6 100%);
+      border: 1px solid rgba(235, 16, 0, 0.12);
+      box-shadow: var(--shadow);
+    }
+
+    .hero:after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      top: -70px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(235,16,0,0.10), rgba(235,16,0,0));
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(235, 16, 0, 0.08);
+      color: var(--adobe-red);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    h1, h2, h3, h4 {
+      margin: 0 0 12px;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 50px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    h2 {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+
+    h3 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h4 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 0 0 14px;
+      font-size: 16px;
+    }
+
+    .lead {
+      max-width: 920px;
+      font-size: 18px;
+      color: #444;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .section {
+      margin-top: 26px;
+      padding: 30px;
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      height: 100%;
+      padding: 22px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #fff 0%, #fcfcfc 100%);
+      border: 1px solid var(--line);
+    }
+
+    .metric {
+      padding: 22px;
+      border-radius: 18px;
+      border: 1px solid rgba(235,16,0,0.12);
+      background: linear-gradient(180deg, #fff 0%, #fff8f7 100%);
+    }
+
+    .metric .value {
+      margin-bottom: 10px;
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--adobe-red);
+    }
+
+    .metric .label {
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .metric .desc {
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .tag.red {
+      background: rgba(235,16,0,0.1);
+      color: var(--adobe-red);
+    }
+
+    .tag.green {
+      background: rgba(15,123,95,0.1);
+      color: var(--success);
+    }
+
+    .tag.gold {
+      background: rgba(178,90,0,0.1);
+      color: var(--warning);
+    }
+
+    .tag.blue {
+      background: rgba(11,99,199,0.1);
+      color: var(--info);
+    }
+
+    .callout {
+      padding: 18px 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(235,16,0,0.12);
+      background: linear-gradient(180deg, rgba(235,16,0,0.05), rgba(235,16,0,0.02));
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    table {
+      width: 100%;
+      min-width: 820px;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      padding: 15px 16px;
+      background: #fff4f2;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    tbody td {
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    tbody tr:nth-child(even) {
+      background: #fcfcfc;
+    }
+
+    ul {
+      margin: 10px 0 0;
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 8px 0;
+    }
+
+    .list-tight li {
+      margin: 6px 0;
+    }
+
+    .two-col-list {
+      columns: 2;
+      column-gap: 28px;
+      margin-top: 8px;
+    }
+
+    .two-col-list li {
+      break-inside: avoid;
+    }
+
+    .before-after {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .pair .side {
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+    }
+
+    .pair .side.before {
+      background: #fff;
+    }
+
+    .pair .side.after {
+      background: #fff8f7;
+      border-color: rgba(235,16,0,0.14);
+    }
+
+    .label {
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .prompt {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.45;
+    }
+
+    .justification {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .topic-box {
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #fff 0%, #fcfcfc 100%);
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 960px) {
+      .grid-2, .grid-3, .pair {
+        grid-template-columns: 1fr;
+      }
+
+      .two-col-list {
+        columns: 1;
+      }
+
+      .hero, .section {
+        padding: 24px;
+      }
+
+      table {
+        min-width: 680px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">GWB Business Banking</div>
+      <h1>Prompt Design Summary and Recommendations</h1>
+      <p class="lead">
+        The current prompt set has a strong foundation and already covers the key business banking needs that matter most to customers.
+        The strongest opportunities now are to improve consistency, simplify overlap, and refine a small set of prompts that rely on subjective language.
+      </p>
+      <div class="hero-meta">
+        <div class="pill">Strong overall coverage</div>
+        <div class="pill">Focused refinement opportunity</div>
+        <div class="pill">Clear next-step improvements</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Overview</h2>
+      <p>
+        The prompt set already addresses the right customer journeys across account opening, account selection, digital banking,
+        payments, cross-border needs, financing, and trade. The core opportunity is not to add more content, but to make the
+        existing content more structured and easier to guide consistently.
+      </p>
+      <p>
+        Most prompts are already fit for purpose. The main areas for improvement are concentrated in a smaller subset where
+        prompts are either too subjective, partially overlapping, or more sensitive from a policy and experience-design perspective.
+      </p>
+
+      <div class="grid grid-3" style="margin-top: 18px;">
+        <div class="metric">
+          <div class="label">Strong core</div>
+          <div class="value">26</div>
+          <div class="desc">Prompts are clear, practical, and ready to retain as they are.</div>
+        </div>
+        <div class="metric">
+          <div class="label">Refine wording</div>
+          <div class="value">12</div>
+          <div class="desc">Prompts should shift from subjective wording to clearer selection criteria.</div>
+        </div>
+        <div class="metric">
+          <div class="label">Simplify overlap</div>
+          <div class="value">2</div>
+          <div class="desc">Prompt clusters can be consolidated into stronger canonical versions.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Summary of Recommendations</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>What is working well</h3>
+          <ul>
+            <li>Operational and product-led prompts are generally strong and usable as-is.</li>
+            <li>Coverage is broad enough to support both discovery and servicing needs.</li>
+            <li>UOB-specific prompts are particularly strong where they focus on process, product capability, or fees.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Where to focus next</h3>
+          <ul>
+            <li>Rewrite prompts using <strong>best</strong>, <strong>better</strong>, or <strong>good</strong>.</li>
+            <li>Merge only the most obvious overlapping discovery prompts.</li>
+            <li>Clarify where topics are intentionally branded, unbranded, or mixed.</li>
+            <li>Review a very small number of sensitive comparison and eligibility prompts before use.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Topics, Branded and Unbranded Considerations</h2>
+      <p>
+        Some topics are naturally stronger when they stay fully branded, while others can support a broader discovery style.
+        The goal is not to force every topic into one format. The goal is to make each topic feel intentional.
+      </p>
+
+      <div class="grid grid-2" style="margin-top: 18px;">
+        <div class="topic-box">
+          <h3>Best kept mostly branded</h3>
+          <p>These topics work best when the prompts stay clearly tied to UOB products, processes, or services.</p>
+          <ul class="list-tight">
+            <li>Digital Banking and Access</li>
+            <li>Payments and Collections</li>
+            <li>Fees and Minimum Balance</li>
+            <li>Trade and Financing</li>
+          </ul>
+        </div>
+        <div class="topic-box">
+          <h3>Can support a mixed journey</h3>
+          <p>These topics can work well with a broader discovery prompt followed by a more UOB-specific next step.</p>
+          <ul class="list-tight">
+            <li>Account Opening and Eligibility</li>
+            <li>Business Account Comparison</li>
+            <li>Multi-currency and Cross-border</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 18px;">
+        <h4>Recommended topic design principle</h4>
+        <p>
+          Keep a topic <strong>mostly branded</strong> when the answer depends on a UOB product, fee, process, or policy.
+          Use a broader, more exploratory style only where it genuinely helps customers start with a need and then move naturally toward a UOB-specific solution.
+        </p>
+      </div>
+
+      <h3 style="margin-top: 24px;">Optional future topic structure</h3>
+      <div class="table-wrap" style="margin-top: 10px;">
+        <table>
+          <thead>
+            <tr>
+              <th>Current topic</th>
+              <th>Broader discovery topic</th>
+              <th>UOB-specific topic</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Account Opening and Eligibility</td>
+              <td>Business Account Opening in Singapore</td>
+              <td>UOB Business Account Opening and Eligibility</td>
+            </tr>
+            <tr>
+              <td>Business Account Comparison</td>
+              <td>Business Account Selection and Comparison</td>
+              <td>UOB Business Account Selection and Comparison</td>
+            </tr>
+            <tr>
+              <td>Multi-currency and Cross-border</td>
+              <td>Cross-border and Multi-currency Banking Needs</td>
+              <td>UOB Cross-border and Multi-currency Solutions</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Prompts to Retain</h2>
+      <p>
+        These prompts are already clear, specific, and practical. They should remain unchanged.
+      </p>
+
+      <ul class="two-col-list">
+        <li>How do I book an appointment to open a UOB business account?</li>
+        <li>How long does it take to open a UOB business account?</li>
+        <li>What documents do I need to open a UOB business account?</li>
+        <li>Who is eligible to open a UOB business account online?</li>
+        <li>Should I choose a local SGD business account or a multi-currency business account?</li>
+        <li>What is the difference between the UOB eBusiness Account and Corporate Current Account?</li>
+        <li>Can I send bulk payments through UOB Infinity?</li>
+        <li>Does UOB Infinity support maker-checker approval workflows?</li>
+        <li>How do I use UOB Infinity for business banking?</li>
+        <li>What is the difference between UOB Infinity and the UOB SME app?</li>
+        <li>Are FAST and GIRO transactions free for UOB business accounts?</li>
+        <li>What are the fall-below fees for UOB business accounts?</li>
+        <li>What is the annual fee for a UOB eBusiness Account?</li>
+        <li>What is the minimum balance for a UOB business account?</li>
+        <li>Does UOB offer a multi-currency business account?</li>
+        <li>How does the UOB BizGlobal Account work?</li>
+        <li>What are the fees for overseas transfers from a UOB business account?</li>
+        <li>Can I collect customer payments digitally with a UOB business account?</li>
+        <li>How do I make business payments from a UOB business account?</li>
+        <li>How do I manage collections and receivables with UOB business banking?</li>
+        <li>How do I register for PayNow Corporate with UOB?</li>
+        <li>How do I set up payroll payments from a UOB business account?</li>
+        <li>What cash management solutions does UOB offer businesses in Singapore?</li>
+        <li>Does UOB business financing work with the Enterprise Financing Scheme (EFS)?</li>
+        <li>Does UOB support trade finance for businesses?</li>
+        <li>How do I apply for a bank guarantee with UOB?</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Rewrite Subjective Prompts</h2>
+      <p>
+        These prompts are the clearest improvement area. The existing versions rely on subjective wording, while the recommended versions
+        guide customers more clearly by focusing on suitability, features, or decision criteria.
+      </p>
+
+      <div class="before-after">
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">What are the best digital business banking options in Singapore?</div>
+            <div class="justification">Uses a superlative and invites broad ranking.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">What digital business banking features should a business look for in Singapore?</div>
+            <div class="justification">Shifts to feature-based discovery and clearer decision support.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">What is a good business account for SMEs in Singapore?</div>
+            <div class="justification">The word "good" is vague and open-ended.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">What type of business account is suitable for SMEs in Singapore?</div>
+            <div class="justification">Makes the prompt more precise and fit-based.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">What is the best business bank account in Singapore?</div>
+            <div class="justification">Too broad and implies a universal ranking.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">What should a business consider when choosing a business bank account in Singapore?</div>
+            <div class="justification">Focuses on decision criteria instead of a one-size-fits-all answer.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">Which bank is best for small business banking in Singapore?</div>
+            <div class="justification">Frames the answer as a market-wide superiority judgment.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">What should a small business look for in a business banking provider in Singapore?</div>
+            <div class="justification">Keeps the customer need while making the answer more objective.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">Which business bank account is best for startups in Singapore?</div>
+            <div class="justification">Uses ranking language where startup fit can vary widely.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">What type of business account is suitable for startups in Singapore?</div>
+            <div class="justification">Anchors the answer around startup needs instead of a generic "best" option.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">Which UOB business account is best for companies with international payments?</div>
+            <div class="justification">The UOB context is useful, but "best" is still subjective.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">Which UOB business account is suitable for companies with international payment needs?</div>
+            <div class="justification">Preserves UOB context while removing unnecessary subjectivity.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">Which UOB business account is better for an established SME?</div>
+            <div class="justification">Uses comparative wording without clear comparison criteria.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">Which UOB business account is suitable for an established SME?</div>
+            <div class="justification">Makes the prompt neutral and easier to answer consistently.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">Which Singapore business bank account has low fees?</div>
+            <div class="justification">Still implies a broad recommendation across the market.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">What should a business consider when looking for a business account with lower fees in Singapore?</div>
+            <div class="justification">Moves the answer toward fee-related criteria and trade-offs.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">What is the best business account for USD transactions in Singapore?</div>
+            <div class="justification">Asks for a ranked answer where capability fit matters more.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">What type of business account supports USD transactions in Singapore?</div>
+            <div class="justification">Refocuses the prompt around functionality.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">Which Singapore bank is best for multi-currency or cross-border business banking?</div>
+            <div class="justification">Creates a broad market-comparison expectation.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">What should a business look for in a multi-currency or cross-border banking solution?</div>
+            <div class="justification">Keeps the use case but removes the ranking frame.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">Which UOB business account is best for cross-border payments?</div>
+            <div class="justification">The need is valid, but the superlative is unnecessary.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">Which UOB business account is suitable for cross-border payment needs?</div>
+            <div class="justification">Retains the UOB solution focus with a clearer decision frame.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">What is the best bank for trade finance for SMEs in Singapore?</div>
+            <div class="justification">Asks for an implied superiority claim rather than practical guidance.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">What trade finance features should SMEs look for in a banking provider in Singapore?</div>
+            <div class="justification">Creates a more useful and criteria-led discovery prompt.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Merge Overlapping Discovery Prompts</h2>
+      <p>
+        Only two prompt clusters show clear enough overlap to justify merging into stronger canonical prompts.
+      </p>
+
+      <div class="grid grid-2" style="margin-top: 16px;">
+        <div class="card">
+          <h3>UOB Infinity Overview</h3>
+          <div class="before-after">
+            <div class="pair">
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">What is UOB Infinity?</div>
+                <div class="justification">Basic product overview.</div>
+              </div>
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">What can I do with UOB Infinity?</div>
+                <div class="justification">Capability overview for the same product.</div>
+              </div>
+            </div>
+            <div class="side after">
+              <div class="label">After</div>
+              <div class="prompt">What is UOB Infinity and what can businesses do with it?</div>
+              <div class="justification">Combines product definition and practical capability into one clearer canonical prompt.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>SME Financing Overview</h3>
+          <div class="before-after">
+            <div class="pair">
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">Does UOB offer business financing for SMEs?</div>
+              </div>
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">What business loans does UOB offer for Singapore SMEs?</div>
+              </div>
+            </div>
+            <div class="pair">
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">What working capital financing does UOB offer SMEs in Singapore?</div>
+              </div>
+              <div class="side after">
+                <div class="label">After</div>
+                <div class="prompt">What business financing options does UOB offer for SMEs in Singapore?</div>
+                <div class="justification">Creates one stronger branded entry point that can branch into loans, working capital, and related financing options.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Prompts to Review Carefully</h2>
+      <p>
+        A small number of prompts would benefit from additional review before use. These are not the main priority, but they
+        are more sensitive than the rest of the set.
+      </p>
+
+      <div class="table-wrap" style="margin-top: 12px;">
+        <table>
+          <thead>
+            <tr>
+              <th>Prompt</th>
+              <th>Suggested handling</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>How does UOB business banking compare to OCBC for small businesses?</td>
+              <td>Review before activation</td>
+              <td>Named competitor comparison requires more careful handling.</td>
+            </tr>
+            <tr>
+              <td>Is UOB or DBS better for SME business banking in Singapore?</td>
+              <td>Review before activation</td>
+              <td>Combines named competitor comparison with subjective wording.</td>
+            </tr>
+            <tr>
+              <td>Can foreigners open a UOB business account in Singapore?</td>
+              <td>Review before activation or keep only with tightly scoped answer logic</td>
+              <td>Eligibility can depend on specific conditions and should be handled precisely.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Implementation Priorities</h2>
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>Priority 1</h3>
+          <p>Retain the strongest operational and product-specific prompts without change.</p>
+          <div class="tag-row">
+            <span class="tag green">Keep the strong core</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Priority 2</h3>
+          <p>Rewrite the smaller set of subjective prompts so they guide customers through clearer selection criteria.</p>
+          <div class="tag-row">
+            <span class="tag gold">Rewrite for clarity</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Priority 3</h3>
+          <p>Merge only the two strongest overlap clusters and then review the small number of more sensitive prompts.</p>
+          <div class="tag-row">
+            <span class="tag red">Simplify and review</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Conclusion</h2>
+      <p>
+        The prompt set is already in a strong position. The most valuable improvements are focused and manageable:
+        retain the strong branded prompts, refine the subjective selection prompts, merge only the obvious overlaps,
+        and make topic structure more intentional where broader discovery and UOB-specific guidance sit together.
+      </p>
+      <p>
+        With these changes, the set becomes clearer, easier to maintain, and more consistent as a customer-facing business banking experience.
+      </p>
+
+      <div class="footer-note">
+        This version is written as customer-facing presentation content and is structured for direct use in a webpage, summary document, or design prototype.
+      </div>
+    </section>
+  </main>
+</body>
+</html>

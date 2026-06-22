@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Card Services Prompt Review</title>
+  <style>
+    :root {
+      --adobe-red: #eb1000;
+      --adobe-red-dark: #c60c00;
+      --ink: #1f1f1f;
+      --text: #3a3a3a;
+      --muted: #6b6b6b;
+      --line: #e8e8ea;
+      --bg: #f6f6f7;
+      --surface: #ffffff;
+      --surface-soft: #fcfcfc;
+      --accent: #fff4f2;
+      --success: #0f7b5f;
+      --warning: #b25a00;
+      --info: #0b63c7;
+      --shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(180deg, #f7f7f8 0%, #f3f3f4 100%);
+      color: var(--text);
+      font-family: "Adobe Clean", "Segoe UI", Roboto, Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 34px 20px 64px;
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 42px 40px;
+      border-radius: var(--radius-xl);
+      background:
+        radial-gradient(circle at top right, rgba(235, 16, 0, 0.12), transparent 28%),
+        linear-gradient(135deg, #ffffff 0%, #fff7f6 100%);
+      border: 1px solid rgba(235, 16, 0, 0.12);
+      box-shadow: var(--shadow);
+    }
+
+    .hero:after {
+      content: "";
+      position: absolute;
+      right: -70px;
+      top: -70px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(235,16,0,0.10), rgba(235,16,0,0));
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(235, 16, 0, 0.08);
+      color: var(--adobe-red);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    h1, h2, h3, h4 {
+      margin: 0 0 12px;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 50px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    h2 {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+
+    h3 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    h4 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 0 0 14px;
+      font-size: 16px;
+    }
+
+    .lead {
+      max-width: 920px;
+      font-size: 18px;
+      color: #444;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .pill {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .section {
+      margin-top: 26px;
+      padding: 30px;
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .card {
+      height: 100%;
+      padding: 22px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #fff 0%, #fcfcfc 100%);
+      border: 1px solid var(--line);
+    }
+
+    .metric {
+      padding: 22px;
+      border-radius: 18px;
+      border: 1px solid rgba(235,16,0,0.12);
+      background: linear-gradient(180deg, #fff 0%, #fff8f7 100%);
+    }
+
+    .metric .value {
+      margin-bottom: 10px;
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1;
+      color: var(--adobe-red);
+    }
+
+    .metric .label {
+      margin-bottom: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .metric .desc {
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .tag.red {
+      background: rgba(235,16,0,0.1);
+      color: var(--adobe-red);
+    }
+
+    .tag.green {
+      background: rgba(15,123,95,0.1);
+      color: var(--success);
+    }
+
+    .tag.gold {
+      background: rgba(178,90,0,0.1);
+      color: var(--warning);
+    }
+
+    .tag.blue {
+      background: rgba(11,99,199,0.1);
+      color: var(--info);
+    }
+
+    .callout {
+      padding: 18px 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(235,16,0,0.12);
+      background: linear-gradient(180deg, rgba(235,16,0,0.05), rgba(235,16,0,0.02));
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--surface);
+    }
+
+    table {
+      width: 100%;
+      min-width: 820px;
+      border-collapse: collapse;
+    }
+
+    thead th {
+      padding: 15px 16px;
+      background: #fff4f2;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      color: var(--ink);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    tbody td {
+      padding: 15px 16px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      font-size: 15px;
+      color: var(--text);
+    }
+
+    tbody tr:nth-child(even) {
+      background: #fcfcfc;
+    }
+
+    ul {
+      margin: 10px 0 0;
+      padding-left: 20px;
+    }
+
+    li {
+      margin: 8px 0;
+    }
+
+    .list-tight li {
+      margin: 6px 0;
+    }
+
+    .two-col-list {
+      columns: 2;
+      column-gap: 28px;
+      margin-top: 8px;
+    }
+
+    .two-col-list li {
+      break-inside: avoid;
+    }
+
+    .before-after {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .pair {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items: stretch;
+    }
+
+    .pair .side {
+      padding: 16px 18px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: var(--surface-soft);
+    }
+
+    .pair .side.before {
+      background: #fff;
+    }
+
+    .pair .side.after {
+      background: #fff8f7;
+      border-color: rgba(235,16,0,0.14);
+    }
+
+    .label {
+      margin-bottom: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .prompt {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.45;
+    }
+
+    .justification {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .topic-box {
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #fff 0%, #fcfcfc 100%);
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    @media (max-width: 960px) {
+      .grid-2, .grid-3, .pair {
+        grid-template-columns: 1fr;
+      }
+
+      .two-col-list {
+        columns: 1;
+      }
+
+      .hero, .section {
+        padding: 24px;
+      }
+
+      table {
+        min-width: 680px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow">Card Services</div>
+      <h1>Prompt Design Summary and Recommendations</h1>
+      <p class="lead">
+        The current Card Services prompt set has a strong foundation and already reflects many of the most common customer support needs.
+        The clearest opportunities now are to reduce overlap, simplify a small number of broad prompts, and move a few questions that sit outside core card servicing.
+      </p>
+      <div class="hero-meta">
+        <div class="pill">Strong customer-service core</div>
+        <div class="pill">Focused cleanup opportunity</div>
+        <div class="pill">Clearer category boundaries</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Overview</h2>
+      <p>
+        The prompt set already covers many of the right card-servicing journeys, especially around fees, payment support,
+        statements, declined transactions, and basic troubleshooting.
+      </p>
+      <p>
+        The main opportunity is not to expand the category, but to make it more consistent. A smaller group of prompts either overlaps heavily,
+        combines multiple issues in one prompt, or feels more naturally aligned to account servicing, transfers, or digital banking support.
+      </p>
+
+      <div class="grid grid-3" style="margin-top: 18px;">
+        <div class="metric">
+          <div class="label">Strong core</div>
+          <div class="value">21</div>
+          <div class="desc">Prompts are already clear, practical, and fit naturally within Card Services.</div>
+        </div>
+        <div class="metric">
+          <div class="label">Overlap to simplify</div>
+          <div class="value">8</div>
+          <div class="desc">Several waiver and decline prompts can be consolidated into cleaner canonical versions.</div>
+        </div>
+        <div class="metric">
+          <div class="label">Scope cleanup</div>
+          <div class="value">5</div>
+          <div class="desc">A small number of prompts should be reviewed or moved because they sit outside core card servicing.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Summary of Recommendations</h2>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>What is working well</h3>
+          <ul>
+            <li>The set addresses practical, day-to-day card support needs.</li>
+            <li>Fee, payment, and card-usage prompts are generally strong and customer-friendly.</li>
+            <li>The category already contains a solid service-oriented backbone.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Where to focus next</h3>
+          <ul>
+            <li>Merge overlapping fee-waiver prompts.</li>
+            <li>Rewrite a few prompts that bundle multiple issues into one question.</li>
+            <li>Move the clearest non-card prompts into more suitable servicing categories.</li>
+            <li>Review a small number of transfer and authentication prompts for category fit.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Category Focus and Scope</h2>
+      <p>
+        Card Services works best when it stays centered on card-related support, such as declined transactions, statements,
+        bill payments, fee explanations, and waiver requests.
+      </p>
+
+      <div class="grid grid-2" style="margin-top: 18px;">
+        <div class="topic-box">
+          <h3>Best kept in Card Services</h3>
+          <ul class="list-tight">
+            <li>Card declines and failed card transactions</li>
+            <li>Annual fee, late fee, and interest-related questions</li>
+            <li>Card statements and card bill payments</li>
+            <li>Card-specific support and troubleshooting</li>
+          </ul>
+        </div>
+        <div class="topic-box">
+          <h3>May belong elsewhere</h3>
+          <ul class="list-tight">
+            <li>Deposit account benefits and bonus interest</li>
+            <li>Transfers and transfer delays</li>
+            <li>PayNow account-linking questions</li>
+            <li>Digital banking authentication support</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout" style="margin-top: 18px;">
+        <h4>Recommended category principle</h4>
+        <p>
+          Keep Card Services tightly focused on card-related customer support. Where a prompt is primarily about transfers,
+          account benefits, or digital banking authentication, it should either be placed elsewhere or intentionally supported as part of a broader servicing experience.
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Prompts to Retain</h2>
+      <p>
+        The category already includes a strong core of practical card-servicing prompts. These should remain unchanged.
+      </p>
+
+      <div class="callout">
+        <h4>Retain recommendation</h4>
+        <p>
+          Keep the existing core card-service prompts that are already clear, specific, and aligned to card support.
+          The main value comes from refining the smaller set of overlapping or out-of-scope prompts rather than redesigning the category.
+        </p>
+      </div>
+
+      <div class="tag-row" style="margin-top: 16px;">
+        <span class="tag green">Strong customer-service backbone</span>
+        <span class="tag blue">Low-risk prompts</span>
+        <span class="tag green">No immediate changes needed</span>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Merge Overlapping Prompts</h2>
+      <p>
+        The clearest overlap appears in waiver-related intents and card-decline wording. These should be consolidated into stronger canonical prompts.
+      </p>
+
+      <div class="grid grid-2" style="margin-top: 16px;">
+        <div class="card">
+          <h3>Annual Fee Waiver</h3>
+          <div class="before-after">
+            <div class="pair">
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">How do I request an annual fee waiver for UOB?</div>
+              </div>
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">How do I waive my UOB credit card annual fee?</div>
+              </div>
+            </div>
+            <div class="pair">
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">Will UOB waive my annual fee if I ask?</div>
+              </div>
+              <div class="side after">
+                <div class="label">After</div>
+                <div class="prompt">How do I request an annual fee waiver for my UOB credit card?</div>
+                <div class="justification">These prompts all lead to the same core servicing need and should be handled under one canonical intent.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Interest Waiver</h3>
+          <div class="before-after">
+            <div class="pair">
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">Can UOB waive the interest on my credit card?</div>
+              </div>
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">How do I waive interest charges on my UOB credit card?</div>
+              </div>
+            </div>
+            <div class="side after">
+              <div class="label">After</div>
+              <div class="prompt">Can I request a waiver of interest charges on my UOB credit card?</div>
+              <div class="justification">Both prompts ask for the same outcome and should be consolidated.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Late Fee Waiver</h3>
+          <div class="before-after">
+            <div class="pair">
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">How do I waive my UOB late payment fee?</div>
+              </div>
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">How do I waive UOB late charges?</div>
+              </div>
+            </div>
+            <div class="side after">
+              <div class="label">After</div>
+              <div class="prompt">Can I request a waiver of my UOB late payment fee?</div>
+              <div class="justification">This is a single fee-waiver intent expressed in two ways.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Card Decline</h3>
+          <div class="before-after">
+            <div class="pair">
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">Why was my UOB credit card declined or why did my transaction fail?</div>
+              </div>
+              <div class="side before">
+                <div class="label">Before</div>
+                <div class="prompt">My UOB card was declined — could it be due to my credit limit or daily limit?</div>
+              </div>
+            </div>
+            <div class="side after">
+              <div class="label">After</div>
+              <div class="prompt">Why was my UOB card transaction declined?</div>
+              <div class="justification">This creates one cleaner entry point for card-decline troubleshooting.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Rewrite Broader or Multi-Part Prompts</h2>
+      <p>
+        A small number of prompts would work better if they were simplified into a single clear customer need.
+      </p>
+
+      <div class="before-after">
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">What are the charges on my UOB statement — annual fee, late fee, or interest?</div>
+            <div class="justification">Combines multiple charge types into one question.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">Why are there fees or interest charges on my UOB card statement?</div>
+            <div class="justification">Simplifies the question while keeping the same customer need.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">How do I pay my UOB credit card bill — AXS, bank transfer, or TMRW app?</div>
+            <div class="justification">Hardcodes answer options into the prompt itself.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">How can I pay my UOB credit card bill?</div>
+            <div class="justification">Cleaner phrasing lets the answer present the available payment methods.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">Why was my UOB bill payment or fund transfer declined?</div>
+            <div class="justification">Combines card bill payment and transfer support into one question.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">Why was my UOB credit card bill payment declined?</div>
+            <div class="justification">Keeps the prompt aligned to Card Services.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">I set up the UOB digital token but I still cannot make transfers or payments</div>
+            <div class="justification">Statement-style prompt mixing transfers and payments.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">I set up my UOB digital token but still cannot complete a payment</div>
+            <div class="justification">Makes the wording more focused, though this area may still need category review later.</div>
+          </div>
+        </div>
+
+        <div class="pair">
+          <div class="side before">
+            <div class="label">Before</div>
+            <div class="prompt">I transferred money using UOB but the recipient has not received it yet</div>
+            <div class="justification">This is clearer as a customer issue than as a statement.</div>
+          </div>
+          <div class="side after">
+            <div class="label">After</div>
+            <div class="prompt">Why has the recipient not received my transfer yet?</div>
+            <div class="justification">Improves wording, though the prompt still feels closer to transfer support than card servicing.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Prompts to Move Out of Card Services</h2>
+      <p>
+        These prompts sit clearly outside the scope of card servicing and are better placed in an account or deposit-related category.
+      </p>
+
+      <div class="table-wrap" style="margin-top: 12px;">
+        <table>
+          <thead>
+            <tr>
+              <th>Prompt</th>
+              <th>Recommended destination</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Does my salary credit into UOB ONE Account qualify for bonus interest?</td>
+              <td>Account benefits / deposit account servicing</td>
+              <td>This is an account-benefit eligibility question, not a card-servicing question.</td>
+            </tr>
+            <tr>
+              <td>Why hasn't my UOB ONE Account bonus interest been credited this month?</td>
+              <td>Account benefits / deposit account servicing</td>
+              <td>This is an interest-crediting issue related to an account rather than a card.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Prompts to Review Carefully</h2>
+      <p>
+        A small number of prompts could be valid, but they feel closer to transfer support, PayNow support, or digital banking authentication than to core Card Services.
+      </p>
+
+      <div class="table-wrap" style="margin-top: 12px;">
+        <table>
+          <thead>
+            <tr>
+              <th>Prompt</th>
+              <th>Suggested handling</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Why is my UOB transfer blocked or on hold?</td>
+              <td>Review for category fit</td>
+              <td>Reads more like transfer or security support than card servicing.</td>
+            </tr>
+            <tr>
+              <td>Which UOB account is linked to my PayNow and which account receives transfers?</td>
+              <td>Review for category fit</td>
+              <td>Feels more naturally aligned to PayNow and account-routing support.</td>
+            </tr>
+            <tr>
+              <td>What is the difference between my UOB digital token PIN, SMS OTP, and card PIN?</td>
+              <td>Review for category fit</td>
+              <td>Crosses card usage with digital banking authentication support.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Implementation Priorities</h2>
+      <div class="grid grid-3">
+        <div class="card">
+          <h3>Priority 1</h3>
+          <p>Preserve the strongest card-support prompts and keep the service-oriented core intact.</p>
+          <div class="tag-row">
+            <span class="tag green">Keep the core</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Priority 2</h3>
+          <p>Consolidate overlapping waiver and card-decline prompts into cleaner canonical versions.</p>
+          <div class="tag-row">
+            <span class="tag gold">Reduce overlap</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Priority 3</h3>
+          <p>Move the clearest non-card prompts out of the category and review the few prompts that sit on the boundary.</p>
+          <div class="tag-row">
+            <span class="tag red">Clarify scope</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Conclusion</h2>
+      <p>
+        The Card Services prompt set is already in a good place. The most valuable improvements are focused and practical:
+        keep the strong service core, merge overlapping waiver intents, simplify a small number of broad prompts, and tighten category boundaries.
+      </p>
+      <p>
+        With those changes, the experience becomes clearer, easier to maintain, and more consistent as a customer-facing card-support journey.
+      </p>
+
+      <div class="footer-note">
+        This version is written as customer-facing presentation content and is structured for direct use in a webpage, summary document, or design prototype.
+      </div>
+    </section>
+  </main>
+</body>
+</html>

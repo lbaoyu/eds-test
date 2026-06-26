@@ -3,737 +3,414 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Card Services Prompt Review</title>
+  <title>UOB Card Services Prompt Quality Review</title>
   <style>
     :root {
-      --adobe-red: #eb1000;
-      --ink: #1f1f1f;
-      --text: #3a3a3a;
-      --muted: #6b6b6b;
-      --line: #e8e8ea;
+      --bg: #f5f7fb;
       --surface: #ffffff;
-      --surface-soft: #fcfcfc;
-      --success: #0f7b5f;
-      --warning: #b25a00;
-      --info: #0b63c7;
-      --shadow: 0 14px 36px rgba(0, 0, 0, 0.08);
-      --radius-xl: 28px;
-      --radius-lg: 20px;
+      --surface-soft: #f8fbff;
+      --ink: #182230;
+      --text: #425466;
+      --muted: #66758a;
+      --line: #dbe4ef;
+      --brand: #155eef;
+      --brand-soft: #eef4ff;
+      --success: #166534;
+      --success-soft: #edf8ef;
+      --warning: #9a6700;
+      --warning-soft: #fff7e8;
+      --shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
+      --radius-xl: 26px;
+      --radius-lg: 18px;
       --radius-md: 14px;
     }
 
     * { box-sizing: border-box; }
 
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      background: linear-gradient(180deg, #f7f7f8 0%, #f3f3f4 100%);
+      padding: 28px 18px 56px;
+      background: linear-gradient(180deg, #f7f9fc 0%, #f2f5f9 100%);
       color: var(--text);
-      font-family: "Adobe Clean", "Segoe UI", Roboto, Arial, sans-serif;
-      line-height: 1.6;
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 18px;
+      line-height: 1.68;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
     }
 
     .page {
-      max-width: 1200px;
+      max-width: 1120px;
       margin: 0 auto;
-      padding: 34px 20px 64px;
     }
 
     .hero {
-      position: relative;
-      overflow: hidden;
-      padding: 42px 40px;
+      padding: 34px 36px;
       border-radius: var(--radius-xl);
-      background:
-        radial-gradient(circle at top right, rgba(235, 16, 0, 0.12), transparent 28%),
-        linear-gradient(135deg, #ffffff 0%, #fff7f6 100%);
-      border: 1px solid rgba(235, 16, 0, 0.12);
+      background: linear-gradient(135deg, #155eef 0%, #3b82f6 100%);
+      color: #fff;
       box-shadow: var(--shadow);
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      right: -70px;
-      top: -70px;
-      width: 240px;
-      height: 240px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(235,16,0,0.10), rgba(235,16,0,0));
-      pointer-events: none;
     }
 
     .eyebrow {
       display: inline-block;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       padding: 7px 12px;
       border-radius: 999px;
-      background: rgba(235, 16, 0, 0.08);
-      color: var(--adobe-red);
-      font-size: 12px;
-      font-weight: 800;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.22);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-
-    h1, h2, h3, h4 {
-      margin: 0 0 12px;
-      color: var(--ink);
-      line-height: 1.2;
     }
 
     h1 {
-      font-size: clamp(34px, 5vw, 50px);
-      font-weight: 800;
+      margin: 0 0 12px;
+      font-size: 40px;
+      line-height: 1.1;
       letter-spacing: -0.03em;
     }
 
     h2 {
-      font-size: 30px;
-      font-weight: 800;
+      margin: 0 0 12px;
+      color: var(--ink);
+      font-size: 29px;
+      line-height: 1.18;
       letter-spacing: -0.02em;
-      margin-bottom: 18px;
     }
 
     h3 {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 12px;
-    }
-
-    h4 {
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 10px;
+      margin: 0 0 8px;
+      color: var(--ink);
+      font-size: 21px;
+      line-height: 1.25;
     }
 
     p {
-      margin: 0 0 14px;
-      font-size: 16px;
+      margin: 0 0 12px;
     }
 
-    .lead {
+    .hero p {
       max-width: 920px;
-      font-size: 18px;
-      color: #444;
+      font-size: 19px;
+      color: rgba(255,255,255,0.94);
     }
 
-    .hero-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    .pill {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: #fff;
-      border: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .section {
-      margin-top: 26px;
-      padding: 30px;
-      border-radius: var(--radius-lg);
-      background: var(--surface);
-      border: 1px solid var(--line);
-      box-shadow: 0 6px 18px rgba(0,0,0,0.04);
-    }
-
-    .grid {
-      display: grid;
-      gap: 18px;
-    }
-
-    .grid-2 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .grid-3 {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .card {
-      height: 100%;
-      padding: 22px;
-      border-radius: var(--radius-md);
-      background: linear-gradient(180deg, #fff 0%, #fcfcfc 100%);
-      border: 1px solid var(--line);
-    }
-
-    .metric {
-      padding: 22px;
-      border-radius: 18px;
-      border: 1px solid rgba(235,16,0,0.12);
-      background: linear-gradient(180deg, #fff 0%, #fff8f7 100%);
-    }
-
-    .metric .value {
-      margin-bottom: 10px;
-      font-size: 36px;
-      font-weight: 800;
-      line-height: 1;
-      color: var(--adobe-red);
-    }
-
-    .metric .label {
-      margin-bottom: 8px;
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-
-    .metric .desc {
-      font-size: 15px;
-      color: var(--text);
-    }
-
-    .tag-row {
+    .meta {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 14px;
+      margin-top: 16px;
     }
 
     .tag {
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .section {
+      margin-top: 22px;
+      padding: 26px 28px;
+      border-radius: var(--radius-xl);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .soft {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: var(--radius-lg);
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+    }
+
+    .stat .k {
+      display: block;
+      font-size: 34px;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .stat .v {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .pill {
       display: inline-block;
       padding: 7px 12px;
       border-radius: 999px;
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: #f2f6fb;
+      color: #445468;
     }
 
-    .tag.red {
-      background: rgba(235,16,0,0.1);
-      color: var(--adobe-red);
-    }
-
-    .tag.green {
-      background: rgba(15,123,95,0.1);
+    .keep {
       color: var(--success);
+      background: var(--success-soft);
+      border-color: #cfe8d4;
     }
 
-    .tag.gold {
-      background: rgba(178,90,0,0.1);
+    .merge {
       color: var(--warning);
-    }
-
-    .tag.blue {
-      background: rgba(11,99,199,0.1);
-      color: var(--info);
+      background: var(--warning-soft);
+      border-color: #efd9a2;
     }
 
     .callout {
-      padding: 18px 20px;
-      border-radius: 16px;
-      border: 1px solid rgba(235,16,0,0.12);
-      background: linear-gradient(180deg, rgba(235,16,0,0.05), rgba(235,16,0,0.02));
+      margin-top: 14px;
+      padding: 15px 16px;
+      border-left: 4px solid var(--brand);
+      border-radius: var(--radius-md);
+      background: var(--brand-soft);
+      color: #23406d;
     }
 
-    .table-wrap {
-      overflow-x: auto;
+    .cluster {
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: var(--radius-lg);
       border: 1px solid var(--line);
-      border-radius: 16px;
-      background: var(--surface);
+      background: var(--surface-soft);
+    }
+
+    .prompt {
+      display: block;
+      margin-top: 10px;
+      padding: 11px 13px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: #fff;
+      color: #0f172a;
+      font-size: 16px;
+      line-height: 1.5;
     }
 
     table {
       width: 100%;
-      min-width: 860px;
       border-collapse: collapse;
-    }
-
-    thead th {
-      padding: 15px 16px;
-      background: #fff4f2;
-      border-bottom: 1px solid var(--line);
-      text-align: left;
-      color: var(--ink);
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    tbody td {
-      padding: 15px 16px;
-      border-bottom: 1px solid var(--line);
-      vertical-align: top;
+      margin-top: 14px;
       font-size: 15px;
-      color: var(--text);
     }
 
-    tbody tr:nth-child(even) {
-      background: #fcfcfc;
+    th, td {
+      text-align: left;
+      vertical-align: top;
+      padding: 13px 10px;
+      border-bottom: 1px solid var(--line);
     }
 
-    ul {
-      margin: 10px 0 0;
-      padding-left: 20px;
-    }
-
-    li {
-      margin: 8px 0;
-    }
-
-    .list-tight li {
-      margin: 6px 0;
-    }
-
-    .two-col-list {
-      columns: 2;
-      column-gap: 28px;
-      margin-top: 8px;
-    }
-
-    .two-col-list li {
-      break-inside: avoid;
-    }
-
-    .topic-box {
-      padding: 20px;
-      border-radius: 16px;
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, #fff 0%, #fcfcfc 100%);
-    }
-
-    .merge-card {
-      padding: 22px;
-      border-radius: var(--radius-md);
-      background: linear-gradient(180deg, #fff 0%, #fcfcfc 100%);
-      border: 1px solid var(--line);
-    }
-
-    .merge-list {
-      margin: 10px 0 16px;
-      padding-left: 18px;
-    }
-
-    .merge-list li {
-      margin: 6px 0;
-    }
-
-    .canonical-box {
-      padding: 16px 18px;
-      border-radius: 14px;
-      border: 1px solid rgba(235,16,0,0.14);
-      background: #fff8f7;
-    }
-
-    .label {
-      margin-bottom: 8px;
+    th {
       font-size: 12px;
-      font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
-    }
-
-    .prompt {
-      font-size: 16px;
-      font-weight: 700;
+      letter-spacing: 0.06em;
       color: var(--ink);
-      line-height: 1.45;
+      background: #fafcff;
     }
 
-    .justification {
-      margin-top: 8px;
-      font-size: 14px;
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .footer {
+      margin-top: 14px;
       color: var(--muted);
+      font-size: 15px;
     }
 
-    .footer-note {
-      margin-top: 20px;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    @media (max-width: 960px) {
-      .grid-2, .grid-3 {
-        grid-template-columns: 1fr;
+    @media (max-width: 920px) {
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .two-col-list {
-        columns: 1;
+      h1 {
+        font-size: 34px;
+      }
+    }
+
+    @media (max-width: 680px) {
+      body {
+        padding: 12px 10px 28px;
+        font-size: 17px;
       }
 
       .hero, .section {
-        padding: 24px;
+        padding: 20px 18px;
       }
 
-      table {
-        min-width: 680px;
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 30px;
+      }
+
+      h2 {
+        font-size: 25px;
+      }
+
+      table, thead, tbody, tr, td, th {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      td {
+        padding: 7px 0;
+        border-bottom: none;
       }
     }
   </style>
 </head>
 <body>
-  <main class="page">
+  <div class="page">
     <section class="hero">
-      <div class="eyebrow">Card Services</div>
-      <h1>Prompt Design Summary and Recommendations</h1>
-      <p class="lead">
-        The Card Services prompt set already provides a strong UOB-specific support experience. The best next-step improvements are to reduce overlap, simplify a small number of broader prompts, and tighten category boundaries so the set feels consistently focused on card servicing.
+      <div class="eyebrow">Prompt Quality Review</div>
+      <h1>UOB Card Services Prompt Quality Review</h1>
+      <p>
+        This prompt set is already tight and practical. Most prompts are clearly scoped and map well to real customer issues. Only a small amount of cleanup is useful, concentrated in waiver-related overlap.
       </p>
-      <div class="hero-meta">
-        <div class="pill">Strong UOB card FAQ foundation</div>
-        <div class="pill">Focused cleanup opportunity</div>
-        <div class="pill">Cleaner category boundaries</div>
+      <div class="meta">
+        <span class="tag">39 prompts reviewed</span>
+        <span class="tag">24 topic groups</span>
+        <span class="tag">Selective improvements only</span>
+      </div>
+    </section>
+
+    <section class="section soft">
+      <h2>Key Takeaways</h2>
+      <div class="stats">
+        <div class="stat">
+          <span class="k">35</span>
+          <span class="v">Prompts to retain unchanged</span>
+        </div>
+        <div class="stat">
+          <span class="k">2 pairs</span>
+          <span class="v">Clear merge candidates</span>
+        </div>
+        <div class="stat">
+          <span class="k">0</span>
+          <span class="v">Broad rewrites recommended</span>
+        </div>
+        <div class="stat">
+          <span class="k">1</span>
+          <span class="v">Main overlap area: waivers</span>
+        </div>
+      </div>
+      <div class="callout">
+        The strongest pattern in this set is functional clarity. Payment timing, disputes, pending transactions, login issues, and transfer problems are already separated in useful ways and should stay that way.
       </div>
     </section>
 
     <section class="section">
-      <h2>Overview</h2>
-      <p>
-        The prompt set already covers many of the most important card-servicing journeys, especially around fees, statements,
-        payment support, declined transactions, disputes, and rewards.
-      </p>
-      <p>
-        The main opportunity is not to expand the category, but to make it more consistent. A smaller group of prompts overlaps heavily,
-        combines multiple issues into one question, or feels more naturally aligned to account servicing, transfers, or digital banking support.
-      </p>
+      <h2>What to Change</h2>
 
-      <div class="grid grid-3" style="margin-top: 18px;">
-        <div class="metric">
-          <div class="label">Strong core</div>
-          <div class="value">21</div>
-          <div class="desc">Prompts are already clear, practical, and naturally aligned to core card servicing.</div>
-        </div>
-        <div class="metric">
-          <div class="label">Overlap to simplify</div>
-          <div class="value">8</div>
-          <div class="desc">Several waiver and decline prompts can be consolidated into cleaner canonical versions.</div>
-        </div>
-        <div class="metric">
-          <div class="label">Scope cleanup</div>
-          <div class="value">5</div>
-          <div class="desc">A small number of prompts should be reviewed or moved because they sit outside core card servicing.</div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Summary of Recommendations</h2>
-      <div class="grid grid-2">
-        <div class="card">
-          <h3>What is working well</h3>
-          <ul>
-            <li>The set addresses practical, day-to-day card support needs.</li>
-            <li>The strongest prompts are already clear, service-led, and easy to route consistently.</li>
-            <li>The category works well as a UOB-specific help experience.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Where to focus next</h3>
-          <ul>
-            <li>Merge overlapping fee-waiver prompts.</li>
-            <li>Rewrite a few prompts that bundle multiple issues into one question.</li>
-            <li>Move the clearest non-card prompts into more suitable servicing categories.</li>
-            <li>Review a small number of transfer and authentication prompts for category fit.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Branded vs. Unbranded</h2>
-      <p>
-        For Card Services, the recommended approach is to keep the prompt set <strong>mostly branded</strong>.
-        This category behaves like a <strong>UOB card support experience</strong>, not a broad banking discovery journey.
-      </p>
-
-      <div class="grid grid-2" style="margin-top: 18px;">
-        <div class="topic-box">
-          <h3>Why branded works best here</h3>
-          <ul class="list-tight">
-            <li>Customers are usually asking about a specific UOB card, statement, bill payment, or fee.</li>
-            <li>Branded prompts improve clarity and reduce ambiguity.</li>
-            <li>They make routing and answer handling more consistent.</li>
-            <li>They reinforce that the experience is a UOB servicing flow, not a general banking guide.</li>
-          </ul>
-        </div>
-        <div class="topic-box">
-          <h3>What this means in practice</h3>
-          <ul class="list-tight">
-            <li>Use <strong>UOB</strong> by default in Card Services prompts.</li>
-            <li>Add clear card context where helpful, such as <em>UOB credit card</em> or <em>UOB credit card statement</em>.</li>
-            <li>Keep prompts operational and service-led.</li>
-            <li>If a prompt is really about transfers, account benefits, or digital banking support, move or review it instead of trying to brand it harder.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="callout" style="margin-top: 18px;">
-        <h4>Bottom line</h4>
+      <div class="cluster">
+        <h3><span class="pill merge">Merge</span> Annual fee waiver process pair</h3>
+        <span class="prompt">How do I request an annual fee waiver for UOB?</span>
+        <span class="prompt">How do I waive my UOB credit card annual fee?</span>
         <p>
-          For this category, <strong>branded should be the standard</strong> and <strong>unbranded should be the exception</strong>.
-          That is the cleanest fit for a UOB card FAQ.
+          These are effectively the same process question. They should be consolidated into one clearer canonical prompt.
         </p>
+        <span class="prompt">How do I request a UOB credit card annual fee waiver?</span>
       </div>
+
+      <div class="cluster">
+        <h3><span class="pill merge">Merge</span> Late fee waiver pair</h3>
+        <span class="prompt">How do I waive my UOB late payment fee?</span>
+        <span class="prompt">How do I waive UOB late charges?</span>
+        <p>
+          These are near-identical and should be reduced to one version.
+        </p>
+        <span class="prompt">How do I request a waiver for my UOB late payment fee?</span>
+      </div>
+    </section>
+
+    <section class="section soft">
+      <h2>What to Keep Separate</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Prompt Area</th>
+            <th>Why It Should Stay Separate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Balance due, minimum payment, and payment due date</td>
+            <td>These are adjacent, but each answers a different payment question.</td>
+          </tr>
+          <tr>
+            <td>Transaction declined, transfer declined, pending transaction, and blocked transfer</td>
+            <td>These cover different failure states and should not be collapsed.</td>
+          </tr>
+          <tr>
+            <td>Dispute charge, unrecognised transaction, and refund for unauthorised transaction</td>
+            <td>These represent process, symptom, and outcome questions rather than duplicates.</td>
+          </tr>
+          <tr>
+            <td>Interest waiver prompts and annual fee waiver eligibility prompt</td>
+            <td>These are related to waivers, but they ask different things: possibility, process, or case-specific options.</td>
+          </tr>
+          <tr>
+            <td>UNI$, rewards or cashback, and ONE Account bonus interest prompts</td>
+            <td>These are distinct reward mechanics and should remain separate.</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
 
     <section class="section">
-      <h2>Prompts to Retain</h2>
-      <p>
-        These prompts are already clear, specific, and naturally aligned to core card-servicing needs.
-        They should remain unchanged.
+      <h2>Final Assessment</h2>
+      <div class="pill-row">
+        <span class="pill keep">Retain most prompts unchanged</span>
+        <span class="pill merge">Merge only true duplicates</span>
+      </div>
+      <p style="margin-top:14px;">
+        This category does not need broad rewriting. The useful improvement is limited to small deduplication within waiver flows. Everything else is already well structured for customer intent coverage.
       </p>
-
-      <ul class="two-col-list">
-        <li>How do I cancel my UOB credit card?</li>
-        <li>What happens to my UOB instalment plan if I cancel my credit card?</li>
-        <li>My UOB annual fee waiver was rejected — what are my options?</li>
-        <li>How do I find out my UOB credit card balance due?</li>
-        <li>What is the minimum payment for my UOB credit card?</li>
-        <li>When is my UOB credit card payment due?</li>
-        <li>Why am I still being charged interest after my UOB late fee was waived?</li>
-        <li>I received a UOB statement after replacing my card — do I need to make a payment?</li>
-        <li>I got a replacement UOB card — do I pay to the old card number or new card number?</li>
-        <li>How long does a UOB fee waiver request take and should I pay while it is pending?</li>
-        <li>How do I set up my UOB digital token on a new phone?</li>
-        <li>I can't login to UOB TMRW — what do I do?</li>
-        <li>I got stuck on the Singpass verification screen in the UOB app — what do I do?</li>
-        <li>My UOB card was declined — could it be due to my credit limit or daily limit?</li>
-        <li>How do I dispute a UOB credit card charge?</li>
-        <li>I don't recognise a transaction on my UOB account — what should I do?</li>
-        <li>Will UOB refund an unauthorised transaction?</li>
-        <li>A merchant cancelled my UOB transaction but it is still showing — what should I do?</li>
-        <li>Why is my UOB transaction still showing as pending and when will it post?</li>
-        <li>Why didn't I earn UNI$ for my UOB purchase?</li>
-        <li>Why don't some of my UOB purchases count towards rewards or cashback?</li>
-      </ul>
-
-      <div class="tag-row" style="margin-top: 16px;">
-        <span class="tag green">Strong customer-service backbone</span>
-        <span class="tag blue">Low-risk prompts</span>
-        <span class="tag green">No immediate changes needed</span>
+      <div class="footer">
+        Review basis: uploaded Card Services prompt set, assessed for clarity, overlap, and intent preservation.
       </div>
     </section>
-
-    <section class="section">
-      <h2>Merge Overlapping Prompts</h2>
-      <p>
-        The clearest overlap appears in waiver-related intents and card-decline wording. These should be consolidated into stronger canonical prompts.
-      </p>
-
-      <div class="grid grid-2">
-        <div class="merge-card">
-          <h3>Annual Fee Waiver</h3>
-          <div class="label">Before</div>
-          <ul class="merge-list">
-            <li>How do I request an annual fee waiver for UOB?</li>
-            <li>How do I waive my UOB credit card annual fee?</li>
-            <li>Will UOB waive my annual fee if I ask?</li>
-          </ul>
-          <div class="canonical-box">
-            <div class="label">After</div>
-            <div class="prompt">How do I request an annual fee waiver for my UOB credit card?</div>
-            <div class="justification">These prompts all lead to the same servicing need and should be handled under one canonical intent.</div>
-          </div>
-        </div>
-
-        <div class="merge-card">
-          <h3>Interest Waiver</h3>
-          <div class="label">Before</div>
-          <ul class="merge-list">
-            <li>Can UOB waive the interest on my credit card?</li>
-            <li>How do I waive interest charges on my UOB credit card?</li>
-          </ul>
-          <div class="canonical-box">
-            <div class="label">After</div>
-            <div class="prompt">Can I request a waiver of interest charges on my UOB credit card?</div>
-            <div class="justification">Both prompts ask for the same outcome and should be consolidated.</div>
-          </div>
-        </div>
-
-        <div class="merge-card">
-          <h3>Late Fee Waiver</h3>
-          <div class="label">Before</div>
-          <ul class="merge-list">
-            <li>How do I waive my UOB late payment fee?</li>
-            <li>How do I waive UOB late charges?</li>
-          </ul>
-          <div class="canonical-box">
-            <div class="label">After</div>
-            <div class="prompt">Can I request a waiver of my UOB credit card late payment fee?</div>
-            <div class="justification">This is a single fee-waiver intent expressed in two ways and benefits from clearer card context.</div>
-          </div>
-        </div>
-
-        <div class="merge-card">
-          <h3>Card Decline</h3>
-          <div class="label">Before</div>
-          <ul class="merge-list">
-            <li>Why was my UOB credit card declined or why did my transaction fail?</li>
-            <li>My UOB card was declined — could it be due to my credit limit or daily limit?</li>
-          </ul>
-          <div class="canonical-box">
-            <div class="label">After</div>
-            <div class="prompt">Why was my UOB card transaction declined?</div>
-            <div class="justification">This creates one cleaner entry point for card-decline troubleshooting.</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Rewrite Broader or Multi-Part Prompts</h2>
-      <p>
-        A small number of prompts would work better if they were simplified into a single clear customer need and kept tightly within the card-support context.
-      </p>
-
-      <div class="table-wrap" style="margin-top: 12px;">
-        <table>
-          <thead>
-            <tr>
-              <th>Before</th>
-              <th>After</th>
-              <th>Reason</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>What are the charges on my UOB statement — annual fee, late fee, or interest?</td>
-              <td>Why are there fees or interest charges on my UOB credit card statement?</td>
-              <td>Simplifies the question while keeping the issue clearly tied to a card statement.</td>
-            </tr>
-            <tr>
-              <td>How do I pay my UOB credit card bill — AXS, bank transfer, or TMRW app?</td>
-              <td>How can I pay my UOB credit card bill?</td>
-              <td>Lets the answer present the payment methods instead of hardcoding them into the prompt.</td>
-            </tr>
-            <tr>
-              <td>Why was my UOB bill payment or fund transfer declined?</td>
-              <td>Why was my UOB credit card bill payment declined?</td>
-              <td>Removes the transfer path and keeps the prompt aligned to Card Services.</td>
-            </tr>
-            <tr>
-              <td>I set up the UOB digital token but I still cannot make transfers or payments</td>
-              <td>I set up my UOB digital token but still cannot complete a payment</td>
-              <td>Makes the wording more focused, though this area may still need category review later.</td>
-            </tr>
-            <tr>
-              <td>I transferred money using UOB but the recipient has not received it yet</td>
-              <td>Why has the recipient not received my transfer yet?</td>
-              <td>Improves wording, though the prompt still feels closer to transfer support than card servicing.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Prompts to Move Out of Card Services</h2>
-      <p>
-        These prompts sit clearly outside the scope of card servicing and are better placed in an account or deposit-related category.
-      </p>
-
-      <div class="table-wrap" style="margin-top: 12px;">
-        <table>
-          <thead>
-            <tr>
-              <th>Prompt</th>
-              <th>Recommended destination</th>
-              <th>Reason</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Does my salary credit into UOB ONE Account qualify for bonus interest?</td>
-              <td>Account benefits / deposit account servicing</td>
-              <td>This is an account-benefit eligibility question, not a card-servicing question.</td>
-            </tr>
-            <tr>
-              <td>Why hasn't my UOB ONE Account bonus interest been credited this month?</td>
-              <td>Account benefits / deposit account servicing</td>
-              <td>This is an interest-crediting issue related to an account rather than a card.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Prompts to Review Carefully</h2>
-      <p>
-        A small number of prompts could be valid, but they feel closer to transfer support, PayNow support, or digital banking authentication than to core Card Services.
-      </p>
-
-      <div class="table-wrap" style="margin-top: 12px;">
-        <table>
-          <thead>
-            <tr>
-              <th>Prompt</th>
-              <th>Suggested handling</th>
-              <th>Reason</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Why is my UOB transfer blocked or on hold?</td>
-              <td>Review for category fit</td>
-              <td>Reads more like transfer or security support than card servicing.</td>
-            </tr>
-            <tr>
-              <td>Which UOB account is linked to my PayNow and which account receives transfers?</td>
-              <td>Review for category fit</td>
-              <td>Feels more naturally aligned to PayNow and account-routing support.</td>
-            </tr>
-            <tr>
-              <td>What is the difference between my UOB digital token PIN, SMS OTP, and card PIN?</td>
-              <td>Review for category fit</td>
-              <td>Crosses card usage with digital banking authentication support.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Implementation Priorities</h2>
-      <div class="grid grid-3">
-        <div class="card">
-          <h3>Priority 1</h3>
-          <p>Preserve the strongest UOB card-support prompts and keep the branded service-oriented core intact.</p>
-          <div class="tag-row">
-            <span class="tag green">Keep the core</span>
-          </div>
-        </div>
-        <div class="card">
-          <h3>Priority 2</h3>
-          <p>Consolidate overlapping waiver and card-decline prompts into cleaner canonical versions with clear card context.</p>
-          <div class="tag-row">
-            <span class="tag gold">Reduce overlap</span>
-          </div>
-        </div>
-        <div class="card">
-          <h3>Priority 3</h3>
-          <p>Move the clearest non-card prompts out of the category and review the few prompts that sit on the boundary.</p>
-          <div class="tag-row">
-            <span class="tag red">Clarify scope</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Conclusion</h2>
-      <p>
-        The Card Services prompt set is already in a good place. The most valuable improvements are focused and practical:
-        keep the strong branded service core, merge overlapping waiver intents, simplify a small number of broader prompts, and tighten category boundaries.
-      </p>
-      <p>
-        With those changes, the experience becomes clearer, easier to maintain, and more consistent as a customer-facing UOB card-support journey.
-      </p>
-
-      <div class="footer-note">
-        This version is written as customer-facing presentation content and is structured for direct use in a webpage, summary document, or design prototype.
-      </div>
-    </section>
-  </main>
+  </div>
 </body>
 </html>

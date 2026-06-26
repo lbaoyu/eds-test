@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UOB Card Services Prompt Quality Review</title>
+  <title>UOB Card Services Prompt &amp; Topic LLMO Review</title>
   <style>
     :root {
       --bg: #f5f7fb;
@@ -14,13 +14,16 @@
       --muted: #66758a;
       --line: #dbe4ef;
       --brand: #155eef;
+      --brand-strong: #1144b6;
       --brand-soft: #eef4ff;
       --success: #166534;
       --success-soft: #edf8ef;
       --warning: #9a6700;
       --warning-soft: #fff7e8;
       --danger: #b42318;
-      --danger-soft: #fef3f2;
+      --danger-soft: #fff2f1;
+      --violet: #6938ef;
+      --violet-soft: #f4f3ff;
       --shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
       --radius-xl: 26px;
       --radius-lg: 18px;
@@ -94,7 +97,7 @@
     }
 
     .hero p {
-      max-width: 920px;
+      max-width: 940px;
       font-size: 19px;
       color: rgba(255,255,255,0.94);
     }
@@ -133,189 +136,294 @@
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 14px;
-      margin-top: 16px;
+      margin-top: 18px;
     }
 
     .stat {
-      padding: 16px;
+      padding: 18px 18px 16px;
       border-radius: var(--radius-lg);
-      background: var(--surface-soft);
       border: 1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
     }
 
-    .stat .k {
+    .stat .num {
       display: block;
-      font-size: 34px;
-      line-height: 1;
-      font-weight: 800;
-      letter-spacing: -0.03em;
+      margin-bottom: 6px;
       color: var(--ink);
-      margin-bottom: 8px;
+      font-size: 30px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.03em;
     }
 
-    .stat .v {
-      font-size: 15px;
+    .stat .label {
       color: var(--muted);
-      line-height: 1.45;
+      font-size: 14px;
+      font-weight: 600;
     }
 
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .pill {
+    .kicker {
       display: inline-block;
-      padding: 7px 12px;
-      border-radius: 999px;
+      margin-bottom: 8px;
+      color: var(--brand-strong);
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .card {
+      padding: 18px 18px 16px;
+      border-radius: var(--radius-lg);
       border: 1px solid var(--line);
-      background: #f2f6fb;
-      color: #445468;
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
     }
 
-    .keep {
-      color: var(--success);
-      background: var(--success-soft);
-      border-color: #cfe8d4;
+    .card strong {
+      color: var(--ink);
     }
 
-    .merge {
-      color: var(--warning);
-      background: var(--warning-soft);
-      border-color: #efd9a2;
+    .count-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .count-tile {
+      padding: 16px 18px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .count-tile .small {
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .count-tile .big {
+      color: var(--ink);
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1.05;
+    }
+
+    .count-tile .desc {
+      margin-top: 6px;
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.5;
     }
 
     .issue {
-      color: var(--danger);
-      background: var(--danger-soft);
-      border-color: #f7c7c3;
-    }
-
-    .callout {
-      margin-top: 14px;
-      padding: 15px 16px;
-      border-left: 4px solid var(--brand);
-      border-radius: var(--radius-md);
-      background: var(--brand-soft);
-      color: #23406d;
-    }
-
-    .callout.warning {
-      border-left-color: var(--warning);
-      background: var(--warning-soft);
-      color: #684d1c;
-    }
-
-    .callout.issue {
-      border-left-color: var(--danger);
-      background: var(--danger-soft);
-      color: #7a271a;
-    }
-
-    .cluster {
-      margin-top: 14px;
-      padding: 16px;
+      margin-top: 16px;
+      padding: 20px 20px 18px;
       border-radius: var(--radius-lg);
       border: 1px solid var(--line);
-      background: var(--surface-soft);
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
     }
 
-    .prompt {
-      display: block;
-      margin-top: 10px;
-      padding: 11px 13px;
+    .issue.high {
+      border-color: #f1c7c3;
+      background: linear-gradient(180deg, #fff8f7 0%, #ffffff 100%);
+    }
+
+    .issue.medium {
+      border-color: #efd9a7;
+      background: linear-gradient(180deg, #fffdf7 0%, #ffffff 100%);
+    }
+
+    .issue.low {
+      border-color: #cfe0ff;
+      background: linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .badge.high { background: var(--danger-soft); color: var(--danger); }
+    .badge.medium { background: var(--warning-soft); color: var(--warning); }
+    .badge.low { background: var(--brand-soft); color: var(--brand); }
+    .badge.focus { background: var(--violet-soft); color: var(--violet); }
+
+    .examples {
+      display: grid;
+      gap: 10px;
+      margin: 14px 0;
+    }
+
+    .example {
+      padding: 12px 14px;
+      border-radius: 12px;
       border: 1px solid var(--line);
-      border-radius: 13px;
-      background: #fff;
-      color: #0f172a;
-      font-size: 16px;
+      background: #f8fafc;
+      color: var(--ink);
+      font-size: 15px;
       line-height: 1.5;
+    }
+
+    .example.good {
+      background: #eefbf3;
+      border-color: #b7e3c2;
+    }
+
+    .cols {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .mini {
+      padding: 16px 16px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .mini h4 {
+      margin: 0 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 14px;
-      font-size: 15px;
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: #fff;
     }
 
     th, td {
+      padding: 14px 16px;
       text-align: left;
       vertical-align: top;
-      padding: 13px 10px;
       border-bottom: 1px solid var(--line);
+      font-size: 15px;
     }
 
     th {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
+      background: #f8fbff;
       color: var(--ink);
-      background: #fafcff;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
     tr:last-child td {
       border-bottom: none;
     }
 
-    .footer {
+    .callout {
+      margin-top: 16px;
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: var(--brand-soft);
+      border: 1px solid #cfe0ff;
+      color: var(--ink);
+    }
+
+    .assessment {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .assessment .tile {
+      padding: 18px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+    }
+
+    .assessment .tile strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--ink);
+    }
+
+    .footer-note {
       margin-top: 14px;
       color: var(--muted);
-      font-size: 15px;
+      font-size: 14px;
     }
 
     @media (max-width: 920px) {
-      .stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      h1 {
-        font-size: 34px;
+      .stats,
+      .cards,
+      .cols,
+      .count-grid,
+      .assessment {
+        grid-template-columns: 1fr 1fr;
       }
     }
 
-    @media (max-width: 680px) {
+    @media (max-width: 720px) {
       body {
-        padding: 12px 10px 28px;
+        padding: 18px 12px 42px;
         font-size: 17px;
       }
 
-      .hero, .section {
-        padding: 20px 18px;
+      .hero,
+      .section {
+        padding: 22px;
       }
 
-      .stats {
+      h1 { font-size: 34px; }
+      h2 { font-size: 26px; }
+      h3 { font-size: 20px; }
+
+      .stats,
+      .cards,
+      .cols,
+      .count-grid,
+      .assessment {
         grid-template-columns: 1fr;
       }
 
-      h1 {
-        font-size: 30px;
-      }
-
-      h2 {
-        font-size: 25px;
-      }
-
-      table, thead, tbody, tr, td, th {
-        display: block;
-      }
-
-      thead {
-        display: none;
-      }
-
-      tr {
-        padding: 10px 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      td {
-        padding: 7px 0;
-        border-bottom: none;
+      th, td {
+        padding: 12px;
       }
     }
   </style>
@@ -323,169 +431,343 @@
 <body>
   <div class="page">
     <section class="hero">
-      <div class="eyebrow">Prompt Quality Review</div>
-      <h1>UOB Card Services Prompt Quality Review</h1>
+      <div class="eyebrow">Prompt &amp; Topic Review</div>
+      <h1>UOB Card Services Prompt &amp; Topic LLMO Review</h1>
       <p>
-        This prompt set is strong overall. Most prompts are practical, clearly scoped, and should remain unchanged. The main improvement area is not prompt wording, but the topic structure: the taxonomy appears more fragmented than necessary for a 39-prompt library.
+        This library is grounded in real customer language, but it is <strong>less effective for LLMO than it could be</strong> because the main quality issues are structural rather than linguistic.
+        The strongest drag comes from <strong>duplicate waiver intents</strong>, <strong>topic fragmentation</strong>, <strong>scope leakage inside the Card Services category</strong>,
+        and <strong>multi-intent prompts that force one answer target to cover several different user paths</strong>.
       </p>
       <div class="meta">
         <span class="tag">39 prompts reviewed</span>
-        <span class="tag">24 topic groups</span>
-        <span class="tag">Conservative recommendation model</span>
+        <span class="tag">24 topic labels</span>
+        <span class="tag">1 top-level category</span>
+        <span class="tag">Review goal: identify issues that weaken prompt/topic effectiveness for LLMO</span>
       </div>
     </section>
 
     <section class="section soft">
+      <span class="kicker">Snapshot</span>
       <h2>Key Takeaways</h2>
+      <p>
+        The library does not need a broad rewrite. The best gains will come from <strong>consolidating true overlaps</strong>,
+        <strong>making topic boundaries cleaner</strong>, and <strong>splitting prompts that currently ask two things at once</strong>.
+      </p>
+
       <div class="stats">
         <div class="stat">
-          <span class="k">35</span>
-          <span class="v">Prompts to retain unchanged</span>
+          <span class="num">14</span>
+          <span class="label">singleton topics, which is high for a 39-prompt set</span>
         </div>
         <div class="stat">
-          <span class="k">2 pairs</span>
-          <span class="v">Clear duplicate merges</span>
+          <span class="num">3</span>
+          <span class="label">clear duplicate waiver merge groups</span>
         </div>
         <div class="stat">
-          <span class="k">24</span>
-          <span class="v">Topic groups for 39 prompts</span>
+          <span class="num">5+</span>
+          <span class="label">prompts stretching beyond a pure Card Services scope</span>
         </div>
         <div class="stat">
-          <span class="k">14</span>
-          <span class="v">Topics with only 1 prompt</span>
+          <span class="num">4</span>
+          <span class="label">multi-intent prompt patterns reducing retrieval precision</span>
         </div>
       </div>
-      <div class="callout issue">
-        <strong>Main structural concern:</strong> the taxonomy is likely too thin. The prompt set itself is solid, but the topic model is fragmented enough that many topics behave more like labels for single prompts than true intent clusters.
+
+      <div class="cards">
+        <div class="card">
+          <strong>Duplicate prompts are splitting semantic authority.</strong>
+          Annual fee, interest waiver, and late-fee waiver prompts repeat the same intent with only light wording differences. For LLMO, that creates avoidable competition instead of one strong canonical target.
+        </div>
+        <div class="card">
+          <strong>Topic density is too thin.</strong>
+          With 24 topic labels across only 39 prompts, many topics contain just one prompt. That makes it harder for the library to build strong, clearly reinforced topic clusters.
+        </div>
+        <div class="card">
+          <strong>Some prompts sit outside the category they are supposed to strengthen.</strong>
+          UOB ONE Account bonus-interest questions and PayNow / transfer-flow questions dilute the semantic center of a Card Services collection.
+        </div>
+        <div class="card">
+          <strong>Several prompts bundle multiple answer paths together.</strong>
+          Prompt formats that combine multiple channels, causes, or actions can blur routing and make the eventual answer broader than it needs to be.
+        </div>
       </div>
     </section>
 
     <section class="section">
-      <h2>Why Thin Topics Are a Problem</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Problem</th>
-            <th>Why it matters</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Weak topic-level signal</td>
-            <td>If many topics contain only 1 prompt, topic reporting becomes thin and less meaningful.</td>
-          </tr>
-          <tr>
-            <td>Harder navigation</td>
-            <td>Users must scan many narrow topic names instead of a smaller set of intuitive buckets.</td>
-          </tr>
-          <tr>
-            <td>False sense of coverage</td>
-            <td>A large topic count can look like broad coverage even when many topics are only minor variants.</td>
-          </tr>
-          <tr>
-            <td>Poor scalability</td>
-            <td>As more prompts are added, the taxonomy can become noisy and harder to maintain consistently.</td>
-          </tr>
-          <tr>
-            <td>Weaker analysis quality</td>
-            <td>Thin topics make it harder to compare performance, spot gaps, or prioritize areas for improvement.</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="callout">
-        The issue is not that the prompts are too similar. The issue is that the <strong>topic layer is too granular</strong> for the size of the library.
+      <span class="kicker">Highest-impact fixes</span>
+      <h2>What to Change</h2>
+      <p>
+        These changes are the most likely to improve prompt discoverability, topic coherence, and answer precision without changing the underlying customer needs already represented in the file.
+      </p>
+
+      <div class="issue high">
+        <div class="badges">
+          <span class="badge high">High Priority</span>
+          <span class="badge focus">Duplicate intent cannibalization</span>
+        </div>
+        <h3>Merge overlapping waiver prompts into canonical versions</h3>
+        <p>
+          The waiver section contains the clearest near-duplicates in the library. These should be treated as <strong>one canonical prompt per waiver type</strong>, not multiple prompts competing for the same answer territory.
+        </p>
+        <div class="examples">
+          <div class="example">How do I request an annual fee waiver for UOB?</div>
+          <div class="example">How do I waive my UOB credit card annual fee?</div>
+          <div class="example">Can UOB waive the interest on my credit card?</div>
+          <div class="example">How do I waive interest charges on my UOB credit card?</div>
+          <div class="example">How do I waive my UOB late payment fee?</div>
+          <div class="example">How do I waive UOB late charges?</div>
+        </div>
+        <div class="cols">
+          <div class="mini">
+            <h4>Recommended canonical prompts</h4>
+            <div class="examples" style="margin:0;">
+              <div class="example good">How do I request a waiver for my UOB credit card annual fee?</div>
+              <div class="example good">How do I request a waiver for interest charges on my UOB credit card?</div>
+              <div class="example good">How do I request a waiver for a UOB credit card late payment fee?</div>
+            </div>
+          </div>
+          <div class="mini">
+            <h4>Why this matters for LLMO</h4>
+            <ul>
+              <li>It removes multiple prompts that are chasing the same relevance signal.</li>
+              <li>It gives retrieval and ranking systems one stronger representative target per intent.</li>
+              <li>It reduces answer overlap and maintenance duplication.</li>
+              <li>It makes topic-level authority easier to build.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="issue high">
+        <div class="badges">
+          <span class="badge high">High Priority</span>
+          <span class="badge focus">Category / topic leakage</span>
+        </div>
+        <h3>Remove or relocate prompts that weaken the semantic center of Card Services</h3>
+        <p>
+          A prompt set can only build strong topical authority if the surrounding prompts reinforce roughly the same domain. This library mixes card-service intents with account, transfer, and bonus-interest intents that belong in a broader retail banking cluster or a separate transfer / account-benefits cluster.
+        </p>
+        <div class="examples">
+          <div class="example">Does my salary credit into UOB ONE Account qualify for bonus interest?</div>
+          <div class="example">Why hasn't my UOB ONE Account bonus interest been credited this month?</div>
+          <div class="example">Which UOB account is linked to my PayNow and which account receives transfers?</div>
+          <div class="example">I transferred money using UOB but the recipient has not received it yet</div>
+          <div class="example">Why is my UOB transfer blocked or on hold?</div>
+        </div>
+        <div class="callout">
+          <strong>Recommended action:</strong> keep Card Services tightly centered on card lifecycle, card payments, card charges, card waivers, card disputes, and card transaction states. Move account bonus-interest and transfer-routing prompts into their own cluster so the card library stops carrying unrelated semantic weight.
+        </div>
+      </div>
+
+      <div class="issue medium">
+        <div class="badges">
+          <span class="badge medium">Medium Priority</span>
+          <span class="badge focus">Overlapping failure taxonomy</span>
+        </div>
+        <h3>Separate "declined", "failed", "pending", and "disputed" more cleanly</h3>
+        <p>
+          The current taxonomy has overlap between transaction outcomes. In particular, <strong>Transactions — Decline</strong> and <strong>Transactions — Failed</strong> are not cleanly separated, and one prompt covers both in a single sentence. That makes topic assignment and answer routing less precise than it should be.
+        </p>
+        <div class="examples">
+          <div class="example">My UOB card was declined — could it be due to my credit limit or daily limit?</div>
+          <div class="example">Why was my UOB bill payment or fund transfer declined?</div>
+          <div class="example">Why was my UOB credit card declined or why did my transaction fail?</div>
+        </div>
+        <div class="cols">
+          <div class="mini">
+            <h4>Problem</h4>
+            <ul>
+              <li><strong>Declined</strong> usually implies a decision or limit condition.</li>
+              <li><strong>Failed</strong> can imply technical, merchant, network, or processing failure.</li>
+              <li><strong>Bill payment or fund transfer</strong> mixes two transaction types in one prompt.</li>
+            </ul>
+          </div>
+          <div class="mini">
+            <h4>Recommended fix</h4>
+            <ul>
+              <li>Create one topic for <strong>Card transaction declined</strong>.</li>
+              <li>Create one topic for <strong>Transfer / payment failed</strong> if that domain stays in scope.</li>
+              <li>Avoid prompts that mention two failure states in the same line.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="issue medium">
+        <div class="badges">
+          <span class="badge medium">Medium Priority</span>
+          <span class="badge focus">Multi-intent prompt construction</span>
+        </div>
+        <h3>Split prompts that ask multiple questions or enumerate multiple channels</h3>
+        <p>
+          Some prompts are realistic customer utterances, but they are still suboptimal as canonical prompt targets because they ask for <strong>multiple answers at once</strong>. LLMO works better when each prompt points to one primary intent and one answer path.
+        </p>
+        <div class="examples">
+          <div class="example">How do I pay my UOB credit card bill — AXS, bank transfer, or TMRW app?</div>
+          <div class="example">What are the charges on my UOB statement — annual fee, late fee, or interest?</div>
+          <div class="example">How long does a UOB fee waiver request take and should I pay while it is pending?</div>
+          <div class="example">Which UOB account is linked to my PayNow and which account receives transfers?</div>
+        </div>
+        <div class="cols">
+          <div class="mini">
+            <h4>Better structure</h4>
+            <ul>
+              <li>How can I pay my UOB credit card bill?</li>
+              <li>What does each charge on my UOB statement mean?</li>
+              <li>How long does a UOB fee waiver request take?</li>
+              <li>Should I pay my UOB card bill while a fee waiver request is pending?</li>
+            </ul>
+          </div>
+          <div class="mini">
+            <h4>Why it helps</h4>
+            <ul>
+              <li>Narrower prompts produce more consistent retrieval targets.</li>
+              <li>They reduce the chance that one answer becomes too broad or partially relevant.</li>
+              <li>They improve topic labeling because each prompt maps to one dominant need.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="issue low">
+        <div class="badges">
+          <span class="badge low">Lower Priority</span>
+          <span class="badge focus">Topic fragmentation</span>
+        </div>
+        <h3>Reduce the number of one-prompt topics</h3>
+        <p>
+          Fourteen topic labels contain only one prompt. That is a sign that the taxonomy is more granular than the prompt volume can support. In LLMO terms, the topic map is <strong>too thinly distributed</strong> to build strong reinforcement around each label.
+        </p>
+        <div class="count-grid">
+          <div class="count-tile">
+            <div class="small">Current state</div>
+            <div class="big">24 topics</div>
+            <div class="desc">Across 39 prompts, the average density is only about 1.6 prompts per topic.</div>
+          </div>
+          <div class="count-tile">
+            <div class="small">Thin clusters</div>
+            <div class="big">14 singletons</div>
+            <div class="desc">More than half of all topic labels have no supporting prompt cluster around them.</div>
+          </div>
+          <div class="count-tile">
+            <div class="small">Suggested direction</div>
+            <div class="big">Fewer, stronger clusters</div>
+            <div class="desc">Keep only distinctions that produce meaningfully different answers, policies, or workflows.</div>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="section soft">
-      <h2>Prompt Quality Assessment</h2>
+      <span class="kicker">Consolidation guidance</span>
+      <h2>Suggested Topic Structure</h2>
       <p>
-        The prompts themselves are generally well structured. Payment timing, disputes, pending transactions, blocked transfers, login issues, and rewards questions are already separated in useful ways and should mostly remain as they are.
+        The goal is not to flatten everything. It is to create a topic model where each label has enough density to matter, while still preserving separations that lead to different customer answers.
       </p>
 
-      <div class="cluster">
-        <h3><span class="pill merge">Merge</span> Annual fee waiver process pair</h3>
-        <span class="prompt">How do I request an annual fee waiver for UOB?</span>
-        <span class="prompt">How do I waive my UOB credit card annual fee?</span>
-        <p>
-          These are effectively the same process question and should be consolidated.
-        </p>
-        <span class="prompt">How do I request a UOB credit card annual fee waiver?</span>
-      </div>
-
-      <div class="cluster">
-        <h3><span class="pill merge">Merge</span> Late fee waiver pair</h3>
-        <span class="prompt">How do I waive my UOB late payment fee?</span>
-        <span class="prompt">How do I waive UOB late charges?</span>
-        <p>
-          These are near-identical and should be reduced to one version.
-        </p>
-        <span class="prompt">How do I request a waiver for my UOB late payment fee?</span>
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Where the Taxonomy Is Too Thin</h2>
       <table>
         <thead>
           <tr>
-            <th>Current pattern</th>
-            <th>Better structure</th>
+            <th>Current area</th>
+            <th>Suggested action</th>
+            <th>Reason for LLMO</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Separate topics for annual fee, interest, late fee, and waiver process</td>
-            <td>Parent topic <strong>Waivers</strong> with subtopics or tags for fee type and process type</td>
+            <td>Waivers — Annual Fee / Interest / Late Fee</td>
+            <td>Keep these as separate topics, but merge duplicate prompts within each one.</td>
+            <td>Different fee types still need different policy answers, even though wording overlap should be reduced.</td>
           </tr>
           <tr>
-            <td>Multiple narrow payment topics</td>
-            <td>Parent topic <strong>Payments</strong> with subtopics for due date, channels, charges, statement, and waiver flow</td>
+            <td>Transactions — Decline and Transactions — Failed</td>
+            <td>Redefine with cleaner boundaries or merge only if the answer truly does not differ.</td>
+            <td>Current overlap weakens routing precision and creates label ambiguity.</td>
           </tr>
           <tr>
-            <td>Multiple narrow transfer topics</td>
-            <td>Parent topic <strong>Transfers</strong> with subtopics for PayNow, pending, and security hold</td>
+            <td>Payments — Channels / Charges / Waiver Process</td>
+            <td>Retain as separate topics only if prompts are rewritten into single-intent forms.</td>
+            <td>Right now the prompts are broad enough to spill across several answer paths.</td>
           </tr>
           <tr>
-            <td>Many single-prompt topics across the library</td>
-            <td>Use broader intent buckets and preserve specificity as metadata rather than topic names</td>
+            <td>Rewards — ONE Account and transfer-related prompts</td>
+            <td>Move out of Card Services.</td>
+            <td>They dilute the semantic center of a card-focused library.</td>
+          </tr>
+          <tr>
+            <td>Cancellation and Cancellation — Instalments</td>
+            <td>Keep separate.</td>
+            <td>Cancelling a card and understanding instalment consequences are adjacent but not the same customer task.</td>
+          </tr>
+          <tr>
+            <td>Self Service — Login / Digital Token / Singpass</td>
+            <td>Keep related but separate, or nest them under a broader App Access topic.</td>
+            <td>They touch the same channel, but each maps to a distinct troubleshooting path.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <span class="kicker">Do not over-merge</span>
+      <h2>What to Keep Separate</h2>
+      <p>
+        Not every overlap is a duplication problem. Some prompts are adjacent but should remain distinct because they trigger different guidance, workflows, or troubleshooting steps.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Prompt area</th>
+            <th>Why it should stay separate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Annual fee vs interest waiver vs late-fee waiver</td>
+            <td>They are all waiver intents, but the fee types are materially different and should not collapse into one topic.</td>
+          </tr>
+          <tr>
+            <td>Pending transaction vs unauthorised transaction dispute</td>
+            <td>A pending charge normally requires status clarification, while an unauthorised charge requires dispute guidance and risk handling.</td>
+          </tr>
+          <tr>
+            <td>Card cancellation vs instalment-plan consequences</td>
+            <td>One is a card-lifecycle action; the other is about downstream billing implications after cancellation.</td>
+          </tr>
+          <tr>
+            <td>Login issues vs digital-token setup vs Singpass verification</td>
+            <td>All are app-related, but each points to a different troubleshooting flow and different source content.</td>
           </tr>
         </tbody>
       </table>
     </section>
 
     <section class="section soft">
-      <h2>Recommended Topic Model</h2>
-      <p>
-        A cleaner taxonomy would keep the prompts but reduce the number of top-level topics. A practical structure would likely be:
-      </p>
-      <div class="pill-row">
-        <span class="pill keep">Cancellation</span>
-        <span class="pill keep">Payments</span>
-        <span class="pill keep">Waivers</span>
-        <span class="pill keep">Transactions</span>
-        <span class="pill keep">Transfers</span>
-        <span class="pill keep">Self Service</span>
-        <span class="pill keep">Rewards</span>
-        <span class="pill keep">Promotion Eligibility</span>
-      </div>
-      <div class="callout warning">
-        This would preserve coverage while making the library easier to browse, analyze, and scale. The recommended change is mainly to the <strong>topic taxonomy</strong>, not to the prompts themselves.
-      </div>
-    </section>
-
-    <section class="section">
+      <span class="kicker">Overall verdict</span>
       <h2>Final Assessment</h2>
-      <div class="pill-row">
-        <span class="pill keep">Retain most prompts unchanged</span>
-        <span class="pill merge">Merge only true duplicates</span>
-        <span class="pill issue">Consolidate the topic taxonomy</span>
-      </div>
-      <p style="margin-top:14px;">
-        The prompt set is in good shape. The more important issue is structural: for a 39-prompt library, 24 topics is likely too fragmented. The best improvement is to simplify the topic model into broader intent buckets and keep the narrower distinctions as subtopics or tags.
+      <p>
+        The prompt library is <strong>directionally solid</strong>, but it is currently less efficient than it could be for LLMO because too much signal is being spent on overlap, off-cluster prompts, and thin topic labels.
+        The best outcome is <strong>selective cleanup, not wholesale rewriting</strong>.
       </p>
-      <div class="footer">
-        Review basis: uploaded Card Services prompt set, assessed for realism, overlap, topic structure, and intent preservation.
+
+      <div class="assessment">
+        <div class="tile">
+          <strong>Keep most prompt language natural</strong>
+          The library already uses realistic customer phrasing. The main issue is not tone or realism.
+        </div>
+        <div class="tile">
+          <strong>Consolidate true duplicates aggressively</strong>
+          Waiver prompts are the clearest place where canonicalization will improve performance immediately.
+        </div>
+        <div class="tile">
+          <strong>Tighten the topic map</strong>
+          Fewer, cleaner, better-supported topics will make the prompt set more coherent and easier for retrieval systems to interpret.
+        </div>
+      </div>
+
+      <div class="footer-note">
+        Review basis: uploaded CSV prompt set and uploaded sample HTML report structure, with the analysis focused specifically on issues that can make prompts and topics less effective in LLMO.
       </div>
     </section>
   </div>

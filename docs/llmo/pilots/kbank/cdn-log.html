@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adobe LLM Optimizer — Why CDN Logs, Agentic Traffic, and Referral Traffic Matter</title>
+  <style>
+    :root{
+      --adobe-red:#FA0F00;
+      --adobe-red-dark:#C80A00;
+      --ink:#1E1E1E;
+      --muted:#5C5C5C;
+      --line:#E8E8E8;
+      --bg:#F7F7F7;
+      --card:#FFFFFF;
+      --accent:#FFF1EF;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:Arial, Helvetica, sans-serif;
+      background:linear-gradient(180deg,#ffffff 0%, #f7f7f7 100%);
+      color:var(--ink);
+      line-height:1.55;
+    }
+    .wrap{
+      max-width:1100px;
+      margin:0 auto;
+      padding:32px 24px 56px;
+    }
+    .hero{
+      background:linear-gradient(135deg,var(--adobe-red) 0%, var(--adobe-red-dark) 100%);
+      color:#fff;
+      border-radius:20px;
+      padding:40px 36px;
+      box-shadow:0 20px 50px rgba(0,0,0,.12);
+    }
+    .eyebrow{
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:12px;
+      opacity:.9;
+      margin-bottom:10px;
+      font-weight:700;
+    }
+    h1{
+      margin:0 0 12px;
+      font-size:38px;
+      line-height:1.1;
+    }
+    .hero p{
+      margin:0;
+      max-width:850px;
+      font-size:18px;
+      opacity:.96;
+    }
+    .section{
+      margin-top:24px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:28px;
+      box-shadow:0 8px 24px rgba(0,0,0,.04);
+    }
+    h2{
+      margin:0 0 14px;
+      font-size:26px;
+      line-height:1.2;
+    }
+    h3{
+      margin:0 0 10px;
+      font-size:20px;
+      line-height:1.25;
+    }
+    p{margin:0 0 14px}
+    .lead{
+      font-size:18px;
+      color:var(--muted);
+    }
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:18px;
+      margin-top:18px;
+    }
+    .card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:22px;
+    }
+    .card.highlight{
+      background:var(--accent);
+      border-color:#ffd5d1;
+    }
+    ul{
+      margin:10px 0 0 20px;
+      padding:0;
+    }
+    li{margin:8px 0}
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      background:#111;
+      color:#fff;
+      font-size:12px;
+      font-weight:700;
+      margin-bottom:12px;
+    }
+    .kpi-row{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:16px;
+      margin-top:18px;
+    }
+    .kpi{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:22px;
+      text-align:center;
+    }
+    .kpi .num{
+      font-size:34px;
+      font-weight:800;
+      color:var(--adobe-red);
+      line-height:1;
+      margin-bottom:8px;
+    }
+    .note{
+      margin-top:16px;
+      padding:16px 18px;
+      background:#F4F4F4;
+      border-left:4px solid var(--adobe-red);
+      border-radius:10px;
+      color:#333;
+    }
+    .compare{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:14px;
+      overflow:hidden;
+      border-radius:12px;
+    }
+    .compare th,
+    .compare td{
+      border:1px solid var(--line);
+      padding:14px;
+      vertical-align:top;
+      text-align:left;
+    }
+    .compare th{
+      background:#111;
+      color:#fff;
+      font-size:14px;
+    }
+    .footer{
+      margin-top:24px;
+      background:#111;
+      color:#fff;
+      border-radius:18px;
+      padding:24px 28px;
+    }
+    .footer a{
+      color:#ffb4ae;
+      text-decoration:none;
+    }
+    .footer a:hover{text-decoration:underline}
+    .small{
+      font-size:13px;
+      color:#D8D8D8;
+    }
+    .source-list{
+      margin:12px 0 0 18px;
+    }
+    @media (max-width:800px){
+      h1{font-size:30px}
+      .grid,.kpi-row{grid-template-columns:1fr}
+      .hero{padding:30px 24px}
+      .section{padding:22px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="hero">
+      <div class="eyebrow">Adobe LLM Optimizer</div>
+      <h1>Why CDN Logs, Agentic Traffic, and Referral Traffic Are Essential</h1>
+      <p>
+        CDN log forwarding is not just a setup step — it is the foundation that allows Adobe LLM Optimizer to see how AI systems access your site, connect that behavior to human visits, and turn those signals into prioritized optimization opportunities and measurable business impact.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Why CDN Logs Matter</h2>
+      <p class="lead">
+        Traditional analytics tell you what <strong>people</strong> did after they arrived. CDN logs help Adobe understand what <strong>AI agents</strong> did before that click ever happened.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>What Adobe captures from CDN logs</h3>
+          <ul>
+            <li><strong>URL</strong> visited</li>
+            <li><strong>User agent</strong></li>
+            <li><strong>Status code</strong></li>
+            <li><strong>Referrer</strong></li>
+            <li><strong>Host header</strong></li>
+            <li><strong>Time to first byte (TTFB)</strong></li>
+            <li><strong>Request method</strong></li>
+            <li><strong>Timestamp</strong></li>
+            <li><strong>Content type</strong></li>
+          </ul>
+        </div>
+
+        <div class="card highlight">
+          <h3>Why this is essential</h3>
+          <ul>
+            <li>Shows whether AI crawlers can actually <strong>reach and read</strong> your content</li>
+            <li>Reveals issues hidden from standard analytics, especially when bots do not execute JavaScript like human browsers</li>
+            <li>Provides the raw signal for <strong>Agentic Traffic</strong>, <strong>Referral Traffic</strong>, and AI-readiness opportunities</li>
+            <li>Lets Adobe prioritize fixes based on <strong>real agent demand</strong>, not guesswork</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Bottom line:</strong> without CDN log forwarding, Adobe LLM Optimizer cannot populate the Agentic Traffic or Referral Traffic dashboards with the traffic insights they are designed to provide.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What Agentic Traffic Tells You</h2>
+      <p>
+        <strong>Agentic Traffic</strong> shows how AI agents, crawlers, and chatbots interact with your site. This is the visibility layer that most teams do not have today.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>What teams can see</h3>
+          <ul>
+            <li>Total AI-agent requests</li>
+            <li>Success rate of agent requests</li>
+            <li>Performance signals such as TTFB</li>
+            <li>Which pages and content types are most accessed by AI agents</li>
+            <li>Breakdowns by agent, platform, market, and page</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Why this matters</h3>
+          <ul>
+            <li>Identifies pages that AI uses to build answers about your brand</li>
+            <li>Highlights blocked, broken, or hard-to-read content</li>
+            <li>Helps prioritize technical fixes such as pre-rendering or improving accessibility for AI agents</li>
+            <li>Supports better prompt, content, and page prioritization based on real crawl behavior</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What Referral Traffic Tells You</h2>
+      <p>
+        <strong>Referral Traffic</strong> shows the human side of AI discovery: visitors who arrive after clicking through from AI-generated answers, citations, or external referral sources.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>What teams can see</h3>
+          <ul>
+            <li>Which external AI or referral sources drive visits</li>
+            <li>Which pages receive that traffic</li>
+            <li>Regional and page-level traffic patterns</li>
+            <li>With Adobe Analytics or GA4 integration: engagement, conversion, and revenue in the <strong>Business Impact</strong> view</li>
+          </ul>
+        </div>
+
+        <div class="card highlight">
+          <h3>Why this matters</h3>
+          <ul>
+            <li>Connects AI visibility to <strong>real user clicks</strong></li>
+            <li>Shows whether AI-discovered traffic is valuable, not just present</li>
+            <li>Helps teams invest in the pages and topics that drive both visibility and business outcomes</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Why Adobe vs. DIY Logs + Internal AI + GA4</h2>
+      <p class="lead">
+        A sophisticated team can recreate parts of this internally. The Adobe advantage is that it productizes the full loop from <strong>signal</strong> to <strong>insight</strong> to <strong>action</strong> to <strong>measurement</strong>.
+      </p>
+
+      <table class="compare">
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>DIY / GA4 only</th>
+            <th>Adobe LLM Optimizer</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>See AI crawler behavior before a human click</td>
+            <td>Possible, but requires custom log ingestion, classification, and maintenance</td>
+            <td>Built in through CDN log normalization and Agentic Traffic insights</td>
+          </tr>
+          <tr>
+            <td>Understand which pages AI systems access most</td>
+            <td>Requires custom parsing and reporting</td>
+            <td>Available at page and agent level in the product</td>
+          </tr>
+          <tr>
+            <td>Detect AI-specific technical issues</td>
+            <td>Manual analysis needed</td>
+            <td>Fed into opportunities such as agentic traffic errors and AI-readability fixes</td>
+          </tr>
+          <tr>
+            <td>Connect AI discovery to engagement, conversion, and revenue</td>
+            <td>GA4 can help with referral clicks, but not native pre-click agent behavior</td>
+            <td>Combines referral data with AA/GA4 Business Impact measurement</td>
+          </tr>
+          <tr>
+            <td>Act on insights quickly</td>
+            <td>Requires separate workflows and tooling</td>
+            <td>Prescriptive recommendations and optional edge-based optimization workflow</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>Key distinction:</strong> GA4 is strong for <em>human referral and conversion analysis</em>, but it does not natively tell you how AI agents crawled the site, where they failed, or which pages are shaping AI answers before a user visits.
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Business Outcomes Adobe Helps Unlock</h2>
+      <div class="kpi-row">
+        <div class="kpi">
+          <div class="num">+41%</div>
+          <div><strong>Referral traffic from LLMs</strong><br />Adobe-on-Adobe example</div>
+        </div>
+        <div class="kpi">
+          <div class="num">+22%</div>
+          <div><strong>Average growth in agentic hits</strong><br />after content rendering updates across 50+ pages</div>
+        </div>
+        <div class="kpi">
+          <div class="num">5x</div>
+          <div><strong>Increase in LLM citations</strong><br />within one week after pre-rendering for AI readability</div>
+        </div>
+      </div>
+
+      <p style="margin-top:18px;">
+        In practice, this means teams can:
+      </p>
+      <ul>
+        <li>Find the pages AI agents care about most</li>
+        <li>Fix crawlability and readability issues faster</li>
+        <li>Prioritize content changes based on real AI demand</li>
+        <li>Prove whether AI visibility is driving qualified traffic and revenue</li>
+      </ul>
+    </section>
+
+    <section class="footer">
+      <h2 style="color:#fff; margin-top:0;">Recommended Summary Statement</h2>
+      <p>
+        <strong>CDN logs are essential because they expose AI-agent behavior that traditional analytics miss.</strong>
+        Adobe LLM Optimizer turns those logs into Agentic Traffic and Referral Traffic insights, helping teams understand how AI systems access content, which pages influence AI answers, and whether that visibility translates into measurable business outcomes. The value is not just reporting — it is a faster, standardized path from AI signal to prioritized action and ROI measurement.
+      </p>
+
+      <p style="margin-top:18px;"><strong>Sources</strong></p>
+      <ul class="source-list small">
+        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/dashboards/agentic-traffic">Agentic Traffic</a></li>
+        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/dashboards/referral-traffic">Referral Traffic</a></li>
+        <li><a href="https://experienceleague.adobe.com/en/perspectives/interpreting-agentic-traffic-and-llm-visibility-in-adobe-llm-optimizer">Interpreting Agentic Traffic and LLM visibility in Adobe LLM Optimizer</a></li>
+        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/essentials/quick-start">Quick Start</a></li>
+        <li><a href="https://experienceleague.adobe.com/en/docs/llm-optimizer/using/log-forwarding/log-forwarding-overview">BYOCDN Log Forwarding Overview</a></li>
+        <li><a href="https://fieldreadiness-adobe.highspot.com/items/6a1df09fd5499c40f11f1a66">Adobe LLM Optimizer - 2026 Narrative</a></li>
+        <li><a href="https://fieldreadiness-adobe.highspot.com/items/68d38b950a6b58f8ab49e0f1">LLM Optimizer Capabilities & Benefits</a></li>
+        <li><a href="https://fieldreadiness-adobe.highspot.com/items/692e8536ff559eef67722e52">Agentic Brand Activation Customer POV Deck FY26</a></li>
+      </ul>
+    </section>
+  </div>
+</body>
+</html>

@@ -19,6 +19,8 @@
       --success-soft: #edf8ef;
       --warning: #9a6700;
       --warning-soft: #fff7e8;
+      --danger: #b42318;
+      --danger-soft: #fef3f2;
       --shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
       --radius-xl: 26px;
       --radius-lg: 18px;
@@ -187,6 +189,12 @@
       border-color: #efd9a2;
     }
 
+    .issue {
+      color: var(--danger);
+      background: var(--danger-soft);
+      border-color: #f7c7c3;
+    }
+
     .callout {
       margin-top: 14px;
       padding: 15px 16px;
@@ -194,6 +202,18 @@
       border-radius: var(--radius-md);
       background: var(--brand-soft);
       color: #23406d;
+    }
+
+    .callout.warning {
+      border-left-color: var(--warning);
+      background: var(--warning-soft);
+      color: #684d1c;
+    }
+
+    .callout.issue {
+      border-left-color: var(--danger);
+      background: var(--danger-soft);
+      color: #7a271a;
     }
 
     .cluster {
@@ -306,12 +326,12 @@
       <div class="eyebrow">Prompt Quality Review</div>
       <h1>UOB Card Services Prompt Quality Review</h1>
       <p>
-        This prompt set is already tight and practical. Most prompts are clearly scoped and map well to real customer issues. Only a small amount of cleanup is useful, concentrated in waiver-related overlap.
+        This prompt set is strong overall. Most prompts are practical, clearly scoped, and should remain unchanged. The main improvement area is not prompt wording, but the topic structure: the taxonomy appears more fragmented than necessary for a 39-prompt library.
       </p>
       <div class="meta">
         <span class="tag">39 prompts reviewed</span>
         <span class="tag">24 topic groups</span>
-        <span class="tag">Selective improvements only</span>
+        <span class="tag">Conservative recommendation model</span>
       </div>
     </section>
 
@@ -324,31 +344,71 @@
         </div>
         <div class="stat">
           <span class="k">2 pairs</span>
-          <span class="v">Clear merge candidates</span>
+          <span class="v">Clear duplicate merges</span>
         </div>
         <div class="stat">
-          <span class="k">0</span>
-          <span class="v">Broad rewrites recommended</span>
+          <span class="k">24</span>
+          <span class="v">Topic groups for 39 prompts</span>
         </div>
         <div class="stat">
-          <span class="k">1</span>
-          <span class="v">Main overlap area: waivers</span>
+          <span class="k">14</span>
+          <span class="v">Topics with only 1 prompt</span>
         </div>
       </div>
-      <div class="callout">
-        The strongest pattern in this set is functional clarity. Payment timing, disputes, pending transactions, login issues, and transfer problems are already separated in useful ways and should stay that way.
+      <div class="callout issue">
+        <strong>Main structural concern:</strong> the taxonomy is likely too thin. The prompt set itself is solid, but the topic model is fragmented enough that many topics behave more like labels for single prompts than true intent clusters.
       </div>
     </section>
 
     <section class="section">
-      <h2>What to Change</h2>
+      <h2>Why Thin Topics Are a Problem</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Problem</th>
+            <th>Why it matters</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Weak topic-level signal</td>
+            <td>If many topics contain only 1 prompt, topic reporting becomes thin and less meaningful.</td>
+          </tr>
+          <tr>
+            <td>Harder navigation</td>
+            <td>Users must scan many narrow topic names instead of a smaller set of intuitive buckets.</td>
+          </tr>
+          <tr>
+            <td>False sense of coverage</td>
+            <td>A large topic count can look like broad coverage even when many topics are only minor variants.</td>
+          </tr>
+          <tr>
+            <td>Poor scalability</td>
+            <td>As more prompts are added, the taxonomy can become noisy and harder to maintain consistently.</td>
+          </tr>
+          <tr>
+            <td>Weaker analysis quality</td>
+            <td>Thin topics make it harder to compare performance, spot gaps, or prioritize areas for improvement.</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout">
+        The issue is not that the prompts are too similar. The issue is that the <strong>topic layer is too granular</strong> for the size of the library.
+      </div>
+    </section>
+
+    <section class="section soft">
+      <h2>Prompt Quality Assessment</h2>
+      <p>
+        The prompts themselves are generally well structured. Payment timing, disputes, pending transactions, blocked transfers, login issues, and rewards questions are already separated in useful ways and should mostly remain as they are.
+      </p>
 
       <div class="cluster">
         <h3><span class="pill merge">Merge</span> Annual fee waiver process pair</h3>
         <span class="prompt">How do I request an annual fee waiver for UOB?</span>
         <span class="prompt">How do I waive my UOB credit card annual fee?</span>
         <p>
-          These are effectively the same process question. They should be consolidated into one clearer canonical prompt.
+          These are effectively the same process question and should be consolidated.
         </p>
         <span class="prompt">How do I request a UOB credit card annual fee waiver?</span>
       </div>
@@ -364,38 +424,54 @@
       </div>
     </section>
 
-    <section class="section soft">
-      <h2>What to Keep Separate</h2>
+    <section class="section">
+      <h2>Where the Taxonomy Is Too Thin</h2>
       <table>
         <thead>
           <tr>
-            <th>Prompt Area</th>
-            <th>Why It Should Stay Separate</th>
+            <th>Current pattern</th>
+            <th>Better structure</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Balance due, minimum payment, and payment due date</td>
-            <td>These are adjacent, but each answers a different payment question.</td>
+            <td>Separate topics for annual fee, interest, late fee, and waiver process</td>
+            <td>Parent topic <strong>Waivers</strong> with subtopics or tags for fee type and process type</td>
           </tr>
           <tr>
-            <td>Transaction declined, transfer declined, pending transaction, and blocked transfer</td>
-            <td>These cover different failure states and should not be collapsed.</td>
+            <td>Multiple narrow payment topics</td>
+            <td>Parent topic <strong>Payments</strong> with subtopics for due date, channels, charges, statement, and waiver flow</td>
           </tr>
           <tr>
-            <td>Dispute charge, unrecognised transaction, and refund for unauthorised transaction</td>
-            <td>These represent process, symptom, and outcome questions rather than duplicates.</td>
+            <td>Multiple narrow transfer topics</td>
+            <td>Parent topic <strong>Transfers</strong> with subtopics for PayNow, pending, and security hold</td>
           </tr>
           <tr>
-            <td>Interest waiver prompts and annual fee waiver eligibility prompt</td>
-            <td>These are related to waivers, but they ask different things: possibility, process, or case-specific options.</td>
-          </tr>
-          <tr>
-            <td>UNI$, rewards or cashback, and ONE Account bonus interest prompts</td>
-            <td>These are distinct reward mechanics and should remain separate.</td>
+            <td>Many single-prompt topics across the library</td>
+            <td>Use broader intent buckets and preserve specificity as metadata rather than topic names</td>
           </tr>
         </tbody>
       </table>
+    </section>
+
+    <section class="section soft">
+      <h2>Recommended Topic Model</h2>
+      <p>
+        A cleaner taxonomy would keep the prompts but reduce the number of top-level topics. A practical structure would likely be:
+      </p>
+      <div class="pill-row">
+        <span class="pill keep">Cancellation</span>
+        <span class="pill keep">Payments</span>
+        <span class="pill keep">Waivers</span>
+        <span class="pill keep">Transactions</span>
+        <span class="pill keep">Transfers</span>
+        <span class="pill keep">Self Service</span>
+        <span class="pill keep">Rewards</span>
+        <span class="pill keep">Promotion Eligibility</span>
+      </div>
+      <div class="callout warning">
+        This would preserve coverage while making the library easier to browse, analyze, and scale. The recommended change is mainly to the <strong>topic taxonomy</strong>, not to the prompts themselves.
+      </div>
     </section>
 
     <section class="section">
@@ -403,12 +479,13 @@
       <div class="pill-row">
         <span class="pill keep">Retain most prompts unchanged</span>
         <span class="pill merge">Merge only true duplicates</span>
+        <span class="pill issue">Consolidate the topic taxonomy</span>
       </div>
       <p style="margin-top:14px;">
-        This category does not need broad rewriting. The useful improvement is limited to small deduplication within waiver flows. Everything else is already well structured for customer intent coverage.
+        The prompt set is in good shape. The more important issue is structural: for a 39-prompt library, 24 topics is likely too fragmented. The best improvement is to simplify the topic model into broader intent buckets and keep the narrower distinctions as subtopics or tags.
       </p>
       <div class="footer">
-        Review basis: uploaded Card Services prompt set, assessed for clarity, overlap, and intent preservation.
+        Review basis: uploaded Card Services prompt set, assessed for realism, overlap, topic structure, and intent preservation.
       </div>
     </section>
   </div>

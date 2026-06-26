@@ -1,232 +1,276 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>UOB Business Banking Prompt Quality Review</title>
   <style>
     :root {
-      --bg: #f5f7fb;
-      --card: #ffffff;
-      --ink: #172033;
-      --muted: #5c667a;
-      --line: #d9e1ee;
+      --ink: #1b2430;
+      --text: #334155;
+      --muted: #64748b;
+      --line: #dde5ef;
+      --bg: #f4f7fb;
+      --surface: #ffffff;
+      --surface-soft: #f8fbff;
       --brand: #155eef;
-      --brand-soft: #eef4ff;
-      --ok: #166534;
-      --ok-bg: #edf8ef;
-      --ok-line: #cfe9d4;
-      --warn: #9a6700;
-      --warn-bg: #fff7e8;
-      --warn-line: #f0ddb1;
+      --brand-soft: #edf4ff;
+      --success: #166534;
+      --success-soft: #edf8ef;
+      --warning: #9a6700;
+      --warning-soft: #fff7e8;
       --info: #3559a8;
-      --info-bg: #eef3ff;
-      --info-line: #d2ddff;
-      --shadow: 0 14px 36px rgba(16, 24, 40, 0.08);
-      --radius: 20px;
+      --info-soft: #eef3ff;
+      --shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
     }
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
-    body {
+    html, body {
       margin: 0;
-      background: var(--bg);
-      color: var(--ink);
-      font: 17px/1.68 Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      padding: 0;
+      background: linear-gradient(180deg, #f7f9fc 0%, #f2f5f9 100%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 18px;
+      line-height: 1.7;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
 
-    .wrap {
-      max-width: 1200px;
-      margin: 32px auto 64px;
-      padding: 0 22px;
+    body {
+      padding: 30px 20px 60px;
+    }
+
+    .page {
+      max-width: 1220px;
+      margin: 0 auto;
     }
 
     .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 38px 40px;
+      border-radius: var(--radius-xl);
       background: linear-gradient(135deg, #155eef 0%, #3b82f6 100%);
-      color: #fff;
-      border-radius: 24px;
-      padding: 34px 36px;
+      color: #ffffff;
       box-shadow: var(--shadow);
     }
 
-    .hero h1 {
-      margin: 0 0 10px;
-      font-size: 38px;
-      line-height: 1.12;
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      top: -80px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.18), rgba(255,255,255,0));
+      pointer-events: none;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      border: 1px solid rgba(255,255,255,0.22);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: 42px;
+      line-height: 1.1;
       letter-spacing: -0.03em;
     }
 
-    .hero p {
-      margin: 0;
-      max-width: 980px;
-      font-size: 18px;
-      color: rgba(255, 255, 255, 0.94);
-    }
-
-    .meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 18px;
-    }
-
-    .meta .tag {
-      display: inline-block;
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.22);
-      background: rgba(255,255,255,.14);
-      color: #fff;
-      font-size: 13px;
-      letter-spacing: .01em;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 20px;
-      margin-top: 24px;
-    }
-
-    .card {
-      grid-column: span 12;
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 24px 24px 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .span-8 { grid-column: span 8; }
-    .span-6 { grid-column: span 6; }
-    .span-4 { grid-column: span 4; }
-
     h2 {
-      margin: 0 0 10px;
-      font-size: 28px;
+      margin: 0 0 14px;
+      color: var(--ink);
+      font-size: 31px;
       line-height: 1.18;
       letter-spacing: -0.02em;
     }
 
     h3 {
-      margin: 20px 0 10px;
-      font-size: 21px;
-      line-height: 1.24;
+      margin: 0 0 10px;
+      color: var(--ink);
+      font-size: 22px;
+      line-height: 1.25;
       letter-spacing: -0.01em;
     }
 
-    h4 {
-      margin: 0 0 10px;
-      font-size: 18px;
-      line-height: 1.3;
-    }
-
     p {
-      margin: 10px 0 0;
+      margin: 0 0 14px;
     }
 
-    .lede {
-      color: var(--muted);
-      margin: 0;
+    .hero p {
+      max-width: 980px;
+      color: rgba(255,255,255,0.94);
+      font-size: 19px;
     }
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
+    .meta {
       margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
     }
 
-    .stat {
-      background: #fbfcff;
+    .tag {
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+      margin-top: 24px;
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card {
+      background: var(--surface);
       border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 16px 16px 14px;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 24px 24px 22px;
     }
 
-    .stat .k {
-      display: block;
-      font-size: 30px;
+    .section {
+      margin-top: 24px;
+      padding: 30px 30px 28px;
+      border-radius: var(--radius-xl);
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+    }
+
+    .section.soft {
+      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    }
+
+    .metric {
+      font-size: 38px;
+      font-weight: 800;
+      color: var(--ink);
       line-height: 1;
-      font-weight: 750;
-      letter-spacing: -0.04em;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      letter-spacing: -0.03em;
     }
 
-    .stat .v {
-      display: block;
+    .metric-label {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .metric-note {
       color: var(--muted);
-      font-size: 14px;
-      line-height: 1.45;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
     }
 
     .pill {
       display: inline-block;
-      margin: 0 8px 8px 0;
-      padding: 5px 11px;
+      padding: 7px 12px;
       border-radius: 999px;
-      border: 1px solid var(--line);
-      background: #f3f6fb;
-      color: #334155;
       font-size: 13px;
-      font-weight: 600;
-      letter-spacing: .01em;
+      font-weight: 700;
+      border: 1px solid var(--line);
+      background: #f2f6fb;
+      color: #425466;
     }
 
-    .pill.ok {
-      color: var(--ok);
-      background: var(--ok-bg);
-      border-color: var(--ok-line);
+    .pill.keep {
+      color: var(--success);
+      background: var(--success-soft);
+      border-color: #cfe8d4;
     }
 
-    .pill.warn {
-      color: var(--warn);
-      background: var(--warn-bg);
-      border-color: var(--warn-line);
-    }
-
-    .pill.info {
+    .pill.edit {
       color: var(--info);
-      background: var(--info-bg);
-      border-color: var(--info-line);
+      background: var(--info-soft);
+      border-color: #d0ddff;
+    }
+
+    .pill.merge {
+      color: var(--warning);
+      background: var(--warning-soft);
+      border-color: #efd9a2;
     }
 
     .callout {
       margin-top: 16px;
       padding: 16px 18px;
+      border-radius: var(--radius-md);
       border-left: 4px solid var(--brand);
       background: var(--brand-soft);
-      border-radius: 12px;
+      color: #23406d;
     }
 
-    .callout.ok {
-      border-left-color: var(--ok);
-      background: var(--ok-bg);
+    .callout.success {
+      border-left-color: var(--success);
+      background: var(--success-soft);
+      color: #214c2d;
     }
 
-    .callout.warn {
-      border-left-color: var(--warn);
-      background: var(--warn-bg);
+    .callout.warning {
+      border-left-color: var(--warning);
+      background: var(--warning-soft);
+      color: #684d1c;
     }
 
     .cluster {
-      margin-top: 14px;
+      margin-top: 16px;
       padding: 18px;
-      border-radius: 16px;
+      border-radius: var(--radius-lg);
       border: 1px solid var(--line);
-      background: #fff;
+      background: var(--surface-soft);
+    }
+
+    .cluster p:last-child {
+      margin-bottom: 0;
     }
 
     .prompt {
       display: block;
-      margin: 10px 0 0;
+      margin-top: 10px;
       padding: 12px 14px;
       border: 1px solid var(--line);
       border-radius: 14px;
-      background: #fbfcff;
-      color: #111827;
+      background: #ffffff;
+      color: #0f172a;
       font-size: 16px;
       line-height: 1.55;
     }
@@ -239,347 +283,480 @@
     }
 
     th, td {
-      border-top: 1px solid var(--line);
-      vertical-align: top;
       text-align: left;
-      padding: 14px 10px;
+      vertical-align: top;
+      padding: 14px 12px;
+      border-bottom: 1px solid var(--line);
     }
 
     th {
-      background: #fafcff;
-      color: #344054;
+      color: var(--ink);
       font-size: 12px;
       text-transform: uppercase;
-      letter-spacing: .05em;
-      font-weight: 700;
+      letter-spacing: 0.06em;
+      background: #fafcff;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
     }
 
     ul {
-      margin: 10px 0 0 22px;
+      margin: 12px 0 0 22px;
       padding: 0;
     }
 
     li {
-      margin: 7px 0;
+      margin: 8px 0;
     }
 
-    .sources {
-      margin-top: 12px;
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 16px;
+    }
+
+    .footnote {
+      margin-top: 14px;
       color: var(--muted);
-      font-size: 14px;
-    }
-
-    .sources ul {
-      margin-top: 8px;
-    }
-
-    a {
-      color: var(--brand);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
+      font-size: 15px;
     }
 
     .footer {
       margin-top: 18px;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 15px;
     }
 
     @media (max-width: 980px) {
-      .span-8, .span-6, .span-4 { grid-column: span 12; }
-      .stats { grid-template-columns: repeat(2, 1fr); }
+      .grid-4,
+      .grid-2,
+      .two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      h1 {
+        font-size: 36px;
+      }
     }
 
-    @media (max-width: 640px) {
-      body { font-size: 16px; }
-      .hero h1 { font-size: 31px; }
-      .hero p { font-size: 17px; }
-      .stats { grid-template-columns: 1fr; }
+    @media (max-width: 720px) {
+      body {
+        padding: 14px 10px 34px;
+      }
+
+      .hero,
+      .section,
+      .card {
+        padding: 22px 18px;
+      }
+
+      .grid-4,
+      .grid-2,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 31px;
+      }
+
+      h2 {
+        font-size: 26px;
+      }
+
+      table, thead, tbody, tr, td, th {
+        display: block;
+      }
+
+      thead {
+        display: none;
+      }
+
+      tr {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      td {
+        padding: 8px 0;
+        border-bottom: none;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="hero">
+  <div class="page">
+    <header class="hero">
+      <div class="eyebrow">Prompt Quality Review</div>
       <h1>UOB Business Banking Prompt Quality Review</h1>
       <p>
-        This review evaluates prompt quality across the business banking set using a conservative standard:
-        retain strong prompts unchanged, recommend light edits only where they clearly improve precision,
-        and merge only true duplicates. Suggestions are included only where they represent a real, defensible quality gain.
+        This review covers the full uploaded prompt set for Singapore business banking. The evaluation standard is deliberately conservative: retain strong prompts unchanged, recommend light edits only where they create a clear quality improvement, and merge only where two prompts are effectively duplicates.
       </p>
       <div class="meta">
-        <span class="tag">Scope: quality, clarity, overlap, and coverage</span>
-        <span class="tag">Market: Singapore</span>
-        <span class="tag">Approach: selective improvements only</span>
-        <span class="tag">Review posture: conservative</span>
+        <span class="tag">50 prompts reviewed</span>
+        <span class="tag">8 topic groups</span>
+        <span class="tag">Singapore market</span>
+        <span class="tag">Selective improvements only</span>
+      </div>
+    </header>
+
+    <section class="section soft">
+      <h2>Executive Summary</h2>
+      <p>
+        The prompt set is already strong overall. It covers the major business banking journeys that matter: account opening, account selection, digital banking, payments, cross-border needs, pricing, and financing. Most prompts read like natural customer questions and should remain unchanged.
+      </p>
+      <p>
+        Only two types of action are justified at this stage:
+      </p>
+      <ul>
+        <li><strong>One clear merge</strong> where two UOB cross-border payment prompts are effectively asking the same question.</li>
+        <li><strong>One optional light refinement</strong> for a broad generic market prompt, if a tighter decision frame is preferred.</li>
+      </ul>
+      <div class="callout success">
+        <strong>Overall conclusion:</strong> this library benefits more from careful retention than from aggressive rewriting. Most prompts should stay as they are.
+      </div>
+
+      <div class="grid grid-4">
+        <div class="card">
+          <div class="metric">47</div>
+          <div class="metric-label">Retain unchanged</div>
+          <div class="metric-note">Prompts that are already realistic, useful, and clearly scoped.</div>
+        </div>
+        <div class="card">
+          <div class="metric">1</div>
+          <div class="metric-label">Optional light edit</div>
+          <div class="metric-note">A broad prompt that could be tightened, but remains valid as written.</div>
+        </div>
+        <div class="card">
+          <div class="metric">1 pair</div>
+          <div class="metric-label">Merge candidate</div>
+          <div class="metric-note">Two prompts with near-identical branded cross-border payment intent.</div>
+        </div>
+        <div class="card">
+          <div class="metric">0</div>
+          <div class="metric-label">Forced rewrites</div>
+          <div class="metric-note">No broad rewrite program is warranted for this set.</div>
+        </div>
       </div>
     </section>
 
-    <div class="grid">
-      <section class="card">
-        <h2>Executive Summary</h2>
-        <p class="lede">
-          The reviewed prompts are generally strong. Most should remain unchanged. Only a small number justify action.
-        </p>
+    <section class="section">
+      <h2>Review Standard</h2>
+      <div class="pill-row">
+        <span class="pill keep">Keep as-is</span>
+        <span class="pill edit">Light edit only when clearly helpful</span>
+        <span class="pill merge">Merge only true duplicates</span>
+      </div>
 
-        <div class="stats">
-          <div class="stat">
-            <span class="k">Keep</span>
-            <span class="v">Most prompts already express realistic customer intent and do not require rewriting.</span>
-          </div>
-          <div class="stat">
-            <span class="k">Light edit</span>
-            <span class="v">Only a limited number benefit from a small precision improvement.</span>
-          </div>
-          <div class="stat">
-            <span class="k">Merge</span>
-            <span class="v">One clear duplicate pair was identified in the reviewed overlap area.</span>
-          </div>
-          <div class="stat">
-            <span class="k">Preserve intent</span>
-            <span class="v">No recommendation should change the original customer job-to-be-done.</span>
-          </div>
-        </div>
-
-        <div class="callout ok">
-          <strong>Recommendation principle:</strong> if a prompt is already valid, realistic, and useful, it should remain unchanged.
-          A change is appropriate only when it improves prompt quality in a clear and material way.
-        </div>
-
-        <div class="sources">
-          <strong>Sources:</strong>
+      <div class="two-col">
+        <div class="cluster">
+          <h3>Retain unchanged when</h3>
           <ul>
-            <li><a href="https://fieldreadiness-adobe.highspot.com/items/69cbfc669e126aa1676500b6">Prompt_Generation_Playbook_Customer_2026-March</a></li>
-            <li><a href="https://wiki.corp.adobe.com/spaces/PCA/pages/3890349980/Prompts+Analytics+Panel+Embedding-based+similarity+and+duplicate+grouping+POC">Prompts Analytics Panel: Embedding-based similarity and duplicate grouping [POC]</a></li>
-            <li><a href="https://adobe.sharepoint.com/sites/ContentSupplyChainSpecialists/Shared%20Documents/LLM%20Optimizer/Customer%20Recordings/AMAG/AMAG%20x%20Adobe%20_%20LLM%20Optimizer.docx">AMAG x Adobe _ LLM Optimizer</a></li>
+            <li>The prompt reflects a plausible customer question.</li>
+            <li>The selection or comparison intent is already clear.</li>
+            <li>No wording change would materially improve answer quality.</li>
           </ul>
         </div>
-      </section>
 
-      <section class="card span-8">
-        <h2>Review Standard</h2>
+        <div class="cluster">
+          <h3>Recommend change only when</h3>
+          <ul>
+            <li>A small edit improves precision without changing intent.</li>
+            <li>Two prompts are functionally duplicates.</li>
+            <li>The adjustment improves the library in a meaningful way, not just stylistically.</li>
+          </ul>
+        </div>
+      </div>
 
-        <h3>Retain a prompt unchanged when</h3>
-        <ul>
-          <li>It reflects a plausible customer question.</li>
-          <li>It already expresses a clear comparison, selection, or discovery intent.</li>
-          <li>No proposed wording change materially improves clarity or usefulness.</li>
-        </ul>
+      <div class="callout">
+        <strong>Important:</strong> words such as <em>best</em>, <em>good</em>, or <em>better</em> are not treated as automatic defects. Prompts are judged on realism, clarity, and distinct coverage.
+      </div>
+    </section>
 
-        <h3>Recommend a light edit when</h3>
-        <ul>
-          <li>The prompt is valid, but a small wording adjustment improves precision.</li>
-          <li>The original intent can be preserved fully.</li>
-          <li>The revised wording is clearly better, not just different.</li>
-        </ul>
+    <section class="section soft">
+      <h2>What Is Working Well</h2>
+      <p>
+        The current set has good coverage and a healthy mix of branded and unbranded discovery prompts. It spans both informational and decision-oriented needs without becoming overly repetitive.
+      </p>
 
-        <h3>Recommend a merge when</h3>
-        <ul>
-          <li>Two prompts are effectively the same question.</li>
-          <li>Keeping both adds no meaningful segment, product, or use-case coverage.</li>
-        </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Topic</th>
+            <th>Prompt Count</th>
+            <th>Assessment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Account Opening and Eligibility</td>
+            <td>7</td>
+            <td>Strong practical coverage with clear operational intent.</td>
+          </tr>
+          <tr>
+            <td>Business Account Basics</td>
+            <td>6</td>
+            <td>Good market-discovery and selection coverage; mostly should remain unchanged.</td>
+          </tr>
+          <tr>
+            <td>Business Account Comparison</td>
+            <td>7</td>
+            <td>Useful comparison depth; one duplicate pair should be consolidated.</td>
+          </tr>
+          <tr>
+            <td>Digital Banking and Access</td>
+            <td>6</td>
+            <td>Strong feature and usage coverage for digital servicing.</td>
+          </tr>
+          <tr>
+            <td>Fees and Minimum Balance</td>
+            <td>5</td>
+            <td>Well scoped and clearly tied to common customer decisions.</td>
+          </tr>
+          <tr>
+            <td>Multi-currency and Cross-border</td>
+            <td>6</td>
+            <td>Good cross-border coverage without major redundancy.</td>
+          </tr>
+          <tr>
+            <td>Payments and Collections</td>
+            <td>6</td>
+            <td>Operationally useful and distinct.</td>
+          </tr>
+          <tr>
+            <td>Trade and Financing</td>
+            <td>7</td>
+            <td>Strong breadth across funding, guarantees, and trade-finance needs.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
+    <section class="section">
+      <h2>Recommended Improvements</h2>
+
+      <div class="cluster">
+        <h3><span class="pill merge">Merge</span> Cross-border payment duplicate pair</h3>
+        <span class="prompt">Which UOB business account is best for companies with international payments?</span>
+        <span class="prompt">Which UOB business account is best for cross-border payments?</span>
+        <p>
+          These two prompts are the clearest true duplicates in the set. Both are UOB-specific account-selection prompts focused on the same international payment need.
+        </p>
+        <div class="callout warning">
+          <strong>Recommended consolidated version:</strong>
+          <span class="prompt">Which UOB business account is best for cross-border or international payments?</span>
+        </div>
+      </div>
+
+      <div class="cluster">
+        <h3><span class="pill edit">Optional light edit</span> Broad generic account-selection prompt</h3>
+        <span class="prompt">What is the best business bank account in Singapore?</span>
+        <p>
+          This prompt is valid and can remain as written. A light refinement is optional if a clearer decision frame is preferred for measurement or answer consistency.
+        </p>
         <div class="callout">
-          <strong>Important:</strong> words such as <em>best</em> or <em>good</em> are not treated as automatic defects.
-          Prompts are assessed on realism, specificity, intent clarity, and distinct coverage.
+          <strong>Optional refined version:</strong>
+          <span class="prompt">Which business bank accounts in Singapore are best suited to different business needs?</span>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="card span-4">
-        <h2>Decision Labels</h2>
-        <p><span class="pill ok">Keep as-is</span> No material improvement needed</p>
-        <p><span class="pill info">Light edit</span> Small precision gain only</p>
-        <p><span class="pill warn">Merge</span> True duplicate</p>
-        <p><span class="pill">Keep separate</span> Distinct coverage or decision angle</p>
-      </section>
+    <section class="section soft">
+      <h2>Prompts That Should Stay Separate</h2>
+      <p>
+        Several prompts are related by topic, but they still represent different customer needs and should not be merged.
+      </p>
 
-      <section class="card">
-        <h2>Reviewed Findings</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Prompt Group</th>
+            <th>Reason to Keep Separate</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              What is a good business account for SMEs in Singapore?<br />
+              Which business bank account is best for startups in Singapore?<br />
+              Which UOB business account is better for an established SME?
+            </td>
+            <td>These cover distinct segments: SMEs, startups, and established SMEs.</td>
+          </tr>
+          <tr>
+            <td>
+              Which Singapore business bank account has low fees?<br />
+              What is the best business account for USD transactions in Singapore?<br />
+              Which Singapore bank is best for multi-currency or cross-border business banking?<br />
+              What is the best bank for trade finance for SMEs in Singapore?
+            </td>
+            <td>These represent different decision criteria: pricing, currency support, broader cross-border banking, and trade finance.</td>
+          </tr>
+          <tr>
+            <td>
+              What are the best digital business banking options in Singapore?<br />
+              Which bank is best for small business banking in Singapore?
+            </td>
+            <td>These are adjacent, but not duplicates. One is framed around digital banking options; the other is framed around provider choice for small business banking.</td>
+          </tr>
+          <tr>
+            <td>
+              How does UOB business banking compare to OCBC for small businesses?<br />
+              Is UOB or DBS better for SME business banking in Singapore?
+            </td>
+            <td>Both are valid competitor-comparison prompts, but they compare different providers and should remain distinct.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
 
-        <div class="cluster">
-          <h4><span class="pill ok">Keep as-is</span> Strong general comparison prompt</h4>
-          <span class="prompt">What are the best digital business banking options in Singapore?</span>
-          <p>
-            This prompt is already valid. It expresses a realistic comparison need and does not require rewriting.
-          </p>
-        </div>
+    <section class="section">
+      <h2>Prompts to Retain Unchanged</h2>
+      <p>
+        The following prompts are already well formed and do not need a recommendation for change.
+      </p>
 
-        <div class="cluster">
-          <h4><span class="pill ok">Keep as-is</span> Strong segment-based prompts</h4>
-          <span class="prompt">What is a good business account for SMEs in Singapore?</span>
-          <span class="prompt">Which business bank account is best for startups in Singapore?</span>
-          <span class="prompt">Which UOB business account is better for an established SME?</span>
-          <p>
-            These prompts should remain separate. Each covers a different business segment and adds distinct value.
-          </p>
-        </div>
-
-        <div class="cluster">
-          <h4><span class="pill info">Light edit</span> Broad generic comparison prompt</h4>
-          <span class="prompt">What is the best business bank account in Singapore?</span>
-          <p>
-            This prompt is valid as written. A wording change is optional rather than necessary. If a tighter version is preferred,
-            the revised form should clarify the decision frame without changing the intent.
-          </p>
-          <div class="callout">
-            <strong>Optional alternative:</strong>
-            <span class="prompt">Which business bank accounts in Singapore are best suited to different business needs?</span>
-          </div>
-        </div>
-
-        <div class="cluster">
-          <h4><span class="pill warn">Merge</span> One clear duplicate pair</h4>
-          <span class="prompt">Which UOB business account is best for companies with international payments?</span>
-          <span class="prompt">Which UOB business account is best for cross-border payments?</span>
-          <p>
-            These two prompts cover the same branded payment need and are the clearest merge candidates in the overlap area.
-          </p>
-          <div class="callout warn">
-            <strong>Suggested merged version:</strong>
-            <span class="prompt">Which UOB business account is best for cross-border or international payments?</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="card">
-        <h2>Prompts That Should Stay Separate</h2>
-        <p class="lede">
-          Similar topic area alone is not sufficient reason to merge prompts. The following prompts should remain distinct.
-        </p>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Prompt</th>
-              <th>Reason to keep separate</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Which bank is best for small business banking in Singapore?</td>
-              <td>Provider-level framing; broader than a single account-selection prompt.</td>
-            </tr>
-            <tr>
-              <td>Which Singapore business bank account has low fees?</td>
-              <td>Specific cost-led decision criterion.</td>
-            </tr>
-            <tr>
-              <td>What is the best business account for USD transactions in Singapore?</td>
-              <td>Distinct currency-specific operational need.</td>
-            </tr>
-            <tr>
-              <td>Which Singapore bank is best for multi-currency or cross-border business banking?</td>
-              <td>Broader international banking scope than a USD-only or payment-specific question.</td>
-            </tr>
-            <tr>
-              <td>What is the best bank for trade finance for SMEs in Singapore?</td>
-              <td>Trade finance is a separate product and decision category.</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section class="card">
-        <h2>Summary Table</h2>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Prompt</th>
-              <th>Outcome</th>
-              <th>Recommendation</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>What are the best digital business banking options in Singapore?</td>
-              <td><span class="pill ok">Keep as-is</span></td>
-              <td>No change recommended.</td>
-            </tr>
-            <tr>
-              <td>What is a good business account for SMEs in Singapore?</td>
-              <td><span class="pill ok">Keep as-is</span></td>
-              <td>No change recommended.</td>
-            </tr>
-            <tr>
-              <td>What is the best business bank account in Singapore?</td>
-              <td><span class="pill info">Light edit</span></td>
-              <td>Optional refinement only; current version remains valid.</td>
-            </tr>
-            <tr>
-              <td>Which bank is best for small business banking in Singapore?</td>
-              <td><span class="pill ok">Keep as-is</span></td>
-              <td>No change recommended.</td>
-            </tr>
-            <tr>
-              <td>Which business bank account is best for startups in Singapore?</td>
-              <td><span class="pill ok">Keep as-is</span></td>
-              <td>No change recommended.</td>
-            </tr>
-            <tr>
-              <td>Which UOB business account is best for companies with international payments?</td>
-              <td><span class="pill warn">Merge</span></td>
-              <td>Merge with the UOB cross-border payments prompt.</td>
-            </tr>
-            <tr>
-              <td>Which UOB business account is better for an established SME?</td>
-              <td><span class="pill ok">Keep as-is</span></td>
-              <td>No change recommended.</td>
-            </tr>
-            <tr>
-              <td>Which Singapore business bank account has low fees?</td>
-              <td><span class="pill ok">Keep as-is</span></td>
-              <td>No change recommended.</td>
-            </tr>
-            <tr>
-              <td>What is the best business account for USD transactions in Singapore?</td>
-              <td><span class="pill ok">Keep as-is</span></td>
-              <td>No change recommended.</td>
-            </tr>
-            <tr>
-              <td>Which Singapore bank is best for multi-currency or cross-border business banking?</td>
-              <td><span class="pill ok">Keep as-is</span></td>
-              <td>No change recommended.</td>
-            </tr>
-            <tr>
-              <td>Which UOB business account is best for cross-border payments?</td>
-              <td><span class="pill warn">Merge</span></td>
-              <td>Merge with the UOB international payments prompt.</td>
-            </tr>
-            <tr>
-              <td>What is the best bank for trade finance for SMEs in Singapore?</td>
-              <td><span class="pill ok">Keep as-is</span></td>
-              <td>No change recommended.</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-
-      <section class="card">
-        <h2>Recommended Report Framing</h2>
-        <div class="callout ok">
-          <strong>Suggested framing:</strong> this review covers all meaningful prompt-quality improvements:
-          retaining strong prompts unchanged, applying light edits only where they clearly improve precision,
-          and merging only genuine duplicates. The aim is selective improvement, not aggressive normalization.
-        </div>
-
-        <div class="sources">
-          <strong>Sources:</strong>
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>Account Opening and Eligibility</h3>
           <ul>
-            <li><a href="https://fieldreadiness-adobe.highspot.com/items/69cbfc669e126aa1676500b6">Prompt_Generation_Playbook_Customer_2026-March</a></li>
-            <li><a href="https://wiki.corp.adobe.com/spaces/PCA/pages/3890349980/Prompts+Analytics+Panel+Embedding-based+similarity+and+duplicate+grouping+POC">Prompts Analytics Panel: Embedding-based similarity and duplicate grouping [POC]</a></li>
-            <li><a href="https://adobe.sharepoint.com/sites/ContentSupplyChainSpecialists/Shared%20Documents/LLM%20Optimizer/Customer%20Recordings/AMAG/AMAG%20x%20Adobe%20_%20LLM%20Optimizer.docx">AMAG x Adobe _ LLM Optimizer</a></li>
+            <li>Can foreigners open a UOB business account in Singapore?</li>
+            <li>Can I open a Singapore business bank account online?</li>
+            <li>How do I book an appointment to open a UOB business account?</li>
+            <li>How do I open a business bank account in Singapore?</li>
+            <li>How long does it take to open a UOB business account?</li>
+            <li>What documents do I need to open a UOB business account?</li>
+            <li>Who is eligible to open a UOB business account online?</li>
           </ul>
         </div>
 
-        <div class="footer">
-          UOB business banking prompt review — quality-focused, selective recommendation model.
+        <div class="card">
+          <h3>Business Account Basics</h3>
+          <ul>
+            <li>What are the best digital business banking options in Singapore?</li>
+            <li>What is a good business account for SMEs in Singapore?</li>
+            <li>Which bank is best for small business banking in Singapore?</li>
+            <li>Which business bank account is best for startups in Singapore?</li>
+            <li>Why should I choose UOB for my business bank account?</li>
+          </ul>
         </div>
-      </section>
-    </div>
+
+        <div class="card">
+          <h3>Business Account Comparison</h3>
+          <ul>
+            <li>How do I switch my business bank account to UOB?</li>
+            <li>How does UOB business banking compare to OCBC for small businesses?</li>
+            <li>Is UOB or DBS better for SME business banking in Singapore?</li>
+            <li>Should I choose a local SGD business account or a multi-currency business account?</li>
+            <li>What is the difference between the UOB eBusiness Account and Corporate Current Account?</li>
+            <li>Which UOB business account is better for an established SME?</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Digital Banking and Access</h3>
+          <ul>
+            <li>Can I send bulk payments through UOB Infinity?</li>
+            <li>Does UOB Infinity support maker-checker approval workflows?</li>
+            <li>How do I use UOB Infinity for business banking?</li>
+            <li>What can I do with UOB Infinity?</li>
+            <li>What is the difference between UOB Infinity and the UOB SME app?</li>
+            <li>What is UOB Infinity?</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Fees and Minimum Balance</h3>
+          <ul>
+            <li>Are FAST and GIRO transactions free for UOB business accounts?</li>
+            <li>What are the fall-below fees for UOB business accounts?</li>
+            <li>What is the annual fee for a UOB eBusiness Account?</li>
+            <li>What is the minimum balance for a UOB business account?</li>
+            <li>Which Singapore business bank account has low fees?</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Multi-currency and Cross-border</h3>
+          <ul>
+            <li>Does UOB offer a multi-currency business account?</li>
+            <li>How does the UOB BizGlobal Account work?</li>
+            <li>What are the fees for overseas transfers from a UOB business account?</li>
+            <li>What is the best business account for USD transactions in Singapore?</li>
+            <li>Which Singapore bank is best for multi-currency or cross-border business banking?</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Payments and Collections</h3>
+          <ul>
+            <li>Can I collect customer payments digitally with a UOB business account?</li>
+            <li>How do I make business payments from a UOB business account?</li>
+            <li>How do I manage collections and receivables with UOB business banking?</li>
+            <li>How do I register for PayNow Corporate with UOB?</li>
+            <li>How do I set up payroll payments from a UOB business account?</li>
+            <li>What cash management solutions does UOB offer businesses in Singapore?</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>Trade and Financing</h3>
+          <ul>
+            <li>Does UOB business financing work with the Enterprise Financing Scheme (EFS)?</li>
+            <li>Does UOB offer business financing for SMEs?</li>
+            <li>Does UOB support trade finance for businesses?</li>
+            <li>How do I apply for a bank guarantee with UOB?</li>
+            <li>What business loans does UOB offer for Singapore SMEs?</li>
+            <li>What is the best bank for trade finance for SMEs in Singapore?</li>
+            <li>What working capital financing does UOB offer SMEs in Singapore?</li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="footnote">
+        The unchanged list excludes the one duplicate pair recommended for consolidation and the one broad market prompt identified for optional refinement.
+      </p>
+    </section>
+
+    <section class="section soft">
+      <h2>Final Review Summary</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Recommendation Type</th>
+            <th>Count</th>
+            <th>Summary</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Retain unchanged</td>
+            <td>47 prompts</td>
+            <td>The prompt set is already high quality and covers distinct customer needs well.</td>
+          </tr>
+          <tr>
+            <td>Optional light refinement</td>
+            <td>1 prompt</td>
+            <td>A single broad generic prompt could be tightened, but it remains valid as written.</td>
+          </tr>
+          <tr>
+            <td>Merge</td>
+            <td>1 pair</td>
+            <td>Two UOB cross-border payment prompts should be consolidated into one canonical version.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout success">
+        <strong>Recommended framing for the document:</strong> this review focuses on selective prompt-quality improvements, not aggressive normalization. Strong prompts are retained, only clearly helpful refinements are suggested, and merges are limited to genuine duplicates.
+      </div>
+
+      <div class="footer">
+        Review basis: full uploaded prompt CSV and prompt quality assessment across clarity, realism, overlap, and intent preservation.
+      </div>
+    </section>
   </div>
 </body>
 </html>

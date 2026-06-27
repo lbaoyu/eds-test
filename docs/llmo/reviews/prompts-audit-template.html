@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adobe LLM Optimizer Scored Review Template</title>
+  <style>
+    :root{
+      --adobe-red:#FA0F00;
+      --adobe-red-dark:#C50E00;
+      --adobe-red-soft:#FFE9E7;
+      --ink:#1F1F1F;
+      --ink-soft:#616161;
+      --bg:#F6F6F7;
+      --card:#FFFFFF;
+      --line:#E8E8EB;
+      --good:#14804A;
+      --warn:#B76E00;
+      --bad:#B42318;
+      --neutral:#6B7280;
+      --shadow:0 14px 36px rgba(0,0,0,.08);
+      --radius-xl:28px;
+      --radius-lg:20px;
+      --radius-md:16px;
+      --radius-sm:12px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(250,15,0,.08), transparent 22%),
+        linear-gradient(180deg, #ffffff 0%, #f6f6f7 100%);
+      line-height:1.5;
+    }
+
+    .page{
+      max-width:1280px;
+      margin:0 auto;
+      padding:24px 20px 56px;
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border-radius:32px;
+      background:linear-gradient(135deg, #111 0%, #202020 55%, #5D0905 100%);
+      color:#fff;
+      box-shadow:var(--shadow);
+      padding:40px 38px 32px;
+    }
+
+    .hero:before,
+    .hero:after{
+      content:"";
+      position:absolute;
+      border-radius:999px;
+      background:rgba(250,15,0,.18);
+      filter:blur(10px);
+      pointer-events:none;
+    }
+    .hero:before{width:260px;height:260px;right:-75px;top:-60px}
+    .hero:after{width:180px;height:180px;left:-40px;bottom:-45px}
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      color:#FFD8D4;
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      font-weight:800;
+      margin-bottom:16px;
+    }
+
+    h1,h2,h3,h4{margin:0 0 10px;line-height:1.12}
+    h1{
+      font-size:clamp(34px,4.2vw,56px);
+      letter-spacing:-.03em;
+      font-weight:800;
+      max-width:880px;
+    }
+    h2{
+      font-size:clamp(28px,3vw,38px);
+      letter-spacing:-.02em;
+      font-weight:800;
+    }
+    h3{font-size:22px;font-weight:760}
+    h4{font-size:18px;font-weight:760}
+
+    .subtitle{
+      font-size:18px;
+      color:#F3F4F6;
+      max-width:950px;
+      margin-top:12px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+      margin-top:24px;
+    }
+
+    .hero-card{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:16px;
+      backdrop-filter:blur(4px);
+    }
+
+    .hero-card .k{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#FFD0CB;
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .hero-card .v{
+      font-size:15px;
+      color:#fff;
+      font-weight:700;
+    }
+
+    .topnav{
+      display:grid;
+      grid-template-columns:repeat(6,minmax(0,1fr));
+      gap:12px;
+      margin-top:20px;
+    }
+
+    .topnav a{
+      text-decoration:none;
+      color:var(--ink);
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px 16px;
+      box-shadow:var(--shadow);
+      transition:.18s ease;
+    }
+
+    .topnav a:hover{
+      transform:translateY(-2px);
+      border-color:#F1B3AD;
+    }
+
+    .topnav .n{
+      display:block;
+      color:var(--adobe-red);
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    section{
+      margin-top:24px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+
+    .section-tag{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--adobe-red);
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .lead{
+      color:var(--ink-soft);
+      font-size:17px;
+      max-width:980px;
+    }
+
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fff;
+      padding:18px;
+    }
+
+    .pill{
+      display:inline-block;
+      margin-bottom:10px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .pill.red{background:var(--adobe-red-soft);color:var(--adobe-red)}
+    .pill.good{background:#E9F8F0;color:var(--good)}
+    .pill.warn{background:#FFF5DE;color:var(--warn)}
+    .pill.bad{background:#FDECEC;color:var(--bad)}
+
+    .note{
+      margin-top:16px;
+      padding:16px 18px;
+      border-left:4px solid var(--adobe-red);
+      background:#FFF5F4;
+      border-radius:0 14px 14px 0;
+      color:#5B2A27;
+    }
+
+    .mini{
+      font-size:13px;
+      color:var(--ink-soft);
+    }
+
+    .meta-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+
+    label{
+      display:block;
+      font-size:13px;
+      color:var(--ink-soft);
+      font-weight:700;
+      margin-bottom:6px;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    textarea,
+    select{
+      width:100%;
+      padding:11px 12px;
+      border:1px solid #D8D8DE;
+      border-radius:12px;
+      background:#fff;
+      color:var(--ink);
+      font:inherit;
+      outline:none;
+    }
+
+    textarea{min-height:100px;resize:vertical}
+    input:focus, textarea:focus, select:focus{
+      border-color:#F1A9A1;
+      box-shadow:0 0 0 4px rgba(250,15,0,.08);
+    }
+
+    .scorecards{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .scorecard{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg,#fff,#FFFBFB);
+      border-radius:18px;
+      padding:16px;
+    }
+
+    .scorecard .label{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:800;
+      color:var(--adobe-red);
+      margin-bottom:8px;
+    }
+
+    .scorecard .value{
+      font-size:28px;
+      font-weight:800;
+      letter-spacing:-.02em;
+    }
+
+    .scorecard .sub{
+      margin-top:6px;
+      font-size:13px;
+      color:var(--ink-soft);
+    }
+
+    .legend{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .legend .card{
+      min-height:100%;
+    }
+
+    .status{
+      display:inline-block;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+    }
+    .s-good{background:#E9F8F0;color:var(--good)}
+    .s-warn{background:#FFF5DE;color:var(--warn)}
+    .s-bad{background:#FDECEC;color:var(--bad)}
+    .s-neutral{background:#EEF2F7;color:#475467}
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:18px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
+    }
+
+    th,td{
+      text-align:left;
+      vertical-align:top;
+      padding:12px 12px;
+      border-bottom:1px solid var(--line);
+      font-size:14px;
+    }
+
+    th{
+      background:#FAFAFB;
+      font-weight:800;
+      color:#121212;
+    }
+
+    .score-select{
+      min-width:78px;
+      padding-right:30px;
+    }
+
+    .criteria-col{min-width:230px}
+    .issue-col{min-width:220px}
+    .action-col{min-width:220px}
+    .owner-col{min-width:140px}
+    .small-col{width:90px}
+
+    .sticky-tools{
+      position:sticky;
+      bottom:14px;
+      display:flex;
+      gap:12px;
+      justify-content:flex-end;
+      margin-top:18px;
+      z-index:20;
+    }
+
+    .btn{
+      border:none;
+      border-radius:999px;
+      padding:12px 16px;
+      font:inherit;
+      font-weight:800;
+      cursor:pointer;
+      transition:.18s ease;
+      box-shadow:var(--shadow);
+    }
+
+    .btn-primary{
+      background:var(--adobe-red);
+      color:#fff;
+    }
+    .btn-primary:hover{background:var(--adobe-red-dark)}
+    .btn-secondary{
+      background:#fff;
+      color:var(--ink);
+      border:1px solid var(--line);
+    }
+
+    .formula{
+      margin-top:18px;
+      border:1px dashed #F0AEA8;
+      border-radius:18px;
+      background:linear-gradient(180deg,#FFF,#FFF8F7);
+      padding:18px 20px;
+    }
+
+    .formula code{
+      display:block;
+      margin-top:8px;
+      background:#181818;
+      color:#fff;
+      border-radius:12px;
+      padding:14px 16px;
+      white-space:pre-wrap;
+      overflow:auto;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-size:14px;
+    }
+
+    .footer{
+      margin-top:28px;
+      text-align:center;
+      color:var(--neutral);
+      font-size:14px;
+    }
+
+    @media (max-width:1100px){
+      .hero-grid,.scorecards,.legend,.meta-grid,.topnav{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .grid-2{grid-template-columns:1fr}
+    }
+
+    @media (max-width:680px){
+      .page{padding:16px 12px 44px}
+      .hero{padding:28px 22px}
+      section{padding:22px 16px}
+      .hero-grid,.scorecards,.legend,.meta-grid,.topnav,.grid-4,.grid-3{grid-template-columns:1fr}
+      .sticky-tools{position:static;justify-content:stretch;flex-direction:column}
+      .btn{width:100%}
+    }
+
+    @media print{
+      body{background:#fff}
+      .hero,section,.topnav a,.btn{box-shadow:none}
+      .sticky-tools{display:none}
+      .page{max-width:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <header class="hero">
+      <div class="eyebrow">Adobe LLM Optimizer · Reviewer Template</div>
+      <h1>Scored Prompt Bank Review Template</h1>
+      <p class="subtitle">
+        Use this template to score a customer's prompt bank across <strong>categories</strong>, <strong>topics</strong>,
+        the <strong>overall prompt set</strong>, and <strong>individual prompts</strong>. The scoring model is simple:
+        <strong>0 = weak</strong>, <strong>1 = needs revision</strong>, <strong>2 = strong</strong>.
+      </p>
+
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="k">Scoring Model</div>
+          <div class="v">0 = Remove / merge · 1 = Revise · 2 = Keep</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Primary Goal</div>
+          <div class="v">Measure prompt bank quality and identify the highest-impact changes</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Best Use</div>
+          <div class="v">Customer trials, onboarding reviews, pre-upload QA, and optimization planning</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Review Output</div>
+          <div class="v">Score summary, key issues, recommended actions, owners, and next steps</div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="topnav" aria-label="Template sections">
+      <a href="#overview">
+        <span class="n">01</span>
+        <strong>Review Overview</strong>
+        <div class="mini">Metadata and summary</div>
+      </a>
+      <a href="#legend">
+        <span class="n">02</span>
+        <strong>Scoring Guide</strong>
+        <div class="mini">How to score consistently</div>
+      </a>
+      <a href="#category">
+        <span class="n">03</span>
+        <strong>Category Review</strong>
+        <div class="mini">Structure and boundaries</div>
+      </a>
+      <a href="#topic">
+        <span class="n">04</span>
+        <strong>Topic Review</strong>
+        <div class="mini">Specificity and coherence</div>
+      </a>
+      <a href="#set">
+        <span class="n">05</span>
+        <strong>Prompt Set Review</strong>
+        <div class="mini">Coverage and balance</div>
+      </a>
+      <a href="#prompt">
+        <span class="n">06</span>
+        <strong>Prompt Review</strong>
+        <div class="mini">Line-by-line quality</div>
+      </a>
+    </nav>
+
+    <section id="overview">
+      <div class="section-tag">Section 1</div>
+      <h2>Review overview</h2>
+      <p class="lead">
+        Fill in the review metadata first. Then score the prompt bank section by section.
+        The scorecards below will update automatically as you score the tables.
+      </p>
+
+      <div class="meta-grid">
+        <div>
+          <label for="customer">Customer / Brand</label>
+          <input id="customer" type="text" placeholder="Enter customer name" />
+        </div>
+        <div>
+          <label for="reviewer">Reviewer</label>
+          <input id="reviewer" type="text" placeholder="Enter reviewer name" />
+        </div>
+        <div>
+          <label for="date">Review Date</label>
+          <input id="date" type="date" />
+        </div>
+        <div>
+          <label for="version">Prompt Bank Version</label>
+          <input id="version" type="text" placeholder="e.g. v1.0 / Trial Set A" />
+        </div>
+        <div>
+          <label for="market">Market / Region Scope</label>
+          <input id="market" type="text" placeholder="e.g. US, UK, DACH" />
+        </div>
+        <div>
+          <label for="languages">Languages</label>
+          <input id="languages" type="text" placeholder="e.g. English, German" />
+        </div>
+        <div>
+          <label for="promptcount">Total Prompts Reviewed</label>
+          <input id="promptcount" type="number" placeholder="e.g. 100" />
+        </div>
+        <div>
+          <label for="trialstage">Review Stage</label>
+          <select id="trialstage">
+            <option value="">Select</option>
+            <option>Draft Prompt Bank</option>
+            <option>Pre-Upload Review</option>
+            <option>Early Trial Review</option>
+            <option>Mid-Trial Optimization Review</option>
+            <option>Post-Trial Review</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="scorecards">
+        <div class="scorecard">
+          <div class="label">Overall Score</div>
+          <div class="value" id="overallScore">0.0 / 2.0</div>
+          <div class="sub" id="overallRating">No scoring yet</div>
+        </div>
+        <div class="scorecard">
+          <div class="label">Category Avg</div>
+          <div class="value" id="categoryAvg">0.0</div>
+          <div class="sub">Business structure quality</div>
+        </div>
+        <div class="scorecard">
+          <div class="label">Topic Avg</div>
+          <div class="value" id="topicAvg">0.0</div>
+          <div class="sub">Topic specificity and clarity</div>
+        </div>
+        <div class="scorecard">
+          <div class="label">Prompt Set Avg</div>
+          <div class="value" id="setAvg">0.0</div>
+          <div class="sub">Portfolio balance and coverage</div>
+        </div>
+        <div class="scorecard">
+          <div class="label">Prompt Avg</div>
+          <div class="value" id="promptAvg">0.0</div>
+          <div class="sub">Line-by-line prompt quality</div>
+        </div>
+      </div>
+
+      <div class="formula">
+        <h3>Recommended interpretation</h3>
+        <code>1.70 - 2.00 = Strong and ready
+1.20 - 1.69 = Usable but needs targeted improvements
+0.70 - 1.19 = Weak and should be revised before relying on the set
+0.00 - 0.69 = Poor structure or prompt quality; major redesign recommended</code>
+      </div>
+
+      <div class="note">
+        <strong>How to use this template:</strong> Score honestly. A low score is useful because it exposes where the prompt bank
+        will generate noisy data, poor coverage, or weak optimization guidance.
+      </div>
+    </section>
+
+    <section id="legend">
+      <div class="section-tag">Section 2</div>
+      <h2>Scoring guide</h2>
+      <p class="lead">
+        Apply the same standard throughout the review so your scores remain consistent.
+      </p>
+
+      <div class="legend">
+        <div class="card">
+          <span class="pill good">Score 2</span>
+          <h3>Strong</h3>
+          <p class="mini">
+            The item is well designed, strategically useful, and ready to keep with little or no change.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill warn">Score 1</span>
+          <h3>Needs Revision</h3>
+          <p class="mini">
+            The idea is valid, but the execution is weak. Rewrite, narrow, rebalance, or reclassify.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill bad">Score 0</span>
+          <h3>Weak</h3>
+          <p class="mini">
+            The item is low value, too vague, too broad, duplicative, or poorly structured.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill red">Issue Types</span>
+          <p class="mini">
+            Use tags like <strong>overlap</strong>, <strong>too broad</strong>, <strong>too vague</strong>,
+            <strong>duplicate</strong>, <strong>misclassified</strong>, <strong>missing coverage</strong>,
+            or <strong>localization gap</strong>.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="category">
+      <div class="section-tag">Section 3</div>
+      <h2>Category review</h2>
+      <p class="lead">
+        Score the quality of the category structure. Categories should be strategically meaningful, clearly bounded,
+        and focused enough for the prompt volume available.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th class="criteria-col">Category</th>
+            <th>Strategic Relevance</th>
+            <th>Boundary Clarity</th>
+            <th>Distinct from Other Categories</th>
+            <th>Pilot Fit</th>
+            <th class="small-col">Avg</th>
+            <th class="issue-col">Primary Issues</th>
+            <th class="action-col">Recommended Action</th>
+            <th class="owner-col">Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="score-row" data-group="category">
+            <td><input type="text" placeholder="Category name" /></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td class="row-average">0.0</td>
+            <td><textarea placeholder="e.g. overlaps with another category"></textarea></td>
+            <td><textarea placeholder="e.g. merge or rename"></textarea></td>
+            <td><input type="text" placeholder="Owner" /></td>
+          </tr>
+          <tr class="score-row" data-group="category">
+            <td><input type="text" placeholder="Category name" /></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td class="row-average">0.0</td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+            <td><input type="text" /></td>
+          </tr>
+          <tr class="score-row" data-group="category">
+            <td><input type="text" placeholder="Category name" /></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td class="row-average">0.0</td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+            <td><input type="text" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="topic">
+      <div class="section-tag">Section 4</div>
+      <h2>Topic review</h2>
+      <p class="lead">
+        Score how well topics translate categories into specific, actionable opportunity areas.
+        Strong topics are user-centered, coherent, and supported by enough prompt depth.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th class="criteria-col">Category / Topic</th>
+            <th>Specificity</th>
+            <th>User-Intent Alignment</th>
+            <th>Coherence</th>
+            <th>Prompt Depth</th>
+            <th>Actionability</th>
+            <th class="small-col">Avg</th>
+            <th class="issue-col">Primary Issues</th>
+            <th class="action-col">Recommended Action</th>
+            <th class="owner-col">Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="score-row" data-group="topic">
+            <td><input type="text" placeholder="e.g. Banking / Student Accounts" /></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td class="row-average">0.0</td>
+            <td><textarea placeholder="e.g. topic too broad"></textarea></td>
+            <td><textarea placeholder="e.g. split into subtopics"></textarea></td>
+            <td><input type="text" placeholder="Owner" /></td>
+          </tr>
+          <tr class="score-row" data-group="topic">
+            <td><input type="text" /></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td class="row-average">0.0</td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+            <td><input type="text" /></td>
+          </tr>
+          <tr class="score-row" data-group="topic">
+            <td><input type="text" /></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td class="row-average">0.0</td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+            <td><input type="text" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="set">
+      <div class="section-tag">Section 5</div>
+      <h2>Overall prompt set review</h2>
+      <p class="lead">
+        Score the prompt bank as a portfolio. This section evaluates balance, coverage, strategic focus, and whether the
+        prompt bank can support clean baseline measurement.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th class="criteria-col">Prompt Set Dimension</th>
+            <th>Description</th>
+            <th class="small-col">Score</th>
+            <th class="issue-col">Observed Gaps</th>
+            <th class="action-col">Recommended Action</th>
+            <th class="owner-col">Owner</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="score-row" data-group="set">
+            <td>Strategic Focus</td>
+            <td>Is the prompt bank concentrated on priority business areas rather than spread too thinly?</td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><textarea placeholder="e.g. too many low-priority topics"></textarea></td>
+            <td><textarea placeholder="e.g. reduce category count for trial"></textarea></td>
+            <td><input type="text" /></td>
+          </tr>
+          <tr class="score-row" data-group="set">
+            <td>Branded vs Unbranded Mix</td>
+            <td>Is there a healthy balance between brand-name prompts and generic discovery prompts?</td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+            <td><input type="text" /></td>
+          </tr>
+          <tr class="score-row" data-group="set">
+            <td>Journey-Stage Coverage</td>
+            <td>Does the bank cover awareness, comparison, decision, trust, and support moments appropriately?</td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+            <td><input type="text" /></td>
+          </tr>
+          <tr class="score-row" data-group="set">
+            <td>Intent Diversity</td>
+            <td>Are informational, comparison, "help me choose," support, and use-case prompts represented?</td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+            <td><input type="text" /></td>
+          </tr>
+          <tr class="score-row" data-group="set">
+            <td>Localization Quality</td>
+            <td>Are prompts localized appropriately for target countries and languages?</td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+            <td><input type="text" /></td>
+          </tr>
+          <tr class="score-row" data-group="set">
+            <td>Duplicate Control</td>
+            <td>Has the bank minimized duplicate or low-value rewordings?</td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+            <td><input type="text" /></td>
+          </tr>
+          <tr class="score-row" data-group="set">
+            <td>Baseline Stability</td>
+            <td>Can the core prompt bank remain stable long enough to establish a reliable benchmark?</td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+            <td><input type="text" /></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="prompt">
+      <div class="section-tag">Section 6</div>
+      <h2>Individual prompt review</h2>
+      <p class="lead">
+        Sample and score prompts line by line. Use this section to review high-priority prompts, random samples, or all prompts in a smaller set.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th class="criteria-col">Prompt</th>
+            <th>Realistic</th>
+            <th>Specific</th>
+            <th>Single Intent</th>
+            <th>Neutral</th>
+            <th>Actionable</th>
+            <th>Correctly Classified</th>
+            <th class="small-col">Avg</th>
+            <th class="issue-col">Primary Issues</th>
+            <th class="action-col">Recommended Rewrite / Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="score-row" data-group="prompt">
+            <td><textarea placeholder="Paste prompt text here"></textarea></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td class="row-average">0.0</td>
+            <td><textarea placeholder="e.g. too vague, multi-intent"></textarea></td>
+            <td><textarea placeholder="e.g. add audience and use case context"></textarea></td>
+          </tr>
+          <tr class="score-row" data-group="prompt">
+            <td><textarea></textarea></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td class="row-average">0.0</td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+          </tr>
+          <tr class="score-row" data-group="prompt">
+            <td><textarea></textarea></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td class="row-average">0.0</td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+          </tr>
+          <tr class="score-row" data-group="prompt">
+            <td><textarea></textarea></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td><select class="score-select score-input"><option value="">-</option><option value="0">0</option><option value="1">1</option><option value="2">2</option></select></td>
+            <td class="row-average">0.0</td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-tag">Section 7</div>
+      <h2>Issue log and action plan</h2>
+      <p class="lead">
+        Summarize the most important issues and the actions required before or during the trial.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <label for="strengths">Top strengths</label>
+          <textarea id="strengths" placeholder="List the strongest parts of the prompt bank"></textarea>
+        </div>
+        <div class="card">
+          <label for="risks">Top risks</label>
+          <textarea id="risks" placeholder="List the biggest risks to signal quality or actionability"></textarea>
+        </div>
+        <div class="card">
+          <label for="quickwins">Top quick wins</label>
+          <textarea id="quickwins" placeholder="List the fastest improvements with highest impact"></textarea>
+        </div>
+        <div class="card">
+          <label for="decision">Review decision</label>
+          <select id="decision">
+            <option value="">Select</option>
+            <option>Ready to Upload</option>
+            <option>Ready with Minor Revisions</option>
+            <option>Needs Targeted Rework</option>
+            <option>Major Redesign Recommended</option>
+          </select>
+          <div style="height:12px"></div>
+          <label for="summary">Executive summary</label>
+          <textarea id="summary" placeholder="Summarize the overall assessment in 3–5 sentences"></textarea>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Priority</th>
+            <th>Issue</th>
+            <th>Recommended Action</th>
+            <th>Owner</th>
+            <th>Due Date</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <select>
+                <option></option>
+                <option>High</option>
+                <option>Medium</option>
+                <option>Low</option>
+              </select>
+            </td>
+            <td><textarea placeholder="Describe the issue"></textarea></td>
+            <td><textarea placeholder="Describe the action"></textarea></td>
+            <td><input type="text" placeholder="Owner" /></td>
+            <td><input type="date" /></td>
+            <td>
+              <select>
+                <option></option>
+                <option>Open</option>
+                <option>In Progress</option>
+                <option>Closed</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <select>
+                <option></option>
+                <option>High</option>
+                <option>Medium</option>
+                <option>Low</option>
+              </select>
+            </td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+            <td><input type="text" /></td>
+            <td><input type="date" /></td>
+            <td>
+              <select>
+                <option></option>
+                <option>Open</option>
+                <option>In Progress</option>
+                <option>Closed</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <select>
+                <option></option>
+                <option>High</option>
+                <option>Medium</option>
+                <option>Low</option>
+              </select>
+            </td>
+            <td><textarea></textarea></td>
+            <td><textarea></textarea></td>
+            <td><input type="text" /></td>
+            <td><input type="date" /></td>
+            <td>
+              <select>
+                <option></option>
+                <option>Open</option>
+                <option>In Progress</option>
+                <option>Closed</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="sticky-tools">
+      <button class="btn btn-secondary" type="button" onclick="window.print()">Print / Save PDF</button>
+      <button class="btn btn-primary" type="button" onclick="resetScores()">Reset Scores</button>
+    </div>
+
+    <footer class="footer">
+      Adobe-themed interactive scored review template for prompt bank evaluation in Adobe LLM Optimizer.
+    </footer>
+  </div>
+
+  <script>
+    function average(values){
+      if(!values.length) return 0;
+      return values.reduce((a,b)=>a+b,0)/values.length;
+    }
+
+    function format(n){
+      return Number.isFinite(n) ? n.toFixed(1) : "0.0";
+    }
+
+    function scoreToRating(score){
+      if(score >= 1.7) return "Strong and ready";
+      if(score >= 1.2) return "Usable but needs targeted improvements";
+      if(score >= 0.7) return "Weak and should be revised before relying on the set";
+      return "Poor structure or prompt quality; major redesign recommended";
+    }
+
+    function recalc(){
+      const groups = ["category","topic","set","prompt"];
+      const groupAverages = {};
+
+      document.querySelectorAll(".score-row").forEach(row => {
+        const inputs = Array.from(row.querySelectorAll(".score-input"))
+          .map(el => el.value)
+          .filter(v => v !== "")
+          .map(Number);
+
+        const rowAvg = average(inputs);
+        const avgCell = row.querySelector(".row-average");
+        if(avgCell){
+          avgCell.textContent = format(rowAvg);
+        }
+      });
+
+      groups.forEach(group => {
+        const rowAverages = Array.from(document.querySelectorAll('.score-row[data-group="'+group+'"]'))
+          .map(row => {
+            const vals = Array.from(row.querySelectorAll(".score-input"))
+              .map(el => el.value)
+              .filter(v => v !== "")
+              .map(Number);
+            return vals.length ? average(vals) : null;
+          })
+          .filter(v => v !== null);
+
+        groupAverages[group] = average(rowAverages);
+      });
+
+      document.getElementById("categoryAvg").textContent = format(groupAverages.category || 0);
+      document.getElementById("topicAvg").textContent = format(groupAverages.topic || 0);
+      document.getElementById("setAvg").textContent = format(groupAverages.set || 0);
+      document.getElementById("promptAvg").textContent = format(groupAverages.prompt || 0);
+
+      const valid = Object.values(groupAverages).filter(v => Number.isFinite(v) && v > 0);
+      const overall = valid.length ? average(valid) : 0;
+
+      document.getElementById("overallScore").textContent = format(overall) + " / 2.0";
+      document.getElementById("overallRating").textContent = scoreToRating(overall);
+    }
+
+    function resetScores(){
+      document.querySelectorAll(".score-input").forEach(el => el.value = "");
+      document.querySelectorAll(".row-average").forEach(el => el.textContent = "0.0");
+      recalc();
+    }
+
+    document.addEventListener("change", function(e){
+      if(e.target.classList.contains("score-input")){
+        recalc();
+      }
+    });
+
+    recalc();
+  </script>
+</body>
+</html>

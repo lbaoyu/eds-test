@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adobe LLM Optimizer Prompt Bank Creation Checklist</title>
+  <style>
+    :root{
+      --adobe-red:#FA0F00;
+      --adobe-red-dark:#C70D00;
+      --adobe-red-soft:#FFE9E7;
+      --ink:#1E1E1E;
+      --ink-soft:#5A5A5A;
+      --bg:#F6F6F7;
+      --card:#FFFFFF;
+      --line:#E8E8EA;
+      --good:#14804A;
+      --warn:#B76E00;
+      --bad:#B42318;
+      --shadow:0 14px 38px rgba(0,0,0,.08);
+      --radius-xl:28px;
+      --radius-lg:20px;
+      --radius-md:16px;
+      --radius-sm:12px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(250,15,0,.08), transparent 22%),
+        linear-gradient(180deg, #ffffff 0%, #f6f6f7 100%);
+      line-height:1.55;
+    }
+
+    .page{
+      max-width:1240px;
+      margin:0 auto;
+      padding:28px 22px 56px;
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border-radius:32px;
+      background:linear-gradient(135deg, #111 0%, #1F1F1F 50%, #5E0A05 100%);
+      color:#fff;
+      padding:42px 40px 34px;
+      box-shadow:var(--shadow);
+    }
+
+    .hero:before,
+    .hero:after{
+      content:"";
+      position:absolute;
+      border-radius:999px;
+      background:rgba(250,15,0,.18);
+      filter:blur(10px);
+      pointer-events:none;
+    }
+
+    .hero:before{
+      width:260px;height:260px;right:-70px;top:-60px;
+    }
+
+    .hero:after{
+      width:180px;height:180px;left:-40px;bottom:-40px;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:#FFD4D0;
+      font-weight:700;
+      margin-bottom:16px;
+    }
+
+    h1,h2,h3,h4{margin:0 0 10px;line-height:1.12}
+    h1{
+      font-size:clamp(34px,4.4vw,56px);
+      letter-spacing:-.03em;
+      max-width:920px;
+      font-weight:800;
+    }
+    h2{
+      font-size:clamp(28px,3vw,36px);
+      letter-spacing:-.02em;
+      font-weight:800;
+    }
+    h3{
+      font-size:22px;
+      font-weight:760;
+    }
+    h4{
+      font-size:18px;
+      font-weight:760;
+    }
+
+    .subtitle{
+      max-width:940px;
+      color:#F4F4F5;
+      font-size:18px;
+      margin-top:14px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:14px;
+      margin-top:26px;
+    }
+
+    .hero-card{
+      padding:16px 16px 14px;
+      border-radius:18px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+      backdrop-filter:blur(3px);
+    }
+
+    .hero-card .k{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#FFD0CB;
+      margin-bottom:8px;
+      font-weight:700;
+    }
+
+    .hero-card .v{
+      font-size:15px;
+      color:#fff;
+      font-weight:700;
+    }
+
+    .topnav{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:12px;
+    }
+
+    .topnav a{
+      text-decoration:none;
+      color:var(--ink);
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px 16px;
+      box-shadow:var(--shadow);
+      transition:.18s ease;
+    }
+
+    .topnav a:hover{
+      transform:translateY(-2px);
+      border-color:#F1B0AA;
+    }
+
+    .topnav .n{
+      display:block;
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--adobe-red);
+      font-weight:800;
+      margin-bottom:7px;
+    }
+
+    section{
+      margin-top:24px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:30px;
+      box-shadow:var(--shadow);
+    }
+
+    .section-tag{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--adobe-red);
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .lead{
+      color:var(--ink-soft);
+      font-size:17px;
+      max-width:980px;
+    }
+
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:20px;
+      background:#fff;
+    }
+
+    .soft{
+      background:linear-gradient(180deg,#fff,#FFFBFB);
+    }
+
+    .pill{
+      display:inline-block;
+      margin-bottom:10px;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .pill.red{background:var(--adobe-red-soft);color:var(--adobe-red)}
+    .pill.good{background:#E9F8F0;color:var(--good)}
+    .pill.warn{background:#FFF5DE;color:var(--warn)}
+    .pill.bad{background:#FDECEC;color:var(--bad)}
+
+    .note{
+      margin-top:16px;
+      padding:16px 18px;
+      border-left:4px solid var(--adobe-red);
+      background:#FFF5F4;
+      border-radius:0 14px 14px 0;
+      color:#5D2A26;
+    }
+
+    .checklist{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .check-card{
+      border:1px solid var(--line);
+      background:#FCFCFD;
+      border-radius:18px;
+      padding:18px 20px;
+    }
+
+    .check-card h4{margin-bottom:10px}
+
+    .checks{
+      list-style:none;
+      margin:0;
+      padding:0;
+    }
+
+    .checks li{
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      margin:12px 0;
+    }
+
+    .box{
+      width:18px;height:18px;min-width:18px;
+      border:2px solid #CFCFD4;
+      border-radius:5px;
+      margin-top:3px;
+      background:#fff;
+    }
+
+    .checks li span:last-child{
+      flex:1;
+      color:#2B2B2B;
+    }
+
+    .helper{
+      display:block;
+      color:var(--ink-soft);
+      font-size:13px;
+      margin-top:4px;
+    }
+
+    .formula{
+      margin-top:18px;
+      padding:22px;
+      border-radius:18px;
+      border:1px dashed #F0AEA8;
+      background:linear-gradient(180deg,#FFF,#FFF8F7);
+    }
+
+    .formula code{
+      display:block;
+      padding:14px 16px;
+      margin-top:10px;
+      border-radius:12px;
+      background:#1F1F1F;
+      color:#fff;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+      font-size:14px;
+      overflow:auto;
+      white-space:pre-wrap;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:18px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
+    }
+
+    th,td{
+      text-align:left;
+      vertical-align:top;
+      padding:14px 14px;
+      border-bottom:1px solid var(--line);
+      font-size:14px;
+    }
+
+    th{
+      background:#FAFAFB;
+      font-weight:800;
+    }
+
+    .status{
+      display:inline-block;
+      padding:4px 8px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+    }
+
+    .s-good{background:#E9F8F0;color:var(--good)}
+    .s-warn{background:#FFF5DE;color:var(--warn)}
+    .s-bad{background:#FDECEC;color:var(--bad)}
+
+    .steps{
+      display:grid;
+      grid-template-columns:repeat(6,minmax(0,1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .step{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      background:#fff;
+      position:relative;
+    }
+
+    .step .num{
+      width:34px;height:34px;border-radius:50%;
+      display:grid;place-items:center;
+      background:var(--adobe-red);
+      color:#fff;
+      font-weight:800;
+      margin-bottom:12px;
+    }
+
+    .examples{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .bad-box,.good-box{
+      border-radius:18px;
+      padding:18px;
+    }
+
+    .bad-box{
+      background:#FFF1F1;
+      border:1px solid #F5C9C9;
+    }
+
+    .good-box{
+      background:#EFFAF3;
+      border:1px solid #C9EAD5;
+    }
+
+    .footer{
+      margin-top:28px;
+      text-align:center;
+      color:#6B7280;
+      font-size:14px;
+    }
+
+    .small{
+      font-size:13px;
+      color:var(--ink-soft);
+    }
+
+    @media (max-width:1080px){
+      .hero-grid,.topnav,.grid-4,.steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .grid-2,.checklist,.examples{grid-template-columns:1fr}
+    }
+
+    @media (max-width:640px){
+      .page{padding:16px 12px 42px}
+      .hero{padding:28px 22px}
+      section{padding:22px 18px}
+      .hero-grid,.topnav,.grid-3,.grid-4,.steps{grid-template-columns:1fr}
+    }
+
+    @media print{
+      body{background:#fff}
+      .hero,section,.topnav a{box-shadow:none}
+      .page{max-width:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <header class="hero">
+      <div class="eyebrow">Adobe LLM Optimizer · Customer Guide</div>
+      <h1>Prompt Bank Creation Checklist</h1>
+      <p class="subtitle">
+        A practical checklist to help customers build a strong prompt bank for Adobe LLM Optimizer.
+        Use this guide to create a library that is <strong>focused</strong>, <strong>realistic</strong>,
+        <strong>measurable</strong>, and <strong>actionable</strong> across categories, topics, and individual prompts.
+      </p>
+
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="k">Core Goal</div>
+          <div class="v">Create prompts that behave like stable test cases, not loose keywords</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Best Pilot Pattern</div>
+          <div class="v">Go deep on fewer priority areas instead of spreading prompts too thinly</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Prompt Types</div>
+          <div class="v">Include branded, unbranded, educational, comparison, decision, and support prompts</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Quality Standard</div>
+          <div class="v">Realistic, specific, single-intent, market-relevant, and easy to act on</div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="topnav" aria-label="Sections">
+      <a href="#before">
+        <span class="n">01</span>
+        <strong>Before You Start</strong>
+        <div class="small">Scope and inputs</div>
+      </a>
+      <a href="#categories">
+        <span class="n">02</span>
+        <strong>Build Categories</strong>
+        <div class="small">Business areas to track</div>
+      </a>
+      <a href="#topics">
+        <span class="n">03</span>
+        <strong>Build Topics</strong>
+        <div class="small">Specific opportunity clusters</div>
+      </a>
+      <a href="#prompts">
+        <span class="n">04</span>
+        <strong>Write Prompts</strong>
+        <div class="small">Prompt-level checklist</div>
+      </a>
+      <a href="#review">
+        <span class="n">05</span>
+        <strong>Review & Finalize</strong>
+        <div class="small">Quality control and trial readiness</div>
+      </a>
+    </nav>
+
+    <section id="before">
+      <div class="section-tag">Phase 1</div>
+      <h2>Before you start</h2>
+      <p class="lead">
+        Do not begin by writing random prompts. Start by deciding <strong>what business outcomes and visibility questions matter most</strong>.
+        A strong prompt bank comes from a clear strategy, not just brainstorming.
+      </p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h4>Choose a focus area</h4>
+          <p class="small">Pick the business area, product line, service line, or reputation area you want to monitor first.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h4>Define the markets</h4>
+          <p class="small">List countries, languages, and regions that matter for this prompt bank.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h4>Gather demand signals</h4>
+          <p class="small">Use real inputs such as search data, site content, FAQs, sales conversations, support themes, and competitor language.</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <h4>Identify high-value moments</h4>
+          <p class="small">Find where users ask for recommendations, comparisons, how-to help, or decision support.</p>
+        </div>
+        <div class="step">
+          <div class="num">5</div>
+          <h4>Set pilot boundaries</h4>
+          <p class="small">Decide what not to include yet, so the bank stays focused and measurable.</p>
+        </div>
+        <div class="step">
+          <div class="num">6</div>
+          <h4>Plan for stability</h4>
+          <p class="small">Keep the initial set stable long enough to establish a baseline before making major changes.</p>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="check-card">
+          <span class="pill red">Preparation Checklist</span>
+          <ul class="checks">
+            <li><span class="box"></span><span>I know which business area or product I want to prioritize first</span></li>
+            <li><span class="box"></span><span>I know which countries or languages this prompt bank should cover</span></li>
+            <li><span class="box"></span><span>I have reviewed real customer demand signals, not just internal assumptions</span></li>
+            <li><span class="box"></span><span>I understand the main competitor set or substitute solutions in this space</span></li>
+            <li><span class="box"></span><span>I have identified the user journeys that matter most: awareness, comparison, decision, support, trust</span></li>
+          </ul>
+        </div>
+        <div class="check-card">
+          <span class="pill warn">Avoid This</span>
+          <ul class="checks">
+            <li><span class="box"></span><span>Do not try to cover the entire company in the first version of the prompt bank</span></li>
+            <li><span class="box"></span><span>Do not build categories directly from internal org charts or website navigation alone</span></li>
+            <li><span class="box"></span><span>Do not rely only on branded prompts</span></li>
+            <li><span class="box"></span><span>Do not build the whole library from generic "what is" prompts</span></li>
+            <li><span class="box"></span><span>Do not rewrite the full prompt bank too often once measurement has started</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Tip:</strong> If you only have room for a limited number of prompts, depth beats breadth.
+        It is better to monitor a smaller set of important opportunity areas well than to monitor many areas weakly.
+      </div>
+    </section>
+
+    <section id="categories">
+      <div class="section-tag">Phase 2</div>
+      <h2>Create categories</h2>
+      <p class="lead">
+        Categories are the broad business areas you want to measure in AI search. A category should represent a
+        meaningful area of brand visibility, not just a miscellaneous bucket.
+      </p>
+
+      <div class="grid-2">
+        <div class="card soft">
+          <span class="pill good">What a strong category does</span>
+          <ul class="checks">
+            <li><span class="box"></span><span>Represents a real business priority or strategic area</span></li>
+            <li><span class="box"></span><span>Has a clear boundary so you know what belongs in it</span></li>
+            <li><span class="box"></span><span>Is different enough from other categories to avoid overlap</span></li>
+            <li><span class="box"></span><span>Would matter if visibility improved or declined in this area</span></li>
+            <li><span class="box"></span><span>Can support multiple topics underneath it</span></li>
+          </ul>
+        </div>
+        <div class="card soft">
+          <span class="pill bad">Signs the category needs work</span>
+          <ul class="checks">
+            <li><span class="box"></span><span>The label is too vague to interpret consistently</span></li>
+            <li><span class="box"></span><span>The category overlaps heavily with another category</span></li>
+            <li><span class="box"></span><span>The category exists only because of internal naming, not customer demand</span></li>
+            <li><span class="box"></span><span>It is so broad that almost any prompt could fit into it</span></li>
+            <li><span class="box"></span><span>It is too small or low value to justify tracking in the pilot</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="check-card">
+          <h4>Category creation checklist</h4>
+          <ul class="checks">
+            <li>
+              <span class="box"></span>
+              <span>
+                I can explain why each category matters to the business
+                <span class="helper">If the reason is unclear, the category is probably not strong enough.</span>
+              </span>
+            </li>
+            <li>
+              <span class="box"></span>
+              <span>
+                Each category has a distinct purpose
+                <span class="helper">If two categories feel similar, consider merging or renaming them.</span>
+              </span>
+            </li>
+            <li>
+              <span class="box"></span>
+              <span>
+                The category names are simple, clear, and easy for non-experts to understand
+              </span>
+            </li>
+            <li>
+              <span class="box"></span>
+              <span>
+                The set of categories is focused enough for the size of my pilot
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="check-card">
+          <h4>Customer questions to answer</h4>
+          <ul class="checks">
+            <li><span class="box"></span><span>Which business areas most need stronger visibility in AI-generated answers?</span></li>
+            <li><span class="box"></span><span>Which categories are likely to generate useful optimization insights?</span></li>
+            <li><span class="box"></span><span>Which categories have enough content and demand to justify monitoring?</span></li>
+            <li><span class="box"></span><span>Which categories can wait until a later phase?</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Category test</th>
+            <th>Pass if...</th>
+            <th>Warning if...</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Strategic value</td>
+            <td><span class="status s-good">Pass</span> It clearly supports a real business priority</td>
+            <td><span class="status s-warn">Warning</span> It exists mainly for internal convenience</td>
+          </tr>
+          <tr>
+            <td>Boundary clarity</td>
+            <td><span class="status s-good">Pass</span> You can easily tell what belongs in it</td>
+            <td><span class="status s-warn">Warning</span> It overlaps with neighboring categories</td>
+          </tr>
+          <tr>
+            <td>Pilot fit</td>
+            <td><span class="status s-good">Pass</span> It is focused enough for current prompt volume</td>
+            <td><span class="status s-bad">Risk</span> You are trying to cover too many categories at once</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="topics">
+      <div class="section-tag">Phase 3</div>
+      <h2>Create topics inside each category</h2>
+      <p class="lead">
+        Topics are the specific opportunity areas within a category. Good topics reflect <strong>how users explore the space</strong>,
+        not just how the website is organized. A topic should be narrow enough to analyze, but large enough to support several prompts.
+      </p>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="pill red">Specific</span>
+          <p>Each topic should focus on one clear use case, need state, audience, or decision area.</p>
+        </div>
+        <div class="card">
+          <span class="pill red">Actionable</span>
+          <p>If the topic underperforms, it should be obvious what content or optimization work to consider next.</p>
+        </div>
+        <div class="card">
+          <span class="pill red">Coherent</span>
+          <p>The prompts within a topic should belong together semantically and support the same general opportunity area.</p>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="check-card">
+          <h4>Topic creation checklist</h4>
+          <ul class="checks">
+            <li><span class="box"></span><span>The topic reflects a real user need, problem, or comparison moment</span></li>
+            <li><span class="box"></span><span>The topic is more specific than the category above it</span></li>
+            <li><span class="box"></span><span>The topic is not so broad that it mixes unrelated intents</span></li>
+            <li><span class="box"></span><span>The topic is not a duplicate of another topic with different wording</span></li>
+            <li><span class="box"></span><span>The topic can support enough prompts to create meaningful insights</span></li>
+            <li><span class="box"></span><span>The topic makes sense in the target market and language</span></li>
+          </ul>
+        </div>
+        <div class="check-card">
+          <h4>Topic quality questions</h4>
+          <ul class="checks">
+            <li><span class="box"></span><span>Would a weak result on this topic tell me something useful?</span></li>
+            <li><span class="box"></span><span>Can I explain what kind of prompts belong here?</span></li>
+            <li><span class="box"></span><span>Can I explain what does not belong here?</span></li>
+            <li><span class="box"></span><span>Does the topic reflect user behavior rather than internal labeling?</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="examples">
+        <div class="bad-box">
+          <span class="pill bad">Too broad</span>
+          <h4>Topic: "Credit Cards"</h4>
+          <ul>
+            <li>Too wide to diagnose clearly</li>
+            <li>Likely to mix student, travel, rewards, low-interest, and application intent</li>
+            <li>Hard to translate into a specific optimization plan</li>
+          </ul>
+        </div>
+        <div class="good-box">
+          <span class="pill good">Better topic</span>
+          <h4>Topic: "Best travel credit cards for frequent flyers"</h4>
+          <ul>
+            <li>Clear use case</li>
+            <li>Clear audience and decision context</li>
+            <li>Easier to group meaningful prompts around one opportunity area</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Rule of thumb:</strong> If a topic sounds like a giant market rather than a real user question cluster,
+        narrow it further.
+      </div>
+    </section>
+
+    <section id="prompts">
+      <div class="section-tag">Phase 4</div>
+      <h2>Write the prompts</h2>
+      <p class="lead">
+        Each prompt should be written as if it were a <strong>real user interaction with an AI assistant</strong>.
+        A strong prompt is realistic, specific, single-intent, and useful for repeated measurement.
+      </p>
+
+      <div class="formula">
+        <h3>Simple prompt formula</h3>
+        <p class="small">
+          Use this pattern to make prompts more useful and repeatable:
+        </p>
+        <code>[user goal or question] + [product/service/use case] + [audience or scenario] + [constraint, comparison, or market context]</code>
+      </div>
+
+      <div class="checklist">
+        <div class="check-card">
+          <span class="pill good">Prompt writing checklist</span>
+          <ul class="checks">
+            <li>
+              <span class="box"></span>
+              <span>
+                The prompt sounds like something a real person would ask
+                <span class="helper">Use natural language, not keyword fragments.</span>
+              </span>
+            </li>
+            <li>
+              <span class="box"></span>
+              <span>
+                The prompt has one main intent
+                <span class="helper">Avoid combining multiple questions in one prompt.</span>
+              </span>
+            </li>
+            <li>
+              <span class="box"></span>
+              <span>
+                The prompt includes enough context to narrow the answer
+                <span class="helper">Useful context may include audience, location, use case, skill level, business size, or comparison target.</span>
+              </span>
+            </li>
+            <li>
+              <span class="box"></span>
+              <span>
+                The prompt avoids leading language
+                <span class="helper">Do not force the AI toward a desired brand answer.</span>
+              </span>
+            </li>
+            <li>
+              <span class="box"></span>
+              <span>
+                The prompt is specific enough to produce stable measurement over time
+              </span>
+            </li>
+            <li>
+              <span class="box"></span>
+              <span>
+                The prompt fits the correct topic and category
+              </span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="check-card">
+          <span class="pill warn">Prompt mix checklist</span>
+          <ul class="checks">
+            <li><span class="box"></span><span>I included both branded and unbranded prompts</span></li>
+            <li><span class="box"></span><span>I included educational prompts for early discovery</span></li>
+            <li><span class="box"></span><span>I included comparison or "help me choose" prompts</span></li>
+            <li><span class="box"></span><span>I included decision-stage prompts related to selection, pricing, fit, or trust</span></li>
+            <li><span class="box"></span><span>I included support or how-to prompts where relevant</span></li>
+            <li><span class="box"></span><span>I included prompts that reflect local market phrasing where needed</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card soft">
+          <span class="pill bad">Weak prompt patterns</span>
+          <ul>
+            <li>"best crm software"</li>
+            <li>"why is brand x the best"</li>
+            <li>"what is banking and what are the best banks and how do I apply"</li>
+            <li>"cheap insurance"</li>
+            <li>Any prompt that is vague, multi-part, or purely promotional</li>
+          </ul>
+        </div>
+        <div class="card soft">
+          <span class="pill good">Stronger prompt patterns</span>
+          <ul>
+            <li>"What is the best CRM for a B2B SaaS company with over 5,000 employees?"</li>
+            <li>"What are the best travel insurance options for families visiting Japan?"</li>
+            <li>"How does Brand A compare to Brand B for student checking accounts in the UK?"</li>
+            <li>"What is the easiest way to merge PDF files on a Mac?"</li>
+            <li>Prompts with clear user need, scenario, and decision context</li>
+          </ul>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Prompt quality test</th>
+            <th>Good prompt</th>
+            <th>Weak prompt</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Realism</td>
+            <td>Sounds like a real chat interaction</td>
+            <td>Looks like an SEO keyword list</td>
+          </tr>
+          <tr>
+            <td>Intent</td>
+            <td>One main question</td>
+            <td>Several questions bundled together</td>
+          </tr>
+          <tr>
+            <td>Specificity</td>
+            <td>Includes audience, use case, market, or constraint</td>
+            <td>Too generic to interpret</td>
+          </tr>
+          <tr>
+            <td>Neutrality</td>
+            <td>Open, unbiased framing</td>
+            <td>Leading or brand-biased framing</td>
+          </tr>
+          <tr>
+            <td>Actionability</td>
+            <td>Weak results would reveal a clear opportunity</td>
+            <td>Weak results would be too broad to act on</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="review">
+      <div class="section-tag">Phase 5</div>
+      <h2>Review, balance, and finalize the prompt bank</h2>
+      <p class="lead">
+        Before uploading the prompt bank, run a final review across the whole library. This is where you catch overlap,
+        weak phrasing, missing prompt types, and gaps in market or journey-stage coverage.
+      </p>
+
+      <div class="grid-4">
+        <div class="card">
+          <span class="pill red">Balance</span>
+          <p>Check whether the library is too narrow, too broad, or too heavily weighted toward one prompt type.</p>
+        </div>
+        <div class="card">
+          <span class="pill red">Coverage</span>
+          <p>Confirm that priority categories, topics, personas, and markets are represented well enough.</p>
+        </div>
+        <div class="card">
+          <span class="pill red">De-duplication</span>
+          <p>Remove near-duplicate prompts unless the phrasing difference adds real measurement value.</p>
+        </div>
+        <div class="card">
+          <span class="pill red">Stability</span>
+          <p>Keep the core set stable enough to create a benchmark before making major changes.</p>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="check-card">
+          <h4>Final quality-control checklist</h4>
+          <ul class="checks">
+            <li><span class="box"></span><span>I reviewed all categories for overlap or unclear naming</span></li>
+            <li><span class="box"></span><span>I reviewed all topics for breadth, duplication, and coherence</span></li>
+            <li><span class="box"></span><span>I removed prompts that are too vague or too broad</span></li>
+            <li><span class="box"></span><span>I removed prompts that are duplicates or trivial rewordings</span></li>
+            <li><span class="box"></span><span>I confirmed that every prompt is assigned to the right topic and category</span></li>
+            <li><span class="box"></span><span>I checked that the prompt bank includes high-value comparison and decision prompts</span></li>
+            <li><span class="box"></span><span>I checked that the prompt bank includes relevant support or how-to prompts where needed</span></li>
+            <li><span class="box"></span><span>I checked that the market and language choices are realistic for the audience</span></li>
+          </ul>
+        </div>
+        <div class="check-card">
+          <h4>Trial-readiness checklist</h4>
+          <ul class="checks">
+            <li><span class="box"></span><span>The bank is focused enough to support a clean pilot baseline</span></li>
+            <li><span class="box"></span><span>The majority of prompts can stay stable for the first measurement period</span></li>
+            <li><span class="box"></span><span>I know which prompts are most important to keep stable</span></li>
+            <li><span class="box"></span><span>I know which low-quality prompts I may revise later without disrupting the core baseline</span></li>
+            <li><span class="box"></span><span>I can explain how this prompt bank will generate insights that lead to action</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Best final test:</strong> Ask, "If visibility is weak on this prompt bank, will I know what to improve?"
+        If the answer is unclear, narrow the categories, sharpen the topics, or rewrite the prompts until the signal becomes more actionable.
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">Submission Template</div>
+      <h2>Recommended customer worksheet fields</h2>
+      <p class="lead">
+        When preparing the prompt bank in a spreadsheet or CSV, keep the structure simple and disciplined.
+        A clean worksheet makes review, upload, and later analysis much easier.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Field</th>
+            <th>What to enter</th>
+            <th>Guidance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Category</td>
+            <td>Broad business area</td>
+            <td>Use a small number of strategic categories</td>
+          </tr>
+          <tr>
+            <td>Topic</td>
+            <td>Specific opportunity cluster inside the category</td>
+            <td>Make it user-centered and actionable</td>
+          </tr>
+          <tr>
+            <td>Prompt</td>
+            <td>Natural-language question</td>
+            <td>Make it realistic, single-intent, and specific</td>
+          </tr>
+          <tr>
+            <td>Region / Market</td>
+            <td>Country or market focus</td>
+            <td>Match local phrasing and language expectations</td>
+          </tr>
+          <tr>
+            <td>Prompt Type</td>
+            <td>Branded, unbranded, comparison, support, etc.</td>
+            <td>Useful for balancing the prompt mix</td>
+          </tr>
+          <tr>
+            <td>Journey Stage</td>
+            <td>Awareness, consideration, decision, support, trust</td>
+            <td>Helps ensure the bank is not skewed toward one stage</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-tag">Final Self-Assessment</div>
+      <h2>One-page completion checklist</h2>
+      <p class="lead">
+        Use this condensed checklist as the final sign-off before the prompt bank is submitted.
+      </p>
+
+      <div class="grid-2">
+        <div class="check-card">
+          <h4>Strategy & structure</h4>
+          <ul class="checks">
+            <li><span class="box"></span><span>I chose the right focus areas for this pilot</span></li>
+            <li><span class="box"></span><span>My categories are clear and distinct</span></li>
+            <li><span class="box"></span><span>My topics are specific and actionable</span></li>
+            <li><span class="box"></span><span>I did not spread the prompt bank too thinly</span></li>
+          </ul>
+        </div>
+        <div class="check-card">
+          <h4>Prompt quality</h4>
+          <ul class="checks">
+            <li><span class="box"></span><span>My prompts sound like real user questions</span></li>
+            <li><span class="box"></span><span>My prompts are specific and single-intent</span></li>
+            <li><span class="box"></span><span>My prompts avoid biased or overly leading language</span></li>
+            <li><span class="box"></span><span>My prompts fit the right categories and topics</span></li>
+          </ul>
+        </div>
+        <div class="check-card">
+          <h4>Coverage & balance</h4>
+          <ul class="checks">
+            <li><span class="box"></span><span>I included both branded and unbranded prompts</span></li>
+            <li><span class="box"></span><span>I included a healthy mix of informational, comparison, and decision prompts</span></li>
+            <li><span class="box"></span><span>I included support or help prompts where relevant</span></li>
+            <li><span class="box"></span><span>I included market-relevant phrasing and localization</span></li>
+          </ul>
+        </div>
+        <div class="check-card">
+          <h4>Readiness for measurement</h4>
+          <ul class="checks">
+            <li><span class="box"></span><span>The bank is stable enough to establish a baseline</span></li>
+            <li><span class="box"></span><span>I removed weak or duplicate prompts</span></li>
+            <li><span class="box"></span><span>I can explain how this bank will surface visibility gaps and opportunities</span></li>
+            <li><span class="box"></span><span>I am ready to upload and monitor the initial version without major churn</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Success criterion:</strong> A strong prompt bank should help you answer not just
+        "Is the brand visible?" but also "<strong>Where is visibility strong or weak, and what should we do next?</strong>"
+      </div>
+    </section>
+
+    <footer class="footer">
+      Adobe-themed checklist for customer prompt bank creation in Adobe LLM Optimizer.<br />
+      This can be converted next into a printable worksheet, CSV template guide, or an interactive reviewer form.
+    </footer>
+
+  </div>
+</body>
+</html>

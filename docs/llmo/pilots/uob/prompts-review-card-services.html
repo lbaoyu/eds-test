@@ -3,469 +3,739 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UOB Card Services Prompt Review</title>
+  <title>Card Services Prompt Bank Assessment and Recommendations for Trial Readiness</title>
   <style>
-    :root {
-      --bg: #f5f7fb;
-      --surface: #ffffff;
-      --surface-soft: #f8fbff;
-      --ink: #182230;
-      --text: #425466;
-      --muted: #66758a;
-      --line: #dbe4ef;
-      --brand: #155eef;
-      --brand-soft: #eef4ff;
-      --success: #166534;
-      --success-soft: #edf8ef;
-      --warning: #9a6700;
-      --warning-soft: #fff7e8;
-      --shadow: 0 14px 36px rgba(15, 23, 42, 0.08);
-      --radius-xl: 26px;
-      --radius-lg: 18px;
-      --radius-md: 14px;
+    :root{
+      --red:#D92D20;
+      --red-soft:#FFF1F0;
+      --ink:#1F1F1F;
+      --ink-soft:#5F6368;
+      --bg:#F7F7F8;
+      --card:#FFFFFF;
+      --line:#E7E8EB;
+      --good:#14804A;
+      --good-soft:#ECFDF3;
+      --warn:#B76E00;
+      --warn-soft:#FFF7E6;
+      --shadow:0 14px 38px rgba(0,0,0,.08);
     }
 
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      padding: 28px 18px 56px;
-      background: linear-gradient(180deg, #f7f9fc 0%, #f2f5f9 100%);
-      color: var(--text);
-      font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      font-size: 18px;
-      line-height: 1.68;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(217,45,32,.06), transparent 22%),
+        linear-gradient(180deg, #ffffff 0%, #f7f7f8 100%);
+      line-height:1.55;
     }
 
-    .page {
-      max-width: 1120px;
-      margin: 0 auto;
+    .page{
+      max-width:1280px;
+      margin:0 auto;
+      padding:24px 20px 56px;
     }
 
-    .hero {
-      padding: 34px 36px;
-      border-radius: var(--radius-xl);
-      background: linear-gradient(135deg, #155eef 0%, #3b82f6 100%);
-      color: #fff;
-      box-shadow: var(--shadow);
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border-radius:30px;
+      padding:40px 38px 34px;
+      color:#fff;
+      background:linear-gradient(135deg, #151515 0%, #252525 55%, #5A110C 100%);
+      box-shadow:var(--shadow);
     }
 
-    .eyebrow {
-      display: inline-block;
-      margin-bottom: 12px;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.22);
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+    .hero:before,
+    .hero:after{
+      content:"";
+      position:absolute;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      filter:blur(10px);
+      pointer-events:none;
     }
 
-    h1 {
-      margin: 0 0 12px;
-      font-size: 40px;
-      line-height: 1.1;
-      letter-spacing: -0.03em;
+    .hero:before{width:260px;height:260px;right:-70px;top:-60px}
+    .hero:after{width:180px;height:180px;left:-35px;bottom:-45px}
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.08);
+      color:#FFE3E0;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-weight:800;
+      margin-bottom:16px;
     }
 
-    h2 {
-      margin: 0 0 12px;
-      color: var(--ink);
-      font-size: 29px;
-      line-height: 1.18;
-      letter-spacing: -0.02em;
+    h1,h2,h3,h4{margin:0 0 10px;line-height:1.12}
+    h1{
+      font-size:clamp(34px,4.5vw,56px);
+      letter-spacing:-.03em;
+      font-weight:800;
+      max-width:980px;
+    }
+    h2{
+      font-size:clamp(28px,3vw,38px);
+      letter-spacing:-.02em;
+      font-weight:800;
+    }
+    h3{font-size:22px;font-weight:760}
+    h4{font-size:18px;font-weight:760}
+
+    .subtitle{
+      max-width:1020px;
+      color:#F3F4F6;
+      font-size:18px;
+      margin-top:12px;
     }
 
-    h3 {
-      margin: 0 0 8px;
-      color: var(--ink);
-      font-size: 21px;
-      line-height: 1.25;
+    .hero-grid{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:14px;
+      margin-top:24px;
     }
 
-    p {
-      margin: 0 0 12px;
+    .hero-card{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:16px;
     }
 
-    .hero p {
-      max-width: 920px;
-      font-size: 19px;
-      color: rgba(255,255,255,0.94);
+    .hero-card .k{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#FFDAD6;
+      font-weight:800;
+      margin-bottom:8px;
     }
 
-    .meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 16px;
+    .hero-card .v{
+      font-size:15px;
+      color:#fff;
+      font-weight:700;
     }
 
-    .tag {
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #fff;
-      font-size: 13px;
-      font-weight: 600;
+    .nav{
+      margin-top:20px;
+      display:grid;
+      grid-template-columns:repeat(6,minmax(0,1fr));
+      gap:12px;
     }
 
-    .section {
-      margin-top: 22px;
-      padding: 26px 28px;
-      border-radius: var(--radius-xl);
-      background: var(--surface);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
+    .nav a{
+      text-decoration:none;
+      color:var(--ink);
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px 16px;
+      box-shadow:var(--shadow);
+      transition:.18s ease;
     }
 
-    .soft {
-      background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    .nav a:hover{
+      transform:translateY(-2px);
+      border-color:#F3B7B1;
     }
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 16px;
+    .nav .n{
+      display:block;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--red);
+      font-weight:800;
+      margin-bottom:7px;
     }
 
-    .stat {
-      padding: 16px;
-      border-radius: var(--radius-lg);
-      background: var(--surface-soft);
-      border: 1px solid var(--line);
+    section{
+      margin-top:24px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:28px;
+      box-shadow:var(--shadow);
     }
 
-    .stat .k {
-      display: block;
-      font-size: 34px;
-      line-height: 1;
-      font-weight: 800;
-      letter-spacing: -0.03em;
-      color: var(--ink);
-      margin-bottom: 8px;
+    .section-tag{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--red);
+      font-weight:800;
+      margin-bottom:8px;
     }
 
-    .stat .v {
-      font-size: 15px;
-      color: var(--muted);
-      line-height: 1.45;
+    .lead{
+      color:var(--ink-soft);
+      font-size:17px;
+      max-width:1040px;
     }
 
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 12px;
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    .grid-5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      background:#fff;
     }
 
-    .pill {
-      display: inline-block;
-      padding: 7px 12px;
-      border-radius: 999px;
-      font-size: 13px;
-      font-weight: 700;
-      border: 1px solid var(--line);
-      background: #f2f6fb;
-      color: #445468;
+    .soft{
+      background:linear-gradient(180deg,#fff,#FFFDFD);
     }
 
-    .keep {
-      color: var(--success);
-      background: var(--success-soft);
-      border-color: #cfe8d4;
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:10px;
     }
 
-    .merge {
-      color: var(--warning);
-      background: var(--warning-soft);
-      border-color: #efd9a2;
+    .pill.red{background:var(--red-soft);color:var(--red)}
+    .pill.good{background:var(--good-soft);color:var(--good)}
+    .pill.warn{background:var(--warn-soft);color:var(--warn)}
+
+    .score{
+      font-size:38px;
+      font-weight:800;
+      letter-spacing:-.03em;
+      margin-bottom:8px;
     }
 
-    .callout {
-      margin-top: 14px;
-      padding: 15px 16px;
-      border-left: 4px solid var(--brand);
-      border-radius: var(--radius-md);
-      background: var(--brand-soft);
-      color: #23406d;
+    .muted{color:var(--ink-soft)}
+    .small{font-size:13px;color:var(--ink-soft)}
+
+    .note{
+      margin-top:16px;
+      padding:16px 18px;
+      border-left:4px solid var(--red);
+      background:#FFF6F5;
+      border-radius:0 14px 14px 0;
+      color:#5A2A27;
     }
 
-    .callout.warning {
-      border-left-color: var(--warning);
-      background: var(--warning-soft);
-      color: #684d1c;
+    .status{
+      display:inline-block;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
     }
 
-    .cluster {
-      margin-top: 14px;
-      padding: 16px;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--line);
-      background: var(--surface-soft);
+    .s-good{background:var(--good-soft);color:var(--good)}
+    .s-warn{background:var(--warn-soft);color:var(--warn)}
+    .s-neutral{background:#EEF2F7;color:#475467}
+
+    ul{margin:10px 0 0 20px;padding:0}
+    li{margin:8px 0}
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:18px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
     }
 
-    .prompt {
-      display: block;
-      margin-top: 10px;
-      padding: 11px 13px;
-      border: 1px solid var(--line);
-      border-radius: 13px;
-      background: #fff;
-      color: #0f172a;
-      font-size: 16px;
-      line-height: 1.5;
+    th,td{
+      text-align:left;
+      vertical-align:top;
+      padding:13px 12px;
+      border-bottom:1px solid var(--line);
+      font-size:14px;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 14px;
-      font-size: 15px;
+    th{
+      background:#FAFAFB;
+      font-weight:800;
+      color:#111;
     }
 
-    th, td {
-      text-align: left;
-      vertical-align: top;
-      padding: 13px 10px;
-      border-bottom: 1px solid var(--line);
+    .issue-box{
+      border:1px solid var(--line);
+      border-left:6px solid var(--warn);
+      border-radius:16px;
+      padding:18px;
+      background:#FFFCF6;
     }
 
-    th {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--ink);
-      background: #fafcff;
+    .issue-box.high{
+      border-left-color:var(--red);
+      background:#FFF8F7;
     }
 
-    tr:last-child td {
-      border-bottom: none;
+    .issue-box.low{
+      border-left-color:var(--good);
+      background:#FAFFFC;
     }
 
-    .footer {
-      margin-top: 14px;
-      color: var(--muted);
-      font-size: 15px;
+    .footer{
+      margin-top:28px;
+      text-align:center;
+      color:#6B7280;
+      font-size:14px;
     }
 
-    @media (max-width: 920px) {
-      .stats {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      h1 {
-        font-size: 34px;
-      }
+    @media (max-width:1160px){
+      .hero-grid,.nav,.grid-5,.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .grid-2{grid-template-columns:1fr}
     }
 
-    @media (max-width: 680px) {
-      body {
-        padding: 12px 10px 28px;
-        font-size: 17px;
-      }
+    @media (max-width:680px){
+      .page{padding:16px 12px 42px}
+      .hero{padding:28px 22px}
+      section{padding:22px 16px}
+      .hero-grid,.nav,.grid-5,.grid-4,.grid-3{grid-template-columns:1fr}
+    }
 
-      .hero, .section {
-        padding: 20px 18px;
-      }
-
-      .stats {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        font-size: 30px;
-      }
-
-      h2 {
-        font-size: 25px;
-      }
-
-      table, thead, tbody, tr, td, th {
-        display: block;
-      }
-
-      thead {
-        display: none;
-      }
-
-      tr {
-        padding: 10px 0;
-        border-bottom: 1px solid var(--line);
-      }
-
-      td {
-        padding: 7px 0;
-        border-bottom: none;
-      }
+    @media print{
+      body{background:#fff}
+      .hero,section,.nav a{box-shadow:none}
+      .page{max-width:none}
     }
   </style>
 </head>
 <body>
   <div class="page">
-    <section class="hero">
-      <div class="eyebrow">Prompt Review</div>
-      <h1>UOB Card Services Prompt Review</h1>
-      <p>
-        This Card Services prompt set is in good shape overall. Most prompts are clear, practical, and suitable for trial use. The main opportunity is to simplify the topic structure slightly so the set is easier to navigate and manage within the 50-prompt trial limit.
-      </p>
-      <div class="meta">
-        <span class="tag">39 prompts reviewed</span>
-        <span class="tag">24 current topic groups</span>
-        <span class="tag">Trial capacity: up to 50 prompts</span>
-      </div>
-    </section>
 
-    <section class="section soft">
+    <header class="hero">
+      <div class="eyebrow">Prompt Bank Review</div>
+      <h1>Card Services Prompt Bank Assessment and Recommendations for Trial Readiness</h1>
+      <p class="subtitle">
+        This review summarizes the strengths of the current trial prompt bank, highlights the specific areas that would most benefit from refinement,
+        and provides practical recommendations designed to improve clarity, measurement quality, and actionability — while preserving the focused shape of the current trial.
+      </p>
+
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="k">Overall Assessment</div>
+          <div class="v">Usable for trial, but too fragmented at topic level</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Prompt Volume</div>
+          <div class="v">39 prompts</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Structure</div>
+          <div class="v">1 category · 24 topics</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Core Strength</div>
+          <div class="v">Strong coverage of real card-service issues</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Primary Opportunity</div>
+          <div class="v">Consolidate overly granular topics</div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="nav" aria-label="Sections">
+      <a href="#summary"><span class="n">01</span><strong>Summary</strong><div class="small">Overall view</div></a>
+      <a href="#strengths"><span class="n">02</span><strong>Strengths</strong><div class="small">What is already working</div></a>
+      <a href="#issues"><span class="n">03</span><strong>Key Issues</strong><div class="small">Where to improve</div></a>
+      <a href="#topics"><span class="n">04</span><strong>Topic Review</strong><div class="small">Topic-level guidance</div></a>
+      <a href="#promptreview"><span class="n">05</span><strong>Prompt Review</strong><div class="small">Specific prompt changes</div></a>
+      <a href="#actions"><span class="n">06</span><strong>Next Steps</strong><div class="small">Practical recommendations</div></a>
+    </nav>
+
+    <section id="summary">
+      <div class="section-tag">Section 1</div>
       <h2>Summary</h2>
-      <div class="stats">
-        <div class="stat">
-          <span class="k">35</span>
-          <span class="v">Prompts that can remain unchanged</span>
-        </div>
-        <div class="stat">
-          <span class="k">2 pairs</span>
-          <span class="v">Prompts that could be merged</span>
-        </div>
-        <div class="stat">
-          <span class="k">39 / 50</span>
-          <span class="v">Prompts already within the trial limit</span>
-        </div>
-        <div class="stat">
-          <span class="k">14</span>
-          <span class="v">Topics that currently contain only one prompt</span>
-        </div>
-      </div>
-      <div class="callout">
-        For the trial, the prompt volume is manageable. The larger opportunity is improving usability by grouping some topics more broadly, while keeping the prompt coverage itself largely intact.
+      <p class="lead">
+        The current prompt bank covers many important card-service customer needs, including payments, waivers, disputes, transaction issues,
+        login and digital access, transfers, and cancellation scenarios. The overall subject matter is strong and clearly grounded in real service journeys.
+      </p>
+      <p class="lead">
+        The main issue is not the prompt ideas themselves. The main issue is <strong>structure</strong>. For a 39-prompt trial, the bank is split into
+        <strong>24 topics</strong>, which makes the library much more granular than necessary. Many topics contain only one prompt, which reduces depth and makes the topic structure harder to interpret.
+      </p>
+
+      <div class="note">
+        <strong>Recommendation in one sentence:</strong> Keep the current prompt themes, but consolidate the topic structure so that each topic represents a stronger cluster of related customer questions.
       </div>
     </section>
 
-    <section class="section">
-      <h2>Main Opportunity</h2>
-      <p>
-        The current topic structure may be a little more detailed than necessary for a trial-sized prompt set. With 24 topics for 39 prompts, many topics contain only one prompt.
-      </p>
+    <section id="strengths">
+      <div class="section-tag">Section 2</div>
+      <h2>What is already working well</h2>
+
+      <div class="grid-4">
+        <div class="card soft">
+          <span class="pill good">Relevance</span>
+          <h3>Strong service realism</h3>
+          <p class="muted">
+            The prompts reflect real card-service questions customers are likely to ask about bills, waivers, disputes, pending transactions, transfers, and access issues.
+          </p>
+        </div>
+        <div class="card soft">
+          <span class="pill good">Coverage</span>
+          <h3>Good operational breadth</h3>
+          <p class="muted">
+            The bank covers several important service domains rather than clustering too heavily around only one issue type.
+          </p>
+        </div>
+        <div class="card soft">
+          <span class="pill good">Prompt realism</span>
+          <h3>Natural language prompts</h3>
+          <p class="muted">
+            Most prompts read naturally and sound like realistic customer questions rather than internal wording or keyword fragments.
+          </p>
+        </div>
+        <div class="card soft">
+          <span class="pill good">Trial fit</span>
+          <h3>Focused category scope</h3>
+          <p class="muted">
+            A single category for card services is a sensible setup for a limited trial and keeps the overall scope manageable.
+          </p>
+        </div>
+      </div>
+
       <table>
         <thead>
           <tr>
-            <th>Potential impact</th>
-            <th>What this can lead to</th>
+            <th>Area</th>
+            <th>What is working</th>
+            <th>Why it matters</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>Less intuitive navigation</td>
-            <td>Users may need to scan many narrow topic names instead of a smaller set of clearer groups.</td>
+            <td>Category focus</td>
+            <td>Single category with a clear service scope</td>
+            <td>Keeps the trial focused on one customer support domain</td>
           </tr>
           <tr>
-            <td>Lighter topic-level insight</td>
-            <td>Topics with only one prompt provide less useful signal for reviewing coverage or performance by topic.</td>
+            <td>Customer intent</td>
+            <td>Prompts are grounded in real needs and problems</td>
+            <td>Improves practical usefulness and measurement relevance</td>
           </tr>
           <tr>
-            <td>More maintenance over time</td>
-            <td>As new prompts are added, a very detailed taxonomy can become harder to keep consistent.</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="callout warning">
-        This is not a prompt-quality issue. The prompts themselves are mostly strong. The suggestion is simply to consider a slightly broader topic structure for easier trial management.
-      </div>
-    </section>
-
-    <section class="section soft">
-      <h2>Prompt Recommendations</h2>
-
-      <div class="cluster">
-        <h3><span class="pill merge">Merge</span> Annual fee waiver process</h3>
-        <span class="prompt">How do I request an annual fee waiver for UOB?</span>
-        <span class="prompt">How do I waive my UOB credit card annual fee?</span>
-        <p>
-          These are very close in intent and could be combined into one canonical prompt.
-        </p>
-        <span class="prompt">How do I request a UOB credit card annual fee waiver?</span>
-      </div>
-
-      <div class="cluster">
-        <h3><span class="pill merge">Merge</span> Late fee waiver process</h3>
-        <span class="prompt">How do I waive my UOB late payment fee?</span>
-        <span class="prompt">How do I waive UOB late charges?</span>
-        <p>
-          These are also very similar and could be consolidated.
-        </p>
-        <span class="prompt">How do I request a waiver for my UOB late payment fee?</span>
-      </div>
-
-      <div class="callout">
-        Beyond these small overlaps, the rest of the set is best left largely unchanged for the trial.
-      </div>
-    </section>
-
-    <section class="section">
-      <h2>Topic Structure Suggestion</h2>
-      <p>
-        A lighter structure could make the trial easier to review and expand later. Rather than keeping many narrow top-level topics, a smaller set of broader categories could be used, with specific distinctions handled through labels or filters.
-      </p>
-      <table>
-        <thead>
-          <tr>
-            <th>Current pattern</th>
-            <th>Simpler trial-friendly approach</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Separate waiver-related topics</td>
-            <td>Use a broader <strong>Waivers</strong> topic, with labels for annual fee, interest, and late fee</td>
+            <td>Scenario coverage</td>
+            <td>Good representation of payments, waivers, disputes, access, and transactions</td>
+            <td>Creates a strong service-oriented baseline</td>
           </tr>
           <tr>
-            <td>Multiple narrow payment topics</td>
-            <td>Use a broader <strong>Payments</strong> topic, with labels for due date, channels, charges, and statements</td>
-          </tr>
-          <tr>
-            <td>Multiple narrow transfer topics</td>
-            <td>Use a broader <strong>Transfers</strong> topic, with labels for PayNow, pending, and security hold</td>
+            <td>Prompt phrasing</td>
+            <td>Mostly clear, understandable, and customer-like</td>
+            <td>Supports more realistic answer behavior</td>
           </tr>
         </tbody>
       </table>
     </section>
 
-    <section class="section soft">
-      <h2>Recommended Trial Shape</h2>
-      <div class="pill-row">
-        <span class="pill keep">Cancellation</span>
-        <span class="pill keep">Payments</span>
-        <span class="pill keep">Waivers</span>
-        <span class="pill keep">Transactions</span>
-        <span class="pill keep">Transfers</span>
-        <span class="pill keep">Self Service</span>
-        <span class="pill keep">Rewards</span>
-        <span class="pill keep">Promotion Eligibility</span>
-      </div>
-      <p style="margin-top:14px;">
-        This would keep the set well within the 50-prompt trial limit, preserve the useful prompt coverage already present, and create a slightly cleaner framework for testing and future expansion.
+    <section id="issues">
+      <div class="section-tag">Section 3</div>
+      <h2>Key issues to address</h2>
+      <p class="lead">
+        The primary opportunity is structural. The bank contains many useful prompt ideas, but the topic design is too fragmented for the size of the prompt set.
       </p>
+
+      <div class="grid-3">
+        <div class="issue-box high">
+          <h3>1. Topic structure is too granular</h3>
+          <p class="muted">
+            The bank has <strong>24 topics for 39 prompts</strong>, and many of those topics contain only a single prompt.
+          </p>
+        </div>
+        <div class="issue-box">
+          <h3>2. Several topics are sub-cases, not standalone topics</h3>
+          <p class="muted">
+            Some topics are narrow variations of larger themes, such as cancellation, payments, waivers, and transfers.
+          </p>
+        </div>
+        <div class="issue-box">
+          <h3>3. A few prompts overlap in meaning</h3>
+          <p class="muted">
+            There are a small number of prompts that are close enough in purpose that they should be consolidated or differentiated.
+          </p>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Issue</th>
+            <th>Where it appears</th>
+            <th>Why it matters</th>
+            <th>Recommended response</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Too many singleton topics</td>
+            <td>Across cancellation, payments, transfers, self service, and rewards</td>
+            <td>Topics with only one prompt often do not create strong enough clusters for interpretation.</td>
+            <td>Merge narrow sub-topics into broader topic families.</td>
+          </tr>
+          <tr>
+            <td>Over-segmentation</td>
+            <td>Examples include Payments — Interim Statement, Payments — Replaced Card, Payments — Channels, Transfers — PayNow</td>
+            <td>Over-segmentation makes the bank look more complex without adding enough analytical value.</td>
+            <td>Group closely related prompts under broader themes such as Payments, Transfers, and Self Service.</td>
+          </tr>
+          <tr>
+            <td>Prompt overlap</td>
+            <td>Waivers — Annual Fee, Waivers — Late Fee, and some transaction-support prompts</td>
+            <td>Near-duplicate prompts use up space that could be spent on more differentiated questions.</td>
+            <td>Consolidate similar prompts or make each one more distinct in scope.</td>
+          </tr>
+          <tr>
+            <td>One-off edge topics</td>
+            <td>Rewards — ONE Account, Cancellation — Waiver Rejected</td>
+            <td>These may be valid prompts, but they are too narrow to stand as separate topics in a small trial set.</td>
+            <td>Move them into broader parent topics rather than keeping them as standalone topics.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>Important context for this trial:</strong> The issue is not that the bank covers too many service themes.
+        The issue is that the current themes are divided into too many small topic buckets for the size of the prompt set.
+      </div>
     </section>
 
-    <section class="section">
-      <h2>Final Recommendation</h2>
-      <div class="pill-row">
-        <span class="pill keep">Keep most prompts unchanged</span>
-        <span class="pill merge">Merge only the clearest duplicates</span>
-        <span class="pill keep">Consider a simpler topic structure for the trial</span>
-      </div>
-      <p style="margin-top:14px;">
-        For the trial phase, the best approach is selective refinement rather than broad change: retain the current prompt set, merge the few clearly overlapping prompts, and consider modest topic consolidation so the library is easier to use and assess.
+    <section id="topics">
+      <div class="section-tag">Section 4</div>
+      <h2>Topic-by-topic review</h2>
+      <p class="lead">
+        The strongest improvement would come from simplifying the topic model. Several topics are already strong enough in concept,
+        but many would work better if merged into larger, more durable topic clusters.
       </p>
-      <div class="footer">
-        Review basis: Card Services prompt set, assessed for clarity, overlap, usability, and fit for a 50-prompt trial.
+
+      <table>
+        <thead>
+          <tr>
+            <th>Current topic pattern</th>
+            <th>Assessment</th>
+            <th>Specific rationale</th>
+            <th>Recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Payments — Before Payment</strong></td>
+            <td><span class="status s-good">Strong</span></td>
+            <td>This is a clear, coherent topic focused on balance, due date, and minimum payment questions.</td>
+            <td>Keep as a core payment topic.</td>
+          </tr>
+          <tr>
+            <td><strong>Waivers — Annual Fee / Late Fee / Interest</strong></td>
+            <td><span class="status s-warn">Useful, but can be simplified</span></td>
+            <td>The waiver prompts are relevant, but the topic structure could be more compact while preserving the prompt distinctions.</td>
+            <td>Consider one broader <strong>Waivers and Charges</strong> topic with sub-coverage inside it.</td>
+          </tr>
+          <tr>
+            <td><strong>Transactions — Disputes / Pending / Decline / Failed / Promotion Eligibility</strong></td>
+            <td><span class="status s-warn">Too fragmented</span></td>
+            <td>These are all valid transaction-related themes, but splitting them into many small topics creates unnecessary fragmentation.</td>
+            <td>Merge into 2–3 stronger groups, such as <strong>Transaction Problems</strong>, <strong>Disputes and Unauthorised Charges</strong>, and <strong>Rewards Eligibility</strong>.</td>
+          </tr>
+          <tr>
+            <td><strong>Transfers — PayNow / Pending / Security Hold</strong></td>
+            <td><span class="status s-warn">Too granular</span></td>
+            <td>Each of these currently has only one prompt. They are better treated as one transfer-related cluster.</td>
+            <td>Combine into a single <strong>Transfers</strong> topic.</td>
+          </tr>
+          <tr>
+            <td><strong>Self Service — Digital Token / Login / Singpass</strong></td>
+            <td><span class="status s-good">Strong theme, fragmented execution</span></td>
+            <td>The underlying theme is strong, but login, token, and verification do not need separate one-prompt topics.</td>
+            <td>Merge into a single <strong>App Access and Verification</strong> topic.</td>
+          </tr>
+          <tr>
+            <td><strong>Cancellation / Cancellation — Instalments / Cancellation — Waiver Rejected</strong></td>
+            <td><span class="status s-warn">Too granular</span></td>
+            <td>These are cancellation-related scenarios, but they are too narrow to stand alone in a 39-prompt trial.</td>
+            <td>Merge into one broader <strong>Cancellation and Account Closure</strong> topic.</td>
+          </tr>
+          <tr>
+            <td><strong>Rewards — ONE Account</strong></td>
+            <td><span class="status s-neutral">Useful but isolated</span></td>
+            <td>This is relevant, but as a single-prompt topic it sits better under a broader rewards or eligibility topic.</td>
+            <td>Move into a larger <strong>Rewards and Eligibility</strong> topic.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>Suggested target structure:</strong> Instead of 24 topics, aim for something closer to 8–12 stronger topics for a 39-prompt trial set.
       </div>
     </section>
+
+    <section id="promptreview">
+      <div class="section-tag">Section 5</div>
+      <h2>Specific prompt-level recommendations</h2>
+      <p class="lead">
+        Most prompts are realistic and usable. The main prompt-level opportunity is not rewriting everything,
+        but reducing overlap and making sure each prompt earns its place.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Current prompt</th>
+            <th>What to improve</th>
+            <th>Why</th>
+            <th>Recommended direction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>How do I request an annual fee waiver for UOB?</strong><br /><strong>How do I waive my UOB credit card annual fee?</strong></td>
+            <td>Reduce overlap</td>
+            <td>These prompts are very close in meaning and may not provide enough differentiated value as separate items.</td>
+            <td>Keep one broader version, or rewrite the second to focus on process, timing, or eligibility.</td>
+          </tr>
+          <tr>
+            <td><strong>How do I waive my UOB late payment fee?</strong><br /><strong>How do I waive UOB late charges?</strong></td>
+            <td>Consolidate or differentiate</td>
+            <td>These are effectively the same question with minor wording variation.</td>
+            <td>Keep one, or make one more specific to process, turnaround time, or approval criteria.</td>
+          </tr>
+          <tr>
+            <td><strong>Why was my UOB bill payment or fund transfer declined?</strong><br /><strong>Why was my UOB credit card declined or why did my transaction fail?</strong></td>
+            <td>Clarify scope</td>
+            <td>These are related but currently blur payment decline, transfer decline, and transaction failure into overlapping problem areas.</td>
+            <td>Separate one into card transaction failure and the other into bank transfer or bill payment failure.</td>
+          </tr>
+          <tr>
+            <td><strong>What is the difference between my UOB digital token PIN, SMS OTP, and card PIN?</strong></td>
+            <td>Keep as a differentiator</td>
+            <td>This is a useful educational prompt and adds distinct value within the app-access theme.</td>
+            <td>Keep as is.</td>
+          </tr>
+          <tr>
+            <td><strong>My UOB annual fee waiver was rejected — what are my options?</strong></td>
+            <td>Move into a broader topic</td>
+            <td>The prompt is valid, but the topic around it is too narrow as a standalone branch.</td>
+            <td>Keep the prompt, but place it within a broader waivers topic.</td>
+          </tr>
+          <tr>
+            <td><strong>I got a replacement UOB card — do I pay to the old card number or new card number?</strong></td>
+            <td>Keep, but regroup</td>
+            <td>This is a strong service prompt, though too narrow to justify a standalone topic.</td>
+            <td>Move under a broader payments topic.</td>
+          </tr>
+          <tr>
+            <td><strong>Which UOB account is linked to my PayNow and which account receives transfers?</strong></td>
+            <td>Keep, but regroup</td>
+            <td>Useful and specific, but topic structure is too granular.</td>
+            <td>Move under a consolidated transfers topic.</td>
+          </tr>
+          <tr>
+            <td><strong>Why hasn't my UOB ONE Account bonus interest been credited this month?</strong></td>
+            <td>Keep, but align better</td>
+            <td>A valid question, but it sits awkwardly between rewards and account benefit eligibility themes.</td>
+            <td>Place under a broader rewards / eligibility cluster.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>Best editing principle:</strong> Keep strong prompt ideas, but reduce low-value wording variants and make each prompt more clearly distinct in purpose.
+      </div>
+    </section>
+
+    <section id="actions">
+      <div class="section-tag">Section 6</div>
+      <h2>Recommended next steps</h2>
+      <p class="lead">
+        The most effective next step is to simplify the topic model first. That will improve the structure of the bank without requiring a major rewrite of the prompt content itself.
+      </p>
+
+      <div class="grid-3">
+        <div class="issue-box high">
+          <h3>Priority 1</h3>
+          <p><strong>Consolidate the topic structure</strong></p>
+          <p class="muted">Reduce the number of topics by grouping narrow sub-cases into larger service themes.</p>
+        </div>
+        <div class="issue-box">
+          <h3>Priority 2</h3>
+          <p><strong>Remove low-value wording variants</strong></p>
+          <p class="muted">Where two prompts ask nearly the same thing, keep one or differentiate them more clearly.</p>
+        </div>
+        <div class="issue-box low">
+          <h3>Priority 3</h3>
+          <p><strong>Keep the service scope intact</strong></p>
+          <p class="muted">The coverage itself is good; the main change needed is structure, not scope.</p>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Priority</th>
+            <th>Action</th>
+            <th>Reason</th>
+            <th>Expected benefit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="status s-warn">High</span></td>
+            <td>Reduce the topic count from 24 to a more compact set of broader service themes</td>
+            <td>Too many singleton topics weaken the structure of the bank</td>
+            <td>Stronger topic clusters and cleaner reporting</td>
+          </tr>
+          <tr>
+            <td><span class="status s-warn">High</span></td>
+            <td>Merge narrow branches across cancellation, transfers, self service, and payments</td>
+            <td>Several current topics are sub-cases rather than true standalone themes</td>
+            <td>Better use of a limited prompt budget</td>
+          </tr>
+          <tr>
+            <td><span class="status s-warn">Medium</span></td>
+            <td>Consolidate annual fee and late fee wording variants</td>
+            <td>Some prompts are near-duplicates</td>
+            <td>Less redundancy and more space for differentiated prompts</td>
+          </tr>
+          <tr>
+            <td><span class="status s-warn">Medium</span></td>
+            <td>Clarify the boundary between card transaction failures and transfer-payment failures</td>
+            <td>Some decline/failure prompts currently overlap</td>
+            <td>Cleaner problem categorization</td>
+          </tr>
+          <tr>
+            <td><span class="status s-neutral">Low</span></td>
+            <td>Keep the branded focus if it matches the goal of the trial</td>
+            <td>For a limited trial, brand-forward prompts can be fully appropriate</td>
+            <td>Preserves focus while allowing later expansion</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>Final recommendation:</strong> Keep the current prompt themes, simplify the topic architecture, remove the most obvious wording duplicates, and then hold the bank stable long enough to establish a useful first baseline.
+      </div>
+    </section>
+
+    <footer class="footer">
+      Customer-facing prompt bank review summary prepared for trial planning and refinement.
+    </footer>
+
   </div>
 </body>
 </html>

@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adobe LLM Optimizer Prompt Bank Audit Report</title>
+  <style>
+    :root{
+      --adobe-red:#FA0F00;
+      --adobe-red-dark:#C50E00;
+      --adobe-red-soft:#FFE9E7;
+      --ink:#1F1F1F;
+      --ink-soft:#5F6368;
+      --bg:#F6F6F7;
+      --card:#FFFFFF;
+      --line:#E7E8EB;
+      --good:#14804A;
+      --warn:#B76E00;
+      --bad:#B42318;
+      --neutral:#667085;
+      --shadow:0 14px 38px rgba(0,0,0,.08);
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(250,15,0,.08), transparent 22%),
+        linear-gradient(180deg, #ffffff 0%, #f6f6f7 100%);
+      line-height:1.55;
+    }
+
+    .page{
+      max-width:1280px;
+      margin:0 auto;
+      padding:24px 20px 56px;
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border-radius:32px;
+      padding:40px 38px 34px;
+      color:#fff;
+      background:linear-gradient(135deg, #111 0%, #202020 54%, #5E0A05 100%);
+      box-shadow:var(--shadow);
+    }
+
+    .hero:before,
+    .hero:after{
+      content:"";
+      position:absolute;
+      border-radius:999px;
+      background:rgba(250,15,0,.18);
+      filter:blur(10px);
+      pointer-events:none;
+    }
+
+    .hero:before{width:260px;height:260px;right:-70px;top:-60px}
+    .hero:after{width:180px;height:180px;left:-35px;bottom:-45px}
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.08);
+      color:#FFD7D3;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-weight:800;
+      margin-bottom:16px;
+    }
+
+    h1,h2,h3,h4{margin:0 0 10px;line-height:1.12}
+    h1{
+      font-size:clamp(34px,4.5vw,58px);
+      letter-spacing:-.03em;
+      font-weight:800;
+      max-width:900px;
+    }
+    h2{
+      font-size:clamp(28px,3vw,38px);
+      letter-spacing:-.02em;
+      font-weight:800;
+    }
+    h3{font-size:22px;font-weight:760}
+    h4{font-size:18px;font-weight:760}
+
+    .subtitle{
+      max-width:980px;
+      color:#F3F4F6;
+      font-size:18px;
+      margin-top:12px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:14px;
+      margin-top:24px;
+    }
+
+    .hero-card{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:16px;
+      backdrop-filter:blur(4px);
+    }
+
+    .hero-card .k{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#FFD1CC;
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .hero-card .v{
+      font-size:15px;
+      color:#fff;
+      font-weight:700;
+    }
+
+    .nav{
+      margin-top:20px;
+      display:grid;
+      grid-template-columns:repeat(6,minmax(0,1fr));
+      gap:12px;
+    }
+
+    .nav a{
+      text-decoration:none;
+      color:var(--ink);
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:14px 16px;
+      box-shadow:var(--shadow);
+      transition:.18s ease;
+    }
+
+    .nav a:hover{
+      transform:translateY(-2px);
+      border-color:#F1B4AE;
+    }
+
+    .nav .n{
+      display:block;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--adobe-red);
+      font-weight:800;
+      margin-bottom:7px;
+    }
+
+    section{
+      margin-top:24px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:28px;
+      box-shadow:var(--shadow);
+    }
+
+    .section-tag{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--adobe-red);
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .lead{
+      color:var(--ink-soft);
+      font-size:17px;
+      max-width:980px;
+    }
+
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    .grid-5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      background:#fff;
+    }
+
+    .soft{
+      background:linear-gradient(180deg,#fff,#FFFBFB);
+    }
+
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+    .pill.red{background:var(--adobe-red-soft);color:var(--adobe-red)}
+    .pill.good{background:#E9F8F0;color:var(--good)}
+    .pill.warn{background:#FFF5DE;color:var(--warn)}
+    .pill.bad{background:#FDECEC;color:var(--bad)}
+
+    .score{
+      font-size:38px;
+      font-weight:800;
+      letter-spacing:-.03em;
+      margin-bottom:8px;
+    }
+
+    .muted{color:var(--ink-soft)}
+    .small{font-size:13px;color:var(--ink-soft)}
+
+    .note{
+      margin-top:16px;
+      padding:16px 18px;
+      border-left:4px solid var(--adobe-red);
+      background:#FFF5F4;
+      border-radius:0 14px 14px 0;
+      color:#5A2A27;
+    }
+
+    .status{
+      display:inline-block;
+      padding:5px 9px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+    }
+    .s-good{background:#E9F8F0;color:var(--good)}
+    .s-warn{background:#FFF5DE;color:var(--warn)}
+    .s-bad{background:#FDECEC;color:var(--bad)}
+    .s-neutral{background:#EEF2F7;color:#475467}
+
+    ul{margin:10px 0 0 20px;padding:0}
+    li{margin:8px 0}
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:18px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
+    }
+
+    th,td{
+      text-align:left;
+      vertical-align:top;
+      padding:13px 12px;
+      border-bottom:1px solid var(--line);
+      font-size:14px;
+    }
+
+    th{
+      background:#FAFAFB;
+      font-weight:800;
+      color:#111;
+    }
+
+    .good-text{color:var(--good);font-weight:700}
+    .warn-text{color:var(--warn);font-weight:700}
+    .bad-text{color:var(--bad);font-weight:700}
+
+    .footer{
+      margin-top:28px;
+      text-align:center;
+      color:var(--neutral);
+      font-size:14px;
+    }
+
+    @media (max-width:1120px){
+      .hero-grid,.nav,.grid-5,.grid-4{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .grid-2{grid-template-columns:1fr}
+    }
+
+    @media (max-width:680px){
+      .page{padding:16px 12px 42px}
+      .hero{padding:28px 22px}
+      section{padding:22px 16px}
+      .hero-grid,.nav,.grid-5,.grid-4,.grid-3{grid-template-columns:1fr}
+    }
+
+    @media print{
+      body{background:#fff}
+      .hero,section,.nav a{box-shadow:none}
+      .page{max-width:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <header class="hero">
+      <div class="eyebrow">Adobe LLM Optimizer · Applied Audit Report</div>
+      <h1>Prompt Bank Audit — Uploaded CSV Review</h1>
+      <p class="subtitle">
+        This report applies the previously defined audit framework to the uploaded prompt bank.
+        The set is <strong>usable for a focused pilot</strong>, with strong Singapore business-banking relevance and balanced topic counts,
+        but it is <strong>too heavily branded</strong>, contains a few <strong>broad/noisy prompts</strong>, and would benefit from
+        tighter topic boundaries in a few areas.
+      </p>
+
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="k">Overall Score</div>
+          <div class="v">1.6 / 2.0</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Review Decision</div>
+          <div class="v">Ready with targeted revisions</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Prompt Count</div>
+          <div class="v">50 prompts</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Taxonomy</div>
+          <div class="v">1 category · 8 topics</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Market Scope</div>
+          <div class="v">Singapore only · 100% human-authored</div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="nav" aria-label="Sections">
+      <a href="#snapshot"><span class="n">01</span><strong>Snapshot</strong><div class="small">What is in the file</div></a>
+      <a href="#scores"><span class="n">02</span><strong>Scores</strong><div class="small">Framework-based scoring</div></a>
+      <a href="#category"><span class="n">03</span><strong>Category Review</strong><div class="small">Taxonomy level 1</div></a>
+      <a href="#topics"><span class="n">04</span><strong>Topic Review</strong><div class="small">Taxonomy level 2</div></a>
+      <a href="#set"><span class="n">05</span><strong>Prompt Set Review</strong><div class="small">Portfolio quality</div></a>
+      <a href="#prompts"><span class="n">06</span><strong>Prompt Review</strong><div class="small">Line-level issues</div></a>
+    </nav>
+
+    <section id="snapshot">
+      <div class="section-tag">Section 1</div>
+      <h2>Audit snapshot</h2>
+      <p class="lead">
+        The uploaded CSV contains a compact, focused pilot set for business banking in Singapore.
+        The structure is disciplined from a formatting standpoint, but there are content-level improvements that would materially improve measurement quality.
+      </p>
+
+      <div class="grid-5">
+        <div class="card soft">
+          <span class="pill red">Prompts</span>
+          <div class="score">50</div>
+          <div class="small">All active</div>
+        </div>
+        <div class="card soft">
+          <span class="pill red">Categories</span>
+          <div class="score">1</div>
+          <div class="small">Highly focused pilot scope</div>
+        </div>
+        <div class="card soft">
+          <span class="pill red">Topics</span>
+          <div class="score">8</div>
+          <div class="small">5–7 prompts per topic</div>
+        </div>
+        <div class="card soft">
+          <span class="pill warn">Branded Share</span>
+          <div class="score">76%</div>
+          <div class="small">Too high for balanced discovery measurement</div>
+        </div>
+        <div class="card soft">
+          <span class="pill good">Exact Duplicates</span>
+          <div class="score">0</div>
+          <div class="small">No exact duplicate prompts found</div>
+        </div>
+      </div>
+
+      <div class="grid-2" style="margin-top:18px;">
+        <div class="card">
+          <span class="pill good">What is working</span>
+          <ul>
+            <li>Very clear market focus: Singapore SME / business banking.</li>
+            <li>Topic counts are reasonably balanced for a 50-prompt starter bank.</li>
+            <li>The set includes a mix of onboarding, comparison, fees, payments, cross-border, and financing use cases.</li>
+            <li>All prompts are human-authored, active, and structurally clean.</li>
+            <li>Several topics are strongly actionable and map well to visible optimization opportunities.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="pill warn">Main issues</span>
+          <ul>
+            <li>The prompt bank is over-branded: 76% of prompts mention <strong>UOB</strong>.</li>
+            <li>A small cluster of prompts is too broad and likely to generate noisy or generic responses.</li>
+            <li>The single category name uses internal shorthand: <strong>"GWB Business Banking"</strong>.</li>
+            <li>Some topic overlap exists between <strong>Business Account Basics</strong>, <strong>Business Account Comparison</strong>, and <strong>Multi-currency and Cross-border</strong>.</li>
+            <li>Post-purchase / usage coverage is limited, especially beyond the UOB Infinity cluster.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Executive verdict:</strong> This is a solid first-cut pilot bank, especially for a single-country launch.
+        The biggest quality improvement will come from <strong>lowering branded prompt concentration</strong>, <strong>tightening broad "best bank account" prompts</strong>,
+        and <strong>cleaning up a few overlapping topic boundaries</strong>.
+      </div>
+    </section>
+
+    <section id="scores">
+      <div class="section-tag">Section 2</div>
+      <h2>Framework score summary</h2>
+      <p class="lead">
+        Scores below use the audit rubric previously defined: <strong>0 = weak</strong>, <strong>1 = needs revision</strong>,
+        <strong>2 = strong</strong>.
+      </p>
+
+      <div class="grid-5">
+        <div class="card">
+          <span class="pill red">Category</span>
+          <div class="score">1.7</div>
+          <div class="small">Focused and strategically relevant, but naming needs refinement.</div>
+        </div>
+        <div class="card">
+          <span class="pill red">Topics</span>
+          <div class="score">1.6</div>
+          <div class="small">Mostly strong, with a few overlap and breadth issues.</div>
+        </div>
+        <div class="card">
+          <span class="pill red">Prompt Set</span>
+          <div class="score">1.4</div>
+          <div class="small">Usable, but over-branded and slightly under-balanced.</div>
+        </div>
+        <div class="card">
+          <span class="pill red">Prompt Quality</span>
+          <div class="score">1.5</div>
+          <div class="small">Generally good, though some prompts are broad or leading.</div>
+        </div>
+        <div class="card">
+          <span class="pill good">Trial Readiness</span>
+          <div class="score">1.7</div>
+          <div class="small">Strong enough to launch with targeted fixes.</div>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Review area</th>
+            <th>Score</th>
+            <th>Assessment</th>
+            <th>Primary reason</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Category design</td>
+            <td><span class="status s-good">1.7 / 2.0</span></td>
+            <td>Strong with minor issue</td>
+            <td>Excellent focus for a pilot, but the category label uses internal jargon.</td>
+          </tr>
+          <tr>
+            <td>Topic design</td>
+            <td><span class="status s-good">1.6 / 2.0</span></td>
+            <td>Strong with moderate cleanup needed</td>
+            <td>Most topics are specific and actionable, but a few are too broad or partly overlapping.</td>
+          </tr>
+          <tr>
+            <td>Prompt portfolio quality</td>
+            <td><span class="status s-warn">1.4 / 2.0</span></td>
+            <td>Usable but imbalanced</td>
+            <td>Heavy branded bias and some concentration in broad selection-style prompts.</td>
+          </tr>
+          <tr>
+            <td>Individual prompt quality</td>
+            <td><span class="status s-warn">1.5 / 2.0</span></td>
+            <td>Mostly good</td>
+            <td>Good realism overall, but a few prompts are too generic, duplicative in intent, or leading.</td>
+          </tr>
+          <tr>
+            <td>Overall</td>
+            <td><span class="status s-good">1.6 / 2.0</span></td>
+            <td>Ready with targeted revisions</td>
+            <td>The bank is strong enough for pilot use if a handful of high-value fixes are applied first.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="category">
+      <div class="section-tag">Section 3</div>
+      <h2>Category-level review</h2>
+      <p class="lead">
+        There is only one category in the file, which is appropriate for a focused pilot.
+        The strategic direction is sound; the main issue is the naming convention.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="pill good">Strength</span>
+          <h3>Excellent pilot focus</h3>
+          <p class="muted">
+            A single business-banking category is a smart way to preserve depth within a 50-prompt trial set.
+            This keeps the baseline interpretable and avoids spreading prompts too thinly across unrelated business lines.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill warn">Issue</span>
+          <h3>Internal jargon in category naming</h3>
+          <p class="muted">
+            The category label <strong>"GWB Business Banking"</strong> appears internally coded and not customer-facing.
+            "GWB" may be meaningful internally, but it weakens clarity and portability for cross-team use.
+          </p>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th>Score</th>
+            <th>What is working</th>
+            <th>Issue</th>
+            <th>Recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>GWB Business Banking</td>
+            <td><span class="status s-good">1.7 / 2.0</span></td>
+            <td>Strong strategic focus for a Singapore business banking pilot.</td>
+            <td>Uses internal acronym; not ideal as a clean analytical label.</td>
+            <td>Rename to something clearer, such as <strong>Business Banking Singapore</strong> or <strong>SME Business Banking Singapore</strong>.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>Recommended category action:</strong> Keep the one-category pilot structure, but rename the category to a
+        <strong>clear external-facing business label</strong>.
+      </div>
+    </section>
+
+    <section id="topics">
+      <div class="section-tag">Section 4</div>
+      <h2>Topic-level review</h2>
+      <p class="lead">
+        Topic design is one of the stronger parts of this file. Most topics are concrete and commercially relevant.
+        The main topic-level issue is overlap between generic account-selection prompts and specialized account-selection prompts.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Topic</th>
+            <th>Prompt Count</th>
+            <th>Score</th>
+            <th>Assessment</th>
+            <th>Recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Account Opening and Eligibility</td>
+            <td>7</td>
+            <td><span class="status s-good">1.8 / 2.0</span></td>
+            <td>Strong and actionable. Clear onboarding intent, good document/eligibility focus.</td>
+            <td>Keep. Consider adding 1–2 unbranded variants for broader discovery coverage.</td>
+          </tr>
+          <tr>
+            <td>Business Account Basics</td>
+            <td>6</td>
+            <td><span class="status s-warn">1.1 / 2.0</span></td>
+            <td>Weakest topic in the set. Too broad and partly repetitive, especially around "best business bank account" questions.</td>
+            <td>Narrow or split. Consider separating <strong>generic market selection</strong> from <strong>UOB value proposition</strong>.</td>
+          </tr>
+          <tr>
+            <td>Business Account Comparison</td>
+            <td>7</td>
+            <td><span class="status s-warn">1.4 / 2.0</span></td>
+            <td>Commercially valuable, but mixes competitor comparison, account migration, and product-fit questions.</td>
+            <td>Tighten scope. Consider moving multi-currency choice prompts to the cross-border topic.</td>
+          </tr>
+          <tr>
+            <td>Digital Banking and Access</td>
+            <td>6</td>
+            <td><span class="status s-good">1.6 / 2.0</span></td>
+            <td>Good functional cluster around UOB Infinity, but slightly repetitive at the top of the funnel.</td>
+            <td>Keep, but consolidate overlapping "What is / What can I do with / How do I use" prompts.</td>
+          </tr>
+          <tr>
+            <td>Fees and Minimum Balance</td>
+            <td>5</td>
+            <td><span class="status s-good">1.8 / 2.0</span></td>
+            <td>Clear, concrete, and highly actionable. Strong signal potential.</td>
+            <td>Keep. This is one of the cleanest topics in the bank.</td>
+          </tr>
+          <tr>
+            <td>Multi-currency and Cross-border</td>
+            <td>6</td>
+            <td><span class="status s-good">1.8 / 2.0</span></td>
+            <td>Strong topic. Clear cross-border use case and high-value business relevance.</td>
+            <td>Keep. Consider pulling 1 comparison prompt into this topic from the general comparison topic.</td>
+          </tr>
+          <tr>
+            <td>Payments and Collections</td>
+            <td>6</td>
+            <td><span class="status s-good">1.7 / 2.0</span></td>
+            <td>Strong operational intent and useful customer workflows.</td>
+            <td>Keep. Consider adding one more unbranded collections/payments discovery prompt.</td>
+          </tr>
+          <tr>
+            <td>Trade and Financing</td>
+            <td>7</td>
+            <td><span class="status s-good">1.8 / 2.0</span></td>
+            <td>Very solid topic with strong SME and financing use cases.</td>
+            <td>Keep. This topic is well structured and commercially valuable.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>Topic-level priority fix:</strong> Refine <strong>Business Account Basics</strong> first.
+        It is the most likely topic to generate broad, generic answers that are harder to turn into clear optimization actions.
+      </div>
+    </section>
+
+    <section id="set">
+      <div class="section-tag">Section 5</div>
+      <h2>Prompt-set review</h2>
+      <p class="lead">
+        This section looks at the full library as a portfolio rather than as isolated prompts.
+        The set has good strategic focus, but the biggest portfolio risk is brand over-concentration.
+      </p>
+
+      <div class="grid-4">
+        <div class="card">
+          <span class="pill good">Focus</span>
+          <h3>Strong</h3>
+          <p class="muted">
+            One category and eight balanced topics is a sensible pilot design for 50 prompts.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill warn">Branded Mix</span>
+          <h3>Needs revision</h3>
+          <p class="muted">
+            76% of prompts mention UOB. That is too high for a balanced GEO visibility program.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill good">Intent Mix</span>
+          <h3>Mostly healthy</h3>
+          <p class="muted">
+            The set includes comparison, how-to, onboarding, informational, and financing intents.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill warn">Support Depth</span>
+          <h3>Limited</h3>
+          <p class="muted">
+            Post-purchase/use coverage is only about 8% of the set and is concentrated mainly in digital banking.
+          </p>
+        </div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Portfolio dimension</th>
+            <th>Observed result</th>
+            <th>Assessment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Branded vs unbranded balance</td>
+            <td>76% branded / 24% unbranded</td>
+            <td><span class="warn-text">Too heavily branded</span> — likely to weaken discovery and competitor-context measurement.</td>
+          </tr>
+          <tr>
+            <td>Topic balance</td>
+            <td>5 to 7 prompts per topic, average 6.25</td>
+            <td><span class="good-text">Good</span> — balanced distribution for a starter pilot.</td>
+          </tr>
+          <tr>
+            <td>Intent distribution</td>
+            <td>32% comparison/selection · 30% task/how-to · 26% informational · 10% capability/eligibility</td>
+            <td><span class="good-text">Healthy</span> — good spread across commercial and operational questions.</td>
+          </tr>
+          <tr>
+            <td>Journey-stage balance</td>
+            <td>38% awareness/consideration · 32% consideration/decision · 22% decision/onboarding · 8% post-purchase/use</td>
+            <td><span class="warn-text">Slightly skewed</span> — support/use coverage is thinner than the rest.</td>
+          </tr>
+          <tr>
+            <td>Duplicate control</td>
+            <td>0 exact duplicates; a few semantically overlapping prompt clusters</td>
+            <td><span class="good-text">Acceptable</span> — no exact duplication, but some refinement is warranted.</td>
+          </tr>
+          <tr>
+            <td>Market fit</td>
+            <td>All prompts tagged to SG market</td>
+            <td><span class="good-text">Strong</span> — localization and market focus are clear.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="grid-2" style="margin-top:18px;">
+        <div class="card">
+          <span class="pill good">Best portfolio strengths</span>
+          <ul>
+            <li>Strong fit to Singapore SME banking realities.</li>
+            <li>Good commercial coverage across onboarding, fees, payments, cross-border, and financing.</li>
+            <li>Enough comparison/selection intent to reveal meaningful recommendation patterns.</li>
+            <li>Balanced prompt counts across topics reduce obvious structural bias.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="pill warn">Highest portfolio risks</span>
+          <ul>
+            <li>Over-branded mix reduces visibility into generic market discovery.</li>
+            <li>Broad "best business account" prompts may create unstable or generic rankings-style outputs.</li>
+            <li>Some UOB Infinity prompts overlap too closely in purpose.</li>
+            <li>Post-purchase operational tasks are underrepresented outside the Infinity topic.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="prompts">
+      <div class="section-tag">Section 6</div>
+      <h2>Individual prompt review — flagged items</h2>
+      <p class="lead">
+        Most prompts are realistic and usable. The prompts below are the highest-value cleanup opportunities because they are either too broad,
+        too leading, semantically overlapping, or slightly mis-positioned.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Prompt</th>
+            <th>Issue</th>
+            <th>Why it matters</th>
+            <th>Suggested direction</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>What is the best business bank account in Singapore?</td>
+            <td><span class="status s-warn">Too broad</span></td>
+            <td>Likely to generate generic, unstable answers with low diagnostic value.</td>
+            <td>Narrow by audience or need, e.g. <strong>best business bank account for startups in Singapore</strong> or <strong>best business bank account for firms with cross-border payments</strong>.</td>
+          </tr>
+          <tr>
+            <td>What are the best digital business banking options in Singapore?</td>
+            <td><span class="status s-warn">Too broad</span></td>
+            <td>This is a large-market prompt rather than a focused opportunity prompt.</td>
+            <td>Add user segment or need state, e.g. payments-heavy SMEs, digital onboarding, or startups.</td>
+          </tr>
+          <tr>
+            <td>Why should I choose UOB for my business bank account?</td>
+            <td><span class="status s-bad">Leading</span></td>
+            <td>Biases the prompt toward a favorable brand answer and weakens measurement neutrality.</td>
+            <td>Rewrite as a neutral comparison or selection question, e.g. <strong>What should SMEs compare when choosing a business bank account in Singapore?</strong></td>
+          </tr>
+          <tr>
+            <td>What is UOB Infinity?</td>
+            <td><span class="status s-warn">Overlap</span></td>
+            <td>Overlaps with adjacent Infinity prompts and adds limited new measurement value by itself.</td>
+            <td>Keep only if paired with a more differentiated purpose, or merge conceptually with a capability prompt.</td>
+          </tr>
+          <tr>
+            <td>What can I do with UOB Infinity?</td>
+            <td><span class="status s-warn">Overlap</span></td>
+            <td>Very close to <strong>What is UOB Infinity?</strong> and <strong>How do I use UOB Infinity for business banking?</strong></td>
+            <td>Refocus on a concrete workflow, e.g. approvals, payroll, bulk payments, collections, or access controls.</td>
+          </tr>
+          <tr>
+            <td>Should I choose a local SGD business account or a multi-currency business account?</td>
+            <td><span class="status s-warn">Topic placement</span></td>
+            <td>Good prompt, but it fits more naturally under cross-border / multi-currency decisioning than general comparison.</td>
+            <td>Move to <strong>Multi-currency and Cross-border</strong> or create a specialized account-fit subtopic.</td>
+          </tr>
+          <tr>
+            <td>What is a good business account for SMEs in Singapore?</td>
+            <td><span class="status s-warn">Broad</span></td>
+            <td>Useful as a market discovery prompt, but still wide enough to produce noisy answers.</td>
+            <td>Constrain by company stage, payment profile, account needs, or international exposure.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="grid-3" style="margin-top:18px;">
+        <div class="card">
+          <span class="pill good">Prompt realism</span>
+          <p class="muted">
+            Overall realism is good. The set sounds like actual user questions rather than SEO fragments.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill warn">Prompt specificity</span>
+          <p class="muted">
+            Specificity is mixed. Several prompts are excellent, but the broad "best account" cluster needs tightening.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill good">Prompt neutrality</span>
+          <p class="muted">
+            Neutrality is mostly good, with one obvious exception: the direct "Why should I choose UOB..." prompt.
+          </p>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Line-level recommendation:</strong> Keep most of the bank intact, but rewrite the small cluster of broad and overlapping prompts first.
+        This will improve signal quality quickly without disrupting the bank's overall structure.
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">Section 7</div>
+      <h2>Prioritized recommendations</h2>
+      <p class="lead">
+        These are the highest-value changes to apply before or early in trial measurement.
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Priority</th>
+            <th>Recommendation</th>
+            <th>Expected impact</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="status s-bad">High</span></td>
+            <td>Reduce branded prompt share from 76% toward a more balanced mix by adding more unbranded discovery prompts.</td>
+            <td>Improves generic-market visibility measurement and competitive context.</td>
+          </tr>
+          <tr>
+            <td><span class="status s-bad">High</span></td>
+            <td>Rewrite broad "best business bank account" prompts into narrower prompts by segment, use case, or business need.</td>
+            <td>Improves prompt stability and actionability.</td>
+          </tr>
+          <tr>
+            <td><span class="status s-warn">Medium</span></td>
+            <td>Refine <strong>Business Account Basics</strong> into a tighter topic or split it into clearer sub-areas.</td>
+            <td>Reduces topic noise and improves diagnosis quality.</td>
+          </tr>
+          <tr>
+            <td><span class="status s-warn">Medium</span></td>
+            <td>Consolidate the overlapping UOB Infinity prompts into more differentiated workflow-focused prompts.</td>
+            <td>Reduces redundancy and improves measurement efficiency.</td>
+          </tr>
+          <tr>
+            <td><span class="status s-warn">Medium</span></td>
+            <td>Rename the top category to a cleaner customer-facing analytical label.</td>
+            <td>Improves taxonomy clarity and stakeholder usability.</td>
+          </tr>
+          <tr>
+            <td><span class="status s-neutral">Low</span></td>
+            <td>Add a few more post-purchase/use prompts outside digital banking, such as servicing, payments operations, or account administration.</td>
+            <td>Creates better lifecycle coverage across the bank.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-tag">Section 8</div>
+      <h2>Final assessment</h2>
+      <p class="lead">
+        The prompt bank is <strong>strong enough to use for a pilot</strong>, especially because it stays focused on one market and one business line.
+        The current set already has good commercial intent coverage and balanced topic sizing. The main quality risks are not structural failure;
+        they are <strong>calibration issues</strong>: too much branded emphasis, a few broad prompts, and mild topic overlap.
+      </p>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="pill good">Final verdict</span>
+          <h3>Ready with targeted revisions</h3>
+          <ul>
+            <li>Do <strong>not</strong> rebuild the whole bank.</li>
+            <li>Keep the overall pilot shape and topic footprint.</li>
+            <li>Apply a small number of prompt rewrites and a branded/unbranded rebalance first.</li>
+            <li>Then hold the set reasonably stable to establish clean trendlines.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="pill red">Best next step</span>
+          <h3>Revise 8–12 prompts, not all 50</h3>
+          <ul>
+            <li>Target the broadest prompts first.</li>
+            <li>Add unbranded discovery variants in the strongest topics.</li>
+            <li>Clean up the UOB Infinity overlap cluster.</li>
+            <li>Rename the category and tighten one broad topic.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Bottom line:</strong> This is a good pilot bank that should produce useful insight once the broadest prompts are tightened
+        and the branded mix is corrected. The overall direction is sound.
+      </div>
+    </section>
+
+    <footer class="footer">
+      Adobe-themed audit report generated from the uploaded prompt CSV using the previously defined category/topic/prompt evaluation framework.
+    </footer>
+  </div>
+</body>
+</html>

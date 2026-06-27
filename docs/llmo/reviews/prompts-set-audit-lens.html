@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adobe LLM Optimizer Prompt Set Audit Framework</title>
+  <style>
+    :root{
+      --adobe-red:#FA0F00;
+      --adobe-red-dark:#C90C00;
+      --ink:#1f1f1f;
+      --ink-soft:#4b4b4b;
+      --line:#e7e7e7;
+      --bg:#f7f7f8;
+      --card:#ffffff;
+      --muted:#6b7280;
+      --good:#0f8a4b;
+      --warn:#c77d00;
+      --bad:#c53030;
+      --shadow:0 10px 30px rgba(0,0,0,.08);
+      --radius:18px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(250,15,0,.08), transparent 30%),
+        linear-gradient(180deg, #ffffff 0%, #f7f7f8 100%);
+      line-height:1.55;
+    }
+
+    .page{
+      max-width:1200px;
+      margin:0 auto;
+      padding:32px 24px 64px;
+    }
+
+    .hero{
+      background:linear-gradient(135deg, #2a2a2a 0%, #111 60%, #4f0a06 100%);
+      color:#fff;
+      border-radius:28px;
+      padding:42px 40px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .hero:before,
+    .hero:after{
+      content:"";
+      position:absolute;
+      border-radius:999px;
+      background:rgba(250,15,0,.18);
+      filter:blur(8px);
+    }
+
+    .hero:before{
+      width:280px;
+      height:280px;
+      right:-70px;
+      top:-50px;
+    }
+
+    .hero:after{
+      width:180px;
+      height:180px;
+      left:-40px;
+      bottom:-60px;
+    }
+
+    .eyebrow{
+      display:inline-block;
+      font-size:12px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      padding:8px 12px;
+      border:1px solid rgba(255,255,255,.18);
+      border-radius:999px;
+      color:#ffe2df;
+      margin-bottom:18px;
+      background:rgba(255,255,255,.05);
+    }
+
+    h1,h2,h3,h4{
+      margin:0 0 12px;
+      line-height:1.15;
+    }
+
+    h1{
+      font-size:clamp(34px, 4vw, 54px);
+      font-weight:800;
+      letter-spacing:-.03em;
+      max-width:900px;
+    }
+
+    .subtitle{
+      font-size:18px;
+      max-width:900px;
+      color:#f3f4f6;
+      margin-top:14px;
+    }
+
+    .summary-grid{
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:16px;
+      margin-top:28px;
+    }
+
+    .metric{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:18px;
+      padding:16px 18px;
+      backdrop-filter: blur(4px);
+    }
+
+    .metric .label{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#ffccc7;
+      margin-bottom:8px;
+    }
+
+    .metric .value{
+      font-size:16px;
+      font-weight:700;
+      color:#fff;
+    }
+
+    .toc{
+      margin-top:24px;
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:14px;
+    }
+
+    .toc a{
+      text-decoration:none;
+      color:var(--ink);
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px 18px;
+      display:block;
+      box-shadow:var(--shadow);
+      transition:.2s ease;
+    }
+
+    .toc a:hover{
+      transform:translateY(-2px);
+      border-color:#f2b4af;
+    }
+
+    .toc .num{
+      font-size:12px;
+      text-transform:uppercase;
+      color:var(--adobe-red);
+      font-weight:700;
+      letter-spacing:.12em;
+      margin-bottom:8px;
+      display:block;
+    }
+
+    section{
+      margin-top:28px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:30px;
+      box-shadow:var(--shadow);
+    }
+
+    .section-header{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:20px;
+      margin-bottom:18px;
+    }
+
+    .section-tag{
+      font-size:12px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--adobe-red);
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .lead{
+      color:var(--ink-soft);
+      font-size:17px;
+      max-width:920px;
+    }
+
+    .grid-2,
+    .grid-3{
+      display:grid;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .grid-2{grid-template-columns:repeat(2, minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3, minmax(0,1fr))}
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:20px;
+      background:#fff;
+    }
+
+    .card h3,
+    .card h4{
+      font-size:20px;
+    }
+
+    .card p{
+      margin:8px 0 0;
+      color:var(--ink-soft);
+    }
+
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      margin-bottom:10px;
+    }
+
+    .pill.good{background:#e9f8f0;color:var(--good)}
+    .pill.warn{background:#fff4dd;color:var(--warn)}
+    .pill.bad{background:#fdecec;color:var(--bad)}
+    .pill.red{background:#ffe8e6;color:var(--adobe-red)}
+
+    ul,ol{
+      margin:12px 0 0 20px;
+      padding:0;
+    }
+
+    li{
+      margin:8px 0;
+    }
+
+    .checklist{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0,1fr));
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .check{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px 20px;
+      background:#fcfcfc;
+    }
+
+    .check strong{
+      display:block;
+      margin-bottom:8px;
+      font-size:17px;
+    }
+
+    .note{
+      margin-top:16px;
+      padding:16px 18px;
+      border-left:4px solid var(--adobe-red);
+      background:#fff5f4;
+      border-radius:0 14px 14px 0;
+      color:#5a2a27;
+    }
+
+    .score-table,
+    .audit-table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:18px;
+      overflow:hidden;
+      border-radius:18px;
+      border:1px solid var(--line);
+    }
+
+    .score-table th,
+    .score-table td,
+    .audit-table th,
+    .audit-table td{
+      text-align:left;
+      vertical-align:top;
+      padding:14px 14px;
+      border-bottom:1px solid var(--line);
+      font-size:14px;
+    }
+
+    .score-table th,
+    .audit-table th{
+      background:#fafafa;
+      color:#111;
+      font-weight:800;
+    }
+
+    .score-badge{
+      display:inline-block;
+      min-width:28px;
+      text-align:center;
+      padding:4px 8px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:12px;
+    }
+
+    .score-2{background:#e9f8f0;color:var(--good)}
+    .score-1{background:#fff4dd;color:var(--warn)}
+    .score-0{background:#fdecec;color:var(--bad)}
+
+    .process{
+      display:grid;
+      grid-template-columns:repeat(5, minmax(0,1fr));
+      gap:16px;
+      margin-top:18px;
+    }
+
+    .step{
+      position:relative;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      background:#fff;
+    }
+
+    .step .n{
+      width:34px;
+      height:34px;
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      background:var(--adobe-red);
+      color:#fff;
+      font-weight:800;
+      margin-bottom:12px;
+    }
+
+    .step h4{
+      font-size:17px;
+      margin-bottom:6px;
+    }
+
+    .step p{
+      margin:0;
+      color:var(--ink-soft);
+      font-size:14px;
+    }
+
+    .example{
+      margin-top:18px;
+      padding:20px;
+      border:1px dashed #efb4ae;
+      border-radius:18px;
+      background:linear-gradient(180deg, #fff, #fff8f8);
+    }
+
+    .example-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:12px;
+    }
+
+    .bad-box,
+    .good-box{
+      border-radius:16px;
+      padding:18px;
+      min-height:100%;
+    }
+
+    .bad-box{
+      background:#fff1f1;
+      border:1px solid #f6c7c7;
+    }
+
+    .good-box{
+      background:#effaf3;
+      border:1px solid #c4ead1;
+    }
+
+    .footer{
+      margin-top:30px;
+      text-align:center;
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .mini{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    @media (max-width: 980px){
+      .summary-grid,
+      .toc,
+      .grid-3,
+      .process{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
+      .grid-2,
+      .checklist,
+      .example-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media (max-width: 640px){
+      .page{padding:18px 14px 48px}
+      .hero{padding:28px 22px}
+      section{padding:22px 18px}
+      .summary-grid,
+      .toc,
+      .grid-3,
+      .process{
+        grid-template-columns:1fr;
+      }
+      .metric .value{font-size:15px}
+    }
+
+    @media print{
+      body{background:#fff}
+      .hero, section, .toc a{box-shadow:none}
+      .page{max-width:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <header class="hero">
+      <div class="eyebrow">Adobe LLM Optimizer</div>
+      <h1>Prompt Set Audit Framework</h1>
+      <p class="subtitle">
+        A refined audit model for reviewing a customer's prompt library across <strong>categories</strong>,
+        <strong>topics</strong>, and <strong>individual prompts</strong>—with practical guidance for trial readiness,
+        measurement quality, and recommendation writing.
+      </p>
+
+      <div class="summary-grid">
+        <div class="metric">
+          <div class="label">Primary Objective</div>
+          <div class="value">Improve signal quality, coverage, and actionability</div>
+        </div>
+        <div class="metric">
+          <div class="label">Core Lens</div>
+          <div class="value">Prompts should behave like stable, realistic test cases</div>
+        </div>
+        <div class="metric">
+          <div class="label">Audit Scope</div>
+          <div class="value">Category design, topic structure, prompt portfolio, prompt quality</div>
+        </div>
+        <div class="metric">
+          <div class="label">Best Pilot Pattern</div>
+          <div class="value">Focused coverage on fewer priority areas, not shallow coverage everywhere</div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="toc" aria-label="Table of contents">
+      <a href="#principles">
+        <span class="num">01</span>
+        <strong>Audit Principles</strong>
+        <div class="mini">What "good" looks like overall</div>
+      </a>
+      <a href="#category">
+        <span class="num">02</span>
+        <strong>Category Review</strong>
+        <div class="mini">Strategic structure and portfolio boundaries</div>
+      </a>
+      <a href="#topic">
+        <span class="num">03</span>
+        <strong>Topic Review</strong>
+        <div class="mini">Specificity, coherence, and coverage</div>
+      </a>
+      <a href="#set">
+        <span class="num">04</span>
+        <strong>Prompt Set Review</strong>
+        <div class="mini">Balance, mix, and measurement design</div>
+      </a>
+      <a href="#prompt">
+        <span class="num">05</span>
+        <strong>Prompt Review</strong>
+        <div class="mini">Line-by-line quality checks</div>
+      </a>
+      <a href="#scoring">
+        <span class="num">06</span>
+        <strong>Scoring Model</strong>
+        <div class="mini">A simple way to assess and prioritize</div>
+      </a>
+      <a href="#deliverable">
+        <span class="num">07</span>
+        <strong>Recommended Output</strong>
+        <div class="mini">How to structure customer feedback</div>
+      </a>
+      <a href="#quickwin">
+        <span class="num">08</span>
+        <strong>Top Quick Wins</strong>
+        <div class="mini">High-impact improvements to suggest first</div>
+      </a>
+    </nav>
+
+    <section id="principles">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Audit Principles</div>
+          <h2>Start with the right mental model</h2>
+          <p class="lead">
+            The most important shift is to evaluate the prompt bank as a <strong>measurement system</strong>, not as a
+            pile of search queries. A strong prompt set should generate <strong>stable, interpretable trend lines</strong>,
+            reveal where the brand is visible or absent, and lead to <strong>clear optimization actions</strong>.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="pill red">Principle 1</span>
+          <h3>Realistic</h3>
+          <p>
+            The prompts should sound like what real people would ask AI assistants, not keyword fragments disguised as
+            questions.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill red">Principle 2</span>
+          <h3>Specific</h3>
+          <p>
+            Each prompt should contain enough context to narrow the answer space and reduce ambiguity.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill red">Principle 3</span>
+          <h3>Repeatable</h3>
+          <p>
+            Prompts should be structured well enough that changes in results reflect market or content changes, not random prompt noise.
+          </p>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Key audit insight:</strong> Weak prompts do not just create poor answers—they create poor measurement.
+        That means the audit should focus not only on whether a prompt is "good writing," but on whether it is a
+        <strong>useful instrument for tracking visibility, mentions, citations, and opportunity areas over time</strong>.
+      </div>
+
+      <div class="checklist">
+        <div class="check">
+          <strong>What a strong library usually does</strong>
+          <ul>
+            <li>Focuses on a manageable number of priority business areas</li>
+            <li>Includes both branded and unbranded discovery moments</li>
+            <li>Covers multiple stages of the customer journey</li>
+            <li>Uses natural, conversational phrasing</li>
+            <li>Produces insights that can translate into content or optimization work</li>
+          </ul>
+        </div>
+        <div class="check">
+          <strong>What a weak library usually does</strong>
+          <ul>
+            <li>Spreads prompt volume too thinly across too many topics</li>
+            <li>Over-indexes on vanity or branded-only prompts</li>
+            <li>Contains many vague prompts with little context</li>
+            <li>Duplicates similar ideas without adding measurement value</li>
+            <li>Reflects internal site structure more than real user behavior</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="category">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Level 1</div>
+          <h2>Category-level quality aspects</h2>
+          <p class="lead">
+            Categories should define the broad business territories the customer actually wants to measure in AI search.
+            At this level, you are judging <strong>strategic structure</strong> more than wording.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="pill good">What to check</span>
+          <ul>
+            <li><strong>Strategic relevance:</strong> Does the category map to a business priority, product line, service line, or reputation area that matters?</li>
+            <li><strong>Clear scope:</strong> Is it obvious what belongs in the category and what does not?</li>
+            <li><strong>Distinctness:</strong> Does it avoid overlapping heavily with neighboring categories?</li>
+            <li><strong>Business usefulness:</strong> If performance changes in this category, will the customer care?</li>
+            <li><strong>Pilot fit:</strong> Is the category set small and focused enough for a 100–200 prompt trial?</li>
+            <li><strong>Market relevance:</strong> Does it make sense for the customer's target countries, languages, or business regions?</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="pill warn">Common issues</span>
+          <ul>
+            <li>Categories mirror a website menu instead of actual demand patterns</li>
+            <li>Multiple categories represent nearly the same idea</li>
+            <li>One category gets most prompts while others are nearly empty</li>
+            <li>The customer tries to cover every line of business in an early pilot</li>
+            <li>Category labels are vague, internal, or ambiguous</li>
+            <li>Important revenue or reputation areas are missing entirely</li>
+          </ul>
+        </div>
+      </div>
+
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>Category dimension</th>
+            <th>Strong signal</th>
+            <th>Weak signal</th>
+            <th>Typical recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Strategic importance</td>
+            <td>Directly tied to a key business objective</td>
+            <td>Low-impact or generic grouping</td>
+            <td>Remove or de-prioritize low-value categories</td>
+          </tr>
+          <tr>
+            <td>Boundary clarity</td>
+            <td>Clear inclusion/exclusion logic</td>
+            <td>Frequent overlap and confusion</td>
+            <td>Rename, merge, or redraw scope boundaries</td>
+          </tr>
+          <tr>
+            <td>Portfolio balance</td>
+            <td>Prompt volume aligns to business priority</td>
+            <td>Volume is arbitrarily distributed</td>
+            <td>Reallocate prompts toward top categories</td>
+          </tr>
+          <tr>
+            <td>Trial appropriateness</td>
+            <td>Focused enough for depth</td>
+            <td>Too broad for a pilot prompt budget</td>
+            <td>Concentrate on fewer categories first</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>Practical recommendation:</strong> For a small trial, category count should stay intentionally tight.
+        Shallow coverage across many business areas usually looks comprehensive, but it often weakens the value of the
+        insights because no category gets enough prompt depth to reveal clear patterns.
+      </div>
+    </section>
+
+    <section id="topic">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Level 2</div>
+          <h2>Topic-level quality aspects</h2>
+          <p class="lead">
+            Topics are where the audit becomes more operational. A topic should represent a <strong>specific opportunity area</strong>
+            within a category—narrow enough to be meaningful, broad enough to support a useful cluster of prompts.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="pill good">Assess these qualities</span>
+          <ul>
+            <li><strong>Specificity:</strong> Is the topic focused on one clear use case, need state, or decision area?</li>
+            <li><strong>User alignment:</strong> Does it reflect how users think and ask, rather than how the company organizes itself?</li>
+            <li><strong>Actionability:</strong> If visibility is weak here, can the customer identify what content or optimization work to do next?</li>
+            <li><strong>Prompt depth:</strong> Does the topic have enough prompt support to produce meaningful data?</li>
+            <li><strong>Coherence:</strong> Do the prompts within the topic belong together semantically?</li>
+            <li><strong>Journey-stage clarity:</strong> Is the topic mostly early stage, comparison stage, decision stage, or support stage?</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="pill bad">Red flags</span>
+          <ul>
+            <li>The topic is too broad to optimize meaningfully</li>
+            <li>The topic mixes unrelated user intents</li>
+            <li>The topic duplicates a neighboring topic with slightly different naming</li>
+            <li>The prompts within the topic span too many product lines or personas</li>
+            <li>The topic is too thin to create reliable reporting</li>
+            <li>The topic name is an internal label with no obvious user meaning</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="example">
+        <h3>Example: broad topic vs refined topic</h3>
+        <div class="example-grid">
+          <div class="bad-box">
+            <span class="pill bad">Weak</span>
+            <h4>Topic: "Banking"</h4>
+            <ul>
+              <li>Too broad to diagnose clearly</li>
+              <li>Likely to mix education, trust, products, rates, support, and comparison intent</li>
+              <li>Hard to connect weak visibility to a specific optimization action</li>
+            </ul>
+          </div>
+          <div class="good-box">
+            <span class="pill good">Stronger</span>
+            <h4>Topic: "Best checking accounts for students"</h4>
+            <ul>
+              <li>Clear audience and use case</li>
+              <li>Easier to group realistic prompts around one decision area</li>
+              <li>Weak visibility would point toward obvious content gaps or messaging gaps</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Best review question at topic level:</strong> "If this topic underperforms, can the customer tell what to improve?"
+        If the answer is no, the topic is probably too broad, too mixed, or too poorly defined.
+      </div>
+    </section>
+
+    <section id="set">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Level 3</div>
+          <h2>Prompt-set quality aspects across the full library</h2>
+          <p class="lead">
+            This is the portfolio review. Even if many individual prompts are decent, the overall set can still be weak if it lacks
+            balance, strategic focus, or enough stability to support a clean baseline.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="pill red">Coverage</span>
+          <p>
+            Review whether the library covers the customer's priority business areas, high-value decision moments,
+            competitor comparison scenarios, and trust or support use cases.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill red">Balance</span>
+          <p>
+            Check mix across branded and unbranded prompts, customer journey stages, prompt types, personas, markets,
+            and decision contexts.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill red">Measurement fitness</span>
+          <p>
+            The set should be stable enough to establish trends. Excessive churn in the prompt bank weakens benchmark quality.
+          </p>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="check">
+          <strong>Audit dimensions for the full set</strong>
+          <ul>
+            <li><strong>Branded vs unbranded mix:</strong> Is the customer balancing brand-name prompts with generic discovery intent?</li>
+            <li><strong>Journey-stage coverage:</strong> Are awareness, comparison, decision, and support moments all represented?</li>
+            <li><strong>Intent diversity:</strong> Does the set include informational, evaluative, comparative, objection-handling, how-to, and purchase-oriented prompts?</li>
+            <li><strong>Competitive coverage:</strong> Are substitution and comparison prompts present where the category is competitive?</li>
+            <li><strong>Localization:</strong> Are prompts market-native, not merely translated?</li>
+            <li><strong>Duplicate control:</strong> Are near-duplicates minimized unless they add genuine measurement value?</li>
+          </ul>
+        </div>
+        <div class="check">
+          <strong>Questions to ask in the review</strong>
+          <ul>
+            <li>Is the prompt bank grounded in real demand, or mostly brainstormed?</li>
+            <li>Is the customer trying to monitor too many topics for the available volume?</li>
+            <li>Would a weak result on this set lead to clear optimization recommendations?</li>
+            <li>Does the set over-index on low-value "what is" prompts?</li>
+            <li>Are later-stage "help me choose" prompts sufficiently represented?</li>
+            <li>Would this prompt bank create a stable baseline for a trial?</li>
+          </ul>
+        </div>
+      </div>
+
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>Portfolio dimension</th>
+            <th>What good looks like</th>
+            <th>What weak looks like</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Strategic focus</td>
+            <td>Concentrated on a smaller number of high-priority areas</td>
+            <td>Thinly spread across too many priorities</td>
+          </tr>
+          <tr>
+            <td>Intent mix</td>
+            <td>Balanced across education, comparison, selection, and support</td>
+            <td>Mostly generic informational prompts</td>
+          </tr>
+          <tr>
+            <td>Brandedness</td>
+            <td>Brand-name prompts supplemented by unbranded discovery prompts</td>
+            <td>Mostly branded prompts or mostly generic prompts without strategy</td>
+          </tr>
+          <tr>
+            <td>Measurement stability</td>
+            <td>Core prompt set can stay consistent long enough to track trend lines</td>
+            <td>Prompt set is frequently reworked before baselines form</td>
+          </tr>
+          <tr>
+            <td>Actionability</td>
+            <td>Weak performance points to obvious content or GEO opportunities</td>
+            <td>Results would be too broad or noisy to act on</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        <strong>Important audit lens:</strong> A prompt set can be "large" and still be strategically weak. More prompts do not automatically
+        create better insight. What matters is whether the prompt portfolio is <strong>well structured, intentionally balanced, and deep where it matters most</strong>.
+      </div>
+    </section>
+
+    <section id="prompt">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Level 4</div>
+          <h2>Individual prompt quality aspects</h2>
+          <p class="lead">
+            This is the line-by-line review. At this level, the job is to decide whether each prompt is a strong candidate to produce
+            reliable, meaningful, and actionable measurement.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="pill good">Core prompt checks</span>
+          <ul>
+            <li><strong>Realistic:</strong> Sounds like a real person asking an AI assistant</li>
+            <li><strong>Single-intent:</strong> Focused on one need, one decision, or one task</li>
+            <li><strong>Specific:</strong> Provides enough context to narrow the answer space</li>
+            <li><strong>Neutral:</strong> Avoids leading language that biases the model</li>
+            <li><strong>Repeatable:</strong> Structured well enough to support trend analysis</li>
+            <li><strong>Actionable:</strong> If results are weak, the customer can diagnose a content or visibility gap</li>
+            <li><strong>Properly assigned:</strong> Fits the right topic and category</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="pill warn">Typical prompt-level flaws</span>
+          <ul>
+            <li>Too vague to measure reliably</li>
+            <li>Too broad to indicate a specific opportunity</li>
+            <li>Contains multiple questions in one line</li>
+            <li>Feels like a keyword phrase rather than a natural prompt</li>
+            <li>Overly leading or biased toward a desired brand answer</li>
+            <li>Redundant with another prompt without adding a new angle</li>
+            <li>Assigned to the wrong topic or wrong journey stage</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="example">
+        <h3>Prompt refinement examples</h3>
+        <div class="example-grid">
+          <div class="bad-box">
+            <span class="pill bad">Weak prompt</span>
+            <h4>"Best CRM software"</h4>
+            <ul>
+              <li>Too broad</li>
+              <li>No audience or business context</li>
+              <li>Likely to create unstable, generic answers</li>
+            </ul>
+          </div>
+          <div class="good-box">
+            <span class="pill good">Refined prompt</span>
+            <h4>"What is the best CRM for a B2B SaaS company with more than 5,000 employees?"</h4>
+            <ul>
+              <li>Clear scenario</li>
+              <li>Narrower comparison set</li>
+              <li>More useful for benchmarking visibility and citations</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="example-grid">
+          <div class="bad-box">
+            <span class="pill bad">Weak prompt</span>
+            <h4>"Why is Brand X the best bank?"</h4>
+            <ul>
+              <li>Leading phrasing</li>
+              <li>Biased toward the desired outcome</li>
+              <li>Poor measurement signal</li>
+            </ul>
+          </div>
+          <div class="good-box">
+            <span class="pill good">Refined prompt</span>
+            <h4>"What are the best online banks for college students in the UK?"</h4>
+            <ul>
+              <li>Natural user language</li>
+              <li>Clear audience and market</li>
+              <li>Useful for brand presence and competitor comparison analysis</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>Prompt attribute</th>
+            <th>What to look for</th>
+            <th>Why it matters</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Realism</td>
+            <td>Natural, conversational phrasing</td>
+            <td>Improves alignment to actual AI-search behavior</td>
+          </tr>
+          <tr>
+            <td>Specificity</td>
+            <td>Audience, task, use case, comparison target, region, or constraint</td>
+            <td>Reduces ambiguity and random answer drift</td>
+          </tr>
+          <tr>
+            <td>Intent purity</td>
+            <td>One core question per prompt</td>
+            <td>Improves clarity of measurement and diagnosis</td>
+          </tr>
+          <tr>
+            <td>Neutrality</td>
+            <td>Avoids loaded or promotional framing</td>
+            <td>Prevents artificially favorable answers</td>
+          </tr>
+          <tr>
+            <td>Uniqueness</td>
+            <td>Distinct angle vs nearby prompts</td>
+            <td>Keeps the set efficient and lowers noise</td>
+          </tr>
+          <tr>
+            <td>Localization</td>
+            <td>Market-native phrasing and geography fit</td>
+            <td>Makes the prompt set more representative and actionable</td>
+          </tr>
+          <tr>
+            <td>Measurement utility</td>
+            <td>Useful if monitored repeatedly over time</td>
+            <td>Supports stable benchmarking and trend analysis</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="scoring">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Scoring Framework</div>
+          <h2>Use a simple scoring model to make the audit consistent</h2>
+          <p class="lead">
+            A lightweight scoring method keeps the review objective and easier to defend. The goal is not to create a perfect
+            mathematical model—it is to create a clear way to sort what should be <strong>kept</strong>, <strong>revised</strong>, <strong>merged</strong>, or <strong>removed</strong>.
+          </p>
+        </div>
+      </div>
+
+      <table class="score-table">
+        <thead>
+          <tr>
+            <th>Score</th>
+            <th>Meaning</th>
+            <th>Use when</th>
+            <th>Recommended action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="score-badge score-2">2</span></td>
+            <td><strong>Strong</strong></td>
+            <td>The item is strategically sound and ready to keep</td>
+            <td>Retain as is, or only make minor wording edits</td>
+          </tr>
+          <tr>
+            <td><span class="score-badge score-1">1</span></td>
+            <td><strong>Needs revision</strong></td>
+            <td>The idea is valid, but execution is weak</td>
+            <td>Rewrite, narrow, reclassify, or rebalance</td>
+          </tr>
+          <tr>
+            <td><span class="score-badge score-0">0</span></td>
+            <td><strong>Low value</strong></td>
+            <td>The item is redundant, too vague, or not strategically useful</td>
+            <td>Remove, merge, or replace</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="grid-2">
+        <div class="card">
+          <span class="pill red">Recommended audit columns</span>
+          <ul>
+            <li>Level</li>
+            <li>Category / Topic / Prompt</li>
+            <li>Score</li>
+            <li>Issue type</li>
+            <li>Problem summary</li>
+            <li>Recommendation</li>
+            <li>Priority</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="pill red">Useful issue types</span>
+          <ul>
+            <li>Overlap</li>
+            <li>Too broad</li>
+            <li>Too vague</li>
+            <li>Duplicate</li>
+            <li>Misclassified</li>
+            <li>Too thin</li>
+            <li>Missing comparison intent</li>
+            <li>Missing localization</li>
+          </ul>
+        </div>
+      </div>
+
+      <table class="audit-table">
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>Item</th>
+            <th>Score</th>
+            <th>Issue</th>
+            <th>Recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Category</td>
+            <td>Financial Wellness</td>
+            <td><span class="score-badge score-1">1</span></td>
+            <td>Overlaps with Personal Finance</td>
+            <td>Merge or redraw category boundaries</td>
+          </tr>
+          <tr>
+            <td>Topic</td>
+            <td>Credit Cards</td>
+            <td><span class="score-badge score-0">0</span></td>
+            <td>Far too broad for useful optimization</td>
+            <td>Split into rewards, student, low-interest, and travel subtopics</td>
+          </tr>
+          <tr>
+            <td>Prompt</td>
+            <td>Best bank</td>
+            <td><span class="score-badge score-0">0</span></td>
+            <td>Too vague</td>
+            <td>Rewrite with audience, geography, or scenario</td>
+          </tr>
+          <tr>
+            <td>Prompt</td>
+            <td>What are the best savings accounts for parents in Canada?</td>
+            <td><span class="score-badge score-2">2</span></td>
+            <td>None</td>
+            <td>Keep</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="deliverable">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Customer Deliverable</div>
+          <h2>How to structure your final feedback</h2>
+          <p class="lead">
+            The best customer-facing audit is concise at the top, diagnostic in the middle, and prescriptive at the end.
+            It should show that you reviewed the prompt bank systematically and that your recommendations are connected
+            directly to measurement quality and business value.
+          </p>
+        </div>
+      </div>
+
+      <div class="process">
+        <div class="step">
+          <div class="n">1</div>
+          <h4>Executive summary</h4>
+          <p>Overall quality, biggest strengths, biggest gaps, and top recommendations.</p>
+        </div>
+        <div class="step">
+          <div class="n">2</div>
+          <h4>Taxonomy review</h4>
+          <p>Findings on category and topic structure, overlap, missing areas, and over-breadth.</p>
+        </div>
+        <div class="step">
+          <div class="n">3</div>
+          <h4>Prompt quality review</h4>
+          <p>Patterns in vagueness, duplication, brandedness, localization, and intent coverage.</p>
+        </div>
+        <div class="step">
+          <div class="n">4</div>
+          <h4>Recommended revisions</h4>
+          <p>What to keep, merge, split, rewrite, add, and de-prioritize.</p>
+        </div>
+        <div class="step">
+          <div class="n">5</div>
+          <h4>Trial plan</h4>
+          <p>How to preserve a stable baseline and sequence improvements without breaking trend lines.</p>
+        </div>
+      </div>
+
+      <div class="checklist">
+        <div class="check">
+          <strong>Suggested executive-summary language</strong>
+          <ul>
+            <li>The prompt set has strong strategic intent but needs tighter topic boundaries</li>
+            <li>The library is too broad for the current pilot size and should be concentrated</li>
+            <li>The set includes valuable branded prompts but needs more non-branded discovery prompts</li>
+            <li>Many prompts are directionally correct but require more context to improve repeatability</li>
+          </ul>
+        </div>
+        <div class="check">
+          <strong>Recommendation buckets</strong>
+          <ul>
+            <li><strong>Keep:</strong> strong items ready for monitoring</li>
+            <li><strong>Revise:</strong> good ideas with weak execution</li>
+            <li><strong>Merge:</strong> overlapping categories, topics, or prompt clusters</li>
+            <li><strong>Split:</strong> broad topics that need sharper boundaries</li>
+            <li><strong>Add:</strong> missing prompt types or opportunity areas</li>
+            <li><strong>De-prioritize:</strong> low-value items that dilute pilot quality</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Best positioning for recommendations:</strong> Frame changes in terms of
+        <strong>measurement quality</strong>, <strong>signal clarity</strong>, and <strong>actionability</strong>.
+        Customers usually respond better when they see that a prompt rewrite is not cosmetic—it improves the reliability
+        of the insights they will get from the product.
+      </div>
+    </section>
+
+    <section id="quickwin">
+      <div class="section-header">
+        <div>
+          <div class="section-tag">Priority Recommendations</div>
+          <h2>High-impact quick wins to look for in almost every audit</h2>
+          <p class="lead">
+            If you need to move quickly, these are the changes most likely to improve the quality of the prompt bank
+            before measurement begins or early in the trial.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <span class="pill good">Quick Win 1</span>
+          <h3>Reduce breadth</h3>
+          <p>
+            If the trial set tries to cover too many business areas, consolidate around a smaller number of top-priority categories and topics.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill good">Quick Win 2</span>
+          <h3>Rewrite vague prompts</h3>
+          <p>
+            Add audience, scenario, geography, or decision context so the prompt behaves more like a repeatable test case.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill good">Quick Win 3</span>
+          <h3>Add comparison intent</h3>
+          <p>
+            Many prompt sets underweight "help me choose" and competitor comparison prompts, even though those are often high-value moments.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill good">Quick Win 4</span>
+          <h3>Fix topic overlap</h3>
+          <p>
+            Merge duplicate topics and split overly broad ones so reporting becomes more interpretable.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill good">Quick Win 5</span>
+          <h3>Balance branded and unbranded</h3>
+          <p>
+            A healthy library should not rely only on brand-name prompts. Generic discovery moments matter just as much.
+          </p>
+        </div>
+        <div class="card">
+          <span class="pill good">Quick Win 6</span>
+          <h3>Preserve baseline stability</h3>
+          <p>
+            Keep the majority of the prompt bank stable long enough to establish a benchmark before making aggressive changes.
+          </p>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Bottom line:</strong> A strong Adobe LLM Optimizer prompt audit should improve four things at once:
+        <strong>structure</strong>, <strong>coverage</strong>, <strong>prompt quality</strong>, and <strong>measurement reliability</strong>.
+        When those four improve together, the customer gets cleaner insights and better recommendations.
+      </div>
+    </section>
+
+    <footer class="footer">
+      Prepared as an Adobe-themed audit framework for reviewing customer prompt libraries in Adobe LLM Optimizer.<br />
+      If useful, this can be turned next into a scored worksheet, reviewer checklist, or customer-facing summary deck.
+    </footer>
+
+  </div>
+</body>
+</html>

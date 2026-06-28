@@ -14,7 +14,7 @@
       --bg:#F7F7F8;
       --card:#FFFFFF;
       --line:#E7E8EB;
-      --line-soft:#F1F2F4;
+      --line-soft:#F3F4F6;
       --good:#14804A;
       --good-soft:#ECFDF3;
       --warn:#B76E00;
@@ -334,14 +334,6 @@
       padding:16px;
     }
 
-    .faq-item{
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:18px;
-      background:#fff;
-      margin-top:12px;
-    }
-
     .framework-box{
       border:1px solid var(--line);
       border-radius:18px;
@@ -386,7 +378,7 @@
 
     .prompt-row{
       display:grid;
-      grid-template-columns:1.15fr 1.15fr .7fr;
+      grid-template-columns:1.2fr 1.2fr .8fr;
       gap:14px;
       align-items:stretch;
     }
@@ -580,7 +572,7 @@
           <p class="muted">
             A prompt is an individual customer-style question. It is the actual test case used to observe visibility and performance.
           </p>
-          <p class="small"><strong>Examples:</strong> How do I request a credit card annual fee waiver?</p>
+          <p class="small"><strong>Example:</strong> How do I request a credit card annual fee waiver?</p>
         </div>
       </div>
 
@@ -751,6 +743,9 @@
       <p class="lead">
         Prompts are the individual questions in the bank. They should sound like real customer questions, be specific enough to create useful signals, and be distinct enough that each prompt earns its place.
       </p>
+      <p class="lead">
+        The goal is not to create many small wording variations of the same intent. Instead, the goal is to represent the <strong>important customer intents and situations</strong> clearly.
+      </p>
 
       <div class="grid-5">
         <div class="card">
@@ -798,8 +793,8 @@ small exporter + compare payment options + cross-border transfers</code>
           </div>
           <div class="good-box">
             <h4>Stronger</h4>
-            <p class="muted"><strong>What is the best business bank account for startups in Singapore?</strong></p>
-            <p class="small">Stronger because it narrows the audience and clarifies the scenario.</p>
+            <p class="muted"><strong>What is the best business bank account for startups in Singapore with low monthly fees?</strong></p>
+            <p class="small">Stronger because it narrows the audience, market, and decision criteria.</p>
           </div>
         </div>
       </div>
@@ -818,10 +813,34 @@ small exporter + compare payment options + cross-border transfers</code>
           <div class="good-box">
             <h4>Better differentiated</h4>
             <p class="muted">
-              <strong>How do I request an annual fee waiver?</strong><br />
+              <strong>How do I request an annual fee waiver for my credit card?</strong><br />
               <strong>Why was my annual fee waiver request rejected?</strong>
             </p>
-            <p class="small">These prompts are related but clearly serve different purposes.</p>
+            <p class="small">These prompts are related but clearly serve different purposes: action versus outcome.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="example">
+        <span class="pill blue">Example 3: wording variants vs intent coverage</span>
+        <div class="example-grid">
+          <div class="warn-box">
+            <h4>Low-value variants</h4>
+            <p class="muted">
+              <strong>What is the best credit card in India?</strong><br />
+              <strong>Top credit cards in India?</strong><br />
+              <strong>Best credit cards India</strong>
+            </p>
+            <p class="small">These mostly represent the same intent. Keeping all of them may add little extra value.</p>
+          </div>
+          <div class="good-box">
+            <h4>Better intent coverage</h4>
+            <p class="muted">
+              <strong>What is the best credit card in India for airport lounge access?</strong><br />
+              <strong>What is the best credit card in India for cashback on groceries?</strong><br />
+              <strong>What should I compare before choosing a credit card in India?</strong>
+            </p>
+            <p class="small">These are meaningfully different customer intents and provide broader coverage.</p>
           </div>
         </div>
       </div>
@@ -885,7 +904,7 @@ small exporter + compare payment options + cross-border transfers</code>
             </div>
             <div class="prompt-box good">
               <div class="prompt-label good">Stronger prompt</div>
-              <strong>Why was my credit card declined for an online overseas purchase?</strong>
+              <strong>Why was my credit card declined for an overseas online purchase?</strong>
             </div>
             <div class="prompt-box meta">
               <div class="prompt-label meta">Why stronger</div>
@@ -975,6 +994,28 @@ small exporter + compare payment options + cross-border transfers</code>
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <div class="example">
+        <span class="pill blue">When broad prompts are still useful</span>
+        <div class="grid-2">
+          <div class="card soft-blue">
+            <h4>Broad prompts can help when</h4>
+            <ul>
+              <li>you want a benchmark prompt for a major product area</li>
+              <li>you want one top-level discovery question in a topic</li>
+              <li>you are intentionally testing a broad market question</li>
+            </ul>
+          </div>
+          <div class="card soft-blue">
+            <h4>Broad prompts become a problem when</h4>
+            <ul>
+              <li>they dominate the prompt bank</li>
+              <li>they are repeated as many near-duplicates</li>
+              <li>they are too vague to guide any action afterward</li>
+            </ul>
+          </div>
+        </div>
       </div>
 
       <div class="example">
@@ -1138,11 +1179,11 @@ small exporter + compare payment options + cross-border transfers</code>
           </tr>
           <tr>
             <td>Are the prompts too broad?</td>
-            <td>Look for generic "best" questions without enough context.</td>
+            <td>Look for generic questions without enough customer or scenario context.</td>
           </tr>
           <tr>
             <td>Are prompts overlapping?</td>
-            <td>Remove near-duplicates unless each one adds a clearly different scenario.</td>
+            <td>Remove near-duplicates unless each one adds a clearly different intent or scenario.</td>
           </tr>
           <tr>
             <td>Is the bank too fragmented?</td>

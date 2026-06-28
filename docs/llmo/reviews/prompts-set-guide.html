@@ -3,24 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Building a Strong Prompt Bank for Trial Success — Category, Topic, and Prompt Guide</title>
+  <title>Building a Strong Prompt Bank for Trial Success — Customer Training Deck</title>
   <style>
     :root{
       --red:#D92D20;
       --red-dark:#B42318;
       --red-soft:#FFF1F0;
       --ink:#1F1F1F;
-      --ink-soft:#5F6368;
-      --bg:#F7F7F8;
+      --ink-soft:#667085;
+      --bg:#F5F6F8;
       --card:#FFFFFF;
-      --line:#E7E8EB;
+      --line:#E6E8EC;
       --good:#14804A;
       --good-soft:#ECFDF3;
       --warn:#B76E00;
       --warn-soft:#FFF7E6;
       --blue:#175CD3;
       --blue-soft:#EFF4FF;
-      --shadow:0 14px 38px rgba(0,0,0,.08);
+      --shadow:0 18px 42px rgba(0,0,0,.08);
+      --slide-shadow:0 22px 50px rgba(16,24,40,.10);
+      --radius-xl:28px;
+      --radius-lg:22px;
+      --radius-md:16px;
     }
 
     *{box-sizing:border-box}
@@ -30,172 +34,227 @@
       font-family:Inter,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
       color:var(--ink);
       background:
-        radial-gradient(circle at top right, rgba(217,45,32,.06), transparent 22%),
-        linear-gradient(180deg, #ffffff 0%, #f7f7f8 100%);
-      line-height:1.64;
+        radial-gradient(circle at top right, rgba(217,45,32,.05), transparent 24%),
+        linear-gradient(180deg,#FFFFFF 0%, #F5F6F8 100%);
+      line-height:1.58;
     }
 
     .page{
-      max-width:1360px;
+      max-width:1440px;
       margin:0 auto;
-      padding:24px 20px 56px;
+      padding:22px 18px 46px;
     }
 
-    .hero{
+    .deck-header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(12px);
+      background:rgba(245,246,248,.84);
+      border-bottom:1px solid rgba(230,232,236,.9);
+      margin:-22px -18px 18px;
+      padding:14px 18px;
+    }
+
+    .deck-header-inner{
+      max-width:1440px;
+      margin:0 auto;
+      display:flex;
+      gap:14px;
+      align-items:center;
+      justify-content:space-between;
+      flex-wrap:wrap;
+    }
+
+    .deck-title{
+      font-weight:800;
+      letter-spacing:-.02em;
+      font-size:18px;
+    }
+
+    .deck-sub{
+      color:var(--ink-soft);
+      font-size:13px;
+    }
+
+    .deck-nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .deck-nav a{
+      text-decoration:none;
+      color:var(--ink);
+      font-size:13px;
+      font-weight:700;
+      padding:10px 12px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid var(--line);
+    }
+
+    .slide{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:32px;
+      box-shadow:var(--slide-shadow);
+      min-height:720px;
+      margin:0 auto 22px;
+      padding:34px 36px 30px;
+      display:flex;
+      flex-direction:column;
       position:relative;
       overflow:hidden;
-      border-radius:30px;
-      padding:42px 40px 36px;
-      color:#fff;
-      background:linear-gradient(135deg, #141414 0%, #252525 55%, #5A110C 100%);
-      box-shadow:var(--shadow);
     }
 
-    .hero:before,
-    .hero:after{
+    .slide.dark{
+      color:#fff;
+      background:linear-gradient(135deg, #111111 0%, #222222 54%, #5A110C 100%);
+      border:none;
+    }
+
+    .slide.dark:before,
+    .slide.dark:after{
       content:"";
       position:absolute;
       border-radius:999px;
-      background:rgba(255,255,255,.08);
+      background:rgba(255,255,255,.07);
       filter:blur(10px);
       pointer-events:none;
     }
 
-    .hero:before{width:260px;height:260px;right:-70px;top:-60px}
-    .hero:after{width:180px;height:180px;left:-35px;bottom:-45px}
+    .slide.dark:before{
+      width:260px;height:260px;right:-80px;top:-60px;
+    }
+    .slide.dark:after{
+      width:180px;height:180px;left:-30px;bottom:-40px;
+    }
+
+    .slide-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      margin-bottom:20px;
+      position:relative;
+      z-index:2;
+    }
+
+    .slide-num{
+      font-size:13px;
+      font-weight:800;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      color:var(--red);
+    }
+
+    .slide.dark .slide-num{
+      color:#FFD8D5;
+    }
 
     .eyebrow{
       display:inline-block;
-      padding:8px 12px;
+      padding:7px 11px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,.12);
       background:rgba(255,255,255,.08);
       color:#FFE3E0;
       font-size:12px;
       text-transform:uppercase;
-      letter-spacing:.14em;
+      letter-spacing:.12em;
       font-weight:800;
       margin-bottom:16px;
     }
 
-    h1,h2,h3,h4{margin:0 0 10px;line-height:1.12}
-    h1{
-      font-size:clamp(34px,4.6vw,58px);
-      letter-spacing:-.03em;
-      font-weight:800;
-      max-width:1040px;
-    }
-    h2{
-      font-size:clamp(28px,3vw,38px);
+    h1,h2,h3,h4{
+      margin:0 0 10px;
+      line-height:1.1;
       letter-spacing:-.02em;
-      font-weight:800;
     }
-    h3{font-size:22px;font-weight:760}
-    h4{font-size:18px;font-weight:760}
+
+    h1{
+      font-size:clamp(36px,4.8vw,62px);
+      font-weight:850;
+      max-width:1000px;
+    }
+
+    h2{
+      font-size:clamp(30px,3.4vw,44px);
+      font-weight:820;
+      max-width:980px;
+    }
+
+    h3{
+      font-size:22px;
+      font-weight:780;
+    }
+
+    h4{
+      font-size:18px;
+      font-weight:760;
+    }
 
     .subtitle{
-      max-width:1080px;
-      color:#F3F4F6;
       font-size:18px;
-      margin-top:12px;
-    }
-
-    .hero-grid{
-      display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:14px;
-      margin-top:24px;
-    }
-
-    .hero-card{
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.08);
-      border-radius:18px;
-      padding:16px;
-    }
-
-    .hero-card .k{
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      color:#FFDAD6;
-      font-weight:800;
-      margin-bottom:8px;
-    }
-
-    .hero-card .v{
-      font-size:15px;
-      color:#fff;
-      font-weight:700;
-    }
-
-    .nav{
-      margin-top:20px;
-      display:grid;
-      grid-template-columns:repeat(8,minmax(0,1fr));
-      gap:12px;
-    }
-
-    .nav a{
-      text-decoration:none;
-      color:var(--ink);
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:14px 16px;
-      box-shadow:var(--shadow);
-      transition:.18s ease;
-    }
-
-    .nav a:hover{
-      transform:translateY(-2px);
-      border-color:#F3B7B1;
-    }
-
-    .nav .n{
-      display:block;
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      color:var(--red);
-      font-weight:800;
-      margin-bottom:7px;
-    }
-
-    section{
-      margin-top:24px;
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:28px;
-      box-shadow:var(--shadow);
-    }
-
-    .section-tag{
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.12em;
-      color:var(--red);
-      font-weight:800;
-      margin-bottom:8px;
+      color:#EEF1F5;
+      max-width:1050px;
+      position:relative;
+      z-index:2;
     }
 
     .lead{
       color:var(--ink-soft);
       font-size:17px;
-      max-width:1120px;
+      max-width:1060px;
     }
 
-    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-    .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
-    .grid-5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+    .slide.dark .lead,
+    .slide.dark .muted{
+      color:#E7E9ED;
+    }
+
+    .muted{
+      color:var(--ink-soft);
+    }
+
+    .small{
+      font-size:13px;
+      color:var(--ink-soft);
+    }
+
+    .slide.dark .small{
+      color:#E7E9ED;
+    }
+
+    .hero-grid,
+    .grid-2,
+    .grid-3,
+    .grid-4,
+    .grid-5{
+      display:grid;
+      gap:16px;
+    }
+
+    .hero-grid{grid-template-columns:repeat(4,minmax(0,1fr)); margin-top:26px; position:relative; z-index:2;}
+    .grid-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .grid-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .grid-4{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .grid-5{grid-template-columns:repeat(5,minmax(0,1fr))}
 
     .card{
       border:1px solid var(--line);
-      border-radius:18px;
+      border-radius:20px;
       padding:18px;
       background:#fff;
+      box-shadow:var(--shadow);
+    }
+
+    .slide.dark .card{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.10);
+      color:#fff;
+      box-shadow:none;
     }
 
     .soft{
@@ -218,29 +277,44 @@
     .pill.warn{background:var(--warn-soft);color:var(--warn)}
     .pill.blue{background:var(--blue-soft);color:var(--blue)}
 
-    .note{
+    .slide.dark .pill.red{
+      background:rgba(255,255,255,.10);
+      color:#FFE1DE;
+    }
+
+    .note,
+    .tip{
       margin-top:16px;
       padding:16px 18px;
+      border-radius:0 14px 14px 0;
+    }
+
+    .note{
       border-left:4px solid var(--red);
       background:#FFF6F5;
-      border-radius:0 14px 14px 0;
       color:#5A2A27;
     }
 
     .tip{
-      margin-top:16px;
-      padding:16px 18px;
       border-left:4px solid var(--blue);
       background:#F5F8FF;
-      border-radius:0 14px 14px 0;
       color:#173B75;
     }
 
-    .small{font-size:13px;color:var(--ink-soft)}
-    .muted{color:var(--ink-soft)}
+    .slide.dark .note{
+      background:rgba(255,255,255,.09);
+      color:#fff;
+      border-left-color:#FFD8D5;
+    }
 
-    ul,ol{margin:10px 0 0 20px;padding:0}
-    li{margin:8px 0}
+    ul,ol{
+      margin:10px 0 0 20px;
+      padding:0;
+    }
+
+    li{
+      margin:8px 0;
+    }
 
     table{
       width:100%;
@@ -249,6 +323,12 @@
       border:1px solid var(--line);
       border-radius:16px;
       overflow:hidden;
+      background:#fff;
+    }
+
+    .slide.dark table{
+      background:rgba(255,255,255,.06);
+      border-color:rgba(255,255,255,.12);
     }
 
     th,td{
@@ -259,10 +339,20 @@
       font-size:14px;
     }
 
+    .slide.dark th,
+    .slide.dark td{
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+
     th{
       background:#FAFAFB;
       font-weight:800;
       color:#111;
+    }
+
+    .slide.dark th{
+      background:rgba(255,255,255,.08);
+      color:#fff;
     }
 
     .journey{
@@ -272,28 +362,21 @@
       margin-top:18px;
     }
 
-    .journey .step{
+    .step{
       border:1px solid var(--line);
-      border-radius:16px;
+      border-radius:18px;
       padding:16px;
       background:#fff;
+      box-shadow:var(--shadow);
     }
 
-    .journey .num{
-      width:32px;height:32px;border-radius:999px;
+    .step .num{
+      width:34px;height:34px;border-radius:999px;
       background:var(--red);
       color:#fff;
       display:flex;align-items:center;justify-content:center;
       font-size:13px;font-weight:800;
       margin-bottom:10px;
-    }
-
-    .example{
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:18px;
-      background:#fff;
-      margin-top:18px;
     }
 
     .example-grid{
@@ -303,31 +386,26 @@
       margin-top:14px;
     }
 
-    .good-box{
-      border:1px solid #CDE9D7;
-      background:#F8FFF9;
+    .good-box,
+    .warn-box{
       border-radius:16px;
       padding:16px;
+      border:1px solid;
+    }
+
+    .good-box{
+      border-color:#CDE9D7;
+      background:#F8FFF9;
     }
 
     .warn-box{
-      border:1px solid #F2DFB3;
+      border-color:#F2DFB3;
       background:#FFFDF7;
-      border-radius:16px;
-      padding:16px;
-    }
-
-    .faq-item{
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:18px;
-      background:#fff;
-      margin-top:12px;
     }
 
     .framework-box{
       border:1px solid var(--line);
-      border-radius:18px;
+      border-radius:20px;
       padding:20px;
       background:linear-gradient(180deg,#fff,#FFFDFD);
       margin-top:18px;
@@ -346,6 +424,7 @@
       padding:18px;
       background:#fff;
       position:relative;
+      box-shadow:var(--shadow);
     }
 
     .hierarchy .level:after{
@@ -360,254 +439,212 @@
 
     .hierarchy .level:last-child:after{display:none}
 
+    .speaker-note{
+      margin-top:auto;
+      padding-top:20px;
+      font-size:12px;
+      color:var(--ink-soft);
+      border-top:1px dashed var(--line);
+    }
+
+    .slide.dark .speaker-note{
+      color:#E7E9ED;
+      border-top:1px dashed rgba(255,255,255,.16);
+    }
+
     .footer{
-      margin-top:28px;
+      margin-top:18px;
       text-align:center;
       color:#6B7280;
       font-size:14px;
     }
 
-    @media (max-width:1160px){
-      .hero-grid,.nav,.grid-4,.journey,.hierarchy{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .grid-5,.grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+    @media (max-width:1200px){
+      .hero-grid,.grid-4,.journey,.nav{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .grid-5,.grid-3,.hierarchy{grid-template-columns:repeat(2,minmax(0,1fr))}
       .grid-2,.example-grid{grid-template-columns:1fr}
       .hierarchy .level:after{display:none}
     }
 
-    @media (max-width:680px){
-      .page{padding:16px 12px 42px}
-      .hero{padding:28px 22px}
-      section{padding:22px 16px}
-      .hero-grid,.nav,.grid-5,.grid-4,.grid-3,.journey,.hierarchy{grid-template-columns:1fr}
+    @media (max-width:720px){
+      .page{padding:14px 10px 34px}
+      .slide{padding:22px 18px 20px; min-height:auto; border-radius:22px;}
+      .hero-grid,.grid-5,.grid-4,.grid-3,.journey,.nav,.hierarchy{grid-template-columns:1fr}
+      .deck-header{position:static; margin:-14px -10px 14px;}
     }
 
     @media print{
       body{background:#fff}
-      .hero,section,.nav a{box-shadow:none}
-      .page{max-width:none}
+      .deck-header{display:none}
+      .slide{page-break-after:always; box-shadow:none; min-height:auto}
+      .card,.step,.hierarchy .level{box-shadow:none}
+      .page{max-width:none; padding:0}
     }
   </style>
 </head>
 <body>
+  <div class="deck-header">
+    <div class="deck-header-inner">
+      <div>
+        <div class="deck-title">Building a Strong Prompt Bank for Trial Success — Customer Training Deck</div>
+        <div class="deck-sub">Deck-style HTML for customer education, onboarding, and workshop use</div>
+      </div>
+      <div class="deck-nav">
+        <a href="#slide-1">1</a>
+        <a href="#slide-2">2</a>
+        <a href="#slide-3">3</a>
+        <a href="#slide-4">4</a>
+        <a href="#slide-5">5</a>
+        <a href="#slide-6">6</a>
+        <a href="#slide-7">7</a>
+        <a href="#slide-8">8</a>
+      </div>
+    </div>
+  </div>
+
   <div class="page">
 
-    <header class="hero">
-      <div class="eyebrow">Customer Education Guide</div>
-      <h1>Building a Strong Prompt Bank for Trial Success — Category, Topic, and Prompt Guide</h1>
+    <section class="slide dark" id="slide-1">
+      <div class="slide-top">
+        <div class="slide-num">Slide 1</div>
+      </div>
+      <div class="eyebrow">Customer Training Deck</div>
+      <h1>Building a Strong Prompt Bank for Trial Success</h1>
       <p class="subtitle">
-        A strong prompt bank is not just a list of questions. It is a structured model for learning where your brand is visible, where customer questions are well served, and where clearer content or positioning may be needed. This guide goes deeper into the three building blocks that matter most — <strong>category</strong>, <strong>topic</strong>, and <strong>prompt</strong> — and explains how to design them well for a focused, useful trial.
+        A prompt bank is one of the most important ingredients in a successful trial. It defines the customer questions you want to test, the business areas you want to learn from, and the visibility opportunities you want to improve.
       </p>
 
       <div class="hero-grid">
-        <div class="hero-card">
-          <div class="k">Primary Goal</div>
-          <div class="v">Turn customer questions into a structured learning system</div>
+        <div class="card">
+          <div class="pill red">Goal</div>
+          <h3>Turn customer questions into a structured learning system</h3>
         </div>
-        <div class="hero-card">
-          <div class="k">Core Framework</div>
-          <div class="v">Categories → Topics → Prompts</div>
+        <div class="card">
+          <div class="pill red">Framework</div>
+          <h3>Categories → Topics → Prompts</h3>
         </div>
-        <div class="hero-card">
-          <div class="k">Most Common Failure</div>
-          <div class="v">Weak topic structure and overly broad prompts</div>
+        <div class="card">
+          <div class="pill red">Best Mindset</div>
+          <h3>Clarity and focus matter more than volume</h3>
         </div>
-        <div class="hero-card">
-          <div class="k">Best Trial Mindset</div>
-          <div class="v">Clarity, focus, and stable coverage over volume</div>
+        <div class="card">
+          <div class="pill red">Outcome</div>
+          <h3>Better interpretation, stronger learning, clearer next steps</h3>
         </div>
       </div>
-    </header>
 
-    <nav class="nav" aria-label="Sections">
-      <a href="#what"><span class="n">01</span><strong>What It Is</strong><div class="small">Core concept</div></a>
-      <a href="#hierarchy"><span class="n">02</span><strong>The Hierarchy</strong><div class="small">Category, topic, prompt</div></a>
-      <a href="#category"><span class="n">03</span><strong>Categories</strong><div class="small">Business area design</div></a>
-      <a href="#topic"><span class="n">04</span><strong>Topics</strong><div class="small">Scenario cluster design</div></a>
-      <a href="#prompt"><span class="n">05</span><strong>Prompts</strong><div class="small">Question design</div></a>
-      <a href="#mistakes"><span class="n">06</span><strong>Common Mistakes</strong><div class="small">What weak structures look like</div></a>
-      <a href="#process"><span class="n">07</span><strong>How to Build</strong><div class="small">Working process</div></a>
-      <a href="#checklist"><span class="n">08</span><strong>Checklist</strong><div class="small">Trial readiness</div></a>
-    </nav>
+      <div class="speaker-note">
+        <strong>Presenter note:</strong> Open by positioning the prompt bank as the foundation of the trial. The goal of the deck is to teach why structure matters and how to make categories, topics, and prompts work together.
+      </div>
+    </section>
 
-    <section id="what">
-      <div class="section-tag">Section 1</div>
+    <section class="slide" id="slide-2">
+      <div class="slide-top">
+        <div class="slide-num">Slide 2</div>
+      </div>
       <h2>What a prompt bank is really doing</h2>
       <p class="lead">
-        A prompt bank is a structured collection of customer-style questions that represents the scenarios, intents, and business priorities you want to monitor during a trial. It helps you move from broad assumptions to a more disciplined view of where your brand is visible, where your content is strong, and where there may be gaps or missed opportunities.
-      </p>
-      <p class="lead">
-        In practice, the prompt bank does three things at once:
+        A prompt bank is not just a list of questions. It is a structured model for deciding what the trial will test and what the results will be able to teach you.
       </p>
 
       <div class="grid-3">
         <div class="card soft">
           <span class="pill red">Coverage</span>
-          <h3>Defines what you are testing</h3>
-          <p class="muted">It determines which business areas, scenarios, and customer questions are included in the trial.</p>
+          <h3>Defines what is included</h3>
+          <p class="muted">It sets the business areas, customer scenarios, and questions that will shape the trial.</p>
         </div>
         <div class="card soft">
           <span class="pill red">Structure</span>
           <h3>Organizes the learning</h3>
-          <p class="muted">It creates a framework that helps you interpret results by business area and use case instead of looking at disconnected questions.</p>
+          <p class="muted">It helps you interpret results by cluster instead of looking at disconnected prompts one by one.</p>
         </div>
         <div class="card soft">
-          <span class="pill red">Quality</span>
-          <h3>Shapes the usefulness of results</h3>
-          <p class="muted">If the prompts are too broad, too repetitive, or poorly grouped, the insights will be harder to trust and harder to act on.</p>
+          <span class="pill red">Signal quality</span>
+          <h3>Shapes usefulness</h3>
+          <p class="muted">If the prompt bank is vague or fragmented, the output becomes harder to interpret and act on.</p>
         </div>
       </div>
 
       <div class="tip">
-        <strong>Simple way to explain it:</strong> A prompt bank is the question framework that determines what a trial can teach you.
+        <strong>Simple teaching line:</strong> The prompt bank defines what your trial can learn.
+      </div>
+
+      <div class="speaker-note">
+        <strong>Presenter note:</strong> This slide sets the mental model. Emphasize that the prompt bank affects both scope and interpretation, not just content volume.
       </div>
     </section>
 
-    <section id="hierarchy">
-      <div class="section-tag">Section 2</div>
+    <section class="slide" id="slide-3">
+      <div class="slide-top">
+        <div class="slide-num">Slide 3</div>
+      </div>
       <h2>The core hierarchy: category, topic, and prompt</h2>
       <p class="lead">
-        The most important concept to understand is that a good prompt bank is hierarchical. Categories, topics, and prompts each play a different role. When these levels are confused, the bank becomes harder to structure and harder to interpret.
+        Strong prompt banks keep these three layers distinct. When they are blurred together, the bank becomes harder to build, review, and improve.
       </p>
 
       <div class="hierarchy">
         <div class="level">
           <span class="pill red">Level 1</span>
           <h3>Category</h3>
-          <p class="muted">
-            A category is a broad business area or domain. It defines the top-level scope of what you want to learn about.
-          </p>
-          <p class="small"><strong>Examples:</strong> Business Banking, Card Services, Loans, Wealth, Digital Banking</p>
+          <p class="muted">A broad business area or domain.</p>
+          <p class="small"><strong>Examples:</strong> Business Banking, Card Services, Loans, Wealth</p>
         </div>
         <div class="level">
           <span class="pill red">Level 2</span>
           <h3>Topic</h3>
-          <p class="muted">
-            A topic is a scenario cluster inside a category. It groups related customer questions into a coherent area of intent.
-          </p>
-          <p class="small"><strong>Examples:</strong> Account Opening, Fees and Waivers, Disputes, Cross-border Payments, App Access</p>
+          <p class="muted">A scenario cluster within that business area.</p>
+          <p class="small"><strong>Examples:</strong> Account Opening, Fees and Waivers, Disputes, App Access</p>
         </div>
         <div class="level">
           <span class="pill red">Level 3</span>
           <h3>Prompt</h3>
-          <p class="muted">
-            A prompt is an individual customer-style question. It is the actual test case used to observe visibility and performance.
-          </p>
-          <p class="small"><strong>Examples:</strong> How do I request a credit card annual fee waiver?</p>
+          <p class="muted">An individual customer-style question.</p>
+          <p class="small"><strong>Example:</strong> How do I request a credit card annual fee waiver?</p>
         </div>
       </div>
 
       <div class="framework-box">
-        <h3>Why this hierarchy matters</h3>
+        <h3>Why this matters</h3>
         <ul>
-          <li><strong>Categories</strong> help define strategic scope.</li>
-          <li><strong>Topics</strong> help organize customer needs into interpretable clusters.</li>
-          <li><strong>Prompts</strong> create the actual question-level signals.</li>
+          <li><strong>Categories</strong> define strategic scope.</li>
+          <li><strong>Topics</strong> organize related customer needs.</li>
+          <li><strong>Prompts</strong> create the question-level signals.</li>
         </ul>
-        <p class="muted">
-          If a category is too narrow, it behaves like a topic. If a topic is too broad, it behaves like a category. If a prompt is too broad, it behaves like a topic. Strong prompt banks keep these levels distinct.
-        </p>
+      </div>
+
+      <div class="speaker-note">
+        <strong>Presenter note:</strong> This is the key teaching slide. Spend time here. Many weak prompt banks result from confusing categories, topics, and prompts.
       </div>
     </section>
 
-    <section id="category">
-      <div class="section-tag">Section 3</div>
-      <h2>How to design strong categories</h2>
+    <section class="slide" id="slide-4">
+      <div class="slide-top">
+        <div class="slide-num">Slide 4</div>
+      </div>
+      <h2>What makes a strong category or topic?</h2>
       <p class="lead">
-        Categories are the top-level business areas in the bank. They should be stable, strategic, and easy to understand. A category is not a single customer problem. It is the domain under which related problems and questions sit.
+        Categories should be broad business areas. Topics should be customer scenario clusters. Topics are often the most important layer because they make results interpretable.
       </p>
 
       <div class="grid-2">
         <div class="card">
-          <span class="pill good">A strong category is</span>
+          <span class="pill good">Strong category</span>
           <ul>
-            <li>broad enough to contain several meaningful topics</li>
-            <li>clearly tied to a business priority</li>
-            <li>easy to name and understand</li>
-            <li>stable enough to remain useful over time</li>
+            <li>Represents a real business domain</li>
+            <li>Can support multiple topics</li>
+            <li>Is clear and easy to name</li>
+            <li>Would matter if performance changed</li>
           </ul>
         </div>
         <div class="card">
-          <span class="pill warn">A weak category often is</span>
+          <span class="pill warn">Weak category</span>
           <ul>
-            <li>too narrow and really just a topic in disguise</li>
-            <li>based on internal jargon rather than a clear business area</li>
-            <li>so broad that it becomes hard to organize meaningfully</li>
-            <li>too low-priority to justify a category on its own</li>
+            <li>Too narrow and really just a topic</li>
+            <li>Based on internal jargon</li>
+            <li>Too broad to organize well</li>
+            <li>Too minor to justify its own structure</li>
           </ul>
-        </div>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Category design question</th>
-            <th>What "yes" looks like</th>
-            <th>Warning sign</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Does this represent a real business area?</td>
-            <td>It aligns to a recognizable domain like Business Banking or Card Services</td>
-            <td>It is a tiny use case or a one-off issue</td>
-          </tr>
-          <tr>
-            <td>Can this support several topics?</td>
-            <td>It can hold multiple scenario clusters underneath it</td>
-            <td>It only supports one or two isolated questions</td>
-          </tr>
-          <tr>
-            <td>Is the name clear?</td>
-            <td>Most stakeholders would understand it immediately</td>
-            <td>It depends on internal shorthand or ambiguous wording</td>
-          </tr>
-          <tr>
-            <td>Is it worth measuring?</td>
-            <td>Performance in this area would matter to the business</td>
-            <td>It is too minor or too incidental to justify the structure</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div class="example">
-        <span class="pill blue">Category example</span>
-        <div class="example-grid">
-          <div class="warn-box">
-            <h4>Weak category</h4>
-            <p class="muted"><strong>Annual Fee Waiver</strong></p>
-            <p class="small">This is too narrow. It is better treated as a topic inside a broader category such as Card Services.</p>
-          </div>
-          <div class="good-box">
-            <h4>Strong category</h4>
-            <p class="muted"><strong>Card Services</strong></p>
-            <p class="small">This is broad enough to support multiple topics such as waivers, disputes, transactions, access, and payments.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="topic">
-      <div class="section-tag">Section 4</div>
-      <h2>How to design strong topics</h2>
-      <p class="lead">
-        Topics are the most important structural layer in many prompt banks. They translate a broad business area into interpretable groups of customer need. A topic should be a coherent scenario cluster — not too broad, not too fragmented, and not just a single prompt dressed up as a theme.
-      </p>
-
-      <div class="grid-3">
-        <div class="card">
-          <span class="pill good">Topic purpose</span>
-          <h3>Group related questions</h3>
-          <p class="muted">A topic should bring together prompts that belong to the same customer scenario or need area.</p>
-        </div>
-        <div class="card">
-          <span class="pill good">Topic value</span>
-          <h3>Make results interpretable</h3>
-          <p class="muted">Topics help you see where performance is strong or weak across a cluster, not just one isolated question.</p>
-        </div>
-        <div class="card">
-          <span class="pill warn">Topic risk</span>
-          <h3>Avoid false precision</h3>
-          <p class="muted">Too many narrow topics create fragmentation and make the structure harder to use in a small trial.</p>
         </div>
       </div>
 
@@ -623,266 +660,182 @@
         <tbody>
           <tr>
             <td>Fees and Waivers</td>
-            <td>Groups related questions about fees, charges, and waiver actions</td>
+            <td>Clear cluster of related customer needs</td>
             <td>Annual Fee Waiver Request Form Timing</td>
             <td>Too narrow for a trial-scale topic</td>
           </tr>
           <tr>
             <td>Cross-border Payments</td>
-            <td>Clear scenario cluster with multiple related customer questions</td>
+            <td>Supports multiple related prompts</td>
             <td>International Transfer Cut-off Before Friday Holiday</td>
-            <td>Too specific to stand alone as a topic</td>
+            <td>Too specific to stand alone</td>
           </tr>
           <tr>
             <td>App Access and Login</td>
-            <td>Unifies login, verification, token, and access issues under one clear theme</td>
+            <td>Groups related digital access issues</td>
             <td>Forgot App Password With New Device</td>
-            <td>Useful prompt, but too narrow as a topic</td>
+            <td>More useful as a prompt than a topic</td>
           </tr>
         </tbody>
       </table>
 
-      <div class="framework-box">
-        <h3>How to tell whether a topic is well designed</h3>
-        <ul>
-          <li>It should describe a <strong>cluster of related customer questions</strong>, not just one question.</li>
-          <li>It should be specific enough that you can tell what belongs inside it and what does not.</li>
-          <li>It should support multiple prompts without becoming a miscellaneous bucket.</li>
-          <li>It should help a stakeholder understand what kind of customer need is being evaluated.</li>
-        </ul>
-      </div>
-
-      <div class="tip">
-        <strong>Rule of thumb:</strong> If a topic can only support one prompt, it may be too narrow. If almost anything could fit into it, it may be too broad.
+      <div class="speaker-note">
+        <strong>Presenter note:</strong> Explain that categories answer "what part of the business?" while topics answer "what kind of customer scenario?"
       </div>
     </section>
 
-    <section id="prompt">
-      <div class="section-tag">Section 5</div>
-      <h2>How to design strong prompts</h2>
+    <section class="slide" id="slide-5">
+      <div class="slide-top">
+        <div class="slide-num">Slide 5</div>
+      </div>
+      <h2>What makes a strong prompt?</h2>
       <p class="lead">
-        Prompts are the individual questions in the bank. They should sound like real customer questions, be specific enough to create useful signals, and be distinct enough that each prompt earns its place.
+        A good prompt should sound like a real customer question, be specific enough to interpret, and be distinct enough to add value to the bank.
       </p>
 
       <div class="grid-5">
         <div class="card">
           <span class="pill good">Natural</span>
-          <p class="muted">Use language that sounds like a real question, not a keyword list.</p>
+          <p class="muted">Sounds like a real question, not a keyword phrase.</p>
         </div>
         <div class="card">
           <span class="pill good">Specific</span>
-          <p class="muted">Include enough context to reduce ambiguity.</p>
+          <p class="muted">Includes enough context to reduce ambiguity.</p>
         </div>
         <div class="card">
           <span class="pill good">Focused</span>
-          <p class="muted">Keep each prompt centered on one clear scenario or need.</p>
+          <p class="muted">Centers on one scenario or need.</p>
         </div>
         <div class="card">
-          <span class="pill good">Actionable</span>
-          <p class="muted">Choose prompts that can lead to practical interpretation and next steps.</p>
+          <span class="pill good">Useful</span>
+          <p class="muted">Likely to generate interpretable signals.</p>
         </div>
         <div class="card">
           <span class="pill good">Distinct</span>
-          <p class="muted">Avoid prompts that merely repeat the same intent with cosmetic wording changes.</p>
+          <p class="muted">Adds something meaningfully different.</p>
         </div>
       </div>
 
       <div class="example">
-        <span class="pill blue">Prompt examples</span>
+        <span class="pill blue">Broad vs stronger prompt</span>
         <div class="example-grid">
           <div class="warn-box">
             <h4>Too broad</h4>
             <p class="muted"><strong>What is the best business bank account?</strong></p>
-            <p class="small">Too broad because it does not define who the customer is, what they need, or which context matters.</p>
+            <p class="small">Too general to interpret clearly.</p>
           </div>
           <div class="good-box">
             <h4>Stronger</h4>
             <p class="muted"><strong>What is the best business bank account for startups in Singapore?</strong></p>
-            <p class="small">Stronger because it narrows the audience and clarifies the scenario.</p>
+            <p class="small">Audience and scenario are defined, making the output more useful.</p>
           </div>
         </div>
       </div>
 
-      <div class="example">
-        <span class="pill blue">Prompt overlap example</span>
-        <div class="example-grid">
-          <div class="warn-box">
-            <h4>Overlapping</h4>
-            <p class="muted">
-              <strong>How do I waive my annual fee?</strong><br />
-              <strong>How do I request an annual fee waiver?</strong>
-            </p>
-            <p class="small">These are very close in meaning and may not both be necessary.</p>
-          </div>
-          <div class="good-box">
-            <h4>Better differentiated</h4>
-            <p class="muted">
-              <strong>How do I request an annual fee waiver?</strong><br />
-              <strong>Why was my annual fee waiver request rejected?</strong>
-            </p>
-            <p class="small">These prompts are related but clearly serve different purposes.</p>
-          </div>
-        </div>
+      <div class="speaker-note">
+        <strong>Presenter note:</strong> Use this slide to show that prompt writing quality is not cosmetic. Specificity changes how useful the trial becomes.
       </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Prompt quality test</th>
-            <th>Strong prompt</th>
-            <th>Weak prompt</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Specificity</td>
-            <td>Defines audience, need, scenario, or context</td>
-            <td>Too general to interpret easily</td>
-          </tr>
-          <tr>
-            <td>Clarity</td>
-            <td>Easy to understand in one reading</td>
-            <td>Bundles too many questions together</td>
-          </tr>
-          <tr>
-            <td>Distinctiveness</td>
-            <td>Adds a new angle or useful scenario variation</td>
-            <td>Repeats another prompt with only minor wording changes</td>
-          </tr>
-          <tr>
-            <td>Practical value</td>
-            <td>Likely to produce useful insight</td>
-            <td>Too vague to guide any next step</td>
-          </tr>
-          <tr>
-            <td>Fit to topic</td>
-            <td>Clearly belongs to its scenario cluster</td>
-            <td>Could fit equally well in many unrelated topics</td>
-          </tr>
-        </tbody>
-      </table>
     </section>
 
-    <section id="mistakes">
-      <div class="section-tag">Section 6</div>
-      <h2>Common structural mistakes</h2>
+    <section class="slide" id="slide-6">
+      <div class="slide-top">
+        <div class="slide-num">Slide 6</div>
+      </div>
+      <h2>Common mistakes to avoid</h2>
       <p class="lead">
-        Most weak prompt banks do not fail because the underlying business questions are wrong. They fail because the structure does not separate category, topic, and prompt clearly enough.
+        Most weak prompt banks do not fail because the business questions are wrong. They fail because the structure and prompt design are not disciplined enough.
       </p>
 
-      <div class="grid-2">
+      <div class="grid-4">
         <div class="card">
           <span class="pill warn">Mistake 1</span>
           <h3>Using topics as categories</h3>
-          <p class="muted">Example: making "Annual Fee Waiver" a category instead of placing it under a broader category like Card Services.</p>
+          <p class="muted">A narrow issue becomes a top-level bucket when it should sit inside a broader business area.</p>
         </div>
         <div class="card">
           <span class="pill warn">Mistake 2</span>
           <h3>Using prompts as topics</h3>
-          <p class="muted">Example: creating a topic called "Why was my transfer delayed?" that only supports one narrow question.</p>
+          <p class="muted">A single narrow question is labeled like a cluster, creating fragmentation.</p>
         </div>
         <div class="card">
           <span class="pill warn">Mistake 3</span>
           <h3>Making topics too broad</h3>
-          <p class="muted">Example: using "Support" as a catch-all topic that mixes login issues, disputes, waivers, and payments.</p>
+          <p class="muted">One catch-all topic absorbs many unrelated questions and becomes hard to interpret.</p>
         </div>
         <div class="card">
           <span class="pill warn">Mistake 4</span>
           <h3>Making prompts too generic</h3>
-          <p class="muted">Example: using many broad "best" questions without enough context to interpret the results well.</p>
+          <p class="muted">Broad prompts create noisy results and weak next steps.</p>
         </div>
       </div>
 
       <div class="note">
-        <strong>Most useful diagnostic question:</strong> If you removed the prompt text and only kept the topic names, would the structure still make sense to a business stakeholder? If not, the topic design likely needs work.
+        <strong>Useful diagnostic question:</strong> If you removed the prompt text and looked only at the topic names, would the structure still make sense to a stakeholder?
+      </div>
+
+      <div class="speaker-note">
+        <strong>Presenter note:</strong> This slide is useful for workshops. Ask attendees to identify which mistake they see most often in their own first draft.
       </div>
     </section>
 
-    <section id="process">
-      <div class="section-tag">Section 7</div>
+    <section class="slide" id="slide-7">
+      <div class="slide-top">
+        <div class="slide-num">Slide 7</div>
+      </div>
       <h2>How to build the bank step by step</h2>
       <p class="lead">
-        Building a prompt bank is not a one-time writing exercise. It is an iterative process: select the right scope, draft the first version, refine what is weak, then hold the bank stable long enough to learn from it.
+        Building a prompt bank is an iterative process. Start with the right scope, define the hierarchy clearly, refine the weakest parts, and keep the first version stable long enough to learn from it.
       </p>
 
       <div class="journey">
         <div class="step">
           <div class="num">1</div>
           <h4>Choose scope</h4>
-          <p class="small">Start with the business area or customer journey that matters most for the trial.</p>
+          <p class="small">Start with the business area or journey that matters most.</p>
         </div>
         <div class="step">
           <div class="num">2</div>
           <h4>Set categories</h4>
-          <p class="small">Choose high-level business domains that justify structured learning.</p>
+          <p class="small">Choose clear top-level domains.</p>
         </div>
         <div class="step">
           <div class="num">3</div>
           <h4>Create topics</h4>
-          <p class="small">Group related customer scenarios into interpretable clusters.</p>
+          <p class="small">Group related customer scenarios.</p>
         </div>
         <div class="step">
           <div class="num">4</div>
           <h4>Draft prompts</h4>
-          <p class="small">Write realistic questions with enough context to be useful.</p>
+          <p class="small">Write realistic, specific questions.</p>
         </div>
         <div class="step">
           <div class="num">5</div>
           <h4>Review quality</h4>
-          <p class="small">Remove overlap, narrow broad prompts, and merge weak or fragmented topics.</p>
+          <p class="small">Remove overlap and merge weak structures.</p>
         </div>
         <div class="step">
           <div class="num">6</div>
           <h4>Stabilize</h4>
-          <p class="small">Keep the first version steady long enough to create a meaningful baseline.</p>
+          <p class="small">Protect the baseline before major changes.</p>
         </div>
       </div>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Review question</th>
-            <th>What to look for</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Are the categories meaningful?</td>
-            <td>They should represent real business areas, not internal shorthand or arbitrary buckets.</td>
-          </tr>
-          <tr>
-            <td>Are the topics usable?</td>
-            <td>They should be broad enough to form a cluster, but not so broad that everything fits inside them.</td>
-          </tr>
-          <tr>
-            <td>Are the prompts too broad?</td>
-            <td>Look for generic "best" questions without enough context.</td>
-          </tr>
-          <tr>
-            <td>Are prompts overlapping?</td>
-            <td>Remove near-duplicates unless each one adds a clearly different scenario.</td>
-          </tr>
-          <tr>
-            <td>Is the bank too fragmented?</td>
-            <td>In smaller trials, too many one-prompt topics often weaken the overall structure.</td>
-          </tr>
-          <tr>
-            <td>Can you explain why each prompt is there?</td>
-            <td>If not, it may not be adding enough value.</td>
-          </tr>
-        </tbody>
-      </table>
-
       <div class="tip">
-        <strong>Working principle:</strong> The goal is not to create the most prompts. The goal is to create the most useful structure for the trial you are actually running.
+        <strong>Working principle:</strong> The goal is not the most prompts. The goal is the most useful learning structure for the trial you are running.
+      </div>
+
+      <div class="speaker-note">
+        <strong>Presenter note:</strong> Emphasize that the first version should be refined enough to be credible, but not endlessly edited before the trial begins.
       </div>
     </section>
 
-    <section id="checklist">
-      <div class="section-tag">Section 8</div>
-      <h2>Trial readiness checklist for category, topic, and prompt quality</h2>
+    <section class="slide" id="slide-8">
+      <div class="slide-top">
+        <div class="slide-num">Slide 8</div>
+      </div>
+      <h2>Trial readiness checklist</h2>
       <p class="lead">
-        Use this checklist before finalizing a prompt bank for a trial.
+        Before finalizing the prompt bank, confirm that the structure is clear, the prompts are useful, and the bank is focused enough for the size of the trial.
       </p>
 
       <div class="grid-3">
@@ -890,29 +843,27 @@
           <span class="pill good">Category checklist</span>
           <ul>
             <li>Is each category a real business area?</li>
-            <li>Can each category support several topics?</li>
-            <li>Are the names clear and easy to understand?</li>
-            <li>Would performance in this category matter to the business?</li>
+            <li>Can it support several topics?</li>
+            <li>Is the name clear and useful?</li>
+            <li>Would performance here matter?</li>
           </ul>
         </div>
-
         <div class="card">
           <span class="pill good">Topic checklist</span>
           <ul>
-            <li>Does each topic represent a real customer scenario cluster?</li>
-            <li>Is the topic broad enough to support several prompts?</li>
+            <li>Does each topic represent a true scenario cluster?</li>
+            <li>Is it broad enough for several prompts?</li>
             <li>Is it narrow enough to stay interpretable?</li>
             <li>Have we avoided too many one-prompt topics?</li>
           </ul>
         </div>
-
         <div class="card">
           <span class="pill good">Prompt checklist</span>
           <ul>
-            <li>Do the prompts sound like natural customer questions?</li>
-            <li>Are the broadest prompts specific enough to be useful?</li>
-            <li>Have we removed obvious overlap or wording variants?</li>
-            <li>Does each prompt fit clearly within its topic?</li>
+            <li>Do the prompts sound natural?</li>
+            <li>Are broad prompts specific enough?</li>
+            <li>Have we removed overlap?</li>
+            <li>Does each prompt clearly fit its topic?</li>
           </ul>
         </div>
       </div>
@@ -920,11 +871,15 @@
       <div class="note">
         <strong>Final takeaway:</strong> Strong prompt banks are built by separating the roles of categories, topics, and prompts clearly. Categories define business scope, topics organize customer scenarios, and prompts provide the specific questions that create useful learning.
       </div>
+
+      <div class="speaker-note">
+        <strong>Presenter note:</strong> Close by reinforcing that quality comes from structure. If the hierarchy is strong, the trial is much more likely to produce useful insights.
+      </div>
     </section>
 
-    <footer class="footer">
-      Customer-facing educational guide for prompt bank structure, category/topic/prompt design, and trial readiness.
-    </footer>
+    <div class="footer">
+      Customer-facing training deck-style HTML for prompt bank education, onboarding, and workshop enablement.
+    </div>
 
   </div>
 </body>

@@ -16,6 +16,7 @@
       --bg-subtle:#fafafa;
       --bg-soft-red:#fff3f2;
       --bg-soft-gray:#f0f2f4;
+      --bg-soft-cream:#fffdf9;
       --border:#d9dde3;
       --shadow-sm:0 2px 8px rgba(0,0,0,.04);
       --shadow-md:0 8px 24px rgba(0,0,0,.06);
@@ -247,9 +248,15 @@
       color:var(--text-strong);
     }
 
-    .position-box p {
+    .position-box p,
+    .position-box li {
       margin:0;
       font-size:17px;
+    }
+
+    .position-box ul {
+      margin:10px 0 0 22px;
+      padding:0;
     }
 
     .grid {
@@ -310,6 +317,26 @@
     }
 
     .card li + li { margin-top:6px; }
+
+    .callout {
+      margin-top:var(--space-5);
+      background:var(--bg-soft-cream);
+      border:1px solid #ecdcc2;
+      border-radius:var(--radius-md);
+      padding:var(--space-5);
+    }
+
+    .callout h3 {
+      margin:0 0 10px;
+      font-size:20px;
+      color:var(--text-strong);
+    }
+
+    .callout p {
+      margin:0;
+      font-size:18px;
+      color:#41362e;
+    }
 
     .talk-track {
       margin-top:var(--space-5);
@@ -477,7 +504,7 @@
         <a class="sub" href="#brand-presence">Scorecard & market view</a>
 
         <a href="#data-insights">2. Data Insights</a>
-        <a class="sub" href="#data-insights">Answer quality & source diagnosis</a>
+        <a class="sub" href="#data-insights">Prompt-level evidence & source diagnosis</a>
 
         <a href="#agentic-traffic">3. Agentic Traffic</a>
         <a class="sub" href="#agentic-traffic">Agent readiness & visibility</a>
@@ -502,7 +529,7 @@
 
           <div class="pill-row">
             <span class="pill">Visibility Scorecard</span>
-            <span class="pill">Answer Quality</span>
+            <span class="pill">Prompt-Level Evidence</span>
             <span class="pill">Agent Readiness</span>
             <span class="pill">URL-Level Citation Truth</span>
             <span class="pill">Human Traffic & Outcomes</span>
@@ -511,7 +538,7 @@
           <div class="summary-callout">
             <strong>Core framing:</strong>
             Brand Presence tells you whether the brand is showing up in AI answers.
-            Data Insights tells you whether those answers are strong, properly grounded, and worth trusting.
+            Data Insights tells you whether those answers are strong, current, accurate, and grounded in the right source.
             Agentic Traffic tells you whether AI systems can reach and read the site.
             URL Inspector tells you which exact pages are winning, being evaluated, or losing citations.
             Referral Traffic tells you whether that visibility turns into human visits and measurable value.
@@ -621,28 +648,27 @@
           <div class="section-header">
             <div>
               <h2>2. Data Insights</h2>
-              <p>Use this as the <strong>inspection layer</strong> behind Brand Presence for answer quality, source quality, and opportunity diagnosis.</p>
+              <p>Use this as the <strong>prompt-level inspection layer</strong> behind Brand Presence for answer quality, source quality, and citation diagnosis.</p>
             </div>
-            <div class="tag">Primary role: answer and citation inspection</div>
+            <div class="tag">Primary role: answer-quality check</div>
           </div>
 
           <div class="positioning">
             <div class="position-box">
               <h3>Role in the story</h3>
               <p>
-                <strong>Brand Presence gives you the scorecard. Data Insights tells you what is behind it.</strong>
-                This is where you inspect whether the brand is showing up in the right topics,
-                in the right position, with answers that are strong enough to trust and act on.
+                <strong>Inside Brand Presence, this is where the story moves from aggregate metrics to prompt-level evidence you can read.</strong>
+                Instead of only looking at mentions and citations in the abstract, you can inspect what the model actually returned and how the brand showed up inside the answer.
               </p>
             </div>
             <div class="position-box">
-              <h3>What to validate</h3>
-              <p>
-                Use this view to answer three practical questions:
-                <strong>Are we present?</strong>
-                <strong>Are we well represented?</strong>
-                <strong>Are the citations landing on the right source?</strong>
-              </p>
+              <h3>What good looks like</h3>
+              <ul>
+                <li><strong>Up to date</strong> — reflects current content</li>
+                <li><strong>Accurate</strong> — facts are right, not partial</li>
+                <li><strong>Complete</strong> — nothing important missing</li>
+                <li><strong>Brand-aligned</strong> — on-message framing</li>
+              </ul>
             </div>
           </div>
 
@@ -665,6 +691,20 @@
 
             <article class="card">
               <div class="card-num">2</div>
+              <h3>What each row lets you read</h3>
+              <span class="label">What to look for</span>
+              <ul>
+                <li>The exact prompt executed</li>
+                <li>The answer the AI returned</li>
+                <li>How the brand was framed</li>
+                <li>Which sources it relied on</li>
+              </ul>
+              <span class="label">Why demo it</span>
+              <p>It makes the analysis concrete. You are no longer inferring quality from aggregates alone — you can inspect the actual evidence.</p>
+            </article>
+
+            <article class="card">
+              <div class="card-num">3</div>
               <h3>High-popularity, low-visibility topics</h3>
               <span class="label">Where to navigate</span>
               <p>Sort or filter for high <strong>Popularity</strong> with weaker <strong>Visibility Score</strong>.</p>
@@ -680,7 +720,7 @@
             </article>
 
             <article class="card">
-              <div class="card-num">3</div>
+              <div class="card-num">4</div>
               <h3>All Citations vs Owned Citations</h3>
               <span class="label">Where to navigate</span>
               <p>Look for rows where <strong>All Citations</strong> are healthy but <strong>Owned Citations</strong> are weak.</p>
@@ -695,7 +735,7 @@
             </article>
 
             <article class="card">
-              <div class="card-num">4</div>
+              <div class="card-num">5</div>
               <h3>Prompt drill-down</h3>
               <span class="label">Where to navigate</span>
               <p>Click from a topic into a specific prompt.</p>
@@ -714,13 +754,33 @@
                 <strong>the answer is citing you, but not citing the page you actually want to win</strong>.
               </p>
             </article>
+
+            <article class="card">
+              <div class="card-num">6</div>
+              <h3>Answer-quality validation</h3>
+              <span class="label">What to validate</span>
+              <ul>
+                <li>Is the answer current, or stale?</li>
+                <li>Is it well grounded, or weakly grounded?</li>
+                <li>Is it sourced from the right page?</li>
+                <li>Is the representation on-message?</li>
+              </ul>
+              <span class="label">Why demo it</span>
+              <p>Strong metrics do not guarantee strong answers. This is where visibility becomes an answer-quality check.</p>
+            </article>
+          </div>
+
+          <div class="callout">
+            <h3>Why it matters</h3>
+            <p>
+              Strong metrics don't guarantee strong answers. A mention can be stale, weakly grounded, or sourced from the wrong page — this is where the scorecard becomes an answer-quality check.
+            </p>
           </div>
 
           <div class="talk-track">
             <h3>Suggested talk track</h3>
             <p>
-              "Brand Presence gives us the scorecard, but Data Insights tells us whether the answer quality is actually good.
-              It helps us see whether authority is going to a third-party source, or whether we are getting cited on our own domain but through the wrong page."
+              "Brand Presence gives us the scorecard, but Data Insights lets us read the actual evidence. We can inspect the exact prompt, the answer the model returned, how the brand was framed, and which sources it relied on. That is how we tell the difference between strong visibility and strong answers."
             </p>
           </div>
         </section>
@@ -1053,8 +1113,8 @@
             <div class="flow-step">
               <div class="step">Step 2</div>
               <h3>Data Insights</h3>
-              <p><strong>Are those answers any good?</strong></p>
-              <p class="muted">Inspect topics, prompts, citations, source quality, and grounding quality.</p>
+              <p><strong>Are those good answers?</strong></p>
+              <p class="muted">Read the prompt-level evidence, validate answer quality, and diagnose source gaps.</p>
             </div>
             <div class="flow-step">
               <div class="step">Step 3</div>
@@ -1100,7 +1160,7 @@
               </tr>
               <tr>
                 <td><strong>Data Insights</strong></td>
-                <td>The inspection layer that shows whether those answers are strong, well grounded, and citing the right source.</td>
+                <td>The prompt-level evidence layer that shows whether those answers are strong, current, accurate, and citing the right source.</td>
               </tr>
               <tr>
                 <td><strong>Agentic Traffic</strong></td>

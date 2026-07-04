@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Savings &amp; Deposit Accounts (Singapore) — Prompt Bank Audit and Recommendations</title>
+  <style>
+    :root{
+      --red:#D92D20;
+      --red-dark:#B42318;
+      --red-soft:#FFF1F0;
+      --ink:#1F1F1F;
+      --ink-soft:#5F6368;
+      --bg:#F7F7F8;
+      --card:#FFFFFF;
+      --line:#E7E8EB;
+      --good:#14804A;
+      --good-soft:#ECFDF3;
+      --warn:#B76E00;
+      --warn-soft:#FFF7E6;
+      --blue:#175CD3;
+      --blue-soft:#EFF4FF;
+      --shadow:0 14px 38px rgba(0,0,0,.08);
+      --content-width:1080px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(circle at top right, rgba(217,45,32,.06), transparent 22%),
+        linear-gradient(180deg,#ffffff 0%,#f7f7f8 100%);
+      line-height:1.68;
+    }
+
+    .page{
+      max-width:1360px;
+      margin:0 auto;
+      padding:24px 20px 56px;
+    }
+
+    .hero{
+      position:relative;
+      overflow:hidden;
+      border-radius:30px;
+      padding:42px 40px 36px;
+      color:#fff;
+      background:linear-gradient(135deg,#141414 0%,#252525 55%,#5A110C 100%);
+      box-shadow:var(--shadow);
+    }
+
+    .hero:before,
+    .hero:after{
+      content:"";
+      position:absolute;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      filter:blur(10px);
+      pointer-events:none;
+    }
+
+    .hero:before{width:260px;height:260px;right:-70px;top:-60px}
+    .hero:after{width:180px;height:180px;left:-35px;bottom:-45px}
+
+    .eyebrow{
+      display:inline-block;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.08);
+      color:#FFE3E0;
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      font-weight:800;
+      margin-bottom:16px;
+    }
+
+    h1,h2,h3,h4{margin:0 0 10px;line-height:1.12}
+    h1{
+      font-size:clamp(34px,4.8vw,58px);
+      letter-spacing:-.03em;
+      font-weight:800;
+      max-width:1080px;
+    }
+    h2{
+      font-size:clamp(28px,3vw,38px);
+      letter-spacing:-.02em;
+      font-weight:800;
+      max-width:980px;
+    }
+    h3{font-size:22px;font-weight:760}
+    h4{font-size:18px;font-weight:760}
+
+    .subtitle{
+      max-width:1120px;
+      color:#F3F4F6;
+      font-size:18px;
+      margin-top:12px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:14px;
+      margin-top:24px;
+    }
+
+    .hero-card{
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:16px;
+    }
+
+    .hero-card .k{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:#FFDAD6;
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .hero-card .v{
+      font-size:15px;
+      color:#fff;
+      font-weight:700;
+    }
+
+    section{
+      margin-top:24px;
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:30px;
+      box-shadow:var(--shadow);
+    }
+
+    .section-tag{
+      font-size:12px;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      color:var(--red);
+      font-weight:800;
+      margin-bottom:8px;
+    }
+
+    .lead{
+      color:var(--ink-soft);
+      font-size:17px;
+      max-width:var(--content-width);
+      margin-bottom:0;
+    }
+
+    .muted{color:var(--ink-soft)}
+    .small{font-size:13px;color:var(--ink-soft)}
+    .reading-width{max-width:var(--content-width)}
+
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    .grid-5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:18px;
+      background:#fff;
+    }
+
+    .soft{background:linear-gradient(180deg,#fff,#FFFDFD)}
+    .soft-blue{background:linear-gradient(180deg,#fff,#F9FBFF)}
+
+    .pill{
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+
+    .pill.red{background:var(--red-soft);color:var(--red)}
+    .pill.good{background:var(--good-soft);color:var(--good)}
+    .pill.warn{background:var(--warn-soft);color:var(--warn)}
+    .pill.blue{background:var(--blue-soft);color:var(--blue)}
+
+    .score{
+      font-size:42px;
+      font-weight:800;
+      letter-spacing:-.03em;
+      margin-bottom:4px;
+    }
+
+    .score.good{color:var(--good)}
+    .score.warn{color:var(--warn)}
+    .score.red{color:var(--red)}
+
+    .note{
+      margin-top:18px;
+      padding:16px 18px;
+      border-left:4px solid var(--red);
+      background:#FFF6F5;
+      border-radius:0 14px 14px 0;
+      color:#5A2A27;
+    }
+
+    .tip{
+      margin-top:18px;
+      padding:16px 18px;
+      border-left:4px solid var(--blue);
+      background:#F5F8FF;
+      border-radius:0 14px 14px 0;
+      color:#173B75;
+    }
+
+    ul{margin:10px 0 0 20px;padding:0}
+    li{margin:8px 0}
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+      margin-top:18px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
+      background:#fff;
+    }
+
+    th,td{
+      text-align:left;
+      vertical-align:top;
+      padding:14px 13px;
+      border-bottom:1px solid var(--line);
+      font-size:14px;
+    }
+
+    th{
+      background:#FAFAFB;
+      font-weight:800;
+      color:#111;
+    }
+
+    tbody tr:nth-child(even){
+      background:#FCFCFD;
+    }
+
+    .issue-box{
+      border:1px solid var(--line);
+      border-left:6px solid var(--warn);
+      border-radius:18px;
+      padding:18px;
+      background:#FFFDF7;
+    }
+
+    .issue-box.high{
+      border-left-color:var(--red);
+      background:#FFF8F7;
+    }
+
+    .issue-box.low{
+      border-left-color:var(--good);
+      background:#FAFFFC;
+    }
+
+    .footer{
+      margin-top:28px;
+      text-align:center;
+      color:#6B7280;
+      font-size:14px;
+    }
+
+    @media (max-width:1180px){
+      .hero-grid,.grid-5,.grid-4,.grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .grid-2{grid-template-columns:1fr}
+    }
+
+    @media (max-width:760px){
+      .page{padding:16px 12px 42px}
+      .hero{padding:28px 22px}
+      section{padding:22px 16px}
+      .hero-grid,.grid-5,.grid-4,.grid-3,.grid-2{grid-template-columns:1fr}
+    }
+
+    @media print{
+      body{background:#fff}
+      .hero,section{box-shadow:none}
+      .page{max-width:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <header class="hero">
+      <div class="eyebrow">Customer-Facing Audit Report</div>
+      <h1>Personal Savings &amp; Deposit Accounts (Singapore) — Prompt Bank Audit and Recommendations</h1>
+      <p class="subtitle">
+        This review assesses the uploaded prompt bank against the working framework for category, topic, and prompt quality. The set has a strong structural foundation and a clear savings-account focus, but its learning value can be improved further by tightening prompt phrasing, broadening journey coverage, and making the branded versus unbranded mix more deliberate across topics.
+      </p>
+
+      <div class="hero-grid">
+        <div class="hero-card">
+          <div class="k">Total Prompts</div>
+          <div class="v">100 prompts</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Category Count</div>
+          <div class="v">1 category</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Topic Count</div>
+          <div class="v">5 topics</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Branded Mix</div>
+          <div class="v">80 branded / 20 unbranded</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Overall View</div>
+          <div class="v">Strong foundation, with mix and wording improvements recommended</div>
+        </div>
+      </div>
+    </header>
+
+    <section>
+      <div class="section-tag">Executive Summary</div>
+      <h2>Overall assessment</h2>
+      <p class="lead">
+        This is a <strong>well-organized prompt bank</strong> with a clear category, disciplined topic sizing, and a strong focus on the Singapore savings-account market. It is particularly strong in <strong>comparison prompts</strong>, <strong>interest-maximisation scenarios</strong>, and <strong>product-specific UOB One / UOB Stash depth</strong>.
+      </p>
+      <p class="lead">
+        The main opportunities are not structural failure points. They are mostly <strong>quality and balance opportunities</strong>: a high branded concentration outside the discovery topic, several prompts that read more like labels than natural customer questions, some overlap in comparison families, and lighter coverage in onboarding, activation, and broader post-selection customer journeys.
+      </p>
+
+      <div class="grid-4" style="margin-top:18px;">
+        <div class="card soft">
+          <span class="pill good">Overall Score</span>
+          <div class="score warn">80/100</div>
+          <p class="small">Strong prompt bank for a trial, with targeted refinement recommended.</p>
+        </div>
+        <div class="card soft">
+          <span class="pill good">Biggest Strength</span>
+          <h3>Clear topic structure</h3>
+          <p class="muted">Five evenly-sized topics create a disciplined and readable framework.</p>
+        </div>
+        <div class="card soft">
+          <span class="pill warn">Biggest Gap</span>
+          <h3>Prompt mix balance</h3>
+          <p class="muted">Discovery, decision, and support are not distributed evenly across the bank.</p>
+        </div>
+        <div class="card soft">
+          <span class="pill blue">Recommendation</span>
+          <h3>Refine, not rebuild</h3>
+          <p class="muted">The bank is worth keeping as a base; the next step is selective improvement.</p>
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>Bottom line:</strong> The prompt bank is <strong>trial-ready</strong>, but it will become more valuable if several prompts are sharpened and if the prompt mix is spread more deliberately across discovery, comparison, decision, setup, and ongoing use.
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">Structure Snapshot</div>
+      <h2>What was uploaded</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Observation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Category</td>
+            <td><strong>Personal Savings &amp; Deposit Accounts (Singapore)</strong> — clear, business-relevant, and appropriately broad</td>
+          </tr>
+          <tr>
+            <td>Topics</td>
+            <td>5 topics, each with 20 prompts</td>
+          </tr>
+          <tr>
+            <td>Topic set</td>
+            <td>Best Savings Accounts in Singapore; Comparison &amp; Alternatives; Maximising Interest &amp; Eligibility; UOB One Account; UOB Stash Account</td>
+          </tr>
+          <tr>
+            <td>Prompt mix</td>
+            <td>Strong on comparison and qualification mechanics; lighter on onboarding, activation, and ongoing servicing</td>
+          </tr>
+          <tr>
+            <td>Branding mix</td>
+            <td>80 branded prompts and 20 unbranded prompts</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="grid-2" style="margin-top:18px;">
+        <div class="card">
+          <span class="pill good">What is working</span>
+          <ul>
+            <li>single category is clear and well bounded</li>
+            <li>topic sizes are disciplined and balanced</li>
+            <li>the Singapore market context is explicit and useful</li>
+            <li>the bank includes both broad category prompts and product-specific prompts</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="pill warn">What needs attention</span>
+          <ul>
+            <li>most unbranded discovery is concentrated in only one topic</li>
+            <li>several comparison prompts use unnatural phrasing</li>
+            <li>there is moderate overlap across comparison families</li>
+            <li>opening / setup / service tasks are present, but not strongly represented</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">Scorecard</div>
+      <h2>Audit score by dimension</h2>
+
+      <div class="grid-5">
+        <div class="card">
+          <span class="pill good">Category Design</span>
+          <div class="score good">4.7/5</div>
+          <p class="small">Strong category naming, scope, and relevance.</p>
+        </div>
+        <div class="card">
+          <span class="pill good">Topic Design</span>
+          <div class="score good">4.3/5</div>
+          <p class="small">Well-balanced topic counts with mostly coherent clustering.</p>
+        </div>
+        <div class="card">
+          <span class="pill warn">Prompt Quality</span>
+          <div class="score warn">3.8/5</div>
+          <p class="small">Mostly strong, with several prompts needing sharper phrasing or placement.</p>
+        </div>
+        <div class="card">
+          <span class="pill warn">Prompt Mix</span>
+          <div class="score warn">3.6/5</div>
+          <p class="small">Branded-heavy outside the discovery area; intent and journey balance can improve.</p>
+        </div>
+        <div class="card">
+          <span class="pill warn">Trial Readiness</span>
+          <div class="score warn">4.0/5</div>
+          <p class="small">Ready for use, with focused optimization recommended.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">Strengths</div>
+      <h2>What this prompt bank already does well</h2>
+
+      <div class="grid-3">
+        <div class="issue-box low">
+          <h3>1. Strong top-level discipline</h3>
+          <p class="muted">
+            The bank has one clear category and five balanced topics. That makes it easy to interpret results by cluster and avoids the fragmentation problem seen in weaker prompt sets.
+          </p>
+        </div>
+
+        <div class="issue-box low">
+          <h3>2. Good market realism</h3>
+          <p class="muted">
+            The prompts reflect realistic Singapore savings-account behavior: salary crediting, card spend, emergency funds, fixed deposits, T-bills, and account comparison against local competitors.
+          </p>
+        </div>
+
+        <div class="issue-box low">
+          <h3>3. Strong product-depth where it matters</h3>
+          <p class="muted">
+            The UOB One Account and UOB Stash Account topics provide meaningful product depth, especially around qualification logic, interest mechanics, and common product comparisons.
+          </p>
+        </div>
+
+        <div class="issue-box low">
+          <h3>4. Good comparison coverage</h3>
+          <p class="muted">
+            The set does a good job representing comparison moments across DBS Multiplier, OCBC 360, Standard Chartered Bonus$aver, fixed deposits, and T-bills.
+          </p>
+        </div>
+
+        <div class="issue-box low">
+          <h3>5. Useful discovery layer exists</h3>
+          <p class="muted">
+            The "Best Savings Accounts in Singapore" topic gives the bank a meaningful unbranded discovery layer, which is valuable for category-level visibility testing.
+          </p>
+        </div>
+
+        <div class="issue-box low">
+          <h3>6. Even topic distribution</h3>
+          <p class="muted">
+            Twenty prompts per topic creates a neat baseline for comparison and prevents one topic from being accidentally under-represented.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">Key Findings</div>
+      <h2>Main issues and opportunities</h2>
+
+      <div class="issue-box high">
+        <h3>Branded versus unbranded coverage is too concentrated</h3>
+        <p class="muted">
+          The overall mix is <strong>80 branded</strong> and <strong>20 unbranded</strong>. That is not automatically wrong for a trial, but almost all unbranded discovery is concentrated in a single topic. The remaining topics are overwhelmingly branded.
+        </p>
+        <ul>
+          <li><strong>Best Savings Accounts in Singapore:</strong> 19 unbranded, 1 branded</li>
+          <li><strong>Comparison &amp; Alternatives:</strong> 19 branded, 1 unbranded</li>
+          <li><strong>Maximising Interest &amp; Eligibility:</strong> 20 branded</li>
+          <li><strong>UOB One Account:</strong> 20 branded</li>
+          <li><strong>UOB Stash Account:</strong> 20 branded</li>
+        </ul>
+        <p class="muted">
+          This means category-level discoverability is represented, but it is not distributed across the broader bank. If the trial goal includes broader market visibility, the current design may overconcentrate that learning in only one topic.
+        </p>
+      </div>
+
+      <div class="issue-box">
+        <h3>Prompt quality is mostly solid, but several prompts read like labels rather than customer questions</h3>
+        <p class="muted">
+          A number of prompts use comparison-label phrasing such as <strong>"Compare between..."</strong> or noun-phrase styles such as <strong>"UOB One Account compared with fixed deposit rates..."</strong>. These are understandable, but they are less natural than a direct customer question.
+        </p>
+        <p class="muted">
+          This matters because the best prompts usually sound like something a real customer would say spontaneously, not something written as a worksheet heading.
+        </p>
+      </div>
+
+      <div class="issue-box">
+        <h3>Comparison coverage is strong, but some comparison families are too dense</h3>
+        <p class="muted">
+          The bank includes many useful comparison prompts, but several clusters are close to each other in meaning. This is especially visible around:
+        </p>
+        <ul>
+          <li>UOB One vs DBS Multiplier</li>
+          <li>UOB One vs OCBC 360</li>
+          <li>UOB One / UOB Stash vs fixed deposit</li>
+          <li>UOB One vs UOB Stash</li>
+        </ul>
+        <p class="muted">
+          This is not duplication in the strict sense, but it does create some density in one intent family while other parts of the journey are less covered.
+        </p>
+      </div>
+
+      <div class="issue-box">
+        <h3>Journey coverage is strongest in discovery, comparison, and optimization — lighter in onboarding and ongoing service</h3>
+        <p class="muted">
+          The bank is very strong in the early and middle parts of the journey: category research, product comparison, and how to maximize interest. It is lighter in:
+        </p>
+        <ul>
+          <li>application and opening steps</li>
+          <li>activation and account setup</li>
+          <li>ongoing account management beyond interest optimization</li>
+          <li>service scenarios such as changing account usage patterns, missing criteria, or account maintenance actions</li>
+        </ul>
+        <p class="muted">
+          The bank does include some opening and setup prompts, but they are scattered rather than clearly structured.
+        </p>
+      </div>
+
+      <div class="issue-box">
+        <h3>One topic-placement issue stands out</h3>
+        <p class="muted">
+          <strong>"How to open a UOB joint account"</strong> appears inside <strong>Best Savings Accounts in Singapore</strong>. That prompt is more operational and product-action oriented than the rest of that topic, so it feels slightly misplaced.
+        </p>
+      </div>
+
+      <div class="issue-box">
+        <h3>A few prompts are too vague or too time-sensitive</h3>
+        <p class="muted">
+          Most prompts are usable, but a handful would benefit from being sharpened. Examples:
+        </p>
+        <ul>
+          <li><strong>Is UOB Stash Account good?</strong> — too vague</li>
+          <li><strong>Walk me through the exact tiers of the UOB One Account interest structure as of 2026.</strong> — overly time-bound and likely to age quickly</li>
+          <li><strong>Compare UOB Stash Account with fixed deposit</strong> — understandable but not natural as a customer question</li>
+        </ul>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">Topic Review</div>
+      <h2>Assessment by topic</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Topic</th>
+            <th>Assessment</th>
+            <th>Main strength</th>
+            <th>Main issue</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Best Savings Accounts in Singapore</td>
+            <td>Strong discovery topic</td>
+            <td>Good unbranded category-level coverage with realistic scenarios like salary credit, irregular income, students, and emergency funds</td>
+            <td>Contains one misplaced operational prompt: <strong>How to open a UOB joint account</strong></td>
+          </tr>
+          <tr>
+            <td>Comparison &amp; Alternatives</td>
+            <td>Strong but dense</td>
+            <td>Good competitive coverage across major local alternatives and non-bank alternatives like fixed deposits and T-bills</td>
+            <td>Moderate overlap in comparison families; could use more variation in scenario types rather than repeated pairwise comparisons</td>
+          </tr>
+          <tr>
+            <td>Maximising Interest &amp; Eligibility</td>
+            <td>High-value support topic</td>
+            <td>Strong coverage of qualification logic, salary crediting, card spend, and interest optimization</td>
+            <td>Very branded and heavily concentrated on optimization; lighter on broader account-management questions</td>
+          </tr>
+          <tr>
+            <td>UOB One Account</td>
+            <td>Good product-depth topic</td>
+            <td>Strong coverage of rates, tiers, linkage, qualification, and monthly actions</td>
+            <td>Contains several prompts phrased like FAQ labels or comparison headings rather than natural questions</td>
+          </tr>
+          <tr>
+            <td>UOB Stash Account</td>
+            <td>Good product-depth topic</td>
+            <td>Clear coverage of how the account works, balance mechanics, and fit-for-purpose questions</td>
+            <td>A few prompts are too broad or generic, such as <strong>Is UOB Stash Account good?</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-tag">Prompt-Level Audit</div>
+      <h2>Specific prompts that should be improved</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Current prompt</th>
+            <th>Issue</th>
+            <th>Why it matters</th>
+            <th>Recommended improvement</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>How to open a UOB joint account</td>
+            <td>Feels misplaced in a broad "best savings accounts" topic</td>
+            <td>It is more operational and decision-stage than category-discovery oriented</td>
+            <td>Either move it to a dedicated opening / setup topic, or rewrite it as <strong>How do I open a joint savings account in Singapore, and which banks make the process easiest?</strong> if you want it to stay discovery-oriented</td>
+          </tr>
+          <tr>
+            <td>Compare between UOB One Account and DBS Multiplier Account</td>
+            <td>Unnatural phrasing</td>
+            <td>Reads like a worksheet label instead of a customer question</td>
+            <td><strong>How does the UOB One Account compare with DBS Multiplier for salary crediting and monthly card spend?</strong></td>
+          </tr>
+          <tr>
+            <td>Compare between UOB One Account and OCBC 360 Account</td>
+            <td>Unnatural phrasing</td>
+            <td>Same issue as above; less natural than direct-question form</td>
+            <td><strong>How does the UOB One Account compare with OCBC 360 for everyday banking and bonus interest?</strong></td>
+          </tr>
+          <tr>
+            <td>Compare UOB Stash Account with fixed deposit</td>
+            <td>Too label-like</td>
+            <td>Understands the intent, but not expressed the way a customer would usually ask it</td>
+            <td><strong>How does the UOB Stash Account compare with a fixed deposit for short-term cash savings?</strong></td>
+          </tr>
+          <tr>
+            <td>UOB One Account compared with fixed deposit rates for short-term cash savings</td>
+            <td>Noun-phrase style rather than natural question</td>
+            <td>Less conversational and less useful as a customer-style prompt</td>
+            <td><strong>Is the UOB One Account better than a fixed deposit for short-term cash savings?</strong></td>
+          </tr>
+          <tr>
+            <td>Is UOB Stash Account good?</td>
+            <td>Too broad and vague</td>
+            <td>Does not define for whom or for what purpose</td>
+            <td><strong>Is the UOB Stash Account a good fit for someone building an emergency fund with irregular monthly savings?</strong></td>
+          </tr>
+          <tr>
+            <td>Walk me through the exact tiers of the UOB One Account interest structure as of 2026.</td>
+            <td>Too time-bound and slightly heavy in phrasing</td>
+            <td>Will age quickly and can create maintenance overhead in the prompt bank</td>
+            <td><strong>What are the current UOB One Account interest tiers, and how do they work across different balance bands?</strong></td>
+          </tr>
+          <tr>
+            <td>Please explain the "Maintain or Increase Monthly Average Balance" condition for the UOB Stash Account in simple terms.</td>
+            <td>Usable, but more verbose than necessary</td>
+            <td>Could be simplified while keeping the same intent</td>
+            <td><strong>What does the "maintain or increase monthly average balance" rule mean for the UOB Stash Account?</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <div class="section-tag">Prompt Mix</div>
+      <h2>What the current prompt mix says</h2>
+
+      <div class="grid-2">
+        <div class="card soft-blue">
+          <span class="pill blue">What is well represented</span>
+          <ul>
+            <li>high-interest savings account discovery</li>
+            <li>salary credit and card-spend qualification logic</li>
+            <li>UOB One / UOB Stash comparison and fit-for-purpose decisions</li>
+            <li>product mechanics, interest tiers, and optimization behavior</li>
+          </ul>
+        </div>
+        <div class="card soft-blue">
+          <span class="pill blue">What is lighter than expected</span>
+          <ul>
+            <li>opening and onboarding steps</li>
+            <li>joint account and account-setup flows</li>
+            <li>ongoing service and account-maintenance tasks</li>
+            <li>broader unbranded discovery outside the first topic</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note">
+        <strong>Interpretation:</strong> The set currently teaches most strongly around <strong>which account to choose</strong> and <strong>how to maximize interest</strong>. It is less complete as a bank for the full savings-account customer journey.
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">Recommendations</div>
+      <h2>Priority recommendations</h2>
+
+      <div class="grid-3">
+        <div class="issue-box high">
+          <h3>1. Spread unbranded discovery more deliberately</h3>
+          <p class="muted">
+            Keep the strong discovery topic, but add a small number of unbranded prompts into comparison and decision-oriented areas so category-level learning is not isolated in only one topic.
+          </p>
+        </div>
+
+        <div class="issue-box high">
+          <h3>2. Rewrite label-style prompts into natural questions</h3>
+          <p class="muted">
+            Replace prompts that begin with <strong>Compare</strong>, noun-phrase labels, or overly scripted wording with direct customer-style questions.
+          </p>
+        </div>
+
+        <div class="issue-box">
+          <h3>3. Reduce density in repeated comparison families</h3>
+          <p class="muted">
+            Keep the strongest comparison prompts, but use some freed-up slots to cover underrepresented onboarding, setup, and account-use scenarios.
+          </p>
+        </div>
+
+        <div class="issue-box">
+          <h3>4. Strengthen journey coverage</h3>
+          <p class="muted">
+            Add more prompts for decision-stage and post-selection scenarios, such as opening steps, setup actions, and maintaining eligibility over time.
+          </p>
+        </div>
+
+        <div class="issue-box">
+          <h3>5. Re-home misplaced prompts</h3>
+          <p class="muted">
+            Move operational prompts like joint-account opening into a more suitable topic structure, rather than leaving them inside broad discovery topics.
+          </p>
+        </div>
+
+        <div class="issue-box">
+          <h3>6. Remove or update time-sensitive phrasing</h3>
+          <p class="muted">
+            Where possible, avoid prompts that hard-code time references unless that is the explicit purpose of the test.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">Suggested Next-Step Edits</div>
+      <h2>Practical edits that would improve the bank quickly</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>Why it helps</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Rewrite 6-10 label-style prompts into natural customer questions</td>
+            <td>Improves realism without changing the structure of the bank</td>
+          </tr>
+          <tr>
+            <td>Move or rewrite the joint-account opening prompt</td>
+            <td>Improves topic coherence</td>
+          </tr>
+          <tr>
+            <td>Replace 4-6 overlapping comparison prompts with onboarding or setup prompts</td>
+            <td>Improves journey balance while keeping comparison strength</td>
+          </tr>
+          <tr>
+            <td>Add a small number of unbranded prompts into comparison or decision-stage coverage</td>
+            <td>Improves discoverability learning outside one discovery topic</td>
+          </tr>
+          <tr>
+            <td>Review all broad prompts for sharper context</td>
+            <td>Makes results easier to interpret and more actionable</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="tip">
+        <strong>Best next move:</strong> This prompt bank does <strong>not</strong> need a structural rewrite. It would benefit most from a <strong>selective refinement pass</strong> focused on prompt phrasing, prompt mix, and journey balance.
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">Final View</div>
+      <h2>Conclusion</h2>
+      <p class="lead">
+        This is a <strong>strong starting prompt bank</strong> for the Personal Savings &amp; Deposit Accounts category in Singapore. It already shows discipline in structure, market realism, and product-specific depth. The biggest opportunity is to make the bank <strong>more balanced as a learning instrument</strong>: less concentrated in branded product mechanics, slightly less dense in repeated comparisons, and more complete across the customer journey.
+      </p>
+      <p class="lead">
+        With a focused refinement pass, this bank can become not only structurally strong, but also more representative of how customers discover, compare, choose, open, and use savings accounts in practice.
+      </p>
+    </section>
+
+    <footer class="footer">
+      Customer-facing audit report for prompt bank quality, coverage, and trial readiness.
+    </footer>
+
+  </div>
+</body>
+</html>

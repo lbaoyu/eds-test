@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Executive Readout — Recommended Success Metrics for the LLMO Pilot</title>
+  <title>Executive Readout — GEO Success Metrics for the LLMO Pilot</title>
   <style>
     :root{
       --red:#D92D20;
-      --red-dark:#B42318;
       --red-soft:#FFF1F0;
       --ink:#1F1F1F;
       --ink-soft:#667085;
@@ -30,7 +29,7 @@
       background:
         radial-gradient(circle at top right, rgba(217,45,32,.05), transparent 24%),
         linear-gradient(180deg,#ffffff 0%,#f7f7f8 100%);
-      line-height:1.6;
+      line-height:1.62;
     }
 
     .page{
@@ -87,13 +86,13 @@
       font-size:clamp(28px,3vw,38px);
       font-weight:800;
       letter-spacing:-.02em;
-      max-width:900px;
+      max-width:920px;
     }
     h3{font-size:22px;font-weight:760}
     h4{font-size:18px;font-weight:760}
 
     .subtitle{
-      max-width:1040px;
+      max-width:1060px;
       color:#F3F4F6;
       font-size:18px;
       margin-top:12px;
@@ -159,6 +158,7 @@
     .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
     .grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
     .grid-4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    .grid-5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
 
     .card{
       border:1px solid var(--line);
@@ -184,6 +184,24 @@
     .pill.good{background:var(--good-soft);color:var(--good)}
     .pill.warn{background:var(--warn-soft);color:var(--warn)}
     .pill.blue{background:var(--blue-soft);color:var(--blue)}
+
+    .metric-box{
+      border:1px solid var(--line);
+      border-left:6px solid var(--red);
+      border-radius:18px;
+      padding:18px;
+      background:#FFFDFC;
+    }
+
+    .metric-box.secondary{
+      border-left-color:var(--blue);
+      background:#FBFCFF;
+    }
+
+    .metric-box.directional{
+      border-left-color:var(--warn);
+      background:#FFFDF8;
+    }
 
     .note{
       margin-top:16px;
@@ -234,13 +252,8 @@
       background:#FCFCFD;
     }
 
-    .metric-box{
-      border:1px solid var(--line);
-      border-left:6px solid var(--red);
-      border-radius:18px;
-      padding:18px;
-      background:#FFFDFC;
-    }
+    a{color:#175CD3;text-decoration:none}
+    a:hover{text-decoration:underline}
 
     .footer{
       margin-top:28px;
@@ -250,7 +263,7 @@
     }
 
     @media (max-width:1160px){
-      .hero-grid,.grid-4,.grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .hero-grid,.grid-5,.grid-4,.grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
       .grid-2{grid-template-columns:1fr}
     }
 
@@ -258,7 +271,7 @@
       .page{padding:16px 12px 42px}
       .hero{padding:28px 22px}
       section{padding:22px 16px}
-      .hero-grid,.grid-4,.grid-3,.grid-2{grid-template-columns:1fr}
+      .hero-grid,.grid-5,.grid-4,.grid-3,.grid-2{grid-template-columns:1fr}
     }
 
     @media print{
@@ -273,292 +286,325 @@
 
     <header class="hero">
       <div class="eyebrow">Executive Readout</div>
-      <h1>Recommended Success Metrics for the LLMO Pilot</h1>
+      <h1>GEO Success Metrics for the LLMO Pilot</h1>
       <p class="subtitle">
-        The pilot should be judged on whether it establishes a credible AI-visibility baseline, demonstrates measurable improvement after optimization, and produces a clear recommendation for what to scale next. Because CDN log forwarding is not enabled during the trial, traffic-dependent metrics should not be treated as core pilot KPIs.
+        The pilot should be judged primarily on <strong>GEO outcomes</strong>: whether the brand becomes more visible, more cited, and better represented in AI answers, and whether priority owned URLs gain stronger citation presence. Because CDN log forwarding is not enabled during the trial, the executive KPI set should center on <strong>Brand Presence</strong>, supported by <strong>URL Inspector</strong> and a small number of indirect, directional indicators.
       </p>
 
       <div class="hero-grid">
         <div class="hero-card">
-          <div class="k">Pilot Model</div>
-          <div class="v">Align → Measure → Improve → Review</div>
+          <div class="k">Primary Dashboard</div>
+          <div class="v">Brand Presence</div>
         </div>
         <div class="hero-card">
-          <div class="k">Key Constraint</div>
+          <div class="k">Primary KPI Type</div>
+          <div class="v">Visibility and citation improvement</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Supporting View</div>
+          <div class="v">URL Inspector</div>
+        </div>
+        <div class="hero-card">
+          <div class="k">Trial Constraint</div>
           <div class="v">No CDN log forwarding</div>
         </div>
         <div class="hero-card">
-          <div class="k">Core KPI Type</div>
-          <div class="v">Visibility and answer-quality metrics</div>
-        </div>
-        <div class="hero-card">
-          <div class="k">Do Not Use as Core KPI</div>
-          <div class="v">Traffic attribution metrics</div>
-        </div>
-        <div class="hero-card">
-          <div class="k">Success Outcome</div>
-          <div class="v">Baseline + lift + scale recommendation</div>
+          <div class="k">Implication</div>
+          <div class="v">Do not use traffic-based KPIs as core success measures</div>
         </div>
       </div>
     </header>
 
     <section>
       <div class="section-tag">Executive Summary</div>
-      <h2>Recommended definition of pilot success</h2>
+      <h2>Recommended definition of success</h2>
       <p class="lead">
-        This pilot should be considered successful if it delivers three things:
+        This pilot should be considered successful if it demonstrates that GEO work leads to a measurable improvement in how the brand is represented in AI-generated answers, and if it produces a clear, defensible roadmap for where to optimize next.
       </p>
 
       <div class="grid-3" style="margin-top:18px;">
         <div class="card soft">
-          <span class="pill red">1</span>
-          <h3>Trusted baseline</h3>
-          <p class="muted">A clear benchmark for current visibility and answer quality across the chosen prompt set.</p>
+          <span class="pill red">Success Lens 1</span>
+          <h3>Brand visibility improves</h3>
+          <p class="muted">The brand appears more strongly and more often in the Brand Presence dashboard.</p>
         </div>
         <div class="card soft">
-          <span class="pill red">2</span>
-          <h3>Demonstrated improvement</h3>
-          <p class="muted">Visible before/after lift following optimization work.</p>
+          <span class="pill red">Success Lens 2</span>
+          <h3>Owned content is cited more effectively</h3>
+          <p class="muted">Priority URLs and owned domains gain stronger citation presence and fewer gaps.</p>
         </div>
         <div class="card soft">
-          <span class="pill red">3</span>
-          <h3>Decision-ready outcome</h3>
-          <p class="muted">A confident recommendation on whether to scale, refine, or expand the program.</p>
+          <span class="pill red">Success Lens 3</span>
+          <h3>Optimization direction becomes clearer</h3>
+          <p class="muted">The pilot identifies which pages, topics, and content patterns are most worth scaling.</p>
         </div>
       </div>
 
       <div class="tip">
-        <strong>Executive takeaway:</strong> This pilot is best positioned as an <strong>AI visibility and answer-improvement pilot</strong>, not a traffic-attribution pilot.
+        <strong>Executive takeaway:</strong> This should be positioned as a <strong>GEO visibility and citation-improvement pilot</strong>, not a traffic-attribution pilot.
       </div>
     </section>
 
     <section>
-      <div class="section-tag">Primary Recommendation</div>
-      <h2>Core success metrics to use</h2>
+      <div class="section-tag">Core KPI Framework</div>
+      <h2>Primary GEO success metrics</h2>
 
       <div class="grid-2">
         <div class="metric-box">
           <span class="pill red">Core KPI 1</span>
-          <h3>Visibility Score Baseline and Lift</h3>
+          <h3>Visibility Score Lift</h3>
           <p class="muted">
-            Establish the initial Visibility Score on the selected prompt set, then measure change after optimization.
+            Use the Brand Presence <strong>Visibility Score</strong> as the headline GEO KPI. Measure the baseline before optimization, then measure lift after content and GEO changes are implemented.
           </p>
         </div>
 
         <div class="metric-box">
           <span class="pill red">Core KPI 2</span>
-          <h3>Mention Baseline and Lift</h3>
+          <h3>Brand Mentions Lift</h3>
           <p class="muted">
-            Track how often the brand appears across the selected prompts before and after changes.
+            Track whether the brand is mentioned more often across the monitored AI answers. This is a direct indicator that the brand is appearing more frequently in relevant answer sets.
           </p>
         </div>
 
         <div class="metric-box">
           <span class="pill red">Core KPI 3</span>
-          <h3>Citation Baseline and Lift</h3>
+          <h3>Owned Citations Lift</h3>
           <p class="muted">
-            Measure how often owned content is cited before and after optimization.
+            Measure whether owned content is being cited more often. This is one of the strongest GEO indicators because it shows not just mention, but source-level reliance on owned content.
           </p>
         </div>
 
         <div class="metric-box">
           <span class="pill red">Core KPI 4</span>
-          <h3>Answer Quality Baseline and Lift</h3>
+          <h3>Share of Voice / Competitive Gap Improvement</h3>
           <p class="muted">
-            Use a structured human-review rubric to assess whether responses become more relevant, complete, and useful.
+            Use Brand Presence competitive comparison and topic-gap views to assess whether the brand is closing citation and mention gaps versus the selected peer set.
           </p>
         </div>
       </div>
 
       <div class="note">
-        <strong>Recommended executive scorecard:</strong> If the pilot needs only one compact scorecard, these four metrics should be the headline measures.
+        <strong>Recommended executive scorecard:</strong> If the pilot needs only four headline GEO KPIs, use <strong>Visibility Score lift</strong>, <strong>Brand Mentions lift</strong>, <strong>Owned Citations lift</strong>, and <strong>Competitive Gap improvement</strong>.
       </div>
     </section>
 
     <section>
-      <div class="section-tag">Constraint Management</div>
-      <h2>Metrics that should not be core pilot KPIs</h2>
+      <div class="section-tag">URL-Level GEO Validation</div>
+      <h2>How URL Inspector should be used in the pilot</h2>
       <p class="lead">
-        Without CDN log forwarding, the pilot should not be judged on traffic-derived metrics. Those can be added in a later phase once the required telemetry is enabled.
+        Even without CDN logs, URL Inspector is still useful as a <strong>GEO validation tool</strong>. It helps show which owned URLs are being cited, where competitor or external domains are winning citations, and which specific URLs should be prioritized for content improvement.
+      </p>
+
+      <div class="grid-3">
+        <div class="metric-box secondary">
+          <span class="pill blue">URL KPI 1</span>
+          <h3>Priority URL Citation Coverage</h3>
+          <p class="muted">
+            Track how many of the strategic URLs the customer cares about are actually showing citation presence in AI answers.
+          </p>
+        </div>
+
+        <div class="metric-box secondary">
+          <span class="pill blue">URL KPI 2</span>
+          <h3>Top Owned URL Citation Growth</h3>
+          <p class="muted">
+            Monitor whether the most important owned pages become more frequently cited over the course of the pilot.
+          </p>
+        </div>
+
+        <div class="metric-box secondary">
+          <span class="pill blue">URL KPI 3</span>
+          <h3>Competitor Domain Displacement</h3>
+          <p class="muted">
+            Use URL Inspector to see whether external competitor domains are losing citation ground on priority topics and pages.
+          </p>
+        </div>
+      </div>
+
+      <div class="tip">
+        <strong>Practical role of URL Inspector:</strong> Brand Presence should be the executive dashboard, while URL Inspector should be the <strong>page-level evidence layer</strong> used to validate where gains or gaps are happening.
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">Directional Metrics</div>
+      <h2>Indirect or directional metrics worth tracking</h2>
+      <p class="lead">
+        These are not the main success KPIs, but they are useful directional indicators that help explain whether the GEO program is moving in the right direction.
+      </p>
+
+      <div class="grid-3">
+        <div class="metric-box directional">
+          <span class="pill warn">Directional 1</span>
+          <h3>Priority URL Optimization Coverage</h3>
+          <p class="muted">
+            Percentage of high-priority pages that received GEO-oriented content or structural improvements during the pilot.
+          </p>
+        </div>
+
+        <div class="metric-box directional">
+          <span class="pill warn">Directional 2</span>
+          <h3>Reduction in Uncited Strategic Pages</h3>
+          <p class="muted">
+            Count how many priority pages started with no citation presence and how many remain uncited after the optimization pass.
+          </p>
+        </div>
+
+        <div class="metric-box directional">
+          <span class="pill warn">Directional 3</span>
+          <h3>Opportunity Closure Rate</h3>
+          <p class="muted">
+            Track how many high-priority GEO opportunities identified by the product were actually addressed during the pilot.
+          </p>
+        </div>
+
+        <div class="metric-box directional">
+          <span class="pill warn">Directional 4</span>
+          <h3>Competitive Topic Gap Closure</h3>
+          <p class="muted">
+            Measure whether the largest topic-level visibility gaps versus competitors become smaller over time.
+          </p>
+        </div>
+
+        <div class="metric-box directional">
+          <span class="pill warn">Directional 5</span>
+          <h3>TTFB / Crawl-Readiness Trend</h3>
+          <p class="muted">
+            If performance data already exists outside LLMO, track time-to-first-byte or similar crawl-readiness indicators as supporting evidence, since faster fetchability can help AI systems access and process content more effectively.
+          </p>
+        </div>
+
+        <div class="metric-box directional">
+          <span class="pill warn">Directional 6</span>
+          <h3>Implementation Velocity</h3>
+          <p class="muted">
+            Measure how quickly the team moves from GEO insight to published content change. This is a strong indicator of whether the program can scale operationally.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-tag">What Not to Overweight</div>
+      <h2>Metrics that should not define pilot success</h2>
+      <p class="lead">
+        Because CDN log forwarding is not enabled, traffic-derived metrics should not be treated as core pilot KPIs. They can be added later once the telemetry foundation exists.
       </p>
 
       <table>
         <thead>
           <tr>
-            <th>Metric</th>
+            <th>Metric type</th>
             <th>Use as core KPI?</th>
-            <th>Reason</th>
+            <th>Why</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Visibility Score</td>
-            <td>Yes</td>
-            <td>Available and suitable for pilot baseline / lift tracking</td>
-          </tr>
-          <tr>
-            <td>Mentions</td>
-            <td>Yes</td>
-            <td>Available and useful for measuring presence</td>
-          </tr>
-          <tr>
-            <td>Citations</td>
-            <td>Yes</td>
-            <td>Available and useful for measuring owned-source representation</td>
-          </tr>
-          <tr>
-            <td>Answer Quality</td>
-            <td>Yes</td>
-            <td>Can be assessed through structured review</td>
-          </tr>
           <tr>
             <td>Agentic Traffic</td>
             <td>No</td>
-            <td>Requires CDN log forwarding</td>
+            <td>Depends on CDN logs and will not be populated in this trial state</td>
           </tr>
           <tr>
             <td>Referral Traffic</td>
+            <td>No</td>
+            <td>Requires the traffic telemetry layer that is not enabled during the trial</td>
+          </tr>
+          <tr>
+            <td>Click-through or AI-referred session volume</td>
             <td>No as core KPI</td>
-            <td>Traffic reporting is constrained without the required telemetry chain</td>
+            <td>Directional only if another analytics source exists; not a clean pilot KPI here</td>
+          </tr>
+          <tr>
+            <td>Prompt-volume or prompt-structure metrics</td>
+            <td>No</td>
+            <td>Useful operationally, but not the right executive definition of GEO success</td>
           </tr>
         </tbody>
       </table>
 
-      <div class="tip">
-        <strong>Recommended wording:</strong> Traffic attribution is a <strong>future-state measurement layer</strong>, not a current pilot success requirement.
-      </div>
-    </section>
-
-    <section>
-      <div class="section-tag">Pilot Phase View</div>
-      <h2>What to measure at each stage of the pilot</h2>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Pilot stage</th>
-            <th>What success looks like</th>
-            <th>Recommended metrics</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Align</td>
-            <td>Scope, prompt set, KPIs, and review method are agreed</td>
-            <td>Readiness milestones, prompt-bank signoff, KPI signoff</td>
-          </tr>
-          <tr>
-            <td>Measure</td>
-            <td>Current-state AI visibility and answer quality are benchmarked</td>
-            <td>Visibility Score baseline, Mention baseline, Citation baseline, Answer Quality baseline</td>
-          </tr>
-          <tr>
-            <td>Improve</td>
-            <td>Priority optimization actions are executed</td>
-            <td>Recommendation acceptance rate, implementation completion rate, time to publish</td>
-          </tr>
-          <tr>
-            <td>Review</td>
-            <td>Before/after impact is clear and scale recommendation is supported</td>
-            <td>Visibility Score lift, Mention lift, Citation lift, Answer Quality lift</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-
-    <section>
-      <div class="section-tag">Answer Quality</div>
-      <h2>Recommended answer-quality rubric</h2>
-
-      <div class="grid-4">
-        <div class="card soft-blue">
-          <span class="pill blue">Dimension 1</span>
-          <h3>Relevance</h3>
-          <p class="muted">Does the answer directly address the prompt and intent?</p>
-        </div>
-        <div class="card soft-blue">
-          <span class="pill blue">Dimension 2</span>
-          <h3>Completeness</h3>
-          <p class="muted">Does the answer cover the important decision factors or steps?</p>
-        </div>
-        <div class="card soft-blue">
-          <span class="pill blue">Dimension 3</span>
-          <h3>Accuracy</h3>
-          <p class="muted">Is the answer aligned with the intended facts or product positioning?</p>
-        </div>
-        <div class="card soft-blue">
-          <span class="pill blue">Dimension 4</span>
-          <h3>Brand Usefulness</h3>
-          <p class="muted">If the brand appears, is it represented in a credible and useful way?</p>
-        </div>
-      </div>
-
-      <div class="tip">
-        <strong>Recommended method:</strong> Use a small but consistent human-review sample before and after optimization, scored with the same rubric and reviewers.
+      <div class="note">
+        <strong>Recommended executive wording:</strong> This pilot validates <strong>GEO visibility and citation improvement</strong>. Traffic attribution can be layered in later when CDN log forwarding or another supported telemetry path is enabled.
       </div>
     </section>
 
     <section>
       <div class="section-tag">Executive Scorecard</div>
-      <h2>Recommended pilot scorecard</h2>
+      <h2>Recommended pilot readout structure</h2>
 
       <table>
         <thead>
           <tr>
-            <th>Metric</th>
+            <th>Scorecard section</th>
+            <th>Recommended metric</th>
             <th>Role in the readout</th>
-            <th>Why it matters</th>
           </tr>
         </thead>
         <tbody>
           <tr>
+            <td>Headline GEO outcome</td>
             <td>Visibility Score lift</td>
-            <td>Headline KPI</td>
-            <td>Shows whether visibility improved after optimization</td>
+            <td>Top-level executive KPI</td>
           </tr>
           <tr>
-            <td>Mention lift</td>
-            <td>Headline KPI</td>
-            <td>Shows whether brand presence became more frequent</td>
+            <td>Brand representation</td>
+            <td>Brand Mentions lift</td>
+            <td>Shows stronger AI-answer presence</td>
           </tr>
           <tr>
-            <td>Citation lift</td>
-            <td>Headline KPI</td>
-            <td>Shows whether owned content gained stronger source presence</td>
+            <td>Owned authority</td>
+            <td>Owned Citations lift</td>
+            <td>Shows whether owned content is becoming a stronger source</td>
           </tr>
           <tr>
-            <td>Answer Quality lift</td>
-            <td>Headline KPI</td>
-            <td>Shows whether the customer experience of AI answers improved</td>
+            <td>Competitive performance</td>
+            <td>Share of Voice / topic-gap improvement</td>
+            <td>Shows whether the brand is closing important competitive gaps</td>
           </tr>
           <tr>
-            <td>Implementation completion rate</td>
-            <td>Execution KPI</td>
-            <td>Confirms that the pilot moved from insight to action</td>
+            <td>Page-level proof</td>
+            <td>Priority URL citation coverage and top owned URL citation growth</td>
+            <td>Turns dashboard trends into concrete URL evidence</td>
           </tr>
           <tr>
-            <td>Scale recommendation readiness</td>
-            <td>Decision KPI</td>
-            <td>Ensures the pilot ends with a clear next-step recommendation</td>
+            <td>Execution credibility</td>
+            <td>Opportunity closure rate and implementation velocity</td>
+            <td>Shows that the pilot moved from insight to action</td>
           </tr>
         </tbody>
       </table>
     </section>
 
     <section>
-      <div class="section-tag">Final Recommendation</div>
-      <h2>Recommended executive framing</h2>
+      <div class="section-tag">Recommended Final Framing</div>
+      <h2>How to position success to executives</h2>
       <p class="lead">
-        The pilot should be positioned as a structured proof of value for <strong>AI visibility improvement</strong> and <strong>answer-quality improvement</strong>. It should not be positioned as a full traffic-attribution pilot because the required telemetry is not in place during this phase.
+        The pilot should be presented as successful if it proves that GEO actions can improve <strong>AI visibility</strong>, <strong>owned citation presence</strong>, and <strong>competitive standing</strong>, while also identifying which URLs and content areas create the strongest opportunity for further scale.
       </p>
 
-      <div class="note">
-        <strong>Recommended final message:</strong> The pilot succeeds if it establishes a credible baseline, demonstrates measurable lift after optimization, and provides a strong basis for scaling the program into a broader operational phase.
+      <div class="tip">
+        <strong>Concise executive message:</strong> Success in this pilot is not measured by traffic logs. It is measured by whether the brand becomes <strong>more visible</strong>, <strong>more citable</strong>, and <strong>better positioned versus competitors</strong> in AI-generated answers.
       </div>
     </section>
 
+    <section>
+      <div class="section-tag">Sources</div>
+      <h2>Reference notes</h2>
+      <ul>
+        <li><a href="https://adobe.enterprise.slack.com/archives/C08S8TS7Q68/p1761058569113929">LLM Optimizer BYOCDN log forwarding and traffic dashboard behavior</a></li>
+        <li><a href="https://adobe.enterprise.slack.com/archives/C08S8TS7Q68/p1761003761776909">LLMO support for BYO CDN customers</a></li>
+        <li><a href="https://adobe.enterprise.slack.com/archives/C08S8TS7Q68/p1758686071453079">LLMO without a CDN and Google AI Mode support</a></li>
+        <li><a href="https://wiki.corp.adobe.com/spaces/AEMSites/pages/3840526481/Brand+Centric+Experience">Brand Centric Experience</a></li>
+        <li><a href="https://adobe.enterprise.slack.com/archives/C08S8TS7Q68/p1757605321815659">Brand Presence metric scope in LLM Optimizer</a></li>
+        <li><a href="https://adobe.enterprise.slack.com/archives/C09K3NC3L7J/p1767721746033009">LLM Optimizer release update and corrected Citation Attempts definition</a></li>
+        <li><a href="https://adobe.enterprise.slack.com/archives/C091CRHN961/p1762966553702699">LLM Optimizer access model and URL Inspector citation-attempt metric decisions</a></li>
+        <li><a href="https://adobe.enterprise.slack.com/archives/C08S8TS7Q68/p1773879314246789">URL Inspector and Recover Content Visibility for LLMO visibility analysis</a></li>
+        <li><a href="https://adobe.enterprise.slack.com/archives/C08S8TS7Q68/p1760012609467499">LLMO GEO dashboard adaptation, metric priority, and customization</a></li>
+      </ul>
+    </section>
+
     <footer class="footer">
-      Executive readout version for recommended LLMO pilot success metrics under a no-CDN-log-forwarding trial constraint.
+      Executive readout version focused on GEO success metrics for an LLMO pilot without CDN log forwarding.
     </footer>
 
   </div>

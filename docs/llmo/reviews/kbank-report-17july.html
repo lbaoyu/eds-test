@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasikornbank · Adobe LLM Optimiser Reports · W25–W28</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Source+Code+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gray-50:#FFFFFF; --gray-75:#FAFAFA; --gray-100:#F5F5F5; --gray-200:#EAEAEA; --gray-300:#E1E1E1;
+    --gray-400:#CACACA; --gray-500:#B3B3B3; --gray-600:#8E8E8E; --gray-700:#6E6E6E; --gray-800:#4B4B4B; --gray-900:#2C2C2C;
+    --blue-400:#2680EB; --blue-500:#1473E6; --blue-600:#0D66D0; --blue-700:#095ABA; --blue-800:#064E9F; --blue-100:#E0F2FF; --blue-75:#EDF7FF;
+    --positive-500:#2D9D78; --positive-600:#12805C; --positive-100:#DEF2EA;
+    --negative-500:#E34850; --negative-600:#D7373F; --negative-100:#FAE5E5;
+    --notice-500:#E68619; --notice-100:#FBE8C9; --informative-500:#1473E6;
+    --cat-1:#1473E6; --cat-2:#6431AB; --cat-3:#C81E70; --cat-4:#BD5F00; --cat-5:#268E6C;
+    --adobe-red:#EB1000;
+    --adobe-logo:url('data:image/png;base64,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');
+    --font-sans:'Source Sans 3',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;
+    --font-serif:'Source Serif 4',Georgia,serif;
+    --font-mono:'Source Code Pro','SF Mono',Menlo,monospace;
+    --t-sm:18px; --t-md:24px; --t-lg:40px; --t-xl:64px;
+    --s-50:2px; --s-75:4px; --s-100:8px; --s-150:12px; --s-200:16px; --s-300:24px; --s-400:32px; --s-500:40px; --s-600:48px; --s-700:64px; --s-800:80px; --s-900:96px;
+    --r-sm:4px; --r-md:6px; --r-lg:8px;
+    --shadow-1:0 1px 4px rgba(0,0,0,0.06); --shadow-2:0 2px 8px rgba(0,0,0,0.08),0 0 0 1px var(--gray-200);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:var(--font-sans);background:var(--gray-100);color:var(--gray-900);line-height:1.6;font-size:var(--t-sm);font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+
+  .appbar{background:var(--gray-50);border-bottom:1px solid var(--gray-200);padding:var(--s-150) var(--s-400);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+  .appbar-left{display:flex;align-items:center;gap:var(--s-200);}
+  .adobe-mark{display:inline-flex;align-items:center;gap:var(--s-150);}
+  .adobe-mark .logo-img{width:36px;height:32px;display:block;flex-shrink:0;background-image:var(--adobe-logo);background-size:contain;background-repeat:no-repeat;background-position:center;}
+  .adobe-mark .product{font-family:var(--font-sans);font-weight:700;font-size:var(--t-sm);color:var(--gray-900);letter-spacing:-0.005em;}
+  .adobe-mark .product span{color:var(--gray-700);font-weight:400;margin-left:var(--s-75);}
+  .appbar-divider{width:1px;height:20px;background:var(--gray-300);}
+  .appbar-context{font-family:var(--font-sans);font-size:var(--t-sm);color:var(--gray-800);font-weight:500;}
+  .appbar-right{display:flex;gap:var(--s-200);align-items:center;}
+  .filter-chip{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;background:var(--gray-100);border:1px solid var(--gray-300);border-radius:var(--r-sm);font-size:var(--t-sm);color:var(--gray-800);font-weight:500;}
+  .filter-chip .chip-label{font-size:var(--t-sm);color:var(--gray-700);font-weight:400;}
+  .filter-chip .chip-value{color:var(--gray-900);font-weight:600;}
+
+  .page{max-width:1280px;margin:0 auto;padding:var(--s-600) var(--s-500) var(--s-900);}
+  .page-header{margin-bottom:var(--s-600);}
+  .breadcrumb{font-size:var(--t-sm);color:var(--gray-700);font-weight:500;margin-bottom:var(--s-200);display:flex;align-items:center;gap:8px;}
+  .breadcrumb a{color:var(--blue-600);text-decoration:none;}
+  .breadcrumb a:hover{text-decoration:underline;}
+  .breadcrumb-sep{color:var(--gray-400);}
+  h1.page-title{font-family:var(--font-sans);font-size:var(--t-lg);font-weight:700;line-height:1.15;letter-spacing:-0.02em;color:var(--gray-900);margin-bottom:var(--s-200);}
+  h1.page-title .accent{color:var(--blue-600);font-weight:700;}
+  .page-lede{font-size:var(--t-md);line-height:1.6;color:var(--gray-800);max-width:none;font-weight:400;}
+  .info-banner{margin-top:var(--s-400);padding:var(--s-200) var(--s-300);background:var(--blue-75);border:1px solid var(--blue-100);border-left:3px solid var(--blue-500);border-radius:var(--r-sm);font-size:var(--t-sm);color:var(--gray-900);line-height:1.6;max-width:none;display:flex;gap:var(--s-200);align-items:flex-start;}
+  .info-banner .info-icon{width:16px;height:16px;flex-shrink:0;margin-top:2px;background:var(--blue-500);border-radius:50%;color:white;font-size:var(--t-sm);font-weight:700;display:flex;align-items:center;justify-content:center;line-height:1;}
+  .info-banner strong{font-weight:600;}
+  .info-banner em{font-style:normal;color:var(--blue-700);font-weight:600;}
+
+  .card{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--r-md);padding:var(--s-400);}
+  .section{margin-bottom:var(--s-600);}
+  .section-head{margin-bottom:var(--s-300);display:flex;align-items:baseline;gap:var(--s-200);border-bottom:1px solid var(--gray-300);padding-bottom:var(--s-200);}
+  .section-eyebrow{font-family:var(--font-mono);font-size:var(--t-sm);color:var(--blue-600);font-weight:600;letter-spacing:0.04em;}
+  .section-title{font-size:var(--t-md);font-weight:700;color:var(--gray-900);letter-spacing:-0.01em;}
+  .section-subtitle{font-size:var(--t-sm);color:var(--gray-700);max-width:none;line-height:1.6;margin-bottom:var(--s-300);}
+
+  .kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--s-200);}
+  .kpi{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--r-md);padding:var(--s-300);transition:border-color 0.15s,box-shadow 0.15s;}
+  .kpi:hover{border-color:var(--gray-400);box-shadow:var(--shadow-1);}
+  .kpi .label{font-size:var(--t-sm);color:var(--gray-700);font-weight:500;margin-bottom:var(--s-150);}
+  .kpi .value{font-family:var(--font-sans);font-size:var(--t-lg);font-weight:700;color:var(--gray-900);line-height:1.1;letter-spacing:-0.02em;margin-bottom:var(--s-100);font-variant-numeric:tabular-nums;}
+  .kpi .delta{font-size:var(--t-sm);color:var(--gray-700);display:flex;align-items:center;gap:4px;font-weight:500;}
+  .kpi .delta.up{color:var(--positive-500);} .kpi .delta.down{color:var(--negative-600);} .kpi .delta.flat{color:var(--notice-500);}
+  .kpi .delta .arrow{font-size:var(--t-sm);line-height:1;}
+  @media(max-width:900px){.kpi-grid{grid-template-columns:repeat(2,1fr);}}
+  @media(max-width:540px){.kpi-grid{grid-template-columns:1fr;}}
+
+  .table-wrap{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--r-md);overflow:hidden;}
+  table.data{width:100%;border-collapse:collapse;font-size:var(--t-sm);}
+  table.data thead{background:var(--gray-100);border-bottom:1px solid var(--gray-300);}
+  table.data th{text-align:left;font-size:var(--t-sm);color:var(--gray-700);font-weight:600;padding:var(--s-200);letter-spacing:0.02em;border-bottom:1px solid var(--gray-300);white-space:nowrap;}
+  table.data th.num,table.data td.num{text-align:right;font-variant-numeric:tabular-nums;}
+  table.data td{padding:var(--s-200);border-bottom:1px solid var(--gray-200);color:var(--gray-900);vertical-align:middle;font-size:var(--t-sm);}
+  table.data td.num{font-family:var(--font-sans);font-weight:500;font-size:var(--t-sm);color:var(--gray-900);}
+  table.data tbody tr:hover{background:var(--gray-100);}
+  table.data tbody tr:last-child td{border-bottom:none;}
+  table.data .accent{color:var(--blue-600);font-weight:600;}
+  table.data .muted{color:var(--gray-700);font-size:var(--t-sm);}
+  table.data .pos{color:var(--positive-500);font-weight:600;}
+  table.data .neg{color:var(--negative-600);font-weight:600;}
+  table.data .warn{color:var(--notice-500);font-weight:600;}
+
+  .tag-pill{display:inline-flex;align-items:center;height:32px;padding:0 14px;border-radius:16px;font-size:var(--t-sm);font-weight:600;line-height:1;}
+  .tag-pill.owned{background:var(--blue-100);color:var(--blue-700);}
+  .tag-pill.earned{background:var(--gray-200);color:var(--gray-800);}
+  .tag-pill.others{background:var(--notice-100);color:var(--notice-500);}
+  .tag-pill.social{background:var(--gray-100);color:var(--gray-700);}
+  .tag-pill.pos{background:var(--positive-100);color:var(--positive-500);}
+  .tag-pill.neg{background:var(--negative-100);color:var(--negative-600);}
+  .tag-pill.warn-tag{background:var(--notice-100);color:var(--notice-500);}
+
+  .bar-cell{min-width:140px;}
+  .bar{display:flex;align-items:center;gap:10px;}
+  .bar-track{flex:1;height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden;}
+  .bar-fill{height:100%;background:var(--blue-500);border-radius:3px;}
+  .bar-fill.pos{background:var(--positive-500);} .bar-fill.warn{background:var(--notice-500);} .bar-fill.neg{background:var(--negative-500);}
+  .bar-val{font-family:var(--font-sans);font-weight:600;font-size:var(--t-sm);color:var(--gray-900);min-width:48px;text-align:right;font-variant-numeric:tabular-nums;}
+
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:var(--s-300);}
+  @media(max-width:900px){.two-col{grid-template-columns:1fr;}}
+  .subhead{font-size:var(--t-md);font-weight:700;color:var(--gray-900);margin:var(--s-400) 0 var(--s-200);letter-spacing:-0.005em;}
+  .subhead:first-child{margin-top:0;}
+
+  .stat-list{display:grid;gap:var(--s-200);}
+  .stat-row{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:var(--r-md);padding:var(--s-200) var(--s-300);display:grid;grid-template-columns:1fr auto;align-items:center;gap:var(--s-200);}
+  .stat-row .stat-info{display:flex;flex-direction:column;gap:2px;}
+  .stat-row .stat-label{font-size:var(--t-sm);color:var(--gray-700);font-weight:500;}
+  .stat-row .stat-desc{font-size:var(--t-sm);color:var(--gray-700);}
+  .stat-row .stat-value{font-family:var(--font-sans);font-size:var(--t-lg);font-weight:700;color:var(--gray-900);line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-0.02em;}
+  .stat-row.owned .stat-value{color:var(--blue-600);}
+
+  .note{margin:var(--s-300) 0;padding:var(--s-200) var(--s-300);background:var(--gray-100);border-radius:var(--r-sm);font-size:var(--t-sm);line-height:1.65;color:var(--gray-800);border-left:3px solid var(--gray-500);max-width:none;}
+  .note strong{color:var(--gray-900);font-weight:600;}
+  .note em{font-style:normal;color:var(--blue-700);font-weight:600;}
+  .note.alert{background:var(--notice-100);border-left-color:var(--notice-500);}
+  .note.alert strong{color:var(--gray-900);}
+
+  .caption{margin-top:var(--s-100);font-size:var(--t-sm);color:var(--gray-700);line-height:1.5;}
+  .caption strong{color:var(--gray-900);font-weight:600;}
+
+  footer{margin-top:var(--s-700);padding-top:var(--s-400);border-top:1px solid var(--gray-300);font-size:var(--t-sm);color:var(--gray-700);line-height:1.6;}
+  footer .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:var(--s-400);margin-bottom:var(--s-400);}
+  footer h5{font-size:var(--t-sm);text-transform:uppercase;letter-spacing:0.06em;color:var(--gray-900);font-weight:700;margin-bottom:var(--s-150);}
+  footer p{margin-bottom:var(--s-100);}
+  footer strong{color:var(--gray-900);font-weight:600;}
+  footer .credit{text-align:center;padding-top:var(--s-200);border-top:1px solid var(--gray-200);font-size:var(--t-sm);color:var(--gray-700);display:flex;align-items:center;justify-content:center;gap:var(--s-100);}
+  footer .credit .logo-img{width:20px;height:18px;display:inline-block;vertical-align:middle;background-image:var(--adobe-logo);background-size:contain;background-repeat:no-repeat;background-position:center;}
+  @media(max-width:720px){footer .footer-grid{grid-template-columns:1fr;}}
+
+  .toc-tabs{display:flex;gap:0;margin:0 0 var(--s-500);overflow-x:auto;position:sticky;top:64px;z-index:50;background:var(--gray-100);box-shadow:inset 0 -1px 0 var(--gray-300);scrollbar-width:thin;}
+  .toc-tabs::-webkit-scrollbar{height:4px;}
+  .toc-tabs::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:2px;}
+  .toc-tabs a{padding:var(--s-200) var(--s-300);font-size:var(--t-sm);color:var(--gray-700);text-decoration:none;font-weight:500;white-space:nowrap;display:inline-flex;align-items:center;gap:10px;position:relative;transition:color 0.15s ease;}
+  .toc-tabs a::after{content:"";position:absolute;left:var(--s-300);right:var(--s-300);bottom:0;height:2px;background:transparent;transition:background-color 0.15s ease;pointer-events:none;}
+  .toc-tabs a:hover{color:var(--blue-600);}
+  .toc-tabs a:hover::after{background:var(--blue-400);}
+  .toc-tabs a.active{color:var(--blue-700);font-weight:600;}
+  .toc-tabs a.active::after{background:var(--blue-600);}
+  .toc-tabs a:focus{outline:none;}
+  .toc-tabs a:focus-visible{outline:2px solid var(--blue-500);outline-offset:-4px;border-radius:var(--r-sm);}
+  .toc-tabs a .num{font-family:var(--font-mono);font-size:var(--t-sm);color:var(--gray-600);font-weight:600;transition:color 0.15s ease;}
+  .toc-tabs a:hover .num,.toc-tabs a.active .num{color:var(--blue-600);}
+  .section[id]{scroll-margin-top:140px;}
+
+  @media print{
+    body{background:white;font-size:10pt;}
+    .appbar{position:static;box-shadow:none;}
+    .page{padding:var(--s-300);max-width:100%;}
+    .section{page-break-inside:avoid;}
+    .kpi-grid{page-break-inside:avoid;}
+    .toc-tabs{display:none;}
+  }
+
+  /* multi-report shell */
+  .report-switch{position:sticky;top:64px;z-index:90;background:var(--gray-100);border-bottom:1px solid var(--gray-200);}
+  .report-switch-inner{max-width:1280px;margin:0 auto;display:flex;gap:4px;padding:7px var(--s-500);overflow-x:auto;scrollbar-width:thin;}
+  .rsw-btn{font-family:var(--font-sans);font-size:var(--t-sm);font-weight:600;color:var(--gray-700);background:transparent;border:1px solid transparent;padding:7px 16px;border-radius:8px;cursor:pointer;white-space:nowrap;transition:background 0.12s,color 0.12s;}
+  .rsw-btn:hover{background:var(--gray-200);}
+  .rsw-btn.active{background:var(--blue-600);color:#fff;}
+  .report{display:none;}
+  .report.active{display:block;}
+  .toc-tabs{top:108px !important;}
+  .section[id]{scroll-margin-top:188px !important;}
+
+  /* readiness + opportunity blocks */
+  .readiness{background:var(--gray-50);border:1px solid var(--gray-200);border-left:4px solid var(--blue-500);border-radius:var(--r-md);padding:var(--s-300) var(--s-400);margin-bottom:var(--s-300);}
+  .readiness p{font-size:var(--t-md);color:var(--gray-900);line-height:1.55;max-width:none;}
+  .readiness p strong{color:var(--gray-900);}
+  #rpt-cards .readiness{border-left-color:var(--positive-500);}
+  #rpt-funds .readiness{border-left-color:var(--notice-500);}
+
+  .ic{font-family:var(--font-mono);font-size:11px;font-weight:700;letter-spacing:0.03em;padding:2px 8px;border-radius:4px;white-space:nowrap;}
+  .ic-cards{background:var(--positive-100);color:var(--positive-600);}
+  .ic-invest{background:var(--gray-200);color:var(--gray-700);}
+  .gloss{color:var(--gray-700);font-style:italic;}
+
+  .opp{border:1px solid var(--gray-200);border-left:4px solid var(--blue-500);border-radius:var(--r-md);padding:var(--s-300) var(--s-400);margin-bottom:var(--s-200);background:var(--gray-50);}
+  .opp.defend{border-left-color:var(--positive-500);}
+  .opp.tech{border-left-color:var(--cat-2);}
+  .opp.extend{border-left-color:var(--blue-500);}
+  .opp.connect{border-left-color:var(--positive-500);}
+  .opp.earn{border-left-color:var(--blue-500);}
+  .opp h4{font-size:var(--t-md);font-weight:700;color:var(--gray-900);margin-bottom:var(--s-100);}
+  .opp p{font-size:var(--t-sm);color:var(--gray-800);line-height:1.55;max-width:none;}
+  .opp p strong{color:var(--gray-900);}
+
+  .trust{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:var(--t-sm);font-weight:600;padding:4px 11px;border-radius:var(--r-sm);margin-left:auto;letter-spacing:0.02em;align-self:center;}
+  .trust.ok{background:var(--positive-100);color:var(--positive-500);}
+  .trust.partial{background:var(--notice-100);color:var(--notice-500);}
+
+  .delta-chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--font-mono);font-size:13px;font-weight:700;padding:2px 8px;border-radius:4px;background:var(--positive-100);color:var(--positive-600);margin-left:8px;vertical-align:2px;}
+  .delta-chip.down{background:var(--negative-100);color:var(--negative-600);}
+  .delta-chip.flat{background:var(--gray-200);color:var(--gray-700);}
+</style>
+</head>
+<body>
+
+<div class="appbar">
+  <div class="appbar-left">
+    <div class="adobe-mark"><div class="logo-img" role="img" aria-label="Adobe"></div><div class="product">Adobe<span>LLM Optimiser</span></div></div>
+    <div class="appbar-divider"></div>
+    <div class="appbar-context">Kasikornbank</div>
+  </div>
+  <div class="appbar-right">
+    <div class="filter-chip"><span class="chip-label">Period</span><span class="chip-value">W25–W28 · Thailand</span></div>
+  </div>
+</div>
+
+<div class="report-switch">
+  <div class="report-switch-inner">
+      <button class="rsw-btn active" data-report="global">Overview</button>
+      <button class="rsw-btn" data-report="cards">Credit Cards</button>
+      <button class="rsw-btn" data-report="funds">Investment Funds</button>
+  </div>
+</div>
+
+<!-- ============================== OVERVIEW ============================== -->
+<section class="report active" id="rpt-global">
+<div class="page">
+
+  <div class="page-header">
+    <div class="breadcrumb">
+      <a href="#">Customers</a><span class="breadcrumb-sep">/</span>
+      <a href="#">Kasikornbank</a><span class="breadcrumb-sep">/</span><span>Snapshot</span>
+    </div>
+    <h1 class="page-title">KBank's lead widened this period. <span class="accent">Cards are stronger still; funds improved sharply — but own-page ownership is the remaining gap.</span></h1>
+    <p class="page-lede">
+      How AI assistants answer questions about Kasikornbank, across 98 questions over four weeks (W25–W28). KBank is cited more often than any tracked rival and ranks first in share of voice on all six topics — and this period the margins grew. Both domains rose: cards to 54.6 visibility, funds to 32.9, and the count of no-result prompts more than halved (17 → 7). The one thing that hasn't moved is ownership — most answers still cite third-party sites rather than KBank's own pages, especially on fund questions.
+    </p>
+    <div class="info-banner">
+      <div class="info-icon">i</div>
+      <div><strong>Scope.</strong> 98 prompts, all written by KBank, Thailand market, weeks W25–W28 2026, four runs each, compared against KTC, SCB, UOB, Krungsri and Bangkok Bank. Three of five layers are live (Brand Presence, Data Insights, URL Inspector); crawl access and referral data still need a CDN connection, which is not yet set up. The Credit Cards and Investment Funds tabs cover each in detail.</div>
+    </div>
+  </div>
+
+  <nav class="toc-tabs">
+    <a href="#global-headline"><span class="num">01</span>Headline</a>
+    <a href="#global-domains"><span class="num">02</span>Two Domains</a>
+    <a href="#global-standing"><span class="num">03</span>Standing</a>
+    <a href="#global-priorities"><span class="num">04</span>Priorities</a>
+    <a href="#global-watch"><span class="num">05</span>What to Watch</a>
+  </nav>
+
+  <section class="section" id="global-headline">
+    <div class="section-head"><span class="section-eyebrow">01</span><span class="section-title">Headline</span></div>
+    <div class="readiness">
+      <p>KBank is the <strong>most-cited bank</strong> in the set — 191 citations over the four weeks, up from 106 last period — and ranks first in share of voice on all six topics, now by <strong>3–10 points</strong> rather than single digits. It converts mentions to citations better than anyone (<strong>0.79</strong> per mention). About <strong>12%</strong> of cited sources are KBank's own pages — counting K-Asset (kasikornbank.com's asset manager), which the export classifies as earned but which prior reports and this one treat as owned — roughly flat. <strong>Cards</strong> strengthened to 54.6 visibility (91.1 on branded prompts — those that name KBank). On <strong>fund</strong> questions — all unbranded — visibility rose to 32.9 and the fund-selection topic recovered dramatically (one no-result prompt, down from eight). KBank leads share of voice on every fund topic, but is still cited from its own pages far less, so the biggest opportunity remains building KBank's own fund content.</p>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="label">Brand citations</div><div class="value">191</div><div class="delta up"><span class="arrow">▲</span> from 106 · next KTC 77</div></div>
+      <div class="kpi"><div class="label">Citations per mention</div><div class="value">0.79</div><div class="delta up"><span class="arrow">▲</span> highest in the set · was 0.54</div></div>
+      <div class="kpi"><div class="label">Owned citation share</div><div class="value">11.6%</div><div class="delta flat"><span class="arrow">●</span> incl K-Asset · ~flat vs 12.7%</div></div>
+      <div class="kpi"><div class="label">Negative sentiment</div><div class="value">0%</div><div class="delta up"><span class="arrow">▲</span> 41 positive · 40 neutral</div></div>
+      <div class="kpi"><div class="label">Card visibility</div><div class="value">54.6</div><div class="delta up"><span class="arrow">▲</span> from 48.2 · strongest domain</div></div>
+      <div class="kpi"><div class="label">Fund visibility</div><div class="value">32.9</div><div class="delta up"><span class="arrow">▲</span> from 25.0 · all unbranded prompts</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="global-domains">
+    <div class="section-head"><span class="section-eyebrow">02</span><span class="section-title">Two domains</span></div>
+    <p class="section-subtitle">The 98 prompts split evenly into credit cards and investment funds. Both rose this period, but they still perform very differently.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Domain</th><th class="num">Prompts</th><th class="num">Visibility</th><th class="num">Owned share</th><th class="num">Zero-visibility</th></tr></thead>
+        <tbody>
+          <tr><td><span class="ic ic-cards">Cards</span> Credit cards</td><td class="num">50</td><td class="num pos">54.6</td><td class="num pos">14.3%</td><td class="num pos">2</td></tr>
+          <tr><td><span class="ic ic-invest">Funds</span> Investment funds</td><td class="num">48</td><td class="num warn">32.9</td><td class="num warn">8.6%</td><td class="num warn">5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">On card questions, KBank's own promotion pages are the cited sources and it usually answers first or second. On fund questions, the cited sources are fund aggregators (yuanta mutualfund, my-best, finnomena) and rival asset managers (SCBAM, Krungsri Asset); KBank's own fund pages — mostly K-Asset — are cited far less. <strong>K-Asset (kasikornasset.com) is counted as KBank-owned here</strong>, though the export labels it earned; on that basis funds own 8.6% of their citations (the main site alone just 3.7%). Part of the card advantage is still the prompt mix: cards include nine branded prompts (which name KBank), while every fund prompt is unbranded — comparing only unbranded prompts, cards average 46.6 vs funds 32.9, and KBank still leads share of voice on every fund topic. The real fund gap is owned content, concentrated on product-choice fund selection.</div>
+  </section>
+
+  <section class="section" id="global-standing">
+    <div class="section-head"><span class="section-eyebrow">03</span><span class="section-title">Standing vs competitors</span></div>
+    <p class="section-subtitle">KBank is mentioned about as often as KTC and Krungsri, but turns those mentions into citations far more often than anyone.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Brand</th><th class="num">Mentions</th><th class="num">Citations</th><th class="num">Per mention</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Kasikornbank</strong></td><td class="num">243</td><td class="num accent">191</td><td class="num pos">0.79</td></tr>
+          <tr><td>KTC <span class="muted">(Krungthai Card)</span></td><td class="num">194</td><td class="num">77</td><td class="num">0.40</td></tr>
+          <tr><td>Siam Commercial Bank <span class="muted">(SCB)</span></td><td class="num">153</td><td class="num">57</td><td class="num">0.37</td></tr>
+          <tr><td>Krungsri</td><td class="num">185</td><td class="num">49</td><td class="num">0.26</td></tr>
+          <tr><td>UOB</td><td class="num">162</td><td class="num">28</td><td class="num">0.17</td></tr>
+          <tr><td>Bangkok Bank</td><td class="num">99</td><td class="num">16</td><td class="num">0.16</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">KBank ranks first in share of voice on every topic, now at 9.2%–18.1% (up from 6.7%–13.5%) — a clearer lead than last period, though still no brand dominates. The closest rival is KTC on cards and SCB on funds. By cited domain, the source mix is <strong>59% earned</strong> third-party, <strong>20% others</strong> (rival brands), <strong>16% KBank-owned</strong> (including K-Asset) and <strong>6% social</strong>. <span class="muted">(This 16% is the domain-level source mix; the 11.6% headline is the per-prompt owned metric — the two bases differ slightly, both count K-Asset as owned. Data note: the tracking table resolves the SCB entity as "Statistics Sweden" — a matcher error, not a real competitor. The four-week citation trend is clean: 37 → 49 → 46 → 59.)</span></div>
+  </section>
+
+  <section class="section" id="global-priorities">
+    <div class="section-head"><span class="section-eyebrow">04</span><span class="section-title">Priorities</span></div>
+
+    <div class="opp">
+      <h4>1 · Win fund ownership <span class="ic ic-invest" style="font-weight:700;">build</span></h4>
+      <p>Fund visibility rose to 32.9 and fund-selection recovered strongly (one no-result prompt this period, down from eight), but ownership is still thin — counting K-Asset, KBank owns 8.6% of fund citations, and the main site alone just 3.7%. The clearest target is product-choice fund selection. Build owned fund content the assistants can read (fund-selection guides by goal, risk and horizon; fund comparisons; RMF / SSF / Thai ESG tax-fund guides), connect K-Asset pages to kasikornbank.com, and get KBank funds well-described on the aggregators the assistants already cite. <strong>Detail in the Investment Funds tab.</strong></p>
+    </div>
+    <div class="opp defend">
+      <h4>2 · Defend card questions <span class="ic ic-cards" style="font-weight:700;">defend</span></h4>
+      <p>Cards strengthened to 54.6 (91.1 on branded prompts), with owned promotion pages as the cited sources and no negative sentiment. The risk is unchanged: promotions expire, and a citation to an expired promo page is a real risk — and KTC is still second on every card topic. Keep cited promotion pages current and monitor weekly. <strong>Detail in the Credit Cards tab.</strong></p>
+    </div>
+    <div class="opp tech">
+      <h4>3 · Make cited pages readable to crawlers</h4>
+      <p>Among owned pages with readability data, <strong>15 of 43</strong> show less than half their content to an AI crawler — and some of the worst offenders are heavily cited. The main credit-card promotion index is cited 17 times yet only <strong>19% readable</strong>; plustinum is cited 15 times at 24%. Pre-render the priority card and fund pages so the text is in the page when the crawler reads it. This is an engineering fix, not a content change, and it increases the payoff from the two priorities above.</p>
+    </div>
+    <div class="note alert" style="margin-top:var(--s-300);"><strong>Setup.</strong> Connect a CDN to turn on crawl-access and referral reporting (both still blank). Competitor tracking is now populated with real numbers for KTC, Krungsri, UOB and Bangkok Bank — an improvement on last period — but two list issues remain: the SCB entity is mislabelled "Statistics Sweden", and ttb has dropped out of the tracked set (replaced by Bangkok Bank).</div>
+  </section>
+
+  <section class="section" id="global-watch">
+    <div class="section-head"><span class="section-eyebrow">05</span><span class="section-title">What to watch</span></div>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Metric</th><th class="num">Now</th><th class="num">Prior</th><th>Direction</th></tr></thead>
+        <tbody>
+          <tr><td>Fund owned citation share (incl K-Asset)</td><td class="num warn">8.6%</td><td class="num muted">9.6%</td><td class="muted">Hold ~9%</td></tr>
+          <tr><td>Fund visibility</td><td class="num warn">32.9</td><td class="num muted">25.0</td><td><strong style="color:var(--positive-600);">Rising</strong></td></tr>
+          <tr><td>Zero-visibility prompts</td><td class="num pos">7 of 98</td><td class="num muted">17</td><td><strong style="color:var(--positive-600);">Toward 0</strong></td></tr>
+          <tr><td>Card visibility</td><td class="num pos">54.6</td><td class="num muted">48.2</td><td class="muted">Hold</td></tr>
+          <tr><td>Owned pages under 50% crawler-readable</td><td class="num warn">15 of 43</td><td class="num muted">47 of 82</td><td><strong style="color:var(--positive-600);">Falling</strong></td></tr>
+          <tr><td>Negative sentiment</td><td class="num pos">0%</td><td class="num muted">0%</td><td class="muted">Stays low</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption">Owned share counts K-Asset (kasikornasset.com) as KBank-owned throughout, consistent with prior reports, though this period's export classifies K-Asset as earned. On funds, the main site alone is 3.7%; K-Asset lifts the total to 8.6%.</div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div><h5>Method</h5><p>Adobe LLM Optimiser, Kasikornbank, weeks W25–W28 2026, vs KTC, SCB, UOB, Krungsri and Bangkok Bank. Covers all 98 prompts, four runs each. Citation trend is clean across the four weeks (no collection gap this period).</p></div>
+      <div><h5>Coverage</h5><p>Brand Presence, Data Insights and URL Inspector are live; crawl access and referral need a CDN. K-Asset (kasikornasset.com) is treated as KBank-owned in commentary; the export labels it earned.</p></div>
+      <div><h5>Other tabs</h5><p>Credit Cards and Investment Funds. Cross-brand totals span all questions.</p></div>
+    </div>
+    <div class="credit"><span class="logo-img" role="img" aria-label="Adobe"></span><span>Generated by Adobe LLM Optimiser · Kasikornbank · July 2026</span></div>
+  </footer>
+
+</div>
+</section>
+
+<!-- ============================== CARDS ============================== -->
+<section class="report" id="rpt-cards">
+<div class="page">
+
+  <div class="page-header">
+    <div class="breadcrumb"><a href="#">Customers</a><span class="breadcrumb-sep">/</span><a href="#">Kasikornbank</a><span class="breadcrumb-sep">/</span><span>Cards Snapshot</span></div>
+    <h1 class="page-title">On credit-card questions, KBank answers from its own pages — and the lead grew. <span class="accent">This is the lead to defend.</span></h1>
+    <p class="page-lede">How AI assistants answer credit-card questions about Kasikornbank, across 50 prompts over four weeks (W25–W28). This is KBank's strong domain, and it strengthened this period: it ranks first in share of voice on every card topic, usually answers first or second, has no negative sentiment, and — unlike funds — the cited sources are KBank's own promotion pages. Visibility rose to 54.6. The job is to keep that lead.</p>
+    <div class="info-banner"><div class="info-icon">i</div><div><strong>Scope.</strong> 50 credit-card prompts of KBank's 98-prompt library, all written by KBank, Thailand market, weeks W25–W28 2026, four runs each, compared against KTC, SCB, UOB, Krungsri and Bangkok Bank.</div></div>
+  </div>
+
+  <nav class="toc-tabs">
+    <a href="#cards-glance"><span class="num">01</span>At a Glance</a>
+    <a href="#cards-topics"><span class="num">02</span>Topics</a>
+    <a href="#cards-competitive"><span class="num">03</span>Competitive</a>
+    <a href="#cards-sources"><span class="num">04</span>Sources</a>
+    <a href="#cards-access"><span class="num">05</span>Crawler Access</a>
+    <a href="#cards-actions"><span class="num">06</span>Actions</a>
+  </nav>
+
+  <section class="section" id="cards-glance">
+    <div class="section-head"><span class="section-eyebrow">01</span><span class="section-title">At a glance</span><span class="trust ok">✓ Reliable</span></div>
+    <div class="readiness"><p>Across 50 card prompts, KBank averages <strong>54.6</strong> visibility (up from 48.2), rising to <strong>91.1</strong> on the nine branded prompts (those that name KBank) — all answered first. It leads share of voice on all three card topics, has <strong>no negative sentiment</strong>, and owns <strong>14.3%</strong> of cited sources — the highest of any domain, because the answers cite KBank's own promotion pages.</p></div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="label">Card prompts</div><div class="value">50</div><div class="delta flat"><span class="arrow">●</span> 9 branded, 41 unbranded</div></div>
+      <div class="kpi"><div class="label">Visibility</div><div class="value">54.6</div><div class="delta up"><span class="arrow">▲</span> 91.1 on branded prompts</div></div>
+      <div class="kpi"><div class="label">Owned citation share</div><div class="value">14.3%</div><div class="delta up"><span class="arrow">▲</span> highest of any domain</div></div>
+      <div class="kpi"><div class="label">First or second</div><div class="value">23</div><div class="delta up"><span class="arrow">▲</span> of 50 answers · 16 first</div></div>
+      <div class="kpi"><div class="label">Negative sentiment</div><div class="value">0%</div><div class="delta up"><span class="arrow">▲</span> 25 positive · 19 neutral</div></div>
+      <div class="kpi"><div class="label">Zero-visibility prompts</div><div class="value">2</div><div class="delta up"><span class="arrow">▲</span> of 50 · was 5</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="cards-topics">
+    <div class="section-head"><span class="section-eyebrow">02</span><span class="section-title">Topics</span><span class="trust ok">✓ Reliable</span></div>
+    <p class="section-subtitle">All three topics are led by KBank. Deals and promotions are strong; eligibility and lifestyle is the one weaker spot, though it improved this period.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Topic</th><th>Demand</th><th class="num">Visibility</th><th class="num">Owned share</th><th class="num">Zero-vis</th></tr></thead>
+        <tbody>
+          <tr><td>Branded prompts <span class="muted">(name KBank)</span></td><td class="muted">—</td><td class="num pos">91.1</td><td class="num pos">38.5%</td><td class="num pos">0</td></tr>
+          <tr><td>Deals &amp; application</td><td class="muted">Low</td><td class="num pos">70.6</td><td class="num pos">25.8%</td><td class="num pos">0</td></tr>
+          <tr><td>Rewards, promotions &amp; tiers</td><td class="accent">Medium</td><td class="num pos">55.4</td><td class="num">12.3%</td><td class="num pos">1</td></tr>
+          <tr><td>Eligibility &amp; lifestyle</td><td class="muted">Low</td><td class="num warn">32.7</td><td class="num">13.2%</td><td class="num pos">1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note">Concrete card questions — cashback, dining, shopping, card comparison — have a clear owned promotion page to cite, so visibility reaches 55–71 and branded prompts hit 91.1 at first position. <strong>Eligibility &amp; lifestyle</strong> is still the exception at 32.7 (up from 23.4): broad "which card suits me" questions with no single page that answers them, though it moved up meaningfully. Top-scoring branded prompts include a LINE Points promotion (100), the Platinum review (99) and current Platinum offers (99), all at first position.</div>
+  </section>
+
+  <section class="section" id="cards-competitive">
+    <div class="section-head"><span class="section-eyebrow">03</span><span class="section-title">Competitive picture</span><span class="trust ok">✓ Reliable</span></div>
+    <p class="section-subtitle">KBank ranks first on every card topic, and the margins widened — but KTC is always second.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Card topic</th><th>KBank share</th><th>Next</th><th>Then</th></tr></thead>
+        <tbody>
+          <tr><td>Deals &amp; application</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width:100%"></div></div><div class="bar-val">18.1%</div></div></td><td>KTC 8.3%</td><td class="muted">UOB 6.9%, Krungsri 5.6%</td></tr>
+          <tr><td>Eligibility &amp; lifestyle</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width:86%"></div></div><div class="bar-val">15.6%</div></div></td><td>KTC 11.7%</td><td class="muted">UOB 9.1%, Krungsri 7.8%</td></tr>
+          <tr><td>Rewards, promotions &amp; tiers</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width:61%"></div></div><div class="bar-val">11.0%</div></div></td><td>KTC 7.8%</td><td class="muted">UOB 7.4%, SCB 6.3%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note alert"><strong>KTC is still the one to watch.</strong> KBank leads each topic, and by more than last period, but the gap is narrowest where demand is highest — rewards and promotions, where KTC trails by about three points (11.0% vs 7.8%). On lower-demand topics the lead is wider still (18.1% vs 8.3% on deals).</div>
+  </section>
+
+  <section class="section" id="cards-sources">
+    <div class="section-head"><span class="section-eyebrow">04</span><span class="section-title">Which pages are cited</span><span class="trust ok">✓ Reliable</span></div>
+    <p class="section-subtitle">KBank's card citations come from its own promotion pages — the reason the scores are high.</p>
+    <div class="two-col">
+      <div>
+        <h3 class="subhead">Top owned card pages</h3>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Page</th><th class="num">Cited</th><th class="num">Prompts</th></tr></thead>
+          <tbody>
+            <tr><td>…/salary-15000-apply-creditcard</td><td class="num accent">18</td><td class="num">9</td></tr>
+            <tr><td>/promotion/creditcard/index</td><td class="num">17</td><td class="num">7</td></tr>
+            <tr><td>/promotion/creditcard/special-campaign</td><td class="num">16</td><td class="num">9</td></tr>
+            <tr><td>/personal/creditcard/plustinum</td><td class="num">15</td><td class="num">8</td></tr>
+            <tr><td>/personal/creditcard/creditcard <span class="muted">· compare · shopping</span></td><td class="num">11</td><td class="num">7</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+      <div>
+        <h3 class="subhead">Competing card sites</h3>
+        <div class="table-wrap"><table class="data">
+          <thead><tr><th>Site</th><th>Type</th><th class="num">Cited</th></tr></thead>
+          <tbody>
+            <tr><td>ktc.co.th</td><td><span class="tag-pill others">Earned</span></td><td class="num">244</td></tr>
+            <tr><td>th.my-best.com</td><td><span class="tag-pill earned">Earned</span></td><td class="num">111</td></tr>
+            <tr><td>krungsricard.com</td><td><span class="tag-pill others">Others</span></td><td class="num">90</td></tr>
+            <tr><td>thairath.co.th</td><td><span class="tag-pill earned">Earned</span></td><td class="num">67</td></tr>
+            <tr><td>cardguruth.com · cardx.co.th</td><td><span class="tag-pill earned">Earned</span></td><td class="num">31</td></tr>
+          </tbody>
+        </table></div>
+      </div>
+    </div>
+    <div class="note">Of KBank's 628 owned citations, 399 come from credit-card pages across 122 owned URLs — KBank's card pages are well covered. The competing sources are rival issuers (KTC, Krungsri) and card-comparison publishers (my-best, thairath coupons, cardguruth, cardx). Earning placement on those publishers is the next step.</div>
+  </section>
+
+  <section class="section" id="cards-access">
+    <div class="section-head"><span class="section-eyebrow">05</span><span class="section-title">Crawler access</span><span class="trust partial">◐ Partly available</span></div>
+    <p class="section-subtitle">Crawl-traffic and referral data still need a CDN connection (not set up). One thing is already measurable: how much of each page an AI crawler can actually read.</p>
+    <div class="note alert" style="margin-bottom: var(--s-300);"><strong>Some heavily-cited card pages are hard to read.</strong> A few card pages load most of their content after the crawler has read the page, so the crawler sees only a fraction — and two of them are among the most-cited owned pages. It can't fully use what it can't read.</div>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Card page</th><th class="num">Crawler reads</th><th class="num">Times cited</th></tr></thead>
+        <tbody>
+          <tr><td>/promotion/creditcard/travel-tripdotcom</td><td class="num neg">5%</td><td class="num muted">4</td></tr>
+          <tr><td>/promotion/creditcard/index</td><td class="num neg">19%</td><td class="num warn">17</td></tr>
+          <tr><td>/personal/creditcard/plustinum</td><td class="num neg">24%</td><td class="num warn">15</td></tr>
+          <tr><td>/personal/creditcard/mastercard-platinum</td><td class="num warn">32%</td><td class="num muted">4</td></tr>
+          <tr><td>/personal/creditcard/the-passion</td><td class="num warn">38%</td><td class="num muted">5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption" style="margin-top: var(--s-150);">The promotion index and plustinum are cited 17 and 15 times respectively while showing under a quarter of their content — the clearest pre-render wins. This is an engineering fix, with no content change.</div>
+  </section>
+
+  <section class="section" id="cards-actions">
+    <div class="section-head"><span class="section-eyebrow">06</span><span class="section-title">Actions</span></div>
+    <div class="opp">
+      <h4>1 · Keep cited promotion pages current</h4>
+      <p>Owned promotion pages are the cited sources behind a 54.6 average and 91.1 on branded prompts. The risk: promotions expire, and a citation to an expired promo page is a real risk. Keep cited pages accurate as campaigns change, and check weekly for visibility drops or new competitor citations.</p>
+    </div>
+    <div class="opp tech">
+      <h4>2 · Pre-render the hard-to-read card pages</h4>
+      <p>The promotion index (cited 17×, 19% readable) and plustinum (cited 15×, 24%) show a fraction of their content to crawlers, along with travel-tripdotcom, mastercard-platinum and the-passion. Where the crawler can't read the page, it can't fully cite it. Pre-render these so the text is present on load — no content change needed.</p>
+    </div>
+    <div class="opp extend">
+      <h4>3 · Fill the eligibility &amp; lifestyle gap</h4>
+      <p>Eligibility &amp; lifestyle is the weaker card topic at 32.7 — "which card suits me" questions with no clear owned page. It rose from 23.4 last period; keep building owned "choose your card" guidance by spending pattern, and earn placement on the card-comparison publishers that already win citations.</p>
+    </div>
+    <h3 class="subhead">What to watch</h3>
+    <div class="table-wrap"><table class="data">
+      <thead><tr><th>Metric</th><th class="num">Now</th><th class="num">Prior</th><th>Direction</th></tr></thead>
+      <tbody>
+        <tr><td>Card visibility</td><td class="num pos">54.6</td><td class="num muted">48.2</td><td class="muted">Hold</td></tr>
+        <tr><td>Owned citation share</td><td class="num pos">14.3%</td><td class="num muted">14.8%</td><td class="muted">Hold ~14%</td></tr>
+        <tr><td>Eligibility &amp; lifestyle visibility</td><td class="num warn">32.7</td><td class="num muted">23.4</td><td><strong style="color:var(--positive-600);">Rising</strong></td></tr>
+        <tr><td>Hard-to-read cited card pages</td><td class="num warn">several</td><td class="num muted">several</td><td><strong style="color:var(--positive-600);">Falling</strong></td></tr>
+        <tr><td>KBank vs KTC on rewards</td><td class="num">11.0 vs 7.8</td><td class="num muted">9.4 vs 7.5</td><td><strong style="color:var(--positive-600);">Widening</strong></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div><h5>Method</h5><p>Adobe LLM Optimiser, Kasikornbank, weeks W25–W28 2026, vs KTC, SCB, UOB, Krungsri and Bangkok Bank. Covers the 50 credit-card prompts, four runs each.</p></div>
+      <div><h5>Coverage</h5><p>Brand Presence, Data Insights and URL Inspector are live; crawler-readability is measurable; crawl-traffic and referral need a CDN.</p></div>
+      <div><h5>Other tabs</h5><p>Overview and Investment Funds. Cross-brand totals span all questions.</p></div>
+    </div>
+    <div class="credit"><span class="logo-img" role="img" aria-label="Adobe"></span><span>Generated by Adobe LLM Optimiser · Kasikornbank · Cards · July 2026</span></div>
+  </footer>
+
+</div>
+</section>
+
+<!-- ============================== FUNDS ============================== -->
+<section class="report" id="rpt-funds">
+<div class="page">
+
+  <div class="page-header">
+    <div class="breadcrumb"><a href="#">Customers</a><span class="breadcrumb-sep">/</span><a href="#">Kasikornbank</a><span class="breadcrumb-sep">/</span><span>Funds Snapshot</span></div>
+    <h1 class="page-title">Fund questions improved sharply — and KBank leads them all. <span class="accent">But mostly through others' pages, not its own. That's still the opportunity.</span></h1>
+    <p class="page-lede">How AI assistants answer investment and mutual-fund questions about Kasikornbank, across 48 prompts over four weeks (W25–W28). Every one is an unbranded prompt — a discovery question that doesn't name a bank — so this is a tougher test than the card questions. This period visibility rose to 32.9 and the count of no-result fund prompts more than halved (12 → 5), with the high-demand fund-selection topic recovering the most. KBank ranks first in share of voice on every fund topic, ahead of SCB and every rival. The gap is not performance but ownership: the field is fragmented, and most answers still cite aggregators rather than KBank's own pages.</p>
+    <div class="info-banner"><div class="info-icon">i</div><div><strong>Scope.</strong> 48 investment / fund prompts of KBank's 98-prompt library, all written by KBank, all unbranded prompts (none name a bank), Thailand market, weeks W25–W28 2026, four runs each. K-Asset (kasikornasset.com) is treated as KBank-owned in commentary; the export labels it earned.</div></div>
+  </div>
+
+  <nav class="toc-tabs">
+    <a href="#funds-glance"><span class="num">01</span>At a Glance</a>
+    <a href="#funds-topics"><span class="num">02</span>Topics</a>
+    <a href="#funds-competitive"><span class="num">03</span>Competitive</a>
+    <a href="#funds-sources"><span class="num">04</span>Which Sources Win</a>
+    <a href="#funds-actions"><span class="num">05</span>Actions</a>
+  </nav>
+
+  <section class="section" id="funds-glance">
+    <div class="section-head"><span class="section-eyebrow">01</span><span class="section-title">At a glance</span><span class="trust ok">✓ Reliable</span></div>
+    <div class="readiness"><p>Across 48 fund prompts — all unbranded prompts (no bank named) — KBank averages <strong>32.9</strong> visibility, up from 25.0, with no-result prompts down to <strong>5</strong> from 12. Against comparable unbranded <em>card</em> questions (46.6) it is still lower, but on these fund questions KBank ranks <strong>first in share of voice</strong>, ahead of SCB and every rival, and the leads widened. The real gap is ownership — counting K-Asset (kasikornasset.com, KBank's asset manager) as owned, funds own <strong>8.6%</strong> of their citations, with the main site alone just <strong>3.7%</strong>. The export labels K-Asset as earned; this report treats it as owned, as in prior periods. The clearest target is product-choice fund selection — "which fund should I pick" — where demand is highest.</p></div>
+    <div class="kpi-grid">
+      <div class="kpi"><div class="label">Fund prompts</div><div class="value">48</div><div class="delta flat"><span class="arrow">●</span> all unbranded prompts</div></div>
+      <div class="kpi"><div class="label">Visibility</div><div class="value">32.9</div><div class="delta up"><span class="arrow">▲</span> from 25.0 · vs 46.6 unbranded cards</div></div>
+      <div class="kpi"><div class="label">Owned share (incl K-Asset)</div><div class="value">8.6%</div><div class="delta flat"><span class="arrow">●</span> main site alone 3.7%</div></div>
+      <div class="kpi"><div class="label">No-result prompts</div><div class="value">5</div><div class="delta up"><span class="arrow">▲</span> of 48 · was 12</div></div>
+      <div class="kpi"><div class="label">Top-demand topic</div><div class="value">35.8</div><div class="delta up"><span class="arrow">▲</span> fund selection · was 23.1</div></div>
+      <div class="kpi"><div class="label">Share of voice</div><div class="value">#1</div><div class="delta up"><span class="arrow">▲</span> 12.5% on fund selection</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="funds-topics">
+    <div class="section-head"><span class="section-eyebrow">02</span><span class="section-title">Topics</span><span class="trust ok">✓ Reliable</span></div>
+    <p class="section-subtitle">The highest-demand topic — fund selection — recovered the most this period, now clearing the others rather than trailing them.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Topic</th><th>Demand</th><th class="num">Visibility</th><th class="num">Owned (main site)</th><th class="num">Zero-vis</th></tr></thead>
+        <tbody>
+          <tr><td>Fund selection &amp; returns</td><td class="accent">High</td><td class="num warn">35.8</td><td class="num neg">3.9%</td><td class="num pos">1</td></tr>
+          <tr><td>Where to start investing</td><td class="accent">Medium</td><td class="num warn">32.1</td><td class="num warn">5.8%</td><td class="num warn">2</td></tr>
+          <tr><td>New investment types</td><td class="accent">Medium</td><td class="num neg">28.4</td><td class="num neg">2.4%</td><td class="num warn">2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note alert"><strong>The gap narrowed, but it's still ownership, not presence.</strong> Fund selection is the only high-demand topic in the whole library, and it jumped from 23.1 to 35.8 with just one no-result prompt this period (down from eight). But main-site owned share on it is still 3.9% — KBank is appearing far more, mostly via aggregators and K-Asset, not the main site. (The per-topic column above is main-site only; counting K-Asset lifts the fund domain to 8.6% overall.) The five no-result fund prompts are real product-choice questions (which thematic or regional fund) where KBank could appear and doesn't. Those are the target.</div>
+    <h3 class="subhead">Example prompt</h3>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Prompt</th><th>Position</th><th>Cited sources</th></tr></thead>
+        <tbody>
+          <tr><td>"มีกองทุน AI ตัวไหนแนะนำสำหรับคนที่ต้องการลงทุนตามธีมเทคโนโลยี?"<br><span class="gloss">Which AI funds would you recommend for a technology-theme investor?</span></td><td class="muted">no result</td><td>45 cited · <strong style="color:var(--negative-600);">0 owned</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="caption" style="margin-top: var(--s-150);">Where K-Asset has a matching fund page, it is cited and owned share is real. Where it doesn't — thematic and regional funds like this AI-theme question — the answer draws on dozens of third-party sources and KBank is absent.</div>
+  </section>
+
+  <section class="section" id="funds-competitive">
+    <div class="section-head"><span class="section-eyebrow">03</span><span class="section-title">Competitive picture</span><span class="trust ok">✓ Reliable</span></div>
+    <p class="section-subtitle">KBank ranks first on every fund topic, and by a wider margin than last period, with SCB the nearest rival and aggregators taking most of the rest.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Fund topic</th><th>KBank share</th><th>Next</th><th>Then</th></tr></thead>
+        <tbody>
+          <tr><td>New investment types</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width:100%"></div></div><div class="bar-val">13.0%</div></div></td><td>SCB 5.4%</td><td class="muted">Krungsri 2.7%, finnomena 2.7%</td></tr>
+          <tr><td>Fund selection <span class="muted">top demand</span></td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill pos" style="width:96%"></div></div><div class="bar-val">12.5%</div></div></td><td>SCB 6.8%</td><td class="muted">Krungsri 5.5%, finnomena 3.7%</td></tr>
+          <tr><td>Where to start investing</td><td class="bar-cell"><div class="bar"><div class="bar-track"><div class="bar-fill warn" style="width:71%"></div></div><div class="bar-val">9.2%</div></div></td><td>SCB 5.9%</td><td class="muted">SCB Easy 3.8%, finnomena 3.2%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="note"><strong>The lead widened.</strong> On fund selection KBank now holds 12.5% (up from 6.7%) — its lead roughly doubled, and it clears SCB by almost two-to-one. That works in KBank's favour: no brand dominates, so owned content can lift the numbers quickly. SCB is the nearest rival across all three topics; most of the remaining share sits with aggregators, not banks.</div>
+  </section>
+
+  <section class="section" id="funds-sources">
+    <div class="section-head"><span class="section-eyebrow">04</span><span class="section-title">Which sources win</span><span class="trust ok">✓ Reliable</span></div>
+    <p class="section-subtitle">KBank's owned fund citations are real but come almost entirely from K-Asset; the main site rarely appears, and aggregators win most answers.</p>
+    <div class="stat-list">
+      <div class="stat-row owned"><div class="stat-info"><div class="stat-label">kasikornasset.com — K-Asset</div><div class="stat-desc">KBank's asset manager · fund pages · export labels this earned</div></div><div class="stat-value">103</div></div>
+      <div class="stat-row owned"><div class="stat-info"><div class="stat-label">kasikornbank.com — fund pages</div><div class="stat-desc">Owned · the main site rarely appears on fund questions</div></div><div class="stat-value">112</div></div>
+      <div class="stat-row"><div class="stat-info"><div class="stat-label">Aggregators &amp; rivals</div><div class="stat-desc">yuanta mutualfund (118, largest), SCBAM (90), finnomena (83), my-best, Krungsri Asset</div></div><div class="stat-value">~1,900</div></div>
+    </div>
+    <div class="note alert"><strong>Ownership is thin — and look where it comes from.</strong> K-Asset supplies 103 fund citations and the main-site fund pages about 112 across 70 URLs; counted together as owned, that is the 8.6% fund figure, versus 3.7% for the main site on its own. The export classifies K-Asset as earned, which is why the tool's default owned reads lower. Almost all fund answers still cite aggregators — led by yuanta mutualfund — and rival asset managers such as SCBAM and Krungsri Asset. The opportunity is to build on K-Asset, connect it to the main site, and add fund content the assistants can read.</div>
+  </section>
+
+  <section class="section" id="funds-actions">
+    <div class="section-head"><span class="section-eyebrow">05</span><span class="section-title">Actions</span></div>
+    <div class="opp">
+      <h4>1 · Build fund content the assistants can read</h4>
+      <p>Fund visibility rose to 32.9 and fund-selection to 35.8, but main-site owned share on the top-demand topic is still 3.9% (8.6% for the fund domain counting K-Asset), and five prompts show no result. The assistants answer confidently from aggregators — they just aren't choosing KBank's own pages. Add owned content the assistants can read that answers the questions directly: <strong>fund-selection guides</strong> by goal, risk and horizon; a <strong>fund comparison</strong>; and <strong>RMF / SSF / Thai ESG tax-fund guides</strong> — plus thematic and regional fund pages (AI, technology, US) where no-result prompts cluster — on kasikornbank.com and kasikornasset.com.</p>
+    </div>
+    <div class="opp connect">
+      <h4>2 · Build on K-Asset and connect it to the main site</h4>
+      <p>K-Asset supplies most of KBank's owned fund citations, but the main site adds little and the two aren't well linked. Strengthen K-Asset fund pages for citation (clear summaries, comparison-ready structure) and link to them from kasikornbank.com investment pages, so the main site appears too — and so its content is credited as owned.</p>
+    </div>
+    <div class="opp earn">
+      <h4>3 · Get KBank funds onto the aggregators</h4>
+      <p>Fund answers cite aggregators — yuanta mutualfund, my-best, finnomena, wealthmagik. Make sure KBank and K-Asset funds are well represented and accurately described there, so KBank products appear even when the answer cites a third party.</p>
+    </div>
+    <div class="note alert" style="margin-top:var(--s-300);"><strong>Setup.</strong> Connect a CDN to turn on crawl-access and referral reporting, and to confirm new fund pages are readable on publish — so the content build pays off.</div>
+    <h3 class="subhead">What to watch</h3>
+    <div class="table-wrap"><table class="data">
+      <thead><tr><th>Metric</th><th class="num">Now</th><th class="num">Prior</th><th>Direction</th></tr></thead>
+      <tbody>
+        <tr><td>Fund visibility</td><td class="num warn">32.9</td><td class="num muted">25.0</td><td><strong style="color:var(--positive-600);">Rising</strong></td></tr>
+        <tr><td>Fund-selection visibility</td><td class="num warn">35.8</td><td class="num muted">23.1</td><td><strong style="color:var(--positive-600);">Rising</strong></td></tr>
+        <tr><td>Zero-visibility fund prompts</td><td class="num pos">5</td><td class="num muted">12</td><td><strong style="color:var(--positive-600);">Toward 0</strong></td></tr>
+        <tr><td>Fund owned share (incl K-Asset)</td><td class="num warn">8.6%</td><td class="num muted">9.6%</td><td class="muted">Hold ~9%</td></tr>
+        <tr><td>Fund-selection share of voice</td><td class="num warn">12.5%</td><td class="num muted">6.7%</td><td><strong style="color:var(--positive-600);">Rising</strong></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <footer>
+    <div class="footer-grid">
+      <div><h5>Method</h5><p>Adobe LLM Optimiser, Kasikornbank, weeks W25–W28 2026, vs KTC, SCB, UOB, Krungsri and Bangkok Bank. Covers the 48 fund prompts, four runs each, all unbranded prompts.</p></div>
+      <div><h5>Coverage</h5><p>Brand Presence, Data Insights and URL Inspector are live; crawl-traffic and referral need a CDN. K-Asset (kasikornasset.com) is treated as KBank-owned in commentary; the export labels it earned.</p></div>
+      <div><h5>Other tabs</h5><p>Overview and Credit Cards. Cross-brand totals span all questions.</p></div>
+    </div>
+    <div class="credit"><span class="logo-img" role="img" aria-label="Adobe"></span><span>Generated by Adobe LLM Optimiser · Kasikornbank · Funds · July 2026</span></div>
+  </footer>
+
+</div>
+</section>
+
+<script>
+(function(){
+  const reports = Array.from(document.querySelectorAll('.report'));
+  const btns = Array.from(document.querySelectorAll('.rsw-btn'));
+  let suspend = 0, last = null;
+  function activeReport(){ return document.querySelector('.report.active'); }
+  function runSpy(){
+    const rep = activeReport(); if(!rep) return;
+    const tabs = rep.querySelectorAll('.toc-tabs a');
+    const secs = Array.from(rep.querySelectorAll('section[id]'));
+    if(!secs.length) return;
+    if(Date.now() < suspend) return;
+    const line = window.innerHeight * 0.33;
+    let cur = secs[0];
+    for(const s of secs){ if(s.getBoundingClientRect().top <= line) cur = s; else break; }
+    const h = '#' + cur.id;
+    if(h !== last){ last = h; tabs.forEach(t => t.classList.toggle('active', t.getAttribute('href') === h)); }
+  }
+  function showReport(key){
+    reports.forEach(r => r.classList.toggle('active', r.id === 'rpt-' + key));
+    btns.forEach(b => b.classList.toggle('active', b.dataset.report === key));
+    last = null;
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    requestAnimationFrame(runSpy);
+  }
+  btns.forEach(b => b.addEventListener('click', () => showReport(b.dataset.report)));
+  let tick = false;
+  const onScroll = () => { if(!tick){ requestAnimationFrame(() => { tick = false; runSpy(); }); tick = true; } };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  document.querySelectorAll('.toc-tabs a').forEach(t => {
+    t.addEventListener('click', () => { last = null; suspend = Date.now() + 700; setTimeout(() => t.blur(), 0); });
+  });
+  showReport('global');
+})();
+</script>
+
+</body>
+</html>

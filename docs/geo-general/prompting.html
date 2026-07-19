@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The prompt is the unit — How GEO tools measure your brand</title>
+<style>
+  :root{
+    --red:#EB1000; --red-700:#B30C00; --red-050:#FCEBE9;
+    --blue:#2680EB; --blue-700:#1B5FB0; --blue-050:#E9F1FC;
+    --ink:#1B1B1B;
+    --g900:#1B1B1B; --g800:#2C2C2C; --g700:#4B4B4B; --g600:#6E6E6E;
+    --g400:#B6B6B6; --g300:#D5D5D5; --g200:#E4E4E4; --g100:#F1F1F1; --g50:#FAFAFA;
+    --paper:#FFFFFF;
+    --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:"Source Code Pro",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    --r:10px; --r-sm:6px;
+    --shadow:0 1px 2px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.06);
+    --maxw:920px; --measure:720px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+  body{margin:0;font-family:var(--font);color:var(--g900);background:var(--g50);line-height:1.68;-webkit-font-smoothing:antialiased;font-size:18px}
+  h1,h2,h3{line-height:1.14;letter-spacing:-.02em;margin:0;font-weight:800}
+  p{margin:0 0 1.1em}
+  a{color:var(--blue-700)}
+  ::selection{background:var(--red);color:#fff}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  .col{max-width:var(--measure);margin:0 auto}
+  .eyebrow{font-family:var(--mono);font-size:11.5px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin:0 0 14px}
+
+  /* progress */
+  .progress{position:fixed;top:0;left:0;height:3px;width:0;background:var(--red);z-index:60;transition:width .08s linear}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--g200);transition:box-shadow .2s}
+  nav.scrolled{box-shadow:0 2px 12px rgba(0,0,0,.07)}
+  .nav-inner{max-width:var(--maxw);margin:0 auto;padding:0 28px;display:flex;align-items:center;gap:22px;height:56px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.01em;font-size:14.5px;margin-right:auto;white-space:nowrap}
+  .brand .mk{width:11px;height:11px;border-radius:2px;background:var(--red);flex:none;transform:rotate(45deg)}
+  .nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{font-size:13px;font-weight:600;color:var(--g600);padding:7px 10px;border-radius:var(--r-sm);white-space:nowrap;text-decoration:none}
+  .nav-links a:hover{color:var(--g900);background:var(--g100)}
+  .nav-links a.active{color:var(--red);background:var(--red-050)}
+
+  /* HERO */
+  header{background:linear-gradient(140deg,#141517 0%,#232629 55%,#31353b 100%);color:#fff;position:relative;overflow:hidden}
+  header::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:linear-gradient(90deg,var(--red) 0%,var(--red) 62%,var(--blue) 62%,var(--blue) 100%)}
+  .hero{padding:74px 0 64px;position:relative;z-index:1}
+  .hero .kicker{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:#ff8b7d;margin-bottom:26px}
+  .promptbox{font-family:var(--mono);font-size:14.5px;color:#e7e9ec;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16);border-left:3px solid var(--red);border-radius:7px;padding:13px 16px;margin-bottom:28px;display:flex;gap:10px;align-items:baseline;max-width:560px}
+  .promptbox .arw{color:#ff8b7d;font-weight:700}
+  .caret{display:inline-block;width:8px;height:1.05em;background:#ff5a45;margin-left:2px;transform:translateY(2px);animation:blink 1.15s steps(1) infinite}
+  @keyframes blink{50%{opacity:0}}
+  .hero h1{font-size:clamp(40px,7.4vw,74px);font-weight:800;letter-spacing:-.03em;max-width:15ch}
+  .hero h1 .em{background:linear-gradient(90deg,#ff5a45,#ff8f7f);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .dek{color:#c9ccd1;font-size:21px;line-height:1.5;max-width:52ch;margin-top:22px}
+  .hero .dek em{color:#fff;font-style:italic}
+  .hero .meta{margin-top:32px;display:flex;flex-wrap:wrap;gap:9px}
+  .hero .meta span{font-family:var(--mono);font-size:11.5px;letter-spacing:.03em;color:#e7e9ec;border:1px solid rgba(255,255,255,.2);padding:6px 12px;border-radius:100px;background:rgba(255,255,255,.05)}
+
+  /* ARTICLE */
+  article{padding:20px 0 10px}
+  section{padding:44px 0}
+  section + section{border-top:1px solid var(--g200)}
+  .lede{font-size:24px;line-height:1.45;font-weight:700;letter-spacing:-.015em;color:var(--g900);margin:0 0 18px}
+  .prose p{color:var(--g800)}
+  .prose strong{font-weight:700}
+  .prose em{font-style:italic}
+  .prose a{text-decoration:underline;text-underline-offset:2px}
+  h2.sh{font-size:clamp(26px,4vw,34px);margin:10px 0 16px}
+
+  /* prompt / example pairs */
+  .exwrap{margin:24px 0}
+  .ex{font-family:var(--mono);font-size:13.5px;line-height:1.5;padding:12px 15px;border-radius:var(--r-sm);border:1px solid var(--g300);background:var(--paper);display:flex;gap:12px;align-items:baseline}
+  .ex + .ex{margin-top:8px}
+  .ex .tagx{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--g400);flex:none;width:58px;padding-top:2px}
+  .ex.keyword{color:var(--g600)}
+  .ex.prompt{border-left:3px solid var(--red);color:var(--g900)}
+  .ex.prompt .tagx{color:var(--red-700)}
+
+  /* stat card */
+  .stat{background:var(--paper);border:1px solid var(--g200);border-radius:var(--r);box-shadow:var(--shadow);padding:26px 28px;margin:28px 0;border-top:4px solid var(--red)}
+  .stat .num{font-size:clamp(42px,8vw,60px);font-weight:800;letter-spacing:-.03em;color:var(--red);line-height:.92}
+  .stat .cap{font-size:17px;line-height:1.45;color:var(--g800);margin-top:12px;max-width:44ch}
+  .stat .src{font-family:var(--mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--g400);margin-top:10px}
+
+  /* cards */
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin:24px 0}
+  .card{background:var(--paper);border:1px solid var(--g200);border-radius:var(--r);padding:22px 22px 20px;box-shadow:var(--shadow)}
+  .card .term{font-family:var(--mono);font-size:12px;font-weight:600;letter-spacing:.02em;color:var(--red-700);margin-bottom:9px}
+  .card h3{font-size:17px;margin-bottom:7px}
+  .card p{font-size:14.5px;color:var(--g700);margin:0;line-height:1.55}
+
+  /* thesis / dark callout */
+  .thesis{background:var(--ink);color:#fff;border-radius:var(--r);padding:32px 32px;position:relative;overflow:hidden;margin:8px 0}
+  .thesis::before{content:"";position:absolute;top:0;left:0;bottom:0;width:5px;background:var(--red)}
+  .thesis .eyebrow{color:#ff8b7d}
+  .thesis h2{font-size:clamp(24px,3.6vw,30px);margin-bottom:12px;color:#fff}
+  .thesis p{color:#c9ccd1;margin:0 0 .9em}
+  .thesis p:last-child{margin-bottom:0}
+  .thesis strong{color:#fff}
+  .thesis em{color:#fff;font-style:italic}
+  .thesis .promptbox{margin:16px 0 4px;background:rgba(255,255,255,.06)}
+
+  /* pull quote */
+  .pull{margin:40px 0;padding-left:20px;border-left:4px solid var(--red)}
+  .pull p{font-size:clamp(22px,3.6vw,28px);line-height:1.28;font-weight:800;letter-spacing:-.02em;color:var(--g900);margin:0}
+
+  /* boundaries */
+  .bounds{margin:22px 0}
+  .bound{padding:15px 0 14px;border-top:1px solid var(--g200)}
+  .bound:last-child{border-bottom:1px solid var(--g200)}
+  .bound .h{font-size:17px;font-weight:700;color:var(--g900);margin-bottom:3px}
+  .bound p{margin:0;font-size:15.5px;line-height:1.5;color:var(--g600)}
+
+  footer{background:var(--ink);color:#9aa0a8;padding:40px 0 56px}
+  footer .sig{font-weight:800;font-size:15px;color:#fff;margin-bottom:12px;letter-spacing:-.01em}
+  footer .note{font-family:var(--mono);font-size:12px;line-height:1.7;color:#8a9099;max-width:70ch}
+
+  .reveal{opacity:0;transform:translateY(10px);transition:opacity .55s ease,transform .55s ease}
+  .reveal.in{opacity:1;transform:none}
+  @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none}}
+  :focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:3px}
+
+  @media (max-width:640px){
+    body{font-size:17px}
+    .cards{grid-template-columns:1fr}
+    .hero{padding:56px 0 46px}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <div class="brand"><span class="mk"></span> GEO · Field Notes</div>
+    <div class="nav-links">
+      <a href="#why">Why prompts</a>
+      <a href="#sourcing">Sourcing</a>
+      <a href="#run">How they run</a>
+      <a href="#metrics">Metrics</a>
+      <a href="#gap">The gap</a>
+      <a href="#craft">Craft</a>
+      <a href="#honesty">Reading them</a>
+    </div>
+  </div>
+</nav>
+
+<header>
+  <div class="wrap hero">
+    <div class="kicker">Field notes · Generative engine optimization</div>
+    <div class="promptbox"><span class="arw">&rsaquo;</span><span>how do AI-visibility tools decide what to measure?<span class="caret" aria-hidden="true"></span></span></div>
+    <h1>The prompt is the <span class="em">unit</span>.</h1>
+    <p class="dek">How GEO tools turn natural-language questions into brand measurement — <em>where the data comes from, how it's run, and where the numbers stop being trustworthy.</em></p>
+    <div class="meta"><span>9 min read</span><span>The AI-visibility category, mapped</span><span>Vendor-neutral</span></div>
+  </div>
+</header>
+
+<article>
+  <div class="wrap"><div class="col">
+
+    <section class="prose reveal" style="border-top:0">
+      <p class="lede">For twenty years, the atomic unit of search marketing was the keyword. Generative engine optimization keeps the discipline but swaps the unit.</p>
+      <p>You used to pick the phrases people typed into Google, track where you ranked, and optimise toward position one. GEO — or answer engine optimization, AEO — now tracks the <strong>prompt</strong>: a full, natural-language question sent to an AI engine like ChatGPT, Gemini, Perplexity, Claude, or Google's AI Overviews. Whether your brand gets <em>named in the answer</em>, not whether a blue link ranks, is what these tools measure.</p>
+      <p>That single substitution changes almost everything about how the tooling works. Here is what's actually happening under the hood across the category — and where the honest limits are.</p>
+    </section>
+
+    <section id="why" class="prose reveal">
+      <div class="eyebrow">Foundations</div>
+      <h2 class="sh">Why the prompt replaced the keyword</h2>
+      <p>A keyword and a prompt look similar but behave differently. The model reads intent and constraints that a keyword strips away — and the two return very different answers.</p>
+      <div class="exwrap">
+        <div class="ex keyword"><span class="tagx">keyword</span><span>best CRM</span></div>
+        <div class="ex prompt"><span class="tagx">prompt</span><span>what's the best CRM for a Series A startup with a remote sales team?</span></div>
+      </div>
+      <p>Two properties of AI queries make the shift necessary rather than cosmetic. First, prompts rarely repeat verbatim — people phrase the same need a hundred ways, and the engines rewrite queries before they search anyway. Second, intent changes the engine's behaviour: a brand-named prompt is retrieved differently from an open-ended one, even on the same topic. If your strategy starts from a keyword export, you're measuring the artifact of a different system.</p>
+      <div class="stat">
+        <div class="num">~9 in 10</div>
+        <div class="cap">Share of searches ChatGPT rewrites into <em>unique</em> queries when it searches on a user's behalf — which is why a keyword list can't reconstruct what people ask AI.</div>
+        <div class="src">Reported by Profound</div>
+      </div>
+      <p>This is why the category invented a new metric — "prompt volume" — as the AI-era equivalent of search volume, and why prompt selection, not keyword selection, is now the first strategic decision.</p>
+    </section>
+
+    <section id="sourcing" class="prose reveal">
+      <div class="eyebrow">Sourcing</div>
+      <h2 class="sh">Where the prompts come from</h2>
+      <p>Every GEO tool has to answer the same question: which prompts do we track? There are broadly four methods, and most platforms combine several.</p>
+      <div class="cards">
+        <div class="card"><div class="term">auto-generate</div><h3>From your setup</h3><p>Describe your brand, competitors, and topics; the tool proposes a starting set you edit. Fast — but only as good as the model's guess at how buyers phrase things.</p></div>
+        <div class="card"><div class="term">manual upload</div><h3>Your own list</h3><p>Bring prompts from customer research, sales calls, or a hand-built library. Highest control, most effort.</p></div>
+        <div class="card"><div class="term">real-query panels</div><h3>What people truly ask</h3><p>Vendors license anonymised streams of actual prompts from opt-in consumer panels, then extrapolate frequency and intent. Says "people ask this, this often" rather than guessing.</p></div>
+        <div class="card"><div class="term">first-party signals</div><h3>Your own data</h3><p>Search Console queries, on-site search, FAQ analysis, and — for tools that run a chatbot — the questions real users ask in those conversations.</p></div>
+      </div>
+      <p>The throughline across serious platforms is the same principle: ground prompts in evidence of real demand, not a whiteboard. A beautifully organised set of invented prompts still measures your imagination.</p>
+      <div class="stat">
+        <div class="num">100Ms</div>
+        <div class="cap">Real AI prompts the largest panels ingest <em>per month</em>, from millions of active users — the raw material behind "prompt volume" figures.</div>
+        <div class="src">Per Profound &amp; Semrush public materials</div>
+      </div>
+    </section>
+
+    <section id="run" class="reveal">
+      <div class="thesis">
+        <div class="eyebrow">Execution</div>
+        <h2>How the tools actually run prompts</h2>
+        <p><strong>A GEO tool does not ask each prompt once — it can't.</strong> AI answers are non-deterministic: ask ChatGPT the same shopping question twice and you can get two different brand lists. A single answer is noise.</p>
+        <p>So the tools run each prompt repeatedly on a schedule — daily, weekly, or monthly by plan — across multiple engines, and aggregate. Your visibility score is a rate computed over a <em>distribution</em> of answers, not one response. That's why your dashboard rarely matches what you get by typing the prompt into ChatGPT yourself: you're comparing an aggregate against a single sample.</p>
+        <div class="promptbox"><span class="arw">&rsaquo;</span><span>run &times; N &nbsp;→&nbsp; parse answer &nbsp;→&nbsp; did the brand appear? &nbsp;→&nbsp; average</span></div>
+        <p>Crucially, almost every mainstream tool runs prompts <strong>single-shot</strong>: one standalone query, fired fresh, no conversation history. That keeps each measurement repeatable and easy to trace — but it's also the category's biggest simplification.</p>
+      </div>
+    </section>
+
+    <section class="reveal" style="border-top:0;padding-top:8px">
+      <div class="pull"><p>A single AI answer is noise. The signal only shows up when you run the prompt again and again — and average.</p></div>
+    </section>
+
+    <section id="metrics" class="prose reveal">
+      <div class="eyebrow">Metrics</div>
+      <h2 class="sh">What they measure once the answer comes back</h2>
+      <p>Running the prompt is step one; parsing the answer is where the metrics come from. The common signals across tools:</p>
+      <div class="cards">
+        <div class="card"><div class="term">visibility rate</div><p>How often your brand is mentioned across your tracked prompts, usually 0–100. A frequency, not a ranking.</p></div>
+        <div class="card"><div class="term">position</div><p>When you appear, how high you're listed. A brand can appear often yet always sit last — so frequency and prominence stay separate.</p></div>
+        <div class="card"><div class="term">citation share</div><p>Which domains and URLs the engine pulled in as sources, and your share of them. The closest thing to a "click" here.</p></div>
+        <div class="card"><div class="term">sentiment</div><p>The tone of how the model describes you.</p></div>
+        <div class="card"><div class="term">competitor board</div><p>Tools auto-discover rivals from the answers and score them on the same math — so you see who's winning the prompts you're losing.</p></div>
+        <div class="card"><div class="term">fan-out queries</div><p>The searches an engine silently runs before answering. Don't rank on these and you won't be retrieved — where GEO loops back into SEO.</p></div>
+      </div>
+    </section>
+
+    <section id="gap" class="prose reveal">
+      <div class="eyebrow">The gap</div>
+      <h2 class="sh">The single-turn limit nobody fully solves</h2>
+      <p>Real AI use is multi-round. People ask, the model asks back, they refine, they follow up — panel data shows users moving from awareness to consideration to a named brand all inside one conversation. Yet the tools track single, isolated prompts.</p>
+      <p>That gap is worth being clear-eyed about. Single-shot measurement captures the <em>decisive moment</em> — given a fully-specified intent, does the brand surface? — but it can't model path dependence (does a follow-up flip the recommendation?), memory and personalisation for logged-in users, or the model's own clarifying questions.</p>
+      <p>The workarounds: compress a conversation's context into one self-contained prompt; model a journey as a <em>sequence</em> of separate prompts; or run a short conversation manually and track the question it lands on. All three approximate; none fully replaces the multi-turn reality. Anyone selling single-shot tracking as the whole picture is overselling the category.</p>
+    </section>
+
+    <section id="craft" class="prose reveal">
+      <div class="eyebrow">Craft</div>
+      <h2 class="sh">What separates a good prompt set from a noisy one</h2>
+      <p>Across every vendor's guidance, the same principles recur. Ground prompts in real demand, then <strong>cover intent, not keywords</strong> — span the buying journey and the personas that matter, with a deliberate mix of branded and unbranded questions rather than a copied ratio.</p>
+      <div class="exwrap">
+        <div class="ex keyword"><span class="tagx">noisy</span><span>best project management tool</span></div>
+        <div class="ex prompt"><span class="tagx">steady</span><span>best PM tool for an 8-person design agency that needs client proofing?</span></div>
+      </div>
+      <p>Keep each prompt a single, specific, natural question; because models understand rephrasing, you don't need ten variants of one intent the way SEO did. Put enough prompts under each topic that one stray answer can't swing the trend. Prune prompts that never return a citation. And revisit the set on a cadence, because the landscape shifts monthly. In short: prompts behave like test cases, and a good test case is realistic, specific, and repeatable.</p>
+    </section>
+
+    <section id="honesty" class="prose reveal">
+      <div class="eyebrow">Honesty</div>
+      <h2 class="sh">Reading the numbers without fooling yourself</h2>
+      <p>The most useful thing any of these tools can do is state its own edges — and the better vendors now do. A few boundaries apply to the whole category, whichever platform you use.</p>
+      <div class="bounds">
+        <div class="bound"><div class="h">No one can guarantee placement</div><p>The engines control ranking and don't expose it. Treat any promise of guaranteed AI citations with suspicion.</p></div>
+        <div class="bound"><div class="h">Scores move when the engines change</div><p>A model update can shift your visibility even if your site didn't. When a step-change hits many brands at once, suspect the engine first.</p></div>
+        <div class="bound"><div class="h">Answers vary by user, session, and region</div><p>The score is an aggregate over repeated samples, not a fixed truth about what everyone sees.</p></div>
+        <div class="bound"><div class="h">Attribution is not incrementality</div><p>Connecting AI-referred traffic to conversions reports association — not proof the purchase wouldn't have happened anyway.</p></div>
+      </div>
+      <p>Critics sometimes dismiss simulated-prompt tracking as probabilistic guesswork, and there's a grain of truth: these numbers are a well-instrumented estimate of a moving target, not a meter reading. That's not a reason to ignore them — it's a reason to use them right. Measure often, read the per-engine detail rather than one blended figure, act on the gaps, and judge direction over time.</p>
+    </section>
+
+    <section class="prose reveal">
+      <div class="eyebrow">Outlook</div>
+      <h2 class="sh">Where it's heading</h2>
+      <p>The direction of travel is clear: prompt datasets grounded in real conversations are becoming the demand layer of the AI era, the way keyword volume was for search. The open frontiers are conversational measurement, personalisation and memory effects, and tighter attribution from "were we mentioned" to "did it drive revenue."</p>
+      <p>For now, the discipline rests on one idea worth internalising regardless of which tool you buy:</p>
+      <div class="pull" style="margin:26px 0 4px"><p>In GEO, the prompt is the unit of truth — and every number you report inherits the quality of the prompts you chose to track.</p></div>
+    </section>
+
+  </div></div>
+</article>
+
+<footer>
+  <div class="wrap"><div class="col">
+    <div class="sig">Prompting in GEO tools</div>
+    <p class="note">Synthesised from public materials by Profound, Semrush, Alhena, Adobe, and several GEO/AEO methodology pages and tool comparisons — verified July 2026. Figures attributed to a named vendor reflect that vendor's own reporting; the AI-visibility category is young and its metrics are contested, so treat single-source claims as directional.</p>
+  </div></div>
+</footer>
+
+<script>
+  var prog=document.getElementById('progress'), nav=document.getElementById('nav');
+  function onScroll(){
+    var h=document.documentElement, max=(h.scrollHeight-h.clientHeight)||1, y=h.scrollTop||document.body.scrollTop;
+    prog.style.width=Math.min(100,Math.max(0,y/max*100))+'%';
+    nav.classList.toggle('scrolled', y>8);
+  }
+  addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  var links=[].slice.call(document.querySelectorAll('.nav-links a')), map={};
+  links.forEach(function(a){var id=a.getAttribute('href').slice(1),s=document.getElementById(id);if(s)map[id]=a;});
+  var spy=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ links.forEach(function(l){l.classList.remove('active')}); var a=map[e.target.id]; if(a)a.classList.add('active'); } });
+  },{rootMargin:'-45% 0px -50% 0px',threshold:0});
+  Object.keys(map).forEach(function(id){spy.observe(document.getElementById(id))});
+
+  var rev=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); rev.unobserve(e.target);} });
+  },{rootMargin:'0px 0px -8% 0px',threshold:.08});
+  document.querySelectorAll('.reveal').forEach(function(el){rev.observe(el)});
+</script>
+</body>
+</html>

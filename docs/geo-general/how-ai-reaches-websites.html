@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How AI Systems Reach Websites — A Technical Reference</title>
+<style>
+  :root{
+    /* Spectrum-derived palette */
+    --ink:#1d1d1d;            /* gray-900 */
+    --ink-hero:#141414;       /* deeper charcoal */
+    --red:#eb1000;            /* Adobe red */
+    --red-2:#c40d00;
+    --paper:#ffffff;
+    --gray-50:#fafafa;
+    --gray-75:#f5f5f5;
+    --gray-100:#efefef;
+    --gray-200:#e1e1e1;
+    --gray-300:#d3d3d3;
+    --gray-400:#b6b6b6;
+    --gray-500:#8f8f8f;
+    --gray-600:#6e6e6e;
+    --gray-700:#4b4b4b;
+    --gray-800:#2c2c2c;
+    --blue:#1473e6;           /* Spectrum blue */
+    --blue-bg:#eef4fe;
+    --amber-bg:#fbf3e2;
+    --amber-line:#c9820a;
+    --code-bg:#f6f6f4;
+    --line:#e4e4e4;
+
+    --font-sans:"Adobe Clean","Source Sans 3",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --font-mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace;
+
+    --nav-w:300px;
+    --content-max:780px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+
+  :where(a,button,[tabindex]):focus-visible{
+    outline:3px solid var(--blue);
+    outline-offset:2px;
+    border-radius:4px;
+  }
+
+  body{
+    margin:0;
+    font-family:var(--font-sans);
+    font-size:18px;
+    line-height:1.62;
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  /* ---------- Layout ---------- */
+  .shell{display:flex;align-items:flex-start;}
+  .nav{
+    width:var(--nav-w);
+    flex:0 0 var(--nav-w);
+    position:sticky;
+    top:0;
+    height:100vh;
+    border-right:1px solid var(--line);
+    padding:30px 26px 40px;
+    display:flex;
+    flex-direction:column;
+    background:var(--gray-50);
+  }
+  .nav__brand{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+  .nav__brand svg{height:34px;width:auto;display:block;}
+  .nav__brand-text{font-size:13px;line-height:1.25;color:var(--gray-700);font-weight:600;letter-spacing:.01em;}
+  .nav__eyebrow{
+    font-size:11px;text-transform:uppercase;letter-spacing:.14em;
+    color:var(--red);font-weight:700;margin:22px 0 12px;
+  }
+  .nav__list{list-style:none;margin:0;padding:0;overflow-y:auto;flex:1;}
+  .nav__list::-webkit-scrollbar{width:8px;}
+  .nav__list::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:8px;}
+  .nav__link{
+    display:flex;gap:10px;align-items:baseline;
+    text-decoration:none;color:var(--gray-700);
+    font-size:14.5px;line-height:1.35;
+    padding:7px 10px;border-radius:6px;margin:1px 0;
+    border-left:2px solid transparent;
+    transition:background .15s ease,color .15s ease,border-color .15s ease;
+  }
+  .nav__link .num{color:var(--gray-500);font-variant-numeric:tabular-nums;font-weight:600;font-size:12.5px;min-width:20px;}
+  .nav__link:hover{background:var(--gray-100);color:var(--ink);}
+  .nav__link.is-active{background:#fff;color:var(--ink);border-left-color:var(--red);box-shadow:0 1px 2px rgba(0,0,0,.05);font-weight:600;}
+  .nav__link.is-active .num{color:var(--red);}
+  .nav__foot{font-size:12px;color:var(--gray-500);padding-top:16px;border-top:1px solid var(--line);margin-top:14px;line-height:1.5;}
+
+  .main{flex:1 1 auto;min-width:0;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;overflow:hidden;
+    background:var(--ink-hero);color:#fff;
+    padding:76px 8vw 66px;
+  }
+  .hero::before{
+    content:"";position:absolute;top:-30%;right:-8%;
+    width:620px;height:620px;border-radius:50%;
+    background:radial-gradient(circle at 50% 50%,rgba(235,16,0,.55),rgba(235,16,0,.12) 42%,transparent 68%);
+    filter:blur(6px);pointer-events:none;
+  }
+  .hero__inner{position:relative;max-width:var(--content-max);}
+  .hero__eyebrow{
+    font-size:12px;text-transform:uppercase;letter-spacing:.18em;
+    color:#ff6a5c;font-weight:700;margin-bottom:20px;
+  }
+  .hero h1{
+    font-size:clamp(34px,5vw,54px);line-height:1.06;margin:0 0 22px;
+    font-weight:800;letter-spacing:-.02em;
+  }
+  .hero__lead{font-size:clamp(18px,2.1vw,21px);line-height:1.5;color:#d6d6d6;max-width:660px;margin:0;font-weight:400;}
+  .hero__meta{
+    display:flex;flex-wrap:wrap;gap:10px 12px;margin-top:32px;
+  }
+  .hero__meta span{
+    font-size:12.5px;letter-spacing:.02em;color:#e8e8e8;
+    border:1px solid rgba(255,255,255,.22);border-radius:100px;
+    padding:6px 14px;background:rgba(255,255,255,.04);
+  }
+  .hero__meta span b{color:#fff;font-weight:700;}
+
+  /* ---------- Content ---------- */
+  .content{padding:8px 8vw 96px;}
+  .section{max-width:var(--content-max);padding-top:64px;scroll-margin-top:16px;}
+  .section:first-of-type{padding-top:52px;}
+  .section__eyebrow{
+    font-size:12px;text-transform:uppercase;letter-spacing:.14em;
+    color:var(--red);font-weight:700;display:flex;align-items:center;gap:10px;margin-bottom:12px;
+  }
+  .section__eyebrow .n{
+    font-variant-numeric:tabular-nums;color:#fff;background:var(--red);
+    border-radius:5px;font-size:11px;padding:3px 7px;letter-spacing:.02em;
+  }
+  h2{font-size:clamp(26px,3.4vw,34px);line-height:1.12;margin:0 0 18px;font-weight:800;letter-spacing:-.015em;}
+  h3{font-size:20px;line-height:1.25;margin:34px 0 12px;font-weight:700;color:var(--ink);}
+  h4{font-size:16px;line-height:1.3;margin:22px 0 8px;font-weight:700;color:var(--gray-800);}
+  p{margin:0 0 16px;}
+  a{color:var(--blue);}
+  strong{font-weight:700;}
+  .lead{font-size:20px;line-height:1.5;color:var(--gray-800);}
+
+  ul,ol{margin:0 0 18px;padding-left:1.35em;}
+  li{margin:6px 0;}
+  li::marker{color:var(--gray-500);}
+
+  hr.rule{border:0;border-top:1px solid var(--line);margin:0;}
+
+  /* Callouts */
+  .note{
+    border-left:3px solid var(--red);
+    background:linear-gradient(90deg,rgba(235,16,0,.05),rgba(235,16,0,0) 60%);
+    padding:16px 20px;border-radius:0 8px 8px 0;margin:22px 0;
+  }
+  .note__label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--red);font-weight:700;margin-bottom:6px;}
+  .note p:last-child{margin-bottom:0;}
+  .note--info{border-left-color:var(--blue);background:linear-gradient(90deg,var(--blue-bg),rgba(20,115,230,0) 65%);}
+  .note--info .note__label{color:var(--blue);}
+  .note--field{border-left-color:var(--amber-line);background:linear-gradient(90deg,var(--amber-bg),rgba(201,130,10,0) 65%);}
+  .note--field .note__label{color:var(--amber-line);}
+
+  /* Cards / diagrams */
+  .card{
+    border:1px solid var(--line);border-radius:12px;background:#fff;
+    padding:24px;margin:24px 0;box-shadow:0 1px 3px rgba(0,0,0,.04);
+  }
+  .card--flush{padding:8px;}
+  .card__cap{font-size:13px;color:var(--gray-600);margin:14px 4px 0;font-style:italic;}
+  .diagram-scroll{overflow-x:auto;}
+  svg.diagram{display:block;width:100%;height:auto;min-width:520px;}
+
+  /* Tables */
+  .table-wrap{overflow-x:auto;margin:22px 0;border:1px solid var(--line);border-radius:12px;}
+  table{border-collapse:collapse;width:100%;font-size:15.5px;min-width:560px;}
+  th,td{text-align:left;padding:12px 16px;vertical-align:top;border-bottom:1px solid var(--line);line-height:1.45;}
+  thead th{background:var(--gray-75);font-weight:700;font-size:12.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--gray-700);}
+  tbody tr:last-child td{border-bottom:0;}
+  tbody tr:hover{background:var(--gray-50);}
+  td code{font-size:13.5px;}
+
+  /* Code */
+  pre{
+    background:var(--code-bg);border:1px solid var(--line);border-radius:10px;
+    padding:16px 18px;overflow-x:auto;font-family:var(--font-mono);
+    font-size:14px;line-height:1.6;margin:20px 0;color:var(--gray-800);
+  }
+  code{font-family:var(--font-mono);font-size:15px;background:var(--gray-100);padding:1px 6px;border-radius:5px;color:var(--gray-800);}
+  pre code{background:none;padding:0;font-size:inherit;}
+  .cmt{color:var(--gray-500);}
+  .tok{color:var(--red-2);}
+
+  /* Flow chain (≠ / lifecycle) */
+  .chain{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:20px 0;}
+  .chain .node{
+    background:var(--gray-75);border:1px solid var(--gray-200);border-radius:8px;
+    padding:9px 14px;font-size:14.5px;font-weight:600;color:var(--gray-800);white-space:nowrap;
+  }
+  .chain .op{color:var(--red);font-weight:800;font-size:18px;}
+  .chain .arrow{color:var(--gray-400);font-weight:700;font-size:18px;}
+
+  .ladder{display:flex;flex-direction:column;gap:0;margin:20px 0;}
+  .ladder .step{
+    display:flex;align-items:center;gap:14px;padding:11px 16px;
+    border:1px solid var(--line);background:#fff;
+  }
+  .ladder .step:first-child{border-radius:10px 10px 0 0;}
+  .ladder .step:last-child{border-radius:0 0 10px 10px;}
+  .ladder .step + .step{border-top:0;}
+  .ladder .dot{width:9px;height:9px;border-radius:50%;background:var(--red);flex:0 0 9px;}
+  .ladder .step span{font-size:15px;color:var(--gray-800);}
+  .ladder .step:last-child .dot{background:var(--ink);}
+
+  /* Two-column comparison card */
+  .card--compare{padding:0;overflow:hidden;}
+  .compare{display:grid;grid-template-columns:1fr 1fr;}
+  .compare__col{padding:22px 24px;}
+  .compare__col + .compare__col{border-left:1px solid var(--line);}
+  .compare__head{
+    font-size:16px;font-weight:800;letter-spacing:-.01em;margin-bottom:14px;
+    padding-bottom:10px;border-bottom:2px solid var(--gray-200);
+  }
+  .compare__head--a{border-bottom-color:var(--blue);color:var(--blue);}
+  .compare__head--b{border-bottom-color:var(--red);color:var(--red);}
+  .compare dl{margin:0;}
+  .compare dt{
+    font-size:11px;text-transform:uppercase;letter-spacing:.09em;
+    color:var(--gray-500);font-weight:700;margin-top:14px;
+  }
+  .compare dt:first-child{margin-top:0;}
+  .compare dd{margin:3px 0 0;font-size:15px;line-height:1.45;color:var(--gray-800);}
+  .compare dd code{font-size:13px;}
+  @media (max-width:620px){
+    .compare{grid-template-columns:1fr;}
+    .compare__col + .compare__col{border-left:0;border-top:1px solid var(--line);}
+  }
+
+  /* Registry group rows */
+  tbody tr.grp td{
+    background:var(--ink);color:#fff;font-weight:700;font-size:11.5px;
+    text-transform:uppercase;letter-spacing:.08em;padding:8px 16px;
+  }
+  tbody tr.grp:hover td{background:var(--ink);}
+  .fv{font-weight:700;color:var(--ink);white-space:nowrap;}
+  td.plat{color:var(--gray-600);font-size:14px;}
+
+  .kicker{font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin:26px 0 8px;}
+
+  .footer{
+    background:var(--ink-hero);color:#c9c9c9;padding:40px 8vw;font-size:13.5px;line-height:1.6;
+  }
+  .footer strong{color:#fff;}
+  .footer__brand{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+  .footer__brand svg{height:28px;}
+
+  /* Mobile */
+  .navtoggle{display:none;}
+  @media (max-width:960px){
+    .nav{
+      position:sticky;top:0;height:auto;width:100%;flex:1 1 100%;
+      flex-direction:row;align-items:center;justify-content:space-between;
+      border-right:0;border-bottom:1px solid var(--line);padding:14px 20px;z-index:30;
+    }
+    .shell{flex-direction:column;}
+    .nav__eyebrow,.nav__foot{display:none;}
+    .nav__list{
+      position:absolute;top:100%;left:0;right:0;background:var(--gray-50);
+      border-bottom:1px solid var(--line);max-height:70vh;padding:8px 16px 16px;
+      display:none;overflow-y:auto;box-shadow:0 12px 24px rgba(0,0,0,.08);
+    }
+    .nav__list.open{display:block;}
+    .navtoggle{
+      display:inline-flex;align-items:center;gap:8px;border:1px solid var(--gray-300);
+      background:#fff;border-radius:8px;padding:8px 14px;font-size:14px;font-weight:600;
+      color:var(--ink);cursor:pointer;font-family:inherit;
+    }
+    .hero{padding:52px 24px 44px;}
+    .content{padding:0 24px 72px;}
+    body{font-size:17px;}
+  }
+
+  /* Print / PDF export */
+  @media print{
+    .nav,.navtoggle{display:none !important;}
+    .shell{display:block;}
+    .hero{background:#fff;color:var(--ink);padding:0 0 20px;border-bottom:2px solid var(--red);}
+    .hero::before{display:none;}
+    .hero__eyebrow{color:var(--red);}
+    .hero__lead{color:var(--gray-700);}
+    .hero__meta span{border-color:var(--gray-300);color:var(--gray-700);background:none;}
+    .content{padding:0;}
+    .section{padding-top:26px;max-width:none;}
+    .footer{background:#fff;color:var(--gray-700);padding:24px 0 0;border-top:1px solid var(--line);}
+    .footer strong,.hero h1{color:var(--ink);}
+    body{font-size:12pt;}
+    a{color:var(--ink);text-decoration:none;}
+    .card,.table-wrap,.note,pre,.ladder,tr,.compare__col{break-inside:avoid;page-break-inside:avoid;}
+    h2,h3,h4{break-after:avoid;page-break-after:avoid;}
+    thead{display:table-header-group;}
+    svg.diagram{max-width:100%;}
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- NAV -->
+  <nav class="nav" aria-label="Section navigation">
+    <div class="nav__brand">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 245" role="img" aria-label="Adobe"><g><rect width="240" height="234" x="5" y="3" rx="42.5" style="fill:#fff"/><path d="M192 179h-29a6 6 0 0 1-6-4l-31-72a1 1 0 0 0-2 0l-20 46a2 2 0 0 0 2 2h21a3 3 0 0 1 3 2l9 21a4 4 0 0 1-3 5H59a4 4 0 0 1-3-5l49-117a7 7 0 0 1 6-4h28a7 7 0 0 1 6 4l50 117a4 4 0 0 1-3 5Z" style="fill:#fa0f00"/></g></svg>
+      <span class="nav__brand-text">Brand Visibility<br>Technical Reference</span>
+    </div>
+    <button class="navtoggle" aria-expanded="false" aria-controls="navlist">Contents</button>
+    <ul class="nav__list" id="navlist"></ul>
+    <div class="nav__foot">A technical field reference. Access is not the same as use.</div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <header class="hero">
+      <div class="hero__inner">
+        <div class="hero__eyebrow">Adobe Brand Visibility · Technical Field Reference</div>
+        <h1>How AI systems reach websites</h1>
+        <p class="hero__lead">AI answers are assembled, not fetched. A single response may draw on a search index, a live agent fetch, a cached copy and an ingestion pipeline at once — which is why AI visibility can never be explained by one crawler or one request in your logs.</p>
+        <div class="hero__meta">
+          <span><b>Audience</b> · Technical &amp; marketing teams</span>
+          <span><b>Scope</b> · Acquisition → distribution → generation</span>
+          <span><b>Companion to</b> · Technical SEO &amp; GEO</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- 01 -->
+      <section class="section" id="s01" data-title="Overview" data-num="01">
+        <div class="section__eyebrow"><span class="n">01</span> Overview</div>
+        <h2>One statement, three layers</h2>
+        <p class="lead">The idea that "AI reads your website" is directionally right but conflates three separate things.</p>
+        <p>What people call <em>AI traffic</em> is not one behaviour. It spans how a system <strong>acquires</strong> website data, where that data is <strong>stored or served from</strong>, and how it is <strong>selected and used</strong> when an answer is generated. These layers are not mutually exclusive — a single answer routinely involves several of them.</p>
+
+        <div class="card">
+          <h4 style="margin-top:0">The three layers</h4>
+          <div class="ladder">
+            <div class="step"><span class="dot"></span><span><strong>Acquisition</strong> — how a system obtains website data (crawl, search, agent fetch, feed).</span></div>
+            <div class="step"><span class="dot"></span><span><strong>Storage &amp; distribution</strong> — where data is retained or served from (index, cache, corpus).</span></div>
+            <div class="step"><span class="dot"></span><span><strong>Answer generation</strong> — how data is retrieved, ranked and used in the response.</span></div>
+          </div>
+        </div>
+
+        <p>A concrete example. An assistant might receive a question, query its own search index, retrieve a page last crawled hours earlier, fetch one result directly to verify it, combine that with other sources, generate an answer using retrieval-augmented generation, and cite the page — all without producing a conventional human visit.</p>
+
+        <h3>The critical distinction: access is not use</h3>
+        <p>These are all different events, and they do not imply one another:</p>
+        <ul>
+          <li>Crawled but never cited.</li>
+          <li>Indexed but not fetched at answer time.</li>
+          <li>Fetched directly but not used in the final answer.</li>
+          <li>Used in an answer with no live request to the origin.</li>
+          <li>Cited from a cached or third-party copy.</li>
+          <li>Present in a training corpus but not retrieved live.</li>
+          <li>Visited by an agent without generating a human analytics session.</li>
+        </ul>
+
+        <div class="note">
+          <div class="note__label">Key distinction</div>
+          <p>A request in your CDN log proves a client accessed a URL. It does <strong>not</strong> prove the content was indexed, retrieved for a query, included in an answer, cited, or read by a human. Equally, the <em>absence</em> of a live request does not prove the page had no influence — the system may have used a cache, an index, or a third-party copy.</p>
+        </div>
+
+        <p>The full lifecycle, from access to outcome:</p>
+        <div class="ladder">
+          <div class="step"><span class="dot"></span><span>Website access</span></div>
+          <div class="step"><span class="dot"></span><span>Content processing</span></div>
+          <div class="step"><span class="dot"></span><span>Indexing or storage</span></div>
+          <div class="step"><span class="dot"></span><span>Retrieval</span></div>
+          <div class="step"><span class="dot"></span><span>Selection and ranking</span></div>
+          <div class="step"><span class="dot"></span><span>LLM context</span></div>
+          <div class="step"><span class="dot"></span><span>Generated answer</span></div>
+          <div class="step"><span class="dot"></span><span>Citation, mention, referral — or no click</span></div>
+        </div>
+      </section>
+
+      <!-- 02 -->
+      <section class="section" id="s02" data-title="A taxonomy of access" data-num="02">
+        <div class="section__eyebrow"><span class="n">02</span> Taxonomy</div>
+        <h2>A better taxonomy of AI website access</h2>
+        <p>Sorting the mechanisms by their layer makes the whole picture legible — and shows where each one sits in the request and data lifecycle.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Layer</th><th>Mechanism</th><th>Primary function</th></tr></thead>
+            <tbody>
+              <tr><td>Acquisition</td><td>Search retrieval</td><td>Find relevant documents through a search index.</td></tr>
+              <tr><td>Acquisition</td><td>Direct crawling</td><td>Periodically fetch pages for indexing, training or corpus construction.</td></tr>
+              <tr><td>Acquisition</td><td>Agentic browsing</td><td>Fetch pages dynamically while completing a user task.</td></tr>
+              <tr><td>Distribution</td><td>Cached pages</td><td>Serve a previously fetched representation instead of contacting the origin.</td></tr>
+              <tr><td>Processing</td><td>Ingestion pipelines</td><td>Transform pages, feeds, APIs or documents into searchable data.</td></tr>
+              <tr><td>Distribution</td><td>Third-party indexes</td><td>Provide data or results maintained by another organisation.</td></tr>
+              <tr><td>Orchestration</td><td>Retrieval-augmented generation</td><td>Retrieve external context and pass it to an LLM before generation.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note">
+          <div class="note__label">The most important correction</div>
+          <p>RAG is <strong>not</strong> a seventh crawler. It is the answer-generation architecture that can consume the output of any of the other mechanisms — a search index, a proprietary index, a live fetch, a cache, or an ingestion pipeline.</p>
+        </div>
+
+        <div class="card card--flush">
+          <div class="diagram-scroll">
+            <!-- Combined pipeline diagram -->
+            <svg class="diagram" viewBox="0 0 900 430" role="img" aria-label="How a single AI answer can combine multiple website-access mechanisms">
+              <defs>
+                <marker id="arw" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#b6b6b6"/></marker>
+              </defs>
+              <style>
+                .band{fill:#8f8f8f;font:600 11px var(--font-sans,sans-serif);letter-spacing:.08em;text-transform:uppercase;}
+                .nd{fill:#fff;stroke:#d3d3d3;stroke-width:1;}
+                .ndt{font:600 13px var(--font-sans,sans-serif);fill:#2c2c2c;}
+                .ln{stroke:#c9c9c9;stroke-width:1.4;fill:none;}
+                .gen{fill:#141414;}
+                .gent{font:700 13px var(--font-sans,sans-serif);fill:#fff;}
+                .out{fill:#eb1000;}
+              </style>
+              <!-- Band labels -->
+              <text class="band" x="18" y="26">Website</text>
+              <text class="band" x="210" y="26">Acquisition</text>
+              <text class="band" x="470" y="26">Storage / processing</text>
+              <text class="band" x="720" y="26">Answer generation</text>
+
+              <!-- Website -->
+              <rect class="nd" x="14" y="180" width="96" height="46" rx="8"/>
+              <text class="ndt" x="62" y="208" text-anchor="middle">Website</text>
+
+              <!-- Acquisition nodes -->
+              <g>
+                <rect class="nd" x="180" y="52" width="150" height="40" rx="8"/><text class="ndt" x="255" y="77" text-anchor="middle">Direct crawler</text>
+                <rect class="nd" x="180" y="110" width="150" height="40" rx="8"/><text class="ndt" x="255" y="135" text-anchor="middle">Search crawler</text>
+                <rect class="nd" x="180" y="168" width="150" height="40" rx="8"/><text class="ndt" x="255" y="193" text-anchor="middle">Agentic browser</text>
+                <rect class="nd" x="180" y="226" width="150" height="40" rx="8"/><text class="ndt" x="255" y="251" text-anchor="middle">Feed / API</text>
+                <rect class="nd" x="180" y="284" width="150" height="40" rx="8"/><text class="ndt" x="255" y="309" text-anchor="middle">Third-party index</text>
+              </g>
+
+              <!-- Storage nodes -->
+              <g>
+                <rect class="nd" x="400" y="52" width="150" height="40" rx="8"/><text class="ndt" x="475" y="77" text-anchor="middle">Provider corpus</text>
+                <rect class="nd" x="400" y="110" width="150" height="40" rx="8"/><text class="ndt" x="475" y="135" text-anchor="middle">Search index</text>
+                <rect class="nd" x="400" y="168" width="150" height="40" rx="8"/><text class="ndt" x="475" y="193" text-anchor="middle">Live page</text>
+                <rect class="nd" x="400" y="226" width="150" height="40" rx="8"/><text class="ndt" x="475" y="251" text-anchor="middle">Ingestion pipeline</text>
+                <rect class="nd" x="400" y="284" width="150" height="40" rx="8"/><text class="ndt" x="475" y="309" text-anchor="middle">External index</text>
+              </g>
+
+              <!-- Website -> acquisition -->
+              <path class="ln" marker-end="url(#arw)" d="M110 197 C 140 130, 150 80, 178 72"/>
+              <path class="ln" marker-end="url(#arw)" d="M110 200 C 145 165, 150 135, 178 130"/>
+              <path class="ln" marker-end="url(#arw)" d="M110 203 L 178 190"/>
+              <path class="ln" marker-end="url(#arw)" d="M110 206 C 145 240, 150 250, 178 248"/>
+              <path class="ln" marker-end="url(#arw)" d="M110 209 C 140 280, 150 300, 178 306"/>
+
+              <!-- acquisition -> storage (1:1) -->
+              <path class="ln" marker-end="url(#arw)" d="M330 72 L 398 72"/>
+              <path class="ln" marker-end="url(#arw)" d="M330 130 L 398 130"/>
+              <path class="ln" marker-end="url(#arw)" d="M330 188 L 398 188"/>
+              <path class="ln" marker-end="url(#arw)" d="M330 246 L 398 246"/>
+              <path class="ln" marker-end="url(#arw)" d="M330 304 L 398 304"/>
+
+              <!-- Generation chain -->
+              <rect class="gen" x="660" y="52" width="150" height="40" rx="8"/><text class="gent" x="735" y="77" text-anchor="middle">Retriever</text>
+              <rect class="gen" x="660" y="120" width="150" height="40" rx="8"/><text class="gent" x="735" y="145" text-anchor="middle">Reranker &amp; filter</text>
+              <rect class="gen" x="660" y="188" width="150" height="40" rx="8"/><text class="gent" x="735" y="213" text-anchor="middle">RAG context</text>
+              <rect class="gen" x="660" y="256" width="150" height="40" rx="8"/><text class="gent" x="735" y="281" text-anchor="middle">LLM</text>
+              <rect class="out" x="660" y="324" width="150" height="44" rx="8"/><text class="gent" x="735" y="345" text-anchor="middle">Answer / citation</text><text class="gent" x="735" y="361" text-anchor="middle" style="font-weight:400">or no click</text>
+
+              <!-- storage -> retriever -->
+              <path class="ln" marker-end="url(#arw)" d="M550 72 L 658 72"/>
+              <path class="ln" marker-end="url(#arw)" d="M550 130 C 600 100, 620 78, 658 74"/>
+              <path class="ln" marker-end="url(#arw)" d="M550 188 C 600 140, 620 80, 658 76"/>
+              <path class="ln" marker-end="url(#arw)" d="M550 246 C 600 160, 620 82, 658 78"/>
+              <path class="ln" marker-end="url(#arw)" d="M550 304 C 600 180, 620 84, 658 80"/>
+              <!-- generation vertical -->
+              <path class="ln" marker-end="url(#arw)" d="M735 92 L 735 118"/>
+              <path class="ln" marker-end="url(#arw)" d="M735 160 L 735 186"/>
+              <path class="ln" marker-end="url(#arw)" d="M735 228 L 735 254"/>
+              <path class="ln" marker-end="url(#arw)" d="M735 296 L 735 322"/>
+            </svg>
+          </div>
+          <p class="card__cap">A single answer can touch several mechanisms in sequence: a crawler or feed supplies an index, a retriever selects passages, and an optional live fetch verifies the source.</p>
+        </div>
+      </section>
+
+      <!-- 03 -->
+      <section class="section" id="s03" data-title="Search retrieval" data-num="03">
+        <div class="section__eyebrow"><span class="n">03</span> Acquisition</div>
+        <h2>Search retrieval</h2>
+        <p>Search retrieval is when an AI system obtains candidate pages from a search index or search service. The index may be owned by the provider, licensed from a search partner, built by a third party, or a hybrid of several. The system does not download the web for every question — it submits a query and receives candidate documents, URLs, snippets, metadata or passages.</p>
+
+        <h3>It is usually index-first</h3>
+        <p>In an index-first model the provider has already processed the site <em>before</em> the user asks. The website may therefore receive <strong>no request at answer time</strong>, even though its indexed information contributed to the answer.</p>
+        <pre><span class="cmt"># Earlier</span>
+Website → Search crawler → Search index
+
+<span class="cmt"># At answer time</span>
+User prompt → Search index → Retrieved representation → AI answer</pre>
+        <p>The index may hold page text, titles, headings, snippets, links, structured data, language signals, the canonical URL, last-crawled information and historical versions. The system may retrieve the whole document, a passage, a snippet, or only metadata.</p>
+
+        <div class="note note--info">
+          <div class="note__label">Why technical SEO still matters</div>
+          <p>Search retrieval is the mechanism most tied to traditional SEO because it depends on the health of the search index: crawlability, indexability, sitemap inclusion, canonicalisation, internal links, rendering, HTTP status, page speed, regional accessibility, structured data and index freshness. Most answer engines still retrieve candidate pages through search, so strong SEO is one of the largest inputs into AI visibility.</p>
+        </div>
+
+        <h3>Query fan-out</h3>
+        <p>Systems rarely submit only the literal prompt. They decompose it into several retrieval queries. Ask "Which PDF editor is best for a regulated enterprise?" and the system may also search for enterprise security support, compliance workflows, electronic signatures, product comparisons and vendors serving regulated industries.</p>
+        <p>The implication is technical, not editorial: relevant URLs need to be independently discoverable, important information must not sit only behind an inaccessible client-side interface, canonical URLs should be stable, and related pages should have crawlable links.</p>
+
+        <h3>Retrieval does not guarantee citation</h3>
+        <p>A page can be retrieved and still not cited — used only as background, combined with others, or passed over for a different source. The stages are separate:</p>
+        <div class="chain">
+          <span class="node">Retrieved</span><span class="op">≠</span>
+          <span class="node">Selected</span><span class="op">≠</span>
+          <span class="node">Cited</span><span class="op">≠</span>
+          <span class="node">Clicked</span><span class="op">≠</span>
+          <span class="node">Converted</span>
+        </div>
+
+        <h3>Failure modes</h3>
+        <p>Search-retrieval failures usually trace back to the <strong>index representation</strong>, not the live page: the page is not indexed; it is indexed under an obsolete canonical URL; its key information is absent from the indexed copy; it is too slow or unreliable to crawl; it is blocked by robots, WAF or authentication; the index holds an older version; a duplicate or alternate-language URL wins; the relevant content exists only after JavaScript; or a third-party page is ranked above the first-party source. Begin the investigation with the index, not only the browser.</p>
+      </section>
+
+      <!-- 04 -->
+      <section class="section" id="s04" data-title="Direct crawling" data-num="04">
+        <div class="section__eyebrow"><span class="n">04</span> Acquisition</div>
+        <h2>Direct crawling</h2>
+        <p>Direct crawling is the systematic fetching of pages by an automated client. The crawler requests a URL, reads the response, extracts links and metadata, stores or forwards the result, and repeats on its own schedule. It is generally <strong>provider-driven</strong> rather than triggered by a specific question.</p>
+
+        <h3>"AI crawler" is too broad</h3>
+        <p>Treating every automated client as one thing leads to wrong conclusions. Adobe LLM Optimizer classifies observed agents by <strong>intent</strong>, so agentic traffic can be read as distinct streams rather than a single number. The current classification has eight types:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Agent type</th><th>What it does</th><th>Example agents</th></tr></thead>
+            <tbody>
+              <tr><td>Training bots</td><td>Gather data for long-term model training.</td><td><code>GPTBot</code>, <code>ClaudeBot</code></td></tr>
+              <tr><td>Web search crawlers</td><td>Index site content to power search and LLM search.</td><td><code>OAI-SearchBot</code>, <code>Claude-SearchBot</code>, <code>PerplexityBot</code>, <code>Googlebot</code></td></tr>
+              <tr><td>Chatbots</td><td>Retrieve content on demand to produce an instant answer or citation.</td><td><code>ChatGPT-User</code>, <code>Claude-User</code>, <code>Perplexity-User</code>, Google AI Mode</td></tr>
+              <tr><td>Research</td><td>Run structured, multi-step investigation and synthesise findings.</td><td><code>Gemini-Deep-Research</code>, <code>Google-NotebookLM</code></td></tr>
+              <tr><td>Media fetchers</td><td>Retrieve media assets such as favicons and images.</td><td>ChatGPT Atlas, desktop &amp; mobile app clients</td></tr>
+              <tr><td>Action agents</td><td>Perform explicit, goal-driven actions in external systems to complete a task.</td><td><code>GoogleAgent-Chrome</code>, <code>GoogleAgent-Mariner</code>, <code>Google-Agent</code></td></tr>
+              <tr><td>Shopping agents</td><td>Complete shopping and purchase tasks on a user's behalf.</td><td><code>GoogleAgent-Shopping</code></td></tr>
+              <tr><td>Ads bots</td><td>Validate the safety of pages submitted as ads.</td><td><code>OAI-AdsBot</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Chatbot vs action agent — the distinction that gets conflated</h3>
+        <p>These two are the pair most often confused, because both are live and user-triggered and both can drive a real browser — at the fetch layer they look alike. The difference is <strong>purpose, not mechanism</strong>: a chatbot reads your page to <em>answer</em>; an action agent operates your page to <em>complete a task</em>.</p>
+        <div class="card card--compare">
+          <div class="compare">
+            <div class="compare__col">
+              <div class="compare__head compare__head--a">Chatbot</div>
+              <dl>
+                <dt>Purpose</dt><dd>Retrieve content to produce an answer or citation.</dd>
+                <dt>End state</dt><dd>A response in the conversation.</dd>
+                <dt>Your page is</dt><dd>A <strong>source</strong> to read.</dd>
+                <dt>Example agents</dt><dd><code>ChatGPT-User</code>, <code>Claude-User</code>, <code>Perplexity-User</code>, Google AI Mode</dd>
+                <dt>Optimisation lever</dt><dd>Extractability — server-rendered content, clean self-contained passages, structured data.</dd>
+              </dl>
+            </div>
+            <div class="compare__col">
+              <div class="compare__head compare__head--b">Action agent</div>
+              <dl>
+                <dt>Purpose</dt><dd>Perform goal-driven actions to complete a defined task.</dd>
+                <dt>End state</dt><dd>A change in an external system — a form submitted, a booking made, a cart filled.</dd>
+                <dt>Your page is</dt><dd>An <strong>interface</strong> to operate.</dd>
+                <dt>Example agents</dt><dd><code>GoogleAgent-Chrome</code>, <code>GoogleAgent-Mariner</code>, <code>Google-Agent</code></dd>
+                <dt>Optimisation lever</dt><dd>Agent-navigable flows — real anchors, server-rendered forms, stable structure, a safe automation posture.</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+        <div class="note">
+          <div class="note__label">Two traps</div>
+          <p><strong>Rendering is not the tell.</strong> Both categories may execute JavaScript and render the page; intent is what separates them, not whether the DOM was built. <strong>"Agent" in a name is not the tell either.</strong> Google AI Mode and <code>GoogleAgent-URLContext</code> are classified as <em>chatbots</em> — their job is to ground an answer — despite "Agent" in the string. Only the operator-class agents (browser-operating, computer-use) count as action agents.</p>
+        </div>
+
+        <h3>Training crawling is not live retrieval</h3>
+        <p>A training crawler may fetch a page today while a model update happens much later. The origin need not be contacted when the answer is produced.</p>
+        <pre>January:  Website → Training crawler → Training corpus
+Later:    Corpus → Model training / fine-tuning
+Later:    User prompt → Model response</pre>
+        <p>So a page can shape a model's learned behaviour without appearing as a current citation — and blocking a training crawler does not necessarily block search indexing, user-triggered fetches, AI search retrieval, agentic browsing, or third-party indexes. Providers use separate user agents for these functions.</p>
+
+        <h3>One provider, many crawlers</h3>
+        <p>A single provider typically operates several distinctly-named crawlers, and the current pattern is a consistent three-way split — <strong>training</strong>, <strong>search index</strong> and <strong>user-triggered fetch</strong> (the last of these is what the Agent Type filter labels <strong>Chatbots</strong>):</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Provider</th><th>Training</th><th>Search index</th><th>User-triggered fetch</th></tr></thead>
+            <tbody>
+              <tr><td>OpenAI</td><td><code>GPTBot</code></td><td><code>OAI-SearchBot</code></td><td><code>ChatGPT-User</code></td></tr>
+              <tr><td>Anthropic</td><td><code>ClaudeBot</code></td><td><code>Claude-SearchBot</code></td><td><code>Claude-User</code></td></tr>
+              <tr><td>Perplexity</td><td>—</td><td><code>PerplexityBot</code></td><td><code>Perplexity-User</code></td></tr>
+              <tr><td>Google</td><td><code>Google-Extended</code> *</td><td><code>Googlebot</code> †</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:14px;color:var(--gray-600)">* A robots.txt control that opts content out of Gemini and Vertex AI training and grounding — not a separate crawler. &nbsp; † The classic search crawler; it also feeds AI Overviews and AI Mode.</p>
+
+        <div class="note note--field">
+          <div class="note__label">The Google-Extended trap</div>
+          <p>You cannot block Google's AI answers without blocking Google Search itself, because both run through <code>Googlebot</code>. <code>Google-Extended</code> only opts you out of Gemini and Vertex training and grounding; it does not change how Googlebot crawls, indexes or ranks your pages. Treat AI-search visibility and training opt-out as separate levers.</p>
+        </div>
+
+        <p>The operational consequence:</p>
+        <pre>Allowing a search crawler        ≠  allowing the training crawler
+Blocking a training crawler      ≠  blocking the user-triggered fetcher
+Allowing a user-triggered fetch  ≠  placing the page in the search index</pre>
+
+        <div class="note note--field">
+          <div class="note__label">Verify, don't trust the string</div>
+          <p>A declared user agent can be spoofed, and compliance varies — some crawlers (for example ByteDance's <code>Bytespider</code>) have been documented ignoring robots.txt, and undeclared crawling has been observed in the wild. For high-confidence identification, verify the requesting IP against the vendor's published address ranges rather than relying on the user-agent header alone. Note too that user-triggered fetchers (<code>ChatGPT-User</code>, <code>Claude-User</code>, <code>Perplexity-User</code>) may treat an explicit human request more like a browser visit than a crawl, and so may not apply robots.txt the same way.</p>
+        </div>
+
+        <h3>Rendering capability varies</h3>
+        <p>Direct crawlers differ widely: some parse only the initial HTML, some execute limited JavaScript, some render in a browser-like environment, some stop after a short timeout. The safe assumption is neither "all AI crawlers run JavaScript" nor "none do", but:</p>
+        <div class="note">
+          <div class="note__label">Safe rule</div>
+          <p>Essential information should be available in the initial HTML or server-rendered output, even when JavaScript enhancement is used.</p>
+        </div>
+      </section>
+
+      <!-- 05 -->
+      <section class="section" id="s05" data-title="Agentic browsing" data-num="05">
+        <div class="section__eyebrow"><span class="n">05</span> Acquisition</div>
+        <h2>Agentic browsing</h2>
+        <p>Agentic browsing is when an AI agent visits pages dynamically <em>while</em> responding to a request. Unlike a scheduled crawler, the agent may start from a user-provided URL, search, follow links, read several pages, compare information, navigate pagination, inspect forms, use a browser session and perform a sequence of actions before returning a result.</p>
+        <p>Adobe Brand Visibility treats this as <strong>agentic traffic</strong>: direct requests made by LLM bots or agents when they crawl or fetch pages to produce AI results — distinct from <strong>referral traffic</strong>, where a human clicks a link in an AI answer.</p>
+        <p>Agentic browsing spans two of the agent types from the previous section, and they behave differently on the page. A <strong>chatbot</strong> browses to <em>read and answer</em> — it fetches the URLs it needs, extracts what it wants and returns to the conversation. An <strong>action agent</strong> browses to <em>operate</em> — it navigates flows, fills forms and completes a task, leaving a change in an external system. The same URL can be visited by both, for entirely different reasons.</p>
+
+        <h3>Usually request-specific</h3>
+        <p>Agentic browsing is typically triggered by a task, narrower than a broad crawl, more immediate than scheduled indexing, short-lived, potentially multi-page and potentially stateful.</p>
+        <pre>User: Compare the pricing of three products.
+
+Agent: search A → fetch A → search B → fetch B → fetch C → compare → present table</pre>
+        <p>Those requests may appear in CDN or origin logs but produce no browser analytics events.</p>
+
+        <h3>Direct fetch vs browser-like interaction</h3>
+        <p>An agent may use raw HTTP retrieval, full browser rendering, or a hybrid — search the index first, then directly fetch and render only the selected URL. The implementation differs by platform, product tier, request, tool mode, URL type, security policy and whether an interactive task is required. Test each important agent category separately rather than treating "AI traffic" as one client.</p>
+
+        <h3>The JavaScript-hidden-content risk</h3>
+        <p>A browser-based agent may be <em>capable</em> of executing JavaScript without <em>choosing</em> to wait for hydration, click every tab, expand every accordion, scroll infinite content, dismiss a cookie banner, submit a form, authenticate or retry a failed API call. A human sees the information; the agent does not.</p>
+        <pre>Human browser: Initial HTML → JS → API → click → expanded information
+Agent:         Initial HTML → parse → no interaction → incomplete information</pre>
+        <p>Progressive enhancement is the fix: put essential information in the initial HTML, use JavaScript for optional behaviour, make links real anchors, keep important tables in the server-rendered page, and avoid requiring a click or an API call to expose core facts.</p>
+
+        <div class="note">
+          <div class="note__label">Zero-click influence</div>
+          <p>Agentic traffic (<em>agent → website</em>) is not referral traffic (<em>human → website after an AI answer</em>). A human may never visit even though an agent read the page and used it. Analytics tags generally measure the human click-through, so agentic traffic is observed through server-side, CDN or WAF logs — not browser analytics.</p>
+        </div>
+      </section>
+
+      <!-- 06 -->
+      <section class="section" id="s06" data-title="Cached pages" data-num="06">
+        <div class="section__eyebrow"><span class="n">06</span> Distribution</div>
+        <h2>Cached pages</h2>
+        <p>A cached page is a previously fetched or processed representation that can be served without contacting the origin at the time of use. Caching exists at many layers: browser, CDN/edge, reverse proxy, search-engine cache, provider page cache, search-index snapshot, vector-index document store, and retrieval-context cache. These are not identical.</p>
+
+        <h3>HTTP and CDN caching</h3>
+        <p>If the CDN holds a valid cached response, the origin may never see the request. A cache can therefore hand a crawler an older version, a cached redirect or error, an incomplete page, a different regional variant, or a bot-specific response. Controls include <code>Cache-Control</code>, <code>ETag</code>, <code>Last-Modified</code>, cache keys, TTL, purge rules, <code>stale-while-revalidate</code> and <code>Vary</code>.</p>
+
+        <h3>Search-index snapshots and provider caches</h3>
+        <p>A search index is effectively a structured, processed snapshot of your content — it can serve retrieval without contacting the site at answer time, which is one reason a page can be cited with no matching live request in your logs. Providers may additionally retain parsed HTML, extracted passages, metadata, snippets, embeddings, source rankings and citation mappings, usually in provider-specific ways that are not publicly visible.</p>
+
+        <div class="note note--info">
+          <div class="note__label">Deployment ≠ instant visibility</div>
+          <p>A change that has reached your origin may not be visible to every AI system immediately, owing to crawl scheduling, index-refresh intervals, cache TTL, asynchronous ingestion, embedding refresh, ranking recalculation, regional replication and citation-index updates.</p>
+        </div>
+
+        <h3>Cache freshness ≠ content freshness</h3>
+        <p>A page can be editorially current but technically stale downstream:</p>
+        <pre>Origin:        current version
+CDN:           old version
+Search index:  older version
+Vector index:  older still
+AI answer:     stale fact</pre>
+        <p>Useful validators help systems decide whether to reuse or refresh — but they do not guarantee immediate recrawling:</p>
+        <pre>Last-Modified: Tue, 10 Mar 2026 14:32:00 GMT
+ETag: "page-version-20260310"
+Cache-Control: public, max-age=300</pre>
+
+        <div class="note note--field">
+          <div class="note__label">Measurement nuance</div>
+          <p>For Gemini specifically, much answer activity can be served from Google's general index or Googlebot cache rather than a live Gemini-agent fetch. In that case the site may receive no live Gemini request, activity may attribute to Googlebot, and live agentic-traffic metrics can under-represent total AI influence. Read Gemini agentic traffic as <em>observed live-fetch activity</em>, not as the whole picture — a measurement distinction, not a claim about every answer.</p>
+        </div>
+      </section>
+
+      <!-- 07 -->
+      <section class="section" id="s07" data-title="Ingestion pipelines" data-num="07">
+        <div class="section__eyebrow"><span class="n">07</span> Processing</div>
+        <h2>Ingestion pipelines</h2>
+        <p>An ingestion pipeline is a batch or streaming process that turns pages or other sources into a form an AI system can search or retrieve. Inputs may come from crawling, sitemaps, RSS/Atom feeds, APIs, structured data feeds, uploads, enterprise connectors, cloud storage, partner feeds, search APIs, third-party indexes, common web datasets or private documentation. It is not a download — it transforms.</p>
+        <pre>Fetch/receive → parse → remove boilerplate → extract text → detect language
+→ normalise metadata → deduplicate → chunk → embed → build indexes → attach URL &amp; citation metadata</pre>
+
+        <h3>The stages that break things</h3>
+        <p><strong>Boilerplate removal</strong> can misfire on ambiguous structure, stripping main content or keeping navigation. <strong>Chunking</strong> splits large documents into passages — and poor boundaries can separate a heading from its explanation, a product name from its specification, a warning from the condition it qualifies, or a table header from its values. A system may then retrieve a passage without the surrounding context it needs.</p>
+
+        <h3>Ingestion does not always require a public crawl</h3>
+        <p>A site can enter an AI system through a direct data connection — CMS to API or feed to an enterprise vector index — with no crawler request to the public site at all. This is common in enterprise search, internal knowledge assistants, support and documentation assistants, product catalogues and private RAG.</p>
+        <p>The requirements then shift to feed reliability, API authentication, document IDs, source URLs, access-control metadata, versioning, deletion propagation, chunk quality, citation metadata and refresh frequency.</p>
+
+        <div class="note">
+          <div class="note__label">"Public" is not "usable"</div>
+          <p>A page can be perfectly accessible and still fail ingestion — the parser extracts navigation, the main content needs JavaScript, a challenge/CAPTCHA is returned, the canonical is wrong, the source URL is not stored with the text, headings are stripped, tables become unreadable, chunk boundaries are poor, duplicates flood the index, deleted content lingers, or a feed fails silently.</p>
+        </div>
+      </section>
+
+      <!-- 08 -->
+      <section class="section" id="s08" data-title="Third-party indexes" data-num="08">
+        <div class="section__eyebrow"><span class="n">08</span> Distribution</div>
+        <h2>Third-party indexes</h2>
+        <p>A third-party index is a searchable store maintained by another organisation and used by an AI system as an external source — a general or specialised search engine, an industry database, a commerce index, a review platform, an open-web dataset, a documentation index or a data aggregator. The provider queries that index rather than crawling your site directly, so at answer time your site may receive no request.</p>
+        <pre>Website → Third-party crawler → Third-party index
+                                     ↓
+AI system → Third-party search API → Retrieved result</pre>
+
+        <h3>Your visibility inherits their requirements</h3>
+        <p>If an AI system relies on a third-party index, your visibility depends on <em>that</em> index: you may need to be crawlable by the third party, present in its sitemap or feed, reachable from its regions, renderable by its crawler, free of WAF challenges, properly canonicalised and current in its data. Allowing one provider's crawler does not guarantee inclusion in a third-party index that the provider then uses.</p>
+
+        <h3>Version chains and attribution</h3>
+        <p>Third-party indexes refresh on their own schedule, creating a version chain where the answer context can lag several versions behind your origin:</p>
+        <pre>Origin V4 → CDN V4 → Search index A V3 → Third-party index B V2 → Answer context V2</pre>
+        <p>And if an answer cites a third-party page that describes or links to your brand — a review, comparison, marketplace listing or directory — you may see no direct request, no human click, yet still be influenced and cited via someone else's source. This is why visibility measurement must separate first-party source visibility, third-party source visibility, brand mentions, direct agentic access and human referrals.</p>
+      </section>
+
+      <!-- 09 -->
+      <section class="section" id="s09" data-title="Retrieval-augmented generation" data-num="09">
+        <div class="section__eyebrow"><span class="n">09</span> Orchestration</div>
+        <h2>Retrieval-augmented generation</h2>
+        <p>RAG is an architecture in which the model receives externally retrieved information as context before it generates. It does not specify <em>where</em> the information comes from — a search index, a vector database, a third-party API, a live page, a cache, a private repository, a structured catalogue, or a combination.</p>
+        <pre>Without retrieval:  User prompt → Model knowledge → Answer
+With retrieval:     User prompt → Retriever → Passages → Context → LLM → Answer</pre>
+        <div class="note">
+          <div class="note__label">The orchestration layer</div>
+          <p>RAG is the layer that connects retrieval to generation. It can consume the output of every mechanism in this reference — which is exactly why it is not a crawler.</p>
+        </div>
+
+        <h3>Retrieval types</h3>
+        <ul>
+          <li><strong>Sparse</strong> — exact or near-exact terms; good for product names, error codes, version numbers, API methods and specific phrases.</li>
+          <li><strong>Dense</strong> — embeddings for semantic similarity; good when the user's wording differs from the page or the question is conceptual.</li>
+          <li><strong>Hybrid</strong> — combines keyword match with semantic similarity.</li>
+          <li><strong>Live</strong> — retrieve an indexed passage, then fetch the live URL to verify current information, availability, wording, pricing or the citation destination.</li>
+        </ul>
+        <p>A multi-stage system may search broadly, retrieve candidates, rerank, fetch the top pages, extract passages, generate, then attach citations. Your site can be touched at one stage, several, or none at answer time.</p>
+
+        <h3>Reranking and source selection</h3>
+        <p>Retrieval returns more candidates than the model can use. A reranker weighs relevance, intent, freshness, source quality, authority, page type, language, geographic relevance, duplicate similarity, citation availability and confidence. A technically accessible page can still be excluded if its text is not extractable, it is dominated by boilerplate, its URL is unstable, its metadata is weak, the retrieved chunk lacks context, or a more relevant duplicate exists.</p>
+
+        <h3>Context packing</h3>
+        <p>The context window is finite, so the system chooses which passages to include. Clear headings and self-contained sections make it easier for a retriever to select a complete passage — if a page's essential qualification sits far from the claim it modifies, the retrieved context may arrive incomplete.</p>
+
+        <h3>Citation mapping</h3>
+        <p>Citations map generated claims back to source documents using source-URL metadata, passage or document IDs, search-result URLs, chunk provenance or provider-specific structures. A citation does not prove a live origin fetch — the URL may come from an index, a cache, a stored document or a third-party index.</p>
+        <div class="chain">
+          <span class="node">Citation</span><span class="op">≠</span>
+          <span class="node">proof of a live origin request</span>
+        </div>
+        <p>It proves the system associated the answer with a source representation — not that your origin was contacted at that moment.</p>
+      </section>
+
+      <!-- 10 -->
+      <section class="section" id="s10" data-title="Mechanisms combined" data-num="10">
+        <div class="section__eyebrow"><span class="n">10</span> In practice</div>
+        <h2>How the mechanisms combine</h2>
+        <p>Real workflows chain these mechanisms differently, and each pattern implies a different technical priority.</p>
+
+        <h4>Search-backed RAG</h4>
+        <p>Prompt → generated search query → indexed pages → snippets/passages → rerank → RAG context → answer &amp; citations. <strong>Impact:</strong> depends mostly on technical SEO; the origin may see no request at answer time; index freshness and search-crawler access matter; citations may rest on indexed data.</p>
+
+        <h4>Search plus live verification</h4>
+        <p>Index returns candidate URLs → the top URLs are fetched directly → index data is compared with live pages → answer. <strong>Impact:</strong> needs both index visibility and successful direct access; CDN/WAF behaviour, initial HTML and rendering all matter; the verification fetch may show in logs.</p>
+
+        <h4>User-provided URL fetch</h4>
+        <p>User supplies a URL → direct request → parse → summarise/answer. <strong>Impact:</strong> search ranking may be irrelevant; direct access, status code and response completeness are critical; the agent may not run all JavaScript; the request appears as a user-fetch agent; there may be no browser analytics event.</p>
+
+        <h4>Agentic multi-step browsing</h4>
+        <p>Agent searches, visits several sites, follows links, interacts, extracts facts, completes the task. <strong>Impact:</strong> link structure matters; pages must be independently accessible; important actions should not depend on fragile client-side behaviour; security boundaries must be explicit; logs may show several requests from one agent family.</p>
+
+        <h4>Third-party-index RAG</h4>
+        <p>Website → third-party crawler/feed → third-party index → provider queries it → RAG context → answer. <strong>Impact:</strong> the first-party site may see no request; third-party crawl and indexing policies matter; external freshness may lag; the answer may cite the third party instead of you.</p>
+
+        <h4>Enterprise RAG</h4>
+        <p>CMS/docs/APIs/files → authorised ingestion → chunking &amp; vector indexing → query → permission-aware retrieval → answer. <strong>Impact:</strong> public crawlability may be irrelevant; feed/API availability, access-control metadata, deletion/version propagation and preserved source URLs are what count.</p>
+      </section>
+
+      <!-- 11 -->
+      <section class="section" id="s11" data-title="Technical implications" data-num="11">
+        <div class="section__eyebrow"><span class="n">11</span> Playbook</div>
+        <h2>Technical implications for website teams</h2>
+
+        <h3>Make the initial response useful</h3>
+        <p>Do not assume every system executes JavaScript, waits for hydration or interacts. Put important information in the initial HTML, server-rendered output, semantic DOM, structured data and crawlable links. Avoid making essential facts depend only on client-side API calls, click-to-reveal components, tabs, accordions, infinite scroll, canvas rendering, browser storage, session state, authenticated requests or third-party JavaScript.</p>
+
+        <h3>Make every important URL independently retrievable</h3>
+        <p>A retrieval system may reach a URL without the normal site journey. Important pages should return a valid response directly, use stable descriptive canonicals, avoid unnecessary session parameters and redirect chains, and remain accessible without prior navigation state.</p>
+
+        <h3>Control access deliberately</h3>
+        <p>Review robots.txt, sitemaps, <code>noindex</code>, canonicals, authentication, CDN rules, WAF policies, rate limits, geo-blocking, challenge pages and user-agent policies. Because a provider may run separate agents for training, search indexing, user fetch, research, media and actions, a blanket rule can have unintended consequences.</p>
+
+        <h3>Maintain response parity</h3>
+        <p>Compare what a human browser, a search crawler, an AI search crawler, a user-triggered AI fetcher, a research agent, the CDN cache, the origin and different regions each receive — at minimum on status code, headers, title, main HTML, primary heading, important links, structured data, canonical, language, completeness, response time and cache status.</p>
+
+        <h3>Preserve source provenance</h3>
+        <p>When content is consumed through feeds, APIs or pipelines, carry the canonical URL, title, document ID, last-modified timestamp, version, language, access policy, content type, source system and heading path. Without provenance a system may answer but be unable to cite you correctly.</p>
+
+        <div class="note note--info">
+          <div class="note__label">Extractability wins citations</div>
+          <p>Lead with the answer, keep passages short and self-contained, and use structured lists, tables and figures — studies of AI answers consistently find these formats are more likely to be extracted and cited. Anchor your entity with accurate structured data: an <code>Organization</code> schema tied to your brand, plus <code>Article</code>, <code>FAQPage</code>, <code>Product</code> or <code>HowTo</code> where relevant, is a disambiguation tool that helps a model connect content to the right entity and pull the correct attributes.</p>
+        </div>
+
+        <div class="note note--field">
+          <div class="note__label">On llms.txt — useful, not a silver bullet</div>
+          <p>The <code>llms.txt</code> convention (a curated, plain-text pointer to your cleanest content) is an emerging signal with patchy adoption and no formal cross-vendor standard. As of mid-2026 it sits in the single-digit-percent range even among the largest sites, Google has stated it is not required for its own AI Search features, and support elsewhere is uneven. It is most worthwhile for developer-documentation and agent-facing properties. Treat it as an optional complement to robots.txt, sitemaps and structured data — never a replacement.</p>
+        </div>
+
+        <h3>Monitor server-side behaviour</h3>
+        <p>Browser analytics are insufficient for agent visibility. Use CDN, WAF, origin and reverse-proxy logs alongside Search Console, synthetic requests, user-agent classification, and status-code, response-time and cache dashboards. Adobe LLM Optimizer surfaces operational signals including agent interactions, success rate, average TTFB, agent type, unique agents and top agent.</p>
+      </section>
+
+      <!-- 12 -->
+      <section class="section" id="s12" data-title="What to measure" data-num="12">
+        <div class="section__eyebrow"><span class="n">12</span> Measurement</div>
+        <h2>What to measure for each mechanism</h2>
+        <p>Each mechanism has a best evidence of access, a best evidence of processing, and a characteristic blind spot. Do not use one as a proxy for another.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Mechanism</th><th>Evidence of access</th><th>Evidence of processing</th><th>Main limitation</th></tr></thead>
+            <tbody>
+              <tr><td>Search retrieval</td><td>Search-crawler logs, index coverage, search visibility</td><td>Search citations or source references</td><td>No live origin request may occur at answer time</td></tr>
+              <tr><td>Direct crawling</td><td>CDN/origin request with a known crawler UA</td><td>Index inclusion, corpus presence, downstream citations</td><td>A crawl does not prove later use</td></tr>
+              <tr><td>Agentic browsing</td><td>Direct user-fetch or agent request</td><td>Task response, citation or source reference</td><td>UA classes and behaviour vary</td></tr>
+              <tr><td>Cached pages</td><td>Cache hits, cache metadata, provider source logs</td><td>Answer/citation from a stored representation</td><td>Cached content may be stale</td></tr>
+              <tr><td>Ingestion pipeline</td><td>Feed, API, connector or batch-job logs</td><td>Index document, chunk or embedding presence</td><td>Public web logs may show nothing</td></tr>
+              <tr><td>Third-party index</td><td>Third-party crawl/index diagnostics</td><td>AI source or third-party citation</td><td>First-party site may not be contacted</td></tr>
+              <tr><td>RAG</td><td>Retriever traces and source IDs</td><td>Context records, citations, answer provenance</td><td>Can consume several source types at once</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 13 -->
+      <section class="section" id="s13" data-title="Adobe Brand Visibility" data-num="13">
+        <div class="section__eyebrow"><span class="n">13</span> Adobe Brand Visibility</div>
+        <h2>Reading the mechanisms in Adobe Brand Visibility</h2>
+        <p>Within Adobe Brand Visibility, these mechanisms map onto separate but related signals. Reading them as one number is the most common analytical error.</p>
+
+        <h3>Agentic Traffic — <span style="color:var(--gray-600);font-weight:400">"Are AI systems actually requesting our pages?"</span></h3>
+        <p>Measures direct requests from AI bots or agents to owned pages. Useful fields include agent name and type, URL, request volume, success rate, status code, TTFB, response size, region, cache status and time period. It is distinct from ordinary visitors and from human referral traffic.</p>
+        <p>Read it <em>by agent type</em>, because the types imply opposite responses. A rise in <strong>chatbot</strong> traffic means you are being used as a <em>source</em> — the lever is extractability, and it should track with Source Visibility. A rise in <strong>action-agent</strong> or <strong>shopping-agent</strong> traffic means agents are trying to <em>operate</em> your site on a user's behalf — the lever is agent-navigable flows and a safe automation posture, not citation. One says "make me easier to quote"; the other says "make me easier to operate, safely".</p>
+
+        <h3>Source Visibility — <span style="color:var(--gray-600);font-weight:400">"Are our pages used as sources in AI answers?"</span></h3>
+        <p>An <strong>outcome</strong> signal, not a request log. A page can show high agentic traffic and low citation visibility, or low direct traffic and high citation visibility, or no current agentic traffic yet citations from an index or cache, or many mentions but few owned-source citations.</p>
+
+        <h3>Referral Traffic — <span style="color:var(--gray-600);font-weight:400">"Are humans arriving after an AI result?"</span></h3>
+        <p>Humans clicking through an AI-generated result or citation. Distinct from agentic traffic:</p>
+        <div class="chain">
+          <span class="node">Agentic</span><span class="arrow">=</span><span class="node">AI agent → website</span>
+        </div>
+        <div class="chain">
+          <span class="node">Referral</span><span class="arrow">=</span><span class="node">human → website after an AI interaction</span>
+        </div>
+        <p>A site can have high agentic traffic and low referral traffic when AI answers satisfy users without requiring a click.</p>
+
+        <div class="note note--field">
+          <div class="note__label">Why platform comparisons need care</div>
+          <p>Different platforms combine search indexes, live fetches, caches, third-party data and provider-specific agents differently. Gemini agentic traffic in particular should be read as observed live-fetch activity, while much of the underlying answer generation can lean on Google's broader index or cache. Compare platforms on like-for-like signals, not on a single "AI traffic" total.</p>
+        </div>
+      </section>
+
+      <!-- 14 -->
+      <section class="section" id="s14" data-title="Agent Type filter" data-num="14">
+        <div class="section__eyebrow"><span class="n">14</span> Reference</div>
+        <h2>The Agent Type filter, in full</h2>
+        <p class="lead">In the Agentic Traffic dashboard, the Agent Type filter slices requests by <em>intent</em>. It currently exposes eight values — and the set grows as providers ship new agents.</p>
+        <p>This is the complete reference: every value the filter can take, what it captures, how to read it in Adobe Brand Visibility, and the specific user agents that roll up into each.</p>
+
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Filter value</th><th>What it captures</th><th>How to read it in ABV</th></tr></thead>
+            <tbody>
+              <tr><td><span class="fv">Training bots</span></td><td>Automated agents gathering data for long-term model training.</td><td>Shapes future models, not today's answers. No live citation. Restrict only to opt out of training.</td></tr>
+              <tr><td><span class="fv">Web search crawlers</span></td><td>Bots indexing your content to power search and LLM search.</td><td>Feeds retrieval and citations. Keep open for AI-search visibility; the strongest SEO-adjacent lever.</td></tr>
+              <tr><td><span class="fv">Chatbots</span></td><td>Agents retrieving content on demand to produce an instant answer or citation.</td><td>You are being used as a <strong>source</strong> in a live answer. Should track with Source Visibility; optimise for extractability.</td></tr>
+              <tr><td><span class="fv">Research</span></td><td>Specialised agents running structured, multi-step investigation and synthesis.</td><td>You are a source inside a longer, higher-intent investigation. Depth and clarity of content matter.</td></tr>
+              <tr><td><span class="fv">Media fetchers</span></td><td>Clients retrieving media assets — favicons, images, app-surface content.</td><td>Low strategic weight, but watch volume and asset load. Often desktop / mobile app clients.</td></tr>
+              <tr><td><span class="fv">Action agents</span></td><td>Agents performing explicit, goal-driven actions in external systems to complete a task.</td><td>Agents are <strong>operating</strong> your site on a user's behalf. Lever is agent-navigable flows and a safe automation posture.</td></tr>
+              <tr><td><span class="fv">Shopping agents</span></td><td>Agents completing shopping and purchase tasks on a user's behalf.</td><td>Your commerce funnel must be agent-operable end to end — search, product, cart, checkout.</td></tr>
+              <tr><td><span class="fv">Ads bots</span></td><td>Agents validating the safety of pages submitted as ads.</td><td>Ensure ad landing pages pass safety checks and return clean, complete responses.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note note--info">
+          <div class="note__label">Two families, opposite responses</div>
+          <p>Six of the eight values are <strong>read-oriented</strong> — the agent consumes your page to train, index, answer or research. Two — <strong>Action agents</strong> and <strong>Shopping agents</strong> — are <strong>act-oriented</strong>: the agent operates your page to complete a task. A rise in the first family says "make me easier to quote"; a rise in the second says "make me easier to operate, safely".</p>
+        </div>
+
+        <h3>Full agent registry</h3>
+        <p>The individual user agents behind each filter value, with their normalised name and platform. Patterns are extended as new discovery agents appear, so treat this as a current snapshot rather than a closed list; a few example strings are still provisional.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Provider</th><th>User agent</th><th>Platform</th></tr></thead>
+            <tbody>
+              <tr class="grp"><td colspan="3">Training bots</td></tr>
+              <tr><td>OpenAI</td><td><code>GPTBot</code></td><td class="plat">ChatGPT</td></tr>
+              <tr><td>Anthropic</td><td><code>ClaudeBot</code></td><td class="plat">Claude</td></tr>
+
+              <tr class="grp"><td colspan="3">Web search crawlers</td></tr>
+              <tr><td>OpenAI</td><td><code>OAI-SearchBot</code></td><td class="plat">ChatGPT</td></tr>
+              <tr><td>Anthropic</td><td><code>Claude-SearchBot</code></td><td class="plat">Claude</td></tr>
+              <tr><td>Perplexity</td><td><code>PerplexityBot</code></td><td class="plat">Perplexity</td></tr>
+              <tr><td>Google</td><td><code>Googlebot</code></td><td class="plat">Google</td></tr>
+
+              <tr class="grp"><td colspan="3">Chatbots</td></tr>
+              <tr><td>OpenAI</td><td><code>ChatGPT-User</code></td><td class="plat">ChatGPT</td></tr>
+              <tr><td>Anthropic</td><td><code>Claude-User</code></td><td class="plat">Claude</td></tr>
+              <tr><td>Perplexity</td><td><code>Perplexity-User</code></td><td class="plat">Perplexity</td></tr>
+              <tr><td>Google</td><td><code>Google-ai-mode</code></td><td class="plat">Google AI Mode</td></tr>
+              <tr><td>Google</td><td><code>GoogleAgent-URLContext</code></td><td class="plat">Gemini</td></tr>
+              <tr><td>Mistral</td><td><code>MistralAI-User</code></td><td class="plat">Mistral</td></tr>
+              <tr><td>Amazon</td><td><code>Amzn-User</code></td><td class="plat">Amazon</td></tr>
+
+              <tr class="grp"><td colspan="3">Research</td></tr>
+              <tr><td>Google</td><td><code>Gemini-Deep-Research</code></td><td class="plat">Gemini</td></tr>
+              <tr><td>Google</td><td><code>Google-NotebookLM</code></td><td class="plat">Google</td></tr>
+
+              <tr class="grp"><td colspan="3">Media fetchers</td></tr>
+              <tr><td>OpenAI</td><td><code>ChatGPT Atlas</code></td><td class="plat">ChatGPT</td></tr>
+              <tr><td>OpenAI</td><td><code>ChatGPT Clients</code> (desktop / mobile)</td><td class="plat">ChatGPT</td></tr>
+              <tr><td>Perplexity</td><td><code>Perplexity Clients</code></td><td class="plat">Perplexity</td></tr>
+              <tr><td>Anthropic</td><td><code>Claude Clients</code></td><td class="plat">Claude</td></tr>
+
+              <tr class="grp"><td colspan="3">Action agents</td></tr>
+              <tr><td>Google</td><td><code>GoogleAgent-Chrome</code></td><td class="plat">Gemini</td></tr>
+              <tr><td>Google</td><td><code>GoogleAgent-Mariner</code></td><td class="plat">Gemini</td></tr>
+              <tr><td>Google</td><td><code>Google-Agent</code> (generic fallback)</td><td class="plat">Gemini</td></tr>
+
+              <tr class="grp"><td colspan="3">Shopping agents</td></tr>
+              <tr><td>Google</td><td><code>GoogleAgent-Shopping</code></td><td class="plat">Gemini</td></tr>
+
+              <tr class="grp"><td colspan="3">Ads bots</td></tr>
+              <tr><td>OpenAI</td><td><code>OAI-AdsBot</code></td><td class="plat">ChatGPT</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="note">
+          <div class="note__label">Reading the filter without tripping up</div>
+          <p>Two reminders when you slice by this filter. First, the value reflects <strong>intent, not vendor</strong> — one provider spans several values (Google alone appears under six). Second, "Agent" in a user-agent string does not mean <em>Action agent</em>: <code>Google-ai-mode</code> and <code>GoogleAgent-URLContext</code> sit under <strong>Chatbots</strong> because their job is to ground an answer. Filter by the value, not by the name.</p>
+        </div>
+      </section>
+
+      <!-- 15 -->
+      <section class="section" id="s15" data-title="Diagnostic sequence" data-num="15">
+        <div class="section__eyebrow"><span class="n">15</span> Diagnostics</div>
+        <h2>A technical diagnostic sequence</h2>
+        <p>When a page has low AI visibility, investigate in this order — from public access outward to the signals that separate the mechanisms.</p>
+
+        <h4>1 · Verify public access</h4>
+        <pre>curl -I -L https://www.example.com/page</pre>
+        <p>Check the final status code, redirect count, <code>Content-Type</code>, <code>Cache-Control</code>, <code>ETag</code>, <code>Last-Modified</code>, response time and any authentication or challenge behaviour.</p>
+
+        <h4>2 · Inspect the raw HTML</h4>
+        <pre>curl -L https://www.example.com/page</pre>
+        <p>Confirm the response itself contains the main heading, important text, links, tables, canonical URL, structured data and language metadata.</p>
+
+        <h4>3 · Compare raw HTML with the rendered DOM</h4>
+        <p>Diff the initial HTML against the post-JavaScript DOM, and identify anything that appears only after hydration, API calls, clicks, scrolling, tab expansion, a modal or a form submission.</p>
+
+        <h4>4 · Check search discoverability</h4>
+        <p>Validate robots.txt, the XML sitemap, canonical, <code>noindex</code>, internal links, status codes and search-index coverage.</p>
+
+        <h4>5 · Check AI-agent access</h4>
+        <p>Review CDN, WAF and origin logs for known search crawlers, training crawlers, user-fetch agents, research agents, action agents and unknown automated clients — and verify suspicious ones against published IP ranges.</p>
+
+        <h4>6 · Check response parity</h4>
+        <p>Compare responses across a browser, a search crawler, an AI crawler, an AI user-fetch agent, different regions, and CDN cache hit vs miss vs origin.</p>
+
+        <h4>7 · Check freshness</h4>
+        <p>Verify the deployment reached the origin, the CDN was invalidated, sitemap <code>lastmod</code> changed, <code>Last-Modified</code> and <code>ETag</code> are accurate, redirects point to current URLs, and structured data reflects the current version.</p>
+
+        <h4>8 · Separate the signals</h4>
+        <p>Do not merge crawl access, agentic traffic, search-index visibility, source citations, human AI referrals and conversions. Each is a different stage — and confusing them is what makes AI visibility feel unexplainable.</p>
+
+        <div class="note">
+          <div class="note__label">In one line</div>
+          <p>A website may influence an AI answer without receiving a live request, and a live agent request does not by itself prove the page was cited or used. Measure access and use as separate things.</p>
+        </div>
+      </section>
+
+    </div><!-- /content -->
+
+    <footer class="footer">
+      <div class="footer__brand">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 245" role="img" aria-label="Adobe"><g><rect width="240" height="234" x="5" y="3" rx="42.5" style="fill:#fff"/><path d="M192 179h-29a6 6 0 0 1-6-4l-31-72a1 1 0 0 0-2 0l-20 46a2 2 0 0 0 2 2h21a3 3 0 0 1 3 2l9 21a4 4 0 0 1-3 5H59a4 4 0 0 1-3-5l49-117a7 7 0 0 1 6-4h28a7 7 0 0 1 6 4l50 117a4 4 0 0 1-3 5Z" style="fill:#fa0f00"/></g></svg>
+        <strong>Adobe Brand Visibility</strong>
+      </div>
+      <p>A technical field reference on how AI systems acquire, store and use website content. Companion to technical SEO and generative engine optimisation practice.</p>
+      <p style="color:var(--gray-500);margin-bottom:0">The Agent Type registry is a living list — new discovery agents are added as providers ship them, so verify against the latest Adobe LLM Optimizer documentation before treating it as exhaustive.</p>
+    </footer>
+
+  </div><!-- /main -->
+</div><!-- /shell -->
+
+<script>
+(function(){
+  var sections = Array.prototype.slice.call(document.querySelectorAll('.section'));
+  var list = document.getElementById('navlist');
+
+  // Build nav from sections
+  sections.forEach(function(sec){
+    var li = document.createElement('li');
+    var a = document.createElement('a');
+    a.className = 'nav__link';
+    a.href = '#' + sec.id;
+    a.innerHTML = '<span class="num">' + sec.dataset.num + '</span><span>' + sec.dataset.title + '</span>';
+    li.appendChild(a);
+    list.appendChild(li);
+  });
+  var links = Array.prototype.slice.call(list.querySelectorAll('.nav__link'));
+
+  // Scrollspy
+  var byId = {};
+  links.forEach(function(l){ byId[l.getAttribute('href').slice(1)] = l; });
+  var order = sections.map(function(s){ return s.id; });
+  var visible = {};
+  function setActive(id){
+    links.forEach(function(l){ l.classList.remove('is-active'); l.removeAttribute('aria-current'); });
+    if(byId[id]){ byId[id].classList.add('is-active'); byId[id].setAttribute('aria-current','true'); }
+  }
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ visible[e.target.id] = true; } else { delete visible[e.target.id]; }
+    });
+    // activate the topmost visible section in document order
+    for(var i=0;i<order.length;i++){ if(visible[order[i]]){ setActive(order[i]); break; } }
+  }, { rootMargin: '-12% 0px -70% 0px', threshold: 0 });
+  sections.forEach(function(s){ obs.observe(s); });
+  setActive(order[0]); // initialise before first scroll
+
+  // Mobile toggle
+  var toggle = document.querySelector('.navtoggle');
+  toggle.addEventListener('click', function(){
+    var open = list.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  list.addEventListener('click', function(e){
+    if(e.target.closest('.nav__link') && window.innerWidth <= 960){
+      list.classList.remove('open');
+      toggle.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+</script>
+</body>
+</html>

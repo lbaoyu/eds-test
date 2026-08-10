@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>From GEO to AI Discovery — A 3–5 Year View</title>
+<style>
+  :root{
+    --charcoal:#1c1c1c;
+    --charcoal-2:#2a2a2a;
+    --ink:#232323;
+    --ink-soft:#4a4a4a;
+    --muted:#6d6d6d;
+    --faint:#8a8a8a;
+    --paper:#ffffff;
+    --paper-2:#f6f6f4;
+    --paper-3:#efefec;
+    --line:#e4e4e0;
+    --line-2:#d6d6d0;
+    --red:#eb1000;
+    --red-deep:#a80b00;
+    --red-tint:#fdeceb;
+    --sans:"Adobe Clean","Source Sans 3",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --mono:"Adobe Clean Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --maxw:1160px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+  body{
+    margin:0;
+    font-family:var(--sans);
+    font-size:18px;
+    line-height:1.7;
+    color:var(--ink);
+    background:var(--paper);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  /* reading progress */
+  #progress{
+    position:fixed;top:0;left:0;height:2px;width:0%;
+    background:var(--red);z-index:60;transition:width .08s linear;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    background:var(--charcoal);
+    color:#fff;
+    overflow:hidden;
+    padding:clamp(2.4rem,6vw,4.5rem) 0 clamp(2.6rem,6vw,4rem);
+    isolation:isolate;
+  }
+  .hero::before{
+    content:"";position:absolute;inset:0;z-index:-1;
+    background:
+      radial-gradient(120% 90% at 82% -10%, rgba(235,16,0,.42), transparent 55%),
+      radial-gradient(90% 70% at 8% 110%, rgba(235,16,0,.14), transparent 60%);
+  }
+  .hero::after{
+    content:"";position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.35));
+    opacity:.5;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(1.2rem,4vw,2.5rem);}
+
+  .hero-top{display:flex;align-items:center;gap:.85rem;margin-bottom:clamp(2rem,5vw,3.2rem);}
+  .logo{width:52px;height:52px;flex:0 0 auto;filter:drop-shadow(0 6px 18px rgba(0,0,0,.35));}
+  .logo svg{display:block;width:100%;height:100%;border-radius:12px;}
+  .brandline{font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:rgba(255,255,255,.72);}
+
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:.6rem;
+    font-size:.76rem;letter-spacing:.2em;text-transform:uppercase;font-weight:600;
+    color:#ff6a5c;margin-bottom:1.2rem;
+  }
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--red);display:inline-block;}
+
+  .hero h1{
+    font-size:clamp(2.5rem,6.2vw,4rem);
+    line-height:1.02;
+    letter-spacing:-.025em;
+    font-weight:800;
+    margin:0 0 1.4rem;
+    max-width:16ch;
+  }
+  .hero h1 em{font-style:normal;color:#ff5a4a;}
+  .lede{
+    font-size:clamp(1.12rem,2.2vw,1.4rem);
+    line-height:1.55;
+    color:rgba(255,255,255,.82);
+    font-weight:400;
+    max-width:60ch;margin:0 0 2rem;
+  }
+  .chips{display:flex;flex-wrap:wrap;gap:.6rem;}
+  .chip{
+    font-size:.8rem;font-weight:600;letter-spacing:.02em;
+    padding:.42rem .85rem;border-radius:100px;
+    border:1px solid rgba(255,255,255,.22);
+    color:rgba(255,255,255,.85);
+    background:rgba(255,255,255,.04);
+  }
+  .chip.red{border-color:rgba(235,16,0,.55);background:rgba(235,16,0,.14);color:#ff8a7e;}
+
+  /* ---------- LAYOUT ---------- */
+  .shell{max-width:var(--maxw);margin:0 auto;padding:0 clamp(1.2rem,4vw,2.5rem);}
+  .grid{
+    display:grid;
+    grid-template-columns:210px minmax(0,1fr);
+    gap:clamp(2rem,5vw,4.5rem);
+    padding:clamp(2.6rem,6vw,4.5rem) 0 4rem;
+    align-items:start;
+  }
+
+  /* nav rail */
+  nav.rail{position:sticky;top:2rem;align-self:start;}
+  .rail .rail-h{
+    font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--faint);font-weight:700;margin-bottom:1rem;
+  }
+  .rail ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--line);}
+  .rail li{margin:0;}
+  .rail a{
+    display:block;padding:.42rem 0 .42rem 1rem;margin-left:-1px;
+    border-left:2px solid transparent;
+    color:var(--muted);text-decoration:none;font-size:.92rem;font-weight:500;
+    line-height:1.35;transition:color .18s,border-color .18s;
+  }
+  .rail a:hover{color:var(--ink);}
+  .rail a.active{color:var(--red-deep);border-left-color:var(--red);font-weight:700;}
+
+  /* content */
+  .content{min-width:0;}
+  section{scroll-margin-top:2rem;margin-bottom:clamp(3rem,6vw,4.4rem);}
+  .sec-num{
+    font-family:var(--mono);font-size:.8rem;letter-spacing:.05em;
+    color:var(--red);font-weight:600;display:block;margin-bottom:.5rem;
+  }
+  h2{
+    font-size:clamp(1.55rem,3.4vw,2.1rem);
+    line-height:1.12;letter-spacing:-.015em;font-weight:700;
+    margin:0 0 1.1rem;color:var(--ink);
+  }
+  h3{
+    font-size:1.22rem;line-height:1.25;letter-spacing:-.01em;font-weight:700;
+    margin:0 0 .5rem;color:var(--ink);
+  }
+  p{margin:0 0 1.1rem;color:var(--ink-soft);}
+  .content p strong{color:var(--ink);font-weight:700;}
+  .lead-p{font-size:1.18rem;color:var(--ink);line-height:1.6;}
+  code{font-family:var(--mono);font-size:.86em;background:var(--paper-3);border:1px solid var(--line);border-radius:5px;padding:.05em .4em;color:var(--red-deep);}
+
+  /* pull quote */
+  .pull{
+    margin:1.8rem 0;padding:1.6rem 1.8rem;
+    background:var(--charcoal);color:#fff;border-radius:14px;
+    position:relative;overflow:hidden;
+  }
+  .pull::before{
+    content:"";position:absolute;inset:0;
+    background:radial-gradient(120% 120% at 100% 0%,rgba(235,16,0,.32),transparent 55%);
+  }
+  .pull p{position:relative;margin:0;color:#fff;font-size:1.24rem;line-height:1.45;font-weight:500;letter-spacing:-.01em;}
+  .pull .mark{position:relative;display:block;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#ff6a5c;font-weight:700;margin-bottom:.7rem;}
+
+  /* transformation table */
+  .table-intro{color:var(--muted);font-size:1.02rem;margin-bottom:1.4rem;}
+  .xtable{width:100%;border-collapse:collapse;font-size:.98rem;}
+  .xtable thead th{
+    text-align:left;padding:.85rem 1rem;font-size:.72rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--faint);font-weight:700;
+    border-bottom:2px solid var(--line-2);
+  }
+  .xtable thead th.dir{color:var(--red-deep);}
+  .xtable td{padding:.9rem 1rem;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.4;}
+  .xtable td.dim{font-weight:700;color:var(--ink);width:24%;}
+  .xtable td.today{color:var(--muted);width:36%;}
+  .xtable td.dir{color:var(--ink);width:40%;}
+  .xtable tr:hover td{background:var(--paper-2);}
+
+  /* the eight shifts */
+  .shift{
+    padding-top:1.6rem;margin-top:1.6rem;border-top:1px solid var(--line);
+  }
+  .shift:first-of-type{border-top:0;margin-top:0;padding-top:0;}
+  .shift-head{display:flex;gap:1rem;align-items:baseline;margin-bottom:.6rem;}
+  .shift-n{
+    font-family:var(--mono);font-size:1.5rem;font-weight:700;color:var(--red);
+    line-height:1;flex:0 0 auto;min-width:2.2ch;
+  }
+  .shift h3{margin-bottom:0;}
+
+  /* four-P ladder */
+  .ladder{display:grid;gap:.55rem;margin:1.4rem 0 .4rem;}
+  .rung{
+    display:grid;grid-template-columns:auto 1fr;gap:1rem;align-items:center;
+    padding:.85rem 1.1rem;border-radius:10px;
+    background:var(--paper-2);border:1px solid var(--line);
+  }
+  .rung .p{font-weight:800;color:var(--red-deep);font-size:1.02rem;letter-spacing:-.01em;min-width:9.5ch;}
+  .rung .d{color:var(--ink-soft);font-size:.96rem;line-height:1.4;}
+  .rung:nth-child(1){margin-left:0;}
+  .rung:nth-child(2){margin-left:1.4rem;}
+  .rung:nth-child(3){margin-left:2.8rem;}
+  .rung:nth-child(4){margin-left:4.2rem;background:var(--red-tint);border-color:#f6cfca;}
+  @media (max-width:620px){.rung{margin-left:0 !important;}}
+
+  /* stat strip */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:1.6rem 0;}
+  .stat{background:var(--paper);padding:1.2rem 1.1rem;}
+  .stat .n{font-size:1.9rem;font-weight:800;letter-spacing:-.02em;color:var(--ink);line-height:1;margin-bottom:.4rem;}
+  .stat .n .r{color:var(--red);}
+  .stat .l{font-size:.82rem;color:var(--muted);line-height:1.35;}
+  .stat .src{font-size:.72rem;color:var(--faint);margin-top:.5rem;font-weight:600;letter-spacing:.02em;}
+
+  /* journey inline list */
+  .journey{display:flex;flex-wrap:wrap;gap:.5rem;margin:1.2rem 0;}
+  .jstage{border:1px solid var(--line);border-radius:100px;padding:.4rem .95rem;font-size:.9rem;background:var(--paper-2);}
+  .jstage b{color:var(--red-deep);font-weight:700;}
+
+  /* timeline */
+  .phases{display:grid;gap:1.1rem;}
+  .phase{
+    display:grid;grid-template-columns:auto 1fr;gap:1.3rem;
+    padding:1.4rem 1.5rem;border-radius:14px;border:1px solid var(--line);
+    background:var(--paper-2);
+  }
+  .phase .tag{
+    writing-mode:vertical-rl;transform:rotate(180deg);
+    font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+    color:var(--red);white-space:nowrap;padding-top:.2rem;
+  }
+  .phase h3{margin-bottom:.35rem;}
+  .phase .when{font-size:.82rem;color:var(--faint);font-weight:700;letter-spacing:.03em;margin-bottom:.5rem;text-transform:uppercase;}
+  .phase p{margin:0;font-size:.98rem;}
+  @media (max-width:620px){.phase{grid-template-columns:1fr;}.phase .tag{writing-mode:horizontal-tb;transform:none;}}
+
+  /* fades list */
+  .fades{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.55rem;margin:1.3rem 0;}
+  .fade{
+    display:flex;gap:.7rem;align-items:flex-start;padding:.7rem .9rem;
+    border-radius:8px;background:var(--paper-2);border:1px solid var(--line);
+    font-size:.95rem;color:var(--ink-soft);line-height:1.35;
+  }
+  .fade::before{content:"";flex:0 0 auto;width:16px;height:16px;margin-top:.18rem;border-radius:4px;background:var(--paper-3);border:1px solid var(--line-2);position:relative;}
+  .fade{position:relative;}
+  .fade .x{color:var(--faint);font-weight:800;position:absolute;left:1.02rem;top:.62rem;font-size:.8rem;line-height:1;}
+
+  .note{
+    border-left:3px solid var(--red);padding:.2rem 0 .2rem 1.1rem;
+    color:var(--ink-soft);font-size:.98rem;margin:1.4rem 0;
+  }
+  .note b{color:var(--ink);}
+
+  /* build steps */
+  .steps{list-style:none;counter-reset:step;margin:1.4rem 0 0;padding:0;}
+  .steps li{
+    counter-increment:step;position:relative;
+    padding:1rem 0 1rem 3.4rem;border-bottom:1px solid var(--line);
+  }
+  .steps li:last-child{border-bottom:0;}
+  .steps li::before{
+    content:counter(step,decimal-leading-zero);
+    position:absolute;left:0;top:1rem;
+    font-family:var(--mono);font-size:.9rem;font-weight:700;color:#fff;
+    background:var(--charcoal);width:2.3rem;height:2.3rem;border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .steps b{display:block;color:var(--ink);font-weight:700;margin-bottom:.15rem;font-size:1.05rem;}
+  .steps span{color:var(--ink-soft);font-size:.98rem;}
+
+  /* loop */
+  .loop-final{
+    background:var(--charcoal);color:#fff;border-radius:16px;
+    padding:clamp(1.8rem,4vw,2.6rem);position:relative;overflow:hidden;
+  }
+  .loop-final::before{content:"";position:absolute;inset:0;background:radial-gradient(110% 130% at 0% 0%,rgba(235,16,0,.34),transparent 52%);}
+  .loop-final > *{position:relative;}
+  .loop-final .fin{font-size:1.35rem;font-weight:700;letter-spacing:-.01em;line-height:1.3;margin:0 0 .8rem;max-width:40ch;}
+  .loop-final .sub{color:rgba(255,255,255,.72);margin:0 0 1.8rem;font-size:1.02rem;}
+  .flow{display:flex;flex-direction:column;gap:.55rem;}
+  .fstep{
+    display:flex;align-items:center;gap:.9rem;
+    padding:.7rem 1rem;border-radius:10px;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+    font-size:1.02rem;font-weight:500;
+  }
+  .fstep .fi{font-family:var(--mono);font-size:.82rem;color:#ff6a5c;font-weight:700;flex:0 0 auto;min-width:2.5ch;}
+  .fstep:last-child{background:rgba(235,16,0,.16);border-color:rgba(235,16,0,.4);}
+
+  footer{border-top:1px solid var(--line);padding:2.2rem 0 3rem;}
+  footer .wrap{display:flex;flex-wrap:wrap;gap:1rem;justify-content:space-between;align-items:center;}
+  footer .meta{font-size:.82rem;color:var(--faint);letter-spacing:.02em;}
+  footer .flogo{width:30px;height:30px;}
+  footer .flogo svg{width:100%;height:100%;border-radius:7px;}
+
+  /* mobile */
+  @media (max-width:940px){
+    nav.rail{display:none;}
+    .grid{grid-template-columns:1fr;}
+    .xtable td.dim{width:auto;}
+  }
+  @media (max-width:620px){
+    body{font-size:17px;}
+    .xtable thead{position:absolute;left:-9999px;}
+    .xtable,.xtable tbody,.xtable tr,.xtable td{display:block;width:100% !important;}
+    .xtable tr{border:1px solid var(--line);border-radius:10px;margin-bottom:.8rem;padding:.3rem .2rem;}
+    .xtable td{border-bottom:1px dashed var(--line);}
+    .xtable tr td:last-child{border-bottom:0;}
+    .xtable td::before{content:attr(data-l);display:block;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:700;margin-bottom:.2rem;}
+    .xtable td.dim::before{content:"";}
+  }
+</style>
+</head>
+<body>
+<div id="progress"></div>
+
+<!-- reusable logo markup -->
+<template id="adobe-logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 250 245"><g data-name="Layer 1"><rect width="240" height="234" x="5" y="3" rx="42.5" style="fill:#fff"/><path d="M192 179h-29a6 6 0 0 1-6-4l-31-72a1 1 0 0 0-2 0l-20 46a2 2 0 0 0 2 2h21a3 3 0 0 1 3 2l9 21a4 4 0 0 1-3 5H59a4 4 0 0 1-3-5l49-117a7 7 0 0 1 6-4h28a7 7 0 0 1 6 4l50 117a4 4 0 0 1-3 5Z" style="fill:#fa0f00"/></g></svg>
+</template>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <span class="logo" data-logo></span>
+      <span class="brandline">AI Discovery · Point of view</span>
+    </div>
+    <span class="eyebrow">A three-to-five-year view</span>
+    <h1>From GEO to <em>AI Discovery</em></h1>
+    <p class="lede">Being cited in an AI answer was the goal. Being correctly understood, trusted, recommended, and usable by the AI systems people rely on to decide and act — that is the discipline now taking shape.</p>
+    <div class="chips">
+      <span class="chip red">3–5 year outlook</span>
+      <span class="chip">Customer briefing</span>
+      <span class="chip">Reviewed against 2026 signals</span>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <div class="grid">
+    <nav class="rail" aria-label="On this page">
+      <div class="rail-h">On this page</div>
+      <ol>
+        <li><a href="#thesis" class="active">The bottom line</a></li>
+        <li><a href="#shift">The shift</a></li>
+        <li><a href="#shifts">Eight shifts</a></li>
+        <li><a href="#timeline">A realistic timeline</a></li>
+        <li><a href="#fades">What to de-prioritise</a></li>
+        <li><a href="#build">What to build now</a></li>
+        <li><a href="#loop">The loop</a></li>
+      </ol>
+    </nav>
+
+    <main class="content">
+
+      <!-- ================= THESIS ================= -->
+      <section id="thesis">
+        <span class="sec-num">01 — Thesis</span>
+        <h2>The bottom line</h2>
+        <p class="lead-p">Over the next three to five years, GEO evolves from a tactical push to "get cited by ChatGPT" into a broader discipline of AI discoverability, brand representation, and agentic conversion.</p>
+        <p>The larger change is that <strong>GEO likely stops being a separate label at all</strong>. Its capabilities get absorbed into SEO, digital PR, content operations, product-data management, analytics, and brand governance — the way "mobile optimisation" stopped being a project and simply became how the web is built.</p>
+        <div class="pull">
+          <span class="mark">The future objective</span>
+          <p>Not merely to be visible in an AI answer — but to be correctly understood, trusted, recommended, and usable by the AI systems that help people make decisions and take actions.</p>
+        </div>
+        <p>Part of this is already explicit. In May 2026, Google published its first official guidance on generative-AI search and stated plainly that "AEO" and "GEO" are still SEO — its AI features run on the same core index and ranking systems as classic Search. The discipline is not new. The surface is.</p>
+      </section>
+
+      <!-- ================= THE SHIFT (TABLE) ================= -->
+      <section id="shift">
+        <span class="sec-num">02 — The shift</span>
+        <h2>The likely evolution</h2>
+        <p class="table-intro">The same eight dimensions, seen from today and from the far end of the horizon.</p>
+        <table class="xtable">
+          <thead>
+            <tr><th>Dimension</th><th>GEO today</th><th class="dir">3–5 year direction</th></tr>
+          </thead>
+          <tbody>
+            <tr><td class="dim" data-l="Dimension">Primary target</td><td class="today" data-l="GEO today">AI-generated answers</td><td class="dir" data-l="Direction">Answers, recommendations, agents, and transactions</td></tr>
+            <tr><td class="dim" data-l="Dimension">Unit of optimisation</td><td class="today" data-l="GEO today">Page, prompt, citation</td><td class="dir" data-l="Direction">Entity, claim, customer journey, and task</td></tr>
+            <tr><td class="dim" data-l="Dimension">Main signal</td><td class="today" data-l="GEO today">Mention or citation</td><td class="dir" data-l="Direction">Presence, prominence, accuracy, sentiment, recommendation, and action</td></tr>
+            <tr><td class="dim" data-l="Dimension">Authority model</td><td class="today" data-l="GEO today">Website content and backlinks</td><td class="dir" data-l="Direction">Evidence networks across owned, earned, social, review, video, and community sources</td></tr>
+            <tr><td class="dim" data-l="Dimension">Content model</td><td class="today" data-l="GEO today">Answer-shaped pages and FAQs</td><td class="dir" data-l="Direction">Continuously updated, source-grounded, structured knowledge</td></tr>
+            <tr><td class="dim" data-l="Dimension">Measurement</td><td class="today" data-l="GEO today">Synthetic prompt visibility</td><td class="dir" data-l="Direction">Reproducible visibility plus referral, agent, conversion, and incrementality measurement</td></tr>
+            <tr><td class="dim" data-l="Dimension">Operating model</td><td class="today" data-l="GEO today">SEO or content team</td><td class="dir" data-l="Direction">Cross-functional AI-visibility function</td></tr>
+            <tr><td class="dim" data-l="Dimension">Commercial model</td><td class="today" data-l="GEO today">Mostly organic visibility</td><td class="dir" data-l="Direction">Organic answers, paid placements, product feeds, and agentic commerce</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- ================= EIGHT SHIFTS ================= -->
+      <section id="shifts">
+        <span class="sec-num">03 — What changes</span>
+        <h2>Eight shifts inside the discipline</h2>
+
+        <div class="shift">
+          <div class="shift-head"><span class="shift-n">1</span><h3>From pages to entities and knowledge</h3></div>
+          <p>Teams optimise pages today. Increasingly they will optimise how an AI system understands the company itself: what it is, which products belong to it, which use cases each supports, how they compare with alternatives, which claims are verified, and which markets, prices, policies and capabilities are current.</p>
+          <p>In practice that means maintaining a consistent <strong>entity, product and claims graph</strong> across the website, documentation, reviews, media, communities, product feeds and structured data — an ongoing representation system rather than a set of isolated pages.</p>
+        </div>
+
+        <div class="shift">
+          <div class="shift-head"><span class="shift-n">2</span><h3>From citation to influence</h3></div>
+          <p>Citations stay useful, but become only one layer of performance. A brand can earn many mentions and still be described inaccurately or negatively — so the target moves up a ladder:</p>
+          <div class="ladder">
+            <div class="rung"><span class="p">Present</span><span class="d">Mentioned in the answer at all.</span></div>
+            <div class="rung"><span class="p">Prominent</span><span class="d">Mentioned early, or ranked highly among options.</span></div>
+            <div class="rung"><span class="p">Portrayed</span><span class="d">Described accurately, currently, and favourably.</span></div>
+            <div class="rung"><span class="p">Persuasive</span><span class="d">Recommended — and linked to a meaningful action.</span></div>
+          </div>
+          <p>Measurement follows suit: visibility, citations, share of voice, sentiment, accuracy, referral and agent traffic, and business impact — not citation count alone.</p>
+        </div>
+
+        <div class="shift">
+          <div class="shift-head"><span class="shift-n">3</span><h3>From search answers to AI agents</h3></div>
+          <p>The next frontier isn't only an AI answering <em>"which product is best?"</em> It's an agent deciding which product fits this user, is available in this region, meets these constraints, and can be bought or configured now. That requires information machines can use: accurate product and service feeds; current pricing, inventory, availability and eligibility; structured policies and terms; clear APIs and agent interfaces; machine-readable documentation; secure authentication; and reliable workflows for booking, purchasing, configuring or requesting service.</p>
+          <p>This layer is already materialising. Through 2025–2026 several checkout protocols shipped — including OpenAI's Agentic Commerce Protocol with Stripe, Google's Universal Commerce Protocol, Microsoft's Copilot Checkout, and Perplexity's Instant Buy with PayPal. The instructive episode was OpenAI's: it launched ChatGPT Instant Checkout in September 2025 and sunset it in March 2026. The blocker wasn't the model — it was reconciling <strong>real-time inventory, pricing and sales-tax</strong> across millions of merchants. An architectural settlement is emerging from that lesson: AI systems own discovery and intent; merchants keep control of checkout. At this point GEO overlaps with product-information management, digital commerce, conversion optimisation and API strategy.</p>
+          <div class="stats">
+            <div class="stat"><div class="n"><span class="r">+42%</span></div><div class="l">Higher conversion for AI-referred traffic vs non-AI</div><div class="src">Adobe Analytics · Q2 2026</div></div>
+            <div class="stat"><div class="n">$20.9<span class="r">B</span></div><div class="l">Projected US retail spend via AI platforms in 2026 — roughly 4× 2025</div><div class="src">eMarketer</div></div>
+          </div>
+        </div>
+
+        <div class="shift">
+          <div class="shift-head"><span class="shift-n">4</span><h3>From prompt lists to journey and intent modelling</h3></div>
+          <p>Representative prompt libraries are necessary, but static lists become insufficient. Teams will model AI discovery across the whole journey rather than optimising isolated phrases:</p>
+          <div class="journey">
+            <span class="jstage"><b>Explore</b> · what problem is this?</span>
+            <span class="jstage"><b>Evaluate</b> · which options exist?</span>
+            <span class="jstage"><b>Compare</b> · what are the trade-offs?</span>
+            <span class="jstage"><b>Decide</b> · which should I choose?</span>
+            <span class="jstage"><b>Act</b> · can the agent complete it?</span>
+            <span class="jstage"><b>Use</b> · how do I get value?</span>
+          </div>
+          <p>The focus shifts from ranking for a keyword to <strong>owning the decision narrative</strong> across these stages.</p>
+        </div>
+
+        <div class="shift">
+          <div class="shift-head"><span class="shift-n">5</span><h3>Measurement becomes more scientific — and more contested</h3></div>
+          <p>Ranking position and click-through become incomplete indicators. Pew Research put a number on the gap: when an AI summary appears, users click a traditional result far less often, and the citation footer inside the summary is almost never used. Visibility and influence increasingly happen without a conventional click.</p>
+          <div class="stats">
+            <div class="stat"><div class="n"><span class="r">8%</span> / 15%</div><div class="l">Click on a result with an AI summary present vs without one</div><div class="src">Pew Research</div></div>
+            <div class="stat"><div class="n"><span class="r">1%</span></div><div class="l">Clicks on a source link inside the AI summary itself</div><div class="src">Pew Research</div></div>
+            <div class="stat"><div class="n"><span class="r">26%</span></div><div class="l">Of AI-summary pages end the browsing session there</div><div class="src">Pew Research</div></div>
+          </div>
+          <p>First-party measurement is starting to catch up — Google added a generative-AI performance report to Search Console from mid-2026. The mature model blends AI-answer visibility, mention and citation rate, prominence and recommendation strength, accuracy and sentiment, referral and agent traffic, branded-search lift, assisted conversions and revenue influence — with controlled experiments to prove causation. <strong>That causal step is the hard problem</strong>: showing that improved AI visibility <em>caused</em> commercial impact rather than merely correlating with it.</p>
+        </div>
+
+        <div class="shift">
+          <div class="shift-head"><span class="shift-n">6</span><h3>Off-site authority matters even more</h3></div>
+          <p>AI systems synthesise from a network of sources — independent reviews, industry publications, research reports, forums and communities, video and transcripts, reference sources, and partner and analyst content. And citation concentration is real: Pew found that Wikipedia, YouTube and Reddit dominate the sources AI summaries draw on.</p>
+          <p>That makes GEO partly a <strong>digital-PR and reputation discipline</strong>. The winning move is to create genuinely useful evidence and earn credible coverage — not to flood communities with promotional content, which Google explicitly warns against.</p>
+        </div>
+
+        <div class="shift">
+          <div class="shift-head"><span class="shift-n">7</span><h3>Governance and factual control become central</h3></div>
+          <p>As AI answers increasingly influence buying and business decisions, organisations must monitor whether those answers carry outdated pricing, wrong feature descriptions, unsupported performance claims, incorrect product associations, misleading comparisons, negative or stale community narratives, or confusion between similarly named products.</p>
+          <p>This creates a new operational capability — <strong>AI representation governance</strong> — with a shared process across marketing, product, legal, communications, support and web: define the official claim, provide evidence, detect incorrect external representations, update owned and earned sources, and measure whether the correction propagates.</p>
+        </div>
+
+        <div class="shift">
+          <div class="shift-head"><span class="shift-n">8</span><h3>Paid and organic GEO converge</h3></div>
+          <p>As platforms add sponsored placements, product recommendations and commercial integrations, teams will need to distinguish organic mention, organic citation, sponsored placement, product-feed inclusion, agent recommendation and agent-completed transaction.</p>
+          <p>This pulls GEO closer to paid media, retail media, commerce feeds and journey analytics — and brings disclosure and trust requirements with it. The formats are still unsettled, so <strong>avoid building strategy around any single platform's current ad or citation behaviour</strong>.</p>
+        </div>
+      </section>
+
+      <!-- ================= TIMELINE ================= -->
+      <section id="timeline">
+        <span class="sec-num">04 — Horizon</span>
+        <h2>A realistic timeline</h2>
+        <div class="phases">
+          <div class="phase">
+            <div class="tag">Phase 1</div>
+            <div>
+              <div class="when">Next 12–18 months</div>
+              <h3>Operationalisation</h3>
+              <p>SEO and GEO teams begin sharing data and workflows. Prompt libraries and AI-visibility dashboards become standard. Content adds answer summaries, clearer structure, comparisons and evidence. Teams monitor citations, sentiment, accuracy and AI referral traffic. Off-site authority becomes a formal workstream.</p>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="tag">Phase 2</div>
+            <div>
+              <div class="when">Years 2–3</div>
+              <h3>Platform integration</h3>
+              <p>GEO data connects with web analytics, CRM, content systems and product catalogues. Brand claims and product facts are managed centrally. Optimisation expands to video, community, reviews, feeds, APIs and documentation. AI visibility joins campaign and launch measurement. "Share of model" becomes a planning metric, though methodologies vary.</p>
+            </div>
+          </div>
+          <div class="phase">
+            <div class="tag">Phase 3</div>
+            <div>
+              <div class="when">Years 3–5</div>
+              <h3>Agentic optimisation</h3>
+              <p>Agents research, compare, recommend and take actions. Sites must serve both people and machine customers. GEO includes agent access, tool calls, APIs, feeds, policies and transaction readiness. Paid and organic AI discovery become distinct but connected channels. GEO is embedded within a broader discipline — AI Search Optimisation, AI Brand Visibility, or AI Discovery Operations.</p>
+            </div>
+          </div>
+        </div>
+        <div class="note"><b>A note on pace.</b> With agentic-commerce protocols already shipping in 2026, the infrastructure for Phase 3 is arriving ahead of the trust-and-adoption curve. The binding constraint is confidence and clean data, not raw capability.</div>
+      </section>
+
+      <!-- ================= FADES ================= -->
+      <section id="fades">
+        <span class="sec-num">05 — Stop investing</span>
+        <h2>What to de-prioritise</h2>
+        <p>Do not overinvest in tactics that assume yesterday's mechanics:</p>
+        <div class="fades">
+          <div class="fade"><span class="x">×</span>Keyword stuffing</div>
+          <div class="fade"><span class="x">×</span>Generic AI-generated articles</div>
+          <div class="fade"><span class="x">×</span>Large volumes of near-duplicate FAQ pages</div>
+          <div class="fade"><span class="x">×</span>One-off prompt testing</div>
+          <div class="fade"><span class="x">×</span>Optimising for a single chatbot</div>
+          <div class="fade"><span class="x">×</span>Treating schema markup as a magic citation mechanism</div>
+          <div class="fade"><span class="x">×</span>Chasing citations without checking accuracy or sentiment</div>
+          <div class="fade"><span class="x">×</span>Artificial Reddit, review or forum activity</div>
+          <div class="fade"><span class="x">×</span>A single "GEO score" with no reproducible methodology</div>
+        </div>
+        <p>Google's 2026 guidance sharpens this: there is no <code>llms.txt</code> file, content "chunking", AI-specific rewriting or special schema that unlocks its AI features — they run on the same fundamentals as Search. Structured data still earns its place, but as an accuracy aid, not a citation shortcut.</p>
+        <div class="note"><b>The nuance worth holding.</b> For agentic commerce, clean machine-readable product feeds <em>do</em> matter — they are what let an agent actually transact. But that is a different job from being cited in an answer, and it is worth keeping the two straight.</div>
+      </section>
+
+      <!-- ================= BUILD ================= -->
+      <section id="build">
+        <span class="sec-num">06 — Start now</span>
+        <h2>What to build now</h2>
+        <p>None of this waits for the long-term shift — it's table stakes now. Seven priorities, roughly in build order: nail the foundations, then the work that sets you apart, then the measurement and governance that keep it honest.</p>
+        <ol class="steps">
+          <li><b>Get the technical fundamentals right.</b><span>AI Overviews and AI Mode pull from the same index as classic search, so crawlability, indexability, site speed, clean internal linking and text that's visible in the raw HTML still decide whether you're eligible to surface at all. Fix eligibility before you touch the content — no amount of GEO copy rescues a page the crawlers can't read.</span></li>
+          <li><b>Build a single source of truth for brand facts.</b><span>Keep one authoritative, up-to-date record of your products, pricing, policies, proof points and comparisons, and have every page, feed and support answer inherit from it. When your facts are inconsistent across the web, models fill the gaps with someone else's version of you — and that's how competitors end up in your answers.</span></li>
+          <li><b>Cover the full buyer journey.</b><span>Map your prompt and topic coverage across awareness, consideration, comparison and purchase — that's how people actually query an assistant. Optimising only for "is [brand] any good?" leaves the high-intent "best X for Y" and comparison prompts wide open for competitors to win.</span></li>
+          <li><b>Publish content only you can create.</b><span>Original research, first-party data, tested methodology, real customer outcomes and honest comparisons are what generative engines cite, precisely because they can't be synthesised from everyone else's pages. Commodity, AI-spun content just echoes what the model already knows, so it rarely earns a citation.</span></li>
+          <li><b>Build authority off your own domain.</b><span>LLMs assemble answers from earned media — reviews, editorial coverage, analyst reports, communities, video and reference sites — and a handful of high-authority sources carry most of the weight. Treat digital PR, reviews and third-party mentions as core GEO work: if you're absent from the sources models trust, you're absent from the answer.</span></li>
+          <li><b>Measure outcomes, not just visibility.</b><span>Go past citation counts and share of voice and tie AI visibility to what it drives — AI referral and agent traffic, branded-search lift, assisted conversions and revenue. Stand up at least one incrementality test, because attribution is where GEO budgets are won or lost.</span></li>
+          <li><b>Govern how AI represents your brand.</b><span>Answers go stale, models hallucinate, and outdated pricing or wrong feature claims spread quickly. Give marketing, product, legal, support and web one loop to agree the facts, catch where AI gets you wrong, correct the source it pulls from, and confirm the fix lands. Accuracy is a channel you manage, not a one-off audit.</span></li>
+        </ol>
+      </section>
+
+      <!-- ================= LOOP ================= -->
+      <section id="loop">
+        <span class="sec-num">07 — The final view</span>
+        <h2>The loop</h2>
+        <p>GEO will not replace SEO. It absorbs SEO into a larger AI-discovery discipline. SEO remains responsible for making content accessible and authoritative; GEO increasingly governs what happens <em>after</em> retrieval.</p>
+        <div class="loop-final">
+          <p class="fin">Six questions define whether a brand wins in AI discovery.</p>
+          <p class="sub">Each stage compounds on the last — and each is now measurable.</p>
+          <div class="flow">
+            <div class="fstep"><span class="fi">01</span>Can the system find us?</div>
+            <div class="fstep"><span class="fi">02</span>Can it understand us?</div>
+            <div class="fstep"><span class="fi">03</span>Can it verify us?</div>
+            <div class="fstep"><span class="fi">04</span>Will it recommend us?</div>
+            <div class="fstep"><span class="fi">05</span>Can its agent act for the customer?</div>
+            <div class="fstep"><span class="fi">06</span>Can we measure the business result?</div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <span class="flogo" data-logo></span>
+    <span class="meta">AI Discovery · Point of view · 3–5 year outlook · Prepared as a customer briefing</span>
+  </div>
+</footer>
+
+<script>
+  // inject logo everywhere
+  (function(){
+    var tpl = document.getElementById('adobe-logo');
+    document.querySelectorAll('[data-logo]').forEach(function(slot){
+      slot.appendChild(tpl.content.cloneNode(true));
+    });
+  })();
+
+  // reading progress
+  (function(){
+    var bar = document.getElementById('progress');
+    function onScroll(){
+      var h = document.documentElement;
+      var max = h.scrollHeight - h.clientHeight;
+      var p = max > 0 ? (h.scrollTop / max) * 100 : 0;
+      bar.style.width = p + '%';
+    }
+    document.addEventListener('scroll', onScroll, {passive:true});
+    onScroll();
+  })();
+
+  // scrollspy
+  (function(){
+    var links = Array.prototype.slice.call(document.querySelectorAll('.rail a'));
+    var map = {};
+    links.forEach(function(a){ map[a.getAttribute('href').slice(1)] = a; });
+    var sections = links.map(function(a){ return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+    if(!('IntersectionObserver' in window) || !sections.length) return;
+    var current = null;
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          if(current) current.classList.remove('active');
+          var a = map[e.target.id];
+          if(a){ a.classList.add('active'); current = a; }
+        }
+      });
+    }, {rootMargin:'-20% 0px -70% 0px', threshold:0});
+    sections.forEach(function(s){ obs.observe(s); });
+  })();
+</script>
+</body>
+</html>

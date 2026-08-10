@@ -393,22 +393,24 @@
       <section class="section" id="s02" data-title="A taxonomy of access" data-num="02">
         <div class="section__eyebrow"><span class="n">02</span> Taxonomy</div>
         <h2>A better taxonomy of AI website access</h2>
-        <p>Sorting the mechanisms by their layer makes the whole picture legible — and shows where each one sits in the request and data lifecycle.</p>
+        <p>Sorting the mechanisms by their layer makes the whole picture legible — and the <strong>trigger</strong> column shows the axis that matters most for reading your logs: whether a mechanism runs on the provider's schedule or fires live, in-session, only when a user asks.</p>
 
         <div class="table-wrap">
           <table>
-            <thead><tr><th>Layer</th><th>Mechanism</th><th>Primary function</th></tr></thead>
+            <thead><tr><th>Layer</th><th>Mechanism</th><th>Primary function</th><th>Typical trigger</th></tr></thead>
             <tbody>
-              <tr><td>Acquisition</td><td>Search retrieval</td><td>Find relevant documents through a search index.</td></tr>
-              <tr><td>Acquisition</td><td>Direct crawling</td><td>Periodically fetch pages for indexing, training or corpus construction.</td></tr>
-              <tr><td>Acquisition</td><td>Agentic browsing</td><td>Fetch pages dynamically while completing a user task.</td></tr>
-              <tr><td>Distribution</td><td>Cached pages</td><td>Serve a previously fetched representation instead of contacting the origin.</td></tr>
-              <tr><td>Processing</td><td>Ingestion pipelines</td><td>Transform pages, feeds, APIs or documents into searchable data.</td></tr>
-              <tr><td>Distribution</td><td>Third-party indexes</td><td>Provide data or results maintained by another organisation.</td></tr>
-              <tr><td>Orchestration</td><td>Retrieval-augmented generation</td><td>Retrieve external context and pass it to an LLM before generation.</td></tr>
+              <tr><td>Acquisition</td><td>Search retrieval</td><td>Find relevant documents through a search index.</td><td>At answer time, from an index built earlier — often no live origin hit.</td></tr>
+              <tr><td>Acquisition</td><td>Direct crawling</td><td>Periodically fetch pages for indexing, training or corpus construction.</td><td>Scheduled, provider-driven — not tied to any user question.</td></tr>
+              <tr><td>Acquisition</td><td>Chatbot browsing</td><td>Fetch a page live to read and answer a user's question.</td><td>Live, in-session — a user shares a URL, or the query needs fresh or specific detail.</td></tr>
+              <tr><td>Acquisition</td><td>Action-agent browsing</td><td>Operate a page live to complete a user's task.</td><td>Live, in-session — a user delegates a task routed through the site.</td></tr>
+              <tr><td>Distribution</td><td>Cached pages</td><td>Serve a previously fetched representation instead of contacting the origin.</td><td>At use time — served from a cache, so the origin may see nothing.</td></tr>
+              <tr><td>Processing</td><td>Ingestion pipelines</td><td>Transform pages, feeds, APIs or documents into searchable data.</td><td>Batch or streaming on a schedule — often via a feed, not a public crawl.</td></tr>
+              <tr><td>Distribution</td><td>Third-party indexes</td><td>Provide data or results maintained by another organisation.</td><td>On the third party's schedule, not yours — you may never be contacted.</td></tr>
+              <tr><td>Orchestration</td><td>Retrieval-augmented generation</td><td>Retrieve external context and pass it to an LLM before generation.</td><td>At answer time — orchestrates whichever of the above a query needs.</td></tr>
             </tbody>
           </table>
         </div>
+        <p>Three of these fire <strong>live, in-session</strong> — the chatbot and action-agent fetches, plus the answer-time leg of RAG; the rest run ahead of time on a schedule. That single distinction is why a page can shape an answer with no live request, and why a live request does not prove the page was used.</p>
 
         <div class="note">
           <div class="note__label">The most important correction</div>
@@ -430,6 +432,10 @@
                 .gen{fill:#141414;}
                 .gent{font:700 13px var(--font-sans,sans-serif);fill:#fff;}
                 .out{fill:#eb1000;}
+                .nd-cb{fill:#fff;stroke:#1473e6;stroke-width:1.5;}
+                .nd-aa{fill:#fff;stroke:#eb1000;stroke-width:1.5;}
+                .ndt-cb{font:700 12.5px var(--font-sans,sans-serif);fill:#1473e6;}
+                .ndt-aa{font:700 12.5px var(--font-sans,sans-serif);fill:#eb1000;}
               </style>
               <!-- Band labels -->
               <text class="band" x="18" y="26">Website</text>
@@ -445,7 +451,8 @@
               <g>
                 <rect class="nd" x="180" y="52" width="150" height="40" rx="8"/><text class="ndt" x="255" y="77" text-anchor="middle">Direct crawler</text>
                 <rect class="nd" x="180" y="110" width="150" height="40" rx="8"/><text class="ndt" x="255" y="135" text-anchor="middle">Search crawler</text>
-                <rect class="nd" x="180" y="168" width="150" height="40" rx="8"/><text class="ndt" x="255" y="193" text-anchor="middle">Agentic browser</text>
+                <rect class="nd-cb" x="180" y="152" width="150" height="34" rx="8"/><text class="ndt-cb" x="255" y="174" text-anchor="middle">Chatbot</text>
+                <rect class="nd-aa" x="180" y="190" width="150" height="34" rx="8"/><text class="ndt-aa" x="255" y="212" text-anchor="middle">Action agent</text>
                 <rect class="nd" x="180" y="226" width="150" height="40" rx="8"/><text class="ndt" x="255" y="251" text-anchor="middle">Feed / API</text>
                 <rect class="nd" x="180" y="284" width="150" height="40" rx="8"/><text class="ndt" x="255" y="309" text-anchor="middle">Third-party index</text>
               </g>
@@ -460,16 +467,18 @@
               </g>
 
               <!-- Website -> acquisition -->
-              <path class="ln" marker-end="url(#arw)" d="M110 197 C 140 130, 150 80, 178 72"/>
-              <path class="ln" marker-end="url(#arw)" d="M110 200 C 145 165, 150 135, 178 130"/>
-              <path class="ln" marker-end="url(#arw)" d="M110 203 L 178 190"/>
-              <path class="ln" marker-end="url(#arw)" d="M110 206 C 145 240, 150 250, 178 248"/>
+              <path class="ln" marker-end="url(#arw)" d="M110 197 C 140 120, 150 80, 178 72"/>
+              <path class="ln" marker-end="url(#arw)" d="M110 199 C 145 165, 150 135, 178 130"/>
+              <path class="ln" marker-end="url(#arw)" d="M110 201 C 150 186, 160 172, 178 169"/>
+              <path class="ln" marker-end="url(#arw)" d="M110 205 C 150 205, 160 207, 178 207"/>
+              <path class="ln" marker-end="url(#arw)" d="M110 207 C 145 240, 150 250, 178 246"/>
               <path class="ln" marker-end="url(#arw)" d="M110 209 C 140 280, 150 300, 178 306"/>
 
-              <!-- acquisition -> storage (1:1) -->
+              <!-- acquisition -> storage -->
               <path class="ln" marker-end="url(#arw)" d="M330 72 L 398 72"/>
               <path class="ln" marker-end="url(#arw)" d="M330 130 L 398 130"/>
-              <path class="ln" marker-end="url(#arw)" d="M330 188 L 398 188"/>
+              <path class="ln" marker-end="url(#arw)" d="M330 169 C 360 178, 372 188, 398 188"/>
+              <path class="ln" marker-end="url(#arw)" d="M330 207 C 360 198, 372 188, 398 188"/>
               <path class="ln" marker-end="url(#arw)" d="M330 246 L 398 246"/>
               <path class="ln" marker-end="url(#arw)" d="M330 304 L 398 304"/>
 
@@ -493,7 +502,7 @@
               <path class="ln" marker-end="url(#arw)" d="M735 296 L 735 322"/>
             </svg>
           </div>
-          <p class="card__cap">A single answer can touch several mechanisms in sequence: a crawler or feed supplies an index, a retriever selects passages, and an optional live fetch verifies the source.</p>
+          <p class="card__cap">A single answer can touch several mechanisms in sequence: a crawler or feed supplies an index, a retriever selects passages, and a live agent fetch — a chatbot reading to answer, or an action agent operating to complete a task — hits the page directly.</p>
         </div>
       </section>
 

@@ -569,6 +569,7 @@ User prompt → Search index → Retrieved representation → AI answer</pre>
                 <dt>Purpose</dt><dd>Retrieve content to produce an answer or citation.</dd>
                 <dt>End state</dt><dd>A response in the conversation.</dd>
                 <dt>Your page is</dt><dd>A <strong>source</strong> to read.</dd>
+                <dt>Triggered when</dt><dd>A user shares a URL, or a query needs fresh or specific detail the model won't answer from memory — a live, in-session fetch.</dd>
                 <dt>Example agents</dt><dd><code>ChatGPT-User</code>, <code>Claude-User</code>, <code>Perplexity-User</code>, Google AI Mode</dd>
                 <dt>Optimisation lever</dt><dd>Extractability — server-rendered content, clean self-contained passages, structured data.</dd>
               </dl>
@@ -579,6 +580,7 @@ User prompt → Search index → Retrieved representation → AI answer</pre>
                 <dt>Purpose</dt><dd>Perform goal-driven actions to complete a defined task.</dd>
                 <dt>End state</dt><dd>A change in an external system — a form submitted, a booking made, a cart filled.</dd>
                 <dt>Your page is</dt><dd>An <strong>interface</strong> to operate.</dd>
+                <dt>Triggered when</dt><dd>A user asks an agent to complete a task that routes through your site — book, buy, fill, submit — often in a multi-step session.</dd>
                 <dt>Example agents</dt><dd><code>GoogleAgent-Chrome</code>, <code>GoogleAgent-Mariner</code>, <code>Google-Agent</code></dd>
                 <dt>Optimisation lever</dt><dd>Agent-navigable flows — real anchors, server-rendered forms, stable structure, a safe automation posture.</dd>
               </dl>
@@ -649,6 +651,21 @@ Allowing a user-triggered fetch  ≠  placing the page in the search index</pre>
 
 Agent: search A → fetch A → search B → fetch B → fetch C → compare → present table</pre>
         <p>Those requests may appear in CDN or origin logs but produce no browser analytics events.</p>
+
+        <h3>What triggers a live chatbot fetch</h3>
+        <p>A chatbot-class fetch (<code>ChatGPT-User</code>, <code>Claude-User</code>, <code>Perplexity-User</code>, Google AI Mode and peers) is <strong>synchronous and in-session</strong> — it fires at answer time, only when the assistant decides it needs to read your live page to respond. It is never scheduled. The usual triggers:</p>
+        <ul>
+          <li><strong>The user supplies a URL</strong> — pastes a link to summarise, compare or extract from. The assistant fetches that exact URL. The cleanest, most deterministic trigger.</li>
+          <li><strong>The query needs fresh or specific information</strong> the model won't answer confidently from memory — recency-sensitive asks ("latest", "today", pricing, current status) or long-tail specifics.</li>
+          <li><strong>Post-search verification</strong> — a search step returns candidate URLs and the assistant fetches the top one or two live to confirm exact wording before composing the answer or citation.</li>
+          <li><strong>Follow-up or citation drill-down</strong> — the user expands a cited source or asks a follow-up needing detail the snippet did not carry.</li>
+          <li><strong>Retrieval-native product mode</strong> — browsing is enabled or the product fetches live per query by design.</li>
+        </ul>
+        <div class="note">
+          <div class="note__label">And when it does not fire</div>
+          <p>No live chatbot fetch occurs when the answer comes from the model's parametric knowledge, from the provider's pre-built search index (that was an earlier scheduled <code>*-SearchBot</code> visit, not a live hit), or from a cache. A platform can therefore answer about your page — even cite it — with <strong>no chatbot request in your logs at all</strong>. This is the "access ≠ use" rule from the other direction.</p>
+        </div>
+        <p>Two consequences follow from the in-session nature. Because a person is waiting, these fetchers are <strong>latency-intolerant</strong> — a slow page or a redirect chain can drop you from the answer. And because a human initiated the request, they may treat robots.txt more like a browser visit than a crawl. Platform tendency varies: Perplexity is retrieval-first and fetches near-constantly; ChatGPT and Claude fetch more selectively; Google AI Mode leans on Google's existing index, so much of its grounding never reaches your origin as a live hit.</p>
 
         <h3>Direct fetch vs browser-like interaction</h3>
         <p>An agent may use raw HTTP retrieval, full browser rendering, or a hybrid — search the index first, then directly fetch and render only the selected URL. The implementation differs by platform, product tier, request, tool mode, URL type, security policy and whether an interactive task is required. Test each important agent category separately rather than treating "AI traffic" as one client.</p>
@@ -910,6 +927,11 @@ With retrieval:     User prompt → Retriever → Passages → Context → LLM �
         <div class="note note--info">
           <div class="note__label">Two families, opposite responses</div>
           <p>Six of the eight values are <strong>read-oriented</strong> — the agent consumes your page to train, index, answer or research. Two — <strong>Action agents</strong> and <strong>Shopping agents</strong> — are <strong>act-oriented</strong>: the agent operates your page to complete a task. A rise in the first family says "make me easier to quote"; a rise in the second says "make me easier to operate, safely".</p>
+        </div>
+
+        <div class="note note--field">
+          <div class="note__label">Reading the Chatbots value</div>
+          <p>Chatbot hits are <strong>live, in-session fetches</strong> fired at answer time — most often when a user supplies a URL or the query needs fresh detail (§5 covers the full trigger list). Two things to expect when you filter on this value. Volume is uneven by platform: Perplexity fetches near-constantly, ChatGPT and Claude more selectively, and Google AI Mode leans on Google's index so much of its grounding never appears here as a live hit. And a flat or low count does <strong>not</strong> mean you are not being used — index- or cache-served answers cite you with no chatbot request at all, so always read this value alongside Source Visibility rather than on its own.</p>
         </div>
 
         <h3>Full agent registry</h3>

@@ -74,10 +74,6 @@
   .nav__brand{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
   .nav__brand svg{height:34px;width:auto;display:block;}
   .nav__brand-text{font-size:13px;line-height:1.25;color:var(--gray-700);font-weight:600;letter-spacing:.01em;}
-  .nav__eyebrow{
-    font-size:11px;text-transform:uppercase;letter-spacing:.14em;
-    color:var(--red);font-weight:700;margin:22px 0 12px;
-  }
   .nav__list{list-style:none;margin:0;padding:0;overflow-y:auto;flex:1;}
   .nav__list::-webkit-scrollbar{width:8px;}
   .nav__list::-webkit-scrollbar-thumb{background:var(--gray-300);border-radius:8px;}
@@ -153,7 +149,6 @@
   li{margin:6px 0;}
   li::marker{color:var(--gray-500);}
 
-  hr.rule{border:0;border-top:1px solid var(--line);margin:0;}
 
   /* Callouts */
   .note{
@@ -205,7 +200,6 @@
   code{font-family:var(--font-mono);font-size:15px;background:var(--gray-100);padding:1px 6px;border-radius:5px;color:var(--gray-800);}
   pre code{background:none;padding:0;font-size:inherit;}
   .cmt{color:var(--gray-500);}
-  .tok{color:var(--red-2);}
 
   /* Flow chain (≠ / lifecycle) */
   .chain{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:20px 0;}
@@ -261,7 +255,6 @@
   .fv{font-weight:700;color:var(--ink);white-space:nowrap;}
   td.plat{color:var(--gray-600);font-size:14px;}
 
-  .kicker{font-size:13px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin:26px 0 8px;}
 
   .footer{
     background:var(--ink-hero);color:#c9c9c9;padding:40px 8vw;font-size:13.5px;line-height:1.6;
@@ -279,7 +272,7 @@
       border-right:0;border-bottom:1px solid var(--line);padding:14px 20px;z-index:30;
     }
     .shell{flex-direction:column;}
-    .nav__eyebrow,.nav__foot{display:none;}
+    .nav__foot{display:none;}
     .nav__list{
       position:absolute;top:100%;left:0;right:0;background:var(--gray-50);
       border-bottom:1px solid var(--line);max-height:70vh;padding:8px 16px 16px;
@@ -349,8 +342,6 @@
     </header>
 
     <div class="content">
-
-      <!-- 01 -->
       <section class="section" id="s01" data-title="Overview" data-num="01">
         <div class="section__eyebrow"><span class="n">01</span> Overview</div>
         <h2>One statement, three layers</h2>
@@ -377,13 +368,13 @@
           <table>
             <thead><tr><th>In the summary above</th><th>In this reference</th></tr></thead>
             <tbody>
-              <tr><td>AI Agents — assistants, search, overviews, autonomous</td><td>Agent types and the Agent Type filter (§4, §14)</td></tr>
-              <tr><td>1 · Search Index</td><td>Search retrieval (§3) — index-first, often no live origin hit</td></tr>
-              <tr><td>2 · Direct Page Fetch</td><td>Chatbot and action-agent browsing (§5) — the live, in-session path</td></tr>
-              <tr><td>3 · AI Crawler</td><td>Direct crawling (§4) — scheduled, indexes for later</td></tr>
-              <tr><td>4 · External Search / Data Source</td><td>Third-party indexes (§8)</td></tr>
-              <tr><td>Retrieve · Combine · Generate · Cite</td><td>Retrieval-augmented generation (§9) — which also draws on cached pages (§6) and ingestion pipelines (§7)</td></tr>
-              <tr><td>Your Website — Initial HTML vs JavaScript</td><td>Technical implications for website teams (§11)</td></tr>
+              <tr><td>AI Agents — assistants, search, overviews, autonomous</td><td>Agent types and the Agent Type filter (§3, §15)</td></tr>
+              <tr><td>1 · Search Index</td><td>Search retrieval (§4) — index-first, often no live origin hit</td></tr>
+              <tr><td>2 · Direct Page Fetch</td><td>Chatbot and action-agent browsing (§6) — the live, in-session path</td></tr>
+              <tr><td>3 · AI Crawler</td><td>Direct crawling (§5) — scheduled, indexes for later</td></tr>
+              <tr><td>4 · External Search / Data Source</td><td>Third-party indexes (§9)</td></tr>
+              <tr><td>Retrieve · Combine · Generate · Cite</td><td>Retrieval-augmented generation (§10) — which also draws on cached pages (§7) and ingestion pipelines (§8)</td></tr>
+              <tr><td>Your Website — Initial HTML vs JavaScript</td><td>Technical implications for website teams (§12)</td></tr>
             </tbody>
           </table>
         </div>
@@ -420,8 +411,6 @@
           <div class="step"><span class="dot"></span><span>Citation, mention, referral — or no click</span></div>
         </div>
       </section>
-
-      <!-- 02 -->
       <section class="section" id="s02" data-title="A taxonomy of access" data-num="02">
         <div class="section__eyebrow"><span class="n">02</span> Taxonomy</div>
         <h2>A better taxonomy of AI website access</h2>
@@ -537,10 +526,30 @@
           <p class="card__cap">A single answer can touch several mechanisms in sequence: a crawler or feed supplies an index, a retriever selects passages, and a live agent fetch — a chatbot reading to answer, or an action agent operating to complete a task — hits the page directly.</p>
         </div>
       </section>
-
-      <!-- 03 -->
-      <section class="section" id="s03" data-title="Search retrieval" data-num="03">
-        <div class="section__eyebrow"><span class="n">03</span> Acquisition</div>
+      <section class="section" id="s03" data-title="Agent types" data-num="03">
+        <div class="section__eyebrow"><span class="n">03</span> Classification</div>
+        <h2>Agent types</h2>
+        <p class="lead">Not every automated client is the same. Adobe LLM Optimizer classifies observed agents by <strong>intent</strong>, so agentic traffic reads as distinct streams rather than one undifferentiated number.</p>
+        <p>This classification is orthogonal to the mechanisms in the previous section — a single agent may use several mechanisms, and a single mechanism may be exercised by several agent types. The current classification has eight values:</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Agent type</th><th>What it does</th><th>Example agents</th></tr></thead>
+            <tbody>
+              <tr><td>Training bots</td><td>Gather data for long-term model training.</td><td><code>GPTBot</code>, <code>ClaudeBot</code></td></tr>
+              <tr><td>Web search crawlers</td><td>Index site content to power search and LLM search.</td><td><code>OAI-SearchBot</code>, <code>Claude-SearchBot</code>, <code>PerplexityBot</code>, <code>Googlebot</code></td></tr>
+              <tr><td>Chatbots</td><td>Retrieve content on demand to produce an instant answer or citation.</td><td><code>ChatGPT-User</code>, <code>Claude-User</code>, <code>Perplexity-User</code>, Google AI Mode</td></tr>
+              <tr><td>Research</td><td>Run structured, multi-step investigation and synthesise findings.</td><td><code>Gemini-Deep-Research</code>, <code>Google-NotebookLM</code></td></tr>
+              <tr><td>Media fetchers</td><td>Retrieve media assets such as favicons and images.</td><td>ChatGPT Atlas, desktop &amp; mobile app clients</td></tr>
+              <tr><td>Action agents</td><td>Perform explicit, goal-driven actions in external systems to complete a task.</td><td><code>GoogleAgent-Chrome</code>, <code>GoogleAgent-Mariner</code>, <code>Google-Agent</code></td></tr>
+              <tr><td>Shopping agents</td><td>Complete shopping and purchase tasks on a user's behalf.</td><td><code>GoogleAgent-Shopping</code></td></tr>
+              <tr><td>Ads bots</td><td>Validate the safety of pages submitted as ads.</td><td><code>OAI-AdsBot</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>The two live, in-session types — chatbot and action agent — are drawn apart in Agentic browsing (§6), and the full user-agent registry behind every type sits in the Agent Type filter (§15).</p>
+      </section>
+      <section class="section" id="s04" data-title="Search retrieval" data-num="04">
+        <div class="section__eyebrow"><span class="n">04</span> Acquisition</div>
         <h2>Search retrieval</h2>
         <p>Search retrieval is when an AI system obtains candidate pages from a search index or search service. The index may be owned by the provider, licensed from a search partner, built by a third party, or a hybrid of several. The system does not download the web for every question — it submits a query and receives candidate documents, URLs, snippets, metadata or passages.</p>
 
@@ -575,63 +584,10 @@ User prompt → Search index → Retrieved representation → AI answer</pre>
         <h3>Failure modes</h3>
         <p>Search-retrieval failures usually trace back to the <strong>index representation</strong>, not the live page: the page is not indexed; it is indexed under an obsolete canonical URL; its key information is absent from the indexed copy; it is too slow or unreliable to crawl; it is blocked by robots, WAF or authentication; the index holds an older version; a duplicate or alternate-language URL wins; the relevant content exists only after JavaScript; or a third-party page is ranked above the first-party source. Begin the investigation with the index, not only the browser.</p>
       </section>
-
-      <!-- 04 -->
-      <section class="section" id="s04" data-title="Direct crawling" data-num="04">
-        <div class="section__eyebrow"><span class="n">04</span> Acquisition</div>
+      <section class="section" id="s05" data-title="Direct crawling" data-num="05">
+        <div class="section__eyebrow"><span class="n">05</span> Acquisition</div>
         <h2>Direct crawling</h2>
         <p>Direct crawling is the systematic fetching of pages by an automated client. The crawler requests a URL, reads the response, extracts links and metadata, stores or forwards the result, and repeats on its own schedule. It is generally <strong>provider-driven</strong> rather than triggered by a specific question.</p>
-
-        <h3>"AI crawler" is too broad</h3>
-        <p>Treating every automated client as one thing leads to wrong conclusions. Adobe LLM Optimizer classifies observed agents by <strong>intent</strong>, so agentic traffic can be read as distinct streams rather than a single number. The current classification has eight types:</p>
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Agent type</th><th>What it does</th><th>Example agents</th></tr></thead>
-            <tbody>
-              <tr><td>Training bots</td><td>Gather data for long-term model training.</td><td><code>GPTBot</code>, <code>ClaudeBot</code></td></tr>
-              <tr><td>Web search crawlers</td><td>Index site content to power search and LLM search.</td><td><code>OAI-SearchBot</code>, <code>Claude-SearchBot</code>, <code>PerplexityBot</code>, <code>Googlebot</code></td></tr>
-              <tr><td>Chatbots</td><td>Retrieve content on demand to produce an instant answer or citation.</td><td><code>ChatGPT-User</code>, <code>Claude-User</code>, <code>Perplexity-User</code>, Google AI Mode</td></tr>
-              <tr><td>Research</td><td>Run structured, multi-step investigation and synthesise findings.</td><td><code>Gemini-Deep-Research</code>, <code>Google-NotebookLM</code></td></tr>
-              <tr><td>Media fetchers</td><td>Retrieve media assets such as favicons and images.</td><td>ChatGPT Atlas, desktop &amp; mobile app clients</td></tr>
-              <tr><td>Action agents</td><td>Perform explicit, goal-driven actions in external systems to complete a task.</td><td><code>GoogleAgent-Chrome</code>, <code>GoogleAgent-Mariner</code>, <code>Google-Agent</code></td></tr>
-              <tr><td>Shopping agents</td><td>Complete shopping and purchase tasks on a user's behalf.</td><td><code>GoogleAgent-Shopping</code></td></tr>
-              <tr><td>Ads bots</td><td>Validate the safety of pages submitted as ads.</td><td><code>OAI-AdsBot</code></td></tr>
-            </tbody>
-          </table>
-        </div>
-
-        <h3>Chatbot vs action agent — the distinction that gets conflated</h3>
-        <p>These two are the pair most often confused, because both are live and user-triggered and both can drive a real browser — at the fetch layer they look alike. The difference is <strong>purpose, not mechanism</strong>: a chatbot reads your page to <em>answer</em>; an action agent operates your page to <em>complete a task</em>.</p>
-        <div class="card card--compare">
-          <div class="compare">
-            <div class="compare__col">
-              <div class="compare__head compare__head--a">Chatbot</div>
-              <dl>
-                <dt>Purpose</dt><dd>Retrieve content to produce an answer or citation.</dd>
-                <dt>End state</dt><dd>A response in the conversation.</dd>
-                <dt>Your page is</dt><dd>A <strong>source</strong> to read.</dd>
-                <dt>Triggered when</dt><dd>A user shares a URL, or a query needs fresh or specific detail the model won't answer from memory — a live, in-session fetch.</dd>
-                <dt>Example agents</dt><dd><code>ChatGPT-User</code>, <code>Claude-User</code>, <code>Perplexity-User</code>, Google AI Mode</dd>
-                <dt>Optimisation lever</dt><dd>Extractability — server-rendered content, clean self-contained passages, structured data.</dd>
-              </dl>
-            </div>
-            <div class="compare__col">
-              <div class="compare__head compare__head--b">Action agent</div>
-              <dl>
-                <dt>Purpose</dt><dd>Perform goal-driven actions to complete a defined task.</dd>
-                <dt>End state</dt><dd>A change in an external system — a form submitted, a booking made, a cart filled.</dd>
-                <dt>Your page is</dt><dd>An <strong>interface</strong> to operate.</dd>
-                <dt>Triggered when</dt><dd>A user asks an agent to complete a task that routes through your site — book, buy, fill, submit — often in a multi-step session.</dd>
-                <dt>Example agents</dt><dd><code>GoogleAgent-Chrome</code>, <code>GoogleAgent-Mariner</code>, <code>Google-Agent</code></dd>
-                <dt>Optimisation lever</dt><dd>Agent-navigable flows — real anchors, server-rendered forms, stable structure, a safe automation posture.</dd>
-              </dl>
-            </div>
-          </div>
-        </div>
-        <div class="note">
-          <div class="note__label">Two traps</div>
-          <p><strong>Rendering is not the tell.</strong> Both categories may execute JavaScript and render the page; intent is what separates them, not whether the DOM was built. <strong>"Agent" in a name is not the tell either.</strong> Google AI Mode and <code>GoogleAgent-URLContext</code> are classified as <em>chatbots</em> — their job is to ground an answer — despite "Agent" in the string. Only the operator-class agents (browser-operating, computer-use) count as action agents.</p>
-        </div>
 
         <h3>Training crawling is not live retrieval</h3>
         <p>A training crawler may fetch a page today while a model update happens much later. The origin need not be contacted when the answer is produced.</p>
@@ -677,14 +633,43 @@ Allowing a user-triggered fetch  ≠  placing the page in the search index</pre>
           <p>Essential information should be available in the initial HTML or server-rendered output, even when JavaScript enhancement is used.</p>
         </div>
       </section>
-
-      <!-- 05 -->
-      <section class="section" id="s05" data-title="Agentic browsing" data-num="05">
-        <div class="section__eyebrow"><span class="n">05</span> Acquisition</div>
+      <section class="section" id="s06" data-title="Agentic browsing" data-num="06">
+        <div class="section__eyebrow"><span class="n">06</span> Acquisition</div>
         <h2>Agentic browsing</h2>
         <p>Agentic browsing is when an AI agent visits pages dynamically <em>while</em> responding to a request. Unlike a scheduled crawler, the agent may start from a user-provided URL, search, follow links, read several pages, compare information, navigate pagination, inspect forms, use a browser session and perform a sequence of actions before returning a result.</p>
         <p>Adobe Brand Visibility treats this as <strong>agentic traffic</strong>: direct requests made by LLM bots or agents when they crawl or fetch pages to produce AI results — distinct from <strong>referral traffic</strong>, where a human clicks a link in an AI answer.</p>
-        <p>Agentic browsing spans two of the agent types from the previous section, and they behave differently on the page. A <strong>chatbot</strong> browses to <em>read and answer</em> — it fetches the URLs it needs, extracts what it wants and returns to the conversation. An <strong>action agent</strong> browses to <em>operate</em> — it navigates flows, fills forms and completes a task, leaving a change in an external system. The same URL can be visited by both, for entirely different reasons.</p>
+        <h3>Chatbot vs action agent — the distinction that gets conflated</h3>
+        <p>These two are the pair most often confused, because both are live and user-triggered and both can drive a real browser — at the fetch layer they look alike. The difference is <strong>purpose, not mechanism</strong>: a chatbot reads your page to <em>answer</em>; an action agent operates your page to <em>complete a task</em>.</p>
+        <div class="card card--compare">
+          <div class="compare">
+            <div class="compare__col">
+              <div class="compare__head compare__head--a">Chatbot</div>
+              <dl>
+                <dt>Purpose</dt><dd>Retrieve content to produce an answer or citation.</dd>
+                <dt>End state</dt><dd>A response in the conversation.</dd>
+                <dt>Your page is</dt><dd>A <strong>source</strong> to read.</dd>
+                <dt>Triggered when</dt><dd>A user shares a URL, or a query needs fresh or specific detail the model won't answer from memory — a live, in-session fetch.</dd>
+                <dt>Example agents</dt><dd><code>ChatGPT-User</code>, <code>Claude-User</code>, <code>Perplexity-User</code>, Google AI Mode</dd>
+                <dt>Optimisation lever</dt><dd>Extractability — server-rendered content, clean self-contained passages, structured data.</dd>
+              </dl>
+            </div>
+            <div class="compare__col">
+              <div class="compare__head compare__head--b">Action agent</div>
+              <dl>
+                <dt>Purpose</dt><dd>Perform goal-driven actions to complete a defined task.</dd>
+                <dt>End state</dt><dd>A change in an external system — a form submitted, a booking made, a cart filled.</dd>
+                <dt>Your page is</dt><dd>An <strong>interface</strong> to operate.</dd>
+                <dt>Triggered when</dt><dd>A user asks an agent to complete a task that routes through your site — book, buy, fill, submit — often in a multi-step session.</dd>
+                <dt>Example agents</dt><dd><code>GoogleAgent-Chrome</code>, <code>GoogleAgent-Mariner</code>, <code>Google-Agent</code></dd>
+                <dt>Optimisation lever</dt><dd>Agent-navigable flows — real anchors, server-rendered forms, stable structure, a safe automation posture.</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+        <div class="note">
+          <div class="note__label">Two traps</div>
+          <p><strong>Rendering is not the tell.</strong> Both categories may execute JavaScript and render the page; intent is what separates them, not whether the DOM was built. <strong>"Agent" in a name is not the tell either.</strong> Google AI Mode and <code>GoogleAgent-URLContext</code> are classified as <em>chatbots</em> — their job is to ground an answer — despite "Agent" in the string. Only the operator-class agents (browser-operating, computer-use) count as action agents.</p>
+        </div>
 
         <h3>Usually request-specific</h3>
         <p>Agentic browsing is typically triggered by a task, narrower than a broad crawl, more immediate than scheduled indexing, short-lived, potentially multi-page and potentially stateful.</p>
@@ -722,10 +707,8 @@ Agent:         Initial HTML → parse → no interaction → incomplete informat
           <p>Agentic traffic (<em>agent → website</em>) is not referral traffic (<em>human → website after an AI answer</em>). A human may never visit even though an agent read the page and used it. Analytics tags generally measure the human click-through, so agentic traffic is observed through server-side, CDN or WAF logs — not browser analytics.</p>
         </div>
       </section>
-
-      <!-- 06 -->
-      <section class="section" id="s06" data-title="Cached pages" data-num="06">
-        <div class="section__eyebrow"><span class="n">06</span> Distribution</div>
+      <section class="section" id="s07" data-title="Cached pages" data-num="07">
+        <div class="section__eyebrow"><span class="n">07</span> Distribution</div>
         <h2>Cached pages</h2>
         <p>A cached page is a previously fetched or processed representation that can be served without contacting the origin at the time of use. Caching exists at many layers: browser, CDN/edge, reverse proxy, search-engine cache, provider page cache, search-index snapshot, vector-index document store, and retrieval-context cache. These are not identical.</p>
 
@@ -757,10 +740,8 @@ Cache-Control: public, max-age=300</pre>
           <p>For Gemini specifically, much answer activity can be served from Google's general index or Googlebot cache rather than a live Gemini-agent fetch. In that case the site may receive no live Gemini request, activity may attribute to Googlebot, and live agentic-traffic metrics can under-represent total AI influence. Read Gemini agentic traffic as <em>observed live-fetch activity</em>, not as the whole picture — a measurement distinction, not a claim about every answer.</p>
         </div>
       </section>
-
-      <!-- 07 -->
-      <section class="section" id="s07" data-title="Ingestion pipelines" data-num="07">
-        <div class="section__eyebrow"><span class="n">07</span> Processing</div>
+      <section class="section" id="s08" data-title="Ingestion pipelines" data-num="08">
+        <div class="section__eyebrow"><span class="n">08</span> Processing</div>
         <h2>Ingestion pipelines</h2>
         <p>An ingestion pipeline is a batch or streaming process that turns pages or other sources into a form an AI system can search or retrieve. Inputs may come from crawling, sitemaps, RSS/Atom feeds, APIs, structured data feeds, uploads, enterprise connectors, cloud storage, partner feeds, search APIs, third-party indexes, common web datasets or private documentation. It is not a download — it transforms.</p>
         <pre>Fetch/receive → parse → remove boilerplate → extract text → detect language
@@ -773,15 +754,18 @@ Cache-Control: public, max-age=300</pre>
         <p>A site can enter an AI system through a direct data connection — CMS to API or feed to an enterprise vector index — with no crawler request to the public site at all. This is common in enterprise search, internal knowledge assistants, support and documentation assistants, product catalogues and private RAG.</p>
         <p>The requirements then shift to feed reliability, API authentication, document IDs, source URLs, access-control metadata, versioning, deletion propagation, chunk quality, citation metadata and refresh frequency.</p>
 
+        <div class="note note--info">
+          <div class="note__label">No agent type of its own</div>
+          <p>Ingestion is a processing stage, not a live agent, so nothing in the Agent Type filter (§15) maps to it — observe it through feed, API, connector and batch-job logs plus index presence, not agentic traffic. When a pipeline does pull from the open web, the request you see is an existing crawler — a training bot or a web search crawler (§3) — doing the fetch, with the ingestion work happening server-side afterwards.</p>
+        </div>
+
         <div class="note">
           <div class="note__label">"Public" is not "usable"</div>
           <p>A page can be perfectly accessible and still fail ingestion — the parser extracts navigation, the main content needs JavaScript, a challenge/CAPTCHA is returned, the canonical is wrong, the source URL is not stored with the text, headings are stripped, tables become unreadable, chunk boundaries are poor, duplicates flood the index, deleted content lingers, or a feed fails silently.</p>
         </div>
       </section>
-
-      <!-- 08 -->
-      <section class="section" id="s08" data-title="Third-party indexes" data-num="08">
-        <div class="section__eyebrow"><span class="n">08</span> Distribution</div>
+      <section class="section" id="s09" data-title="Third-party indexes" data-num="09">
+        <div class="section__eyebrow"><span class="n">09</span> Distribution</div>
         <h2>Third-party indexes</h2>
         <p>A third-party index is a searchable store maintained by another organisation and used by an AI system as an external source — a general or specialised search engine, an industry database, a commerce index, a review platform, an open-web dataset, a documentation index or a data aggregator. The provider queries that index rather than crawling your site directly, so at answer time your site may receive no request.</p>
         <pre>Website → Third-party crawler → Third-party index
@@ -796,10 +780,8 @@ AI system → Third-party search API → Retrieved result</pre>
         <pre>Origin V4 → CDN V4 → Search index A V3 → Third-party index B V2 → Answer context V2</pre>
         <p>And if an answer cites a third-party page that describes or links to your brand — a review, comparison, marketplace listing or directory — you may see no direct request, no human click, yet still be influenced and cited via someone else's source. This is why visibility measurement must separate first-party source visibility, third-party source visibility, brand mentions, direct agentic access and human referrals.</p>
       </section>
-
-      <!-- 09 -->
-      <section class="section" id="s09" data-title="Retrieval-augmented generation" data-num="09">
-        <div class="section__eyebrow"><span class="n">09</span> Orchestration</div>
+      <section class="section" id="s10" data-title="Retrieval-augmented generation" data-num="10">
+        <div class="section__eyebrow"><span class="n">10</span> Orchestration</div>
         <h2>Retrieval-augmented generation</h2>
         <p>RAG is an architecture in which the model receives externally retrieved information as context before it generates. It does not specify <em>where</em> the information comes from — a search index, a vector database, a third-party API, a live page, a cache, a private repository, a structured catalogue, or a combination.</p>
         <pre>Without retrieval:  User prompt → Model knowledge → Answer
@@ -832,10 +814,8 @@ With retrieval:     User prompt → Retriever → Passages → Context → LLM �
         </div>
         <p>It proves the system associated the answer with a source representation — not that your origin was contacted at that moment.</p>
       </section>
-
-      <!-- 10 -->
-      <section class="section" id="s10" data-title="Mechanisms combined" data-num="10">
-        <div class="section__eyebrow"><span class="n">10</span> In practice</div>
+      <section class="section" id="s11" data-title="Mechanisms combined" data-num="11">
+        <div class="section__eyebrow"><span class="n">11</span> In practice</div>
         <h2>How the mechanisms combine</h2>
         <p>Real workflows chain these mechanisms differently, and each pattern implies a different technical priority.</p>
 
@@ -857,10 +837,8 @@ With retrieval:     User prompt → Retriever → Passages → Context → LLM �
         <h4>Enterprise RAG</h4>
         <p>CMS/docs/APIs/files → authorised ingestion → chunking &amp; vector indexing → query → permission-aware retrieval → answer. <strong>Impact:</strong> public crawlability may be irrelevant; feed/API availability, access-control metadata, deletion/version propagation and preserved source URLs are what count.</p>
       </section>
-
-      <!-- 11 -->
-      <section class="section" id="s11" data-title="Technical implications" data-num="11">
-        <div class="section__eyebrow"><span class="n">11</span> Playbook</div>
+      <section class="section" id="s12" data-title="Technical implications" data-num="12">
+        <div class="section__eyebrow"><span class="n">12</span> Playbook</div>
         <h2>Technical implications for website teams</h2>
 
         <h3>Make the initial response useful</h3>
@@ -891,10 +869,8 @@ With retrieval:     User prompt → Retriever → Passages → Context → LLM �
         <h3>Monitor server-side behaviour</h3>
         <p>Browser analytics are insufficient for agent visibility. Use CDN, WAF, origin and reverse-proxy logs alongside Search Console, synthetic requests, user-agent classification, and status-code, response-time and cache dashboards. Adobe LLM Optimizer surfaces operational signals including agent interactions, success rate, average TTFB, agent type, unique agents and top agent.</p>
       </section>
-
-      <!-- 12 -->
-      <section class="section" id="s12" data-title="What to measure" data-num="12">
-        <div class="section__eyebrow"><span class="n">12</span> Measurement</div>
+      <section class="section" id="s13" data-title="What to measure" data-num="13">
+        <div class="section__eyebrow"><span class="n">13</span> Measurement</div>
         <h2>What to measure for each mechanism</h2>
         <p>Each mechanism has a best evidence of access, a best evidence of processing, and a characteristic blind spot. Do not use one as a proxy for another.</p>
         <div class="table-wrap">
@@ -912,10 +888,8 @@ With retrieval:     User prompt → Retriever → Passages → Context → LLM �
           </table>
         </div>
       </section>
-
-      <!-- 13 -->
-      <section class="section" id="s13" data-title="Adobe Brand Visibility" data-num="13">
-        <div class="section__eyebrow"><span class="n">13</span> Adobe Brand Visibility</div>
+      <section class="section" id="s14" data-title="Adobe Brand Visibility" data-num="14">
+        <div class="section__eyebrow"><span class="n">14</span> Adobe Brand Visibility</div>
         <h2>Reading the mechanisms in Adobe Brand Visibility</h2>
         <p>Within Adobe Brand Visibility, these mechanisms map onto separate but related signals. Reading them as one number is the most common analytical error.</p>
 
@@ -941,10 +915,8 @@ With retrieval:     User prompt → Retriever → Passages → Context → LLM �
           <p>Different platforms combine search indexes, live fetches, caches, third-party data and provider-specific agents differently. Gemini agentic traffic in particular should be read as observed live-fetch activity, while much of the underlying answer generation can lean on Google's broader index or cache. Compare platforms on like-for-like signals, not on a single "AI traffic" total.</p>
         </div>
       </section>
-
-      <!-- 14 -->
-      <section class="section" id="s14" data-title="Agent Type filter" data-num="14">
-        <div class="section__eyebrow"><span class="n">14</span> Reference</div>
+      <section class="section" id="s15" data-title="Agent Type filter" data-num="15">
+        <div class="section__eyebrow"><span class="n">15</span> Reference</div>
         <h2>The Agent Type filter, in full</h2>
         <p class="lead">In the Agentic Traffic dashboard, the Agent Type filter slices requests by <em>intent</em>. It currently exposes eight values — and the set grows as providers ship new agents.</p>
         <p>This is the complete reference: every value the filter can take, what it captures, how to read it in Adobe Brand Visibility, and the specific user agents that roll up into each.</p>
@@ -972,7 +944,7 @@ With retrieval:     User prompt → Retriever → Passages → Context → LLM �
 
         <div class="note note--field">
           <div class="note__label">Reading the Chatbots value</div>
-          <p>Chatbot hits are <strong>live, in-session fetches</strong> fired at answer time — most often when a user supplies a URL or the query needs fresh detail (§5 covers the full trigger list). Two things to expect when you filter on this value. Volume is uneven by platform: Perplexity fetches near-constantly, ChatGPT and Claude more selectively, and Google AI Mode leans on Google's index so much of its grounding never appears here as a live hit. And a flat or low count does <strong>not</strong> mean you are not being used — index- or cache-served answers cite you with no chatbot request at all, so always read this value alongside Source Visibility rather than on its own.</p>
+          <p>Chatbot hits are <strong>live, in-session fetches</strong> fired at answer time — most often when a user supplies a URL or the query needs fresh detail (§6 covers the full trigger list). Two things to expect when you filter on this value. Volume is uneven by platform: Perplexity fetches near-constantly, ChatGPT and Claude more selectively, and Google AI Mode leans on Google's index so much of its grounding never appears here as a live hit. And a flat or low count does <strong>not</strong> mean you are not being used — index- or cache-served answers cite you with no chatbot request at all, so always read this value alongside Source Visibility rather than on its own.</p>
         </div>
 
         <h3>Full agent registry</h3>
@@ -1029,10 +1001,8 @@ With retrieval:     User prompt → Retriever → Passages → Context → LLM �
           <p>Two reminders when you slice by this filter. First, the value reflects <strong>intent, not vendor</strong> — one provider spans several values (Google alone appears under six). Second, "Agent" in a user-agent string does not mean <em>Action agent</em>: <code>Google-ai-mode</code> and <code>GoogleAgent-URLContext</code> sit under <strong>Chatbots</strong> because their job is to ground an answer. Filter by the value, not by the name.</p>
         </div>
       </section>
-
-      <!-- 15 -->
-      <section class="section" id="s15" data-title="Diagnostic sequence" data-num="15">
-        <div class="section__eyebrow"><span class="n">15</span> Diagnostics</div>
+      <section class="section" id="s16" data-title="Diagnostic sequence" data-num="16">
+        <div class="section__eyebrow"><span class="n">16</span> Diagnostics</div>
         <h2>A technical diagnostic sequence</h2>
         <p>When a page has low AI visibility, investigate in this order — from public access outward to the signals that separate the mechanisms.</p>
 

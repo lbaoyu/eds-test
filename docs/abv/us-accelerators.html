@@ -205,9 +205,6 @@
 
   /* ---- accelerator meta chips + extra columns ---- */
   .meta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-bottom: 14px; }
-  .chip-pri { font-size: 10.5px; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; padding: 4px 10px; border-radius: 6px; }
-  .chip-pri.must { background: var(--adobe-red); color: #fff; }
-  .chip-pri.high { background: var(--red-tint); color: var(--adobe-red-dark); border: 1px solid var(--red-tint-2); }
   .chip-stage { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gray); }
   .chip-stage b { color: var(--charcoal); }
   .chip-pair { font-size: 10.5px; font-weight: 700; letter-spacing: .04em; color: var(--gray); padding: 3px 9px; border: 1px dashed var(--red-tint-2); border-radius: 100px; background: var(--red-tint); }
@@ -236,11 +233,8 @@
   thead th { background: var(--charcoal); color: #fff; text-align: left; font-size: 12px; letter-spacing: .05em; text-transform: uppercase; font-weight: 700; padding: 15px 18px; }
   tbody td { padding: 16px 18px; border-top: 1px solid var(--line-soft); font-size: 14.5px; color: var(--slate); vertical-align: top; }
   tbody tr:nth-child(even) td { background: var(--bg-soft); }
-  tbody td:first-child { font-weight: 700; color: var(--ink); }
+  tbody td:first-child { font-weight: 700; color: var(--ink); white-space: nowrap; }
   td .tnum { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 6px; background: var(--red-tint); color: var(--adobe-red); font-weight: 800; font-size: 12px; margin-right: 10px; vertical-align: middle; }
-  .t-pri { font-weight: 800; font-size: 12.5px; letter-spacing: .03em; }
-  .t-pri.must { color: var(--adobe-red); }
-  .t-pri.high { color: var(--slate); }
 
   /* ================= WHY ================= */
   .why-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 18px; margin-top: 8px; }
@@ -292,9 +286,65 @@
     .cols3 { grid-template-columns: 1fr; gap: 22px; }
   }
 
+
+  /* ================= SUB-VERSIONS (Use Case Mapping) ================= */
+  .subintro { font-size: 14.5px; color: var(--slate); margin: 2px 0 20px; }
+  .subintro b { color: var(--ink); font-weight: 700; }
+  .subver { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 4px; }
+  .subver-card { background: var(--bg-soft); border: 1px solid var(--line); border-top-width: 3px; border-radius: 14px; padding: 22px 22px 20px; }
+  .subver-card.a { border-top-color: #5f5f5f; }
+  .subver-card.b { border-top-color: var(--adobe-red); }
+  .subver-tag { display: inline-block; font-size: 10.5px; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; color: var(--gray); margin-bottom: 7px; }
+  .subver-card.b .subver-tag { color: var(--adobe-red-dark); }
+  .subver-title { font-size: 18px; font-weight: 800; letter-spacing: -.015em; margin: 0 0 2px; color: var(--ink); }
+  .subver-sub { font-size: 12.5px; color: var(--gray); font-weight: 600; margin: 0 0 4px; }
+  .mini h5 { font-size: 11px; text-transform: uppercase; letter-spacing: .11em; color: var(--adobe-red); margin: 16px 0 9px; font-weight: 800; }
+  .mini ul { list-style: none; padding: 0; margin: 0; }
+  .mini li { position: relative; padding-left: 20px; margin-bottom: 7px; color: var(--slate); font-size: 13.5px; line-height: 1.45; }
+  .mini li:last-child { margin-bottom: 0; }
+  .mini.covers li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 6px; height: 6px; border-radius: 50%; background: var(--adobe-red); }
+  .mini.deliv li { padding-left: 22px; }
+  .mini.deliv li::before {
+    content: ""; position: absolute; left: 0; top: 2px; width: 14px; height: 14px; border-radius: 5px; background: var(--adobe-red);
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") center/11px no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E") center/11px no-repeat;
+  }
+
+  /* ---- scope guardrail ---- */
+  .guard { margin-top: 20px; display: flex; gap: 11px; align-items: flex-start; padding: 12px 15px; border: 1px dashed var(--red-tint-2); background: var(--red-tint); border-radius: 10px; font-size: 13px; color: var(--slate); line-height: 1.55; }
+  .guard b { color: var(--adobe-red-dark); font-weight: 800; text-transform: uppercase; letter-spacing: .05em; font-size: 10.5px; white-space: nowrap; padding-top: 2px; }
+
+  /* ---- 'also available' note ---- */
+
+  .tnum.wide { width: auto; padding: 0 6px; }
+
+  /* ---- dual-engine loop node (Measure) ---- */
+  .loop-node.both { position: relative; border-top-color: transparent; }
+  .loop-node.both::before { content: ""; position: absolute; left: -1px; right: -1px; top: -3px; height: 3px; border-top-left-radius: 12px; border-top-right-radius: 12px; background: linear-gradient(90deg, var(--adobe-red) 0 50%, #9a9a9a 50% 100%); }
+  .loop-node.both .loop-node-tag { color: #d6d6d6; }
+
+  /* ---- AI-assistance disclaimer banner (pattern from trial docs) ---- */
+  .topbar { height: 4px; background: var(--adobe-red); width: 100%; }
+  .ai-note { background: var(--bg-soft); border-bottom: 1px solid var(--line); }
+  .ai-note-inner { max-width: var(--maxw); margin: 0 auto; padding: 9px 24px; display: flex; align-items: center; gap: 9px; font-size: 12.5px; line-height: 1.45; color: var(--gray); }
+  .ai-note svg { flex: none; }
+  .ai-note b { color: var(--slate); font-weight: 700; }
+  @media (max-width: 640px) { .ai-note-inner { padding: 9px 20px; } }
+
+  @media (max-width: 640px) { .subver { grid-template-columns: 1fr; } }
+
 </style>
 </head>
 <body>
+
+  <div class="topbar"></div>
+
+  <!-- AI DISCLAIMER -->
+  <div class="ai-note" role="note">
+    <div class="ai-note-inner">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#787878" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      <span><b>Prepared with AI assistance.</b> Please review for accuracy before use &mdash; this document may contain errors.</span>
+    </div>
+  </div>
 
   <header class="hero">
     <div class="hero-inner">
@@ -308,13 +358,12 @@
       <div class="hero-body">
         <span class="eyebrow">Ultimate Success</span>
         <h1>Brand Visibility Success Accelerator Portfolio</h1>
-        <p class="lead">For <strong>Adobe Brand Visibility</strong> customers on <strong>Ultimate Success</strong>: five focused Success Accelerators mapped to the <strong>AI visibility closed loop</strong>. Three must-haves run the loop end to end &mdash; plus a governance ring and recurring sprints that keep it turning.</p>
+        <p class="lead">For <strong>Adobe Brand Visibility</strong> customers on <strong>Ultimate Success</strong>: four Success Accelerators from the <strong>Ultimate Success catalogue</strong>, scoped for ABV. The foundational accelerator ships in <strong>two engine-oriented versions</strong> &mdash; Semrush AIO and Adobe LLM Optimizer &mdash; because ABV is one unified product powered by both.</p>
         <ul class="steps">
-          <li><span class="num">1</span> Baseline &amp; Prompts</li>
-          <li><span class="num">2</span> Technical &amp; Edge</li>
-          <li><span class="num">3</span> Content &amp; Measure</li>
-          <li><span class="num">4</span> Governance</li>
-          <li><span class="num">5</span> Sprints</li>
+          <li><span class="num">1</span> Use Case Mapping</li>
+          <li><span class="num">2</span> Value Measurement</li>
+          <li><span class="num">3</span> Operating Model</li>
+          <li><span class="num">4</span> Workflow &amp; Governance</li>
         </ul>
       </div>
     </div>
@@ -326,7 +375,7 @@
       <span class="nav-title">Brand Visibility Accelerators</span>
       <div class="nav-links">
         <a href="#recommendation">Recommendation</a>
-        <a href="#accelerators">Accelerators</a>
+        <a href="#accelerators">The four</a>
         <a href="#glance">At a glance</a>
         <a href="#why">Why it works</a>
         <a href="#messaging">Messaging</a>
@@ -339,14 +388,15 @@
     <!-- RECOMMENDATION -->
     <section id="recommendation" class="wrap">
       <p class="sec-eyebrow">The recommendation</p>
-      <h2>Five accelerators, mapped to the closed loop</h2>
+      <h2>Four accelerators for Brand Visibility</h2>
       <div class="thesis">
-        <p>Rather than a flat menu, the portfolio is <strong>five focused accelerators</strong> mapped to the AI visibility closed loop &mdash; <strong>Discover, Prioritise, Optimise, Deploy, Measure</strong>. Three must-haves run the loop end to end; two high-priority accelerators keep it turning for enterprise and live customers.</p>
-        <p>The loop mirrors the product story: <strong>Semrush AIO</strong> powers discovery and prioritisation, and <strong>Adobe LLM Optimizer</strong> optimises, deploys, and measures &mdash; then measurement re-seeds the next cycle.</p>
+        <p>The portfolio is <strong>four Ultimate Success accelerators</strong>, scoped for Brand Visibility &mdash; <strong>Use Case Mapping to Solution Capability</strong>, <strong>Value Measurement Framework</strong>, <strong>Operating Model &amp; Change Management</strong>, and <strong>Tool Workflow &amp; Governance Optimization</strong> &mdash; names customers and delivery teams already work with.</p>
+        <p>Because ABV is <strong>one unified product</strong> with capabilities powered by both the <strong>Semrush platform</strong> and <strong>Adobe LLM Optimizer</strong>, the foundational accelerator &mdash; Use Case Mapping &mdash; ships in <strong>two engine-oriented versions</strong>: one that maps goals to the Semrush-powered visibility and prompt capabilities, and one that maps them to the Adobe LLM Optimizer optimisation and technical capabilities.</p>
+        <p>ABV has <strong>no go-live event</strong> &mdash; provisioning and any one-time technical setup (CDN log forwarding, edge routing) are handled during onboarding, not as a launch milestone. The accelerators pick up <strong>after onboarding</strong>, with <strong>Tool Workflow &amp; Governance Optimization</strong> providing the repeatable operating rhythm that keeps optimisation moving.</p>
       </div>
 
       <div class="loop-panel">
-        <span class="loop-panel-label">The AI visibility closed loop</span>
+        <span class="loop-panel-label">The product capability flow the accelerators sit on</span>
         <div class="loop-track">
           <div class="loop-node semrush">
             <span class="loop-node-num">01</span>
@@ -369,13 +419,13 @@
           <div class="loop-node llmo">
             <span class="loop-node-num">04</span>
             <span class="loop-node-title">Deploy</span>
-            <span class="loop-node-tag">LLM Optimizer</span>
+            <span class="loop-node-tag">Optimize at Edge</span>
           </div>
           <span class="loop-arrow" aria-hidden="true">&rarr;</span>
-          <div class="loop-node llmo">
+          <div class="loop-node both">
             <span class="loop-node-num">05</span>
             <span class="loop-node-title">Measure</span>
-            <span class="loop-node-tag">LLM Optimizer</span>
+            <span class="loop-node-tag">LLM Optimizer + Semrush AIO</span>
           </div>
         </div>
         <div class="loop-return">
@@ -383,13 +433,14 @@
           <span class="loop-return-label">Measure re-seeds Discover &mdash; the loop repeats</span>
         </div>
         <div class="loop-legend">
-          <span><b>Semrush AIO</b> &mdash; discovery &amp; intelligence</span>
-          <span><b>Adobe LLM Optimizer</b> &mdash; optimise, deploy &amp; measure</span>
+          <span><b>Semrush platform</b> &mdash; discovery, prompts &amp; visibility signals</span>
+          <span><b>Adobe LLM Optimizer</b> &mdash; optimise &amp; deploy at edge</span>
+          <span><b>Measure</b> draws on both &mdash; one unified product, Adobe Brand Visibility</span>
         </div>
       </div>
 
       <div class="coverage">
-        <span class="coverage-title">How the accelerators cover the loop</span>
+        <span class="coverage-title">How the accelerators cover the flow</span>
         <div class="cov-scroll">
           <div class="cov-grid">
             <div class="cov-row cov-head">
@@ -401,192 +452,187 @@
               <span>Measure</span>
             </div>
             <div class="cov-row">
-              <span class="cov-label">1 &middot; Baseline &amp; Prompt Strategy <small>Must-have</small></span>
-              <div class="cov-bar semrush" style="grid-column:2/4;">Semrush AIO</div>
+              <span class="cov-label">1 &middot; Use Case Mapping &mdash; Version A <small>Semrush AIO</small></span>
+              <div class="cov-bar semrush" style="grid-column:2/4;">Baseline &amp; prompt strategy</div>
             </div>
             <div class="cov-row">
-              <span class="cov-label">2 &middot; Technical Implementation &amp; Edge <small>Must-have &middot; web / eng</small></span>
-              <div class="cov-bar solid" style="grid-column:4/6;">Technical lane &mdash; implement &amp; ship</div>
+              <span class="cov-label">1 &middot; Use Case Mapping &mdash; Version B <small>Adobe LLMO</small></span>
+              <div class="cov-bar solid" style="grid-column:3/6;">Map goals to LLM Optimizer capability</div>
             </div>
             <div class="cov-row">
-              <span class="cov-label">3 &middot; Content Optimisation &amp; Measurement <small>Must-have &middot; content / analytics</small></span>
-              <div class="cov-bar solid-b" style="grid-column:4/7;">Content &amp; proof lane &mdash; optimise &amp; measure</div>
+              <span class="cov-label">2 &middot; Value Measurement Framework <small>Proves value</small></span>
+              <div class="cov-bar solid-b" style="grid-column:6/7;">Measure</div>
             </div>
             <div class="cov-row">
-              <span class="cov-label">4 &middot; Operating Model &amp; Governance <small>High priority</small></span>
-              <div class="cov-bar ring" style="grid-column:2/7;">Governance ring &mdash; wraps every step</div>
+              <span class="cov-label">3 &middot; Operating Model &amp; Change Management <small>Organisation</small></span>
+              <div class="cov-bar ring" style="grid-column:2/7;">Organisation ring &mdash; ownership &amp; change</div>
             </div>
             <div class="cov-row">
-              <span class="cov-label">5 &middot; Closed-Loop Sprints <small>High priority</small></span>
-              <div class="cov-bar slice" style="grid-column:2/7;">Full loop &mdash; one or two topics</div>
+              <span class="cov-label">4 &middot; Tool Workflow &amp; Governance Optimization <small>Operating rhythm</small></span>
+              <div class="cov-bar slice" style="grid-column:2/7;">Operating rhythm &amp; integrations across the flow</div>
             </div>
           </div>
         </div>
-        <p class="coverage-note">Accelerator&nbsp;1 opens the loop. Across the middle, the work runs as <b>two parallel lanes</b> that meet at Optimise: a <b>technical lane</b> (Accelerator&nbsp;2 &mdash; implement &amp; deploy) and a <b>content &amp; proof lane</b> (Accelerator&nbsp;3 &mdash; optimise the priority content &amp; measure). They're bought and delivered together, <b>staggered by wave</b> &mdash; implementation ships, content and measurement follow, and results re-seed the next wave. Accelerator&nbsp;5 is a <b>vertical slice</b> driving one or two topics through the full loop repeatedly; Accelerator&nbsp;4 is the <b>governance ring</b> around all of it.</p>
+        <p class="coverage-note">Accelerator&nbsp;1 opens the motion in <b>two engine-oriented versions</b>: <b>Version A</b> (Semrush AIO) builds the visibility baseline and prompt strategy; <b>Version B</b> (Adobe LLMO) maps goals to LLM Optimizer's optimisation and technical capability. <b>Value Measurement</b> proves each optimisation's value first through the LLM Optimizer lens, then the Semrush lens confirms the gains at market scale and re-seeds Discover. <b>Operating Model &amp; Change Management</b> is the organisation ring; <b>Tool Workflow &amp; Governance Optimization</b> is the repeatable operating rhythm &mdash; optimisation sprints plus the workflows that connect ABV insights to <b>AEM, Adobe Analytics, Google Analytics, Customer Journey Analytics,</b> and <b>Google Search Console</b>.</p>
       </div>
     </section>
 
     <!-- ACCELERATORS -->
     <section id="accelerators" class="band">
       <div class="band-inner">
-        <p class="sec-eyebrow">The five accelerators</p>
-        <h2>From discovery to a self-sustaining optimisation loop</h2>
-        <p class="intro">Each accelerator is a short, outcome-driven engagement with a clear owner and defined deliverables. Accelerator&nbsp;1 opens the loop; the middle runs as two parallel lanes &mdash; a <strong>technical implementation</strong> lane and a <strong>content-and-measurement</strong> lane, bought and delivered together and staggered by wave; and governance plus recurring sprints keep the loop turning.</p>
+        <p class="sec-eyebrow">The four accelerators</p>
+        <h2>Each accelerator, scoped for Brand Visibility</h2>
+        <p class="intro">Each is an Ultimate Success accelerator with ABV-specific scope, a clear owner, and defined deliverables. Use Case Mapping is foundational and ships in two engine-oriented versions; Value Measurement proves impact; and Operating Model &amp; Change Management plus Tool Workflow &amp; Governance Optimization keep the motion durable and repeatable after onboarding.</p>
 
         <div class="journey">
 
+          <!-- 01 : Use Case Mapping (two versions) -->
           <div class="stage">
             <div class="stage-num">01</div>
             <div class="panel">
               <div class="meta-row">
-                <span class="chip-pri must">Must-have</span>
-                <span class="chip-stage">Semrush AIO &middot; <b>Discover &amp; Prioritise</b></span>
+                <span class="chip-stage">Foundational &middot; <b>Plan &rarr; Activate</b></span>
+                <span class="chip-pair">Two engine-oriented versions</span>
               </div>
-              <h3>AI Visibility Baseline &amp; Prompt Strategy</h3>
-              <p class="goal"><b>Primary outcome</b> &middot; Establish the measurement model and the prioritised backlog that feeds the loop.</p>
-              <p class="bestfor"><b>Best for</b> &middot; Every new customer</p>
-              <div class="cols3">
-                <div>
-                  <h4>What it covers</h4>
-                  <ul class="ticks">
-                    <li>Define the customer's AI visibility goals and success criteria</li>
-                    <li>Build the prompt strategy across branded, non-branded, category, comparison, and high-intent prompts</li>
-                    <li>Map topic clusters and the competitor set</li>
-                    <li>Establish the baseline and rank the opportunity backlog for the Optimise stage</li>
-                  </ul>
+              <h3>Use Case Mapping to Solution Capability</h3>
+              <p class="goal"><b>Primary outcome</b> &middot; Connect business goals to ABV capabilities and produce the prioritised backlog the rest of the motion runs on.</p>
+              <p class="bestfor"><b>Best for</b> &middot; Every ABV customer, post-onboarding</p>
+              <p class="subintro">Delivered in two engine-oriented versions &mdash; run either or both, depending on where the customer needs to focus. For the Semrush-powered version, involve a <b>Semrush SME</b> to fine-tune scope and positioning.</p>
+              <div class="subver">
+                <div class="subver-card a">
+                  <span class="subver-tag">Version A &middot; Semrush AIO oriented</span>
+                  <p class="subver-title">AI Visibility Baseline &amp; Prompt Strategy</p>
+                  <p class="subver-sub">Semrush-powered discovery &amp; prioritisation</p>
+                  <div class="mini covers">
+                    <h5>What it covers</h5>
+                    <ul>
+                      <li>Define AI visibility goals and success criteria</li>
+                      <li>Build the prompt strategy across branded, non-branded, category, comparison, and high-intent prompts</li>
+                      <li>Map topic clusters and the competitor set</li>
+                      <li>Establish the AI visibility baseline and Share of Voice</li>
+                    </ul>
+                  </div>
+                  <div class="mini deliv">
+                    <h5>Deliverables</h5>
+                    <ul>
+                      <li>Prompt / topic and competitor framework</li>
+                      <li>Baseline visibility scorecard</li>
+                      <li>Prioritised optimisation backlog</li>
+                      <li>KPI shortlist and 30 / 60 / 90-day plan</li>
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <h4>Sample activities</h4>
-                  <ul class="dash">
-                    <li>Goals and AI-discovery alignment workshop</li>
-                    <li>Prompt and topic mapping session</li>
-                    <li>Competitor benchmarking in Semrush AIO</li>
-                    <li>Baseline review; backlog prioritisation by impact and effort</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4>Deliverables</h4>
-                  <ul class="checks">
-                    <li>Prompt strategy framework</li>
-                    <li>Topic and competitor map</li>
-                    <li>Baseline measurement scorecard</li>
-                    <li>Prioritised optimisation backlog</li>
-                    <li>30 / 60 / 90-day action plan</li>
-                  </ul>
+                <div class="subver-card b">
+                  <span class="subver-tag">Version B &middot; Adobe LLMO oriented</span>
+                  <p class="subver-title">Optimisation &amp; Technical Capability Mapping</p>
+                  <p class="subver-sub">Adobe LLM Optimizer optimisation &amp; technical readiness</p>
+                  <div class="mini covers">
+                    <h5>What it covers</h5>
+                    <ul>
+                      <li>Map priority use cases to Adobe LLM Optimizer capabilities</li>
+                      <li>Identify the content optimisation opportunities LLM Optimizer surfaces</li>
+                      <li>Assess technical / structural GEO readiness &mdash; crawlability, rendering, schema, agent access</li>
+                      <li>Confirm edge-readiness (Optimize at Edge) established during onboarding</li>
+                    </ul>
+                  </div>
+                  <div class="mini deliv">
+                    <h5>Deliverables</h5>
+                    <ul>
+                      <li>Use-case &rarr; LLM Optimizer capability map</li>
+                      <li>Technical GEO readiness summary</li>
+                      <li>Prioritised optimisation opportunities</li>
+                      <li>Edge-readiness confirmation and next actions</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-              <div class="value"><b>Customer value</b> &mdash; Faster time to value, meaningful measurement from day one, and a ranked backlog the rest of the loop runs on.</div>
+              <div class="guard"><b>Scope</b><span>Advisory and diagnostic &mdash; builds on onboarding rather than repeating setup. Does not author or modify customer content or make code changes. Prompt strategy stays tied to business objectives, not an exhaustive prompt library.</span></div>
             </div>
           </div>
 
+          <!-- 02 : Value Measurement Framework -->
           <div class="stage">
             <div class="stage-num">02</div>
             <div class="panel">
               <div class="meta-row">
-                <span class="chip-pri must">Must-have</span>
-                <span class="chip-stage">Technical lane &middot; <b>Optimise &amp; Deploy</b></span>
-                <span class="chip-pair">Delivered with Accelerator 3</span>
+                <span class="chip-stage">Attain value &middot; <b>Measure</b></span>
+                <span class="chip-pair">Two measurement lenses</span>
               </div>
-              <h3>Technical Implementation &amp; Edge Deployment</h3>
-              <p class="goal"><b>Primary outcome</b> &middot; Make the site AI-readable and ship it &mdash; technical remediation deployed at origin and edge.</p>
-              <p class="bestfor"><b>Best for</b> &middot; Customers with web / engineering teams</p>
-              <div class="cols3">
-                <div>
-                  <h4>What it covers</h4>
-                  <ul class="ticks">
-                    <li>Assess technical readiness for AI discovery &mdash; crawlability, rendering, and agent access</li>
-                    <li>Fix structure, headings, summaries, FAQs, and schema / markup against the prioritised backlog</li>
-                    <li>Prepare pages and templates so AI answer surfaces can parse and cite them reliably</li>
-                    <li>Deploy improvements at origin and at edge for low-latency, agent-ready delivery</li>
-                  </ul>
+              <h3>Value Measurement Framework</h3>
+              <p class="goal"><b>Primary outcome</b> &middot; A repeatable model that proves the value of each optimisation, then confirms it at market scale over time.</p>
+              <p class="bestfor"><b>Best for</b> &middot; Teams proving ROI to leadership</p>
+              <p class="subintro">Measurement runs through two lenses, read as layers. The <b>LLM Optimizer lens</b> proves the value first &mdash; a re-measurement of your curated set against the same baseline and prompts. The <b>Semrush lens</b> then confirms the same gains at market scale over time. They measure different universes, so read them as complementary layers, not comparable scores.</p>
+              <div class="subver">
+                <div class="subver-card b">
+                  <span class="subver-tag">Layer 1 &middot; LLM Optimizer lens</span>
+                  <p class="subver-title">Prove the value</p>
+                  <p class="subver-sub">Operational scoreboard &middot; re-measure your curated set &middot; weekly / monthly</p>
+                  <div class="mini covers">
+                    <h5>What it measures</h5>
+                    <ul>
+                      <li>Re-measures the curated tracked-prompt set against the same baseline and prompts</li>
+                      <li>Shows the before-and-after delta from each optimisation on priority prompts</li>
+                      <li>Tracks visibility, citations, sentiment, and answer quality on the tracked set</li>
+                      <li>Ties movements back to the specific changes that drove them</li>
+                    </ul>
+                  </div>
+                  <div class="mini deliv">
+                    <h5>Deliverables</h5>
+                    <ul>
+                      <li>Before / after visibility scorecard on the tracked set</li>
+                      <li>Per-optimisation impact readout</li>
+                      <li>KPI framework, glossary, and weekly / monthly cadence</li>
+                      <li>QBR-ready, value-proven impact narrative</li>
+                    </ul>
+                  </div>
                 </div>
-                <div>
-                  <h4>Sample activities</h4>
-                  <ul class="dash">
-                    <li>Technical readiness and crawlability audit</li>
-                    <li>Remediation of structure, markup, and rendering</li>
-                    <li>Edge deployment setup and validation</li>
-                    <li>Implementation planning with web, SEO, and platform</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4>Deliverables</h4>
-                  <ul class="checks">
-                    <li>Technical readiness assessment</li>
-                    <li>Structured-markup and template fixes by page type</li>
-                    <li>Edge deployment configuration and rollout plan</li>
-                    <li>Implementation roadmap or sprint plan</li>
-                    <li>Risk and dependency summary</li>
-                  </ul>
+                <div class="subver-card a">
+                  <span class="subver-tag">Layer 2 &middot; Semrush lens</span>
+                  <p class="subver-title">Confirm it over time</p>
+                  <p class="subver-sub">Strategic market lens &middot; full prompt database &middot; quarterly</p>
+                  <div class="mini covers">
+                    <h5>What it measures</h5>
+                    <ul>
+                      <li>Measures visibility against the full market prompt database</li>
+                      <li>Benchmarks competitive position at market scale</li>
+                      <li>Confirms the same gains surface in the broader market over time</li>
+                      <li>Surfaces new market-wide opportunities for the next cycle</li>
+                    </ul>
+                  </div>
+                  <div class="mini deliv">
+                    <h5>Deliverables</h5>
+                    <ul>
+                      <li>Market-wide AI visibility trend</li>
+                      <li>Competitive benchmark summary</li>
+                      <li>Quarterly market-movement readout</li>
+                      <li>Inputs that re-seed the next Discover cycle</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
-              <div class="value"><b>Customer value</b> &mdash; A site AI answer engines can read and cite, changes that actually ship, and edge delivery that keeps content agent-ready without waiting on release cycles. Owned by web / engineering.</div>
+              <div class="value"><b>Customer value</b> &mdash; Early, defensible proof of impact on the work you did, plus market-scale confirmation that the gains hold over time.</div>
+              <div class="guard"><b>Scope</b><span>Measure and recommend, not produce &mdash; identifies and recommends content changes but does not author, rewrite, publish, or deploy. Business attribution only where supporting data or integrations exist; avoid presenting correlation as proven causation.</span></div>
             </div>
           </div>
 
+          <!-- 03 : Operating Model & Change Management -->
           <div class="stage">
             <div class="stage-num">03</div>
             <div class="panel">
               <div class="meta-row">
-                <span class="chip-pri must">Must-have</span>
-                <span class="chip-stage">Content &amp; proof lane &middot; <b>Optimise &rarr; Measure</b></span>
-                <span class="chip-pair">Delivered with Accelerator 2</span>
+                <span class="chip-stage">Optimise &amp; scale &middot; <b>Organisation</b></span>
               </div>
-              <h3>Content Optimisation &amp; Value Measurement</h3>
-              <p class="goal"><b>Primary outcome</b> &middot; Steer and prove &mdash; optimise the priority content, then tie visibility to traffic, engagement, and revenue proxies.</p>
-              <p class="bestfor"><b>Best for</b> &middot; Teams optimising messaging and proving ROI</p>
+              <h3>Operating Model &amp; Change Management</h3>
+              <p class="goal"><b>Primary outcome</b> &middot; Durable cross-functional ownership and change readiness so AI visibility becomes an enterprise capability, not a project.</p>
+              <p class="bestfor"><b>Best for</b> &middot; Enterprise / global programmes</p>
               <div class="cols3">
                 <div>
                   <h4>What it covers</h4>
                   <ul class="ticks">
-                    <li>Optimise the priority content from the backlog for AI answer surfaces &mdash; coverage, framing, and messaging</li>
-                    <li>Define the measurement framework across visibility, traffic, engagement, and outcomes</li>
-                    <li>Track agentic and referral traffic from AI surfaces</li>
-                    <li>Build an executive scorecard and feed findings back into Discover</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4>Sample activities</h4>
-                  <ul class="dash">
-                    <li>Content optimisation against the ranked, priority backlog</li>
-                    <li>KPI alignment and scorecard design</li>
-                    <li>Attribution and outcome mapping</li>
-                    <li>Readout prep and QBR narrative</li>
-                  </ul>
-                </div>
-                <div>
-                  <h4>Deliverables</h4>
-                  <ul class="checks">
-                    <li>Optimised priority content (top of the backlog)</li>
-                    <li>Executive scorecard template</li>
-                    <li>KPI framework and glossary</li>
-                    <li>Reporting cadence and governance plan</li>
-                    <li>QBR-ready business impact narrative</li>
-                  </ul>
-                </div>
-              </div>
-              <div class="value"><b>Customer value</b> &mdash; The messaging that matters is optimised, value shows early, and a measurement loop keeps re-pointing effort at what moves the business. Owned by content / SEO / analytics with the exec sponsor.</div>
-            </div>
-          </div>
-
-          <div class="stage">
-            <div class="stage-num">04</div>
-            <div class="panel">
-              <div class="meta-row">
-                <span class="chip-pri high">High priority</span>
-                <span class="chip-stage">The governance ring &middot; <b>All loop steps</b></span>
-              </div>
-              <h3>Operating Model &amp; Governance for AI Discovery</h3>
-              <p class="goal"><b>Primary outcome</b> &middot; Keep the loop turning with durable ownership across SEO, content, PR / comms, analytics, and web.</p>
-              <p class="bestfor"><b>Best for</b> &middot; Enterprise / global customers</p>
-              <div class="cols3">
-                <div>
-                  <h4>What it covers</h4>
-                  <ul class="ticks">
-                    <li>Define ownership across every function the loop touches</li>
-                    <li>Clarify who manages prompts, content, deployment, measurement, escalation, and reporting</li>
-                    <li>Establish governance for recurring optimisation reviews</li>
-                    <li>Support enterprise-scale alignment across regions or brands</li>
+                    <li>Assess current ownership and governance maturity</li>
+                    <li>Define roles and decision rights across SEO / GEO, Content, Brand / PR, Analytics, Web, and leadership</li>
+                    <li>Address regional and brand scaling considerations</li>
+                    <li>Introduce change management and communication to sustain adoption</li>
                   </ul>
                 </div>
                 <div>
@@ -595,71 +641,72 @@
                     <li>Cross-functional stakeholder workshop</li>
                     <li>Current-state ownership and workflow review</li>
                     <li>RACI development session</li>
-                    <li>Governance and cadence design</li>
+                    <li>Change and communication planning</li>
                   </ul>
                 </div>
                 <div>
                   <h4>Deliverables</h4>
                   <ul class="checks">
+                    <li>Current-state assessment and future-state operating model</li>
                     <li>Cross-functional RACI</li>
-                    <li>Governance framework</li>
-                    <li>Review cadence and meeting structure</li>
-                    <li>Escalation and approval model</li>
-                    <li>Recommended operating model</li>
+                    <li>Governance framework and review cadence</li>
+                    <li>Escalation / approval model</li>
+                    <li>Change and adoption plan</li>
                   </ul>
                 </div>
               </div>
-              <div class="value"><b>Customer value</b> &mdash; Less ambiguity, faster decisions, and a loop that keeps running consistently across enterprise and global programmes.</div>
+              <div class="value"><b>Customer value</b> &mdash; Less ambiguity, faster decisions, and an operating model that scales consistently across regions and brands.</div>
+              <div class="guard"><b>Scope</b><span>Advisory organisational design &mdash; does not execute organisational changes, assign customer personnel, or act as the customer's GEO operating team. Leadership retains ownership of organisational decisions and change execution.</span></div>
             </div>
           </div>
 
+          <!-- 04 : Tool Workflow & Governance Optimization -->
           <div class="stage">
-            <div class="stage-num">05</div>
+            <div class="stage-num">04</div>
             <div class="panel">
               <div class="meta-row">
-                <span class="chip-pri high">High priority</span>
-                <span class="chip-stage">Full loop &middot; <b>One or two topics</b></span>
+                <span class="chip-stage">Activate &rarr; Adopt &middot; <b>Operating rhythm</b></span>
               </div>
-              <h3>Closed-Loop Optimisation Sprints</h3>
-              <p class="goal"><b>Primary outcome</b> &middot; Drive one or two chosen topics through the entire loop on a recurring cadence &mdash; depth over breadth.</p>
-              <p class="bestfor"><b>Best for</b> &middot; Customers already live</p>
+              <h3>Tool Workflow &amp; Governance Optimization</h3>
+              <p class="goal"><b>Primary outcome</b> &middot; A repeatable way to turn ABV insights into action &mdash; coordinating the workflows, integrations, and review cadences that keep optimisation moving.</p>
+              <p class="bestfor"><b>Best for</b> &middot; Live customers operationalising ABV</p>
               <div class="cols3">
                 <div>
                   <h4>What it covers</h4>
                   <ul class="ticks">
-                    <li>Select one or two high-value topics &mdash; a product line, a comparison battleground, or a high-intent journey</li>
-                    <li>Run the full loop on that slice: discover, prioritise, optimise, deploy, measure, repeat</li>
-                    <li>Prioritise the next actions each sprint by impact and effort</li>
-                    <li>Coach teams on a repeatable optimisation rhythm after go-live</li>
-                    <li>Track progress against agreed KPIs to demonstrate ongoing value</li>
+                    <li>Establish the optimisation rhythm &mdash; closed-loop sprints on selected high-value topics or use cases</li>
+                    <li>Review AI visibility, prompt / topic performance, citations, and competitive gaps; prioritise, review progress vs KPIs, and capture lessons</li>
+                    <li>Define how ABV insights flow into connected systems &mdash; AEM, Adobe Analytics, Google Analytics, Customer Journey Analytics, and Google Search Console</li>
+                    <li>Clarify ownership and handoffs across content, SEO, analytics, and execution teams; establish governance, permissions, and review cadences</li>
                   </ul>
                 </div>
                 <div>
                   <h4>Sample activities</h4>
                   <ul class="dash">
-                    <li>Topic selection and slice definition</li>
-                    <li>Review findings across visibility, prompt and topic performance, opportunities, and agentic / referral traffic</li>
-                    <li>Ship the next optimisations and validate at edge</li>
-                    <li>Align owners across SEO, content, analytics, and web</li>
-                    <li>Capture outcomes, lessons, and next-sprint priorities</li>
+                    <li>Topic / use-case selection and sprint scoping</li>
+                    <li>Loop review across visibility, prompts, citations, gaps, and agentic / referral traffic</li>
+                    <li>Workflow and integration mapping (ABV &harr; AEM / Analytics / CJA / GSC)</li>
+                    <li>Ownership, cadence, and governance design</li>
                   </ul>
                 </div>
                 <div>
                   <h4>Deliverables</h4>
                   <ul class="checks">
-                    <li>Sprint agenda and loop-review framework</li>
-                    <li>Prioritised optimisation action plan for the chosen slice</li>
-                    <li>Ownership tracker for agreed actions</li>
-                    <li>Progress readout against visibility, traffic, and impact KPIs</li>
-                    <li>Next-sprint recommendations</li>
+                    <li>Optimisation sprint framework and readouts</li>
+                    <li>Prioritised action plan for selected topics / use cases</li>
+                    <li>Workflow and integration map across connected systems</li>
+                    <li>Ownership / action tracker and review cadence</li>
+                    <li>Governance and permissions recommendations; next-cycle priorities</li>
                   </ul>
                 </div>
               </div>
-              <div class="value"><b>Customer value</b> &mdash; Continuous progress on the topics that matter most, better use of ABV insights, a repeatable loop instead of one-time setup, and ongoing evidence of progress for stakeholder reviews.</div>
+              <div class="value"><b>Customer value</b> &mdash; A repeatable operating rhythm instead of one-time setup &mdash; ABV insights consistently reach the teams and systems that act on them, with ongoing evidence of progress.</div>
+              <div class="guard"><b>Scope</b><span>Adobe guides, facilitates reviews, and helps prioritise; the customer or its implementation partner carries out the content, code, deployment, and operational changes. Scope stays focused (e.g. 1&ndash;2 topics or use cases per cycle) rather than open-ended managed optimisation.</span></div>
             </div>
           </div>
 
         </div>
+
       </div>
     </section>
 
@@ -672,47 +719,41 @@
           <thead>
             <tr>
               <th>Accelerator</th>
-              <th>Loop coverage</th>
-              <th>Priority</th>
+              <th>Engine / coverage</th>
               <th>Best for</th>
               <th>Primary outcome</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><span class="tnum">1</span>AI Visibility Baseline &amp; Prompt Strategy</td>
-              <td>Discover &middot; Prioritise</td>
-              <td><span class="t-pri must">Must-have</span></td>
-              <td>Every new customer</td>
-              <td>Establish the measurement model and the prioritised backlog that feeds the loop</td>
+              <td><span class="tnum wide">1A</span>Use Case Mapping &mdash; Version A</td>
+              <td>Semrush AIO &middot; Discover &middot; Prioritise</td>
+              <td>Every ABV customer</td>
+              <td>Visibility baseline and prioritised prompt strategy</td>
             </tr>
             <tr>
-              <td><span class="tnum">2</span>Technical Implementation &amp; Edge Deployment</td>
-              <td>Optimise &middot; Deploy</td>
-              <td><span class="t-pri must">Must-have</span></td>
-              <td>Customers with web / engineering teams</td>
-              <td>Make the site AI-readable and ship changes at origin and edge <em>(runs with 3)</em></td>
+              <td><span class="tnum wide">1B</span>Use Case Mapping &mdash; Version B</td>
+              <td>Adobe LLMO &middot; Prioritise &middot; Optimise &middot; Deploy</td>
+              <td>Customers focused on optimisation / technical</td>
+              <td>Map goals to LLM Optimizer capability; technical GEO readiness</td>
             </tr>
             <tr>
-              <td><span class="tnum">3</span>Content Optimisation &amp; Value Measurement</td>
-              <td>Optimise &middot; Measure</td>
-              <td><span class="t-pri must">Must-have</span></td>
-              <td>Teams optimising messaging and proving ROI</td>
-              <td>Optimise priority content and tie visibility to traffic, engagement, and revenue proxies <em>(runs with 2)</em></td>
+              <td><span class="tnum">2</span>Value Measurement Framework</td>
+              <td>Measure &middot; re-seeds Discover</td>
+              <td>Teams proving ROI</td>
+              <td>Prove each optimisation's value, confirmed at market scale over time</td>
             </tr>
             <tr>
-              <td><span class="tnum">4</span>Operating Model &amp; Governance</td>
-              <td>All steps (ring)</td>
-              <td><span class="t-pri high">High</span></td>
-              <td>Enterprise / global customers</td>
-              <td>Keep the loop turning with durable cross-functional ownership</td>
+              <td><span class="tnum">3</span>Operating Model &amp; Change Management</td>
+              <td>Organisation (all steps)</td>
+              <td>Enterprise / global</td>
+              <td>Durable cross-functional ownership and change readiness</td>
             </tr>
             <tr>
-              <td><span class="tnum">5</span>Closed-Loop Optimisation Sprints</td>
-              <td>Full loop &middot; 1&ndash;2 topics</td>
-              <td><span class="t-pri high">High</span></td>
-              <td>Customers already live</td>
-              <td>Drive chosen topics through the full loop on a recurring cadence</td>
+              <td><span class="tnum">4</span>Tool Workflow &amp; Governance Optimization</td>
+              <td>Operating rhythm &middot; integrations</td>
+              <td>Live customers</td>
+              <td>Repeatable rhythm; ABV insights into connected systems</td>
             </tr>
           </tbody>
         </table>
@@ -722,35 +763,35 @@
     <!-- WHY -->
     <section id="why" class="band">
       <div class="band-inner">
-        <p class="sec-eyebrow">Rationale</p>
-        <h2>Why this structure works</h2>
-        <div class="why-grid">
-          <div class="why-card">
-            <span class="tag">Product-aligned</span>
-            <h4>Mirrors the closed loop</h4>
-            <p>The three must-haves map straight onto the product story &mdash; Semrush AIO discovers and prioritises; LLM Optimizer optimises, deploys, and measures &mdash; so positioning follows the platform.</p>
-          </div>
-          <div class="why-card">
-            <span class="tag">Role-aligned</span>
-            <h4>Each names its owner</h4>
-            <p>Every accelerator states who it's for &mdash; new customers, web and content teams, ROI-focused leaders, global programmes, and live teams.</p>
-          </div>
-          <div class="why-card">
-            <span class="tag">Shape</span>
-            <h4>A band, two lanes, and a ring</h4>
-            <p>Discover &amp; Prioritise opens as one band; the middle runs as two parallel lanes &mdash; technical implementation, and content-plus-measurement &mdash; that ship and prove together; recurring sprints drive a narrow slice through the whole loop; and governance wraps the lot.</p>
-          </div>
+      <p class="sec-eyebrow">Rationale</p>
+      <h2>Why this structure works</h2>
+      <div class="why-grid">
+        <div class="why-card">
+          <span class="tag">Catalogue-aligned</span>
+          <h4>Built on the standard catalogue</h4>
+          <p>Each engagement is a standard Ultimate Success accelerator, so scoping, delivery, and enablement follow patterns customers and delivery teams already recognise. A Semrush SME can support the Semrush-powered version.</p>
         </div>
+        <div class="why-card">
+          <span class="tag">One product, two engines</span>
+          <h4>Use Case Mapping mirrors ABV</h4>
+          <p>The two versions map to ABV's make-up &mdash; Semrush-powered visibility and Adobe LLM Optimizer optimisation &mdash; while the customer still experiences one unified product.</p>
+        </div>
+        <div class="why-card">
+          <span class="tag">Onboarding, not go-live</span>
+          <h4>A repeatable rhythm, not a launch</h4>
+          <p>Technical setup lives in onboarding; the accelerators pick up after. Tool Workflow &amp; Governance keeps insights flowing into AEM, Analytics, CJA, and Search Console.</p>
+        </div>
+      </div>
       </div>
     </section>
 
     <!-- MESSAGING -->
     <section id="messaging" class="wrap">
-      <p class="sec-eyebrow">How to say it</p>
-      <h2>Recommended messaging</h2>
-      <blockquote>
-        <p>We recommend five Success Accelerators for Adobe Brand Visibility, mapped to the AI visibility closed loop. <strong>Semrush AIO</strong> discovers and prioritises; then <strong>Adobe LLM Optimizer</strong> runs the middle as two parallel lanes &mdash; a <strong>technical implementation</strong> lane and a <strong>content optimisation and measurement</strong> lane &mdash; bought and delivered together, staggered by wave. A governance accelerator keeps the loop turning across teams, and recurring <strong>optimisation sprints</strong> drive your highest-value topics through the full loop again and again.</p>
-      </blockquote>
+        <p class="sec-eyebrow">How to say it</p>
+        <h2>Recommended messaging</h2>
+        <blockquote>
+          <p>We recommend four Success Accelerators for Adobe Brand Visibility, all from the Ultimate Success catalogue. <strong>Use Case Mapping to Solution Capability</strong> is the foundation &mdash; delivered in a <strong>Semrush AIO</strong> version and an <strong>Adobe LLM Optimizer</strong> version, because ABV is one unified product powered by both. <strong>Value Measurement Framework</strong> proves the impact; <strong>Operating Model &amp; Change Management</strong> gives it durable ownership; and <strong>Tool Workflow &amp; Governance Optimization</strong> turns ABV insights into a repeatable operating rhythm across your connected systems. There's no go-live: onboarding handles setup, and the accelerators take it from there.</p>
+        </blockquote>
     </section>
 
   </main>
@@ -766,7 +807,7 @@
       </div>
       <div class="footer-meta">
         <p class="m1">Brand Visibility &middot; Ultimate Success</p>
-        <p class="m2">Solution Advisory &middot; August 2026</p>
+        <p class="m2">Solution Advisory</p>
       </div>
     </div>
   </footer>

@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content Supply Chain — The Mental Models Behind the Series</title>
+<style>
+:root{
+  --adobe-red:#EB1000; --adobe-red-dark:#B71000; --adobe-red-tint:#FDECEA;
+  --ink:#1B1B1B; --charcoal:#2C2C2C; --charcoal-2:#141414;
+  --gray-900:#202020; --gray-700:#4B4B4B; --gray-600:#5C5C5C;
+  --gray-500:#787878; --gray-300:#D6D6D6; --gray-200:#E9E9E9;
+  --gray-100:#F4F4F4; --gray-50:#FAFAFA; --white:#FFFFFF;
+  --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,
+    BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --radius:10px; --radius-sm:7px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 1px 2px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.06);
+  --maxw:1200px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{animation:none!important;transition:none!important;}}
+body{margin:0;font-family:var(--font);color:var(--gray-900);background:var(--white);
+  line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+::selection{background:var(--adobe-red-tint);}
+a{color:var(--adobe-red-dark);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+.topbar{height:4px;background:var(--adobe-red);width:100%;}
+.ai-note{background:var(--gray-100);border-bottom:1px solid var(--gray-200);}
+.ai-note-inner{max-width:var(--maxw);margin:0 auto;padding:10px 24px;display:flex;
+  align-items:center;justify-content:center;gap:9px;font-size:12.5px;line-height:1.45;color:var(--gray-600);}
+.ai-note b{color:var(--gray-700);font-weight:700;} .ai-note svg{flex:none;}
+
+.hero{position:relative;overflow:hidden;color:#fff;
+  background:radial-gradient(900px 480px at 88% -10%,rgba(235,16,0,.28),transparent 60%),
+    linear-gradient(135deg,#2d2d2d 0%,#1c1c1c 52%,#0e0e0e 100%);padding:46px 24px 52px;}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:100% 34px;opacity:.5;
+  -webkit-mask:linear-gradient(#000,transparent 70%);mask:linear-gradient(#000,transparent 70%);}
+.hero-inner{max-width:var(--maxw);margin:0 auto;position:relative;z-index:1;}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;
+  flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.12);}
+.brandrow{display:flex;align-items:center;gap:11px;}
+.brandrow .brand-mark{height:26px;width:auto;flex:none;filter:drop-shadow(0 4px 14px rgba(235,16,0,.4));}
+.brandname{font-size:19px;font-weight:800;letter-spacing:-.02em;color:#fff;}
+.brandname span{font-weight:400;color:#d9d9d9;}
+.kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:#ff8f84;white-space:nowrap;}
+.hero-body{margin-top:30px;}
+.hero h1{margin:0;font-size:clamp(34px,5vw,56px);line-height:1.06;font-weight:800;letter-spacing:-.025em;max-width:20ch;}
+.hero h1 .hl{color:#F04A2E;text-shadow:0 2px 16px rgba(235,16,0,.28);}
+.hero .lead{margin:18px 0 0;font-size:clamp(17px,2vw,20px);color:#d3d3d3;max-width:66ch;}
+.hero .lead strong{color:#fff;font-weight:700;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0;padding:0;list-style:none;}
+.hero-chips li{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+  border-radius:100px;padding:8px 15px;font-size:13.5px;font-weight:500;color:#e6e6e6;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14);}
+.hero-chips li strong{color:#fff;font-weight:700;}
+
+.shell{max-width:var(--maxw);margin:0 auto;padding:0 24px 80px;display:grid;
+  grid-template-columns:230px minmax(0,1fr);gap:48px;}
+.rail{position:sticky;top:24px;align-self:start;padding-top:44px;}
+.rail-title{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gray-500);margin:0 0 14px;padding-left:14px;}
+.rail nav{display:flex;flex-direction:column;gap:1px;}
+.rail nav a{display:flex;align-items:center;gap:11px;padding:8px 14px;border-radius:var(--radius-sm);
+  color:var(--gray-600);font-size:13.5px;font-weight:600;border-left:2px solid transparent;
+  transition:background .15s,color .15s,border-color .15s;}
+.rail nav a .num{font-size:11px;font-weight:700;color:var(--gray-300);min-width:16px;font-variant-numeric:tabular-nums;}
+.rail nav a:hover{background:var(--gray-100);color:var(--ink);}
+.rail nav a.active{color:var(--adobe-red-dark);background:var(--adobe-red-tint);border-left-color:var(--adobe-red);}
+.rail nav a.active .num{color:var(--adobe-red);}
+.content{padding-top:44px;min-width:0;}
+@media(max-width:980px){.shell{grid-template-columns:1fr;gap:0;}.rail{display:none;}}
+
+section{scroll-margin-top:20px;padding-bottom:52px;}
+section + section{border-top:1px solid var(--gray-200);padding-top:46px;}
+.sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--adobe-red);margin:0 0 10px;}
+h2{font-size:clamp(25px,2.8vw,33px);line-height:1.15;letter-spacing:-.015em;font-weight:800;margin:0 0 18px;}
+h3{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:34px 0 12px;color:var(--ink);}
+h4{font-size:15px;font-weight:800;letter-spacing:.06em;margin:22px 0 8px;color:var(--gray-700);text-transform:uppercase;}
+p{margin:0 0 14px;}
+.content ul,.content ol{margin:0 0 16px;padding-left:22px;}
+.content li{margin:5px 0;}
+.lead-p{font-size:18px;color:var(--gray-700);max-width:70ch;}
+strong{color:var(--ink);}
+
+.oneliner{background:var(--charcoal);color:#fff;border-radius:var(--radius);padding:26px 28px;
+  margin:6px 0 26px;position:relative;overflow:hidden;box-shadow:var(--shadow);}
+.oneliner::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(520px 240px at 92% -30%,rgba(235,16,0,.30),transparent 62%);pointer-events:none;}
+.oneliner p{margin:0;font-size:clamp(18px,2.2vw,23px);line-height:1.42;font-weight:600;position:relative;letter-spacing:-.01em;}
+.oneliner .em{color:#F04A2E;font-weight:800;}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:8px 0 22px;}
+.card{border:1px solid var(--gray-200);border-radius:var(--radius);padding:18px 18px 16px;background:var(--gray-50);box-shadow:var(--shadow-sm);}
+.card .cnum{font-size:12px;font-weight:800;color:var(--adobe-red);letter-spacing:.05em;}
+.card h4{margin:6px 0 6px;text-transform:none;letter-spacing:-.01em;font-size:16px;color:var(--ink);}
+.card p{margin:0;font-size:14px;color:var(--gray-600);}
+
+.tbl-wrap{overflow-x:auto;margin:8px 0 22px;border:1px solid var(--gray-200);border-radius:var(--radius);}
+table{border-collapse:collapse;width:100%;font-size:14.5px;}
+thead th{background:var(--gray-100);text-align:left;font-weight:800;color:var(--gray-700);
+  padding:11px 14px;border-bottom:2px solid var(--gray-300);white-space:nowrap;}
+tbody td{padding:11px 14px;border-bottom:1px solid var(--gray-200);vertical-align:top;color:var(--gray-700);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:nth-child(even){background:var(--gray-50);}
+td strong,th strong{color:var(--ink);}
+.tc-num{font-variant-numeric:tabular-nums;color:var(--gray-500);font-weight:700;white-space:nowrap;}
+
+.takeaway{border-left:3px solid var(--adobe-red);background:var(--adobe-red-tint);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:16px 20px;margin:22px 0;}
+.takeaway .tk-label{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--adobe-red-dark);margin:0 0 6px;}
+.takeaway p{margin:0;font-size:16px;font-weight:600;color:var(--ink);line-height:1.5;}
+
+.note{border:1px solid var(--gray-200);background:var(--gray-50);border-radius:var(--radius-sm);
+  padding:14px 18px;margin:18px 0;font-size:14.5px;color:var(--gray-600);}
+.note b{color:var(--gray-700);}
+
+/* horizontal flow */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;margin:10px 0 14px;}
+.flow-node{flex:1 1 130px;min-width:120px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);
+  background:var(--white);padding:12px 14px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:4px;}
+.flow-node .fn-step{font-size:10.5px;font-weight:800;color:var(--adobe-red);letter-spacing:.08em;}
+.flow-node .fn-title{font-size:13.5px;font-weight:800;color:var(--ink);line-height:1.25;letter-spacing:-.01em;}
+.flow-arrow{align-self:center;color:var(--gray-300);font-size:20px;font-weight:700;flex:none;line-height:1;}
+.loopback{display:flex;align-items:center;gap:10px;margin:2px 0 22px;font-size:13.5px;color:var(--gray-600);
+  border-top:1px dashed var(--gray-300);padding-top:12px;}
+.loopback .lb-arrow{color:var(--adobe-red);font-weight:800;font-size:16px;}
+@media(max-width:640px){.flow{flex-direction:column;}.flow-arrow{transform:rotate(90deg);}}
+
+/* vertical flow */
+.vflow{display:flex;flex-direction:column;align-items:stretch;gap:0;margin:4px 0 6px;}
+.vflow .vf-step{border:1px solid var(--gray-200);border-radius:var(--radius-sm);background:var(--white);
+  padding:10px 14px;font-size:14px;font-weight:600;color:var(--ink);box-shadow:var(--shadow-sm);}
+.vflow .vf-arrow{align-self:center;color:var(--gray-300);font-size:17px;line-height:1;padding:4px 0;}
+
+/* before / after comparison */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:10px 0 20px;align-items:start;}
+@media(max-width:640px){.compare{grid-template-columns:1fr;}}
+.compare-col{border:1px solid var(--gray-200);border-radius:var(--radius);padding:16px 16px 18px;background:var(--gray-50);}
+.compare-col.good{border-color:#f0c7c0;background:var(--adobe-red-tint);}
+.compare-col .cc-label{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin:0 0 12px;color:var(--gray-500);}
+.compare-col.good .cc-label{color:var(--adobe-red-dark);}
+.compare-col .vf-step{background:var(--white);}
+
+/* maturity stages */
+.stages{display:flex;flex-direction:column;gap:14px;margin:10px 0 18px;}
+.stage{position:relative;border:1px solid var(--gray-200);border-radius:var(--radius);
+  padding:18px 20px 18px 68px;background:var(--gray-50);box-shadow:var(--shadow-sm);}
+.stage .st-num{position:absolute;left:18px;top:18px;width:34px;height:34px;border-radius:9px;
+  background:var(--charcoal);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;}
+.stage.s3 .st-num{background:var(--adobe-red);}
+.stage h4{margin:0 0 8px;text-transform:none;letter-spacing:-.01em;font-size:17px;color:var(--ink);}
+.stage ul{margin:0 0 4px;}
+.stage .st-goal{margin:10px 0 0;font-size:13.5px;color:var(--adobe-red-dark);font-weight:700;}
+
+/* numbered worked-example steps */
+.steps-num{list-style:none;counter-reset:sn;padding:0;margin:8px 0 18px;}
+.steps-num li{counter-increment:sn;position:relative;padding:0 0 18px 46px;}
+.steps-num li:last-child{padding-bottom:0;}
+.steps-num li::before{content:counter(sn);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;
+  background:var(--charcoal);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.steps-num li h4{margin:3px 0 4px;text-transform:none;letter-spacing:-.01em;font-size:15.5px;color:var(--ink);}
+.steps-num li p{margin:0;font-size:14.5px;color:var(--gray-600);}
+
+/* principles */
+.principles{list-style:none;counter-reset:pr;padding:0;margin:10px 0 8px;display:grid;gap:1px;
+  background:var(--gray-200);border:1px solid var(--gray-200);border-radius:var(--radius);overflow:hidden;}
+.principles li{counter-increment:pr;background:var(--white);padding:14px 16px 14px 52px;position:relative;
+  font-size:15.5px;font-weight:600;color:var(--ink);}
+.principles li::before{content:counter(pr);position:absolute;left:16px;top:13px;color:var(--adobe-red);
+  font-weight:800;font-size:15px;font-variant-numeric:tabular-nums;}
+
+/* questions */
+.qlist{counter-reset:q;list-style:none;padding:0;margin:8px 0 20px;}
+.qlist li{counter-increment:q;position:relative;padding:10px 0 10px 44px;border-bottom:1px solid var(--gray-200);
+  font-size:15.5px;color:var(--gray-700);}
+.qlist li:last-child{border-bottom:none;}
+.qlist li::before{content:counter(q);position:absolute;left:0;top:9px;width:28px;height:28px;border-radius:50%;
+  background:var(--adobe-red-tint);color:var(--adobe-red-dark);font-size:13px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;}
+
+.sources{font-size:12.5px;color:var(--gray-500);margin:18px 0 0;padding-top:12px;border-top:1px solid var(--gray-200);}
+.sources b{color:var(--gray-600);font-weight:700;}
+.sources a{color:var(--gray-600);border-bottom:1px dotted var(--gray-300);}
+.sources a:hover{color:var(--adobe-red-dark);text-decoration:none;border-bottom-color:var(--adobe-red);}
+
+.site-footer{background:var(--charcoal-2);color:#8a8a8a;}
+.foot-inner{max-width:var(--maxw);margin:0 auto;padding:30px 24px;display:flex;flex-wrap:wrap;
+  gap:14px 24px;align-items:center;justify-content:space-between;}
+.foot-brand{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-size:16px;letter-spacing:-.01em;}
+.foot-brand img{height:22px;width:auto;display:block;}
+.foot-brand span{font-weight:400;color:#cfcfcf;}
+.foot-right{text-align:right;line-height:1.5;}
+.foot-right .fr-1{margin:0;font-size:13px;font-weight:600;color:#b9b9b9;}
+.foot-right .fr-2{margin:2px 0 0;font-size:12px;color:#6f6f6f;}
+@media(max-width:620px){.foot-inner{flex-direction:column;align-items:flex-start;}.foot-right{text-align:left;}}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<div class="ai-note">
+  <div class="ai-note-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#787878"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/>
+      <line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span><b>Prepared with AI assistance.</b> Please review for accuracy before use
+      &mdash; this document may contain errors.</span>
+  </div>
+</div>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="masthead">
+      <div class="brandrow">
+        <img class="brand-mark" src="data:image/png;base64,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" alt="Adobe">
+        <span class="brandname">Adobe&nbsp;<span>Customer Solutions</span></span>
+      </div>
+      <span class="kicker">Mental Models &middot; Content Supply Chain</span>
+    </div>
+    <div class="hero-body">
+      <h1>How to <span class="hl">think</span> about the Content Supply Chain</h1>
+      <p class="lead">Less about what each product does &mdash; more about the mental models, decision lenses,
+      and the shift from pipeline to flywheel.</p>
+      <ul class="hero-chips">
+        <li><strong>11</strong> mental models</li>
+        <li>Pipeline &rarr; flywheel</li>
+        <li>Earn agentic automation</li>
+      </ul>
+    </div>
+  </div>
+</header>
+<div class="shell">
+  <aside class="rail">
+    <p class="rail-title">Contents</p>
+    <nav id="spy-nav">
+      <a href="#idea"><span class="num">01</span> The master idea</a>
+      <a href="#flywheel"><span class="num">02</span> Pipeline &rarr; flywheel</a>
+      <a href="#product"><span class="num">03</span> Content as a product</a>
+      <a href="#context"><span class="num">04</span> Context as payload</a>
+      <a href="#systems"><span class="num">05</span> Four systems</a>
+      <a href="#scale"><span class="num">06</span> What &ldquo;scale&rdquo; means</a>
+      <a href="#leverage"><span class="num">07</span> AI as leverage</a>
+      <a href="#patterns"><span class="num">08</span> Four AI patterns</a>
+      <a href="#maturity"><span class="num">09</span> The maturity model</a>
+      <a href="#agents"><span class="num">10</span> Agents as teammates</a>
+      <a href="#governance"><span class="num">11</span> Governance</a>
+      <a href="#analytics"><span class="num">12</span> Analytics as learning</a>
+      <a href="#mapping"><span class="num">13</span> Session &rarr; model map</a>
+      <a href="#example"><span class="num">14</span> Worked example</a>
+      <a href="#principles"><span class="num">15</span> Principles &amp; diagnostics</a>
+    </nav>
+  </aside>
+  <div class="content"><main>
+<section id="idea">
+  <p class="sec-eyebrow">How to read this pack</p>
+  <h2>The master idea</h2>
+  <p class="lead-p">This version focuses less on <em>what each Adobe product does</em> and more on
+  <em>how to think about the Content Supply Chain as a business and operating model</em>. Each original
+  session is mapped to the mental model it was really meant to teach.</p>
+  <div class="oneliner">
+    <p>Content Supply Chain is <span class="em">not a collection of tools</span>. It is a connected system
+    for turning business intent into governed, measurable, reusable content.</p>
+  </div>
+  <p>Adobe's internal definition describes CSC as the end-to-end process to <strong>plan, create, manage,
+  deploy, and measure</strong> content. The crucial word is <strong>end-to-end</strong>: the value comes
+  from connecting the stages, not optimizing each stage in isolation.</p>
+  <p class="sources"><b>Sources:</b> <a href="https://wiki.corp.adobe.com/spaces/AdobeDesign/pages/2689303673/Content+Supply+Chain">Content Supply Chain</a> · <a href="https://wiki.corp.adobe.com/spaces/GMOBCDD/pages/3245569280/CSC+BCDD+GMO+PdM+Training+Path">CSC · BCDD GMO PdM Training Path</a></p>
+</section>
+
+<section id="flywheel">
+  <p class="sec-eyebrow">Mental model 1</p>
+  <h2>A pipeline that becomes a flywheel</h2>
+  <p>The phrase <em>supply chain</em> first suggests a linear pipeline &mdash; useful, but incomplete:</p>
+  <div class="flow">
+    <div class="flow-node"><span class="fn-step">01</span><span class="fn-title">Plan</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">02</span><span class="fn-title">Create</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">03</span><span class="fn-title">Manage</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">04</span><span class="fn-title">Activate</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">05</span><span class="fn-title">Measure</span></div>
+  </div>
+  <p>The more important model is a <strong>closed-loop flywheel</strong>, where the output of one cycle
+  becomes the input to the next:</p>
+  <div class="flow">
+    <div class="flow-node"><span class="fn-step">INTENT</span><span class="fn-title">Business intent &amp; brief</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">CREATE</span><span class="fn-title">Content creation</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">GOVERN</span><span class="fn-title">Review, governance &amp; asset mgmt</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">ACTIVATE</span><span class="fn-title">Activation across channels</span></div>
+  </div>
+  <div class="flow">
+    <div class="flow-node"><span class="fn-step">MEASURE</span><span class="fn-title">Performance evidence</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">IMPROVE</span><span class="fn-title">Better briefs, templates &amp; variants</span></div>
+  </div>
+  <div class="loopback"><span class="lb-arrow">&#8635;</span> Improved briefs feed the next cycle &mdash;
+  the loop returns to business intent.</div>
+
+  <h3>The failure mode when stages are disconnected</h3>
+  <p>Planners don't know what content exists; creatives recreate available assets; marketers can't locate
+  approved content; analysts can't connect performance to specific assets; and future campaigns repeat the
+  same mistakes.</p>
+
+  <div class="takeaway"><p class="tk-label">The key question</p>
+    <p>For every stage, ask: what does this stage receive, what does it produce, and what information must
+    travel with the work? That question is more useful than memorizing product names.</p></div>
+  <p class="sources"><b>Sources:</b> <a href="https://wiki.corp.adobe.com/spaces/WEM/pages/3660860191/CSC+Customer+Analysis">CSC Customer Analysis</a></p>
+</section>
+
+<section id="product">
+  <p class="sec-eyebrow">Mental model 2</p>
+  <h2>Content is not a file; it is a managed product</h2>
+  <p>A common mistake is to think of content as a file that is finished when it is exported. A better model:
+  an asset is a <strong>product with a lifecycle</strong> &mdash; requirements, owners, metadata, rights,
+  versions, approvals, destinations, and performance history.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>State</th><th>Core question</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Requested</strong></td><td>Why is this content needed?</td></tr>
+        <tr><td><strong>Planned</strong></td><td>What must be produced, by when, and for whom?</td></tr>
+        <tr><td><strong>In production</strong></td><td>Who is creating or adapting it?</td></tr>
+        <tr><td><strong>Under review</strong></td><td>Does it meet creative, brand, legal, and business requirements?</td></tr>
+        <tr><td><strong>Approved</strong></td><td>Is it safe and authorized for use?</td></tr>
+        <tr><td><strong>Activated</strong></td><td>Where has it been published or delivered?</td></tr>
+        <tr><td><strong>Measured</strong></td><td>Did it achieve the intended outcome?</td></tr>
+        <tr><td><strong>Reused / refreshed / retired</strong></td><td>What should happen to it next?</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>This is why asset management is more than storage. If the organization manages only the file, it loses
+  the information around the file &mdash; which campaign, which audience, whether it's approved, whether it can
+  be localized, when rights expire, which variants performed best. The asset becomes hard to trust, reuse, or
+  measure.</p>
+  <p class="sources"><b>Sources:</b> <a href="https://wiki.corp.adobe.com/spaces/svg/pages/2787513749/Content+Supply+Chain">Content Supply Chain</a> · <a href="https://wiki.corp.adobe.com/spaces/acme/pages/2961974408/Content+Supply+Chain+Integration+Patterns">CSC Integration Patterns</a></p>
+</section>
+
+<section id="context">
+  <p class="sec-eyebrow">Mental model 3</p>
+  <h2>Context is the payload that moves through the chain</h2>
+  <p>In a disconnected workflow, teams hand off a file. In a connected workflow, they hand off a
+  <strong>context-rich work object</strong> &mdash; business objective, campaign, audience, message, channel,
+  format, market or language, approval status, usage rights, related assets, feedback, and performance history.</p>
+  <div class="takeaway"><p class="tk-label">The mental model</p>
+    <p>Every handoff should preserve context, not just content.</p></div>
+  <div class="compare">
+    <div class="compare-col">
+      <p class="cc-label">Context lost</p>
+      <p style="margin:0;font-size:14.5px;color:var(--gray-600);">&ldquo;Please make a banner.&rdquo;</p>
+    </div>
+    <div class="compare-col good">
+      <p class="cc-label">Context preserved</p>
+      <p style="margin:0;font-size:14.5px;color:var(--ink);">&ldquo;Create three mobile display variants for
+      the spring running campaign, targeting first-time runners in North America, using the approved product
+      image and brand voice. Objective is product consideration; variants must be ready for paid social and
+      display.&rdquo;</p>
+    </div>
+  </div>
+  <p>The second request reduces ambiguity because the intent travels with the work. Context loss creates
+  rework, repeated clarification, incorrect variants, approval delays, inconsistent messaging, and poor
+  downstream measurement. The goal of integration is not merely to connect systems technically &mdash; it is
+  to <strong>preserve meaning across the workflow</strong>.</p>
+  <p class="sources"><b>Sources:</b> <a href="https://wiki.corp.adobe.com/spaces/acme/pages/2961974408/Content+Supply+Chain+Integration+Patterns">CSC Integration Patterns</a> · <a href="https://wiki.corp.adobe.com/spaces/AdobeDesign/pages/2689303673/Content+Supply+Chain">Content Supply Chain</a></p>
+</section>
+
+<section id="systems">
+  <p class="sec-eyebrow">Mental model 4</p>
+  <h2>Think in systems of work, record, activation, and learning</h2>
+  <p>The product discussions get easier when you separate four conceptual jobs. Maturity comes from
+  <strong>connecting</strong> these systems rather than running them as separate islands.</p>
+  <div class="cards">
+    <div class="card"><div class="cnum">System of work</div><h4>Planning &amp; workflow</h4>
+      <p>What needs doing, who owns it, priority, schedule, what's blocked, what needs approval.</p></div>
+    <div class="card"><div class="cnum">System of record</div><h4>Governed assets</h4>
+      <p>Which asset is official, which version is approved, what metadata and rights apply, who can access it.</p></div>
+    <div class="card"><div class="cnum">System of activation</div><h4>Delivery &amp; experience</h4>
+      <p>Where content appears, which audience, which format, how it's delivered, can it be personalized.</p></div>
+    <div class="card"><div class="cnum">System of learning</div><h4>Measurement &amp; optimization</h4>
+      <p>Did it perform, which asset worked, which attributes contributed, what to change next time.</p></div>
+  </div>
+  <p class="sources"><b>Sources:</b> <a href="https://wiki.corp.adobe.com/spaces/acme/pages/2961974408/Content+Supply+Chain+Integration+Patterns">CSC Integration Patterns</a></p>
+</section>
+
+<section id="scale">
+  <p class="sec-eyebrow">Mental model 5</p>
+  <h2>Scale is not just more content</h2>
+  <p>The AI sessions make more sense once &ldquo;scale&rdquo; is defined across several dimensions.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Dimension</th><th>Meaning</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Volume</strong></td><td>More assets or variants</td></tr>
+        <tr><td><strong>Velocity</strong></td><td>Faster movement from brief to activation</td></tr>
+        <tr><td><strong>Variation</strong></td><td>More combinations of audience, market, channel, format, or offer</td></tr>
+        <tr><td><strong>Consistency</strong></td><td>Maintaining brand and quality standards</td></tr>
+        <tr><td><strong>Reuse</strong></td><td>Getting more value from existing content</td></tr>
+        <tr><td><strong>Learning speed</strong></td><td>Improving future content based on evidence</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>A team can raise volume while making the system worse &mdash; more duplicates, more approval work, more
+  brand inconsistency, more metadata gaps, more content that can't be found or reused.</p>
+  <div class="takeaway"><p class="tk-label">The core mental model</p>
+    <p>Scale means increasing output without proportionally increasing confusion, risk, or manual
+    coordination.</p></div>
+  <p class="sources"><b>Sources:</b> <a href="https://adobe.sharepoint.com/sites/ADLSCentral/Curriculum%20Team%20Documents/Cohorts/2026%20Adobe%20GenStudio%20Cohort/Adobe%20GenStudio%20Cohort%20Scope-WIP.docx">GenStudio Cohort Scope (WIP)</a> · <a href="https://adobe.sharepoint.com/sites/ADLSCentral/Curriculum%20Team%20Documents/Cohorts/2026%20Adobe%20GenStudio%20Cohort/Cohort%20Design/GenStudio_Instructional%20Design%20Plan.docx">GenStudio Instructional Design Plan</a></p>
+</section>
+
+<section id="leverage">
+  <p class="sec-eyebrow">Mental model 6</p>
+  <h2>Generative AI is production leverage</h2>
+  <p>Generative AI is best understood as a <strong>production multiplier</strong>, not the entire operating
+  model. It can explore concepts, generate variants, resize and adapt, localize, produce visual alternatives,
+  and accelerate repetitive steps &mdash; but it does not decide which campaign deserves investment, whether a
+  brief is sound, whether an asset is legally usable, or whether output should be activated.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Human responsibility</th><th>AI responsibility</th></tr></thead>
+      <tbody>
+        <tr><td>Define intent</td><td>Generate options</td></tr>
+        <tr><td>Set creative direction</td><td>Transform or adapt content</td></tr>
+        <tr><td>Establish brand judgment</td><td>Produce variations</td></tr>
+        <tr><td>Assess cultural and strategic fit</td><td>Accelerate repetitive work</td></tr>
+        <tr><td>Approve consequential outputs</td><td>Surface alternatives</td></tr>
+        <tr><td>Own accountability</td><td>Execute within constraints</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="takeaway"><p class="tk-label">The key takeaway</p>
+    <p>Generative AI increases the supply of possible content. The operating model determines whether that
+    content becomes useful business value.</p></div>
+  <p class="sources"><b>Sources:</b> <a href="https://adobe.sharepoint.com/sites/ADLSCentral/Curriculum%20Team%20Documents/Cohorts/2026%20Adobe%20GenStudio%20Cohort/Cohort%20Design/GenStudio_Instructional%20Design%20Plan.docx">GenStudio Instructional Design Plan</a></p>
+</section>
+
+<section id="patterns">
+  <p class="sec-eyebrow">Mental model 7</p>
+  <h2>Predictive, generative, assistant, and agentic are different</h2>
+  <p>These terms are related but should not be treated as interchangeable.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>AI pattern</th><th>Main job</th><th>Typical output</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Predictive AI</strong></td><td>Estimate what may happen</td><td>Score, forecast, recommendation</td></tr>
+        <tr><td><strong>Generative AI</strong></td><td>Create or transform content</td><td>Image, copy, video, variation</td></tr>
+        <tr><td><strong>Assistant / copilot</strong></td><td>Help a person complete a task</td><td>Answer, suggestion, draft, summary</td></tr>
+        <tr><td><strong>Agentic AI</strong></td><td>Pursue a goal across multiple steps</td><td>Coordinated actions and workflow progress</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>Example: campaign refresh</h3>
+  <ul>
+    <li><strong>Predictive:</strong> identifies that an audience is showing declining engagement.</li>
+    <li><strong>Generative:</strong> creates new visual and copy variants.</li>
+    <li><strong>Assistant:</strong> recommends which approved assets could be reused.</li>
+    <li><strong>Agentic:</strong> coordinates the refresh, routes content for review, prepares channel variants, and reports the outcome.</li>
+  </ul>
+  <div class="takeaway"><p class="tk-label">The important distinction</p>
+    <p>Generation creates an output. Agency manages a process.</p></div>
+  <p class="sources"><b>Sources:</b> <a href="https://adobe.sharepoint.com/sites/ADLSCentral/Curriculum%20Team%20Documents/Cohorts/2026%20Adobe%20GenStudio%20Cohort/Cohort%20Design/GenStudio_Instructional%20Design%20Plan.docx">GenStudio Instructional Design Plan</a></p>
+</section>
+
+<section id="maturity">
+  <p class="sec-eyebrow">Mental model 8</p>
+  <h2>The maturity model: foundation &rarr; AI-powered &rarr; agentic</h2>
+  <div class="stages">
+    <div class="stage s1"><div class="st-num">1</div>
+      <h4>Foundational CSC</h4>
+      <p style="margin:0 0 8px;color:var(--gray-600);font-size:14.5px;">Establish operational discipline first:</p>
+      <ul><li>Centralized content and consistent metadata</li>
+        <li>Standardized workflows, clear intake and approvals</li>
+        <li>Connected planning and asset systems; reduced silos</li></ul>
+      <p class="st-goal">Goal: reliable execution &mdash; not maximum autonomy.</p></div>
+    <div class="stage s2"><div class="st-num">2</div>
+      <h4>AI-powered CSC</h4>
+      <p style="margin:0 0 8px;color:var(--gray-600);font-size:14.5px;">Layer generative AI onto the foundation:</p>
+      <ul><li>People still define briefs and still review and approve</li>
+        <li>AI accelerates creation, localization, adaptation, variation</li>
+        <li>Existing workflows become faster and more productive</li></ul>
+      <p class="st-goal">Goal: more output and faster production without losing human control.</p></div>
+    <div class="stage s3"><div class="st-num">3</div>
+      <h4>Agentic CSC</h4>
+      <p style="margin:0 0 8px;color:var(--gray-600);font-size:14.5px;">Coordinate people and agents across the lifecycle:</p>
+      <ul><li>Agents interpret goals, retrieve context, coordinate work</li>
+        <li>Agents monitor progress and exceptions</li>
+        <li>Humans focus on strategy, judgment, and accountability</li></ul>
+      <p class="st-goal">Goal: continuous, coordinated content operations.</p></div>
+  </div>
+  <div class="takeaway"><p class="tk-label">The sequencing principle</p>
+    <p>Do not automate disorder. First establish the foundation, then add generation, then introduce
+    orchestration &mdash; agents need reliable metadata, clear ownership, standardized approvals, governed
+    assets, and measurable workflows to build on.</p></div>
+  <p class="sources"><b>Sources:</b> <a href="https://fieldreadiness-adobe.highspot.com/items/6a3ee973ea97b161802e72d8">Agentic CSC for Agencies</a> · <a href="https://fieldreadiness-adobe.highspot.com/items/67c8687e89a13a886a62dc9a">CSC Activation &amp; Discovery Guide</a></p>
+</section>
+
+<section id="agents">
+  <p class="sec-eyebrow">Mental model 9</p>
+  <h2>Agents are teammates in a workflow, not just chat</h2>
+  <p>A conversational assistant answers a question. An agentic workflow participates in the work.</p>
+  <div class="compare">
+    <div class="compare-col">
+      <p class="cc-label">Assistant model</p>
+      <div class="vflow">
+        <div class="vf-step">Person asks a question</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">AI provides an answer or draft</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Person decides what to do</div>
+      </div>
+    </div>
+    <div class="compare-col good">
+      <p class="cc-label">Agentic workflow model</p>
+      <div class="vflow">
+        <div class="vf-step">Person defines a goal</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">System gathers context</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Specialized agents perform tasks</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Results checked &amp; combined</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Human approves key decisions</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Workflow executes &amp; reports</div>
+      </div>
+    </div>
+  </div>
+  <h3>What remains human-led</h3>
+  <p>Strategy, brand judgment, risk tolerance, high-impact approvals, exceptions, and accountability for
+  business outcomes.</p>
+  <div class="takeaway"><p class="tk-label">The key takeaway</p>
+    <p>Agentic AI is the orchestration of work, not merely the generation of content.</p></div>
+  <p class="sources"><b>Sources:</b> <a href="https://fieldreadiness-adobe.highspot.com/items/6a3ee973ea97b161802e72d8">Agentic CSC for Agencies</a></p>
+</section>
+
+<section id="governance">
+  <p class="sec-eyebrow">Mental model 10</p>
+  <h2>Governance is a control plane, not a final checkpoint</h2>
+  <p>A weak model checks content only at the end. A stronger model applies controls continuously, so
+  governance <strong>travels with the content and the workflow</strong>.</p>
+  <div class="compare">
+    <div class="compare-col">
+      <p class="cc-label">Weak: end-of-line gate</p>
+      <div class="vflow">
+        <div class="vf-step">Create</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Create more</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Create more</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Final approval</div>
+      </div>
+    </div>
+    <div class="compare-col good">
+      <p class="cc-label">Strong: continuous control plane</p>
+      <div class="vflow">
+        <div class="vf-step">Brief</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Approved intent &amp; audience</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Governed creation</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Rights &amp; metadata validation</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Brand &amp; quality review</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Channel checks &rarr; activation &rarr; monitoring</div>
+      </div>
+    </div>
+  </div>
+  <p>Properly designed, governance <em>enables</em> more speed &mdash; teams trust the system and don't need
+  to recheck everything from scratch. It should answer whether content is based on approved inputs, is legally
+  usable, is on brand, reaches the right audience, is within its usage window, is traceable and reversible, and
+  has an audit trail.</p>
+  <p class="sources"><b>Sources:</b> <a href="https://fieldreadiness-adobe.highspot.com/items/67c8687e89a13a886a62dc9a">CSC Activation &amp; Discovery Guide</a> · <a href="https://fieldreadiness-adobe.highspot.com/items/6a3ee973ea97b161802e72d8">Agentic CSC for Agencies</a></p>
+</section>
+
+<section id="analytics">
+  <p class="sec-eyebrow">Mental model 11</p>
+  <h2>Analytics is the learning mechanism, not the final report</h2>
+  <p>Traditional analytics ends with a report. The CSC model treats analytics as an input to the next
+  decision &mdash; moving from &ldquo;what happened?&rdquo; to &ldquo;why?&rdquo;</p>
+  <div class="compare">
+    <div class="compare-col">
+      <p class="cc-label">Report-and-archive</p>
+      <div class="vflow">
+        <div class="vf-step">Campaign</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Report</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Archive</div>
+      </div>
+    </div>
+    <div class="compare-col good">
+      <p class="cc-label">Learning loop</p>
+      <div class="vflow">
+        <div class="vf-step">Campaign</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Asset performance</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Content insight</div>
+        <div class="vf-arrow">&darr;</div>
+        <div class="vf-step">Better next brief</div>
+      </div>
+    </div>
+  </div>
+  <h3>The learning hierarchy</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Level</th><th>Question</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Campaign</strong></td><td>Did the campaign achieve its objective?</td></tr>
+        <tr><td><strong>Channel</strong></td><td>Where did it perform best?</td></tr>
+        <tr><td><strong>Audience</strong></td><td>Who responded?</td></tr>
+        <tr><td><strong>Asset</strong></td><td>Which asset worked?</td></tr>
+        <tr><td><strong>Attribute</strong></td><td>What about the asset may have contributed?</td></tr>
+        <tr><td><strong>Next action</strong></td><td>What should be produced or changed next?</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="takeaway"><p class="tk-label">The key takeaway</p>
+    <p>Measurement creates value only when it changes the next decision. That's what turns the Content Supply
+    Chain into a compounding system.</p></div>
+  <p class="sources"><b>Sources:</b> <a href="https://wiki.corp.adobe.com/spaces/WEM/pages/3660860191/CSC+Customer+Analysis">CSC Customer Analysis</a></p>
+</section>
+
+<section id="mapping">
+  <p class="sec-eyebrow">Bringing it back to the sessions</p>
+  <h2>How the original sessions map to these models</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Original session</th><th>Mental model</th><th>The real lesson</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Creative Cloud Pro &amp; Firefly</strong></td><td>Human creativity + production leverage</td><td>AI should remove repetitive work so people spend more time on creative judgment</td></tr>
+        <tr><td><strong>Firefly Services</strong></td><td>Scale through repeatable processes</td><td>APIs and automation matter when production involves large numbers of variants</td></tr>
+        <tr><td><strong>Workfront, Asset Link &amp; AEM Assets</strong></td><td>Context, state, governed handoffs</td><td>Content must move with its intent, metadata, approvals, and ownership</td></tr>
+        <tr><td><strong>GenStudio for Performance Marketing</strong></td><td>Activation-ready content</td><td>Content has value when it reaches the right audience, channel, and moment</td></tr>
+        <tr><td><strong>Content Analytics</strong></td><td>Measurement as a feedback loop</td><td>Performance data should influence future briefs, variants, and investment</td></tr>
+        <tr><td><strong>Firefly Foundry</strong></td><td>Model specificity</td><td>The right model depends on how deeply it must understand a brand, universe, or proprietary content</td></tr>
+        <tr><td><strong>Agent Orchestrator</strong></td><td>Coordination over isolated assistance</td><td>Agents become valuable when they work together across multiple steps and systems</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <h3>The Foundry mental model: specificity beats generality</h3>
+  <p>Foundry is best understood through one question: <strong>how much specialized knowledge must the model
+  possess to produce useful results?</strong> A general model may suffice for broad ideation; a customized
+  model is needed when the organization requires consistent brand identity, specialized product knowledge, a
+  proprietary visual language, franchise or character consistency, deep catalog understanding, or specialized
+  multimodal output. The lesson isn't that one model is &ldquo;better&rdquo; &mdash; it's that model choice
+  depends on the required level of <strong>specificity, consistency, control, and proprietary context</strong>.</p>
+  <p class="sources"><b>Sources:</b> <a href="https://fieldreadiness-adobe.highspot.com/items/69332e43b63d7bfb3a0907b6">FAQ — Firefly Foundry</a></p>
+</section>
+
+<section id="example">
+  <p class="sec-eyebrow">Putting the models to work</p>
+  <h2>A worked example: launching a global product</h2>
+  <p>Imagine a company launching a new running shoe.</p>
+  <ol class="steps-num">
+    <li><h4>Intent</h4><p>The business wants to increase consideration among first-time runners.</p></li>
+    <li><h4>Context</h4><p>The brief defines audience, product, objective, markets, channels, brand voice, deliverables, and usage restrictions.</p></li>
+    <li><h4>Production</h4><p>The creative team develops the master concept; AI helps explore backgrounds, layouts, copy, and visual variations.</p></li>
+    <li><h4>Scale</h4><p>Programmatic services produce versions for mobile, display, social, and email across North America, Europe, and Japan, and for different audience segments.</p></li>
+    <li><h4>Governance</h4><p>The organization validates brand consistency, product accuracy, legal language, usage rights, required metadata, and approval status.</p></li>
+    <li><h4>Activation</h4><p>Approved variants are delivered to the appropriate channels and audiences.</p></li>
+    <li><h4>Measurement</h4><p>The team evaluates which image and headline performed best, which audience responded, and which channel produced the strongest outcome.</p></li>
+    <li><h4>Learning</h4><p>The next brief incorporates those findings.</p></li>
+    <li><h4>Agentic evolution</h4><p>At a more mature stage, agents coordinate much of the routing, adaptation, validation, and reporting &mdash; while humans keep strategic intent, creative judgment, and final accountability.</p></li>
+  </ol>
+</section>
+
+<section id="principles">
+  <p class="sec-eyebrow">Takeaways</p>
+  <h2>Seven principles &amp; a diagnostic</h2>
+  <ol class="principles">
+    <li>Think in lifecycles, not files.</li>
+    <li>Think in connected stages, not isolated tools.</li>
+    <li>Preserve context at every handoff.</li>
+    <li>Treat metadata as operational infrastructure.</li>
+    <li>Scale variation without scaling confusion.</li>
+    <li>Measure content at the asset and attribute level, not only at the campaign level.</li>
+    <li>Earn agentic automation by first establishing a governed foundation.</li>
+  </ol>
+
+  <h3>A short explanation you can use with others</h3>
+  <div class="oneliner">
+    <p>The Content Supply Chain is the operating model for planning, creating, governing, activating, and
+    measuring content. <span class="em">Workfront</span> organizes the work, <span class="em">Creative Cloud
+    &amp; Firefly</span> produce it, <span class="em">asset management</span> preserves the governed source of
+    truth, <span class="em">GenStudio</span> activates and optimizes it, <span class="em">analytics</span>
+    closes the loop, and <span class="em">agents</span> increasingly coordinate the process. The goal isn't
+    simply more content &mdash; it's more useful, on-brand, measurable content with less friction.</p>
+  </div>
+
+  <h3>Diagnostic questions for any CSC discussion</h3>
+  <p>These let you diagnose the operating model <em>before</em> discussing products.</p>
+  <ol class="qlist">
+    <li>Where does content demand originate?</li>
+    <li>Is there a single, reliable intake and planning process?</li>
+    <li>Does context travel with the work?</li>
+    <li>Can teams find and reuse approved assets?</li>
+    <li>How much production is repetitive or manual?</li>
+    <li>Where do review and approval delays occur?</li>
+    <li>How are content variants created and governed?</li>
+    <li>Can performance be connected to specific assets?</li>
+    <li>Does measurement influence the next brief?</li>
+    <li>Is the organization ready for AI assistance, or does it first need foundational cleanup?</li>
+  </ol>
+</section>
+</main></div>
+</div>
+<footer class="site-footer">
+  <div class="foot-inner">
+    <div class="foot-brand"><img src="data:image/png;base64,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" alt="Adobe">Adobe&nbsp;<span>Customer Solutions</span></div>
+    <div class="foot-right">
+      <p class="fr-1">Content Supply Chain &middot; Mental models</p>
+      <p class="fr-2">Synthesized learning guide &mdash; not a verbatim transcript. &copy; 2026 Adobe</p>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  var SPY_SELECTOR = '#spy-nav a';
+  var links = Array.prototype.slice.call(document.querySelectorAll(SPY_SELECTOR));
+  var map = {}; links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
+  var sections = links.map(function(l){ return document.getElementById(l.getAttribute('href').slice(1)); }).filter(Boolean);
+  function setActive(id){ links.forEach(function(l){ l.classList.remove('active'); }); if(map[id]) map[id].classList.add('active'); }
+  if('IntersectionObserver' in window){
+    var vis = {};
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ vis[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0; });
+      var best=null, bestR=0; Object.keys(vis).forEach(function(k){ if(vis[k]>bestR){bestR=vis[k]; best=k;} });
+      if(best) setActive(best);
+    }, { rootMargin:'-15% 0px -70% 0px', threshold:[0,0.15,0.5,1] });
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+  links.forEach(function(l){ l.addEventListener('click', function(){ setActive(l.getAttribute('href').slice(1)); }); });
+})();
+</script>
+</body>
+</html>

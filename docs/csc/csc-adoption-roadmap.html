@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Content Supply Chain — Enterprise Adoption Roadmap</title>
+<style>
+:root{
+  --adobe-red:#EB1000; --adobe-red-dark:#B71000; --adobe-red-tint:#FDECEA;
+  --ink:#1B1B1B; --charcoal:#2C2C2C; --charcoal-2:#141414;
+  --gray-900:#202020; --gray-700:#4B4B4B; --gray-600:#5C5C5C;
+  --gray-500:#787878; --gray-300:#D6D6D6; --gray-200:#E9E9E9;
+  --gray-100:#F4F4F4; --gray-50:#FAFAFA; --white:#FFFFFF;
+  --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,
+    BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --radius:10px; --radius-sm:7px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 1px 2px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.06);
+  --maxw:1200px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{animation:none!important;transition:none!important;}}
+body{margin:0;font-family:var(--font);color:var(--gray-900);background:var(--white);
+  line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+::selection{background:var(--adobe-red-tint);}
+a{color:var(--adobe-red-dark);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+.topbar{height:4px;background:var(--adobe-red);width:100%;}
+.ai-note{background:var(--gray-100);border-bottom:1px solid var(--gray-200);}
+.ai-note-inner{max-width:var(--maxw);margin:0 auto;padding:10px 24px;display:flex;
+  align-items:center;justify-content:center;gap:9px;font-size:12.5px;line-height:1.45;color:var(--gray-600);}
+.ai-note b{color:var(--gray-700);font-weight:700;} .ai-note svg{flex:none;}
+
+.hero{position:relative;overflow:hidden;color:#fff;
+  background:radial-gradient(900px 480px at 88% -10%,rgba(235,16,0,.28),transparent 60%),
+    linear-gradient(135deg,#2d2d2d 0%,#1c1c1c 52%,#0e0e0e 100%);padding:46px 24px 52px;}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px);
+  background-size:100% 34px;opacity:.5;
+  -webkit-mask:linear-gradient(#000,transparent 70%);mask:linear-gradient(#000,transparent 70%);}
+.hero-inner{max-width:var(--maxw);margin:0 auto;position:relative;z-index:1;}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;
+  flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.12);}
+.brandrow{display:flex;align-items:center;gap:11px;}
+.brandrow .brand-mark{height:26px;width:auto;flex:none;filter:drop-shadow(0 4px 14px rgba(235,16,0,.4));}
+.brandname{font-size:19px;font-weight:800;letter-spacing:-.02em;color:#fff;}
+.brandname span{font-weight:400;color:#d9d9d9;}
+.kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:#ff8f84;white-space:nowrap;}
+.hero-body{margin-top:30px;}
+.hero h1{margin:0;font-size:clamp(34px,5vw,56px);line-height:1.06;font-weight:800;letter-spacing:-.025em;max-width:20ch;}
+.hero h1 .hl{color:#F04A2E;text-shadow:0 2px 16px rgba(235,16,0,.28);}
+.hero .lead{margin:18px 0 0;font-size:clamp(17px,2vw,20px);color:#d3d3d3;max-width:66ch;}
+.hero .lead strong{color:#fff;font-weight:700;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0;padding:0;list-style:none;}
+.hero-chips li{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);
+  border-radius:100px;padding:8px 15px;font-size:13.5px;font-weight:500;color:#e6e6e6;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14);}
+.hero-chips li strong{color:#fff;font-weight:700;}
+
+.shell{max-width:var(--maxw);margin:0 auto;padding:0 24px 80px;display:grid;
+  grid-template-columns:230px minmax(0,1fr);gap:48px;}
+.rail{position:sticky;top:24px;align-self:start;padding-top:44px;}
+.rail-title{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gray-500);margin:0 0 14px;padding-left:14px;}
+.rail nav{display:flex;flex-direction:column;gap:1px;}
+.rail nav a{display:flex;align-items:center;gap:11px;padding:8px 14px;border-radius:var(--radius-sm);
+  color:var(--gray-600);font-size:13.5px;font-weight:600;border-left:2px solid transparent;
+  transition:background .15s,color .15s,border-color .15s;}
+.rail nav a .num{font-size:11px;font-weight:700;color:var(--gray-300);min-width:16px;font-variant-numeric:tabular-nums;}
+.rail nav a:hover{background:var(--gray-100);color:var(--ink);}
+.rail nav a.active{color:var(--adobe-red-dark);background:var(--adobe-red-tint);border-left-color:var(--adobe-red);}
+.rail nav a.active .num{color:var(--adobe-red);}
+.content{padding-top:44px;min-width:0;}
+@media(max-width:980px){.shell{grid-template-columns:1fr;gap:0;}.rail{display:none;}}
+
+section{scroll-margin-top:20px;padding-bottom:52px;}
+section + section{border-top:1px solid var(--gray-200);padding-top:46px;}
+.sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--adobe-red);margin:0 0 10px;}
+h2{font-size:clamp(25px,2.8vw,33px);line-height:1.15;letter-spacing:-.015em;font-weight:800;margin:0 0 18px;}
+h3{font-size:19px;font-weight:800;letter-spacing:-.01em;margin:34px 0 12px;color:var(--ink);}
+h4{font-size:15px;font-weight:800;letter-spacing:.06em;margin:22px 0 8px;color:var(--gray-700);text-transform:uppercase;}
+p{margin:0 0 14px;}
+.content ul,.content ol{margin:0 0 16px;padding-left:22px;}
+.content li{margin:5px 0;}
+.lead-p{font-size:18px;color:var(--gray-700);max-width:70ch;}
+strong{color:var(--ink);}
+
+/* two-column list layout for long workstream lists */
+.twocol{columns:2;column-gap:36px;margin:0 0 16px;}
+.twocol li{margin:5px 0;break-inside:avoid;}
+@media(max-width:640px){.twocol{columns:1;}}
+
+.oneliner{background:var(--charcoal);color:#fff;border-radius:var(--radius);padding:26px 28px;
+  margin:6px 0 26px;position:relative;overflow:hidden;box-shadow:var(--shadow);}
+.oneliner::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(520px 240px at 92% -30%,rgba(235,16,0,.30),transparent 62%);pointer-events:none;}
+.oneliner p{margin:0;font-size:clamp(18px,2.2vw,23px);line-height:1.42;font-weight:600;position:relative;letter-spacing:-.01em;}
+.oneliner .em{color:#F04A2E;font-weight:800;}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin:8px 0 22px;}
+.card{border:1px solid var(--gray-200);border-radius:var(--radius);padding:18px 18px 16px;background:var(--gray-50);box-shadow:var(--shadow-sm);}
+.card .cnum{font-size:12px;font-weight:800;color:var(--adobe-red);letter-spacing:.05em;}
+.card h4{margin:6px 0 6px;text-transform:none;letter-spacing:-.01em;font-size:16px;color:var(--ink);}
+.card p{margin:0;font-size:14px;color:var(--gray-600);}
+
+.tbl-wrap{overflow-x:auto;margin:8px 0 22px;border:1px solid var(--gray-200);border-radius:var(--radius);}
+table{border-collapse:collapse;width:100%;font-size:14.5px;}
+thead th{background:var(--gray-100);text-align:left;font-weight:800;color:var(--gray-700);
+  padding:11px 14px;border-bottom:2px solid var(--gray-300);}
+tbody td{padding:11px 14px;border-bottom:1px solid var(--gray-200);vertical-align:top;color:var(--gray-700);}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr:nth-child(even){background:var(--gray-50);}
+td strong,th strong{color:var(--ink);}
+.tc-num{font-variant-numeric:tabular-nums;color:var(--gray-500);font-weight:700;white-space:nowrap;}
+
+.takeaway{border-left:3px solid var(--adobe-red);background:var(--adobe-red-tint);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:16px 20px;margin:22px 0;}
+.takeaway .tk-label{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--adobe-red-dark);margin:0 0 6px;}
+.takeaway p{margin:0;font-size:16px;font-weight:600;color:var(--ink);line-height:1.5;}
+
+.note{border:1px solid var(--gray-200);background:var(--gray-50);border-radius:var(--radius-sm);
+  padding:14px 18px;margin:18px 0;font-size:14.5px;color:var(--gray-600);}
+.note b{color:var(--gray-700);}
+
+/* horizontal flow */
+.flow{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;margin:10px 0 14px;}
+.flow-node{flex:1 1 130px;min-width:120px;border:1px solid var(--gray-200);border-radius:var(--radius-sm);
+  background:var(--white);padding:12px 14px;box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:4px;}
+.flow-node .fn-step{font-size:10.5px;font-weight:800;color:var(--adobe-red);letter-spacing:.08em;}
+.flow-node .fn-title{font-size:13.5px;font-weight:800;color:var(--ink);line-height:1.25;letter-spacing:-.01em;}
+.flow-arrow{align-self:center;color:var(--gray-300);font-size:20px;font-weight:700;flex:none;line-height:1;}
+.loopback{display:flex;align-items:center;gap:10px;margin:2px 0 22px;font-size:13.5px;color:var(--gray-600);
+  border-top:1px dashed var(--gray-300);padding-top:12px;}
+.loopback .lb-arrow{color:var(--adobe-red);font-weight:800;font-size:16px;}
+@media(max-width:640px){.flow{flex-direction:column;}.flow-arrow{transform:rotate(90deg);}}
+
+/* comparison columns */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:10px 0 20px;align-items:start;}
+@media(max-width:640px){.compare{grid-template-columns:1fr;}}
+.compare-col{border:1px solid var(--gray-200);border-radius:var(--radius);padding:16px 18px 18px;background:var(--gray-50);}
+.compare-col.good{border-color:#f0c7c0;background:var(--adobe-red-tint);}
+.compare-col .cc-label{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;margin:0 0 10px;color:var(--gray-500);}
+.compare-col.good .cc-label{color:var(--adobe-red-dark);}
+.compare-col ul{margin:0;padding-left:20px;}
+.compare-col li{font-size:14px;color:var(--gray-700);}
+
+/* phase / gate blocks */
+.stages{display:flex;flex-direction:column;gap:14px;margin:10px 0 18px;}
+.stage{position:relative;border:1px solid var(--gray-200);border-radius:var(--radius);
+  padding:18px 20px 18px 68px;background:var(--gray-50);box-shadow:var(--shadow-sm);}
+.stage .st-num{position:absolute;left:18px;top:18px;width:34px;height:34px;border-radius:9px;
+  background:var(--charcoal);color:#fff;font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;}
+.stage.peak .st-num{background:var(--adobe-red);}
+.stage h4{margin:0 0 8px;text-transform:none;letter-spacing:-.01em;font-size:17px;color:var(--ink);}
+.stage ul{margin:0;}
+.stage .st-goal{margin:10px 0 0;font-size:13.5px;color:var(--adobe-red-dark);font-weight:700;}
+
+/* numbered steps with titles */
+.steps-num{list-style:none;counter-reset:sn;padding:0;margin:8px 0 18px;}
+.steps-num li{counter-increment:sn;position:relative;padding:0 0 18px 46px;}
+.steps-num li:last-child{padding-bottom:0;}
+.steps-num li::before{content:counter(sn);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;
+  background:var(--charcoal);color:#fff;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.steps-num li h4{margin:3px 0 4px;text-transform:none;letter-spacing:-.01em;font-size:15.5px;color:var(--ink);}
+.steps-num li p{margin:0;font-size:14.5px;color:var(--gray-600);}
+
+/* numbered exec-summary list */
+.qlist{counter-reset:q;list-style:none;padding:0;margin:8px 0 20px;}
+.qlist li{counter-increment:q;position:relative;padding:10px 0 10px 44px;border-bottom:1px solid var(--gray-200);
+  font-size:15.5px;color:var(--gray-700);}
+.qlist li:last-child{border-bottom:none;}
+.qlist li strong{color:var(--ink);}
+.qlist li::before{content:counter(q);position:absolute;left:0;top:9px;width:28px;height:28px;border-radius:50%;
+  background:var(--adobe-red-tint);color:var(--adobe-red-dark);font-size:13px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;}
+
+.sources{font-size:12.5px;color:var(--gray-500);margin:18px 0 0;padding-top:12px;border-top:1px solid var(--gray-200);}
+.sources b{color:var(--gray-600);font-weight:700;}
+.sources a{color:var(--gray-600);border-bottom:1px dotted var(--gray-300);}
+.sources a:hover{color:var(--adobe-red-dark);text-decoration:none;border-bottom-color:var(--adobe-red);}
+
+.site-footer{background:var(--charcoal-2);color:#8a8a8a;}
+.foot-inner{max-width:var(--maxw);margin:0 auto;padding:30px 24px;display:flex;flex-wrap:wrap;
+  gap:14px 24px;align-items:center;justify-content:space-between;}
+.foot-brand{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-size:16px;letter-spacing:-.01em;}
+.foot-brand img{height:22px;width:auto;display:block;}
+.foot-brand span{font-weight:400;color:#cfcfcf;}
+.foot-right{text-align:right;line-height:1.5;}
+.foot-right .fr-1{margin:0;font-size:13px;font-weight:600;color:#b9b9b9;}
+.foot-right .fr-2{margin:2px 0 0;font-size:12px;color:#6f6f6f;}
+@media(max-width:620px){.foot-inner{flex-direction:column;align-items:flex-start;}.foot-right{text-align:left;}}
+</style>
+</head>
+<body>
+<div class="topbar"></div>
+<div class="ai-note">
+  <div class="ai-note-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#787878"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/>
+      <line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span><b>Prepared with AI assistance.</b> Please review for accuracy before use
+      &mdash; this document may contain errors.</span>
+  </div>
+</div>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="masthead">
+      <div class="brandrow">
+        <img class="brand-mark" src="data:image/png;base64,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" alt="Adobe">
+        <span class="brandname">Adobe&nbsp;<span>Customer Solutions</span></span>
+      </div>
+      <span class="kicker">Adoption Roadmap &middot; Content Supply Chain</span>
+    </div>
+    <div class="hero-body">
+      <h1>An enterprise <span class="hl">adoption roadmap</span></h1>
+      <p class="lead">For adopting the Content Supply Chain as an operating model &mdash; not merely purchasing
+      several products.</p>
+      <ul class="hero-chips">
+        <li><strong>6</strong> phases &middot; 5 gates</li>
+        <li>Readiness &rarr; agentic</li>
+        <li>Sequence, not big-bang</li>
+      </ul>
+    </div>
+  </div>
+</header>
+<div class="shell">
+  <aside class="rail">
+    <p class="rail-title">Contents</p>
+    <nav id="spy-nav">
+      <a href="#overview"><span class="num">01</span> Transformation in one view</a>
+      <a href="#phase0"><span class="num">02</span> Phase 0 &middot; Mobilize</a>
+      <a href="#phase1"><span class="num">03</span> Phase 1 &middot; Foundation</a>
+      <a href="#phase2"><span class="num">04</span> Phase 2 &middot; Pilot</a>
+      <a href="#phase3"><span class="num">05</span> Phase 3 &middot; Scale</a>
+      <a href="#phase4"><span class="num">06</span> Phase 4 &middot; AI production</a>
+      <a href="#phase5"><span class="num">07</span> Phase 5 &middot; Measurement loop</a>
+      <a href="#phase6"><span class="num">08</span> Phase 6 &middot; Agentic</a>
+      <a href="#timeline"><span class="num">09</span> Timeline</a>
+      <a href="#gates"><span class="num">10</span> Stage gates</a>
+      <a href="#ownership"><span class="num">11</span> Own vs. Adobe</a>
+      <a href="#sequence"><span class="num">12</span> Product sequence</a>
+      <a href="#summary"><span class="num">13</span> Executive summary</a>
+    </nav>
+  </aside>
+  <div class="content"><main>
+<section id="overview">
+  <p class="sec-eyebrow">How to use this roadmap</p>
+  <h2>The enterprise transformation in one view</h2>
+  <p class="lead-p">This roadmap is for an enterprise adopting the Content Supply Chain <em>as an operating
+  model</em> &mdash; not merely purchasing several Adobe products. The recommended sequence: align the
+  business &rarr; establish the foundation &rarr; prove one valuable workflow &rarr; scale adoption &rarr;
+  introduce AI automation &rarr; orchestrate with agents.</p>
+  <div class="oneliner">
+    <p>Do not begin with maximum automation. Begin with a <span class="em">reliable, measurable, governed</span>
+    content operation.</p>
+  </div>
+
+  <div class="flow">
+    <div class="flow-node"><span class="fn-step">STRATEGY</span><span class="fn-title">Business strategy &amp; demand</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">READINESS</span><span class="fn-title">Readiness &amp; prioritization</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">FOUNDATION</span><span class="fn-title">Governed operating foundation</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">PILOT</span><span class="fn-title">End-to-end pilot</span></div>
+  </div>
+  <div class="flow">
+    <div class="flow-node"><span class="fn-step">AI</span><span class="fn-title">AI-assisted production</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">SCALE</span><span class="fn-title">Enterprise scale</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">AGENTIC</span><span class="fn-title">Agentic orchestration</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">MEASURE</span><span class="fn-title">Continuous measurement</span></div>
+  </div>
+  <div class="loopback"><span class="lb-arrow">&#8635;</span> Measurement feeds the next readiness cycle.</div>
+
+  <h3>Three capability levels</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Maturity level</th><th>Main objective</th><th>Human / AI relationship</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Foundational CSC</strong></td><td>Centralize work, assets, metadata, approvals, and reporting</td><td>Humans perform and coordinate the work</td></tr>
+        <tr><td><strong>AI-powered CSC</strong></td><td>Increase content volume, variation, and speed</td><td>Humans direct and approve; AI accelerates production</td></tr>
+        <tr><td><strong>Agentic CSC</strong></td><td>Coordinate multi-step work across teams and systems</td><td>Humans set goals and guardrails; agents execute bounded workflows</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>Foundational operations come first, AI-assisted production second, and agentic orchestration only after
+  the organization has established reliable context, governance, and workflows.</p>
+  <p class="sources"><b>Sources:</b> <a href="https://adobe.sharepoint.com/sites/FieldEngineeringOrg/SitePages/FY26-Content-Supply-Chain-Readiness.aspx">FY26 CSC Readiness</a> · <a href="https://adobe.sharepoint.com/sites/FieldEngineeringOrg/SitePages/FY26-Digital-Strategy-%26-Roadmaps.aspx">FY26 Digital Strategy &amp; Roadmaps</a> · <a href="https://adobe.sharepoint.com/sites/FieldEngineeringOrg/Delivery%20Support%20Resources/Success%20Accelerators/Content%20Supply%20Chain%20Readiness/Content%20Supply%20Chain%20Readiness%20Playbook.pptx">CSC Readiness Playbook</a></p>
+</section>
+
+<section id="phase0">
+  <p class="sec-eyebrow">Phase 0</p>
+  <h2>Mobilize and align</h2>
+  <p><strong>Objective:</strong> create the business case, sponsorship, team structure, and transformation
+  boundaries before configuring technology. Treat this phase as <strong>decision preparation</strong>, not a
+  generic product workshop.</p>
+
+  <h3>Primary activities</h3>
+  <ol class="twocol">
+    <li>Appoint an executive sponsor.</li>
+    <li>Establish a cross-functional transformation team.</li>
+    <li>Agree on the business outcomes to improve.</li>
+    <li>Document the current content lifecycle.</li>
+    <li>Identify the biggest delays, costs, risks, and duplication.</li>
+    <li>Select 3&ndash;5 candidate use cases.</li>
+    <li>Define baseline metrics.</li>
+    <li>Agree on the initial scope and decision rights.</li>
+  </ol>
+
+  <h3>Recommended participants</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Role</th><th>Responsibility</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Executive sponsor</strong></td><td>Owns strategic priority, funding, and escalation</td></tr>
+        <tr><td><strong>CSC product owner / CoE</strong></td><td>Owns the roadmap, standards, and backlog</td></tr>
+        <tr><td><strong>Marketing operations</strong></td><td>Owns intake, planning, workflow, and campaign execution</td></tr>
+        <tr><td><strong>Creative leadership</strong></td><td>Owns creation standards, production practices, and quality</td></tr>
+        <tr><td><strong>DAM / content operations</strong></td><td>Owns taxonomy, metadata, asset lifecycle, and reuse</td></tr>
+        <tr><td><strong>Brand and legal</strong></td><td>Owns brand, regulatory, rights, and approval rules</td></tr>
+        <tr><td><strong>IT / security</strong></td><td>Owns identity, integrations, access, and architecture</td></tr>
+        <tr><td><strong>Analytics</strong></td><td>Owns measurement design and performance reporting</td></tr>
+        <tr><td><strong>Regional / BU leads</strong></td><td>Represent local requirements and adoption needs</td></tr>
+        <tr><td><strong>Adobe / partner team</strong></td><td>Provides architecture, implementation, and enablement support</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Required outputs</h3>
+  <ul class="twocol">
+    <li>Current-state content lifecycle map</li>
+    <li>Stakeholder and role map</li>
+    <li>Business outcome definition</li>
+    <li>Initial maturity assessment</li>
+    <li>Prioritized use-case backlog</li>
+    <li>KPI baseline</li>
+    <li>North Star architecture</li>
+    <li>Initial risk and dependency register</li>
+  </ul>
+
+  <h3>Questions to answer</h3>
+  <ul class="twocol">
+    <li>Where does a content request originate?</li>
+    <li>How many intake systems exist?</li>
+    <li>Which teams create, review, approve, store, and activate content?</li>
+    <li>Which handoffs are manual?</li>
+    <li>Which assets are difficult to find or reuse?</li>
+    <li>Where does legal or brand approval slow the process?</li>
+    <li>Can a published asset be connected to campaign performance?</li>
+    <li>Which processes are common enough to standardize?</li>
+  </ul>
+  <p class="sources"><b>Sources:</b> <a href="https://adobe.sharepoint.com/sites/Academy/SitePages/CSC-Discovery-%26-Design.aspx">Discovery &amp; Design</a></p>
+</section>
+
+<section id="phase1">
+  <p class="sec-eyebrow">Phase 1</p>
+  <h2>Establish the foundation</h2>
+  <p><strong>Objective:</strong> create a dependable operational backbone for planning, production, review,
+  asset management, and reuse. Start with a small but <em>complete</em> flow rather than deploying every
+  capability at once.</p>
+
+  <div class="takeaway"><p class="tk-label">Architectural rule</p>
+    <p>Workfront owns the work context. AEM Assets owns the approved asset. GenStudio uses both to create
+    activation-ready content &mdash; connected, but not one undifferentiated repository.</p></div>
+
+  <h3>Recommended foundation architecture</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Capability</th><th>Recommended role</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Workfront Planning</strong></td><td>Strategic campaign context: objective, audience, products, channels, regions, timing</td></tr>
+        <tr><td><strong>Workfront</strong></td><td>Work orchestration: requests, projects, tasks, resources, reviews, approvals, reporting</td></tr>
+        <tr><td><strong>Creative Cloud</strong></td><td>Professional creative production</td></tr>
+        <tr><td><strong>Frame.io / Workfront Proof</strong></td><td>Collaboration, review, annotation, and approval</td></tr>
+        <tr><td><strong>AEM Assets</strong></td><td>Governed repository for approved assets, versions, metadata, permissions, reuse</td></tr>
+        <tr><td><strong>Content Hub</strong></td><td>Business-friendly discovery and distribution of approved assets</td></tr>
+        <tr><td><strong>Workfront Fusion / integrations</strong></td><td>Automation and synchronization across systems</td></tr>
+        <tr><td><strong>Activation channels</strong></td><td>Web, email, paid media, mobile, social, commerce, other destinations</td></tr>
+        <tr><td><strong>Analytics</strong></td><td>Content, campaign, channel, and business-outcome measurement</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Foundation workstreams</h3>
+  <div class="cards">
+    <div class="card"><div class="cnum">01</div><h4>Intake &amp; planning</h4>
+      <p>One preferred intake path, a minimum viable brief, campaign/project templates, required objective/audience/channel/timing fields, prioritization rules, capacity visibility.</p></div>
+    <div class="card"><div class="cnum">02</div><h4>Workflow &amp; approval</h4>
+      <p>Standard vs. expedited workflows, review stages, brand/legal checkpoints, approval authorities, escalation, versioning, approval evidence and retention.</p></div>
+    <div class="card"><div class="cnum">03</div><h4>Asset governance</h4>
+      <p>Folder/collection structure, metadata schema, taxonomy and controlled vocabularies, naming standards, rights/expiration, status model, ownership, retirement rules.</p></div>
+    <div class="card"><div class="cnum">04</div><h4>Integration &amp; identity</h4>
+      <p>IMS org and identity model, provisioning, role-based access, Workfront&ndash;AEM relationships, metadata sync, agency access, activation connections, compliance.</p></div>
+    <div class="card"><div class="cnum">05</div><h4>Adoption</h4>
+      <p>Role-based training, super-user network, job aids, office hours, migration/coexistence guidance, communications plan, adoption dashboard.</p></div>
+  </div>
+
+  <h3>Foundation exit criteria</h3>
+  <p>Do not move to broad AI or enterprise rollout until the customer can demonstrate all of the following:</p>
+  <ul class="twocol">
+    <li>A request can be submitted and prioritized.</li>
+    <li>A campaign can be planned with structured context.</li>
+    <li>Work can be assigned and tracked.</li>
+    <li>Content can be created and reviewed.</li>
+    <li>Approval status is visible.</li>
+    <li>Approved assets can be found and reused.</li>
+    <li>Metadata and permissions are applied consistently.</li>
+    <li>The process has an owner.</li>
+    <li>Baseline metrics can be reported.</li>
+  </ul>
+  <p class="sources"><b>Sources:</b> <a href="https://wiki.corp.adobe.com/spaces/GenStudio/pages/3955820373/AEM+Workfront+Genstudio+Notes">AEM + Workfront + GenStudio Notes</a> · <a href="https://wiki.corp.adobe.com/spaces/acme/pages/2961974408/Content+Supply+Chain+Integration+Patterns">CSC Integration Patterns</a> · <a href="https://wiki.corp.adobe.com/spaces/ABPe2eArch/pages/2901743804/Marketing+-+Content+Supply+Chain+Phase+1">Marketing — CSC Phase 1</a></p>
+</section>
+
+<section id="phase2">
+  <p class="sec-eyebrow">Phase 2</p>
+  <h2>Select and run a focused pilot</h2>
+  <p><strong>Objective:</strong> prove measurable value through one end-to-end workflow before expanding
+  across the enterprise. A good pilot is high-volume, repetitive, easy to measure, important to the business,
+  bounded to one team/market/campaign type, supported by mature brand guidelines, and connected to an
+  activation channel &mdash; capable of producing results within one planning cycle.</p>
+
+  <div class="compare">
+    <div class="compare-col good">
+      <p class="cc-label">Strong pilot examples</p>
+      <ul>
+        <li>Paid social campaign variants &mdash; high variation, clear metrics</li>
+        <li>Regional campaign localization &mdash; measurable cycle time</li>
+        <li>Display advertising production &mdash; standard dimensions, high volume</li>
+        <li>Product-launch asset reuse &mdash; DAM findability &rarr; speed</li>
+        <li>Briefing and approval &mdash; visible bottlenecks, easy baseline</li>
+        <li>Seasonal refresh &mdash; clean before/after comparison</li>
+      </ul>
+    </div>
+    <div class="compare-col">
+      <p class="cc-label">Poor first pilots</p>
+      <ul>
+        <li>Every region and BU simultaneously</li>
+        <li>High-risk regulated content with undefined approvals</li>
+        <li>A campaign with no baseline performance data</li>
+        <li>A workflow whose ownership is disputed</li>
+        <li>A use case needing many unresolved integrations</li>
+        <li>A broad &ldquo;transform everything&rdquo; program</li>
+        <li>Agent autonomy before the process is standardized</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Pilot workflow</h3>
+  <div class="flow">
+    <div class="flow-node"><span class="fn-step">BRIEF</span><span class="fn-title">Campaign brief</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">PLAN</span><span class="fn-title">Structured planning context</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">ASSETS</span><span class="fn-title">Approved assets &amp; brand rules</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">CREATE</span><span class="fn-title">Human / AI-assisted creation</span></div>
+  </div>
+  <div class="flow">
+    <div class="flow-node"><span class="fn-step">REVIEW</span><span class="fn-title">Review &amp; approval</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">ACTIVATE</span><span class="fn-title">Publish &amp; activate</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">MEASURE</span><span class="fn-title">Measure performance</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">DECIDE</span><span class="fn-title">Reuse, refresh, or retire</span></div>
+  </div>
+  <div class="note">If GenStudio for Performance Marketing is in scope, prepare the marketing foundation first
+  &mdash; brands, products, personas, approved assets, templates, campaign context, and approval rules.
+  GenStudio activation includes initial brand setup, template creation, and campaign experience creation and
+  activation.</div>
+
+  <h3>Pilot success metrics</h3>
+  <div class="cards">
+    <div class="card"><div class="cnum">Operational</div><h4>Speed &amp; flow</h4>
+      <p>Brief-to-production, production-to-approval, approval cycle time, review rounds, % on standard intake, % assets with required metadata, search time, reuse rate, manual handoffs, on-time %.</p></div>
+    <div class="card"><div class="cnum">Content &amp; campaign</div><h4>Output &amp; outcome</h4>
+      <p>Approved variants, time to localize, cost per approved asset, activation time, engagement/conversion by asset, performance by audience/channel/region, % refreshed on insight.</p></div>
+    <div class="card"><div class="cnum">Adoption</div><h4>Behavior change</h4>
+      <p>Active users by role, template use, approved-asset use, workflow completion, % teams on standard process, training completion, support issues, user satisfaction.</p></div>
+  </div>
+  <p class="sources"><b>Sources:</b> <a href="https://fieldreadiness-adobe.highspot.com/items/66fe78972fe8d0b7757c39e2">Success Accelerator Overview</a></p>
+</section>
+
+<section id="phase3">
+  <p class="sec-eyebrow">Phase 3</p>
+  <h2>Operationalize and scale</h2>
+  <p><strong>Objective:</strong> turn a successful pilot into a repeatable enterprise operating model. Scaling
+  is not simply adding users &mdash; it means expanding <strong>people, process, technology, governance, and
+  measurement together</strong>.</p>
+
+  <h3>Scale in waves</h3>
+  <p>Each wave should have a defined entry checklist and a named adoption owner:</p>
+  <div class="flow">
+    <div class="flow-node"><span class="fn-step">01</span><span class="fn-title">Pilot team</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">02</span><span class="fn-title">Adjacent team</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">03</span><span class="fn-title">More campaign types</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">04</span><span class="fn-title">Regions / BUs</span></div>
+  </div>
+  <div class="flow">
+    <div class="flow-node"><span class="fn-step">05</span><span class="fn-title">Agencies &amp; partners</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">06</span><span class="fn-title">Additional channels</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">07</span><span class="fn-title">Enterprise standardization</span></div>
+  </div>
+
+  <h3>Scale workstreams</h3>
+  <div class="cards">
+    <div class="card"><div class="cnum">Operating model</div><h4>Govern the practice</h4>
+      <p>A CSC center of excellence; product owners for planning, assets, AI, analytics; regional/BU reps; shared backlog; decision-rights model; exception process; quarterly roadmap review.</p></div>
+    <div class="card"><div class="cnum">Governance</div><h4>Standing forums</h4>
+      <p>Workflow/template standards, metadata/taxonomy changes, brand/legal policy, AI use-case approval, integration/architecture decisions, security/privacy review, KPI review.</p></div>
+    <div class="card"><div class="cnum">Technology</div><h4>Expand capability</h4>
+      <p>Workfront templates, AEM metadata/taxonomy, distribution, dynamic renditions, translation/localization, creative integrations, Fusion automation, activation connectors, dashboards.</p></div>
+    <div class="card"><div class="cnum">Adoption</div><h4>Sustain behavior</h4>
+      <p>Role-based learning journeys, super-user communities, regional champions, desk-side coaching, onboarding, reusable playbooks, monthly adoption reviews, quarterly improvement cycles.</p></div>
+  </div>
+  <p class="sources"><b>Sources:</b> <a href="https://adobe.sharepoint.com/sites/DigitalStrategyGroup-EMEA/Shared%20Documents/Manufacturing/Evonik/2026%20DCX%20Transformation/Reference%20Decks/Content%20Supply%20Chain%20Organizational%20Readiness%20%26%20Change%20Management%20Playbook-2.pdf">CSC Organizational Readiness &amp; Change Management Playbook</a></p>
+</section>
+
+<section id="phase4">
+  <p class="sec-eyebrow">Phase 4</p>
+  <h2>Introduce AI-powered production</h2>
+  <p><strong>Objective:</strong> increase content velocity and variation while preserving human judgment and
+  enterprise controls. Introduce AI where the process is already structured enough to <em>evaluate</em> its
+  output.</p>
+
+  <ol class="steps-num">
+    <li><h4>Assist individual creators</h4><p>Firefly and Creative Cloud for ideation, background generation, image extension, resizing, copy/visual variations, and first-draft exploration.</p></li>
+    <li><h4>Enable marketer self-service</h4><p>GenStudio for approved teams to find assets, use brand and campaign context, create channel-specific variants from templates, submit for review, and activate.</p></li>
+    <li><h4>Automate repetitive production</h4><p>Firefly Services for bulk resizing, localization, background replacement, format adaptation, product-image variants, channel production, and campaign refreshes.</p></li>
+    <li><h4>Evaluate specialized models</h4><p>Consider custom models or Foundry when the use case needs deep understanding of proprietary products, brand identity, specialized visual systems, franchise universes, or highly consistent multimodal output.</p></li>
+  </ol>
+
+  <h3>AI governance checklist</h3>
+  <p>Before scaling AI-generated content, define:</p>
+  <ul class="twocol">
+    <li>Permitted and prohibited use cases</li>
+    <li>Approved models</li>
+    <li>Approved data and content sources</li>
+    <li>Human review requirements</li>
+    <li>Brand validation rules</li>
+    <li>Legal and rights checks</li>
+    <li>Recordkeeping requirements</li>
+    <li>Model evaluation criteria</li>
+    <li>Escalation procedures</li>
+    <li>Output monitoring</li>
+    <li>Rollback or withdrawal procedures</li>
+  </ul>
+  <div class="takeaway"><p class="tk-label">Control principle</p>
+    <p>AI may accelerate creation, but it should not silently redefine strategy, brand standards, approval
+    authority, or accountability.</p></div>
+</section>
+
+<section id="phase5">
+  <p class="sec-eyebrow">Phase 5</p>
+  <h2>Close the measurement loop</h2>
+  <p><strong>Objective:</strong> make performance data influence the next content decision. Establish the
+  measurement model during readiness and pilot design &mdash; not after rollout.</p>
+
+  <div class="flow">
+    <div class="flow-node"><span class="fn-step">CONTEXT</span><span class="fn-title">Brief &amp; campaign context</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">PRODUCE</span><span class="fn-title">Asset &amp; experience production</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">ACTIVATE</span><span class="fn-title">Activation</span></div>
+  </div>
+  <div class="flow">
+    <div class="flow-node"><span class="fn-step">MEASURE</span><span class="fn-title">Asset &amp; campaign performance</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">INSIGHT</span><span class="fn-title">Insights &amp; recommendations</span></div>
+    <span class="flow-arrow">&rarr;</span>
+    <div class="flow-node"><span class="fn-step">DECIDE</span><span class="fn-title">Next brief, variant, or investment</span></div>
+  </div>
+  <div class="loopback"><span class="lb-arrow">&#8635;</span> The next decision feeds back into brief and campaign context.</div>
+
+  <h3>Enterprise KPI hierarchy</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Level</th><th>Example question</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Business</strong></td><td>Did the activity improve revenue, demand, conversion, or retention?</td></tr>
+        <tr><td><strong>Campaign</strong></td><td>Did the campaign achieve its objective?</td></tr>
+        <tr><td><strong>Channel</strong></td><td>Which channel produced the strongest outcome?</td></tr>
+        <tr><td><strong>Audience</strong></td><td>Which audience responded?</td></tr>
+        <tr><td><strong>Asset</strong></td><td>Which asset or variant performed?</td></tr>
+        <tr><td><strong>Attribute</strong></td><td>Which visual, message, format, or offer characteristics contributed?</td></tr>
+        <tr><td><strong>Operations</strong></td><td>How efficiently was the content produced and activated?</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="sources"><b>Sources:</b> <a href="https://adobe.sharepoint.com/sites/FieldEngineeringOrg/SitePages/FY26-Content-Supply-Chain-Readiness.aspx">FY26 CSC Readiness</a></p>
+</section>
+
+<section id="phase6">
+  <p class="sec-eyebrow">Phase 6</p>
+  <h2>Progress toward agentic operations</h2>
+  <p><strong>Objective:</strong> use agents to coordinate bounded, repeatable workflows <em>after</em> the
+  customer has reliable context, rules, and measurement. Treat agentic adoption as a separate readiness track
+  &mdash; not an automatic consequence of buying GenStudio.</p>
+
+  <h3>Good first agentic use cases</h3>
+  <ul class="twocol">
+    <li>Route work based on campaign type, market, or priority.</li>
+    <li>Check whether a brief contains required information.</li>
+    <li>Identify missing metadata or rights information.</li>
+    <li>Recommend existing approved assets for reuse.</li>
+    <li>Generate standard channel variants.</li>
+    <li>Monitor approval bottlenecks.</li>
+    <li>Flag overdue tasks or blocked dependencies.</li>
+    <li>Assemble performance summaries.</li>
+    <li>Recommend campaign refreshes based on agreed rules.</li>
+  </ul>
+
+  <h3>Agentic readiness requirements</h3>
+  <ul class="twocol">
+    <li>Structured campaign and asset context</li>
+    <li>Defined business rules</li>
+    <li>Clear human owners</li>
+    <li>Reliable metadata</li>
+    <li>Standard approval paths</li>
+    <li>Role-based permissions</li>
+    <li>Auditability</li>
+    <li>Exception handling</li>
+    <li>Data and security controls</li>
+    <li>Agent performance KPIs</li>
+  </ul>
+
+  <h3>Human&ndash;agent operating model</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Human responsibility</th><th>Agent responsibility</th></tr></thead>
+      <tbody>
+        <tr><td>Set strategy and objectives</td><td>Interpret structured goals</td></tr>
+        <tr><td>Define brand and risk boundaries</td><td>Execute within those boundaries</td></tr>
+        <tr><td>Approve high-impact decisions</td><td>Perform routine steps</td></tr>
+        <tr><td>Handle exceptions</td><td>Monitor status and identify exceptions</td></tr>
+        <tr><td>Own accountability</td><td>Provide traceability and recommendations</td></tr>
+        <tr><td>Change policies and priorities</td><td>Apply current rules consistently</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="takeaway"><p class="tk-label">Target state</p>
+    <p>Humans lead the intent, judgment, and accountability; agents accelerate and coordinate execution. The
+    goal is not to remove humans from the process.</p></div>
+  <p class="sources"><b>Sources:</b> <a href="https://adobe.sharepoint.com/sites/FieldEngineeringOrg/Delivery%20Support%20Resources/Success%20Accelerators/AI%20%26%20Agentic%20Readiness/AI%20%26%20Agentic%20Readiness%20Framework.pptx">AI &amp; Agentic Readiness Framework</a></p>
+</section>
+
+<section id="timeline">
+  <p class="sec-eyebrow">Planning reference</p>
+  <h2>Suggested enterprise timeline</h2>
+  <div class="note"><b>Illustrative planning model &mdash; not a fixed Adobe delivery commitment.</b> Some
+  phases should overlap: change management, KPI definition, governance, and technical architecture begin
+  during readiness and continue throughout.</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Horizon</th><th>Focus</th><th>Major outputs</th></tr></thead>
+      <tbody>
+        <tr><td class="tc-num">Weeks 0&ndash;6</td><td><strong>Readiness &amp; alignment</strong></td><td>Current state, 3&ndash;5 use cases, KPIs, North Star architecture, roadmap</td></tr>
+        <tr><td class="tc-num">Months 2&ndash;5</td><td><strong>Foundation</strong></td><td>Intake, planning, metadata, DAM, approvals, integrations, governance</td></tr>
+        <tr><td class="tc-num">Months 4&ndash;7</td><td><strong>Pilot</strong></td><td>One end-to-end workflow, controlled users, baseline comparison, value readout</td></tr>
+        <tr><td class="tc-num">Months 6&ndash;12</td><td><strong>Scale</strong></td><td>Additional teams, regions, channels, agencies, templates, automation</td></tr>
+        <tr><td class="tc-num">Months 9&ndash;15</td><td><strong>AI-powered operations</strong></td><td>GenStudio, Firefly Services, governed self-service, production automation</td></tr>
+        <tr><td class="tc-num">Month 12+</td><td><strong>Agentic expansion</strong></td><td>Bounded agents, orchestration, exception handling, continuous optimization</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The readiness accelerator is positioned as a 3&ndash;6 week strategic engagement; operating-model and
+  change-management activities run roughly 4&ndash;8 weeks in sample customer materials. These are planning
+  references, not universal implementation durations.</p>
+  <p class="sources"><b>Sources:</b> <a href="https://fieldreadiness-adobe.highspot.com/items/66fe78972fe8d0b7757c39e2">Success Accelerator Overview</a> · <a href="https://adobe.sharepoint.com/sites/FieldEngineeringOrg/SitePages/FY26-Content-Supply-Chain-Readiness.aspx">FY26 CSC Readiness</a></p>
+</section>
+
+<section id="gates">
+  <p class="sec-eyebrow">Executive governance</p>
+  <h2>Stage gates</h2>
+  <p>Each gate is a go/no-go decision point. Proceed only when its criteria are met.</p>
+  <div class="stages">
+    <div class="stage"><div class="st-num">1</div><h4>Ready to design</h4>
+      <ul><li>Business outcomes agreed; executive sponsor active</li>
+        <li>Current state documented; pilot owner identified</li>
+        <li>Customer can provide process, architecture, and performance inputs</li></ul></div>
+    <div class="stage"><div class="st-num">2</div><h4>Ready to build</h4>
+      <ul><li>Target workflow agreed; systems of record defined</li>
+        <li>Metadata and approval requirements documented</li>
+        <li>Integration dependencies understood; customer/partner responsibilities assigned</li></ul></div>
+    <div class="stage"><div class="st-num">3</div><h4>Ready to pilot</h4>
+      <ul><li>Users provisioned; templates and brand rules configured</li>
+        <li>Test assets and briefs available; approval paths work</li>
+        <li>Activation and measurement instrumented; support/escalation exist</li></ul></div>
+    <div class="stage"><div class="st-num">4</div><h4>Ready to scale</h4>
+      <ul><li>Pilot meets operational and business KPIs; users follow the process</li>
+        <li>Governance exceptions manageable; adoption capacity exists</li>
+        <li>Next rollout wave has a named owner and funding</li></ul></div>
+    <div class="stage peak"><div class="st-num">5</div><h4>Ready for agentic expansion</h4>
+      <ul><li>Process is repeatable; required context is structured</li>
+        <li>Rules and permissions clear; human escalation defined</li>
+        <li>Agent performance measurable; consequential actions auditable and reversible</li></ul></div>
+  </div>
+</section>
+
+<section id="ownership">
+  <p class="sec-eyebrow">Responsibility split</p>
+  <h2>What the enterprise owns vs. Adobe or partner</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Customer owns</th><th>Adobe / partner may support</th></tr></thead>
+      <tbody>
+        <tr><td>Business outcomes and priorities</td><td>Readiness assessment</td></tr>
+        <tr><td>Executive sponsorship</td><td>North Star architecture guidance</td></tr>
+        <tr><td>Process decisions</td><td>Solution and integration design</td></tr>
+        <tr><td>Governance and decision rights</td><td>Configuration and implementation</td></tr>
+        <tr><td>Data, metadata, and brand inputs</td><td>Enablement and coaching</td></tr>
+        <tr><td>User participation</td><td>Migration and technical services</td></tr>
+        <tr><td>Adoption accountability</td><td>Value measurement framework</td></tr>
+        <tr><td>Final go / no-go decisions</td><td>Agentic readiness and use-case mapping</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>A readiness engagement can produce the strategic blueprint, but the customer still needs an implementation
+  plan, delivery team, governance owner, adoption program, and run-and-operate model to execute it.</p>
+</section>
+
+<section id="sequence">
+  <p class="sec-eyebrow">The recommended order</p>
+  <h2>Product sequence</h2>
+  <div class="oneliner">
+    <p><span class="em">Workfront</span> plans it. <span class="em">Creative Cloud</span> creates it.
+    <span class="em">AEM Assets</span> governs it. <span class="em">GenStudio</span> activates it.
+    <span class="em">Analytics</span> measures it. <span class="em">Firefly Services</span> scales it.
+    <span class="em">Agents</span> coordinate it.</p>
+  </div>
+  <ol class="steps-num">
+    <li><h4>Workfront &amp; planning</h4><p>Establish demand, campaign, and workflow context.</p></li>
+    <li><h4>AEM Assets &amp; metadata</h4><p>Establish trusted, findable, reusable content.</p></li>
+    <li><h4>Creative Cloud &amp; review</h4><p>Connect professional production and approval.</p></li>
+    <li><h4>GenStudio</h4><p>Enable governed marketer self-service and activation.</p></li>
+    <li><h4>Firefly Services</h4><p>Automate high-volume variation and adaptation.</p></li>
+    <li><h4>Content Analytics</h4><p>Connect assets and content attributes to outcomes.</p></li>
+    <li><h4>Agent orchestration</h4><p>Coordinate repeatable work across the established foundation.</p></li>
+  </ol>
+  <p>This prevents the common failure mode of treating GenStudio or generative AI as a standalone application
+  instead of part of an integrated Content Supply Chain.</p>
+  <p class="sources"><b>Sources:</b> <a href="https://wiki.corp.adobe.com/spaces/FIO/pages/3175005091/Content+Supply+Chain+GenStudio+and+Frame.io">CSC, GenStudio and Frame.io</a> · <a href="https://wiki.corp.adobe.com/spaces/GenStudio/pages/3955820373/AEM+Workfront+Genstudio+Notes">AEM + Workfront + GenStudio Notes</a></p>
+</section>
+
+<section id="summary">
+  <p class="sec-eyebrow">The short version</p>
+  <h2>Executive summary</h2>
+  <p>An enterprise should adopt the Content Supply Chain in this order:</p>
+  <ol class="qlist">
+    <li><strong>Align on business outcomes</strong> and establish sponsorship.</li>
+    <li><strong>Map the current content lifecycle</strong> and prioritize 3&ndash;5 use cases.</li>
+    <li><strong>Define the North Star architecture</strong> and operating model.</li>
+    <li><strong>Create a governed foundation</strong> for planning, production, review, and assets.</li>
+    <li><strong>Run one measurable end-to-end pilot.</strong></li>
+    <li><strong>Scale through waves</strong>, not a single big-bang rollout.</li>
+    <li><strong>Add AI</strong> where it accelerates controlled, repeatable work.</li>
+    <li><strong>Connect content performance</strong> to future briefs and investment decisions.</li>
+    <li><strong>Introduce agents</strong> only when context, rules, permissions, and measurement are mature.</li>
+  </ol>
+  <div class="takeaway"><p class="tk-label">Definition of success</p>
+    <p>The transformation succeeds when the customer produces more useful, on-brand, measurable content with
+    less friction and less manual coordination &mdash; not simply when more Adobe applications are active.</p></div>
+</section>
+</main></div>
+</div>
+<footer class="site-footer">
+  <div class="foot-inner">
+    <div class="foot-brand"><img src="data:image/png;base64,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" alt="Adobe">Adobe&nbsp;<span>Customer Solutions</span></div>
+    <div class="foot-right">
+      <p class="fr-1">Content Supply Chain &middot; Enterprise adoption roadmap</p>
+      <p class="fr-2">Illustrative sequencing &mdash; tailor timing, licensing, and effort to the customer environment. &copy; 2026 Adobe</p>
+    </div>
+  </div>
+</footer>
+<script>
+(function(){
+  var SPY_SELECTOR = '#spy-nav a';
+  var links = Array.prototype.slice.call(document.querySelectorAll(SPY_SELECTOR));
+  var map = {}; links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
+  var sections = links.map(function(l){ return document.getElementById(l.getAttribute('href').slice(1)); }).filter(Boolean);
+  function setActive(id){ links.forEach(function(l){ l.classList.remove('active'); }); if(map[id]) map[id].classList.add('active'); }
+  if('IntersectionObserver' in window){
+    var vis = {};
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ vis[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0; });
+      var best=null, bestR=0; Object.keys(vis).forEach(function(k){ if(vis[k]>bestR){bestR=vis[k]; best=k;} });
+      if(best) setActive(best);
+    }, { rootMargin:'-15% 0px -70% 0px', threshold:[0,0.15,0.5,1] });
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+  links.forEach(function(l){ l.addEventListener('click', function(){ setActive(l.getAttribute('href').slice(1)); }); });
+})();
+</script>
+</body>
+</html>

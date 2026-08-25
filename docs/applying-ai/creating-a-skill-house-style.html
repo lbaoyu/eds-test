@@ -1,1 +1,580 @@
-d
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Package what you repeat as a skill · Adobe Field Enablement</title>
+<style>
+:root{
+  /* Brand */
+  --adobe-red:#EB1000; --adobe-red-dark:#B71000; --adobe-red-tint:#FDECEA;
+  /* Neutrals — Spectrum-style ramp */
+  --ink:#1B1B1B; --charcoal:#2C2C2C; --charcoal-2:#141414;
+  --gray-900:#202020; --gray-700:#4B4B4B; --gray-600:#5C5C5C;
+  --gray-500:#787878; --gray-300:#D6D6D6; --gray-200:#E9E9E9;
+  --gray-100:#F4F4F4; --gray-50:#FAFAFA;  --white:#FFFFFF;
+  /* Type */
+  --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,
+         BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+  /* Radius / shadow */
+  --radius:10px; --radius-sm:7px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 1px 2px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.06);
+  /* Layout */
+  --maxw:1200px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;} *{animation:none!important;transition:none!important;}
+}
+body{
+  margin:0; font-family:var(--font); color:var(--gray-900);
+  background:var(--white); line-height:1.6; font-size:16px;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+::selection{background:var(--adobe-red-tint);}
+a{color:var(--adobe-red-dark);text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:focus-visible{outline:2px solid var(--adobe-red-dark); outline-offset:2px; border-radius:3px;}
+
+/* Scroll-progress bar */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:100;pointer-events:none;}
+.progress span{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;
+  background:linear-gradient(90deg,#F04A2E,#F9A392);will-change:transform;}
+
+/* AI-disclosure band */
+.ai-note{background:var(--gray-100); border-bottom:1px solid var(--gray-200);}
+.ai-note-inner{max-width:var(--maxw); margin:0 auto; padding:9px 24px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  font-size:12px; line-height:1.45; color:var(--gray-500);}
+.ai-note b{color:var(--gray-600); font-weight:600;}
+.ai-note svg{flex:none;}
+
+/* Hero */
+.hero{position:relative; overflow:hidden; color:#fff;
+  background:
+    radial-gradient(1350px 720px at 90% -18%, rgba(255,255,255,.12),
+      rgba(255,255,255,.05) 42%, transparent 82%),
+    linear-gradient(135deg,#2d2d2d 0%,#1c1c1c 52%,#0e0e0e 100%);
+  padding:56px 24px 70px;}
+.hero::after{content:""; position:absolute; inset:0; pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:100% 34px; opacity:.5;
+  -webkit-mask:linear-gradient(#000, transparent 70%);
+          mask:linear-gradient(#000, transparent 70%);}
+.hero-inner{max-width:var(--maxw); margin:0 auto; position:relative; z-index:1;}
+.masthead{display:flex; align-items:center; justify-content:space-between;
+  gap:10px 16px; flex-wrap:wrap;
+  padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,.12);}
+.brandrow{display:flex; align-items:center; gap:11px;}
+.brandrow .brand-mark{height:26px; width:auto; flex:none;
+  filter:drop-shadow(0 4px 14px rgba(235,16,0,.4));}
+.brandname{font-size:19px; font-weight:800; letter-spacing:-.02em; color:#fff;}
+.brandname span{font-weight:400; color:#d9d9d9;}
+.kicker{font-size:12px; letter-spacing:.2em; text-transform:uppercase;
+  font-weight:800; color:#ff8f84; white-space:nowrap;}
+.hero-body{margin-top:40px;}
+.hero h1{margin:0; font-size:clamp(36px,5.2vw,60px); line-height:1.05;
+  font-weight:800; letter-spacing:-.025em; max-width:18ch;}
+.hero h1 .hl{background:linear-gradient(100deg,#F04A2E 0%,#F9A392 100%);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent;
+  -webkit-box-decoration-break:slice; box-decoration-break:slice;}
+.hero .lead{margin:22px 0 0; font-size:clamp(17px,2vw,21px); color:#d3d3d3; max-width:64ch;}
+.hero .lead strong{color:#fff; font-weight:700;}
+.hero-chips{display:flex; flex-wrap:wrap; gap:12px; margin:36px 0 0; padding:0; list-style:none;}
+.hero-chips li{background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.20);
+  border-radius:100px; padding:10px 17px; font-size:13.5px; font-weight:500; color:#ececec;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.17), 0 1px 5px rgba(0,0,0,.12);}
+.hero-chips li strong{color:#fff; font-weight:700;}
+
+/* Shell + rail */
+.shell{max-width:var(--maxw); margin:0 auto; padding:0 24px 80px;
+  display:grid; grid-template-columns:230px minmax(0,1fr); gap:64px;}
+.rail{position:sticky; top:24px; align-self:start; padding-top:56px;}
+.rail-title{font-size:11px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gray-500); margin:0 0 14px; padding-left:14px;}
+.rail nav{display:flex; flex-direction:column; gap:2px;}
+.rail nav a{display:flex; align-items:center; gap:11px; padding:10px 15px;
+  border-radius:var(--radius-sm); color:var(--gray-600); font-size:14px;
+  font-weight:600; border-left:2px solid transparent;
+  transition:background .15s, color .15s, border-color .15s;}
+.rail nav a .num{font-size:11px; font-weight:700; color:var(--gray-300);
+  min-width:16px; font-variant-numeric:tabular-nums; font-family:var(--mono);}
+.rail nav a:hover{background:var(--gray-100); color:var(--ink);}
+.rail nav a.active{color:var(--adobe-red-dark); background:var(--adobe-red-tint);
+  border-left-color:var(--adobe-red);}
+.rail nav a.active .num{color:var(--adobe-red);}
+.rail nav a:focus-visible{outline:2px solid var(--adobe-red); outline-offset:-2px;}
+.content{padding-top:56px; min-width:0;}
+@media(max-width:980px){ .shell{grid-template-columns:1fr; gap:0;} .rail{display:none;} }
+
+/* Sections */
+main{counter-reset:sec;}
+section{scroll-margin-top:20px; padding-bottom:70px; counter-increment:sec;}
+section + section{border-top:1px solid var(--gray-200);
+  border-image:linear-gradient(90deg,transparent,var(--gray-200) 18%,var(--gray-200) 82%,transparent) 1;
+  padding-top:64px;}
+.sec-eyebrow{font-size:12px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gray-500); margin:0 0 14px;}
+.sec-eyebrow::before{content:counter(sec,decimal-leading-zero) "  ·  ";
+  font-family:var(--mono); font-weight:600; letter-spacing:.02em; color:var(--adobe-red);}
+h2{font-size:clamp(25px,2.8vw,33px); line-height:1.15; letter-spacing:-.015em;
+  font-weight:800; margin:0 0 22px; color:var(--ink);}
+main p{max-width:70ch;}
+main h3{font-size:18px; font-weight:800; letter-spacing:-.01em; color:var(--ink); margin:30px 0 10px;}
+main ul{margin:16px 0; padding-left:22px; max-width:70ch;}
+main li{margin:8px 0; color:var(--gray-700);}
+main li strong{color:var(--ink);}
+.em{color:#F04A2E; font-weight:700;}
+.lead-p{font-size:18px; color:var(--gray-700);}
+
+/* Inline + block code */
+code{font-family:var(--mono); font-size:.88em; background:var(--gray-100);
+  padding:2px 6px; border-radius:5px; color:var(--gray-900);}
+.code{background:var(--gray-50); border:1px solid var(--gray-200); border-radius:var(--radius-sm);
+  padding:16px 18px; overflow-x:auto; font-family:var(--mono); font-size:12.5px; line-height:1.65;
+  color:var(--gray-900); margin:22px 0; white-space:pre; max-width:100%;}
+.code .c{color:var(--gray-500);}
+.code .s{color:var(--gray-700);}
+
+/* Takeaway */
+.takeaway{border-left:3px solid var(--adobe-red); background:var(--adobe-red-tint);
+  border-radius:0 var(--radius-sm) var(--radius-sm) 0; padding:16px 20px; margin:26px 0; max-width:74ch;}
+.takeaway .tk-label{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--adobe-red-dark); margin:0 0 6px;}
+.takeaway p{margin:0; color:var(--gray-900); font-size:15px;}
+
+/* Cards */
+.grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; margin:26px 0;}
+.card{background:var(--white); border:1px solid var(--gray-200); border-radius:var(--radius);
+  padding:22px; box-shadow:var(--shadow-sm);
+  transition:border-color .15s,transform .15s,box-shadow .15s;}
+.card:hover{border-color:#f0c7c0; transform:translateY(-1px); box-shadow:var(--shadow);}
+.card .cnum{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gray-500); display:block; margin:0 0 10px;}
+.card h3{margin:0 0 8px; font-size:16px; font-weight:800; letter-spacing:-.01em; color:var(--ink);}
+.card p{margin:0; font-size:14px; color:var(--gray-700); line-height:1.55; max-width:none;}
+
+/* Flow */
+.flow{display:flex; flex-wrap:wrap; align-items:stretch; gap:0; margin:28px 0;}
+.flow-node{flex:1 1 0; min-width:170px; background:var(--white); border:1px solid var(--gray-200);
+  border-radius:var(--radius); padding:18px 20px;
+  transition:border-color .15s,transform .15s,box-shadow .15s;}
+.flow-node:hover{border-color:#f0c7c0; transform:translateY(-1px);}
+.flow-node .fn-step{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gray-500); display:block; margin:0 0 8px;}
+.flow-node h4{margin:0 0 6px; font-size:15px; font-weight:800; color:var(--ink); letter-spacing:-.01em;}
+.flow-node p{margin:0; font-size:13px; color:var(--gray-600); line-height:1.5; max-width:none;}
+.flow-arrow{display:flex; align-items:center; padding:0 8px; color:var(--gray-300); font-size:20px; flex:none;}
+@media(max-width:720px){ .flow{flex-direction:column;} .flow-arrow{transform:rotate(90deg); padding:4px 0;} }
+
+/* Table */
+.tbl{width:100%; border-collapse:collapse; margin:24px 0; font-size:14px;}
+.tbl th{text-align:left; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--gray-500); font-family:var(--mono); padding:10px 14px; border-bottom:2px solid var(--gray-200);}
+.tbl td{padding:12px 14px; border-bottom:1px solid var(--gray-200); color:var(--gray-700); vertical-align:top;}
+.tbl tbody tr{transition:background .15s;} .tbl tbody tr:hover td{background:var(--gray-100);}
+.tbl td strong{color:var(--ink);}
+.tbl .mono{font-family:var(--mono); font-size:12.5px; color:var(--gray-900); white-space:nowrap;}
+
+/* Checklist */
+.checklist{list-style:none; margin:22px 0; padding:0; max-width:74ch;}
+.checklist li{position:relative; padding:9px 0 9px 30px; border-bottom:1px solid var(--gray-200);
+  color:var(--gray-700); font-size:14.5px;}
+.checklist li:last-child{border-bottom:none;}
+.checklist li::before{content:""; position:absolute; left:2px; top:14px; width:14px; height:8px;
+  border-left:2px solid var(--adobe-red); border-bottom:2px solid var(--adobe-red);
+  transform:rotate(-45deg);}
+
+/* Footer */
+.site-footer{background:var(--charcoal-2); color:#8a8a8a;}
+.foot-inner{max-width:var(--maxw); margin:0 auto; padding:30px 24px; display:flex;
+  flex-wrap:wrap; gap:14px 24px; align-items:center; justify-content:space-between;}
+.foot-brand{display:flex; align-items:center; gap:11px; color:#fff; font-weight:800;
+  font-size:16px; letter-spacing:-.01em;}
+.foot-brand img{height:22px; width:auto; display:block;}
+.foot-brand span{font-weight:400; color:#cfcfcf;}
+.foot-right{text-align:right; line-height:1.5;}
+.foot-right .fr-1{margin:0; font-size:13px; font-weight:600; color:#b9b9b9; letter-spacing:.01em;}
+.foot-right .fr-2{margin:2px 0 0; font-size:12px; color:#6f6f6f; letter-spacing:.02em;}
+@media(max-width:620px){ .foot-inner{flex-direction:column; align-items:flex-start;}
+  .foot-right{text-align:left;} }
+</style>
+</head>
+<body>
+
+<div class="progress"><span id="progressbar"></span></div>
+
+<div class="ai-note">
+  <div class="ai-note-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a3a3a3"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/>
+      <line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span><b>Prepared with AI assistance.</b> Please review for accuracy before use
+      &mdash; this document may contain errors.</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="masthead">
+      <div class="brandrow">
+        <img class="brand-mark" src="data:image/png;base64,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" alt="Adobe">
+        <span class="brandname">Adobe&nbsp;<span>Field Enablement</span></span>
+      </div>
+      <span class="kicker">Practitioner reference &middot; Skill authoring</span>
+    </div>
+    <div class="hero-body">
+      <h1>Package what you repeat as a <span class="hl">skill</span>.</h1>
+      <p class="lead">A walkthrough of how the Adobe HTML house style became a reusable skill &mdash;
+        and the <strong>authoring principles you can lift</strong> for your own.</p>
+      <ul class="hero-chips">
+        <li><strong>Distilled, not invented</strong> &mdash; captured from shipped work</li>
+        <li><strong>Description = routing</strong> &mdash; triggering lives in one field</li>
+        <li><strong>Refined against real output</strong> &mdash; never finished at v1</li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="rail">
+    <p class="rail-title">Contents</p>
+    <nav id="spy-nav">
+      <a href="#why"><span class="num">01</span> The re-explanation tax</a>
+      <a href="#anatomy"><span class="num">02</span> Anatomy of a skill</a>
+      <a href="#trigger"><span class="num">03</span> The description routes</a>
+      <a href="#extract"><span class="num">04</span> Extract, don&rsquo;t invent</a>
+      <a href="#reasons"><span class="num">05</span> Encode the why</a>
+      <a href="#assets"><span class="num">06</span> Bundle the ingredients</a>
+      <a href="#checklist"><span class="num">07</span> Ship a checklist</a>
+      <a href="#iterate"><span class="num">08</span> Test, then refine</a>
+    </nav>
+  </aside>
+
+  <div class="content">
+    <main>
+
+      <section id="why">
+        <p class="sec-eyebrow">Where skills come from</p>
+        <h2>The re-explanation tax</h2>
+        <p class="lead-p">The house-style skill didn&rsquo;t start as a skill. It started as a
+          paragraph I kept re-typing at the top of every session that produced an Adobe HTML
+          deliverable.</p>
+        <p>Charcoal hero, Spectrum tokens, American English, embedded logo, no external
+          dependencies &mdash; the same setup, every new chat, before any real work began. That
+          repeated cost is the signal. A skill is worth writing the moment you notice you&rsquo;re
+          re-explaining the same context, conventions, or workflow often enough that the
+          explanation has itself become boilerplate.</p>
+        <p>The test isn&rsquo;t <em>&ldquo;is this complex?&rdquo;</em> It&rsquo;s
+          <span class="em">&ldquo;have I said this before, and will I say it again?&rdquo;</span>
+          Complexity is optional; repetition is the trigger.</p>
+        <p>It&rsquo;s equally worth knowing what a skill is <strong>not</strong> for. A genuine
+          one-off doesn&rsquo;t earn one. Neither does something the model already does well
+          unprompted &mdash; skills are consulted for work that can&rsquo;t be handled trivially in a
+          single step, so a skill for a task that needs no help will simply never fire.</p>
+        <div class="takeaway">
+          <p class="tk-label">Takeaway</p>
+          <p>If you&rsquo;ve re-explained it twice, you&rsquo;ll re-explain it twenty times.
+            That&rsquo;s the moment to capture it &mdash; not the twentieth.</p>
+        </div>
+      </section>
+
+      <section id="anatomy">
+        <p class="sec-eyebrow">The shape of the thing</p>
+        <h2>Anatomy of a skill</h2>
+        <p>A skill is a folder. At minimum it holds one file &mdash; <code>SKILL.md</code> &mdash;
+          with YAML frontmatter and a Markdown body. Optionally, it carries bundled resources
+          alongside it. The house-style skill is almost that minimal:</p>
+        <div class="code"><span class="c"># the whole skill is a folder</span>
+adobe-html-deliverable/
+&#9500;&#9472;&#9472; SKILL.md          <span class="c"># frontmatter (name + description) + instructions</span>
+&#9492;&#9472;&#9472; assets/
+    &#9492;&#9472;&#9472; adobe-logo.png <span class="c"># embedded into every deliverable it produces</span></div>
+        <p>What makes that structure work is <strong>progressive disclosure</strong> &mdash; a
+          three-level loading system. You design against it deliberately, because each level has a
+          different cost:</p>
+        <div class="flow">
+          <div class="flow-node">
+            <span class="fn-step">Level 1</span>
+            <h4>Metadata</h4>
+            <p>Name + description. Always in context (~100 words). All the model sees until the
+              skill triggers.</p>
+          </div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node">
+            <span class="fn-step">Level 2</span>
+            <h4>SKILL.md body</h4>
+            <p>The full instructions. Loaded only when the skill fires. Aim to keep it under
+              ~500 lines.</p>
+          </div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node">
+            <span class="fn-step">Level 3</span>
+            <h4>Bundled resources</h4>
+            <p>Scripts, references, assets. Pulled in only as needed; scripts can even run without
+              loading their source.</p>
+          </div>
+        </div>
+        <p>This gradient is why you don&rsquo;t pour everything into the description. The
+          description is a cheap, always-loaded index; the body is the manual you open once the
+          index says this job is relevant; resources are the heavy items you fetch on demand.
+          Put each thing at the level where its cost is paid only when it&rsquo;s worth paying.</p>
+      </section>
+
+      <section id="trigger">
+        <p class="sec-eyebrow">The one field that matters most</p>
+        <h2>The description does the routing</h2>
+        <p>Of everything in a skill, the description earns the most attention, because it
+          <em>is</em> the triggering mechanism. The model sees every skill&rsquo;s name and
+          description and decides &mdash; from the description alone &mdash; whether to open the
+          body. Get it wrong and the best instructions in the world never load.</p>
+        <p>There are two failure modes. <strong>Under-triggering:</strong> the skill stays asleep
+          when it should have fired. <strong>Over-triggering:</strong> it grabs jobs it has no
+          business owning. The house-style description fights both by being explicit in both
+          directions:</p>
+        <div class="code"><span class="c">---</span>
+name: adobe-html-deliverable
+description: Generate Adobe-branded, fully self-contained
+  HTML deliverables in the established house style.
+  <span class="s">Use ONLY for</span> polished, customer- or field-facing
+  single-file HTML in an Adobe / ABV / LLMO / GEO / AEM
+  context &mdash; reference docs, pattern libraries, reports,
+  prompt libraries &mdash; or when the user says &quot;house-style HTML&quot;.
+  <span class="s">Do NOT use for</span> internal notes, quick markdown drafts,
+  throwaway mockups, or non-Adobe pages.
+<span class="c">---</span></div>
+        <p>Read what that description is actually doing:</p>
+        <ul>
+          <li><strong>States the output</strong> up front &mdash; a self-contained Adobe HTML
+            deliverable &mdash; so the match is unambiguous.</li>
+          <li><strong>Names positive contexts concretely</strong> (ABV / LLMO / GEO / AEM, the
+            specific document genres) rather than gesturing at &ldquo;HTML.&rdquo;</li>
+          <li><strong>Ships an explicit trigger phrase</strong> (&ldquo;house-style HTML&rdquo;)
+            for the times you want to invoke it by name.</li>
+          <li><strong>Draws hard exclusions</strong> so it doesn&rsquo;t hijack every unrelated
+            HTML request that wanders past.</li>
+        </ul>
+        <p>One subtlety worth designing for: descriptions tend to <span class="em">under</span>-trigger,
+          so lean slightly assertive about when to fire. And because the model only reaches for a
+          skill on work it can&rsquo;t trivially do itself, aim your description at substantive,
+          multi-step tasks &mdash; not one-liners it would handle anyway.</p>
+        <div class="takeaway">
+          <p class="tk-label">Takeaway</p>
+          <p>You can write the description last, but treat it first-class. It&rsquo;s the only part
+            of the skill guaranteed to be read.</p>
+        </div>
+      </section>
+
+      <section id="extract">
+        <p class="sec-eyebrow">Where the content comes from</p>
+        <h2>Extract, don&rsquo;t invent</h2>
+        <p>The strongest thing about the house-style skill is that almost none of it was designed
+          in the abstract. The tokens, the hero recipe, the accent policy &mdash; all of it was
+          reverse-engineered from deliverables that had already shipped and worked. The SKILL.md
+          says so plainly: the conventions are <em>extracted from shipped deliverables</em>, and
+          the token block and hero are marked canonical.</p>
+        <p>That matters because invented conventions are guesses, while extracted ones are
+          decisions you already validated in the field. Capturing a skill from real work
+          isn&rsquo;t authoring a style guide from first principles &mdash; it&rsquo;s transcribing
+          judgments you&rsquo;ve already made and tested. Gather three or four of your best real
+          outputs, and let them tell you what the rules are:</p>
+        <div class="grid">
+          <div class="card">
+            <span class="cnum">A</span>
+            <h3>Find the constants</h3>
+            <p>What&rsquo;s identical across every good output becomes canon. Here: the token ramp
+              and the hero recipe &mdash; promoted to non-negotiable.</p>
+          </div>
+          <div class="card">
+            <span class="cnum">B</span>
+            <h3>Name the variables</h3>
+            <p>What legitimately varies becomes an explicit choice, not an accident. The skill
+              offers two nav patterns &mdash; left rail or sticky top bar &mdash; because both had
+              shipped.</p>
+          </div>
+          <div class="card">
+            <span class="cnum">C</span>
+            <h3>Cite the source</h3>
+            <p>Anchoring rules to real, shipped work makes them defensible rather than arbitrary
+              &mdash; and gives you something to point at when one is questioned.</p>
+          </div>
+        </div>
+        <p>Constants become the parts you forbid changing; variables become documented options.
+          Everything in between is noise you can leave out.</p>
+      </section>
+
+      <section id="reasons">
+        <p class="sec-eyebrow">Instructions that survive contact</p>
+        <h2>Encode the why, not just the rules</h2>
+        <p>A rule with no reason is fragile. The first time it&rsquo;s inconvenient, it gets
+          dropped or quietly misapplied. The house-style skill rarely states a rule without its
+          rationale, and that&rsquo;s deliberate &mdash; when the reasoning is on the page, whoever
+          runs the skill next (model or colleague) can generalize correctly to cases you never
+          anticipated, instead of pattern-matching the letter of a rule and missing its intent.</p>
+        <p>Two examples from the skill itself. <em>&ldquo;Single self-contained file&rdquo;</em>
+          isn&rsquo;t left as an edict &mdash; the skill explains that these files get emailed,
+          dropped into SharePoint, and opened on locked-down customer laptops, so self-containment
+          is the constraint everything else serves. <em>&ldquo;Quiet the red&rdquo;</em> is
+          justified too: accent scarcity is what makes the accent read as premium.</p>
+        <p>Watch how much more portable the reasoned version is:</p>
+        <div class="code"><span class="c">// Rule only — brittle</span>
+Do not tint the corner lift.
+
+<span class="c">// Rule + reason — travels</span>
+Keep the corner lift neutral white. Tinting it turns it into
+the colored glow this style explicitly rules out.</div>
+        <p>The first invites a plausible-looking violation &mdash; a &ldquo;tasteful&rdquo; red tint
+          that breaks the whole look. The second carries the intent, so the boundary holds even in
+          a case the author never wrote down. Prefer explaining why something matters over stacking
+          heavy-handed <code>MUST</code> statements.</p>
+        <div class="takeaway">
+          <p class="tk-label">Takeaway</p>
+          <p>Rules tell the model <em>what</em>. Reasons let it decide correctly when your rules
+            run out &mdash; which they always eventually do.</p>
+        </div>
+      </section>
+
+      <section id="assets">
+        <p class="sec-eyebrow">Ship the ingredients</p>
+        <h2>Bundle what the output needs</h2>
+        <p>If a skill&rsquo;s output depends on a fixed ingredient, ship that ingredient
+          <em>inside</em> the skill rather than describing it and hoping. The house-style skill
+          bundles the Adobe brand mark as a PNG and instructs that it be embedded as a base64 data
+          URI in every deliverable. The self-containment rule would be impossible to honor otherwise
+          &mdash; you can&rsquo;t hotlink a logo and still expect the file to open offline on a
+          customer laptop.</p>
+        <p>This is the resources layer of progressive disclosure doing its job. The logo sits in
+          <code>assets/</code>, costs nothing until a deliverable needs it, and guarantees every
+          output uses the same correct mark instead of whatever a web search happens to surface.</p>
+        <table class="tbl">
+          <thead><tr><th>Bundle this</th><th>Because</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Templates &amp; assets</strong><br><span class="mono">logos, icons, fonts</span></td>
+              <td>The output must use the <em>exact</em> artifact, not an approximation the model reconstructs.</td></tr>
+            <tr><td><strong>Reference data</strong><br><span class="mono">schemas, taxonomies</span></td>
+              <td>Too large or too precise to inline into the body &mdash; load it only when the task touches it.</td></tr>
+            <tr><td><strong>Scripts</strong><br><span class="mono">generators, validators</span></td>
+              <td>Deterministic steps run more reliably as code, and can execute without loading their source into context.</td></tr>
+          </tbody>
+        </table>
+        <p>Rule of thumb: anything the model would otherwise have to guess at, reconstruct, or fetch
+          from the open web is a candidate for bundling.</p>
+      </section>
+
+      <section id="checklist">
+        <p class="sec-eyebrow">Make correctness checkable</p>
+        <h2>Ship a verification checklist</h2>
+        <p>The house-style skill ends with a self-containment checklist. It turns a page of prose
+          conventions into a pass/fail gate the output can be held against before it goes out the
+          door &mdash; a partial view:</p>
+        <ul class="checklist">
+          <li>Opens correctly with the network disconnected</li>
+          <li>No resource loaded over the wire (no CDN, font, script, or image URLs)</li>
+          <li>Brand mark embedded as base64; any raster imagery embedded too</li>
+          <li>All colors reference <code>:root</code> tokens &mdash; nothing hard-coded inline</li>
+          <li><code>lang=&quot;en-US&quot;</code>, ~16px base type, headings on a <code>clamp()</code> scale</li>
+          <li>American spelling clean; product names correct</li>
+        </ul>
+        <p>A checklist does two jobs at once. It gives the model an explicit last-mile review step,
+          and it hands you &mdash; or any colleague adopting the skill &mdash; an objective
+          definition of <em>done</em> that doesn&rsquo;t depend on having memorized every paragraph
+          above it. The discipline is to keep every item <span class="em">binary and
+          observable</span>: &ldquo;renders correctly offline&rdquo; is checkable; &ldquo;looks
+          professional&rdquo; is not.</p>
+      </section>
+
+      <section id="iterate">
+        <p class="sec-eyebrow">A skill is never finished at v1</p>
+        <h2>Test, then refine</h2>
+        <p>The first draft of a skill is a hypothesis. You confirm it by running real tasks through
+          it and reading the output with fresh eyes. The house-style skill has been refined
+          repeatedly since its first version &mdash; American English enforcement, hero styling,
+          spacing, CSS conventions &mdash; each pass prompted by something a real deliverable got
+          slightly wrong. The loop is short and you run it forever:</p>
+        <div class="flow">
+          <div class="flow-node">
+            <span class="fn-step">Step 1</span>
+            <h4>Draft</h4>
+            <p>Write the skill from what you already know works.</p>
+          </div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node">
+            <span class="fn-step">Step 2</span>
+            <h4>Test</h4>
+            <p>Run it on realistic prompts &mdash; the kind a real user would actually type.</p>
+          </div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node">
+            <span class="fn-step">Step 3</span>
+            <h4>Review</h4>
+            <p>Read the output honestly. What did it get wrong, and why?</p>
+          </div>
+          <div class="flow-arrow">&rarr;</div>
+          <div class="flow-node">
+            <span class="fn-step">Step 4</span>
+            <h4>Refine</h4>
+            <p>Fold the fix back into SKILL.md, then run it again.</p>
+          </div>
+        </div>
+        <p>How you evaluate depends on the skill. For <strong>objective</strong> outputs &mdash; a
+          file transform, a fixed workflow &mdash; you can formalize the loop with test prompts and
+          pass/fail assertions. For <strong>subjective</strong> ones &mdash; visual style, writing
+          voice &mdash; qualitative review is the honest evaluator; don&rsquo;t force metrics onto
+          taste. The house style sits firmly in the second camp, so it&rsquo;s tuned by eye, not by
+          a scorecard.</p>
+        <p>Either way, the refinements flow back into the SKILL.md, so the next session starts from
+          the improved baseline. That&rsquo;s the entire point of the exercise: the skill becomes
+          the place your corrections <em>accumulate</em> instead of evaporating at the end of each
+          chat.</p>
+        <div class="takeaway">
+          <p class="tk-label">The one habit</p>
+          <p>Every time you catch yourself correcting the same thing, that correction belongs in the
+            skill &mdash; not in your head, and not in the next prompt.</p>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="foot-inner">
+    <div class="foot-brand"><img src="data:image/png;base64,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" alt="Adobe">Adobe&nbsp;<span>Field Enablement</span></div>
+    <div class="foot-right">
+      <p class="fr-1">Skill authoring &middot; practitioner reference</p>
+      <p class="fr-2">&copy; 2026 Adobe</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var SPY_SELECTOR = '#spy-nav a';
+  var links = Array.prototype.slice.call(document.querySelectorAll(SPY_SELECTOR));
+  var map = {}; links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
+  var sections = links.map(function(l){ return document.getElementById(l.getAttribute('href').slice(1)); }).filter(Boolean);
+  function setActive(id){ links.forEach(function(l){ l.classList.remove('active'); }); if(map[id]) map[id].classList.add('active'); }
+  if('IntersectionObserver' in window){
+    var vis = {};
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ vis[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0; });
+      var best=null, bestR=0; Object.keys(vis).forEach(function(k){ if(vis[k]>bestR){bestR=vis[k]; best=k;} });
+      if(best) setActive(best);
+    }, { rootMargin:'-15% 0px -70% 0px', threshold:[0,0.15,0.5,1] });
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+  links.forEach(function(l){ l.addEventListener('click', function(){ setActive(l.getAttribute('href').slice(1)); }); });
+  var pb=document.getElementById('progressbar');
+  if(pb){ var upd=function(){ var h=document.documentElement.scrollHeight-window.innerHeight;
+    pb.style.transform='scaleX('+Math.min(1,Math.max(0,h>0?window.scrollY/h:0))+')'; };
+    window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd(); }
+})();
+</script>
+
+</body>
+</html>

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>LLM Optimizer — Accelerator Portfolio</title>
+<!-- saved from url=(0070)https://main-%2Deds-test-%2Dlbaoyu.aem.live/docs/llmo/engagements.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Adobe Brand Visibility — Accelerator Portfolio</title>
 <style>
   :root{
     --red:#FA0F00;
@@ -25,6 +25,9 @@
     --on-hold:#6E6E6A;
     --can:#C0362E;
     --none:#A6A69F;
+    --completed:#0E7490;
+    --paid:#B8860B;
+    --paid-tint:rgba(184,134,11,.055);
 
     --shadow:0 1px 2px rgba(20,20,20,.04), 0 4px 14px rgba(20,20,20,.04);
   }
@@ -62,7 +65,7 @@
   .masthead .meta a:hover{ text-decoration:underline; }
 
   /* KPI strip */
-  .kpis{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:18px; }
+  .kpis{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; margin-bottom:18px; }
   .kpi{
     background:var(--surface); border:1px solid var(--line); border-radius:14px;
     padding:18px 18px 16px; position:relative; overflow:hidden; box-shadow:var(--shadow);
@@ -71,6 +74,13 @@
   .kpi.k-live::before{ background:var(--cpl-active); }
   .kpi.k-pipeline::before{ background:var(--cpl); }
   .kpi.k-risk::before{ background:var(--can); }
+  .kpi.k-paid{
+    background:linear-gradient(180deg, rgba(184,134,11,.10) 0%, rgba(184,134,11,.03) 100%);
+    border-color:#E3CE93;
+    box-shadow:0 2px 5px rgba(184,134,11,.14), 0 10px 26px rgba(184,134,11,.12);
+  }
+  .kpi.k-paid::before{ width:4px; background:linear-gradient(180deg,#E8B21E,#B8860B); }
+  .kpi.k-paid .val{ color:var(--paid); }
   .kpi .val{ font-size:38px; font-weight:800; letter-spacing:-.02em; line-height:1; color:var(--text); }
   .kpi .lbl{ margin-top:8px; font-size:13.5px; color:var(--text-2); font-weight:700; }
   .kpi .sub{ margin-top:3px; font-size:12.5px; color:var(--text-3); }
@@ -134,7 +144,10 @@
     transition:border-color .12s ease, box-shadow .12s ease;
   }
   .card:hover{ border-color:#D6D6D1; box-shadow:0 2px 4px rgba(20,20,20,.06), 0 8px 22px rgba(20,20,20,.06); }
+  .card.is-paid{ background:var(--paid-tint); border-color:#E3CE93; }
+  .card.is-paid::after{ content:""; position:absolute; right:0; top:0; bottom:0; width:3px; background:linear-gradient(180deg,#E8B21E,#B8860B); }
   .card::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; }
+  .card.s-completed::before{ background:var(--completed); }
   .card.s-cpl-active::before{ background:var(--cpl-active); }
   .card.s-active::before{ background:var(--active); }
   .card.s-cpl::before{ background:var(--cpl); }
@@ -145,9 +158,22 @@
 
   .card-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
   .card-name{ font-size:17px; font-weight:700; color:var(--text); line-height:1.3; }
+  .name-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .paid-badge{
+    display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:999px;
+    font-size:11px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; white-space:nowrap;
+    color:#fff; background:linear-gradient(135deg,#E8B21E,#B8860B);
+    box-shadow:0 1px 2px rgba(184,134,11,.5); border:none;
+  }
+  .paid-badge .star{ font-size:10px; line-height:1; }
+  .chip.paid-toggle .star{ color:var(--paid); font-size:11px; }
+  .chip.paid-toggle[aria-pressed="true"]{ background:linear-gradient(135deg,#E8B21E,#B8860B); border-color:#B8860B; color:#fff; }
+  .chip.paid-toggle[aria-pressed="true"] .star{ color:#fff; }
 
   .badge{ display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; font-size:12.5px; font-weight:700; white-space:nowrap; flex:none; }
   .badge .dot{ width:7px; height:7px; border-radius:50%; }
+  .badge.s-completed{ background:rgba(14,116,144,.11); color:var(--completed); }
+  .badge.s-completed .dot{ background:var(--completed); }
   .badge.s-cpl-active{ background:rgba(18,128,92,.11); color:var(--cpl-active); }
   .badge.s-cpl-active .dot{ background:var(--cpl-active); }
   .badge.s-active{ background:rgba(180,105,14,.11); color:var(--active); }
@@ -183,7 +209,8 @@
   footer{ margin-top:8px; font-size:13.5px; color:var(--text-3); text-align:center; }
   footer .src{ opacity:.85; }
 
-  @media (max-width:860px){ .kpis{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:1020px){ .kpis{ grid-template-columns:repeat(3,1fr); } }
+  @media (max-width:680px){ .kpis{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:560px){
     .wrap{ padding:24px 16px 56px; }
     h1{ font-size:27px; }
@@ -192,19 +219,19 @@
   }
 </style>
 </head>
-<body>
+<body cz-shortcut-listen="true">
 <div class="wrap">
 
   <div class="masthead">
     <div>
       <div class="eyebrow">
         <span class="adobe">Adobe</span><span class="bar"></span>
-        <span class="product">LLM Optimizer</span>
+        <span class="product">Adobe Brand Visibility</span>
       </div>
       <h1>Accelerator Portfolio</h1>
     </div>
     <div class="meta">
-      As of <strong>10 Jul 2026</strong><br>
+      As of <strong>31 Aug 2026</strong><br>
       Owner <a href="mailto:lbaoyu@adobe.com">lbaoyu@adobe.com</a>
     </div>
   </div>
@@ -221,14 +248,15 @@
 
   <div class="controls">
     <div class="search-wrap">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B8B84" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input id="search" type="search" placeholder="Search customer…" aria-label="Search customer name" />
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B8B84" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input id="search" type="search" placeholder="Search customer…" aria-label="Search customer name">
     </div>
     <div class="chips" id="chips" role="group" aria-label="Filter by stage"></div>
-    <button class="reset-btn" id="reset" type="button" hidden>Clear</button>
+    <button class="chip paid-toggle" id="paidToggle" type="button" aria-pressed="false"><span class="star">✓</span> Converted</button>
+    <button class="reset-btn" id="reset" type="button" hidden="">Clear</button>
   </div>
 
-  <p id="live" class="sr-only" aria-live="polite"></p>
+  <p id="live" class="sr-only" aria-live="polite">Showing 25 of 25 customers</p>
 
   <main id="main"></main>
 
@@ -242,8 +270,9 @@
 
   var WF = "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/";
 
-  var ORDER = ["cpl-active","active","cpl","cpl-can","on-hold","can","none"];
+  var ORDER = ["completed","cpl-active","active","cpl","cpl-can","on-hold","can","none"];
   var META = {
+    "completed":{ label:"Completed" },
     "cpl-active":{ label:"CPL + Active" },
     "active":{ label:"Active" },
     "cpl":{ label:"CPL" },
@@ -255,7 +284,7 @@
 
   var REGIONS = [
     { name:"Greater China", customers:[
-      { name:"Hong Kong Tourism Board (HKTB)", status:"cpl-active", tasks:[
+      { name:"Hong Kong Tourism Board (HKTB)", status:"completed", paid:true, tasks:[
         {t:"#AIREADINESS - LLM O- Workshop - 03-16-2026", id:"697734f70186e709230528c87f63e951"},
         {t:"#AIREADINESS - LLMO Deskside coaching and Pilot launch - 05-31-2026", id:"69e1a18500d1ef231714503408c8628e"}
       ]},
@@ -264,15 +293,17 @@
         {t:"#AIReadiness CUB - Adoption of AI Agents in AEM and CJA - 03-23-2026", id:"69a94a590171718ca87ebfda70dc44e6"},
         {t:"#AIREADINESS - CUB LLMO pilot support - 09-14-2026", id:"6a0a7dd00489ccf3f020cdd36b8efba1"}
       ]},
-      { name:"ASUS", status:"cpl-active", tasks:[
+      { name:"ASUS", status:"completed", paid:true, tasks:[
         {t:"#AIREADINESS - LLM Optimizer Trail Enablement - ASUS.com", id:"69a04f0601150b44632e7f3cd4ff4218"},
         {t:"#AIREADINESS - asus.com LLMO Trial Support - 08-17-2026", id:"69f94468020ed60e752fc5defcea918e"},
         {t:"#AIREADINESS - CTO: LLMO Trial Support - 08-17-2026", id:"69f94446020e86b83240eb2162f49b7a"}
       ]},
-      { name:"Chow Tai Fook Jewellery", status:"active", tasks:[
+      { name:"Chow Tai Fook Jewellery", status:"completed", paid:true, tasks:[
         {t:"#AIREADINESS - CTF LLMO Trial Support - 07-05-2026", id:"6a22733d0162243d6e10598fada961cf"}
       ]},
-      { name:"AIA", status:"none", tasks:[] }
+      { name:"AIA", status:"active", tasks:[
+        {t:"LLMO Trial and Kick-off Guidance", id:"69d5f73d008f85da54ea51544c99b798"}
+      ] }
     ]},
     { name:"South East Asia", customers:[
       { name:"Standard Chartered", status:"cpl-can", tasks:[
@@ -321,7 +352,7 @@
       { name:"Changi Airport", status:"can", tasks:[
         {t:"#AIREADINESS - [CAG] LLM Optimizer Enablement - 11-30-2025", id:"691d57d00159f0249f30059aa94fca04"}
       ]},
-      { name:"Resorts World at Sentosa (RWS)", status:"cpl-active", tasks:[
+      { name:"Resorts World at Sentosa (RWS)", status:"cpl", tasks:[
         {t:"#AIREADINESS - LLMO Overview Walkthrough - 10-11-2026", id:"6a3cb14a00fcc243c52c7846e398b958"},
         {t:"#AIREADINESS - LLMO - Deskside Coaching - GentingSingapore.com - 07-26-2026", id:"69f061770183ffe4fb2732a7946deb4c"}
       ]},
@@ -356,7 +387,7 @@
 
   var TOTAL = REGIONS.reduce(function(n,r){ return n + r.customers.length; }, 0);
 
-  var state = { query:"", statuses:new Set() };
+  var state = { query:"", statuses:new Set(), paidOnly:false };
 
   function h(tag, attrs, kids){
     var e = document.createElement(tag);
@@ -382,11 +413,18 @@
     return out;
   }
 
+  function paidCount(){
+    var n = 0;
+    REGIONS.forEach(function(r){ r.customers.forEach(function(c){ if (c.paid) n++; }); });
+    return n;
+  }
+
   function stripPrefix(t){ return t.replace(/^#AIREADINESS\s*-?\s*/i, ""); }
   function slug(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,""); }
 
   function match(c){
     if (state.statuses.size && !state.statuses.has(c.status)) return false;
+    if (state.paidOnly && !c.paid) return false;
     if (state.query && c.name.toLowerCase().indexOf(state.query) === -1) return false;
     return true;
   }
@@ -397,7 +435,7 @@
     render();
   }
   function clearAll(){
-    state.query = ""; state.statuses.clear();
+    state.query = ""; state.statuses.clear(); state.paidOnly = false;
     var s = document.getElementById("search"); if (s) s.value = "";
     render();
   }
@@ -411,7 +449,8 @@
       { cls:"", val:TOTAL, lbl:"Customers", sub:REGIONS.length + " regions" },
       { cls:"k-live", val:live, lbl:"Live engagements", sub:"CPL+Active & Active" },
       { cls:"k-pipeline", val:pipeline, lbl:"In pipeline", sub:"CPL, not yet active" },
-      { cls:"k-risk", val:risk, lbl:"Stalled / at risk", sub:"On hold, cancelled, not started" }
+      { cls:"k-risk", val:risk, lbl:"Stalled / at risk", sub:"On hold, cancelled, not started" },
+      { cls:"k-paid", val:paidCount(), lbl:"Converted", sub:"To paid engagement" }
     ];
     var el = document.getElementById("kpis");
     el.innerHTML = "";
@@ -509,9 +548,12 @@
         : list.length + " of " + region.customers.length;
 
       var grid = h("div", { class:"grid" }, list.map(function(c){
-        return h("div", { class:"card s-" + c.status + (c.tasks.length ? "" : " no-tasks") }, [
+        return h("div", { class:"card s-" + c.status + (c.paid ? " is-paid" : "") + (c.tasks.length ? "" : " no-tasks") }, [
           h("div", { class:"card-top" }, [
-            h("div", { class:"card-name" }, [c.name]),
+            h("div", { class:"name-row" }, [
+              h("span", { class:"card-name" }, [c.name]),
+              c.paid ? h("span", { class:"paid-badge" }, [ h("span", { class:"star" }, ["✓"]), "Converted" ]) : null
+            ]),
             badge(c.status)
           ]),
           h("div", { class:"card-foot" }, [ taskBlock(c) ])
@@ -531,18 +573,25 @@
       main.appendChild(h("div", { class:"grid" }, [
         h("div", { class:"empty" }, [
           h("strong", {}, ["No customers match"]),
-          "Adjust your search or clear the stage filters.",
+          "Adjust your search or clear the active filters.",
           h("button", { type:"button", onclick: clearAll }, ["Clear filters"])
         ])
       ]));
     }
 
+    var pt = document.getElementById("paidToggle");
+    pt.setAttribute("aria-pressed", state.paidOnly ? "true" : "false");
+
     document.getElementById("live").textContent = "Showing " + shown + " of " + TOTAL + " customers";
-    document.getElementById("reset").hidden = !(state.query || state.statuses.size);
+    document.getElementById("reset").hidden = !(state.query || state.statuses.size || state.paidOnly);
   }
 
   document.getElementById("search").addEventListener("input", function(e){
     state.query = e.target.value.trim().toLowerCase();
+    render();
+  });
+  document.getElementById("paidToggle").addEventListener("click", function(){
+    state.paidOnly = !state.paidOnly;
     render();
   });
   document.getElementById("reset").addEventListener("click", clearAll);
@@ -550,5 +599,6 @@
   render();
 })();
 </script>
-</body>
-</html>
+
+
+</body></html>

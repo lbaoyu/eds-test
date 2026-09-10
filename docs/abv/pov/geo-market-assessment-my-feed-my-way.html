@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GEO Market Assessment — “My Feed, My Way” · Adobe Internal</title>
+<style>
+:root{
+  --adobe-red:#EB1000; --adobe-red-dark:#B71000; --adobe-red-tint:#FDECEA;
+  --coral-1:#F04A2E; --coral-2:#F9A392; --coral-bright:#FB6A4E;
+  --s2-blue:#3B63FB; --s2-blue-down:#274DEA; --s2-blue-active:#1D3ECF;
+  --s2-blue-tint:#E5F0FE; --s2-blue-tint-faint:#F5F9FF;
+  --ink:#1B1B1B; --charcoal:#2C2C2C; --charcoal-2:#141414;
+  --gray-900:#1F1F1F; --gray-800:#222222; --gray-700:#464646;
+  --gray-600:#6D6D6D; --gray-500:#909090; --gray-400:#B1B1B1;
+  --gray-300:#D5D5D5; --gray-200:#E6E6E6; --gray-100:#F8F8F8;
+  --gray-75:#FAFAFA; --gray-50:#FDFDFD; --white:#FFFFFF;
+  --bg-base:#FFFFFF; --bg-layer-1:#FAFAFA; --bg-layer-2:#F4F4F5;
+  --border:#E6E6E6; --border-strong:#D5D5D5;
+  --sig-pos:#2E9E77; --sig-pos-strong:#1C7A57; --sig-pos-tint:#E9F6F0;
+  --sig-warn:#C07C1F; --sig-warn-tint:#FaF1DF;
+  --sig-neg:#E04A2C; --sig-neg-tint:#FCEBE7;
+  --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+  --radius:16px; --radius-sm:8px; --radius-pill:9999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 8px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08);
+  --focus-ring:var(--s2-blue); --maxw:1200px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media(prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} *{animation:none!important;transition:none!important;} }
+body{ margin:0; font-family:var(--font); color:var(--gray-800); background:var(--bg-base);
+  line-height:1.55; font-size:16px; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+::selection{background:var(--s2-blue-tint);}
+a{color:var(--s2-blue-down);text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;border-radius:3px;}
+p{margin:0 0 15px;}
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:100;pointer-events:none;}
+.progress span{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;
+  background:linear-gradient(90deg,var(--coral-1),var(--coral-2));will-change:transform;}
+.ai-note{background:var(--gray-100); border-bottom:1px solid var(--gray-200);}
+.ai-note-inner{max-width:var(--maxw); margin:0 auto; padding:9px 24px; display:flex; align-items:center; justify-content:center; gap:8px; font-size:12px; line-height:1.45; color:var(--gray-500);}
+.ai-note b{color:var(--gray-600); font-weight:600;}
+.ai-note svg{flex:none;}
+.hero{ position:relative; overflow:hidden; color:#fff;
+  background:
+    radial-gradient(1350px 720px at 90% -18%, rgba(255,255,255,.12), rgba(255,255,255,.05) 42%, transparent 82%),
+    linear-gradient(135deg,#2d2d2d 0%,#1c1c1c 52%,#0e0e0e 100%);
+  padding:56px 24px 70px; }
+.hero::after{ content:""; position:absolute; inset:0; pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:100% 34px; opacity:.5;
+  -webkit-mask:linear-gradient(#000, transparent 70%); mask:linear-gradient(#000, transparent 70%); }
+.hero-inner{max-width:var(--maxw); margin:0 auto; position:relative; z-index:1;}
+.masthead{display:flex; align-items:center; justify-content:space-between; gap:10px 16px; flex-wrap:wrap; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,.12);}
+.brandrow{display:flex; align-items:center; gap:11px;}
+.brandrow .brand-mark{height:26px; width:auto; flex:none; filter:drop-shadow(0 2px 12px rgba(255,255,255,.18));}
+.brandname{font-size:19px; font-weight:800; letter-spacing:-.02em; color:#fff;}
+.brandname span{font-weight:400; color:#d9d9d9;}
+.kicker{font-size:12px; letter-spacing:.2em; text-transform:uppercase; font-weight:800; color:#ff8f84; white-space:nowrap; display:inline-flex; align-items:center; gap:10px;}
+.kicker .int{background:rgba(255,143,132,.16); border:1px solid rgba(255,143,132,.4); color:#ffb3aa; padding:3px 9px; border-radius:var(--radius-pill); letter-spacing:.16em; font-size:10.5px;}
+.hero-body{margin-top:40px;}
+.hero h1{margin:0; font-size:clamp(34px,5vw,56px); line-height:1.06; font-weight:800; letter-spacing:-.025em; max-width:20ch;}
+.hero h1 .hl{ background:linear-gradient(100deg,var(--coral-1) 0%,var(--coral-2) 100%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent;
+  -webkit-box-decoration-break:slice; box-decoration-break:slice; padding-bottom:.3em;}
+.hero .lead{margin:22px 0 0; font-size:clamp(17px,2vw,21px); color:#d3d3d3; max-width:68ch;}
+.hero .lead strong{color:#fff; font-weight:700;}
+.hero-chips{display:flex; flex-wrap:wrap; gap:12px; margin:36px 0 0; padding:0; list-style:none;}
+.hero-chips li{background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.20); border-radius:var(--radius-pill); padding:10px 17px; font-size:13.5px; font-weight:500; color:#ececec; box-shadow:inset 0 1px 0 rgba(255,255,255,.17), 0 1px 5px rgba(0,0,0,.12);}
+.hero-chips li strong{color:#fff; font-weight:700;}
+.shell{max-width:var(--maxw); margin:0 auto; padding:0 24px 80px; display:grid; grid-template-columns:230px minmax(0,1fr); gap:64px;}
+.rail{position:sticky; top:24px; align-self:start; padding-top:56px;}
+.rail-title{font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--gray-500); margin:0 0 14px; padding-left:14px;}
+.rail nav{display:flex; flex-direction:column; gap:2px;}
+.rail nav a{display:flex; align-items:center; gap:11px; padding:9px 15px; border-radius:var(--radius-sm); color:var(--gray-600); font-size:13.5px; font-weight:600; border-left:2px solid transparent; transition:background .15s, color .15s, border-color .15s;}
+.rail nav a .num{font-size:11px; font-weight:700; color:var(--gray-300); min-width:16px; font-variant-numeric:tabular-nums; font-family:var(--mono);}
+.rail nav a:hover{background:var(--gray-100); color:var(--ink);}
+.rail nav a.active{color:var(--s2-blue-down); background:var(--s2-blue-tint); border-left-color:var(--s2-blue);}
+.rail nav a.active .num{color:var(--s2-blue);}
+.rail nav a:focus-visible{outline:2px solid var(--focus-ring); outline-offset:-2px;}
+.content{padding-top:56px; min-width:0; counter-reset:sec;}
+@media(max-width:980px){ .shell{grid-template-columns:1fr; gap:0;} .rail{display:none;} }
+section{scroll-margin-top:20px; padding-bottom:66px; counter-increment:sec;}
+section + section{border-top:1px solid var(--gray-200); border-image:linear-gradient(90deg,transparent,var(--gray-200) 18%,var(--gray-200) 82%,transparent) 1; padding-top:60px;}
+.sec-eyebrow{font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--gray-500); margin:0 0 14px;}
+.sec-eyebrow::before{content:counter(sec,decimal-leading-zero) "  ·  "; font-family:var(--mono); font-weight:600; letter-spacing:.02em; color:var(--adobe-red);}
+h2{font-size:clamp(24px,2.7vw,32px); line-height:1.15; letter-spacing:-.015em; font-weight:800; margin:0 0 20px;}
+h3{font-size:16.5px; font-weight:800; letter-spacing:-.01em; margin:32px 0 12px;}
+.lede{font-size:clamp(16px,1.4vw,18px); color:var(--gray-700); max-width:72ch;}
+.em{color:var(--coral-bright); font-weight:800;}
+strong{color:var(--gray-900);}
+.muted{color:var(--gray-600);}
+ul.body{margin:6px 0 15px; padding-left:20px; color:var(--gray-700);}
+ul.body li{margin:5px 0;}
+.takeaway{position:relative; margin:26px 0 4px; padding:18px 22px 18px 24px; background:var(--gray-75); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow-sm);}
+.takeaway::before{content:""; position:absolute; left:0; top:14px; bottom:14px; width:3px; border-radius:3px; background:linear-gradient(180deg,var(--coral-1),var(--coral-2));}
+.takeaway .tk-label{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--adobe-red); margin:0 0 6px;}
+.takeaway p{margin:0; font-size:16px; color:var(--gray-800);}
+.takeaway p + p{margin-top:10px;}
+.callout{border:1px solid var(--s2-blue-tint); background:var(--s2-blue-tint-faint); border-radius:var(--radius); padding:18px 22px; box-shadow:var(--shadow-sm);}
+.callout .co-label{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--s2-blue-down); margin:0 0 8px;}
+.callout p{margin:0; color:var(--gray-700);}
+.note{font-size:13.5px; color:var(--gray-600); background:var(--gray-100); border:1px dashed var(--border-strong); border-radius:var(--radius-sm); padding:11px 15px; margin:16px 0 0;}
+.note b{color:var(--gray-700);}
+.ledger{margin:22px 0 0; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow-sm);}
+.lrow{display:grid; grid-template-columns:minmax(0,1.25fr) 150px minmax(0,1.7fr); gap:18px; align-items:center; padding:14px 20px; border-top:1px solid var(--border); transition:background .15s;}
+.lrow:first-child{border-top:none;}
+.lrow:hover{background:var(--gray-75);}
+.lrow.head{background:var(--gray-100); font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-500); font-weight:700;}
+.lrow .larea{font-weight:700; color:var(--gray-900); font-size:14.5px;}
+.lrow .lwhy{color:var(--gray-600); font-size:13.5px;}
+.ledger.two .lrow{grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);}
+.ledger.score .lrow{grid-template-columns:minmax(0,1.5fr) minmax(0,1.4fr) 110px;}
+.sig{display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:11.5px; font-weight:700; letter-spacing:.03em; padding:5px 11px; border-radius:var(--radius-pill); white-space:nowrap;}
+.sig .arw{font-size:9px; line-height:1;}
+.sig.neg{color:#a2381f; background:var(--sig-neg-tint);}
+.sig.warn{color:#8a5a12; background:var(--sig-warn-tint);}
+.sig.neu{color:var(--gray-600); background:var(--gray-100);}
+.sig.pos{color:var(--sig-pos-strong); background:var(--sig-pos-tint);}
+.sig.pos2{color:#fff; background:var(--sig-pos-strong);}
+.conf{font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.06em; padding:4px 10px; border-radius:var(--radius-pill); text-transform:uppercase; white-space:nowrap;}
+.conf.h{color:var(--gray-800); background:var(--gray-200);}
+.conf.m{color:var(--gray-600); background:var(--gray-100);}
+.conf.l{color:var(--gray-500); background:var(--gray-75); border:1px solid var(--border);}
+.scale{display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; margin:16px 0 0; font-size:12.5px; color:var(--gray-600);}
+.scale .sw{display:inline-flex; align-items:center; gap:7px;}
+.scale .dot{width:11px; height:11px; border-radius:3px; display:inline-block;}
+@media(max-width:760px){ .lrow,.ledger.two .lrow,.ledger.score .lrow{grid-template-columns:1fr; gap:6px;} .lrow.head{display:none;} }
+.flowwrap{margin:20px 0 0; display:grid; gap:16px;}
+.flowcard{border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; background:var(--bg-base); box-shadow:var(--shadow-sm);}
+.flowcard .fc-top{display:flex; align-items:center; gap:12px; margin-bottom:16px;}
+.flowcard .fc-tag{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; padding:4px 10px; border-radius:var(--radius-pill); color:var(--gray-600); background:var(--gray-100);}
+.flowcard .fc-title{font-weight:700; color:var(--gray-800); font-size:14.5px;}
+.flow{display:flex; flex-wrap:wrap; align-items:stretch; gap:10px;}
+.flow-node{flex:1 1 0; min-width:120px; border:1px solid var(--border); border-radius:var(--radius-sm); padding:13px 15px; background:var(--gray-75); transition:border-color .15s,transform .15s,box-shadow .15s;}
+.flow-node:hover{border-color:var(--border-strong); transform:translateY(-1px); box-shadow:var(--shadow);}
+.flow-node .fn-step{font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-500); display:block; margin-bottom:5px;}
+.flow-node .fn-name{font-weight:700; color:var(--gray-900); font-size:14px; line-height:1.25;}
+.flow-node.term{border-color:var(--sig-pos); background:var(--sig-pos-tint);}
+.flow-node.term .fn-name{color:var(--sig-pos-strong);}
+.flow-arrow{align-self:center; color:var(--gray-400); font-weight:800; font-size:18px; flex:none;}
+@media(max-width:640px){ .flow{flex-direction:column;} .flow-arrow{transform:rotate(90deg); align-self:flex-start; margin-left:18px;} }
+.impl{margin:20px 0 0; display:grid; gap:14px;}
+.impl.cols{grid-template-columns:1fr 1fr 1fr;}
+.impl.cols2{grid-template-columns:1fr 1fr;}
+@media(max-width:820px){ .impl.cols,.impl.cols2{grid-template-columns:1fr;} }
+.icard{position:relative; border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; background:var(--bg-base); box-shadow:var(--shadow-sm); transition:border-color .15s,transform .15s,box-shadow .15s;}
+.icard.num{padding-left:60px;}
+.icard:hover{border-color:var(--border-strong); transform:translateY(-1px); box-shadow:var(--shadow-lg);}
+.icard .inum{position:absolute; left:20px; top:18px; font-family:var(--mono); font-size:20px; font-weight:700; color:var(--coral-1); line-height:1;}
+.icard .ilabel{font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-500); display:block; margin-bottom:6px;}
+.icard h3{margin:0 0 7px; font-size:16px;}
+.icard p{margin:0; color:var(--gray-700); font-size:14px;}
+.icard p + p{margin-top:8px;}
+.seg{margin:20px 0 0; display:flex; flex-direction:column; gap:8px;}
+.segrow{display:grid; grid-template-columns:160px minmax(0,1fr); gap:16px; align-items:center; border:1px solid var(--border); border-radius:var(--radius); padding:14px 18px; background:var(--bg-base); box-shadow:var(--shadow-sm); transition:border-color .15s,transform .15s,box-shadow .15s;}
+.segrow:hover{border-color:var(--border-strong); transform:translateY(-1px); box-shadow:var(--shadow);}
+.segrow .sname{font-weight:800; color:var(--gray-900); font-size:15.5px;}
+.segrow .sq{color:var(--gray-600); font-size:14px;}
+@media(max-width:640px){ .segrow{grid-template-columns:1fr; gap:4px;} }
+.pipe{display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:14px 0 2px;}
+.pipe .pn{font-family:var(--mono); font-size:12px; font-weight:600; color:var(--gray-700); background:var(--gray-100); border:1px solid var(--border); border-radius:var(--radius-pill); padding:6px 12px; white-space:nowrap;}
+.pipe .pn.end{color:var(--s2-blue-down); background:var(--s2-blue-tint); border-color:var(--s2-blue-tint);}
+.pipe .pa{color:var(--gray-400); font-weight:800; font-size:14px;}
+.auth{display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 12px;}
+.auth .ai{font-size:13px; font-weight:600; color:var(--gray-700); background:var(--sig-pos-tint); border:1px solid #cfe9df; border-radius:var(--radius-sm); padding:7px 12px;}
+.auth-out{display:inline-flex; align-items:center; gap:10px; font-weight:800; color:var(--sig-pos-strong); font-size:14px; margin-top:2px;}
+.auth-out .arw{color:var(--gray-400); font-size:16px;}
+.chips{display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 4px;}
+.chips .c{font-size:12.5px; font-weight:600; color:var(--gray-700); background:var(--gray-100); border:1px solid var(--border); border-radius:var(--radius-pill); padding:6px 12px;}
+.compare{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0 0;}
+.ccol{border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow-sm);}
+.ccol .ctag{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin:0 0 8px; color:var(--gray-500);}
+.ccol h3{margin:0 0 8px; font-size:15.5px;}
+.ccol p{margin:0; color:var(--gray-700); font-size:14px;}
+@media(max-width:720px){ .compare{grid-template-columns:1fr;} }
+.envgrid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:20px 0 0;}
+.env{border:1px solid var(--border); border-radius:var(--radius); padding:18px 20px; background:var(--bg-base); box-shadow:var(--shadow-sm); transition:border-color .15s,transform .15s,box-shadow .15s;}
+.env:hover{border-color:var(--border-strong); transform:translateY(-1px); box-shadow:var(--shadow);}
+.env h3{margin:0 0 6px; font-size:15.5px;}
+.env p{margin:0; color:var(--gray-600); font-size:13.5px;}
+@media(max-width:720px){ .envgrid{grid-template-columns:1fr;} }
+.site-footer{background:var(--charcoal-2); color:#8a8a8a;}
+.foot-inner{max-width:var(--maxw); margin:0 auto; padding:30px 24px; display:flex; flex-wrap:wrap; gap:14px 24px; align-items:center; justify-content:space-between;}
+.foot-brand{display:flex; align-items:center; gap:11px; color:#fff; font-weight:800; font-size:16px; letter-spacing:-.01em;}
+.foot-brand img{height:22px; width:auto; display:block;}
+.foot-brand span{font-weight:400; color:#cfcfcf;}
+.foot-right{text-align:right; line-height:1.5;}
+.foot-right .fr-1{margin:0; font-size:13px; font-weight:600; color:#b9b9b9; letter-spacing:.01em;}
+.foot-right .fr-2{margin:2px 0 0; font-size:12px; color:#6f6f6f; letter-spacing:.02em;}
+@media(max-width:620px){ .foot-inner{flex-direction:column; align-items:flex-start;} .foot-right{text-align:left;} }
+</style>
+</head>
+<body>
+
+<div class="progress"><span id="progressbar"></span></div>
+
+<div class="ai-note">
+  <div class="ai-note-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a3a3a3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span><b>Prepared with AI assistance.</b> Please review for accuracy before use &mdash; this document may contain errors.</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="masthead">
+      <div class="brandrow">
+        <img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">
+        <span class="brandname">Adobe&nbsp;<span>Brand Visibility</span></span>
+      </div>
+      <span class="kicker"><span class="int">Internal</span> GEO Market Assessment</span>
+    </div>
+    <div class="hero-body">
+      <h1>A weak catalyst, a meaningful <span class="hl">signal</span></h1>
+      <p class="lead">Australia&rsquo;s proposed Digital Duty of Care, including the <strong>&ldquo;My Feed, My Way&rdquo;</strong> initiative, should be viewed as a weak direct catalyst for the Generative Engine Optimization (GEO) market &mdash; but a potentially meaningful longer-term signal about the regulation and governance of algorithmic and AI-mediated experiences.</p>
+      <ul class="hero-chips">
+        <li><strong>Near-term GEO impact:</strong> Low (high confidence)</li>
+        <li><strong>Stronger signal:</strong> AI systems entering risk frameworks</li>
+        <li><strong>Growth engine:</strong> AI adoption, not this policy</li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="rail">
+    <p class="rail-title">Contents</p>
+    <nav id="spy-nav">
+      <a href="#exec"><span class="num">01</span> Executive assessment</a>
+      <a href="#proposal"><span class="num">02</span> Proposal &amp; feed effect</a>
+      <a href="#signal"><span class="num">03</span> Regulating AI outputs</a>
+      <a href="#broadens"><span class="num">04</span> How GEO broadens</a>
+      <a href="#outlook"><span class="num">05</span> Outlook</a>
+      <a href="#overall"><span class="num">06</span> Overall assessment</a>
+    </nav>
+  </aside>
+
+  <div class="content">
+    <main>
+
+    <!-- 01 -->
+    <section id="exec">
+      <p class="sec-eyebrow">Executive assessment</p>
+      <h2>A weak direct catalyst, a meaningful longer-term signal</h2>
+      <p class="lede">Australia&rsquo;s proposed Digital Duty of Care, including the &ldquo;My Feed, My Way&rdquo; initiative, should be viewed as a weak direct catalyst for the GEO market, but a potentially meaningful longer-term signal about the regulation and governance of algorithmic and AI-mediated experiences.</p>
+
+      <h3>The proposal has two relevant components</h3>
+      <div class="impl cols2">
+        <div class="icard"><span class="ilabel">First</span><p>Social-media platforms would have to give Australians over 16 a choice between a personalized, algorithmically recommended default feed and a feed based on friends and creators they choose to follow.</p></div>
+        <div class="icard"><span class="ilabel">Second</span><p>The broader Digital Duty of Care extends beyond social media to services including AI chatbots, apps and games, particularly around protecting minors. Providers would also have to document their risk-mitigation measures and keep them effective, with penalties of up to A$109.2 million.</p></div>
+      </div>
+
+      <h3>For GEO, the components should be read differently</h3>
+      <div class="ledger">
+        <div class="lrow head"><span>Development</span><span>GEO significance</span><span>Assessment</span></div>
+        <div class="lrow"><span class="larea">Choice over personalized social feeds</span><span class="sig neu">Low</span><span class="lwhy">Weak indirect signal.</span></div>
+        <div class="lrow"><span class="larea">Reduced dependence on recommendation algorithms</span><span class="sig pos">Low&ndash;Moderate</span><span class="lwhy">Possible, but unproven.</span></div>
+        <div class="lrow"><span class="larea">Regulation extending to AI chatbots</span><span class="sig pos">Moderate</span><span class="lwhy">More strategically relevant.</span></div>
+        <div class="lrow"><span class="larea">Risk documentation and enforcement</span><span class="sig pos">Moderate</span><span class="lwhy">Potential governance opportunity.</span></div>
+        <div class="lrow"><span class="larea">Immediate GEO spending impact</span><span class="sig neu">Very Low</span><span class="lwhy">No evidence yet.</span></div>
+        <div class="lrow"><span class="larea">International regulatory precedent</span><span class="sig pos2">Potentially High</span><span class="lwhy">Depends on adoption elsewhere.</span></div>
+      </div>
+      <div class="scale">
+        <span class="sw"><span class="dot" style="background:var(--gray-300)"></span>Very Low / Low</span>
+        <span class="sw"><span class="dot" style="background:var(--sig-pos)"></span>Low&ndash;Moderate / Moderate</span>
+        <span class="sw"><span class="dot" style="background:var(--sig-pos-strong)"></span>Potentially High</span>
+      </div>
+
+      <div class="takeaway">
+        <p class="tk-label">Key conclusion</p>
+        <p>This is not evidence of an immediate shift in marketing budgets from social algorithms to GEO. Its more important implication is that governments are beginning to apply formal duties, risk management, and accountability requirements to AI-mediated experiences.</p>
+        <p>That could eventually broaden GEO from an optimization discipline into a larger market around <span class="em">AI visibility, intelligence, accuracy, and governance</span>.</p>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section id="proposal">
+      <p class="sec-eyebrow">The proposal &amp; the feed effect</p>
+      <h2>What the proposal does &mdash; and the limits of the feed argument</h2>
+      <p class="lede">The starting point matters, because it prevents overinterpreting the announcement. The Australian Government describes the initiative primarily as an online-safety and user-choice measure, following its social-media age restrictions. &ldquo;My Feed, My Way&rdquo; is one component of a broader proposed Digital Duty of Care.</p>
+
+      <div class="compare">
+        <div class="ccol"><p class="ctag">Personalized feed</p><h3>Opt in to the algorithm</h3><p>Platform algorithms recommend content based on the user.</p></div>
+        <div class="ccol"><p class="ctag">Following-based feed</p><h3>Opt out of recommendations</h3><p>Users opt out of personally recommended content and instead see friends and creators they have chosen to follow.</p></div>
+      </div>
+
+      <p style="margin-top:20px">The broader legislation would impose safety responsibilities on digital services, including AI chatbots, apps, games, and messaging services, particularly regarding under-18s. Providers would have to document measures addressing identified risks and ensure those measures remain effective.</p>
+
+      <div class="note"><b>Status.</b> This remains draft legislation released for consultation, rather than a mature regulatory regime whose behavioral and economic consequences can already be measured. Consequently, any GEO impact today is primarily second-order and prospective.</div>
+
+      <h3>The social-feed effect is weaker than it first appears</h3>
+      <p>The intuitive GEO argument runs in a straight line &mdash; and one reading of the announcement leaned too heavily on it.</p>
+      <div class="flowwrap">
+        <div class="flowcard">
+          <div class="fc-top"><span class="fc-tag">The intuitive chain</span><span class="fc-title">Less social discovery &rarr; more GEO</span></div>
+          <div class="flow">
+            <div class="flow-node"><span class="fn-step">Step 1</span><span class="fn-name">Less algorithmic social discovery</span></div>
+            <span class="flow-arrow">&rarr;</span>
+            <div class="flow-node"><span class="fn-step">Step 2</span><span class="fn-name">Brands need alternative channels</span></div>
+            <span class="flow-arrow">&rarr;</span>
+            <div class="flow-node"><span class="fn-step">Step 3</span><span class="fn-name">Search &amp; AI discovery matter more</span></div>
+            <span class="flow-arrow">&rarr;</span>
+            <div class="flow-node term"><span class="fn-step">Step 4</span><span class="fn-name">GEO benefits</span></div>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:18px">A more careful reading identifies the weakness: social recommendation feeds and generative-answer engines solve different consumer needs. Passive social discovery does not automatically convert into active AI research if recommendation feeds become less personalized. Someone who turns off personalized recommendations on a social platform does not necessarily begin asking an AI assistant what to buy.</p>
+      <p>And even if brands experienced reduced organic algorithmic reach, several alternatives could absorb their investment:</p>
+      <div class="pipe">
+        <span class="pn">Paid social</span><span class="pa">&rarr;</span>
+        <span class="pn">Creators / influencers</span><span class="pa">&rarr;</span>
+        <span class="pn">Owned audiences / CRM</span><span class="pa">&rarr;</span>
+        <span class="pn">Search</span><span class="pa">&rarr;</span>
+        <span class="pn end">GEO</span>
+      </div>
+      <p style="margin-top:12px">GEO is therefore one potential beneficiary, not the automatic destination of displaced social investment. That substantially weakens the case for treating &ldquo;My Feed, My Way&rdquo; as a direct GEO growth catalyst.</p>
+
+      <h3>A broader shift away from a single discovery algorithm</h3>
+      <p>There is a more defensible structural interpretation. Brands increasingly operate across multiple discovery environments:</p>
+      <div class="envgrid">
+        <div class="env"><h3>Traditional search</h3><p>Google, Bing, and other search engines.</p></div>
+        <div class="env"><h3>Social discovery</h3><p>Recommendation algorithms, creators, and communities.</p></div>
+        <div class="env"><h3>Direct relationships</h3><p>Email, apps, subscriptions, loyalty, and CRM.</p></div>
+        <div class="env"><h3>Generative discovery</h3><p>AI assistants, generative search, and conversational interfaces.</p></div>
+      </div>
+      <div class="callout" style="margin-top:20px">
+        <p class="co-label">The distinction that matters</p>
+        <p>The regulation may reinforce the value of diversification; it does not cause the rise of AI discovery. AI discovery and GEO are growing because consumers are adopting generative interfaces &mdash; a trend that exists independently of this Australian proposal.</p>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section id="signal">
+      <p class="sec-eyebrow">The stronger signal</p>
+      <h2>The stronger signal is the regulation of AI outputs</h2>
+      <p class="lede">The strategically more interesting part of the announcement is that the proposed Duty of Care does not stop at social-media feeds &mdash; it explicitly extends to AI chatbots and other digital services. That matters because GEO depends on AI systems becoming important intermediaries between organizations and consumers.</p>
+
+      <h3>Questions governments may increasingly ask</h3>
+      <ul class="body">
+        <li>What information can these systems surface?</li>
+        <li>How do providers manage harmful or inaccurate outputs?</li>
+        <li>What responsibilities do providers have for vulnerable users?</li>
+        <li>How are risks identified and mitigated?</li>
+        <li>Can providers demonstrate that those controls remain effective?</li>
+      </ul>
+      <div class="compare" style="margin-top:20px">
+        <div class="ccol"><p class="ctag">Too strong to say</p><h3>&ldquo;Australia is regulating how brands appear in AI&rdquo;</h3><p>It isn&rsquo;t &mdash; at least not based on this document. The proposal doesn&rsquo;t establish a general regime governing brand recommendations or commercial AI answers.</p></div>
+        <div class="ccol"><p class="ctag">The defensible conclusion</p><h3>AI experiences are entering formal frameworks</h3><p>AI-generated experiences are increasingly being brought inside formal digital risk and accountability frameworks. That development is relevant to the future shape of GEO.</p></div>
+      </div>
+
+      <h3>Regulation could make GEO more valuable while making optimization harder</h3>
+      <p>There is an important tension worth holding in the analysis.</p>
+      <div class="compare">
+        <div class="ccol"><p class="ctag">Pulls demand up</p><h3>Understanding AI visibility</h3><p>Greater regulation of AI systems could increase enterprise demand for understanding AI visibility.</p></div>
+        <div class="ccol"><p class="ctag">Pushes optimization down</p><h3>Susceptibility to manipulation</h3><p>At the same time, it could make generative systems less susceptible to deliberate optimization.</p></div>
+      </div>
+      <p style="margin-top:20px">AI providers facing greater safety and compliance obligations may become more conservative about:</p>
+      <div class="chips">
+        <span class="c">Unsupported claims</span>
+        <span class="c">Commercial recommendations</span>
+        <span class="c">Sensitive subjects</span>
+        <span class="c">Questionable information sources</span>
+        <span class="c">Personalized outputs</span>
+        <span class="c">Unverified content</span>
+      </div>
+      <div class="callout" style="margin-top:18px">
+        <p class="co-label">The resulting scenario</p>
+        <p>The importance of being represented <em>correctly</em> in AI rises, while the ability to <em>manipulate</em> that representation declines. Value could migrate toward monitoring + measurement + source intelligence + content quality + governance &mdash; making GEO look less like traditional search-engine optimization and more like AI brand intelligence and digital presence management.</p>
+      </div>
+
+      <h3>Authority, provenance, and information quality</h3>
+      <p>The proposal requires providers to document risk-management measures and keep them effective. It does not say generative engines must favor authoritative brand content. Nevertheless, if AI providers face increasing accountability for outputs, there is a reasonable longer-term hypothesis that reliable information becomes more valuable &mdash; raising attention to:</p>
+      <div class="auth">
+        <span class="ai">Authoritative first-party information</span>
+        <span class="ai">Consistent facts across properties</span>
+        <span class="ai">Clear entities &amp; relationships</span>
+        <span class="ai">Structured product / company information</span>
+        <span class="ai">Current information</span>
+        <span class="ai">Credible third-party corroboration</span>
+        <span class="ai">Traceable sources &amp; provenance</span>
+      </div>
+      <p style="margin-top:6px">This moves the discipline away from discovering ranking &ldquo;tricks&rdquo; and toward creating an information environment that machines can confidently understand and use &mdash; likely a more sustainable enterprise proposition.</p>
+    </section>
+
+    <!-- 04 -->
+    <section id="broadens">
+      <p class="sec-eyebrow">How GEO broadens</p>
+      <h2>From optimization to a broader market</h2>
+      <p class="lede">&ldquo;Generative Engine Optimization&rdquo; naturally suggests one question &mdash; <em>how do I increase the probability that an AI system mentions, cites, or recommends my organization?</em> But enterprises will increasingly have another: <em>what are AI systems saying about us, and is it accurate, current, safe, and supportable?</em> That creates several potentially distinct markets around GEO, worth separating rather than treating everything as &ldquo;GEO&rdquo;:</p>
+      <div class="seg">
+        <div class="segrow"><span class="sname">Visibility</span><span class="sq">Where and how often does the organization appear?</span></div>
+        <div class="segrow"><span class="sname">Intelligence</span><span class="sq">Why is it appearing? Which sources seem to influence the answer?</span></div>
+        <div class="segrow"><span class="sname">Optimization</span><span class="sq">What content, entities, or information should change to improve representation?</span></div>
+        <div class="segrow"><span class="sname">Activation</span><span class="sq">How are those changes created, updated, and distributed?</span></div>
+        <div class="segrow"><span class="sname">Governance</span><span class="sq">Is the resulting AI representation accurate, current, substantiated, and appropriate?</span></div>
+      </div>
+
+      <h3>Measurement may be a more durable market than optimization</h3>
+      <p>One of GEO&rsquo;s biggest commercial opportunities exists regardless of the Australian proposal. Traditional channels give marketers relatively mature measurement &mdash; impression &rarr; click &rarr; conversion. Generative engines disrupt that model.</p>
+      <div class="callout">
+        <p class="co-label">The buyer&rsquo;s question</p>
+        <p>Consider a consumer asking an AI: <em>&ldquo;What are the best accounting platforms for a small business?&rdquo;</em> The AI might discuss several products, explain their strengths, and ultimately influence the consumer&rsquo;s shortlist.</p>
+      </div>
+      <p style="margin-top:18px">But the brands involved may have limited visibility into:</p>
+      <ul class="body">
+        <li>whether they appeared;</li>
+        <li>how prominently they appeared;</li>
+        <li>what the AI said about them;</li>
+        <li>which competitors appeared;</li>
+        <li>what sources influenced the answer;</li>
+        <li>whether the information was accurate;</li>
+        <li>whether the interaction eventually resulted in a purchase.</li>
+      </ul>
+      <div class="pipe">
+        <span class="pn">Prompt monitoring</span><span class="pa">&rarr;</span>
+        <span class="pn">Brand mentions</span><span class="pa">&rarr;</span>
+        <span class="pn">Citations / sources</span><span class="pa">&rarr;</span>
+        <span class="pn">Share of answer</span><span class="pa">&rarr;</span>
+        <span class="pn">Competitive position</span><span class="pa">&rarr;</span>
+        <span class="pn">Sentiment &amp; representation</span><span class="pa">&rarr;</span>
+        <span class="pn">Source attribution</span><span class="pa">&rarr;</span>
+        <span class="pn end">Optimization recommendations</span>
+      </div>
+      <div class="takeaway" style="margin-top:22px">
+        <p class="tk-label">The distinction to keep</p>
+        <p>This measurement opportunity exists with or without the Australian legislation. The regulation is a <span class="em">supporting signal</span>; AI adoption is the <span class="em">underlying market driver</span>.</p>
+      </div>
+
+      <h3>GEO and SEO are more likely to converge than compete</h3>
+      <p>Nothing in the proposal suggests conventional search becomes less important. A more likely market structure has four overlapping layers:</p>
+      <div class="envgrid">
+        <div class="env"><h3>SEO</h3><p>Optimizing visibility in traditional search.</p></div>
+        <div class="env"><h3>GEO</h3><p>Managing visibility and representation in generative environments.</p></div>
+        <div class="env"><h3>AI visibility intelligence</h3><p>Understanding how AI systems represent the organization.</p></div>
+        <div class="env"><h3>AI governance</h3><p>Managing accuracy, provenance, and risk.</p></div>
+      </div>
+      <div class="takeaway" style="margin-top:20px">
+        <p class="tk-label">The reframed question</p>
+        <p>The underlying problem becomes less &ldquo;how do we rank on Google?&rdquo; or &ldquo;how do we rank in ChatGPT?&rdquo; and increasingly: <span class="em">how do we ensure our organization is discoverable and represented correctly wherever consumers and machines seek information?</span> That is potentially a much broader market than GEO narrowly defined.</p>
+      </div>
+
+      <h3>Implications across the market</h3>
+      <p>The impact will differ substantially by participant.</p>
+      <div class="ledger two">
+        <div class="lrow head"><span>Market participant</span><span>Likely implication</span></div>
+        <div class="lrow"><span class="larea">GEO specialists</span><span class="lwhy">Opportunity expands from optimization toward monitoring and intelligence.</span></div>
+        <div class="lrow"><span class="larea">SEO platforms</span><span class="lwhy">Natural opportunity to extend search visibility into generative visibility.</span></div>
+        <div class="lrow"><span class="larea">Agencies</span><span class="lwhy">New advisory services, but attribution and proof of causality remain difficult.</span></div>
+        <div class="lrow"><span class="larea">AI platforms</span><span class="lwhy">Increasing safety, governance, and regulatory obligations.</span></div>
+        <div class="lrow"><span class="larea">Brands</span><span class="lwhy">Greater need to understand how AI represents products and organizations.</span></div>
+        <div class="lrow"><span class="larea">Content / marketing platforms</span><span class="lwhy">Opportunity around structured, authoritative, and governed information.</span></div>
+        <div class="lrow"><span class="larea">Measurement vendors</span><span class="lwhy">Potentially significant new category around AI visibility and attribution.</span></div>
+      </div>
+      <div class="callout" style="margin-top:20px">
+        <p class="co-label">Where the category may land</p>
+        <p>The competitive market may not remain a standalone &ldquo;GEO software&rdquo; category. It could evolve into a broader <strong>AI Visibility / AI Brand Intelligence / AI Presence Management</strong> market, with GEO optimization as one capability inside it.</p>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section id="outlook">
+      <p class="sec-eyebrow">Outlook</p>
+      <h2>What would accelerate the market &mdash; and how far it spreads</h2>
+      <p class="lede">Rather than using individual regulatory announcements as the primary indicator, four underlying variables are worth monitoring.</p>
+      <div class="impl cols2">
+        <div class="icard num"><span class="inum">1</span><h3>Consumer adoption of AI discovery</h3><p>If consumers increasingly use generative interfaces for research, recommendations, and purchasing decisions, GEO becomes economically important.</p></div>
+        <div class="icard num"><span class="inum">2</span><h3>Measurable commercial influence</h3><p>Businesses need evidence that AI visibility affects consideration, traffic, leads, or revenue.</p></div>
+        <div class="icard num"><span class="inum">3</span><h3>Observability</h3><p>Companies need sufficient visibility into what generative engines say and which information sources influence them.</p></div>
+        <div class="icard num"><span class="inum">4</span><h3>Influenceability</h3><p>Organizations need credible ways to improve AI representation through better information, content, or data.</p></div>
+      </div>
+      <p style="margin-top:18px">Those four factors determine GEO&rsquo;s commercial potential far more directly than this particular Australian policy. Regulation becomes important primarily because it can affect the last two.</p>
+
+      <h3>The international precedent matters more than Australia alone</h3>
+      <p>The immediate market impact should be kept in perspective. Today this is:</p>
+      <div class="pipe">
+        <span class="pn">One jurisdiction</span><span class="pa">+</span>
+        <span class="pn">Draft legislation</span><span class="pa">+</span>
+        <span class="pn">Consultation</span><span class="pa">+</span>
+        <span class="pn">Uncertain implementation</span><span class="pa">+</span>
+        <span class="pn">Uncertain consumer behavior</span>
+      </div>
+      <p style="margin-top:16px">So the near-term effect on global GEO spending is likely very small. The strategic importance increases if the principles spread. If multiple jurisdictions begin requiring greater algorithmic choice, AI risk assessments, documentation of mitigation, accountability for AI outputs, and transparency around recommendation systems, then AI platforms may change their products globally rather than operating completely different systems in every market. At that point, regulation could materially affect the structure of the GEO market.</p>
+      <div class="takeaway">
+        <p class="tk-label">Framing</p>
+        <p>Australia is better viewed as a <span class="em">potential precedent to monitor</span>, rather than a demand catalyst in itself.</p>
+      </div>
+
+      <h3>Market scenarios</h3>
+      <p>A useful way to frame the uncertainty:</p>
+      <div class="ledger">
+        <div class="lrow head"><span>Scenario</span><span>Development</span><span>GEO consequence</span></div>
+        <div class="lrow"><span class="larea">Limited</span><span class="lwhy" style="color:var(--gray-700)">Australian rules remain relatively isolated.</span><span class="lwhy">Negligible GEO impact.</span></div>
+        <div class="lrow"><span class="larea">Algorithm-control expansion</span><span class="lwhy" style="color:var(--gray-700)">Similar social-feed controls spread.</span><span class="lwhy">Small positive diversification effect.</span></div>
+        <div class="lrow"><span class="larea">AI accountability expansion</span><span class="lwhy" style="color:var(--gray-700)">More countries impose duties on AI services.</span><span class="lwhy">Growth in monitoring / governance demand.</span></div>
+        <div class="lrow" style="background:var(--sig-pos-tint)"><span class="larea">AI discovery mainstreams independently</span><span class="lwhy" style="color:var(--gray-700)">Consumers increasingly research through AI.</span><span class="lwhy" style="color:var(--sig-pos-strong); font-weight:600">Strong GEO / AI-visibility growth, regardless of this legislation.</span></div>
+        <div class="lrow"><span class="larea">Highly controlled AI ecosystem</span><span class="lwhy" style="color:var(--gray-700)">AI providers substantially restrict commercial influence.</span><span class="lwhy">Monitoring / governance grows; optimization becomes harder.</span></div>
+      </div>
+      <div class="note"><b>Which scenarios matter most.</b> The fourth scenario is probably the most important for the <b>size</b> of the GEO market. The third and fifth are more important for determining <b>what kind</b> of GEO market emerges.</div>
+    </section>
+
+    <!-- 06 -->
+    <section id="overall">
+      <p class="sec-eyebrow">Overall assessment</p>
+      <h2>Overall assessment</h2>
+      <p class="lede">Scoring the Australian announcement across the dimensions that matter:</p>
+      <div class="ledger score">
+        <div class="lrow head"><span>Dimension</span><span>Impact</span><span>Confidence</span></div>
+        <div class="lrow"><span class="larea">Immediate GEO market growth</span><span><span class="sig neu">Very Low</span></span><span><span class="conf h">High</span></span></div>
+        <div class="lrow"><span class="larea">Shift of social budget into GEO</span><span><span class="sig neu">Low</span></span><span><span class="conf m">Medium</span></span></div>
+        <div class="lrow"><span class="larea">Increased importance of diversified discovery</span><span><span class="sig pos">Low&ndash;Moderate</span></span><span><span class="conf m">Medium</span></span></div>
+        <div class="lrow"><span class="larea">Signal for AI regulation</span><span><span class="sig pos">Moderate</span></span><span><span class="conf h">High</span></span></div>
+        <div class="lrow"><span class="larea">Opportunity for AI visibility measurement</span><span><span class="sig pos">Positive, largely independent of policy</span></span><span><span class="conf h">High</span></span></div>
+        <div class="lrow"><span class="larea">Opportunity for AI governance</span><span><span class="sig pos">Moderate long-term signal</span></span><span><span class="conf m">Medium</span></span></div>
+        <div class="lrow"><span class="larea">Effect on GEO optimization effectiveness</span><span><span class="sig neu">Uncertain</span></span><span><span class="conf l">Low</span></span></div>
+        <div class="lrow"><span class="larea">International precedent</span><span><span class="sig pos2">Potentially significant</span></span><span><span class="conf m">Medium</span></span></div>
+        <div class="lrow"><span class="larea">Overall near-term GEO impact</span><span><span class="sig neu">Low</span></span><span><span class="conf h">High</span></span></div>
+        <div class="lrow"><span class="larea">Long-term strategic relevance</span><span><span class="sig pos">Moderate</span></span><span><span class="conf m">Medium</span></span></div>
+      </div>
+
+      <h3>Bottom line</h3>
+      <p>Australia&rsquo;s &ldquo;My Feed, My Way&rdquo; proposal should not be characterized as a major tailwind for the GEO market. The social-feed component is too indirect: giving consumers a choice over personalized recommendations does not mean they will shift their discovery behavior to generative engines, and any marketing spend displaced from algorithmic social reach has several alternative destinations.</p>
+      <p>The more consequential signal lies elsewhere: AI chatbots are beginning to fall within formal regulatory frameworks requiring providers to identify risks, implement controls, and demonstrate that those controls remain effective. That does not necessarily make GEO optimization easier &mdash; stronger AI governance could make generative systems harder to influence &mdash; but it could make understanding and managing AI representation substantially more important.</p>
+      <div class="takeaway">
+        <p class="tk-label">Two trends to separate</p>
+        <p><span class="em">AI adoption</span> is the growth engine for GEO. <span class="em">Regulation</span> is a potential force shaping what GEO becomes. If generative discovery continues growing, the market is likely to expand beyond &ldquo;optimizing for AI answers&rdquo; toward a broader stack encompassing AI visibility, competitive intelligence, source attribution, optimization, content activation, accuracy, provenance, and governance.</p>
+        <p>That is the more defensible market implication from the Australian announcement &mdash; and it avoids attributing to this legislation a GEO growth effect that the evidence does not currently support.</p>
+      </div>
+    </section>
+
+    </main>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="foot-inner">
+    <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe&nbsp;<span>Brand Visibility</span></div>
+    <div class="foot-right">
+      <p class="fr-1">Adobe Internal &mdash; field POV. Not for external distribution.</p>
+      <p class="fr-2">&copy; 2026 Adobe</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var SPY_SELECTOR = '#spy-nav a';
+  var links = Array.prototype.slice.call(document.querySelectorAll(SPY_SELECTOR));
+  var map = {}; links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
+  var sections = links.map(function(l){ return document.getElementById(l.getAttribute('href').slice(1)); }).filter(Boolean);
+  function setActive(id){ links.forEach(function(l){ l.classList.remove('active'); }); if(map[id]) map[id].classList.add('active'); }
+  if('IntersectionObserver' in window){
+    var vis = {};
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ vis[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0; });
+      var best=null, bestR=0; Object.keys(vis).forEach(function(k){ if(vis[k]>bestR){bestR=vis[k]; best=k;} });
+      if(best) setActive(best);
+    }, { rootMargin:'-15% 0px -70% 0px', threshold:[0,0.15,0.5,1] });
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+  links.forEach(function(l){ l.addEventListener('click', function(){ setActive(l.getAttribute('href').slice(1)); }); });
+  var pb=document.getElementById('progressbar');
+  if(pb){ var upd=function(){ var h=document.documentElement.scrollHeight-window.innerHeight;
+    pb.style.transform='scaleX('+Math.min(1,Math.max(0,h>0?window.scrollY/h:0))+')'; };
+    window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd(); }
+})();
+</script>
+
+</body>
+</html>

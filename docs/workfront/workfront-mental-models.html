@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workfront Mental Models &middot; Adobe Workfront learning course</title>
+<style>
+:root{
+  --adobe-red:#EB1000; --adobe-red-dark:#B71000; --adobe-red-tint:#FDECEA;
+  --coral-1:#F04A2E; --coral-2:#F9A392; --coral-bright:#FB6A4E;
+  --s2-blue:#3B63FB; --s2-blue-down:#274DEA; --s2-blue-active:#1D3ECF;
+  --s2-blue-tint:#E5F0FE; --s2-blue-tint-faint:#F5F9FF;
+  --ink:#1B1B1B; --charcoal:#2C2C2C; --charcoal-2:#141414;
+  --gray-900:#1F1F1F; --gray-800:#222222; --gray-700:#464646;
+  --gray-600:#6D6D6D; --gray-500:#909090; --gray-400:#B1B1B1;
+  --gray-300:#D5D5D5; --gray-200:#E6E6E6; --gray-100:#F8F8F8;
+  --gray-75:#FAFAFA; --gray-50:#FDFDFD; --white:#FFFFFF;
+  --bg-base:#FFFFFF; --bg-layer-1:#FAFAFA; --bg-layer-2:#F4F4F5;
+  --border:#E6E6E6; --border-strong:#D5D5D5;
+  --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+  --radius:16px; --radius-sm:8px; --radius-pill:9999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 8px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08);
+  --focus-ring:var(--s2-blue);
+  --maxw:1200px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{animation:none!important;transition:none!important;}}
+body{margin:0;font-family:var(--font);color:var(--gray-800);background:var(--bg-base);line-height:1.55;font-size:16px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+::selection{background:var(--s2-blue-tint);}
+a{color:var(--s2-blue-down);text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;border-radius:3px;}
+
+/* progress */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:100;pointer-events:none;}
+.progress span{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,var(--coral-1),var(--coral-2));will-change:transform;}
+
+/* ai band */
+.ai-note{background:var(--gray-100);border-bottom:1px solid var(--gray-200);}
+.ai-note-inner{max-width:var(--maxw);margin:0 auto;padding:9px 24px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;line-height:1.45;color:var(--gray-500);}
+.ai-note b{color:var(--gray-600);font-weight:600;}
+.ai-note svg{flex:none;}
+
+/* hero */
+.hero{position:relative;overflow:hidden;color:#fff;background:radial-gradient(1350px 720px at 90% -18%,rgba(255,255,255,.12),rgba(255,255,255,.05) 42%,transparent 82%),linear-gradient(135deg,#2d2d2d 0%,#1c1c1c 52%,#0e0e0e 100%);padding:56px 24px 70px;}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px);background-size:100% 34px;opacity:.5;-webkit-mask:linear-gradient(#000,transparent 70%);mask:linear-gradient(#000,transparent 70%);}
+.hero-inner{max-width:var(--maxw);margin:0 auto;position:relative;z-index:1;}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.12);}
+.brandrow{display:flex;align-items:center;gap:11px;}
+.brandrow .brand-mark{height:26px;width:auto;flex:none;filter:drop-shadow(0 2px 12px rgba(255,255,255,.18));}
+.brandname{font-size:19px;font-weight:800;letter-spacing:-.02em;color:#fff;}
+.brandname span{font-weight:400;color:#d9d9d9;}
+.kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:#ff8f84;white-space:nowrap;}
+.hero-body{margin-top:40px;}
+.hero h1{margin:0;font-size:clamp(36px,5.2vw,60px);line-height:1.05;font-weight:800;letter-spacing:-.025em;max-width:18ch;}
+.hero h1 .hl{background:linear-gradient(100deg,var(--coral-1) 0%,var(--coral-2) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;-webkit-box-decoration-break:slice;box-decoration-break:slice;padding-bottom:.3em;}
+.hero .lead{margin:22px 0 0;font-size:clamp(17px,2vw,21px);color:#d3d3d3;max-width:64ch;}
+.hero .lead strong{color:#fff;font-weight:700;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:12px;margin:34px 0 0;padding:0;list-style:none;}
+.hero-chips li{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.20);border-radius:var(--radius-pill);padding:10px 17px;font-size:13.5px;font-weight:500;color:#ececec;box-shadow:inset 0 1px 0 rgba(255,255,255,.17),0 1px 5px rgba(0,0,0,.12);}
+.hero-chips li strong{color:#fff;font-weight:700;}
+
+/* shell / rail */
+.shell{max-width:var(--maxw);margin:0 auto;padding:0 24px 80px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:64px;}
+.rail{position:sticky;top:24px;align-self:start;padding-top:56px;}
+.rail-title{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-500);margin:0 0 14px;padding-left:14px;}
+.rail nav{display:flex;flex-direction:column;gap:2px;}
+.rail nav a{display:flex;align-items:center;gap:11px;padding:10px 15px;border-radius:var(--radius-sm);color:var(--gray-600);font-size:14px;font-weight:600;border-left:2px solid transparent;transition:background .15s,color .15s,border-color .15s;}
+.rail nav a .num{font-size:11px;font-weight:700;color:var(--gray-300);min-width:16px;font-variant-numeric:tabular-nums;font-family:var(--mono);}
+.rail nav a:hover{background:var(--gray-100);color:var(--ink);}
+.rail nav a.active{color:var(--s2-blue-down);background:var(--s2-blue-tint);border-left-color:var(--s2-blue);}
+.rail nav a.active .num{color:var(--s2-blue);}
+.rail nav a:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px;}
+.content{padding-top:56px;min-width:0;}
+@media(max-width:980px){.shell{grid-template-columns:1fr;gap:0;}.rail{display:none;}}
+
+/* sections */
+.content{counter-reset:sec;}
+section{scroll-margin-top:20px;padding-bottom:70px;counter-increment:sec;}
+section+section{border-top:1px solid var(--gray-200);border-image:linear-gradient(90deg,transparent,var(--gray-200) 18%,var(--gray-200) 82%,transparent) 1;padding-top:64px;}
+.sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-500);margin:0 0 14px;}
+.sec-eyebrow::before{content:counter(sec,decimal-leading-zero) "  \00b7  ";font-family:var(--mono);font-weight:600;letter-spacing:.02em;color:var(--adobe-red);}
+h2{font-size:clamp(25px,2.8vw,33px);line-height:1.15;letter-spacing:-.015em;font-weight:800;margin:0 0 22px;color:var(--ink);}
+h3{font-size:18px;font-weight:800;letter-spacing:-.01em;margin:34px 0 12px;color:var(--ink);}
+section p{font-size:16px;line-height:1.6;color:var(--gray-800);margin:0 0 16px;}
+section p.muted{color:var(--gray-600);font-size:14.5px;}
+.em{color:var(--coral-1);font-weight:700;}
+strong{color:var(--gray-900);}
+
+/* bullets */
+.bullets{margin:18px 0;padding-left:0;list-style:none;}
+.bullets li{position:relative;padding-left:22px;margin:9px 0;font-size:15.5px;line-height:1.55;color:var(--gray-800);}
+.bullets li::before{content:"";position:absolute;left:2px;top:9px;width:6px;height:6px;border-radius:2px;background:var(--gray-400);}
+
+/* tables */
+.tw{overflow-x:auto;margin:22px 0;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);}
+table{width:100%;border-collapse:collapse;font-size:14.5px;}
+thead th{background:var(--bg-layer-2);text-align:left;font-weight:700;color:var(--gray-700);padding:11px 16px;border-bottom:1px solid var(--border);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap;}
+tbody td{padding:12px 16px;border-bottom:1px solid var(--gray-200);vertical-align:top;color:var(--gray-800);line-height:1.5;}
+tbody tr:last-child td{border-bottom:none;}
+tbody tr{transition:background .15s;}
+tbody tr:hover td{background:var(--gray-100);}
+tbody tr.total td{background:var(--bg-layer-1);font-weight:800;color:var(--ink);border-top:2px solid var(--border-strong);}
+td strong{color:var(--ink);}
+
+/* cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin:22px 0;}
+.card{background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);transition:border-color .15s,transform .15s,box-shadow .15s;}
+.card:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow-lg);}
+.card .cnum{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gray-500);letter-spacing:.08em;text-transform:uppercase;}
+.card h4{margin:8px 0 6px;font-size:15.5px;font-weight:800;color:var(--ink);letter-spacing:-.01em;}
+.card p{margin:0;font-size:13.5px;color:var(--gray-700);line-height:1.5;}
+
+/* tree */
+.tree{font-family:var(--mono);font-size:13px;line-height:1.85;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 18px;color:var(--gray-600);white-space:pre;overflow-x:auto;margin:22px 0;}
+.tree b{color:var(--ink);font-weight:700;}
+
+/* vertical chain */
+.chain{display:flex;flex-direction:column;align-items:flex-start;margin:24px 0;}
+.chain .node{display:flex;align-items:center;gap:12px;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius-sm);padding:11px 17px;font-size:14.5px;font-weight:600;color:var(--gray-800);box-shadow:var(--shadow-sm);max-width:100%;}
+.chain .node .cnum{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--adobe-red);min-width:20px;text-align:center;}
+.chain .down{width:2px;height:20px;background:var(--gray-300);margin:5px 0 5px 24px;position:relative;}
+.chain .down::after{content:"";position:absolute;left:50%;bottom:-1px;width:6px;height:6px;border-right:2px solid var(--gray-400);border-bottom:2px solid var(--gray-400);transform:translateX(-50%) rotate(45deg);}
+.branch{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 6px 24px;}
+
+/* horizontal chain / dependency */
+.hchain,.dep{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:24px 0;}
+.hnode{background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 15px;font-size:14px;font-weight:600;color:var(--gray-800);box-shadow:var(--shadow-sm);}
+.hchain .right,.dep .right{color:var(--gray-400);font-weight:700;font-size:16px;}
+.dep-col{display:flex;flex-direction:column;gap:8px;}
+
+/* mental-model callout */
+.mm{background:var(--bg-layer-2);border:1px solid var(--border);border-left:3px solid var(--coral-1);border-radius:var(--radius-sm);padding:18px 22px;margin:0 0 26px;}
+.mm .mm-label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--adobe-red);margin-bottom:8px;}
+.mm p{margin:0;font-size:16.5px;line-height:1.55;color:var(--gray-800);font-weight:500;}
+
+/* takeaway */
+.takeaway{border-left:3px solid var(--coral-1);background:var(--adobe-red-tint);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:16px 20px;margin:24px 0;font-size:15.5px;line-height:1.55;color:var(--gray-800);}
+.takeaway strong{color:var(--adobe-red-dark);}
+.takeaway em{font-style:normal;color:var(--adobe-red-dark);font-weight:700;}
+
+/* dark one-liner */
+.oneliner{position:relative;overflow:hidden;background:radial-gradient(1000px 400px at 85% -40%,rgba(255,255,255,.10),transparent 70%),linear-gradient(135deg,#2d2d2d,#141414);color:#e6e6e6;border-radius:var(--radius);padding:26px 30px;margin:28px 0;box-shadow:var(--shadow-lg);}
+.oneliner .ol-label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--coral-bright);margin-bottom:10px;}
+.oneliner p{margin:0;font-size:16px;line-height:1.6;color:#e6e6e6;}
+.oneliner .em{color:var(--coral-bright);font-weight:800;}
+
+/* practice */
+.practice{background:var(--bg-layer-1);border:1px dashed var(--border-strong);border-radius:var(--radius);padding:18px 22px;margin:28px 0 0;}
+.practice .callout-label{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--adobe-red);margin-bottom:8px;}
+.practice p{margin:0;font-size:14.5px;line-height:1.6;color:var(--gray-700);}
+.practice .muted{color:var(--gray-500);}
+
+/* footer */
+.site-footer{background:var(--charcoal-2);color:#8a8a8a;}
+.foot-inner{max-width:var(--maxw);margin:0 auto;padding:30px 24px;display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between;}
+.foot-brand{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-size:16px;letter-spacing:-.01em;}
+.foot-brand img{height:22px;width:auto;display:block;}
+.foot-brand span{font-weight:400;color:#cfcfcf;}
+.foot-right{text-align:right;line-height:1.5;}
+.foot-right .fr-1{margin:0;font-size:13px;font-weight:600;color:#b9b9b9;letter-spacing:.01em;}
+.foot-right .fr-2{margin:2px 0 0;font-size:12px;color:#6f6f6f;letter-spacing:.02em;}
+@media(max-width:620px){.foot-inner{flex-direction:column;align-items:flex-start;}.foot-right{text-align:left;}}
+</style>
+</head>
+<body>
+<div class="progress"><span id="progressbar"></span></div>
+
+<div class="ai-note">
+  <div class="ai-note-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a3a3a3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span><b>Prepared with AI assistance.</b> Please review for accuracy before use &mdash; this document may contain errors.</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="masthead">
+      <div class="brandrow">
+        <img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">
+        <span class="brandname">Adobe&nbsp;<span>Workfront</span></span>
+      </div>
+      <span class="kicker">Learning Course &middot; Mental Models</span>
+    </div>
+    <div class="hero-body">
+      <h1>Workfront, learned through how work <span class="hl">flows</span></h1>
+      <p class="lead">Eight core lessons that teach Adobe Workfront by following work from request to delivered outcome &mdash; each pairs a mental model with the objects and behavior it explains.</p>
+      <ul class="hero-chips">
+        <li><strong>8 lessons:</strong> read in sequence or standalone</li>
+        <li><strong>Mental models:</strong> one clear picture per concept</li>
+        <li><strong>Practice:</strong> an exercise closes each lesson</li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="rail">
+    <p class="rail-title">Contents</p>
+    <nav id="spy-nav"><a href="#coursemap"><span class="num">01</span> Course map</a><a href="#l1"><span class="num">02</span> Master models</a><a href="#l2"><span class="num">03</span> One campaign</a><a href="#l3"><span class="num">04</span> Object relations</a><a href="#l4"><span class="num">05</span> Workflow engine</a><a href="#l5"><span class="num">06</span> Intake & requests</a><a href="#l6"><span class="num">07</span> Planning & resourcing</a><a href="#l7"><span class="num">08</span> Content review</a><a href="#l8"><span class="num">09</span> Visibility & automation</a><a href="#quickref"><span class="num">10</span> Quick reference</a></nav>
+  </aside>
+  <div class="content">
+    <main>
+<section id="coursemap">
+  <p class="sec-eyebrow">Course map</p>
+  <h2>The eight mental models</h2>
+  <div class="mm"><span class="mm-label">Mental model</span><p>Workfront is a shared model of work: requests are the front door, projects are commitments, tasks describe execution, documents and proofs preserve evidence, approvals authorize progress, reports create visibility, and Fusion automates repeatable handoffs.</p></div>
+  <p>Each lesson introduces one mental model, connects it to Workfront objects and behavior, and closes with a practical exercise. The book reads sequentially, but every lesson also works as a standalone reference.</p>
+  <div class="tw"><table><thead><tr><th>#</th><th>Lesson</th><th>Mental model</th><th>Main question</th></tr></thead><tbody><tr><td>1</td><td>The master mental models</td><td>Filing cabinet + funnel</td><td>Where does work live, and how does it enter?</td></tr><tr><td>2</td><td>One content campaign, end to end</td><td>One campaign story</td><td>How does a request become a delivered outcome?</td></tr><tr><td>3</td><td>Object relationships</td><td>Hierarchy + network</td><td>How are objects, people, and evidence connected?</td></tr><tr><td>4</td><td>Workflow engine</td><td>State machine + dependency graph</td><td>How does work move from one state to another?</td></tr><tr><td>5</td><td>Intake &amp; requests</td><td>Front door + service desk</td><td>How do requests get structured, routed, and triaged?</td></tr><tr><td>6</td><td>Planning &amp; resourcing</td><td>Feasibility model</td><td>Can the outcome be delivered with the scope, time, effort, and capacity available?</td></tr><tr><td>7</td><td>Collaboration &amp; content review</td><td>Evidence-and-decision system</td><td>How are content versions reviewed and approved?</td></tr><tr><td>8</td><td>Visibility &amp; automation</td><td>Control tower + automation layer</td><td>How do people see the work, and how do systems move it?</td></tr></tbody></table></div>
+  <h3>How to use this book</h3>
+  <p>Read Lessons 1&ndash;3 to learn Workfront&rsquo;s nouns and how they connect. Use Lessons 4&ndash;7 to model execution and content operations. Finish with Lesson 8 to design reporting, governance, and automation.</p>
+</section>
+<section id="l1">
+  <p class="sec-eyebrow">Lesson 1 &middot; The master mental models</p>
+  <h2>Where work lives, and how it enters</h2>
+  <div class="mm"><span class="mm-label">Mental model</span><p>Workfront turns incoming work into organized, assigned, trackable outcomes. Start with how work flows through the system rather than memorizing menus.</p></div>
+  <p>Workfront answers five questions: what work arrived, what outcome is needed, what steps are required, who owns them, and what evidence shows progress.</p>
+  <h3>1 &middot; Workfront is a work funnel</h3>
+  <div class="chain">
+    <div class="node"><span>Business need</span></div><div class="down"></div>
+    <div class="node"><span>Request or issue</span></div><div class="down"></div>
+    <div class="node"><span>Triage &mdash; should we do it?</span></div>
+    <div class="branch"><div class="hnode">Keep as issue / backlog</div><div class="hnode">Convert to project</div></div>
+    <div class="down"></div>
+    <div class="node"><span>Tasks</span></div><div class="down"></div>
+    <div class="node"><span>Execution &amp; updates</span></div><div class="down"></div>
+    <div class="node"><span>Reviews &amp; approvals</span></div><div class="down"></div>
+    <div class="node"><span>Outcome delivered</span></div>
+  </div>
+  <p>A request or issue is work that has arrived but may not yet be fully planned. A project is a larger deliverable; tasks are the planned steps needed to complete it.</p>
+  <h3>2 &middot; Workfront is a filing cabinet</h3>
+  <div class="tw"><table><thead><tr><th>Object</th><th>Mental model</th><th>Question it answers</th></tr></thead><tbody><tr><td>Portfolio</td><td>Filing cabinet</td><td>What broad business investments do we manage?</td></tr><tr><td>Program</td><td>Drawer</td><td>Which projects support a common strategy?</td></tr><tr><td>Project</td><td>Folder</td><td>What major outcome are we producing?</td></tr><tr><td>Task</td><td>Planned action</td><td>What specific work must happen?</td></tr><tr><td>Issue / request</td><td>Incoming note</td><td>What unexpected or newly requested work appeared?</td></tr><tr><td>Document</td><td>Supporting material</td><td>What artifact supports the work?</td></tr><tr><td>Report / dashboard</td><td>Index or summary</td><td>What do we need to see across the work?</td></tr></tbody></table></div>
+  <h3>3 &middot; Planned versus unplanned work</h3>
+  <p>A <strong>project</strong> is the overall deliverable; a <strong>task</strong> is planned work required to achieve it; an <strong>issue or request</strong> is unplanned or newly submitted work that must be evaluated.</p>
+  <div class="cards">
+    <div class="card"><span class="cnum">Project</span><h4>Launch the summer campaign</h4><p>The overall outcome being committed to.</p></div>
+    <div class="card"><span class="cnum">Tasks</span><h4>Write brief &middot; create concepts &middot; draft copy &middot; legal review &middot; publish</h4><p>The planned steps inside the project.</p></div>
+    <div class="card"><span class="cnum">Issue</span><h4>Add an urgent French translation</h4><p>Unplanned work that must be triaged against the plan.</p></div>
+  </div>
+  <h3>4 &middot; A project is a promise</h3>
+  <div class="takeaway">&ldquo;We will produce this outcome, using these people, within this timeframe, through these steps.&rdquo; A credible project has a clear outcome, defined scope, tasks, owners, dates, dependencies, status, communication, and completion evidence.</div>
+  <h3>5 &middot; The project plan is a dependency graph</h3>
+  <div class="dep">
+    <div class="dep-col"><div class="hnode">Write copy</div><div class="hnode">Create design</div></div>
+    <div class="right">&rarr;</div><div class="hnode">Legal review</div>
+    <div class="right">&rarr;</div><div class="hnode">Publish</div>
+  </div>
+  <p>A task list tells you what exists. Dependencies tell you what can happen next. Durations, predecessors, task relationships, and assignments together shape the timeline.</p>
+  <h3>6 &middot; Workfront is shared memory</h3>
+  <p>Workfront preserves what was requested and why, who owns each step, what changed, which files were used, what feedback was given, what was approved, and what remains blocked.</p>
+  <div class="takeaway"><strong>Key idea.</strong> Requests become projects; projects become tasks; tasks create outcomes; updates and approvals create trust; reports create visibility.</div>
+  <div class="practice"><span class="callout-label">Practice</span><p>Classify each as project, task, issue/request, document, program, portfolio, approval, or report: launch a new website; write homepage copy; an urgent homepage change; approved brand guidelines; all digital marketing initiatives; website relaunch projects; legal sign-off; a view of overdue projects. <span class='muted'>(project; task; issue/request; document; portfolio; program; approval; report.)</span></p></div>
+</section>
+<section id="l2">
+  <p class="sec-eyebrow">Lesson 2 &middot; One content campaign, end to end</p>
+  <h2>How a request becomes a delivered outcome</h2>
+  <div class="mm"><span class="mm-label">Mental model</span><p>A request is an incoming need. A project is a commitment. Tasks are the plan. Documents are the output. Approvals are gates. Reports are visibility.</p></div>
+  <p>One fictional campaign &mdash; the <strong>TrailPro&nbsp;X</strong> launch &mdash; shows when each object appears and why it exists, from intake through closeout.</p>
+  <h3>1 &middot; The scenario</h3>
+  <div class="tw"><table><thead><tr><th>Requested deliverable</th><th>Example</th></tr></thead><tbody><tr><td>Campaign landing page</td><td>One page for the TrailPro&nbsp;X launch</td></tr><tr><td>Social cutdowns</td><td>Three short-form assets</td></tr><tr><td>Email</td><td>One launch email</td></tr><tr><td>Hero image</td><td>One primary campaign image</td></tr><tr><td>Review</td><td>Legal and brand review</td></tr><tr><td>Target</td><td>Launch by June&nbsp;30</td></tr></tbody></table></div>
+  <h3>2 &middot; The request &mdash; someone needs something</h3>
+  <p>Product Marketing submits a request through a Creative Campaign Request Queue. The request is an intake envelope, not yet a complete project plan.</p>
+  <div class="tw"><table><thead><tr><th>Request field</th><th>Example</th></tr></thead><tbody><tr><td>Subject</td><td>Launch TrailPro&nbsp;X campaign</td></tr><tr><td>Objective</td><td>Drive awareness and pre-orders</td></tr><tr><td>Audience</td><td>Outdoor enthusiasts in North America</td></tr><tr><td>Deliverables</td><td>Landing page, email, hero image, social cutdowns</td></tr><tr><td>Needed by</td><td>June&nbsp;30</td></tr><tr><td>Priority</td><td>High</td></tr><tr><td>Requester</td><td>Maya, Product Marketing</td></tr><tr><td>Attachment</td><td>Product brief and launch strategy</td></tr></tbody></table></div>
+  <h3>3 &middot; Triage &mdash; decide what kind of work this is</h3>
+  <div class="tw"><table><thead><tr><th>Situation</th><th>Workfront action</th><th>Why</th></tr></thead><tbody><tr><td>Incomplete request</td><td>Ask for information</td><td>The team cannot estimate or commit yet</td></tr><tr><td>Small self-contained action</td><td>Keep as issue</td><td>It does not need a full project plan</td></tr><tr><td>Belongs inside an existing project</td><td>Convert to task</td><td>It becomes planned work</td></tr><tr><td>Multiple phases and deliverables</td><td>Convert to project</td><td>It needs its own schedule, owners, and approvals</td></tr><tr><td>Should not be pursued</td><td>Close or decline</td><td>The organization made a decision</td></tr></tbody></table></div>
+  <div class="takeaway">Before triage, someone is <em>asking</em> for this. After conversion to a project, we have <em>accepted</em> it as a managed body of work.</div>
+  <h3>4 &middot; Conversion &mdash; turn the request into a project</h3>
+  <div class="cards">
+    <div class="card"><span class="cnum">Project</span><h4>TrailPro&nbsp;X Campaign Launch</h4><p>Status: Planning &middot; Owner: Creative Operations Manager &middot; Requester: Maya &middot; Target launch: June&nbsp;30.</p></div>
+    <div class="card"><span class="cnum">Template</span><h4>Campaign Launch template</h4><p>Standard phases, reusable tasks, durations, predecessors, planned hours, default forms, approvals, notifications.</p></div>
+  </div>
+  <p>Keep the project in <strong>Planning</strong> while assignments, dates, task structure, scope, and approvals are refined.</p>
+  <h3>5 &middot; The task plan</h3>
+  <div class="tw"><table><thead><tr><th>Task</th><th>Dur.</th><th>Predecessor</th><th>Owner</th><th>Definition of done</th></tr></thead><tbody><tr><td>Confirm campaign brief</td><td>1d</td><td>&mdash;</td><td>Maya</td><td>Objective, audience, channels, deliverables confirmed</td></tr><tr><td>Gather product &amp; brand inputs</td><td>1d</td><td>Brief</td><td>Product Marketing</td><td>Required source material available</td></tr><tr><td>Create hero-image concepts</td><td>3d</td><td>Inputs</td><td>Design</td><td>Two concepts uploaded</td></tr><tr><td>Draft landing-page &amp; email copy</td><td>2d</td><td>Inputs</td><td>Copywriter</td><td>Copy draft uploaded</td></tr><tr><td>Internal creative review</td><td>1d</td><td>Concepts + copy</td><td>Creative Lead</td><td>One direction selected</td></tr><tr><td>Produce final campaign assets</td><td>3d</td><td>Internal review</td><td>Creative Team</td><td>Final assets uploaded</td></tr><tr><td>Legal and brand approval</td><td>2d</td><td>Final assets</td><td>Legal / Brand</td><td>Formal approval recorded</td></tr><tr><td>Publish campaign</td><td>1d</td><td>Approval</td><td>Web / Marketing Ops</td><td>Content published and tested</td></tr><tr><td>Campaign closeout</td><td>1d</td><td>Publish</td><td>Project Manager</td><td>Links, results, lessons recorded</td></tr></tbody></table></div>
+  <h3>6 &middot; Execution and updates</h3>
+  <p>A useful update answers four questions: what was completed, what is in progress, what is blocked or at risk, and what is needed from someone else.</p>
+  <div class="tw"><table><thead><tr><th>Field</th><th>Example</th></tr></thead><tbody><tr><td>Completed</td><td>First hero-image concepts uploaded</td></tr><tr><td>In progress</td><td>Revising the preferred direction</td></tr><tr><td>Risk</td><td>Product feature copy is still missing</td></tr><tr><td>Need</td><td>Confirm the battery-range claim by tomorrow</td></tr></tbody></table></div>
+  <p>Use an <strong>update</strong> for context and an <strong>issue</strong> when work must be assigned, tracked, and resolved. If the issue becomes part of the planned timeline, convert it into a task.</p>
+  <h3>7 &middot; Documents and approvals</h3>
+  <p>Documents hold the work products and their history. A formal approval records who reviewed which version and whether it can move forward &mdash; <strong>Approve</strong>, <strong>Approve with changes</strong>, or <strong>Needs work</strong>.</p>
+  <h3>8 &middot; An unplanned request appears</h3>
+  <p>Two days before launch, Product Marketing requests French social cutdowns. It first appears as an issue. The project manager weighs impact on scope, schedule, resources, legal review, and launch, then decides: decline, keep as issue, convert to task, or spin up its own project.</p>
+  <h3>9 &middot; Launch and closeout</h3>
+  <p>The project is complete when assets are approved, published, and verified; open issues are resolved or transferred; actual effort is captured where required; status reflects completion; and the outcome is recorded.</p>
+  <h3>10 &middot; Dashboard view</h3>
+  <div class="tw"><table><thead><tr><th>Report</th><th>Question answered</th></tr></thead><tbody><tr><td>Requests awaiting triage</td><td>What new work has arrived?</td></tr><tr><td>Active campaigns</td><td>What are we committed to?</td></tr><tr><td>Tasks due this week</td><td>What requires attention now?</td></tr><tr><td>Overdue tasks</td><td>Where is execution slipping?</td></tr><tr><td>Pending approvals</td><td>What is waiting for a decision?</td></tr><tr><td>Open issues</td><td>What unplanned work or risks remain?</td></tr><tr><td>Completed campaigns</td><td>What has been delivered?</td></tr></tbody></table></div>
+  <div class="oneliner"><span class="ol-label">One-minute explanation</span><p>Workfront receives work through requests, decides what deserves commitment, turns commitments into projects, breaks projects into tasks, connects tasks with dependencies, stores artifacts as documents, records progress through updates, controls quality through approvals, and provides visibility through reports and dashboards.</p></div>
+  <div class="practice"><span class="callout-label">Practice</span><p>Model a product webinar as a project: landing page, speaker slides, email invitation, social promotion, registration tracking, legal review, event-day support, and a post-event report. Add dependencies, one unplanned issue, and a dashboard with in-progress, due-soon, pending-approval, open-issue, and completed views.</p></div>
+</section>
+<section id="l3">
+  <p class="sec-eyebrow">Lesson 3 &middot; Workfront object relationships</p>
+  <h2>Hierarchy tells you where; the network tells you how</h2>
+  <div class="mm"><span class="mm-label">Mental model</span><p>Workfront is both a hierarchy and a network. The hierarchy tells you where work lives; the network tells you who, what, and which decision are connected to it.</p></div>
+  <h3>1 &middot; The hierarchy</h3>
+  <pre class="tree"><b>Portfolio</b>
+&#9500;&#9472; <b>Program</b>
+   &#9500;&#9472; <b>Project</b>
+      &#9500;&#9472; Task
+      &#9474;  &#9492;&#9472; Subtask
+      &#9500;&#9472; Issue / Request
+      &#9500;&#9472; Document
+      &#9500;&#9472; Update
+      &#9492;&#9472; Approval</pre>
+  <div class="tw"><table><thead><tr><th>Object</th><th>Mental model</th><th>Main question</th></tr></thead><tbody><tr><td>Portfolio</td><td>Investment area</td><td>What broad business work do we manage?</td></tr><tr><td>Program</td><td>Strategic theme</td><td>Which related projects belong together?</td></tr><tr><td>Project</td><td>Outcome / commitment</td><td>What are we trying to deliver?</td></tr><tr><td>Task</td><td>Planned step</td><td>What work must be performed?</td></tr><tr><td>Subtask</td><td>Smaller step</td><td>How can this task be broken down?</td></tr><tr><td>Issue / request</td><td>Exception or incoming demand</td><td>What new or unplanned work appeared?</td></tr><tr><td>Document</td><td>Artifact</td><td>What content or evidence was produced?</td></tr><tr><td>Update</td><td>Project memory</td><td>What changed, and why?</td></tr><tr><td>Approval</td><td>Decision gate</td><td>Can this work move forward?</td></tr></tbody></table></div>
+  <h3>2 &middot; The network</h3>
+  <ul class="bullets"><li>Portfolio &rarr; Program &rarr; Project &rarr; Tasks / Issues / Documents</li><li>Users and job roles &rarr; Assignments &rarr; Tasks and issues</li><li>Documents &rarr; Approvals</li><li>Tasks and issues &rarr; Updates</li><li>Projects &rarr; Reports and dashboards</li></ul>
+  <p>A designer may be assigned to a task, be a member of a team, hold a job role, be mentioned in an update, and approve a document. These are relationships, not additional folders.</p>
+  <h3>3 &middot; Four lenses on the same campaign</h3>
+  <div class="tw"><table><thead><tr><th>Relationship</th><th>Meaning</th></tr></thead><tbody><tr><td>Project owner</td><td>Accountable for the overall project</td></tr><tr><td>Primary assignee</td><td>Responsible for completing a task</td></tr><tr><td>Primary contact</td><td>Person responsible for an issue</td></tr><tr><td>Reviewer</td><td>Provides feedback</td></tr><tr><td>Approver</td><td>Makes a formal decision</td></tr><tr><td>Team member</td><td>Participates as part of an organizational group</td></tr></tbody></table></div>
+  <div class="takeaway">Ownership is about <strong>accountability</strong>. Assignment is about <strong>execution</strong>. Approval is about <strong>authority to move forward</strong>.</div>
+  <pre class="tree"><b>Task: Draft landing-page copy</b>
+&#9500;&#9472; Document: Landing-page-copy-v1
+&#9500;&#9472; Update:   Product claims need confirmation
+&#9500;&#9472; Document: Landing-page-copy-v2
+&#9500;&#9472; Approval: Brand approved
+&#9492;&#9472; Approval: Legal approved</pre>
+  <h3>4 &middot; Visibility is a separate model</h3>
+  <p>Being connected to work does not grant the same access to it. <strong>Access level</strong> defines what a user can generally do; <strong>object permissions</strong> define what they can do on a specific object. Object permissions cannot exceed the access level.</p>
+  <div class="chain"><div class="node"><span>Administrator policy</span></div><div class="down"></div><div class="node"><span>User access level</span></div><div class="down"></div><div class="node"><span>Permission on project</span></div><div class="down"></div><div class="node"><span>Inherited permission on child work</span></div><div class="down"></div><div class="node"><span>Actual ability to view or change data</span></div></div>
+  <h3>5 &middot; Relationship mistakes to avoid</h3>
+  <ul class="bullets"><li>Making every request a project.</li><li>Making every task a project.</li><li>Treating an issue as a task and hiding scope change.</li><li>Confusing a document with the work itself.</li><li>Using updates to track required work.</li><li>Assuming visibility means accountability.</li></ul>
+  <h3>6 &middot; The five-question object test</h3>
+  <div class="tw"><table><thead><tr><th>#</th><th>Question</th><th>Signal</th></tr></thead><tbody><tr><td>1</td><td>What is the desired outcome?</td><td>Substantial and multi-step &rarr; consider a project</td></tr><tr><td>2</td><td>Is it part of the approved plan?</td><td>Yes &rarr; task; no &rarr; issue or request</td></tr><tr><td>3</td><td>Does someone need to perform an action?</td><td>Yes &rarr; create trackable work</td></tr><tr><td>4</td><td>Is there an artifact?</td><td>Attach a document to the relevant work item</td></tr><tr><td>5</td><td>Does the work need a formal decision?</td><td>Use an approval, not only a comment</td></tr></tbody></table></div>
+  <div class="takeaway"><strong>Core lesson.</strong> Objects are nouns, but relationships explain the system. A project without tasks is intention; a task without an owner is an obligation; a document without context is a file; an approval without a version is ambiguous.</div>
+  <div class="practice"><span class="callout-label">Practice</span><p>Model a product webinar. Place it in a portfolio and program, define the project, add tasks and issues, identify documents, and name the project owner, task assignees, issue contact, reviewers, approvers, and dashboard reports.</p></div>
+</section>
+<section id="l4">
+  <p class="sec-eyebrow">Lesson 4 &middot; Workfront as a workflow engine</p>
+  <h2>How work moves from one state to the next</h2>
+  <div class="mm"><span class="mm-label">Mental model</span><p>Workfront is a state machine wired to a dependency graph: statuses show where work is, assignments show who must act, predecessors show what must happen first, approvals control quality gates, and notifications communicate change.</p></div>
+  <p>Once objects exist, the questions become: what state is the work in, who acts next, and what must be true before the next step begins.</p>
+  <h3>1 &middot; Status is the work item&rsquo;s state</h3>
+  <div class="tw"><table><thead><tr><th>State</th><th>Interpretation</th></tr></thead><tbody><tr><td>Not ready</td><td>Do not begin yet</td></tr><tr><td>Ready / active</td><td>Work can proceed</td></tr><tr><td>Waiting / blocked</td><td>Attention or dependency required</td></tr><tr><td>Finished</td><td>Work is complete</td></tr><tr><td>Abandoned</td><td>Work will not continue</td></tr></tbody></table></div>
+  <h3>2 &middot; Project status controls operating mode</h3>
+  <div class="tw"><table><thead><tr><th>Status mode</th><th>Use it to&hellip;</th></tr></thead><tbody><tr><td>Planning</td><td>Build and refine tasks, dates, assignments, dependencies, and approvals</td></tr><tr><td>Current</td><td>Run active work and notify the execution team</td></tr><tr><td>Complete</td><td>Record that the defined outcome is finished</td></tr></tbody></table></div>
+  <div class="takeaway"><strong>Planning</strong> = configure the machine. <strong>Current</strong> = run the machine. <strong>Complete</strong> = record the outcome.</div>
+  <h3>3 &middot; Assignments create responsibility</h3>
+  <p>The project owner is accountable for the project; task assignees own specific execution; the approver owns the formal release decision.</p>
+  <div class="chain"><div class="node"><span>Task exists</span></div><div class="down"></div><div class="node"><span>Person or team assigned</span></div><div class="down"></div><div class="node"><span>Work appears in the right queue</span></div><div class="down"></div><div class="node"><span>Person accepts or begins work</span></div><div class="down"></div><div class="node"><span>Work is completed</span></div></div>
+  <h3>4 &middot; Predecessors create order</h3>
+  <p>A predecessor expresses &ldquo;this task cannot begin until that task is complete.&rdquo; Enforced predecessors create harder gates &mdash; not every relationship should be enforced.</p>
+  <div class="dep">
+    <div class="hnode">Confirm brief</div><div class="right">&rarr;</div>
+    <div class="dep-col"><div class="hnode">Copy</div><div class="hnode">Design</div></div>
+    <div class="right">&rarr;</div><div class="hnode">Creative review</div>
+    <div class="right">&rarr;</div><div class="hnode">Legal approval</div>
+    <div class="right">&rarr;</div><div class="hnode">Publish</div>
+  </div>
+  <h3>5 &middot; Approvals create quality gates</h3>
+  <p>A comment provides feedback. An approval records a formal decision. Use an approval when a designated person must authorize the next stage.</p>
+  <div class="hchain"><div class="hnode">Produce final assets</div><div class="right">&rarr;</div><div class="hnode">Brand approval</div><div class="right">&rarr;</div><div class="hnode">Legal approval</div><div class="right">&rarr;</div><div class="hnode">Publish campaign</div></div>
+  <h3>6 &middot; Notifications are the nervous system</h3>
+  <p>Notifications alert people to assignments, approvals, comments, updates, status changes, date changes, shared objects, and completed predecessors. Design them around required action, not every field change.</p>
+  <h3>7 &middot; Complete workflow example</h3>
+  <div class="chain"><div class="node"><span>Planning &mdash; build tasks, dates, predecessors, assignments, approvals</span></div><div class="down"></div><div class="node"><span>Current &mdash; team executes and updates statuses</span></div><div class="down"></div><div class="node"><span>Parallel work &mdash; copy and design proceed together</span></div><div class="down"></div><div class="node"><span>Approval &mdash; Brand approves; Legal requests changes</span></div><div class="down"></div><div class="node"><span>New version &mdash; team revises and resubmits</span></div><div class="down"></div><div class="node"><span>Publish &mdash; approved content goes live</span></div><div class="down"></div><div class="node"><span>Complete &mdash; outcome and evidence recorded</span></div></div>
+  <h3>8 &middot; Common workflow mistakes</h3>
+  <ul class="bullets"><li>Activating a project before the plan is stable.</li><li>Using dates instead of dependency logic.</li><li>Treating every delay as an issue.</li><li>Marking work complete without evidence.</li><li>Making approvals informal.</li><li>Designing noisy notifications.</li></ul>
+  <h3>9 &middot; The five-part workflow test</h3>
+  <div class="tw"><table><thead><tr><th>#</th><th>Question</th></tr></thead><tbody><tr><td>1</td><td>What state is the work in?</td></tr><tr><td>2</td><td>Who acts next?</td></tr><tr><td>3</td><td>What must happen first?</td></tr><tr><td>4</td><td>What decision is required?</td></tr><tr><td>5</td><td>Who needs to know?</td></tr></tbody></table></div>
+  <div class="practice"><span class="callout-label">Practice</span><p>Model a product-launch video requiring a brief, script, storyboard, filming, editing, internal review, legal review, and publication. Add one scope-change issue and decide whether it stays an issue or becomes a task.</p></div>
+</section>
+<section id="l5">
+  <p class="sec-eyebrow">Lesson 5 &middot; Intake and requests</p>
+  <h2>The front door for incoming work</h2>
+  <div class="mm"><span class="mm-label">Mental model</span><p>Intake turns an informal need into structured, reviewable work: Request &rarr; Information &rarr; Routing &rarr; Triage &rarr; Decision &rarr; Planned work.</p></div>
+  <p>Good intake keeps work from arriving through scattered email, chat, and meetings with no owner, priority, or business context. The queue is the front door; accepted work is managed elsewhere.</p>
+  <h3>1 &middot; Intake as a service desk</h3>
+  <div class="tw"><table><thead><tr><th>Concept</th><th>Mental model</th><th>Question</th></tr></thead><tbody><tr><td>Request queue</td><td>Service desk</td><td>Where should this work be submitted?</td></tr><tr><td>Request form</td><td>Intake questionnaire</td><td>What information is required?</td></tr><tr><td>Topic group</td><td>Department or category</td><td>What broad request type is this?</td></tr><tr><td>Queue topic</td><td>Specific service</td><td>What exactly is requested?</td></tr><tr><td>Routing rule</td><td>Dispatcher</td><td>Who or what receives it?</td></tr><tr><td>Request</td><td>Intake ticket</td><td>What need arrived?</td></tr><tr><td>Triage</td><td>Review desk</td><td>What should happen next?</td></tr></tbody></table></div>
+  <h3>2 &middot; Request queues are front doors</h3>
+  <pre class="tree"><b>Request Queue: Creative Services</b>
+&#9500;&#9472; Campaign Content
+&#9474;  &#9500;&#9472; Landing page
+&#9474;  &#9500;&#9472; Email campaign
+&#9474;  &#9492;&#9472; Social media assets
+&#9500;&#9472; Video
+&#9474;  &#9500;&#9472; Product video
+&#9474;  &#9492;&#9472; Video editing
+&#9492;&#9472; Design
+   &#9500;&#9472; Presentation
+   &#9492;&#9472; Infographic</pre>
+  <p>Use one recognizable front door for a family of services, then organize related request types with topic groups and queue topics. Avoid both a single generic queue for everything and dozens of tiny queues.</p>
+  <h3>3 &middot; Request forms are intake schemas</h3>
+  <p>A form guarantees a consistent minimum of information. It does not make the request good by itself &mdash; triage still evaluates feasibility, effort, priority, and ownership.</p>
+  <div class="tw"><table><thead><tr><th>Field</th><th>Example</th></tr></thead><tbody><tr><td>Business objective</td><td>Drive pre-orders</td></tr><tr><td>Audience</td><td>North American outdoor enthusiasts</td></tr><tr><td>Deliverable</td><td>Homepage hero banner</td></tr><tr><td>Required date</td><td>June&nbsp;30</td></tr><tr><td>Source material</td><td>Product photography and brief</td></tr><tr><td>Approver</td><td>Brand</td></tr><tr><td>Success measure</td><td>Visits and conversions</td></tr></tbody></table></div>
+  <h3>4 &middot; Queue topics and routing rules</h3>
+  <p>A queue topic classifies the request; a routing rule sends it to a team, user, job role, or destination project.</p>
+  <ul class="bullets"><li>Landing page &rarr; Web Content team</li><li>Email campaign &rarr; Marketing Operations</li><li>Product video &rarr; Video Production</li><li>Presentation &rarr; Design team</li></ul>
+  <div class="takeaway">Routing answers <strong>where the request lands</strong>. Assignment answers <strong>who owns the next action</strong>.</div>
+  <h3>5 &middot; Request lifecycle</h3>
+  <div class="chain">
+    <div class="node"><span>Need appears</span></div><div class="down"></div>
+    <div class="node"><span>Select queue and topic</span></div><div class="down"></div>
+    <div class="node"><span>Complete form</span></div><div class="down"></div>
+    <div class="node"><span>Submit or save draft</span></div><div class="down"></div>
+    <div class="node"><span>Routing</span></div><div class="down"></div>
+    <div class="node"><span>Triage</span></div>
+    <div class="branch"><div class="hnode">Request info</div><div class="hnode">Decline / close</div><div class="hnode">Keep as issue</div><div class="hnode">Convert to task</div><div class="hnode">Convert to project</div></div>
+  </div>
+  <h3>6 &middot; Triage outcomes</h3>
+  <div class="tw"><table><thead><tr><th>Outcome</th><th>Use when&hellip;</th></tr></thead><tbody><tr><td>Request information</td><td>Essential context is missing</td></tr><tr><td>Decline</td><td>Work is out of scope, duplicative, or infeasible</td></tr><tr><td>Keep as issue</td><td>Small or unplanned work needs tracking</td></tr><tr><td>Convert to task</td><td>Work belongs inside an existing project plan</td></tr><tr><td>Convert to project</td><td>Work has its own outcome, timeline, contributors, and approvals</td></tr></tbody></table></div>
+  <div class="takeaway"><strong>Requested date &ne; committed date.</strong> The requester proposes a desired date; the delivery team evaluates capacity, complexity, priority, dependencies, approvals, and existing commitments before making a promise.</div>
+  <h3>7 &middot; Intake anti-patterns</h3>
+  <ul class="bullets"><li>One queue for everything.</li><li>Too many separate queues for closely related services.</li><li>Routing every request to one person.</li><li>Using form fields as the primary routing mechanism.</li><li>Accepting incomplete requests silently.</li><li>Converting every request into a project.</li></ul>
+  <h3>8 &middot; Intake quality test</h3>
+  <p>A complete request carries: outcome, audience, deliverable, required date, source material, approver, and success measure.</p>
+  <div class="practice"><span class="callout-label">Practice</span><p>Design a Product Marketing Content queue for a feature launch. Add topic groups, queue topics, required form fields, routing, and triage outcomes. Then add a late request for a multilingual case-study video and decide whether to accept, split, defer, or create a separate project.</p></div>
+</section>
+<section id="l6">
+  <p class="sec-eyebrow">Lesson 6 &middot; Project planning and resourcing</p>
+  <h2>Proving the outcome can be delivered</h2>
+  <div class="mm"><span class="mm-label">Mental model</span><p>Planning proves that the requested outcome can be delivered with the available scope, time, effort, and people &mdash; not merely putting tasks on a calendar.</p></div>
+  <p>Templates standardize repeatable structures; durations and predecessors drive the timeline; Resource Planner handles higher-level capacity; Workload Balancer handles actual assignments.</p>
+  <h3>1 &middot; The project-planning chain</h3>
+  <div class="chain"><div class="node"><span>Business outcome</span></div><div class="down"></div><div class="node"><span>Scope and deliverables</span></div><div class="down"></div><div class="node"><span>Work breakdown</span></div><div class="down"></div><div class="node"><span>Durations and predecessors</span></div><div class="down"></div><div class="node"><span>Planned hours and job roles</span></div><div class="down"></div><div class="node"><span>Capacity check</span></div><div class="down"></div><div class="node"><span>Named assignments</span></div><div class="down"></div><div class="node"><span>Feasible project commitment</span></div></div>
+  <h3>2 &middot; Define the outcome and scope</h3>
+  <div class="tw"><table><thead><tr><th>Scope category</th><th>Example</th></tr></thead><tbody><tr><td>In scope</td><td>Landing page, email, hero image, social cutdowns</td></tr><tr><td>Out of scope</td><td>Paid advertising, localization, customer video</td></tr><tr><td>Required approvals</td><td>Brand and Legal</td></tr><tr><td>Launch condition</td><td>All assets approved and published</td></tr><tr><td>Success measure</td><td>Visits and pre-orders</td></tr></tbody></table></div>
+  <div class="takeaway">Inside the boundary, the team is planning for it. Outside the boundary, it requires a new decision.</div>
+  <h3>3 &middot; Templates as operating models</h3>
+  <p>A template captures repeatable phases, tasks, settings, custom forms, approvals, documents, durations, planned hours, and predecessor patterns. Prefer job roles over named users so the template stays reusable.</p>
+  <pre class="tree"><b>Template: Campaign Launch</b>
+&#9500;&#9472; Intake and briefing
+&#9500;&#9472; Content production
+&#9500;&#9472; Internal review
+&#9500;&#9472; Legal and brand approval
+&#9500;&#9472; Publishing
+&#9492;&#9472; Closeout</pre>
+  <h3>4 &middot; Build a work breakdown structure</h3>
+  <pre class="tree"><b>Project: TrailPro X Campaign Launch</b>
+&#9500;&#9472; Phase 1 &middot; Briefing
+&#9474;  &#9500;&#9472; Confirm campaign brief
+&#9474;  &#9492;&#9472; Gather product and brand inputs
+&#9500;&#9472; Phase 2 &middot; Production
+&#9474;  &#9500;&#9472; Create hero-image concepts
+&#9474;  &#9500;&#9472; Draft landing-page copy
+&#9474;  &#9500;&#9472; Draft email copy
+&#9474;  &#9492;&#9472; Create social cutdowns
+&#9500;&#9472; Phase 3 &middot; Review and approval
+&#9474;  &#9500;&#9472; Internal creative review
+&#9474;  &#9500;&#9472; Brand approval
+&#9474;  &#9492;&#9472; Legal approval
+&#9492;&#9472; Phase 4 &middot; Launch and closeout
+   &#9500;&#9472; Publish campaign
+   &#9492;&#9472; Record final links and results</pre>
+  <h3>5 &middot; Duration, planned hours, and dates</h3>
+  <div class="tw"><table><thead><tr><th>Concept</th><th>Meaning</th><th>Example</th></tr></thead><tbody><tr><td>Duration</td><td>Calendar span the task stays open</td><td>3 working days</td></tr><tr><td>Planned hours</td><td>Estimated effort</td><td>12 hours</td></tr><tr><td>Dates</td><td>Timeline position</td><td>June&nbsp;10&ndash;12</td></tr></tbody></table></div>
+  <p>A task can have five days of duration and ten planned hours when the work is spread around meetings and other assignments.</p>
+  <h3>6 &middot; Estimate by role before naming people</h3>
+  <div class="tw"><table><thead><tr><th>Role</th><th>Planned hours</th></tr></thead><tbody><tr><td>Project manager</td><td>12</td></tr><tr><td>Copywriter</td><td>18</td></tr><tr><td>Designer</td><td>24</td></tr><tr><td>Marketing operations</td><td>8</td></tr><tr><td>Legal reviewer</td><td>4</td></tr><tr><td>Web producer</td><td>10</td></tr><tr class='total'><td>Total</td><td>76</td></tr></tbody></table></div>
+  <h3>7 &middot; Resource Planner versus Workload Balancer</h3>
+  <div class="tw"><table><thead><tr><th>Question</th><th>Resource Planner</th><th>Workload Balancer</th></tr></thead><tbody><tr><td>Level</td><td>Higher-level allocation</td><td>Day-to-day assignment</td></tr><tr><td>Main question</td><td>Can we staff this demand?</td><td>Who should do this work?</td></tr><tr><td>Primary output</td><td>Capacity and allocation decision</td><td>Named assignment or reassignment</td></tr><tr><td>Main objects</td><td>Projects, roles, resource pools</td><td>Tasks and issues</td></tr></tbody></table></div>
+  <h3>8 &middot; Check feasibility</h3>
+  <p>Designer demand is 24 planned hours against 16 hours of available capacity &mdash; an 8-hour gap. Choices: add a designer, extend the schedule, reduce deliverables, reuse an asset, move another project, or accept visible delivery risk.</p>
+  <div class="takeaway">Scope, time, and capacity are connected. If the deadline cannot move, staffing or scope usually must.</div>
+  <h3>9 &middot; Assignment sequence</h3>
+  <div class="chain"><div class="node"><span class="cnum">01</span><span>Assign the project owner</span></div><div class="down"></div><div class="node"><span class="cnum">02</span><span>Assign job roles to tasks</span></div><div class="down"></div><div class="node"><span class="cnum">03</span><span>Estimate planned hours</span></div><div class="down"></div><div class="node"><span class="cnum">04</span><span>Check role and project capacity</span></div><div class="down"></div><div class="node"><span class="cnum">05</span><span>Identify available users</span></div><div class="down"></div><div class="node"><span class="cnum">06</span><span>Assign named people</span></div><div class="down"></div><div class="node"><span class="cnum">07</span><span>Review workload distribution</span></div><div class="down"></div><div class="node"><span class="cnum">08</span><span>Activate the project</span></div></div>
+  <h3>10 &middot; Planning mistakes</h3>
+  <ul class="bullets"><li>Treating the requested date as a commitment.</li><li>Estimating only duration.</li><li>Assigning people before estimating work.</li><li>Building every project from scratch.</li><li>Adding predecessors before the plan is understood.</li><li>Confusing budget with schedule.</li><li>Ignoring actual hours.</li></ul>
+  <div class="practice"><span class="callout-label">Practice</span><p>Plan a customer webinar with a registration page, speaker slides, email invitation, social promotion, legal review, event-day support, and post-event report. Add eight or more tasks, roles, hours, predecessors, an approval gate, one capacity risk, and one out-of-scope item.</p></div>
+</section>
+<section id="l7">
+  <p class="sec-eyebrow">Lesson 7 &middot; Collaboration and content review</p>
+  <h2>An evidence-and-decision system</h2>
+  <div class="mm"><span class="mm-label">Mental model</span><p>Documents are the artifacts. Versions show change. Proofs focus review. Comments explain feedback. Approvals authorize progress.</p></div>
+  <h3>1 &middot; Four layers of content review</h3>
+  <div class="tw"><table><thead><tr><th>Layer</th><th>Workfront concept</th><th>Question</th></tr></thead><tbody><tr><td>Artifact</td><td>Document</td><td>What file or content exists?</td></tr><tr><td>Iteration</td><td>Version</td><td>Which revision are we discussing?</td></tr><tr><td>Feedback</td><td>Comments and markup</td><td>What should change, and where?</td></tr><tr><td>Decision</td><td>Approval</td><td>Can this version move forward?</td></tr></tbody></table></div>
+  <pre class="tree"><b>Document: TrailPro-X-hero-image</b>
+&#9500;&#9472; Version 1 &middot; Initial concept
+&#9500;&#9472; Version 2 &middot; Updated product image
+&#9492;&#9472; Version 3 &middot; Final approved image</pre>
+  <h3>2 &middot; Document versus proof</h3>
+  <p>A <strong>document</strong> is the stored file. A <strong>proof</strong> is the reviewable experience used for comments, markup, version comparison, and formal decisions. Not every document needs a proof.</p>
+  <div class="tw"><table><thead><tr><th>Use a document for&hellip;</th><th>Create a proof for&hellip;</th></tr></thead><tbody><tr><td>Briefs and source material</td><td>Designed assets</td></tr><tr><td>Requirements and notes</td><td>Videos and animations</td></tr><tr><td>Reference files</td><td>Presentations</td></tr><tr><td>Background information</td><td>Content requiring consolidated review and approval</td></tr></tbody></table></div>
+  <h3>3 &middot; Versions preserve evolution</h3>
+  <p>Upload a new version of an existing asset rather than creating disconnected files named &ldquo;final,&rdquo; &ldquo;final-2,&rdquo; and &ldquo;approved-new.&rdquo; Versions preserve what reviewers saw, what changed, and which revision was approved.</p>
+  <div class="tw"><table><thead><tr><th>Version</th><th>Meaning</th></tr></thead><tbody><tr><td>Version 1</td><td>Initial proposal</td></tr><tr><td>Version 2</td><td>Response to feedback</td></tr><tr><td>Version 3</td><td>Final candidate</td></tr><tr><td>Version 4</td><td>Approved release version</td></tr></tbody></table></div>
+  <h3>4 &middot; The review cycle</h3>
+  <div class="chain"><div class="node"><span>Create asset</span></div><div class="down"></div><div class="node"><span>Upload document</span></div><div class="down"></div><div class="node"><span>Create proof</span></div><div class="down"></div><div class="node"><span>Assign reviewers and approvers</span></div><div class="down"></div><div class="node"><span>Comments and markup</span></div><div class="down"></div><div class="node"><span>Revise and upload new version</span></div><div class="down"></div><div class="node"><span>Compare versions</span></div><div class="down"></div><div class="node"><span>Approve current version</span></div><div class="down"></div><div class="node"><span>Release or publish</span></div></div>
+  <h3>5 &middot; Comments, updates, issues, and approvals</h3>
+  <div class="tw"><table><thead><tr><th>Mechanism</th><th>Best used for</th><th>Example</th></tr></thead><tbody><tr><td>Markup</td><td>Pointing to a location</td><td>Move this label left</td></tr><tr><td>Proof comment</td><td>Feedback on the asset</td><td>The product claim needs confirmation</td></tr><tr><td>Task update</td><td>Broader execution context</td><td>First review cycle is complete</td></tr><tr><td>Issue</td><td>Independently trackable work</td><td>Verify the battery-range claim</td></tr><tr><td>Approval</td><td>Formal authorization</td><td>Approved for publication</td></tr></tbody></table></div>
+  <div class="takeaway">Markup = <em>where?</em> &middot; Comment = <em>what?</em> &middot; Update = <em>what is happening overall?</em> &middot; Issue = <em>who must do what next?</em> &middot; Approval = <em>may we proceed?</em></div>
+  <h3>6 &middot; Review roles</h3>
+  <div class="tw"><table><thead><tr><th>Role</th><th>Responsibility</th></tr></thead><tbody><tr><td>Proof owner</td><td>Sends the asset for review and manages the process</td></tr><tr><td>Reviewer</td><td>Examines the content and provides feedback</td></tr><tr><td>Approver</td><td>Makes a formal approval decision</td></tr><tr><td>Author</td><td>Creates or revises the asset</td></tr><tr><td>Stakeholder</td><td>Provides business input or context</td></tr></tbody></table></div>
+  <h3>7 &middot; Basic versus staged review workflows</h3>
+  <p><strong>Parallel review</strong> &mdash; Brand, Legal, and Product Marketing review the same proof independently. <strong>Sequential review</strong> &mdash; Creative review &rarr; Product Marketing review &rarr; Legal and Brand approval. Use parallel when participants can act independently; use sequential when one group&rsquo;s decision depends on another&rsquo;s.</p>
+  <h3>8 &middot; Approval decisions</h3>
+  <div class="tw"><table><thead><tr><th>Decision</th><th>Meaning</th></tr></thead><tbody><tr><td>Approve</td><td>No changes needed; the version is ready</td></tr><tr><td>Approve with changes</td><td>Minor agreed changes remain</td></tr><tr><td>Needs work</td><td>Not approved; needs substantial revision</td></tr></tbody></table></div>
+  <h3>9 &middot; Worked example &mdash; launch video</h3>
+  <div class="chain"><div class="node"><span>Launch-video.mp4 &middot; V1</span></div><div class="down"></div><div class="node"><span>Internal review &mdash; improve opening and claims</span></div><div class="down"></div><div class="node"><span>Launch-video.mp4 &middot; V2</span></div><div class="down"></div><div class="node"><span>Brand and Legal review</span></div><div class="down"></div><div class="node"><span>Launch-video.mp4 &middot; V3</span></div><div class="down"></div><div class="node"><span>Final approval</span></div><div class="down"></div><div class="node"><span>Publish</span></div></div>
+  <h3>10 &middot; Common collaboration mistakes</h3>
+  <ul class="bullets"><li>Creating separate files for every revision.</li><li>Requesting feedback in a general update without identifying the version.</li><li>Treating every reviewer as an approver.</li><li>Approving an old version.</li><li>Using &ldquo;Approve with changes&rdquo; ambiguously.</li><li>Collecting unstructured comments after approval.</li><li>Mixing production feedback with business or legal decisions.</li></ul>
+  <h3>11 &middot; Review-quality checklist</h3>
+  <ul class="bullets"><li>Correct asset uploaded to the right project or task.</li><li>Current version is clear and changes are identifiable.</li><li>Review instructions state what to examine and when.</li><li>Reviewers and approvers correctly assigned.</li><li>Parallel and sequential stages reflect actual decision logic.</li><li>The post-approval next step is known.</li></ul>
+  <div class="practice"><span class="callout-label">Practice</span><p>Design a review workflow for a customer webinar campaign with a registration page, speaker slides, email invitation, social image, legal claims, and event recording. Assign reviewers and approvers, then model a legal revision from Version&nbsp;1 to Version&nbsp;2.</p></div>
+</section>
+<section id="l8">
+  <p class="sec-eyebrow">Lesson 8 &middot; Visibility and automation</p>
+  <h2>Reports see, dashboards focus, Fusion acts</h2>
+  <div class="mm"><span class="mm-label">Mental model</span><p>Reports help people see. Dashboards help people focus. Fusion helps systems act &mdash; moving predictable handoffs while people keep judgment over acceptance, quality, scope, and approval.</p></div>
+  <h3>1 &middot; Visibility is a decision system</h3>
+  <p>A report answers a specific operational question. Its core structure is <strong>Question + Object + Criteria + Useful fields</strong>.</p>
+  <div class="tw"><table><thead><tr><th>Element</th><th>Example</th></tr></thead><tbody><tr><td>Question</td><td>Which active content tasks are overdue?</td></tr><tr><td>Object</td><td>Task</td></tr><tr><td>Criteria</td><td>Current project; task not complete; planned completion before today</td></tr><tr><td>Fields</td><td>Task, assignee, project, date, status, condition</td></tr></tbody></table></div>
+  <h3>2 &middot; Filters, views, groupings, and charts</h3>
+  <div class="tw"><table><thead><tr><th>Element</th><th>Mental model</th><th>Question</th></tr></thead><tbody><tr><td>Filter</td><td>Gate</td><td>Which records should appear?</td></tr><tr><td>View</td><td>Window</td><td>Which fields should I see?</td></tr><tr><td>Grouping</td><td>Shelves</td><td>How should records be organized?</td></tr><tr><td>Chart</td><td>Signal</td><td>What pattern should stand out?</td></tr></tbody></table></div>
+  <h3>3 &middot; Dashboards are control towers</h3>
+  <pre class="tree"><b>Content Operations Control Tower</b>
+&#9500;&#9472; Requests awaiting triage
+&#9500;&#9472; Active projects
+&#9500;&#9472; Tasks due this week
+&#9500;&#9472; Overdue tasks
+&#9500;&#9472; Pending approvals
+&#9500;&#9472; Unassigned work
+&#9492;&#9472; Recently completed projects</pre>
+  <p>A dashboard is a designed lens for an audience: project managers need schedule and blockers; executives need strategic outcomes and risk; creative leads need review and capacity; requesters need status and expected delivery.</p>
+  <h3>4 &middot; The dashboard is not the source of truth</h3>
+  <div class="chain"><div class="node"><span>Work performed</span></div><div class="down"></div><div class="node"><span>Users update Workfront</span></div><div class="down"></div><div class="node"><span>Project and task state</span></div><div class="down"></div><div class="node"><span>Reports</span></div><div class="down"></div><div class="node"><span>Dashboards</span></div><div class="down"></div><div class="node"><span>Management decisions</span></div></div>
+  <p>Reporting quality depends on meaningful statuses, maintained dates, accurate assignments, recorded progress, completed approvals, and visible scope changes.</p>
+  <h3>5 &middot; Report patterns</h3>
+  <div class="tw"><table><thead><tr><th>Pattern</th><th>Question</th></tr></thead><tbody><tr><td>Work queue</td><td>What should someone act on now?</td></tr><tr><td>Exception report</td><td>Where is normal execution failing?</td></tr><tr><td>Forecast report</td><td>What is likely to happen next?</td></tr><tr><td>Outcome report</td><td>What did we deliver?</td></tr><tr><td>Governance report</td><td>Is the system being used correctly?</td></tr></tbody></table></div>
+  <h3>6 &middot; Fusion begins with a handoff</h3>
+  <div class="hchain"><div class="hnode">Trigger</div><div class="right">&rarr;</div><div class="hnode">Inspect</div><div class="right">&rarr;</div><div class="hnode">Decide</div><div class="right">&rarr;</div><div class="hnode">Transform</div><div class="right">&rarr;</div><div class="hnode">Act</div><div class="right">&rarr;</div><div class="hnode">Record</div></div>
+  <p>A Fusion scenario watches for an event or scheduled condition, processes data, and produces a result &mdash; in Workfront, or across systems through connectors, APIs, filters, routers, and mappings.</p>
+  <h3>7 &middot; Anatomy of a Fusion scenario</h3>
+  <div class="tw"><table><thead><tr><th>Component</th><th>Purpose</th><th>Example</th></tr></thead><tbody><tr><td>Trigger</td><td>Starts the scenario</td><td>New request created</td></tr><tr><td>Module</td><td>Performs an operation</td><td>Search or update a Workfront record</td></tr><tr><td>Filter</td><td>Allows a path when a condition is true</td><td>Priority is High</td></tr><tr><td>Router</td><td>Splits the flow</td><td>Video versus landing page</td></tr><tr><td>Mapping</td><td>Moves data between steps</td><td>Request name &rarr; project name</td></tr><tr><td>Error handling</td><td>Captures and routes failures</td><td>Notify owner and retry safely</td></tr></tbody></table></div>
+  <h3>8 &middot; Automate mechanics, not judgment</h3>
+  <div class="tw"><table><thead><tr><th>Good automation candidates</th><th>Keep human-controlled</th></tr></thead><tbody><tr><td>Route requests by topic</td><td>Whether a request should be accepted</td></tr><tr><td>Apply a standard template</td><td>Whether the deadline is feasible</td></tr><tr><td>Copy request fields</td><td>Whether creative quality is sufficient</td></tr><tr><td>Notify approvers</td><td>Whether legal claims are approved</td></tr><tr><td>Create follow-up tasks</td><td>Whether scope should expand</td></tr><tr><td>Sync status to another system</td><td>Whether to make a strategic commitment</td></tr></tbody></table></div>
+  <div class="takeaway">Automate the mechanics <em>around</em> a decision; preserve human ownership of the decision itself.</div>
+  <h3>9 &middot; Worked example &mdash; automate content intake</h3>
+  <div class="chain">
+    <div class="node"><span>Request created</span></div><div class="down"></div>
+    <div class="node"><span>Validate required fields</span></div>
+    <div class="branch"><div class="hnode">Missing &rarr; Needs Information &rarr; notify requester</div><div class="hnode">Complete &rarr; classify request</div></div>
+    <div class="down"></div>
+    <div class="node"><span>Route by type &mdash; Web Content / Video Production / Creative Services</span></div><div class="down"></div>
+    <div class="node"><span>Human triage</span></div>
+  </div>
+  <p>After a human marks a request for conversion, Fusion can create a project from a template, copy request information, link the original request, notify the project owner, and update the requester. The acceptance decision stays human-controlled.</p>
+  <h3>10 &middot; External system examples</h3>
+  <ul class="bullets"><li>Workfront + Slack &mdash; notify a project channel when work becomes blocked.</li><li>Workfront + Jira &mdash; create an engineering issue and write its key back to Workfront.</li><li>Workfront + Salesforce &mdash; create or update a project when an opportunity reaches a stage.</li><li>Workfront + AEM &mdash; hand approved metadata to a publishing workflow and record the result.</li></ul>
+  <h3>11 &middot; Automation needs observability &amp; governance</h3>
+  <p>For every important scenario, define its trigger, required data, conditions, success result, missing-data behavior, external-failure behavior, owner, failure record, and safe retry behavior. Make scenarios <strong>idempotent</strong> &mdash; check for an existing external ID and update rather than create, so a rerun never duplicates projects or records.</p>
+  <ul class="bullets"><li>Consistent names for templates, queues, topics, reports, dashboards, and scenarios.</li><li>Define each status meaning once; avoid near-duplicate labels.</li><li>Require fields that support decisions &mdash; not every field.</li><li>Give every important object an owner.</li><li>Review and retire obsolete templates, reports, dashboards, topics, and integrations.</li></ul>
+  <div class="oneliner"><span class="ol-label">Final mental model</span><p>Workfront is a work operating system: requests are demand; triage is decision; projects are commitments; tasks are execution; dependencies are sequence; assignments are accountability; documents are artifacts; proofs are review spaces; approvals are authorization; reports are questions; dashboards are decision views; Fusion is automated handoff; governance is shared meaning.</p></div>
+  <div class="practice"><span class="callout-label">Practice</span><p>Capstone &mdash; design a complete workflow for a feature launch across the website, email, social, and a customer webinar. Define the request queue and fields, triage outcomes, project phases, dependencies, review logic, daily and weekly dashboards, automation candidates, human-controlled decisions, and failure handling.</p></div>
+</section>
+<section id="quickref">
+  <p class="sec-eyebrow">Quick reference</p>
+  <h2>The Workfront mental model at a glance</h2>
+  <div class="tw"><table><thead><tr><th>Concept</th><th>Mental model</th><th>Core question</th></tr></thead><tbody><tr><td>Request</td><td>Front door</td><td>What does someone need?</td></tr><tr><td>Issue</td><td>Exception lane</td><td>What unplanned work needs attention?</td></tr><tr><td>Project</td><td>Commitment</td><td>What outcome are we taking responsibility for?</td></tr><tr><td>Task</td><td>Plan</td><td>What steps must happen?</td></tr><tr><td>Predecessor</td><td>Dependency</td><td>What must happen before this?</td></tr><tr><td>Assignment</td><td>Ownership</td><td>Who is responsible?</td></tr><tr><td>Document</td><td>Artifact</td><td>What is being produced or reviewed?</td></tr><tr><td>Update</td><td>Shared memory</td><td>What changed, and why?</td></tr><tr><td>Approval</td><td>Quality gate</td><td>Can this move forward?</td></tr><tr><td>Report</td><td>Lens</td><td>What subset of work do we need to inspect?</td></tr><tr><td>Dashboard</td><td>Control tower</td><td>What decisions require attention?</td></tr><tr><td>Template</td><td>Reusable operating model</td><td>How do we repeat this work consistently?</td></tr><tr><td>Fusion scenario</td><td>Automated handoff</td><td>What predictable transition can systems perform?</td></tr><tr><td>Governance</td><td>Shared dictionary</td><td>What does each field and status mean?</td></tr></tbody></table></div>
+  <div class="takeaway">Workfront does not merely track activity. It creates a shared model of what the organization has accepted, who is responsible, what evidence exists, what decisions are pending, and what should happen next.</div>
+  <h3>Completion checklist</h3>
+  <ul class="bullets"><li>Learned the eight core mental models.</li><li>Traced content work from request to outcome.</li><li>Distinguished planned work, exceptions, artifacts, decisions, and visibility.</li><li>Connected reporting, governance, and Fusion automation.</li><li><strong>Next:</strong> apply the capstone to one real content workflow.</li></ul>
+</section></main>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="foot-inner">
+    <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe&nbsp;<span>Workfront</span></div>
+    <div class="foot-right">
+      <p class="fr-1">Mental-model learning course</p>
+      <p class="fr-2">&copy; 2026 Adobe</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var SPY_SELECTOR = '#spy-nav a';
+  var links = Array.prototype.slice.call(document.querySelectorAll(SPY_SELECTOR));
+  var map = {}; links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
+  var sections = links.map(function(l){ return document.getElementById(l.getAttribute('href').slice(1)); }).filter(Boolean);
+  function setActive(id){ links.forEach(function(l){ l.classList.remove('active'); }); if(map[id]) map[id].classList.add('active'); }
+  if('IntersectionObserver' in window){
+    var vis = {};
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ vis[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0; });
+      var best=null, bestR=0; Object.keys(vis).forEach(function(k){ if(vis[k]>bestR){bestR=vis[k]; best=k;} });
+      if(best) setActive(best);
+    }, { rootMargin:'-15% 0px -70% 0px', threshold:[0,0.15,0.5,1] });
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+  links.forEach(function(l){ l.addEventListener('click', function(){ setActive(l.getAttribute('href').slice(1)); }); });
+  var pb=document.getElementById('progressbar');
+  if(pb){ var upd=function(){ var h=document.documentElement.scrollHeight-window.innerHeight;
+    pb.style.transform='scaleX('+Math.min(1,Math.max(0,h>0?window.scrollY/h:0))+')'; };
+    window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd(); }
+})();
+</script>
+</body>
+</html>

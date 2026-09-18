@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workfront to AEM Assets — Product-Feature Enablement</title>
+<style>
+:root{
+  --adobe-red:#EB1000; --adobe-red-dark:#B71000; --adobe-red-tint:#FDECEA;
+  --coral-1:#F04A2E; --coral-2:#F9A392; --coral-bright:#FB6A4E;
+  --s2-blue:#3B63FB; --s2-blue-down:#274DEA; --s2-blue-active:#1D3ECF;
+  --s2-blue-tint:#E5F0FE; --s2-blue-tint-faint:#F5F9FF;
+  --ink:#1B1B1B; --charcoal:#2C2C2C; --charcoal-2:#141414;
+  --gray-900:#1F1F1F; --gray-800:#222222; --gray-700:#464646;
+  --gray-600:#6D6D6D; --gray-500:#909090; --gray-400:#B1B1B1;
+  --gray-300:#D5D5D5; --gray-200:#E6E6E6; --gray-100:#F8F8F8;
+  --gray-75:#FAFAFA; --gray-50:#FDFDFD; --white:#FFFFFF;
+  --bg-base:#FFFFFF; --bg-layer-1:#FAFAFA; --bg-layer-2:#F4F4F5;
+  --border:#E6E6E6; --border-strong:#D5D5D5;
+  --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+  --radius:16px; --radius-sm:8px; --radius-pill:9999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 8px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08);
+  --focus-ring:var(--s2-blue);
+  --maxw:1200px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{animation:none!important;transition:none!important;}}
+body{margin:0;font-family:var(--font);color:var(--gray-800);background:var(--bg-base);line-height:1.55;font-size:16px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+::selection{background:var(--s2-blue-tint);}
+a{color:var(--s2-blue-down);text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;border-radius:3px;}
+
+/* progress + hero */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:100;pointer-events:none;}
+.progress span{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,var(--coral-1),var(--coral-2));will-change:transform;}
+.ai-note{background:var(--gray-100);border-bottom:1px solid var(--gray-200);}
+.ai-note-inner{max-width:var(--maxw);margin:0 auto;padding:9px 24px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;line-height:1.45;color:var(--gray-500);}
+.ai-note b{color:var(--gray-600);font-weight:600;}
+.ai-note svg{flex:none;}
+.hero{position:relative;overflow:hidden;color:#fff;background:radial-gradient(1350px 720px at 90% -18%,rgba(255,255,255,.12),rgba(255,255,255,.05) 42%,transparent 82%),linear-gradient(135deg,#2d2d2d 0%,#1c1c1c 52%,#0e0e0e 100%);padding:56px 24px 70px;}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px);background-size:100% 34px;opacity:.5;-webkit-mask:linear-gradient(#000,transparent 70%);mask:linear-gradient(#000,transparent 70%);}
+.hero-inner{max-width:var(--maxw);margin:0 auto;position:relative;z-index:1;}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;padding-bottom:24px;border-bottom:1px solid rgba(255,255,255,.12);}
+.brandrow{display:flex;align-items:center;gap:11px;}
+.brandrow .brand-mark{height:26px;width:auto;flex:none;filter:drop-shadow(0 2px 12px rgba(255,255,255,.18));}
+.brandname{font-size:19px;font-weight:800;letter-spacing:-.02em;color:#fff;}
+.brandname span{font-weight:400;color:#d9d9d9;}
+.kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:#ff8f84;white-space:nowrap;}
+.hero-body{margin-top:40px;}
+.hero h1{margin:0;font-size:clamp(34px,4.8vw,56px);line-height:1.06;font-weight:800;letter-spacing:-.025em;max-width:20ch;}
+.hero h1 .hl{background:linear-gradient(100deg,var(--coral-1) 0%,var(--coral-2) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;-webkit-box-decoration-break:slice;box-decoration-break:slice;padding-bottom:.3em;}
+.hero .lead{margin:22px 0 0;font-size:clamp(17px,2vw,20px);color:#d3d3d3;max-width:66ch;}
+.hero .lead strong{color:#fff;font-weight:700;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:12px;margin:34px 0 0;padding:0;list-style:none;}
+.hero-chips li{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.20);border-radius:var(--radius-pill);padding:10px 17px;font-size:13.5px;font-weight:500;color:#ececec;box-shadow:inset 0 1px 0 rgba(255,255,255,.17),0 1px 5px rgba(0,0,0,.12);}
+.hero-chips li strong{color:#fff;font-weight:700;}
+
+/* shell + rail */
+.shell{max-width:var(--maxw);margin:0 auto;padding:0 24px 80px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:64px;}
+.rail{position:sticky;top:24px;align-self:start;padding-top:56px;}
+.rail-title{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-500);margin:0 0 14px;padding-left:14px;}
+.rail nav{display:flex;flex-direction:column;gap:2px;}
+.rail nav a{display:flex;align-items:center;gap:11px;padding:10px 15px;border-radius:var(--radius-sm);color:var(--gray-600);font-size:14px;font-weight:600;border-left:2px solid transparent;transition:background .15s,color .15s,border-color .15s;}
+.rail nav a .num{font-size:11px;font-weight:700;color:var(--gray-300);min-width:16px;font-variant-numeric:tabular-nums;font-family:var(--mono);}
+.rail nav a:hover{background:var(--gray-100);color:var(--ink);}
+.rail nav a.active{color:var(--s2-blue-down);background:var(--s2-blue-tint);border-left-color:var(--s2-blue);}
+.rail nav a.active .num{color:var(--s2-blue);}
+.rail nav a:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px;}
+.content{padding-top:56px;min-width:0;}
+@media(max-width:980px){.shell{grid-template-columns:1fr;gap:0;}.rail{display:none;}}
+
+/* sections */
+.content{counter-reset:sec;}
+section{scroll-margin-top:20px;padding-bottom:66px;counter-increment:sec;}
+section+section{border-top:1px solid var(--gray-200);border-image:linear-gradient(90deg,transparent,var(--gray-200) 18%,var(--gray-200) 82%,transparent) 1;padding-top:60px;}
+.sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-500);margin:0 0 14px;}
+.sec-eyebrow::before{content:counter(sec,decimal-leading-zero) "  \00b7  ";font-family:var(--mono);font-weight:600;letter-spacing:.02em;color:var(--adobe-red);}
+h2{font-size:clamp(25px,2.8vw,32px);line-height:1.15;letter-spacing:-.015em;font-weight:800;margin:0 0 18px;}
+.content p{max-width:74ch;}
+.content p{margin:0 0 16px;}
+.lead-p{font-size:17px;color:var(--gray-700);}
+.em{color:var(--coral-1);font-weight:700;}
+strong{font-weight:700;color:var(--ink);}
+
+/* flow (product chain) */
+.flow{margin:20px 0 6px;max-width:760px;}
+.flow-node{background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);transition:border-color .15s,transform .15s,box-shadow .15s;}
+.flow-node:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow-lg);}
+.flow-node .fn-step{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-500);display:block;margin-bottom:7px;}
+.flow-node h4{margin:0 0 5px;font-size:18px;font-weight:800;letter-spacing:-.01em;}
+.flow-node p{margin:0;font-size:14.5px;color:var(--gray-700);max-width:none;}
+.flow-link{display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 0;}
+.flow-link .arw{color:var(--gray-400);font-size:18px;line-height:1;}
+.flow-link .lbl{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.04em;color:var(--coral-1);text-transform:uppercase;}
+
+/* takeaway / principle */
+.takeaway{border-left:3px solid var(--coral-1);padding:4px 0 4px 20px;margin:24px 0;max-width:78ch;}
+.takeaway .tk-label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral-1);display:block;margin-bottom:7px;}
+.takeaway p{margin:0;font-size:18px;font-weight:600;color:var(--ink);line-height:1.45;max-width:none;}
+
+/* note (neutral aside) */
+.note{background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius-sm);padding:15px 18px;margin:18px 0;font-size:14.5px;color:var(--gray-700);max-width:80ch;}
+.note p{margin:0;max-width:none;}
+.note p+p{margin-top:9px;}
+
+/* tables */
+.tbl-label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-500);margin:26px 0 10px;}
+table{width:100%;border-collapse:collapse;margin:4px 0 6px;font-size:14.5px;}
+thead th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--gray-600);border-bottom:1px solid var(--border-strong);padding:9px 14px;}
+thead th.right{text-align:right;}
+tbody td{border-bottom:1px solid var(--border);padding:11px 14px;vertical-align:top;color:var(--gray-700);transition:background .15s;}
+tbody tr:hover td{background:var(--gray-100);}
+tbody td:first-child{font-weight:700;color:var(--ink);white-space:nowrap;}
+tbody td.right{text-align:right;}
+td code,.kv code{font-family:var(--mono);font-size:13px;background:var(--bg-layer-2);border:1px solid var(--border);border-radius:5px;padding:1px 6px;color:var(--gray-800);white-space:nowrap;}
+.pill{display:inline-block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.03em;padding:3px 10px;border-radius:var(--radius-pill);white-space:nowrap;}
+.pill.ess{background:var(--gray-800);color:#fff;}
+.pill.imp{background:var(--gray-200);color:var(--gray-700);}
+.pill.later{background:transparent;color:var(--gray-500);border:1px solid var(--border-strong);}
+
+/* capability sub-blocks */
+.cap{margin:34px 0;}
+.cap-label{font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:8px;}
+.cap-label b{color:var(--adobe-red);font-weight:700;}
+.cap h3{margin:0 0 12px;font-size:21px;font-weight:800;letter-spacing:-.012em;}
+.cap-q{font-size:16px;font-weight:600;color:var(--gray-800);border-left:2px solid var(--coral-2);padding-left:14px;margin:0 0 15px;max-width:72ch;}
+.two-list{display:grid;grid-template-columns:1fr 1fr;gap:6px 30px;margin:2px 0 8px;max-width:80ch;}
+@media(max-width:620px){.two-list{grid-template-columns:1fr;}}
+ul.tight{margin:6px 0 14px;padding-left:20px;}
+ul.tight li{margin:4px 0;color:var(--gray-700);}
+ul.tight li::marker{color:var(--gray-400);}
+ol.tight{margin:6px 0 14px;padding-left:22px;}
+ol.tight li{margin:5px 0;color:var(--gray-700);}
+
+/* cards */
+.cards{display:grid;gap:16px;margin:18px 0;}
+.cards.two{grid-template-columns:repeat(2,minmax(0,1fr));}
+.cards.three{grid-template-columns:repeat(3,minmax(0,1fr));}
+@media(max-width:820px){.cards.two,.cards.three{grid-template-columns:1fr;}}
+.card{background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);transition:border-color .15s,transform .15s,box-shadow .15s;}
+.card:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow-lg);}
+.card .cnum{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);}
+.card h4{margin:8px 0 6px;font-size:16px;font-weight:800;letter-spacing:-.01em;}
+.card p{margin:0;font-size:14px;color:var(--gray-700);max-width:none;}
+.card ul{margin:8px 0 0;padding-left:18px;}
+.card li{margin:4px 0;font-size:13.5px;color:var(--gray-700);}
+
+/* code / example callout */
+.example{background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 18px;margin:16px 0;max-width:80ch;}
+.example .ex-h{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:10px;}
+.kv{font-family:var(--mono);font-size:13.5px;color:var(--gray-700);line-height:1.95;}
+.kv .k{color:var(--gray-500);}
+.kv .v{color:var(--ink);font-weight:600;}
+
+/* two-column blocks */
+.cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin:18px 0;}
+@media(max-width:820px){.cols{grid-template-columns:1fr;}}
+.panel{background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);}
+.panel h4{margin:0 0 4px;font-size:16px;font-weight:800;letter-spacing:-.01em;}
+.panel .p-sub{font-size:12.5px;color:var(--gray-500);margin:0 0 12px;font-family:var(--mono);letter-spacing:.03em;text-transform:uppercase;font-weight:700;}
+.panel ul{margin:0;padding-left:19px;}
+.panel li{margin:6px 0;font-size:14px;color:var(--gray-700);}
+
+/* decision ladder */
+.ladder{display:flex;flex-direction:column;gap:12px;margin:18px 0;max-width:820px;}
+.rung{display:flex;align-items:center;gap:16px;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius);padding:15px 20px;}
+.rung .cond{flex:1;font-size:15px;color:var(--gray-800);font-weight:600;}
+.rung .arw{color:var(--gray-400);font-size:18px;flex:none;}
+.rung .dest{flex:none;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.03em;padding:6px 12px;border-radius:var(--radius-pill);white-space:nowrap;}
+.rung .dest.n{background:var(--s2-blue-tint);color:var(--s2-blue-down);}
+.rung .dest.nf{background:var(--gray-200);color:var(--gray-800);}
+.rung .dest.f{background:var(--gray-800);color:#fff;}
+@media(max-width:620px){.rung{flex-wrap:wrap;gap:10px;}}
+
+/* trace */
+.trace{list-style:none;margin:18px 0;padding:0;max-width:760px;counter-reset:tr;}
+.trace li{position:relative;counter-increment:tr;padding:0 0 22px 46px;}
+.trace li::before{content:counter(tr,decimal-leading-zero);position:absolute;left:0;top:-2px;width:30px;height:30px;border-radius:50%;background:var(--bg-base);border:1.5px solid var(--coral-2);color:var(--coral-1);font-family:var(--mono);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.trace li::after{content:"";position:absolute;left:15px;top:30px;bottom:-2px;width:1.5px;background:var(--border-strong);}
+.trace li:last-child{padding-bottom:0;}
+.trace li:last-child::after{display:none;}
+.trace .t-title{font-size:15.5px;font-weight:700;color:var(--ink);}
+.trace .t-sub{font-size:13.5px;color:var(--gray-600);margin-top:2px;}
+
+/* checklist */
+.check{list-style:none;padding:0;margin:16px 0;max-width:82ch;}
+.check li{display:flex;gap:13px;padding:10px 0;border-bottom:1px solid var(--gray-200);font-size:14.5px;color:var(--gray-700);}
+.check li .mk{flex:none;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;margin-top:1px;}
+.check li.done .mk{background:var(--gray-800);color:#fff;}
+.check li.open .mk{background:var(--adobe-red-tint);color:var(--adobe-red);border:1px solid var(--coral-2);}
+.check li.open{color:var(--ink);font-weight:600;}
+
+/* sources */
+.sources{margin-top:22px;padding-top:14px;border-top:1px dashed var(--border-strong);max-width:80ch;}
+.sources .src-label{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);margin-bottom:8px;}
+.sources ul{margin:0;padding-left:18px;}
+.sources li{margin:4px 0;font-size:13px;color:var(--gray-600);}
+.sources a{color:var(--s2-blue-down);}
+
+.next{background:var(--charcoal-2);color:#e8e8e8;border-radius:var(--radius);padding:22px 24px;margin:26px 0 0;max-width:820px;}
+.next .n-label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--coral-bright);margin-bottom:8px;}
+.next p{margin:0;font-size:16px;color:#f2f2f2;max-width:none;}
+.next p b{color:#fff;}
+
+/* footer */
+.site-footer{background:var(--charcoal-2);color:#8a8a8a;}
+.foot-inner{max-width:var(--maxw);margin:0 auto;padding:30px 24px;display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between;}
+.foot-brand{display:flex;align-items:center;gap:11px;color:#fff;font-weight:800;font-size:16px;letter-spacing:-.01em;}
+.foot-brand img{height:22px;width:auto;display:block;}
+.foot-brand span{font-weight:400;color:#cfcfcf;}
+.foot-right{text-align:right;line-height:1.5;}
+.foot-right .fr-1{margin:0;font-size:13px;font-weight:600;color:#b9b9b9;letter-spacing:.01em;}
+.foot-right .fr-2{margin:2px 0 0;font-size:12px;color:#6f6f6f;letter-spacing:.02em;}
+@media(max-width:620px){.foot-inner{flex-direction:column;align-items:flex-start;}.foot-right{text-align:left;}}
+</style>
+</head>
+<body>
+<div class="progress"><span id="progressbar"></span></div>
+
+<div class="ai-note">
+  <div class="ai-note-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#a3a3a3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span><b>Prepared with AI assistance.</b> Please review for accuracy before use &mdash; this document may contain errors.</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="masthead">
+      <div class="brandrow">
+        <img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">
+        <span class="brandname">Adobe&nbsp;<span>Experience Manager</span></span>
+      </div>
+      <span class="kicker">Field Enablement &middot; AEM Assets + Workfront</span>
+    </div>
+    <div class="hero-body">
+      <h1>From approved work to <span class="hl">governed</span>, <span class="hl">reusable</span> assets</h1>
+      <p class="lead">You don't need to learn all of AEM. You need the product features that govern one path &mdash; from a <strong>Workfront project and an approved asset</strong> to <strong>governed, searchable, reusable content in AEM Assets</strong>.</p>
+      <ul class="hero-chips">
+        <li><strong>Workfront</strong> owns the work &amp; production context</li>
+        <li><strong>AEM Assets</strong> owns the governed, reusable asset</li>
+        <li><strong>Native connector</strong> first &mdash; Fusion only when needed</li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="rail">
+    <p class="rail-title">Contents</p>
+    <nav id="spy-nav">
+      <a href="#chain"><span class="num">01</span> The product chain</a>
+      <a href="#features"><span class="num">02</span> Feature map</a>
+      <a href="#assets"><span class="num">03</span> AEM Assets</a>
+      <a href="#processing"><span class="num">04</span> Processing &amp; renditions</a>
+      <a href="#workfront"><span class="num">05</span> Workfront</a>
+      <a href="#connector"><span class="num">06</span> Connector vs Fusion</a>
+      <a href="#learning"><span class="num">07</span> Learning path</a>
+      <a href="#readiness"><span class="num">08</span> Readiness test</a>
+    </nav>
+  </aside>
+
+  <div class="content">
+    <main>
+
+    <!-- 01 -->
+    <section id="chain">
+      <p class="sec-eyebrow">The shape of the work</p>
+      <h2>Two systems, one governed path</h2>
+      <p class="lead-p">The scope is not &ldquo;all of AEM.&rdquo; It is the set of features that control the path from a Workfront project and its approved asset to governed, searchable, reusable content in AEM Assets.</p>
+
+      <div class="flow">
+        <div class="flow-node">
+          <span class="fn-step">Source system</span>
+          <h4>Workfront</h4>
+          <p>Projects, custom forms, documents, approvals, and production context.</p>
+        </div>
+        <div class="flow-link">
+          <span class="arw">&darr;</span>
+          <span class="lbl">Native connector &middot; metadata mapping + linked folders</span>
+        </div>
+        <div class="flow-node">
+          <span class="fn-step">Governed destination</span>
+          <h4>AEM Assets</h4>
+          <p>Repository, metadata, tags, processing, search, permissions, reuse, and lifecycle.</p>
+        </div>
+      </div>
+
+      <div class="takeaway">
+        <span class="tk-label">The design principle</span>
+        <p>Workfront manages the work and production context. AEM Assets manages the governed asset and its reusable content context.</p>
+      </div>
+
+      <div class="note">
+        <p>Adobe describes the native integration as a direct connection between Workfront and AEM Assets as a Cloud Service, supporting asset delivery, linked folders, and metadata mapping. Treat it as exactly that &mdash; <strong>not</strong> as a complete bidirectional synchronization platform by default.</p>
+      </div>
+
+      <div class="sources">
+        <p class="src-label">Sources</p>
+        <ul>
+          <li><a href="https://experienceleague.adobe.com/en/docs/events/adobe-customer-success-webinar-recordings/2025/aem2025/aem-workfront-integration">AEM and Workfront integration using the Native Connector</a></li>
+          <li><a href="https://experienceleague.adobe.com/en/perspectives/building-bridges-between-workfront-and-aem-assets">Building bridges between Workfront and AEM Assets</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 02 -->
+    <section id="features">
+      <p class="sec-eyebrow">What's in scope</p>
+      <h2>The features involved</h2>
+      <p>The capabilities split into three groups: <strong>AEM Assets</strong> (the governed destination), <strong>Workfront</strong> (the production source), and the <strong>integration layer</strong> between them. Two boundaries matter most as you learn: metadata <em>schemas</em> and <em>profiles</em> are different controls, and AEM as a Cloud Service processes assets through <span class="em">asset microservices and processing profiles</span> rather than treating legacy workflow behavior as the default.</p>
+
+      <p class="tbl-label">AEM Assets &mdash; the destination</p>
+      <table>
+        <thead><tr><th>Feature</th><th>What it does</th><th>Why it matters here</th><th class="right">Priority</th></tr></thead>
+        <tbody>
+          <tr><td>Repository</td><td>Stores managed assets, metadata, versions, and renditions</td><td>The governed home for approved, reusable assets</td><td class="right"><span class="pill ess">Essential</span></td></tr>
+          <tr><td>Folders</td><td>Organize assets and carry access and processing rules</td><td>Controlled navigation and folder-level governance</td><td class="right"><span class="pill ess">Essential</span></td></tr>
+          <tr><td>Metadata schemas / forms</td><td>Define the fields users see and complete on assets</td><td>The business metadata model</td><td class="right"><span class="pill ess">Essential</span></td></tr>
+          <tr><td>Metadata profiles</td><td>Apply default metadata based on the upload folder</td><td>Consistency at ingestion</td><td class="right"><span class="pill ess">Essential</span></td></tr>
+          <tr><td>Folder metadata schemas</td><td>Store metadata about a folder itself</td><td>Campaign, market, brand, or project context</td><td class="right"><span class="pill imp">Important</span></td></tr>
+          <tr><td>Tags &amp; taxonomy</td><td>Classify assets using controlled terms</td><td>Discovery beyond folder location</td><td class="right"><span class="pill ess">Essential</span></td></tr>
+          <tr><td>Collections</td><td>Group references to assets from different locations</td><td>Campaign and reuse views without duplicating files</td><td class="right"><span class="pill imp">Important</span></td></tr>
+          <tr><td>Search &amp; facets</td><td>Find assets by metadata, tags, filters, and text</td><td>Whether the DAM actually supports reuse</td><td class="right"><span class="pill ess">Essential</span></td></tr>
+          <tr><td>Permissions</td><td>Control who can view, edit, download, or manage content</td><td>Protects unreleased or restricted assets</td><td class="right"><span class="pill ess">Essential</span></td></tr>
+          <tr><td>Processing &amp; renditions</td><td>Extract metadata; create thumbnails, web, mobile renditions</td><td>Makes uploaded assets usable across channels</td><td class="right"><span class="pill imp">Important</span></td></tr>
+          <tr><td>Processing profiles</td><td>Define which renditions are generated for a folder</td><td>Connects folder design to delivery requirements</td><td class="right"><span class="pill imp">Important</span></td></tr>
+          <tr><td>Workflows</td><td>Automate review, approval, or operational steps</td><td>Lifecycle and exception handling</td><td class="right"><span class="pill imp">Important</span></td></tr>
+          <tr><td>Reports &amp; lifecycle</td><td>Show usage, quality, expiry, and compliance</td><td>Keeps the DAM from becoming a dumping ground</td><td class="right"><span class="pill imp">Important</span></td></tr>
+        </tbody>
+      </table>
+
+      <p class="tbl-label">Workfront &mdash; the source</p>
+      <table>
+        <thead><tr><th>Feature</th><th>What it does</th><th>Why it matters here</th><th class="right">Priority</th></tr></thead>
+        <tbody>
+          <tr><td>Custom forms</td><td>Capture structured project, task, or document metadata</td><td>The source fields for integration mapping</td><td class="right"><span class="pill ess">Essential</span></td></tr>
+          <tr><td>Documents &amp; final assets</td><td>Hold production files and the handoff point to AEM</td><td>Defines what gets sent into the DAM</td><td class="right"><span class="pill ess">Essential</span></td></tr>
+        </tbody>
+      </table>
+
+      <p class="tbl-label">Integration layer</p>
+      <table>
+        <thead><tr><th>Feature</th><th>What it does</th><th>Why it matters here</th><th class="right">Priority</th></tr></thead>
+        <tbody>
+          <tr><td>Linked folders</td><td>Connect Workfront project folders to AEM folders</td><td>Automates the governed project-to-DAM structure</td><td class="right"><span class="pill ess">Essential</span></td></tr>
+          <tr><td>Metadata mapping</td><td>Maps Workfront fields to AEM properties</td><td>Carries production context into AEM</td><td class="right"><span class="pill ess">Essential</span></td></tr>
+          <tr><td>Fusion / APIs</td><td>Add validation, transformation, or reverse-flow logic</td><td>Only when the native connector is insufficient</td><td class="right"><span class="pill later">Later</span></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 03 -->
+    <section id="assets">
+      <p class="sec-eyebrow">The destination</p>
+      <h2>AEM Assets &mdash; the features you need to understand</h2>
+      <p>Six capabilities carry the governance model. Learn what each one answers, and where its boundary sits against the others.</p>
+
+      <div class="cap">
+        <p class="cap-label"><b>A</b> &middot; Folders</p>
+        <h3>Governance, not the entire information architecture</h3>
+        <p class="cap-q">Where is the asset stored?</p>
+        <p>Folders are the right tool for governance boundaries, access control, processing profiles, project or campaign organization, and controlled navigation. They are the wrong tool for answering every search question &mdash; a user may need an asset by <strong>brand, market, language, channel, campaign, rights status, or expiry date</strong> even when those attributes don't belong in the folder path. Adobe recommends a stable structure, because folder changes ripple into automation and processing configuration, and explicitly distinguishes folder-based organization from metadata- and tag-based discovery.</p>
+        <p style="margin-bottom:6px;font-weight:700;color:var(--ink);">What you should be able to decide</p>
+        <div class="two-list">
+          <ul class="tight" style="margin:0;"><li>What belongs in the folder path</li><li>Which folders are administrator-controlled</li><li>Which folders are linked to Workfront projects</li></ul>
+          <ul class="tight" style="margin:0;"><li>Which folders need different permissions</li><li>Which folders need different processing profiles</li><li>How deep the structure can get before navigation breaks</li></ul>
+        </div>
+      </div>
+
+      <div class="cap">
+        <p class="cap-label"><b>B</b> &middot; Metadata schemas &amp; forms</p>
+        <h3>The business information model</h3>
+        <p class="cap-q">What is the asset, who is it for, where may it be used, and when does it expire?</p>
+        <p>A metadata schema defines the fields shown on an asset &mdash; brand, campaign, asset type, market, language, channel, approval status, rights status, rights expiry, owner, reuse eligibility. The distinction that trips people up is that four different controls are involved:</p>
+        <div class="cards two">
+          <div class="card"><span class="cnum">Control</span><h4>Metadata schema / form</h4><p>Defines the fields available on an asset.</p></div>
+          <div class="card"><span class="cnum">Control</span><h4>Metadata profile</h4><p>Applies default values based on the upload folder.</p></div>
+          <div class="card"><span class="cnum">Control</span><h4>Folder metadata schema</h4><p>Defines properties of the folder itself.</p></div>
+          <div class="card"><span class="cnum">Control</span><h4>Tags</h4><p>Controlled classification terms used for discovery.</p></div>
+        </div>
+        <div class="example">
+          <p class="ex-h">Example &middot; folder &ldquo;Campaign 2026&rdquo;</p>
+          <div class="kv">
+            <div><span class="k">A profile sets defaults &rarr;</span></div>
+            <div><span class="k">Business unit =</span> <span class="v">Brand Marketing</span></div>
+            <div><span class="k">Default region =</span> <span class="v">Global</span></div>
+            <div><span class="k">Lifecycle =</span> <span class="v">Draft</span></div>
+            <div><span class="k">Asset owner =</span> <span class="v">Campaign Operations</span></div>
+            <div style="margin-top:8px;"><span class="k">The schema then asks the contributor for &rarr;</span></div>
+            <div><span class="v">Campaign name &middot; Asset type &middot; Channel &middot; Language &middot; Rights status &middot; Rights expiry</span></div>
+          </div>
+        </div>
+        <p style="margin-bottom:6px;font-weight:700;color:var(--ink);">Your design responsibility</p>
+        <p>Challenge any field that is not searchable, not used by a workflow, not required for rights or compliance, duplicated elsewhere, or too hard for contributors to complete accurately. A good field has a clear <strong>purpose, owner, allowed values, and lifecycle</strong>.</p>
+      </div>
+
+      <div class="cap">
+        <p class="cap-label"><b>C</b> &middot; Tags &amp; taxonomy</p>
+        <h3>Controlled classification</h3>
+        <p class="cap-q">How should this asset be classified for discovery?</p>
+        <p>Use tags for controlled concepts &mdash; product category, audience, content theme, region, industry, campaign type, brand hierarchy. Do not let tags become a second, uncontrolled metadata system. Define who creates and maintains tags, which terms are allowed, whether synonyms are supported, how obsolete tags are retired, which tags are mandatory, and whether users may create their own. AEM supports tagging as part of asset organization and discovery, including AI-assisted tagging in the applicable Assets offerings.</p>
+      </div>
+
+      <div class="cap">
+        <p class="cap-label"><b>D</b> &middot; Collections</p>
+        <h3>Reuse views without duplicating assets</h3>
+        <p class="cap-q">Which assets do I want to use together right now?</p>
+        <p>A collection is a set of <strong>references</strong>, not a second physical copy, and it can pull assets from different folders. That is what makes it the reuse primitive: an asset stays in its governed folder and also appears in a campaign or channel collection. A &ldquo;2026 Summer Campaign&rdquo; collection could reference assets stored across brand, product, regional, legal-approved, and localized-content folders at once.</p>
+        <div class="takeaway">
+          <span class="tk-label">The governance split</span>
+          <p>Folders for stable governance and access. Metadata and tags for discovery. Collections for temporary or collaborative reuse views.</p>
+        </div>
+      </div>
+
+      <div class="cap">
+        <p class="cap-label"><b>E</b> &middot; Search &amp; facets</p>
+        <h3>The proof that the model works</h3>
+        <p class="cap-q">Can a user find the right approved asset without knowing where it is stored?</p>
+        <p>Understand full-text search, metadata filters, tag filters, facets, saved searches, date and expiry filters, status filters, and contextual or similarity search where it's licensed. The most useful enablement exercise is to run real user questions against the model:</p>
+        <ul class="tight">
+          <li>Find approved Australian lifestyle images for social.</li>
+          <li>Find assets for the 2026 campaign that expire within 90 days.</li>
+          <li>Find all English product images approved for web use.</li>
+          <li>Find assets that are activation-ready but not yet published.</li>
+        </ul>
+        <p>If those searches can't be run reliably, the metadata model is incomplete &mdash; that is the signal, not a nice-to-have.</p>
+      </div>
+
+      <div class="cap">
+        <p class="cap-label"><b>F</b> &middot; Permissions</p>
+        <h3>The control model</h3>
+        <p class="cap-q">Who can see, change, download, approve, or administer the asset?</p>
+        <p>Know the difference between view, edit, metadata editing, download, delete/move, folder administration, workflow participation, and collection sharing. A useful pilot exercises at least five roles: a contributor who uploads and edits metadata; a reviewer who approves but can't change the governance model; a consumer who searches and downloads approved assets; a restricted user who can't reach unreleased assets; and an administrator who manages schemas, profiles, tags, and permissions. Do not assume a Workfront user has equivalent AEM rights &mdash; validate access in both systems.</p>
+      </div>
+
+      <div class="sources">
+        <p class="src-label">Sources</p>
+        <ul>
+          <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/manage/organize-assets">Organize your digital assets</a></li>
+          <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-learn/assets/metadata/metadata-schemas-and-forms">Metadata Schemas and Forms</a> &middot; <a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/admin/folder-metadata-schema">Folder Metadata Schema</a> &middot; <a href="https://experienceleague.adobe.com/en/perspectives/metadata-best-practices-for-aem-assets">Metadata best practices</a></li>
+          <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/assets-view/navigate-assets-view">Assets view user interface</a> &middot; <a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/overview">Assets as a Cloud Service overview</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section id="processing">
+      <p class="sec-eyebrow">Making assets usable</p>
+      <h2>Processing, renditions, and processing profiles</h2>
+      <p>On upload, AEM can extract metadata, generate thumbnails and previews, create web or mobile renditions, apply configured processing, and trigger post-processing. In AEM as a Cloud Service, <strong>asset microservices</strong> perform this processing in the cloud, and <strong>processing profiles</strong> define the renditions and behavior applied to a folder. The Cloud Service model replaces much of the legacy asset-processing workflow behavior &mdash; don't carry the old default assumptions across.</p>
+
+      <div class="takeaway">
+        <span class="tk-label">Design implication</span>
+        <p>A folder is not only an organizational choice. It can determine the metadata defaults, the processing profile, the renditions generated, and the access model &mdash; so folder design has to be reviewed by both the DAM governance owner and the AEM technical administrator.</p>
+      </div>
+
+      <div class="sources">
+        <p class="src-label">Sources</p>
+        <ul>
+          <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/asset-microservices-overview">Process assets using asset microservices</a> &middot; <a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/manage/asset-microservices-configure-and-use">Configure and use asset microservices</a></li>
+          <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-learn/assets/authoring/processing-profiles">Processing profiles</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section id="workfront">
+      <p class="sec-eyebrow">The source</p>
+      <h2>Workfront &mdash; the production context that feeds the DAM</h2>
+
+      <div class="cap">
+        <p class="cap-label"><b>A</b> &middot; Projects &amp; custom forms</p>
+        <h3>Where the production context lives</h3>
+        <p>Workfront holds the project or campaign, the request or brief, tasks, approvals, documents, custom fields and forms, and production status. Custom forms matter most here, because their fields become the <strong>source for AEM metadata mapping</strong>. For each field, be able to say which object owns it (project, task, or document), whether it's required, who can edit it, whether its values are controlled, and whether it has a corresponding AEM property.</p>
+      </div>
+
+      <div class="cap">
+        <p class="cap-label"><b>B</b> &middot; Linked folders</p>
+        <h3>Connecting the project structure to AEM</h3>
+        <p>Linked folders connect a Workfront project structure to an AEM folder structure &mdash; a typical pattern nests <code>Year &rarr; Portfolio &rarr; Program &rarr; Project</code> under an AEM root. The configuration can define the AEM parent path, the hierarchy, the project status that triggers creation, portfolio/program and custom-form conditions, child folders, and naming rules.</p>
+        <p style="margin-bottom:6px;font-weight:700;color:var(--ink);">Governance questions to settle</p>
+        <ul class="tight">
+          <li>Who may create a linked folder, and what triggers one?</li>
+          <li>What prevents duplicate folders?</li>
+          <li>Who owns the folder after the project closes?</li>
+          <li>Can users create folders outside the approved structure?</li>
+          <li>What happens when a project is renamed or archived?</li>
+        </ul>
+      </div>
+
+      <div class="cap">
+        <p class="cap-label"><b>C</b> &middot; Metadata mapping &amp; sync</p>
+        <h3>Carrying fields from Workfront into AEM</h3>
+        <p>The integration maps Workfront fields to AEM metadata properties:</p>
+        <table>
+          <thead><tr><th>Workfront field</th><th>AEM property</th></tr></thead>
+          <tbody>
+            <tr><td>Campaign name</td><td><code>campaignName</code></td></tr>
+            <tr><td>Brand</td><td><code>brand</code></td></tr>
+            <tr><td>Market</td><td><code>market</code></td></tr>
+            <tr><td>Language</td><td><code>language</code></td></tr>
+            <tr><td>Rights expiry</td><td><code>rightsExpiryDate</code></td></tr>
+            <tr><td>Approval state</td><td><code>approvalStatus</code></td></tr>
+          </tbody>
+        </table>
+        <p>For each mapping, pin down the source system, target field, direction, data type, allowed values, transformation rule, owner, overwrite behavior, and test status. Note that explicitly mapped values may <strong>overwrite</strong> the corresponding AEM values when an asset or a new version is sent again.</p>
+        <div class="takeaway">
+          <span class="tk-label">The rule to remember</span>
+          <p>If Workfront owns a mapped field, don't let users independently maintain the same field in AEM without a documented exception &mdash; otherwise no one knows which value is authoritative.</p>
+        </div>
+      </div>
+
+      <div class="sources">
+        <p class="src-label">Sources</p>
+        <ul>
+          <li><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/integrations/workfront-connector-configure">Configure Workfront for the AEM enhanced connector</a></li>
+          <li><a href="https://experienceleague.adobe.com/en/docs/events/workfront-recordings/workshop-rewind/workflow/aem-native-integration">Leveraging the Workfront + AEM native integration</a> &middot; <a href="https://experienceleague.adobe.com/en/docs/events/the-skill-exchange-recordings/workfront/aug2025/workflows-workfront-aem">Streamlining creative workflows with Workfront + AEM</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 06 -->
+    <section id="connector">
+      <p class="sec-eyebrow">Where to draw the line</p>
+      <h2>Native connector vs Fusion &mdash; and when to escalate</h2>
+
+      <div class="cols">
+        <div class="panel">
+          <h4>Use the native connector</h4>
+          <p class="p-sub">Low-code, standard handoff</p>
+          <ul>
+            <li>Standard Workfront-to-AEM asset delivery</li>
+            <li>Metadata mapping</li>
+            <li>Linked folders</li>
+            <li>Standard project-to-DAM structure</li>
+            <li>Low-code configuration</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <h4>Consider Fusion or APIs</h4>
+          <p class="p-sub">Escalation path</p>
+          <ul>
+            <li>Pre-send validation &amp; conditional rules</li>
+            <li>Data transformation &amp; external lookups</li>
+            <li>Automated orchestration</li>
+            <li>Reverse sync from AEM to Workfront</li>
+            <li>Complex error handling &amp; multi-system updates</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ladder">
+        <div class="rung"><span class="cond">Standard handoff</span><span class="arw">&rarr;</span><span class="dest n">Native connector</span></div>
+        <div class="rung"><span class="cond">Need validation or automation around the handoff</span><span class="arw">&rarr;</span><span class="dest nf">Native + Fusion</span></div>
+        <div class="rung"><span class="cond">Need transformation, reverse sync, or multi-system orchestration</span><span class="arw">&rarr;</span><span class="dest f">Fusion / APIs</span></div>
+      </div>
+
+      <div class="takeaway">
+        <span class="tk-label">Caution</span>
+        <p>Don't design bidirectional synchronization casually. Adobe's own discussion materials flag the risk of update loops and the need to define a clear source of truth for every field.</p>
+      </div>
+
+      <div class="sources">
+        <p class="src-label">Sources</p>
+        <ul>
+          <li><a href="https://experienceleague.adobe.com/en/docs/events/learn-from-your-peers-recordings/experience-manager/2025/metadata-mayhem">Metadata Mayhem to Mastery</a></li>
+          <li><a href="https://experienceleague.adobe.com/en/docs/events/adobe-customer-success-webinar-recordings/2025/aem2025/aem-workfront-integration">AEM and Workfront integration using the Native Connector</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 07 -->
+    <section id="learning">
+      <p class="sec-eyebrow">Sequencing</p>
+      <h2>What to learn now, what to defer</h2>
+      <div class="cols">
+        <div class="panel">
+          <h4>Learn now</h4>
+          <p class="p-sub">The path from work to reusable asset</p>
+          <ol class="tight" style="margin:0;padding-left:20px;">
+            <li>AEM Assets repository &amp; navigation</li>
+            <li>Folders &amp; folder governance</li>
+            <li>Metadata schemas &amp; forms</li>
+            <li>Metadata profiles</li>
+            <li>Folder metadata schemas</li>
+            <li>Tags &amp; taxonomy</li>
+            <li>Collections</li>
+            <li>Search &amp; facets</li>
+            <li>Permissions</li>
+            <li>Asset processing &amp; renditions</li>
+            <li>Workfront custom forms</li>
+            <li>Workfront documents &amp; approvals</li>
+            <li>Linked folders</li>
+            <li>Metadata mapping</li>
+            <li>Native connector sync behavior</li>
+          </ol>
+        </div>
+        <div class="panel">
+          <h4>Defer until the pilot needs it</h4>
+          <p class="p-sub">Depth you don't need yet</p>
+          <ul style="margin:0;padding-left:19px;">
+            <li>Fusion development</li>
+            <li>REST &amp; AEM Assets API implementation</li>
+            <li>Custom Asset Compute workers</li>
+            <li>Dynamic Media</li>
+            <li>Brand Portal &middot; Content Hub</li>
+            <li>Adobe Asset Link</li>
+            <li>Large-scale migration tooling</li>
+            <li>AEM workflow development</li>
+            <li>Oak indexing &amp; repository internals</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note">
+        <p>Adobe's Premium Learning provides a structured path across asset authoring, processing, access control, metadata, reports, search, workflows, projects, and Dynamic Media &mdash; a good spine once the fundamentals above are in place.</p>
+      </div>
+      <div class="sources">
+        <p class="src-label">Sources</p>
+        <ul>
+          <li><a href="https://experienceleague.adobe.com/en/premium/course/16058011">Customize Digital Assets in AEM</a> &middot; <a href="https://experienceleague.adobe.com/en/premium/course/16059027">Manage and Deliver Digital Assets Using AEM</a></li>
+          <li><a href="https://experienceleague.adobe.com/en/premium/cohort/159950">AEM Assets Cohort &mdash; Power User</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 08 -->
+    <section id="readiness">
+      <p class="sec-eyebrow">Are you ready?</p>
+      <h2>Product-feature readiness test</h2>
+      <p>You're ready to lead the feature discussions when you can answer these without hedging.</p>
+
+      <div class="cards three">
+        <div class="card">
+          <span class="cnum">AEM Assets</span>
+          <ul style="padding-left:17px;margin-top:10px;">
+            <li>Folder vs metadata &mdash; what belongs where?</li>
+            <li>Schema vs profile &mdash; what's the difference?</li>
+            <li>When a tag, when a collection?</li>
+            <li>Which fields are required for search &amp; reuse?</li>
+            <li>Which rights fields must be visible &amp; actionable?</li>
+            <li>Which processing profile applies to the pilot folder?</li>
+            <li>Who can view, edit, download, approve, administer?</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="cnum">Workfront</span>
+          <ul style="padding-left:17px;margin-top:10px;">
+            <li>Which fields are the source for AEM metadata?</li>
+            <li>What event creates the linked folder?</li>
+            <li>Which template applies the integration config?</li>
+            <li>Which assets count as final or approved?</li>
+            <li>Where's the approval boundary between the two systems?</li>
+          </ul>
+        </div>
+        <div class="card">
+          <span class="cnum">Connector</span>
+          <ul style="padding-left:17px;margin-top:10px;">
+            <li>Is the target AEM Assets as a Cloud Service?</li>
+            <li>Native, enhanced, or legacy connector?</li>
+            <li>One-way flow, or Fusion added?</li>
+            <li>What happens when mapped metadata changes?</li>
+            <li>What happens on a new version, or an AEM-first asset?</li>
+            <li>What's the failure &amp; retry process?</li>
+            <li>What's the source of truth for every mapped field?</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3 style="font-size:20px;font-weight:800;letter-spacing:-.01em;margin:34px 0 6px;">Recommended first learning activity</h3>
+      <p>Take one representative asset &mdash; say a campaign image &mdash; and trace it end to end. For each step, record the <strong>product feature used, system of record, responsible owner, required configuration, expected result, and failure scenario</strong>. This teaches the product far better than studying each feature in isolation.</p>
+      <ol class="trace">
+        <li><div class="t-title">Workfront brief</div><div class="t-sub">Request or campaign brief kicks off the work</div></li>
+        <li><div class="t-title">Custom-form metadata</div><div class="t-sub">Structured fields captured on the project / document</div></li>
+        <li><div class="t-title">Approval</div><div class="t-sub">Asset reaches an approved, final state</div></li>
+        <li><div class="t-title">Final asset / document</div><div class="t-sub">The file that gets handed off to AEM</div></li>
+        <li><div class="t-title">Linked AEM folder</div><div class="t-sub">Governed destination created from project context</div></li>
+        <li><div class="t-title">Metadata mapping</div><div class="t-sub">Workfront fields written to AEM properties</div></li>
+        <li><div class="t-title">Processing profile</div><div class="t-sub">Asset microservices apply the folder's profile</div></li>
+        <li><div class="t-title">Renditions</div><div class="t-sub">Thumbnails, web, and mobile outputs generated</div></li>
+        <li><div class="t-title">Search &amp; reuse</div><div class="t-sub">Discoverable by metadata, tags, and facets; added to collections</div></li>
+        <li><div class="t-title">Rights expiry or archive</div><div class="t-sub">Lifecycle controls retire or flag the asset</div></li>
+      </ol>
+
+      <h3 style="font-size:20px;font-weight:800;letter-spacing:-.01em;margin:34px 0 6px;">Enablement checklist</h3>
+      <ul class="check">
+        <li class="done"><span class="mk">&check;</span> Mapped the product features involved in the work.</li>
+        <li class="done"><span class="mk">&check;</span> Explained the purpose and business value of each feature.</li>
+        <li class="done"><span class="mk">&check;</span> Distinguished folders, metadata, profiles, tags, collections, and search.</li>
+        <li class="done"><span class="mk">&check;</span> Explained asset processing and processing profiles in AEM Cloud Service.</li>
+        <li class="done"><span class="mk">&check;</span> Explained Workfront custom forms, linked folders, metadata mapping, and native sync.</li>
+        <li class="done"><span class="mk">&check;</span> Defined when Fusion becomes relevant.</li>
+        <li class="open"><span class="mk">!</span> Confirm whether the target implementation uses the native, enhanced, or legacy connector.</li>
+      </ul>
+
+      <div class="next">
+        <p class="n-label">Next lesson</p>
+        <p><b>Feature Module 1:</b> Folders, metadata, profiles, tags, and collections &mdash; how they work together in a governed DAM.</p>
+      </div>
+    </section>
+
+    </main>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="foot-inner">
+    <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe&nbsp;<span>Experience Manager</span></div>
+    <div class="foot-right">
+      <p class="fr-1">Customer Solutions &middot; APAC field enablement &mdash; verify connector type (native / enhanced / legacy) against the target environment</p>
+      <p class="fr-2">&copy; 2026 Adobe</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var SPY_SELECTOR = '#spy-nav a';
+  var links = Array.prototype.slice.call(document.querySelectorAll(SPY_SELECTOR));
+  var map = {}; links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
+  var sections = links.map(function(l){ return document.getElementById(l.getAttribute('href').slice(1)); }).filter(Boolean);
+  function setActive(id){ links.forEach(function(l){ l.classList.remove('active'); }); if(map[id]) map[id].classList.add('active'); }
+  if('IntersectionObserver' in window){
+    var vis = {};
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ vis[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0; });
+      var best=null, bestR=0; Object.keys(vis).forEach(function(k){ if(vis[k]>bestR){bestR=vis[k]; best=k;} });
+      if(best) setActive(best);
+    }, { rootMargin:'-15% 0px -70% 0px', threshold:[0,0.15,0.5,1] });
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+  links.forEach(function(l){ l.addEventListener('click', function(){ setActive(l.getAttribute('href').slice(1)); }); });
+  var pb=document.getElementById('progressbar');
+  if(pb){ var upd=function(){ var h=document.documentElement.scrollHeight-window.innerHeight;
+    pb.style.transform='scaleX('+Math.min(1,Math.max(0,h>0?window.scrollY/h:0))+')'; };
+    window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd(); }
+})();
+</script>
+</body>
+</html>

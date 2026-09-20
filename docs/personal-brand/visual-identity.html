@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leo Li / AI × CX — Visual Identity v2</title>
+<style>
+:root{
+  /* Canvas — warm off-white, never pure white */
+  --canvas:#FAFAF8;
+  --canvas-2:#F5F4F0;
+  --sunk:#EFEEE8;
+  --card:#FEFEFC;
+
+  /* Ink */
+  --ink:#1A1A1A;
+  --ink-2:#3B3B38;
+  --muted:#6E6D67;
+  --faint:#9B9A93;      /* the signature grey */
+  --line:#E5E3DB;
+  --line-2:#D6D4CB;
+
+  /* Editorial red — solid Adobe red, no gradient, no glow. The 10%. */
+  --red:#EB1000;
+  --red-ink:#C20E00;    /* AA-safe for small red text on light */
+  --red-tint:#FBE9E5;
+
+  /* Product colors — the 20%, for cards and categories */
+  --purple:#6B4CEF;  --purple-tint:#EDE8FE;
+  --blue:#2C6BF0;    --blue-tint:#E6F0FE;
+  --green:#0E9E6C;   --green-tint:#E1F4EC;
+  --amber:#CF8207;   --amber-tint:#FAEFD9;
+
+  /* Type */
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+
+  /* Radius + soft, warm-tinted shadows */
+  --r:20px; --r-sm:14px; --r-xs:10px; --pill:999px;
+  --shadow-sm:0 1px 2px rgba(26,24,18,.05);
+  --shadow:0 2px 6px rgba(26,24,18,.05),0 10px 24px rgba(26,24,18,.06);
+  --shadow-lg:0 4px 10px rgba(26,24,18,.06),0 22px 46px rgba(26,24,18,.09);
+
+  --maxw:1180px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;} *{animation:none!important;transition:none!important;}
+}
+body{
+  margin:0; font-family:var(--sans); color:var(--ink-2);
+  background:var(--canvas); font-size:16.5px; line-height:1.62;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+h1,h2,h3{color:var(--ink);}
+a{color:var(--blue); text-decoration:none;}
+a:hover{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--blue); outline-offset:3px; border-radius:4px;}
+::selection{background:var(--blue-tint);}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;
+  clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+.skip{position:fixed;left:14px;top:-60px;z-index:200;background:var(--ink);color:#fff;
+  padding:9px 15px;border-radius:8px;font-weight:600;font-size:14px;transition:top .18s;}
+.skip:focus{top:14px;text-decoration:none;}
+
+/* Scroll progress — a thin editorial red stripe */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:100;pointer-events:none;}
+.progress i{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;
+  background:var(--red);will-change:transform;}
+
+/* ---------- Hero ---------- */
+.hero{padding:44px 24px 30px;}
+.hero-in{max-width:var(--maxw);margin:0 auto;}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:12px 20px;
+  flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid var(--line);}
+.wordmark{display:flex;align-items:baseline;gap:11px;}
+.wordmark b{font-size:19px;font-weight:800;letter-spacing:.02em;color:var(--ink);}
+.wordmark span{font-size:14px;font-weight:600;color:var(--muted);letter-spacing:.06em;}
+.wordmark .x{color:var(--red);font-weight:800;}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;white-space:nowrap;}
+
+.hero h1{margin:46px 0 0;font-size:clamp(40px,6.4vw,78px);line-height:1.0;
+  font-weight:800;letter-spacing:-.032em;max-width:15ch;}
+.hero h1 .ne{color:var(--red);font-weight:800;padding:0 .04em;}
+.hero .lead{margin:26px 0 0;font-size:clamp(17px,2vw,21px);line-height:1.5;
+  color:var(--ink-2);max-width:60ch;}
+.hero .lead b{color:var(--ink);font-weight:700;}
+
+/* Hero system strip — the "hero + system" default, in miniature */
+.sysstrip{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:42px 0 6px;}
+.sysnode{display:flex;flex-direction:column;gap:3px;background:var(--card);
+  border:1px solid var(--line);border-radius:var(--r-sm);padding:12px 18px;box-shadow:var(--shadow-sm);}
+.sysnode em{font-style:normal;font-weight:800;font-size:14px;letter-spacing:.02em;color:var(--ink);text-transform:uppercase;}
+.sysnode small{font-size:12px;color:var(--muted);}
+.arrow{color:var(--faint);flex:none;}
+
+/* ---------- Shell ---------- */
+.shell{max-width:var(--maxw);margin:0 auto;padding:26px 24px 90px;
+  display:grid;grid-template-columns:216px minmax(0,1fr);gap:60px;}
+.rail{position:sticky;top:24px;align-self:start;padding-top:34px;}
+.rail p{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);margin:0 0 12px;padding-left:14px;}
+.rail nav{display:flex;flex-direction:column;gap:1px;}
+.rail nav a{display:flex;align-items:center;gap:12px;padding:9px 14px;border-radius:var(--r-xs);
+  color:var(--muted);font-size:14px;font-weight:600;border-left:2px solid transparent;
+  transition:background .15s,color .15s,border-color .15s;}
+.rail nav a .n{font-family:var(--mono);font-size:11px;color:var(--line-2);min-width:16px;
+  font-variant-numeric:tabular-nums;}
+.rail nav a:hover{background:var(--canvas-2);color:var(--ink);}
+.rail nav a.active{color:var(--ink);background:var(--blue-tint);border-left-color:var(--blue);}
+.rail nav a.active .n{color:var(--blue);}
+
+.content{min-width:0;padding-top:34px;}
+section{scroll-margin-top:22px;padding-bottom:60px;}
+section+section{margin-top:8px;border-top:1px solid var(--line);padding-top:52px;
+  border-image:linear-gradient(90deg,transparent,var(--line) 16%,var(--line) 84%,transparent) 1;}
+.secnum{font-family:var(--mono);font-size:13px;color:var(--red-ink);font-weight:600;
+  letter-spacing:.04em;}
+section h2{font-size:clamp(26px,3vw,38px);line-height:1.14;letter-spacing:-.02em;
+  font-weight:800;margin:8px 0 16px;max-width:22ch;}
+section p{max-width:66ch;}
+.em{color:var(--red-ink);font-weight:600;}
+.big-quote{font-size:clamp(20px,2.6vw,28px);line-height:1.32;font-weight:700;color:var(--ink);
+  letter-spacing:-.01em;max-width:24ch;margin:6px 0 4px;}
+
+/* Cards */
+.grid{display:grid;gap:18px;margin:26px 0 4px;}
+.g2{grid-template-columns:repeat(2,1fr);}
+.g3{grid-template-columns:repeat(3,1fr);}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:24px;box-shadow:var(--shadow);transition:transform .16s,box-shadow .16s,border-color .16s;}
+.card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--line-2);}
+.card h3{margin:0 0 7px;font-size:17px;font-weight:800;letter-spacing:-.01em;}
+.card p{margin:0;font-size:14.5px;color:var(--muted);line-height:1.55;max-width:none;}
+.chip{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;
+  border-radius:var(--r-xs);margin-bottom:14px;}
+.chip svg{width:18px;height:18px;}
+.chip.p{background:var(--purple-tint);color:var(--purple);}
+.chip.b{background:var(--blue-tint);color:var(--blue);}
+.chip.g{background:var(--green-tint);color:var(--green);}
+.chip.a{background:var(--amber-tint);color:var(--amber);}
+.chip.r{background:var(--red-tint);color:var(--red-ink);}
+
+.capgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:14px;}
+.cap{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:14px 16px;box-shadow:var(--shadow-sm);}
+.cap b{display:block;font-size:14px;font-weight:800;color:var(--ink);}
+.cap small{font-size:12.5px;color:var(--muted);}
+
+/* Swatches */
+.swrow{display:flex;flex-wrap:wrap;gap:12px;margin:22px 0 4px;}
+.sw{border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;width:132px;
+  box-shadow:var(--shadow-sm);background:var(--card);}
+.sw .fill{height:66px;}
+.sw .meta{padding:9px 11px;}
+.sw .meta b{display:block;font-size:13px;font-weight:700;color:var(--ink);}
+.sw .meta code{font-family:var(--mono);font-size:11.5px;color:var(--muted);}
+
+/* Type specimen */
+.specimen{background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:30px 30px 26px;box-shadow:var(--shadow);margin:24px 0 4px;}
+.specimen .disp{font-size:clamp(26px,4.4vw,50px);font-weight:800;letter-spacing:-.03em;
+  line-height:1.02;color:var(--ink);}
+.specimen .disp .ne{color:var(--red);}
+.specimen .row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+  border-top:1px solid var(--line);padding:15px 0;flex-wrap:wrap;}
+.specimen .row:last-child{padding-bottom:0;}
+.specimen .row .s{font-size:14px;color:var(--muted);font-family:var(--mono);}
+.specimen .row .lead-sample{font-size:20px;color:var(--ink-2);font-weight:500;}
+.specimen .row .body-sample{font-size:16.5px;color:var(--ink-2);}
+.specimen .row .label-sample{font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  font-weight:700;color:var(--muted);font-family:var(--mono);}
+.specimen .row .sig-sample{font-size:13px;letter-spacing:.22em;color:var(--faint);text-transform:uppercase;}
+.specimen .disp-wrap{margin-bottom:6px;}
+
+/* 70 / 20 / 10 bar */
+.ratiobar{display:flex;height:72px;border-radius:var(--r-sm);overflow:hidden;margin:22px 0 12px;
+  box-shadow:var(--shadow-sm);border:1px solid var(--line);}
+.ratiobar span{display:flex;align-items:flex-end;padding:9px 10px;font-size:11px;font-weight:700;
+  letter-spacing:.02em;}
+.ratiolegend{display:flex;gap:26px;flex-wrap:wrap;font-size:13.5px;color:var(--muted);}
+.ratiolegend b{color:var(--ink);}
+.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;vertical-align:middle;}
+
+/* Poster mockups — the living demo */
+.poster{position:relative;background:var(--canvas);border:1px solid var(--line-2);
+  border-radius:var(--r);box-shadow:var(--shadow-lg);padding:30px 30px 26px;overflow:hidden;}
+.poster .p-arg{font-size:clamp(21px,3vw,32px);font-weight:800;letter-spacing:-.025em;
+  line-height:1.05;color:var(--ink);max-width:16ch;}
+.poster .p-arg .ne{color:var(--red);}
+.poster .p-sub{font-size:13.5px;color:var(--muted);margin:9px 0 0;max-width:44ch;}
+.flow{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin:26px 0 4px;}
+.fnode{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:11px 15px;box-shadow:var(--shadow-sm);text-align:center;}
+.fnode em{font-style:normal;display:block;font-weight:800;font-size:13px;letter-spacing:.02em;color:var(--ink);text-transform:uppercase;}
+.fnode.hot{border-color:var(--red);box-shadow:0 0 0 1px var(--red) inset,var(--shadow-sm);}
+.p-caps{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px;}
+.p-cap{background:var(--card);border:1px solid var(--line);border-radius:var(--r-xs);
+  padding:8px 12px;font-size:11.5px;color:var(--muted);box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:7px;}
+.p-cap .d{width:8px;height:8px;border-radius:2px;flex:none;}
+.p-sig{position:absolute;right:26px;bottom:20px;font-size:10.5px;letter-spacing:.2em;
+  color:var(--faint);text-transform:uppercase;}
+.p-tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);font-family:var(--mono);margin-bottom:10px;}
+
+/* Annotation */
+.annote{position:relative;display:inline-flex;align-items:center;gap:8px;font-size:13px;
+  color:var(--red-ink);font-weight:600;transform:rotate(-1.6deg);}
+.annote svg{color:var(--red);flex:none;}
+
+/* Good / bad compare */
+.mini{background:var(--canvas);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:20px;box-shadow:var(--shadow-sm);}
+.mini .mtitle{font-size:18px;font-weight:800;letter-spacing:-.01em;color:var(--ink);line-height:1.1;}
+.mini .mtitle .ne{color:var(--red);}
+.mini .mdiag{margin:16px 0 0;height:70px;border-radius:var(--r-xs);border:1px dashed var(--line-2);
+  display:flex;align-items:center;justify-content:center;gap:9px;color:var(--faint);}
+.mini.bad{opacity:.9;}
+.mini.bad .mtitle{color:var(--muted);}
+.verdict{display:flex;align-items:center;gap:8px;margin-top:16px;font-size:13px;font-weight:600;}
+.verdict.no{color:var(--muted);}
+.verdict.yes{color:var(--green);}
+
+/* Tests */
+.tests{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:24px 0 4px;}
+.test{background:var(--card);border:1px solid var(--line);border-radius:var(--r-sm);padding:18px 18px 16px;
+  box-shadow:var(--shadow-sm);}
+.test .tn{font-family:var(--mono);font-size:12px;color:var(--red-ink);font-weight:600;}
+.test b{display:block;margin:6px 0 4px;font-size:15px;color:var(--ink);font-weight:800;}
+.test p{margin:0;font-size:13.5px;color:var(--muted);max-width:none;}
+
+.takeaway{border-left:3px solid var(--red);background:var(--canvas-2);border-radius:0 var(--r-sm) var(--r-sm) 0;
+  padding:18px 22px;margin:26px 0 4px;font-size:16.5px;color:var(--ink);max-width:none;}
+.takeaway b{font-weight:800;}
+
+/* Footer */
+.foot{background:var(--ink);color:#9a9994;}
+.foot-in{max-width:var(--maxw);margin:0 auto;padding:28px 24px;display:flex;flex-wrap:wrap;
+  gap:12px 24px;align-items:center;justify-content:space-between;}
+.foot .wm{display:flex;align-items:baseline;gap:10px;}
+.foot .wm b{color:#fff;font-weight:800;letter-spacing:.02em;font-size:16px;}
+.foot .wm span{color:#c9c8c2;font-size:13px;}
+.foot .wm .x{color:var(--red);}
+.foot .fr{text-align:right;font-size:12px;line-height:1.5;}
+.foot .fr .a{color:#b9b8b2;font-weight:600;}
+.foot .fr .b{color:#75746e;}
+
+@media(max-width:980px){
+  .shell{grid-template-columns:1fr;gap:0;}
+  .rail{display:none;}
+  .content{padding-top:12px;}
+  .g3,.g2{grid-template-columns:1fr;}
+}
+@media(max-width:560px){
+  .foot-in{flex-direction:column;align-items:flex-start;}
+  .foot .fr{text-align:left;}
+  .sysstrip .arrow{transform:rotate(90deg);}
+}
+</style>
+</head>
+<body>
+<a href="#c1" class="skip">Skip to content</a>
+<div class="progress"><i id="pbar"></i></div>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="hero-in">
+    <div class="masthead">
+      <div class="wordmark"><b>LEO&nbsp;LI</b><span>AI <span class="x">×</span> CX</span></div>
+      <span class="kicker">Visual Identity · v2</span>
+    </div>
+    <h1>A smart sketch <span class="ne">≠</span> a strategic asset</h1>
+    <p class="lead">Version 2 of the system. The last image proved the point: an image can look like a product team designed it, but <b>think like a strategist</b>. This is how every image gets there — a strategic insight expressed with product-grade design.</p>
+
+    <div class="sysstrip" aria-hidden="true">
+      <div class="sysnode"><em>The argument</em><small>largest on the page</small></div>
+      <svg class="arrow" width="26" height="14" viewBox="0 0 26 14" fill="none"><path d="M0 7h23M18 2l6 5-6 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="sysnode"><em>The explanation</em><small>3–7 nodes</small></div>
+      <svg class="arrow" width="26" height="14" viewBox="0 0 26 14" fill="none"><path d="M0 7h23M18 2l6 5-6 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <div class="sysnode"><em>The evidence</em><small>rewards a closer look</small></div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== SHELL ===== -->
+<div class="shell">
+  <aside class="rail">
+    <p>Contents</p>
+    <nav id="spy">
+      <a href="#c1"><span class="n">01</span> The shift</a>
+      <a href="#c2"><span class="n">02</span> Visual territory</a>
+      <a href="#c3"><span class="n">03</span> Argument first</a>
+      <a href="#c4"><span class="n">04</span> Canvas &amp; type</a>
+      <a href="#c5"><span class="n">05</span> Color hierarchy</a>
+      <a href="#c6"><span class="n">06</span> Card system</a>
+      <a href="#c7"><span class="n">07</span> Information hierarchy</a>
+      <a href="#c8"><span class="n">08</span> Annotation &amp; signature</a>
+      <a href="#c9"><span class="n">09</span> Hero + System</a>
+      <a href="#c10"><span class="n">10</span> The quality bar</a>
+    </nav>
+  </aside>
+
+  <main class="content">
+
+    <!-- 01 -->
+    <section id="c1">
+      <span class="secnum">01</span>
+      <h2>From editorial sketch to premium productized visual argument</h2>
+      <p>The original framework over-indexed on editorial thought leadership and under-specified execution aesthetics. v1 said <em>one image = one argument</em>. v2 keeps that and raises the bar:</p>
+      <p class="big-quote">One image = one argument, presented through a premium system.</p>
+      <p>A reader should feel <b>&ldquo;this is a strategic insight expressed with product-grade design&rdquo;</b> — not &ldquo;this is a smart sketch,&rdquo; and not &ldquo;this is a product datasheet.&rdquo; The design confidence borrows from Adobe, Linear, Stripe and Notion. The thinking stays yours.</p>
+    </section>
+
+    <!-- 02 -->
+    <section id="c2">
+      <span class="secnum">02</span>
+      <h2>Visual territory</h2>
+      <p>Two ideas define the space. The first carries over from v1; the second is what the latest image added.</p>
+      <div class="grid g2">
+        <div class="card">
+          <div class="chip b" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div>
+          <h3>Editorial systems thinking</h3>
+          <p>Adobe design confidence × systems architecture × visual storytelling × your explanatory thinking. The house voice.</p>
+        </div>
+        <div class="card">
+          <div class="chip p" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></div>
+          <h3>Productized thinking</h3>
+          <p>Ideas should feel operational. Show modules, workflows, orchestration layers, decision systems, feedback loops and capability cards — not concepts floating in space. Readers trust systems more than abstractions.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 03 -->
+    <section id="c3">
+      <span class="secnum">03</span>
+      <h2>Argument first. Architecture second.</h2>
+      <p>The architecture exists only to prove the argument. A diagram with no claim attached is decoration. Lead with the claim, then let the system earn it.</p>
+      <div class="grid g2" style="margin-top:22px">
+        <div class="mini bad">
+          <div class="mtitle">AI Agents</div>
+          <div class="mdiag" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/></svg>
+            <span style="font-size:12px">diagram</span>
+          </div>
+          <div class="verdict no" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+            Architecture with nothing to prove
+          </div>
+        </div>
+        <div class="mini">
+          <div class="mtitle">AI Agents <span class="ne">≠</span> Transformation</div>
+          <div class="mdiag" style="border-style:solid;border-color:var(--line);color:var(--ink-2)" aria-hidden="true">
+            <span style="font-size:12px;font-weight:700">the diagram that proves why</span>
+          </div>
+          <div class="verdict yes" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            The claim comes first; the system backs it
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 -->
+    <section id="c4">
+      <span class="secnum">04</span>
+      <h2>Canvas &amp; type</h2>
+      <p>Warm off-white ground, near-black editorial sans, and one deliberate red. <em>Never pure white.</em> The red rule is strict: solid red only — not gradient, not glowing, not neon. Red should feel deliberate, never decorative.</p>
+
+      <div class="swrow">
+        <div class="sw"><div class="fill" style="background:#FAFAF8"></div><div class="meta"><b>Canvas</b><code>#FAFAF8</code></div></div>
+        <div class="sw"><div class="fill" style="background:#F5F4F0"></div><div class="meta"><b>Canvas alt</b><code>#F5F4F0</code></div></div>
+        <div class="sw"><div class="fill" style="background:#1A1A1A"></div><div class="meta"><b>Ink</b><code>#1A1A1A</code></div></div>
+        <div class="sw"><div class="fill" style="background:#EB1000"></div><div class="meta"><b>Adobe red</b><code>#EB1000</code></div></div>
+      </div>
+
+      <div class="specimen">
+        <div class="disp-wrap"><span class="disp">50,000 assets <span class="ne">≠</span> 50,000 outcomes</span></div>
+        <div class="row"><span class="lead-sample">The explanation the argument earns.</span><span class="s">Lead · 400–500</span></div>
+        <div class="row"><span class="body-sample">Body copy sits quiet under the statement, doing the supporting work.</span><span class="s">Body · 400</span></div>
+        <div class="row"><span class="label-sample">Capability label</span><span class="s">Label · 700</span></div>
+        <div class="row"><span class="sig-sample">Leo Li · AI × CX</span><span class="s">Signature · faint</span></div>
+      </div>
+    </section>
+
+    <!-- 05 -->
+    <section id="c5">
+      <span class="secnum">05</span>
+      <h2>Color hierarchy — 70 / 20 / 10</h2>
+      <p>Discipline is the whole point. Most of every image is neutral; product colors carry categories; red is rationed to a tenth of the frame.</p>
+      <div class="ratiobar" role="img" aria-label="Color proportions: 70 percent neutral, 20 percent product colors, 10 percent Adobe red">
+        <span style="width:30%;background:#EFEEE8;color:#8a887f">Off-white</span>
+        <span style="width:22%;background:#C9C7BF;color:#4a4842">Grey</span>
+        <span style="width:18%;background:#1A1A1A;color:#cfcdc6">Black</span>
+        <span style="width:5%;background:var(--purple)"></span>
+        <span style="width:5%;background:var(--blue)"></span>
+        <span style="width:5%;background:var(--green)"></span>
+        <span style="width:5%;background:var(--amber)"></span>
+        <span style="width:10%;background:var(--red);color:#fff">Red</span>
+      </div>
+      <div class="ratiolegend">
+        <span><b>70% neutral</b> — black, grey, off-white</span>
+        <span><b>20% product</b> — purple, blue, green, amber for cards &amp; categories</span>
+        <span><b>10% red</b> — contradiction, emphasis, annotation, key transition, the missing layer</span>
+      </div>
+      <div class="takeaway"><b>Red creates tension, not decoration.</b> If it&rsquo;s doing anything other than marking a contradiction, an emphasis, an annotation, a key transition, or a missing layer — it&rsquo;s overspent.</div>
+    </section>
+
+    <!-- 06 -->
+    <section id="c6">
+      <span class="secnum">06</span>
+      <h2>Card system</h2>
+      <p>Information is chunked into an enterprise-product card language: large containers for major concepts, small capability cards for supporting ones. Soft, minimal shadows. Large corner radius (16–24px). Consistent, generous spacing. Think Adobe, Linear, Stripe, Notion — not PowerPoint.</p>
+
+      <div class="card" style="margin-top:24px">
+        <div class="p-tag">Large container card · a major concept</div>
+        <h3 style="font-size:20px">Orchestration layer</h3>
+        <p style="max-width:60ch">The container holds the idea. Supporting concepts live inside it as small capability cards, so the reader parses structure before detail.</p>
+        <div class="capgrid">
+          <div class="cap"><b>Generation</b><small>raw output</small></div>
+          <div class="cap"><b>Routing</b><small>who acts</small></div>
+          <div class="cap"><b>Feedback</b><small>what improves</small></div>
+          <div class="cap"><b>Outcome</b><small>the result</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 -->
+    <section id="c7">
+      <span class="secnum">07</span>
+      <h2>Information hierarchy 2.0</h2>
+      <p>Every image carries three layers. <b>Layer 1</b> is the argument — the largest thing on the page, readable from mobile-feed distance. <b>Layer 2</b> is the explanation — usually three to seven nodes. <b>Layer 3</b> is evidence — small cards, icons, annotations that reward a closer look but aren&rsquo;t needed to get the point.</p>
+      <p><span class="em">Never put the important insight in small text.</span> Blur the image to 20%: if the argument still lands, the hierarchy works. If not, it failed.</p>
+
+      <div class="poster" style="margin-top:26px">
+        <span class="p-tag">Layer 1 — the argument</span>
+        <div class="p-arg">50,000 assets <span class="ne">≠</span> 50,000 outcomes</div>
+        <p class="p-sub">Volume is not value. The layer between them is where outcomes are decided.</p>
+
+        <div class="flow" aria-label="Generation to orchestration to outcome">
+          <div class="fnode"><em>Generation</em></div>
+          <svg class="arrow" width="24" height="14" viewBox="0 0 26 14" fill="none"><path d="M0 7h23M18 2l6 5-6 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="fnode hot"><em>Orchestration</em></div>
+          <svg class="arrow" width="24" height="14" viewBox="0 0 26 14" fill="none"><path d="M0 7h23M18 2l6 5-6 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="fnode"><em>Outcome</em></div>
+          <span class="annote" style="margin-left:4px">
+            <svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M19 13C11 12 5 9 2 2M2 2l5 1M2 2l1 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            the missing layer
+          </span>
+        </div>
+
+        <div class="p-caps" aria-hidden="true">
+          <span class="p-cap"><span class="d" style="background:var(--purple)"></span>Routing rules</span>
+          <span class="p-cap"><span class="d" style="background:var(--blue)"></span>Decision system</span>
+          <span class="p-cap"><span class="d" style="background:var(--green)"></span>Feedback loop</span>
+        </div>
+        <span class="p-sig">Leo Li · AI × CX</span>
+      </div>
+    </section>
+
+    <!-- 08 -->
+    <section id="c8">
+      <span class="secnum">08</span>
+      <h2>Annotation &amp; signature</h2>
+      <p>Keep hand annotations — but ration them. The latest image proved too many make the work read like a sketch. <b>One to three, maximum.</b> They point at the one thing the eye should catch.</p>
+      <div class="grid g3">
+        <div class="card" style="display:flex;align-items:center;justify-content:center;min-height:96px">
+          <span class="annote"><svg width="20" height="14" viewBox="0 0 20 14" fill="none"><path d="M1 1c8 1 14 4 17 11M17 12l-5-1M17 12l-1-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>The missing layer</span>
+        </div>
+        <div class="card" style="display:flex;align-items:center;justify-content:center;min-height:96px">
+          <span class="annote" style="transform:rotate(1.4deg)">AI orchestrates here</span>
+        </div>
+        <div class="card" style="display:flex;align-items:center;justify-content:center;min-height:96px">
+          <span class="annote" style="transform:rotate(-2.2deg)">This changed</span>
+        </div>
+      </div>
+
+      <p style="margin-top:30px">The signature is present, but nearly invisible: bottom-right, 60–70% grey, small, wide letter-spacing, never bold, never red, never competing with content. Seen subconsciously, recognized after repeated exposure.</p>
+      <div class="card" style="position:relative;min-height:104px;margin-top:6px">
+        <span style="color:var(--muted);font-size:14px">Content sits here, uninterrupted.</span>
+        <span style="position:absolute;right:24px;bottom:18px;font-size:11px;letter-spacing:.22em;color:var(--faint);text-transform:uppercase">Leo Li · AI × CX</span>
+      </div>
+    </section>
+
+    <!-- 09 -->
+    <section id="c9">
+      <span class="secnum">09</span>
+      <h2>The default layout: Hero + System</h2>
+      <p>This becomes the standard format. A big insight, one supporting sentence, then the system diagram, then a feedback loop, then the small signature. Exactly the structure the latest image used.</p>
+      <div class="poster" style="margin-top:24px">
+        <span class="p-tag">Big insight</span>
+        <div class="p-arg">Generation is cheap. <span class="ne">Orchestration</span> is the moat.</div>
+        <p class="p-sub">One supporting sentence sets up the system that proves it.</p>
+        <div class="flow">
+          <div class="fnode"><em>Generation</em></div>
+          <svg class="arrow" width="24" height="14" viewBox="0 0 26 14" fill="none"><path d="M0 7h23M18 2l6 5-6 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="fnode"><em>Orchestration</em></div>
+          <svg class="arrow" width="24" height="14" viewBox="0 0 26 14" fill="none"><path d="M0 7h23M18 2l6 5-6 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div class="fnode"><em>Outcome</em></div>
+        </div>
+        <div class="p-caps" aria-hidden="true">
+          <span class="p-cap"><span class="d" style="background:var(--amber)"></span>Feedback loop</span>
+          <span class="p-cap"><span class="d" style="background:var(--blue)"></span>Decision layer</span>
+        </div>
+        <span class="p-sig">Leo Li · AI × CX</span>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section id="c10">
+      <span class="secnum">10</span>
+      <h2>The quality bar</h2>
+      <p>Before publishing, run all five. If any fails, the image isn&rsquo;t on-brand yet.</p>
+      <div class="tests">
+        <div class="test"><span class="tn">Test 01</span><b>Insight</b><p>Is there a surprising idea?</p></div>
+        <div class="test"><span class="tn">Test 02</span><b>Mobile</b><p>Can you understand it on a phone?</p></div>
+        <div class="test"><span class="tn">Test 03</span><b>Product</b><p>Does it look like a premium SaaS product?</p></div>
+        <div class="test"><span class="tn">Test 04</span><b>Curiosity</b><p>Do you want the explanation?</p></div>
+        <div class="test"><span class="tn">Test 05</span><b>Ownership</b><p>Could someone recognize it as yours without the name?</p></div>
+      </div>
+      <div class="takeaway" style="margin-top:30px">After 20–30 posts, a reader should register the warm off-white ground, the large editorial statement, the product-grade card system, the selective red, the systems and orchestration, the small subtle signature, and the one missing connection revealed — and think: <b>this isn&rsquo;t another AI diagram. It&rsquo;s Leo showing me the layer everyone else missed.</b></div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer class="foot">
+  <div class="foot-in">
+    <div class="wm"><b>LEO&nbsp;LI</b><span>AI <span class="x">×</span> CX</span></div>
+    <div class="fr">
+      <div class="a">Visual Identity — v2</div>
+      <div class="b">Working reference · supersedes v1</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var links=[].slice.call(document.querySelectorAll('#spy a'));
+  var map={}; links.forEach(function(l){map[l.getAttribute('href').slice(1)]=l;});
+  var sections=links.map(function(l){return document.getElementById(l.getAttribute('href').slice(1));}).filter(Boolean);
+  function setActive(id){links.forEach(function(l){l.classList.remove('active');}); if(map[id]) map[id].classList.add('active');}
+  if('IntersectionObserver' in window){
+    var vis={};
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){vis[e.target.id]=e.isIntersecting?e.intersectionRatio:0;});
+      var best=null,bestR=0; Object.keys(vis).forEach(function(k){if(vis[k]>bestR){bestR=vis[k];best=k;}});
+      if(best) setActive(best);
+    },{rootMargin:'-12% 0px -72% 0px',threshold:[0,.15,.5,1]});
+    sections.forEach(function(s){obs.observe(s);});
+  }
+  links.forEach(function(l){l.addEventListener('click',function(){setActive(l.getAttribute('href').slice(1));});});
+  var pb=document.getElementById('pbar');
+  if(pb){var upd=function(){var h=document.documentElement.scrollHeight-window.innerHeight;
+    pb.style.transform='scaleX('+Math.min(1,Math.max(0,h>0?window.scrollY/h:0))+')';};
+    window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd();}
+})();
+</script>
+</body>
+</html>

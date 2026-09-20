@@ -104,27 +104,20 @@ tbody tr:hover td{background:var(--gray-100);}
 .cap-name{font-weight:700;color:var(--ink);width:34%;}
 .cmp-name{font-weight:700;color:var(--ink);width:26%;}
 
-/* ---- interactive timeline / phase explorer ---- */
-.timeline-wrap{margin:2px 0 30px;}
-.tl-scale{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--gray-400);margin:0 2px 8px;text-transform:uppercase;}
-.timeline{display:flex;gap:6px;padding:0;margin:0;}
-.tl-seg{appearance:none;-webkit-appearance:none;cursor:pointer;text-align:left;font-family:inherit;
-  background:var(--gray-100);border:1px solid var(--border);border-radius:var(--radius-sm);
-  padding:13px 14px 12px;min-width:104px;display:flex;flex-direction:column;gap:3px;
-  transition:background .15s,border-color .15s,box-shadow .15s,transform .15s;position:relative;overflow:hidden;}
-.tl-seg::before{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:transparent;transition:background .15s;}
-.tl-seg .tl-num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gray-400);letter-spacing:.04em;transition:color .15s;}
-.tl-seg .tl-name{font-size:14.5px;font-weight:700;color:var(--gray-700);letter-spacing:-.01em;line-height:1.15;transition:color .15s;}
-.tl-seg .tl-days{font-size:11.5px;font-weight:600;color:var(--gray-500);font-variant-numeric:tabular-nums;}
-.tl-seg:hover{background:#fff;border-color:var(--border-strong);box-shadow:var(--shadow-sm);}
-.tl-seg:hover .tl-name{color:var(--ink);}
-.tl-seg:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;}
-.tl-seg.active{background:var(--s2-blue-tint-faint);border-color:var(--s2-blue);box-shadow:0 0 0 1px var(--s2-blue) inset;}
-.tl-seg.active::before{background:linear-gradient(90deg,var(--s2-blue),var(--s2-blue-down));}
-.tl-seg.active .tl-num{color:var(--adobe-red);}
-.tl-seg.active .tl-name{color:var(--s2-blue-active);}
-.tl-seg.active .tl-days{color:var(--s2-blue-down);}
-@media(max-width:720px){.timeline{overflow-x:auto;scrollbar-width:none;}.timeline::-webkit-scrollbar{display:none;}.tl-seg{flex:0 0 auto!important;min-width:130px;}}
+/* ---- proportional 60-day timeline (dark-filled segments) ---- */
+.timeline{margin:6px 0 30px;}
+.tl-axis{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11px;color:var(--gray-400);font-weight:700;margin:0 0 7px;}
+.tl-bar{display:flex;gap:4px;align-items:stretch;}
+.tl-seg{border-radius:var(--radius-sm);padding:12px 14px;color:#fff;display:flex;flex-direction:column;gap:4px;min-width:0;overflow:hidden;}
+.tl-seg .tl-n{font-family:var(--mono);font-size:11px;font-weight:700;opacity:.85;}
+.tl-seg .tl-name{font-size:13px;font-weight:800;line-height:1.15;letter-spacing:-.01em;}
+.tl-seg .tl-days{font-size:11px;opacity:.88;font-family:var(--mono);}
+.tl-frame{background:linear-gradient(135deg,#3c3c3c,#2f2f2f);}
+.tl-discover{background:linear-gradient(135deg,#343434,#282828);}
+.tl-define{background:linear-gradient(135deg,#2c2c2c,#212121);}
+.tl-activate{background:linear-gradient(135deg,var(--coral-1),#d23a20);box-shadow:inset 0 1px 0 rgba(255,255,255,.14);}
+.tl-prove{background:linear-gradient(135deg,#232323,#181818);}
+@media(max-width:720px){.tl-bar{flex-direction:column;}}
 
 .phase-panel{border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-base);box-shadow:var(--shadow);padding:26px 28px 8px;animation:fade .28s ease;}
 @keyframes fade{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
@@ -295,9 +288,6 @@ section{scroll-margin-top:20px; padding-bottom:60px;}
 section + section{padding-top:56px;}
 .lede{margin:0 0 24px;}
 
-/* static (non-interactive) proportional timeline */
-.timeline .tl-seg{cursor:default;}
-.timeline .tl-seg:hover{background:var(--gray-100); border-color:var(--border); box-shadow:none;}
 .op-note{font-size:13.5px; color:var(--gray-600); margin:16px 0 0;}
 .op-note strong{color:var(--ink); font-weight:700;}
 .cap-line{font-size:14px; color:var(--gray-600); margin:20px 0 0; line-height:1.55;}
@@ -371,14 +361,14 @@ section + section{padding-top:56px;}
     <h2>The pilot, in five steps</h2>
     <p class="lede">Five steps across sixty days, sized to their real share of the timeline &mdash; Activate &amp; Measure dominates by design, because that is where we prove an improvement.</p>
 
-    <div class="timeline-wrap">
-      <div class="tl-scale"><span>Day 1</span><span>Day 60</span></div>
-      <div class="timeline" aria-label="Pilot steps">
-        <div class="tl-seg" style="flex:5 1 0;"><span class="tl-num">01</span><span class="tl-name">Frame</span><span class="tl-days">Days 1&ndash;5</span></div>
-        <div class="tl-seg" style="flex:9 1 0;"><span class="tl-num">02</span><span class="tl-name">Discover</span><span class="tl-days">Days 6&ndash;14</span></div>
-        <div class="tl-seg" style="flex:8 1 0;"><span class="tl-num">03</span><span class="tl-name">Define</span><span class="tl-days">Days 15&ndash;22</span></div>
-        <div class="tl-seg" style="flex:28 1 0;"><span class="tl-num">04</span><span class="tl-name">Activate &amp; Measure</span><span class="tl-days">Days 23&ndash;50</span></div>
-        <div class="tl-seg" style="flex:10 1 0;"><span class="tl-num">05</span><span class="tl-name">Prove &amp; Decide</span><span class="tl-days">Days 51&ndash;60</span></div>
+    <div class="timeline" aria-label="Pilot steps">
+      <div class="tl-axis"><span>Day 1</span><span>Day 60</span></div>
+      <div class="tl-bar">
+        <div class="tl-seg tl-frame" style="flex:5 1 0;"><span class="tl-n">01</span><span class="tl-name">Frame</span><span class="tl-days">1&ndash;5</span></div>
+        <div class="tl-seg tl-discover" style="flex:9 1 0;"><span class="tl-n">02</span><span class="tl-name">Discover</span><span class="tl-days">6&ndash;14</span></div>
+        <div class="tl-seg tl-define" style="flex:8 1 0;"><span class="tl-n">03</span><span class="tl-name">Define</span><span class="tl-days">15&ndash;22</span></div>
+        <div class="tl-seg tl-activate" style="flex:28 1 0;"><span class="tl-n">04</span><span class="tl-name">Activate &amp; Measure</span><span class="tl-days">23&ndash;50</span></div>
+        <div class="tl-seg tl-prove" style="flex:10 1 0;"><span class="tl-n">05</span><span class="tl-name">Prove &amp; Decide</span><span class="tl-days">51&ndash;60</span></div>
       </div>
     </div>
 

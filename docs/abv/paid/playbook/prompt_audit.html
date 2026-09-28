@@ -1,1 +1,565 @@
+<!DOCTYPE html>
+<html lang="en-US"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt Audit Report — Cedarline Bank | Adobe Brand Visibility</title>
+<meta name="description" content="Companion prompt audit for the Cedarline Bank GEO baseline: how the locked 64-prompt ChatGPT set was scoped, what AI Visibility, Prompt Strategy, and the Enhanced Prompt Library each contribute, and what still needs the raw prompt rows.">
+<style>
+:root{
+ --adobe-red:#D7301B; --adobe-red-tint:#FCEBE8; --coral-1:#E0472B; --coral-2:#F6A28C;
+ --text:#171717; --body:#3A3A3A; --muted:#6A6A6A; --faint:#8C8C8C;
+ --gray-500:#8C8C8C; --gray-400:#B4B4B4; --gray-300:#D6D6D6; --gray-200:#E7E7E7; --gray-100:#F2F2F2; --gray-75:#F8F8F7; --gray-50:#FBFBFA; --white:#FFF;
+ --s2-blue:#3155E8; --s2-blue-down:#2140C8; --s2-blue-tint:#E9EFFF; --s2-blue-tint-faint:#F5F8FF;
+ --border:#E7E6E3; --border-strong:#D6D5D1; --line:#ECEBE8;
+ --pos:#10794A; --pos-tint:#E7F3EC; --pos-border:#A7D6BB;
+ --neg:#C0261D; --neg-tint:#FBEAE8; --neg-border:#EDB0AB;
+ --warn:#8A5A00; --warn-tint:#FBF1DE; --warn-border:#ECC77E;
+ --sans:"adobe-clean","Source Sans 3","Source Sans Pro","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+ --mono:"SF Mono",ui-monospace,"Cascadia Code","Roboto Mono",Menlo,Consolas,"Liberation Mono",monospace;
+ --r:14px; --r-lg:18px; --r-sm:9px; --pill:9999px;
+ --sh-sm:0 1px 2px rgba(20,20,20,.05); --sh:0 1px 2px rgba(20,20,20,.05),0 8px 22px rgba(20,20,20,.05);
+ --sh-lg:0 2px 6px rgba(20,20,20,.05),0 20px 46px rgba(20,20,20,.08); --maxw:1180px;
+ --fs-display:clamp(27px,3.6vw,40px); --fs-h2:clamp(23px,2.4vw,29px);
+ --fs-lead:17px; --fs-body:15px; --fs-title:20px; --fs-label:13px; --fs-stat:32px;
+ --num:"tnum" 1,"lnum" 1;
+}
+*{box-sizing:border-box;} html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+body{margin:0;font-family:var(--sans);color:var(--body);background:var(--white);line-height:1.6;font-size:var(--fs-body);font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-feature-settings:"kern" 1,"liga" 1;}
+::selection{background:var(--s2-blue-tint);}
+p{margin:0 0 15px;} strong,b{font-weight:700;color:var(--text);}
+.num,.n,.bval,.stat .v,.axl,.lcl,.big{font-variant-numeric:tabular-nums;font-feature-settings:var(--num);}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+a{color:var(--s2-blue-down);text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:focus-visible{outline:2px solid var(--s2-blue);outline-offset:2px;border-radius:3px;}
+.ref{font-size:12.5px;color:var(--faint);}
+.ref a{font-weight:600;}
 
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:100;pointer-events:none;}
+.progress span{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;
+ background:linear-gradient(90deg,var(--coral-1),var(--coral-2));will-change:transform;}
+
+.ai-note{background:var(--gray-75);border-bottom:1px solid var(--border);}
+.ai-note-inner{max-width:var(--maxw);margin:0 auto;padding:9px 28px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:var(--fs-body);color:var(--faint);}
+.ai-note b{color:var(--muted);font-weight:600;}
+
+/* hero */
+.hero{position:relative;overflow:hidden;color:#fff;
+ background:radial-gradient(1300px 700px at 86% -22%,rgba(255,255,255,.13),rgba(255,255,255,.05) 42%,transparent 82%),linear-gradient(135deg,#2b2b2b 0%,#1b1b1b 52%,#0d0d0d 100%);
+ padding:48px 28px 56px;}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px);background-size:100% 36px;opacity:.6;-webkit-mask:linear-gradient(#000,transparent 74%);mask:linear-gradient(#000,transparent 74%);}
+.hero-inner{max-width:var(--maxw);margin:0 auto;position:relative;z-index:1;}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.14);}
+.brandrow{display:flex;align-items:center;gap:11px;}
+.brandrow img{height:24px;width:auto;filter:drop-shadow(0 2px 12px rgba(255,255,255,.18));}
+.brandname{font-size:var(--fs-lead);font-weight:700;letter-spacing:-.01em;color:#fff;}
+.brandname span{font-weight:400;color:#d7d7d7;}
+.kicker{font-size:var(--fs-label);letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:#f6a28c;white-space:nowrap;}
+.hero h1{margin:28px 0 0;font-size:var(--fs-display);line-height:1.2;font-weight:800;letter-spacing:-.018em;max-width:32ch;}
+.hero h1 .hl{background:linear-gradient(90deg,#DF5A3F 0%,#E4775F 15%,#E88D78 30%,#DF5F45 45%,#E99582 60%,#E26D54 75%,#E78974 90%,#ECA08E 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;padding-bottom:.12em;}
+.hero .lead{margin:20px 0 0;font-size:var(--fs-lead);line-height:1.55;color:#cececd;max-width:74ch;font-weight:400;}
+.hero .lead b{color:#fff;font-weight:600;}
+.hero .subline{margin:16px 0 0;font-size:var(--fs-label);color:#a4a4a3;letter-spacing:.02em;font-family:var(--mono);}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 0;padding:0;list-style:none;}
+.hero-chips li{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:var(--pill);padding:9px 16px;font-size:var(--fs-body);font-weight:400;color:#e6e6e5;}
+.hero-chips li b{color:#fb8a6d;font-weight:800;}
+
+/* fictional badge under hero */
+.fictional-band{background:var(--warn-tint);border-bottom:1px solid var(--warn-border);}
+.fictional-inner{max-width:var(--maxw);margin:0 auto;padding:10px 28px;display:flex;align-items:center;gap:9px;font-size:13px;color:var(--warn);}
+.fictional-inner svg{flex:none;}
+.fictional-inner b{font-weight:700;}
+
+/* companion badge */
+.companion-band{background:var(--s2-blue-tint-faint);border-bottom:1px solid var(--s2-blue-tint);}
+.companion-inner{max-width:var(--maxw);margin:0 auto;padding:10px 28px;display:flex;align-items:center;gap:9px;font-size:13px;color:var(--s2-blue-down);}
+.companion-inner svg{flex:none;}
+.companion-inner b{font-weight:700;}
+
+/* left-rail shell */
+.shell{max-width:var(--maxw);margin:0 auto;padding:0 28px 70px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:48px;}
+.rail{position:sticky;top:22px;align-self:start;padding-top:44px;}
+.rail-title{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 12px;padding-left:13px;}
+.rail nav{display:flex;flex-direction:column;gap:2px;}
+.rail nav a{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:var(--r-sm);color:var(--muted);
+ font-size:13.5px;font-weight:600;border-left:2px solid transparent;transition:background .15s,color .15s,border-color .15s;}
+.rail nav a .num{font-size:11px;font-weight:700;color:var(--gray-300);min-width:15px;font-variant-numeric:tabular-nums;font-family:var(--mono);}
+.rail nav a:hover{background:var(--gray-100);color:var(--text);}
+.rail nav a.active{color:var(--s2-blue-down);background:var(--s2-blue-tint);border-left-color:var(--s2-blue);}
+.rail nav a.active .num{color:var(--s2-blue);}
+.rail nav a:focus-visible{outline:2px solid var(--s2-blue);outline-offset:-2px;}
+.content{padding-top:44px;min-width:0;}
+@media(max-width:980px){.shell{grid-template-columns:1fr;gap:0;}.rail{display:none;}}
+
+/* sections */
+section{padding:46px 0;scroll-margin-top:20px;} section+section{border-top:1px solid var(--line);}
+section:first-child{padding-top:0;}
+.eyebrow{font-family:var(--mono);font-size:var(--fs-label);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;display:flex;align-items:center;gap:9px;}
+.eyebrow .n{color:var(--adobe-red);font-weight:700;}
+h2{font-size:var(--fs-h2);line-height:1.16;letter-spacing:-.02em;font-weight:800;color:var(--text);margin:0 0 12px;}
+h3{font-size:var(--fs-title);font-weight:800;letter-spacing:-.01em;color:var(--text);margin:0 0 8px;}
+h4{font-size:15px;font-weight:800;margin:0 0 4px;color:var(--text);}
+.sec-lead{font-size:var(--fs-lead);line-height:1.55;color:var(--muted);max-width:74ch;margin:0 0 4px;}
+.em{color:var(--coral-1);font-weight:800;}
+
+/* BLUF */
+.bluf{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px;}
+.bcard{border:1px solid var(--border);border-top:3px solid var(--c,var(--s2-blue));border-radius:var(--r);padding:22px 22px 24px;background:var(--white);box-shadow:var(--sh-sm);}
+.bcard .tag{font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.1em;text-transform:uppercase;color:var(--c,var(--s2-blue));font-weight:700;margin:0 0 12px;}
+.bcard .big{font-size:var(--fs-stat);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--text);}
+.bcard .big small{font-size:var(--fs-label);font-weight:700;color:var(--faint);letter-spacing:0;}
+.bcard h3{font-size:var(--fs-title);font-weight:800;letter-spacing:-.01em;margin:13px 0 7px;color:var(--text);}
+.bcard p{font-size:var(--fs-body);line-height:1.5;color:var(--muted);margin:0;}
+@media(max-width:840px){.bluf{grid-template-columns:1fr;}}
+
+/* stat band */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:16px;}
+.stat{background:var(--white);padding:16px 18px;}
+.stat .v{font-size:var(--fs-title);font-weight:800;letter-spacing:-.02em;line-height:1;color:var(--text);}
+.stat .v small{font-size:var(--fs-label);font-weight:700;color:var(--faint);}
+.stat .l{font-size:var(--fs-label);color:var(--muted);margin-top:7px;line-height:1.35;}
+@media(max-width:840px){.stats{grid-template-columns:repeat(2,1fr);}}
+
+/* panel + tables */
+.panel{border:1px solid var(--border);border-radius:var(--r);background:var(--white);box-shadow:var(--sh-sm);padding:22px 22px 14px;margin-top:24px;}
+.panel .cap{font-size:12.5px;color:var(--faint);margin:0 0 16px;}
+.mtbl{width:100%;border-collapse:collapse;font-size:13.5px;}
+.mtbl th{text-align:left;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);
+ font-weight:700;padding:0 10px 8px;border-bottom:1px solid var(--border);}
+.mtbl td{padding:10px 10px;border-bottom:1px solid var(--gray-100);color:var(--body);}
+.mtbl th.n,.mtbl td.n{text-align:right;font-variant-numeric:tabular-nums;}
+.mtbl td.n.bad{color:var(--neg);font-weight:700;}
+.mtbl td.n.ok{color:var(--pos);font-weight:700;}
+.mtbl tbody tr:last-child td{border-bottom:none;}
+.mtbl tbody tr:hover td{background:var(--gray-100);}
+.mtbl tfoot td{padding:9px 10px;border-top:2px solid var(--border);font-weight:700;color:var(--text);}
+
+/* find blocks */
+.find{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:start;margin-top:30px;}
+.find .cap{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.8px;
+ letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:700;margin:0 0 9px;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--s2-blue);flex:none;}
+.dot.ok{background:var(--pos);} .dot.warn{background:var(--warn);}
+.find h3{font-size:18px;line-height:1.28;}
+.find .b-body{font-size:14.5px;line-height:1.6;color:var(--body);margin:0 0 10px;}
+.find .ev{font-size:13.5px;line-height:1.55;color:var(--muted);background:var(--gray-75);
+ border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 13px;margin:0;}
+.find ul{margin:0;padding-left:20px;font-size:13.8px;line-height:1.65;color:var(--body);}
+.find ul li{margin-bottom:6px;}
+@media(max-width:900px){.find{grid-template-columns:1fr;}}
+
+/* source cards (2-col grid) */
+.srcgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:26px;}
+.src{border:1px solid var(--border);border-radius:var(--r);background:var(--white);box-shadow:var(--sh-sm);padding:20px 20px 22px;}
+.src .tag2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--s2-blue-down);margin:0 0 8px;}
+.src h3{font-size:15.5px;margin:0 0 8px;}
+.src p{font-size:13.8px;line-height:1.55;color:var(--body);margin:0;}
+@media(max-width:760px){.srcgrid{grid-template-columns:1fr;}}
+
+/* priority / opportunity / evidence cards */
+.loop{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px;align-items:stretch;}
+.act{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:var(--r);background:var(--white);box-shadow:var(--sh-sm);padding:22px 22px 24px;height:100%;}
+.pill{display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;
+ text-transform:uppercase;padding:5px 11px;border-radius:var(--pill);margin:0 0 14px;align-self:flex-start;}
+.pill.p1{background:var(--adobe-red-tint);color:var(--adobe-red);}
+.pill.p2{background:var(--s2-blue-tint);color:var(--s2-blue-down);}
+.act h3{font-size:16.5px;line-height:1.3;margin:0 0 18px;min-height:2.6em;display:flex;align-items:flex-start;}
+.act .row{display:flex;flex-direction:column;gap:4px;padding-top:12px;margin-top:12px;border-top:1px solid var(--gray-100);}
+.act .row:first-of-type{padding-top:0;margin-top:0;border-top:none;}
+.act .row:last-child:not(:first-of-type){margin-top:auto;padding-top:16px;border-top:1px dashed var(--border);}
+.act .k{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);}
+.act .v{font-size:13.5px;color:var(--body);line-height:1.5;}
+@media(max-width:900px){.loop{grid-template-columns:1fr;}.act{height:auto;}}
+
+/* checklist steps */
+.subhead{margin:38px 0 8px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--adobe-red);}
+.steps{counter-reset:st;margin:14px 0 0;padding:0;list-style:none;display:grid;gap:12px;}
+.steps li{counter-increment:st;position:relative;padding:14px 16px 14px 52px;border:1px solid var(--border);
+ border-radius:var(--r-sm);background:var(--white);box-shadow:var(--sh-sm);font-size:14.5px;line-height:1.55;color:var(--body);}
+.steps li::before{content:counter(st,decimal-leading-zero);position:absolute;left:16px;top:50%;transform:translateY(-50%);
+ font-family:var(--mono);font-weight:800;font-size:14px;color:var(--adobe-red);}
+.steps li b{color:var(--text);}
+.safeguard{margin-top:20px;border:1px solid var(--warn-border);background:var(--warn-tint);border-radius:var(--r-sm);
+ padding:14px 16px;font-size:13.8px;line-height:1.55;color:#5f4300;}
+.safeguard b{color:#4a3400;}
+.notebox{margin-top:20px;border:1px solid var(--s2-blue-tint);background:var(--s2-blue-tint-faint);border-radius:var(--r-sm);
+ padding:14px 16px;font-size:13.8px;line-height:1.55;color:var(--text);}
+.notebox b{color:var(--s2-blue-down);}
+
+/* scope box */
+.scope{margin-top:30px;border-top:1px solid var(--border);padding-top:20px;}
+.scope .st{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;
+ text-transform:uppercase;color:var(--faint);margin:0 0 8px;}
+.scope p{font-size:13.5px;line-height:1.6;color:var(--muted);max-width:82ch;margin:0;}
+
+/* goal tags — cross-reference badges used throughout for G1-G4 */
+.gtag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.04em;
+ color:var(--s2-blue-down);background:var(--s2-blue-tint);border-radius:var(--r-sm);padding:2px 7px;
+ margin-left:8px;vertical-align:middle;white-space:nowrap;}
+.gtag.warn{color:var(--warn);background:var(--warn-tint);}
+
+/* footer */
+.site-footer{background:#141414;color:#8a8a8a;}
+.foot-inner{max-width:var(--maxw);margin:0 auto;padding:26px 28px;display:flex;flex-wrap:wrap;
+ gap:12px 24px;align-items:center;justify-content:space-between;}
+.foot-brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:800;font-size:15px;letter-spacing:-.01em;}
+.foot-brand img{height:20px;width:auto;display:block;}
+.foot-brand span{font-weight:400;color:#cfcfcf;}
+.foot-right{text-align:right;line-height:1.5;}
+.foot-right p{margin:0;}
+.foot-right .a{font-size:12.5px;font-weight:600;color:#b9b9b9;}
+.foot-right .b{margin-top:2px;font-size:11.5px;color:#6f6f6f;}
+@media(max-width:620px){.foot-inner{flex-direction:column;align-items:flex-start;}.foot-right{text-align:left;}}
+</style></head>
+<body>
+
+<style>
+  #pv-gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;overflow:hidden;
+    color:#fff;font-family:var(--sans);
+    background:radial-gradient(1350px 720px at 90% -18%,rgba(255,255,255,.12),rgba(255,255,255,.05) 42%,transparent 82%),
+      linear-gradient(135deg,#2d2d2d 0%,#1c1c1c 52%,#0e0e0e 100%);}
+  #pv-gate::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px);background-size:100% 34px;
+    opacity:.5;-webkit-mask:linear-gradient(#000,transparent 70%);mask:linear-gradient(#000,transparent 70%);}
+  #pv-gate .pv-card{position:relative;z-index:1;width:100%;max-width:380px;padding:40px 36px;box-sizing:border-box;
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);border-radius:var(--r-lg,18px);
+    box-shadow:0 4px 8px rgba(0,0,0,.3),0 16px 40px rgba(0,0,0,.35);text-align:center;}
+  #pv-gate .pv-brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:22px;}
+  #pv-gate .pv-brand img{height:24px;width:auto;filter:drop-shadow(0 2px 12px rgba(255,255,255,.18));}
+  #pv-gate .pv-brand span{font-size:15px;font-weight:800;letter-spacing:-.02em;color:#fff;}
+  #pv-gate .pv-kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:#f6a28c;margin:0 0 10px;}
+  #pv-gate h1{font-size:20px;font-weight:800;letter-spacing:-.02em;margin:0 0 8px;color:#fff;}
+  #pv-gate .pv-sub{font-size:14px;color:#c8c8c8;margin:0 0 24px;}
+  #pv-gate input{width:100%;padding:12px 14px;font-size:15px;border-radius:8px;border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.06);color:#fff;box-sizing:border-box;margin-bottom:14px;font-family:inherit;}
+  #pv-gate input::placeholder{color:#8a8a8a;}
+  #pv-gate input:focus-visible{outline:2px solid var(--s2-blue,#3155E8);outline-offset:2px;}
+  #pv-gate button{width:100%;padding:12px 14px;font-size:15px;font-weight:700;border-radius:8px;border:none;cursor:pointer;
+    color:#fff;background:linear-gradient(100deg,var(--coral-1,#E0472B) 0%,var(--coral-2,#F6A28C) 100%);
+    box-shadow:0 2px 4px rgba(0,0,0,.2);transition:filter .15s;}
+  #pv-gate button:hover{filter:brightness(1.08);}
+  #pv-error{color:#ff8f84;font-size:13px;min-height:1.2em;margin-top:10px;}
+  #pv-protected{display:none;}
+</style>
+
+<div id="pv-gate">
+  <div class="pv-card">
+    <div class="pv-brand"><img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe"><span>Adobe&nbsp;<span style="font-weight:400;color:#d9d9d9;">Brand Visibility</span></span></div>
+    <p class="pv-kicker">Restricted access</p>
+    <h1>This document is protected</h1>
+    <p class="pv-sub">Enter the access password to continue.</p>
+    <input type="password" id="pv-pw" placeholder="Password" autofocus>
+    <button onclick="pvTryUnlock()">Unlock</button>
+    <div id="pv-error"></div>
+  </div>
+</div>
+
+<div id="pv-protected">
+<div class="progress"><span id="progressbar"></span></div>
+<div class="ai-note"><div class="ai-note-inner">
+ <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#a3a3a3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+ <span><b>Prepared with AI assistance.</b> Please review for accuracy before use &mdash; this document may contain errors.</span></div></div>
+
+<header class="hero"><div class="hero-inner">
+ <div class="masthead">
+  <div class="brandrow"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe"><span class="brandname">Adobe&nbsp;<span>Brand Visibility</span></span></div>
+  <span class="kicker">Prompt Audit Report</span>
+ </div>
+ <h1>Prompt audit for the Summit Cash Rewards <span class="hl">measurement set</span></h1>
+ <p class="lead">A companion audit of the locked 64-prompt, three-capture (192-run) ChatGPT set behind the GEO Baseline and Optimization Plan &mdash; how it was scoped, how it maps to the program&rsquo;s four GEO goals, what Adobe Brand Visibility&rsquo;s discovery and management views each contribute, and what still needs the raw prompt rows to fully verify.</p>
+ <p class="subline">Cedarline Bank &middot; Summit Cash Rewards Credit Card &middot; Companion to the GEO Baseline and Optimization Plan &middot; United States / English &middot; ChatGPT only</p>
+ <ul class="hero-chips">
+  <li><b>64 of 89</b> reviewed candidates tracked</li>
+  <li><b>140</b> market themes surfaced (Prompt Research)</li>
+  <li><b>4</b> Prompt Strategy candidate sources</li>
+  <li><b>3</b> suggestions pending in the Library</li>
+ </ul>
+</div></header>
+
+<div class="fictional-band"><div class="fictional-inner">
+ <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A5A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+ <span><b>Illustrative sample only.</b> Cedarline Bank, the Summit Cash Rewards Credit Card, its pages, and all figures below are fictional. No actual APRs, fees, or product terms are represented.</span>
+</div></div>
+<div class="companion-band"><div class="companion-inner">
+ <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2140C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12l-7.5 7.5M10.5 19.5 3 12l7.5-7.5"></path></svg>
+ <span><b>Companion to Define.</b> This audit reads alongside the GEO Baseline and Optimization Plan &mdash; together they are the <b>Define</b> phase of one GEO loop. It does not repeat that report&rsquo;s scorecard; its figures are drawn from what that report published.</span>
+</div></div>
+
+<div class="shell">
+ <aside class="rail">
+  <p class="rail-title">Contents</p>
+  <nav id="spy-nav">
+   <a href="#summary"><span class="num">01</span> Executive summary</a>
+   <a href="#goals"><span class="num">02</span> Goals &amp; KPIs</a>
+   <a href="#composition"><span class="num">03</span> Composition</a>
+   <a href="#aivis"><span class="num">04</span> AI Visibility</a>
+   <a href="#strategy"><span class="num">05</span> Prompt Strategy</a>
+   <a href="#library"><span class="num">06</span> Prompt Library</a>
+   <a href="#coverage"><span class="num">07</span> Coverage check</a>
+   <a href="#conclusion"><span class="num">08</span> Conclusion</a>
+  </nav>
+ </aside>
+ <div class="content"><main>
+
+<section id="summary"><div class="wrap">
+ <p class="eyebrow"><span class="n">01</span> Executive summary</p>
+ <h2>Fit for the defined baseline, not yet a full prompt-by-prompt audit</h2>
+ <p class="sec-lead">This report documents the scope, selection logic, coverage, and management of the prompt set behind the companion GEO baseline &mdash; it does not re-score ChatGPT&rsquo;s answers.</p>
+ <div class="bluf">
+  <div class="bcard" style="--c:var(--pos)"><p class="tag">Composition</p>
+   <div class="big">64<small> prompts</small></div>
+   <h3>Within the 50&ndash;80 target range</h3>
+   <p>Four groups at 25% / 37.5% / 25% / 12.5% share; three captures each add observations, not additional unique prompts.</p></div>
+  <div class="bcard" style="--c:var(--s2-blue)"><p class="tag">Sourcing funnel</p>
+   <div class="big">64<small> of 89 tracked</small></div>
+   <h3>Discovery, review, and tracking kept separate</h3>
+   <p>AI Visibility&rsquo;s Prompt Research view surfaces market themes, Prompt Strategy reviews candidates from four sources, and the Enhanced Prompt Library holds the 64 that were tracked.</p></div>
+  <div class="bcard" style="--c:var(--warn)"><p class="tag">Open items</p>
+   <div class="big">5<small> checks pending</small></div>
+   <h3>Needs the raw prompt rows to close</h3>
+   <p>Branded/unbranded tagging, duplicates, and URL-coverage status can&rsquo;t be confirmed from the baseline report alone.</p></div>
+ </div>
+ <div class="stats">
+  <div class="stat"><div class="v">64</div><div class="l">Unique prompts audited</div></div>
+  <div class="stat"><div class="v">192</div><div class="l">Answer runs (3 captures each)</div></div>
+  <div class="stat"><div class="v">4</div><div class="l">Question-type groups</div></div>
+  <div class="stat"><div class="v">37.5%</div><div class="l">Largest group share (unbranded discovery)</div></div>
+  <div class="stat"><div class="v">140</div><div class="l">Market themes surfaced (AI Visibility &middot; Prompt Research)</div></div>
+  <div class="stat"><div class="v">89</div><div class="l">Candidates reviewed (Prompt Strategy, 4 sources)</div></div>
+  <div class="stat"><div class="v">64</div><div class="l">Candidates tracked into the Enhanced Prompt Library</div></div>
+  <div class="stat"><div class="v">25</div><div class="l">Candidates dismissed (duplicates / off-scope)</div></div>
+  <div class="stat"><div class="v">3</div><div class="l">Suggestions pending in the library&rsquo;s coverage panel</div></div>
+  <div class="stat"><div class="v">5</div><div class="l">Library health checks to confirm</div></div>
+  <div class="stat"><div class="v">3</div><div class="l">GEO-baseline pages needing coverage</div></div>
+  <div class="stat"><div class="v">0</div><div class="l">Raw prompt rows available to this audit</div></div>
+ </div>
+</div></section>
+
+<section id="goals"><div class="wrap">
+ <p class="eyebrow"><span class="n">02</span> GEO goals &amp; KPIs</p>
+ <h2>Which prompt group tests which goal</h2>
+ <p class="sec-lead">The GEO Baseline and Optimization Plan frames the program around four goals for the Summit Cash Rewards Card. This audit checks whether the locked 64 prompts actually give each goal something to measure.</p>
+ <div class="panel">
+  <h4>Prompt-group-to-goal mapping</h4>
+  <p class="cap">Which prompts test which goal, and what each mapping is actually checking for.</p>
+  <table class="mtbl">
+   <thead><tr><th>Goal</th><th>Prompt group(s)</th><th>What it tests</th></tr></thead>
+   <tbody>
+    <tr><td><b>G1</b> &middot; Win unbranded discovery</td><td>Unbranded cash-back discovery and comparison (24)</td><td>Whether the card surfaces without being named</td></tr>
+    <tr><td><b>G2</b> &middot; Agent-readable product pages</td><td>Public rates, fees, and eligibility (8)</td><td>Whether ChatGPT can access precise public terms &mdash; ties directly to the rates-and-fees page flagged in the GEO plan</td></tr>
+    <tr><td><b>G3</b> &middot; Be the cited source</td><td>Branded &amp; product (16) + Rewards &amp; redemption (16)</td><td>Whether Cedarline&rsquo;s own page earns the citation once the card is already the topic</td></tr>
+    <tr><td><b>G4</b> &middot; Convert visibility into engagement</td><td>None &mdash; out of scope for this prompt set</td><td>Cannot be tested by any prompt; it&rsquo;s a site-traffic metric, not an AI-answer metric</td></tr>
+   </tbody>
+  </table>
+ </div>
+ <div class="notebox">
+  <b>G4 is a structural blind spot, not a gap in this prompt set.</b> A prompt audit tests what AI says in response to a question &mdash; it has no way to observe what a person does after reading the answer. G4&rsquo;s KPI (AI-referred sessions) needs the Adobe Analytics connector called out as Priority 4 in the GEO plan, not a new prompt. Section 08 returns to this.
+ </div>
+</div></section>
+
+<section id="composition"><div class="wrap">
+ <p class="eyebrow"><span class="n">03</span> Prompt-set composition</p>
+ <h2>Four question types, sized within the intended range</h2>
+ <p class="sec-lead">The 64-prompt set sits within the intended 50&ndash;80 prompt range. Three captures of each prompt produce 192 answer runs; the repeated runs add observations but do not increase the number of unique prompts.</p>
+ <div class="panel">
+  <h4>Composition by prompt group</h4>
+  <p class="cap">Mention / citation figures are from the companion GEO baseline, shown only to connect group composition to its findings.</p>
+  <table class="mtbl">
+   <thead><tr><th>Prompt group</th><th class="n">Unique prompts</th><th class="n">Share</th><th>Goal</th><th>Role in the audit</th><th class="n">Mention / cited*</th></tr></thead>
+   <tbody>
+    <tr><td>Branded card and product questions</td><td class="n">16</td><td class="n">25%</td><td><span class="gtag">G3</span></td><td>Check representation when the card is already known</td><td class="n">67% / 35%</td></tr>
+    <tr><td>Unbranded cash-back discovery and comparison</td><td class="n">24</td><td class="n">37.5%</td><td><span class="gtag">G1</span></td><td>Test category discovery among people not naming Cedarline</td><td class="n">40% / 22%</td></tr>
+    <tr><td>Rewards and redemption</td><td class="n">16</td><td class="n">25%</td><td><span class="gtag">G3</span></td><td>Test understanding of the card&rsquo;s value and use</td><td class="n">54% / 27%</td></tr>
+    <tr><td>Public rates, fees, and eligibility</td><td class="n">8</td><td class="n">12.5%</td><td><span class="gtag">G2</span></td><td>Test access to precise public product terms</td><td class="n">58% / 38%</td></tr>
+   </tbody>
+   <tfoot><tr><td>Total</td><td class="n">64</td><td class="n">100%</td><td></td><td></td><td class="n">192 runs</td></tr></tfoot>
+  </table>
+  <p class="ref" style="margin-top:10px">*From the companion <i>GEO Baseline and Optimization Plan</i>, included only to show how these groups relate to its findings.</p>
+ </div>
+ <div class="notebox">
+  <b>Audit interpretation.</b> The set covers four useful question types: named-product awareness, unbranded discovery, rewards use, and public product terms. Unbranded discovery is the weakest group, but it is not absent &mdash; the card is mentioned in 40% of runs and a Cedarline page is cited in 22%. That makes it a meaningful area to monitor through the planned optimization rather than a failed or irrelevant prompt group.
+ </div>
+</div></section>
+
+<section id="aivis"><div class="wrap">
+ <p class="eyebrow"><span class="n">04</span> AI Visibility</p>
+ <h2>The market-discovery layer behind the locked prompt set</h2>
+ <p class="sec-lead">AI Visibility is the market-discovery layer; the locked 64 prompts are the controlled measurement set. The Semrush-powered views draw on a shared AI prompt database for broad market context &mdash; useful for discovering topics and candidates, but not for combining metrics with the 64-prompt ChatGPT results. Of the three views, only <b>Prompt Research</b> surfaces prompt-level candidate language; Visibility Overview and Market Comparison supply market context used to validate scope, not to source prompts directly.</p>
+ <div class="panel">
+  <h4>How each AI Visibility view was used</h4>
+  <table class="mtbl">
+   <thead><tr><th>View</th><th>Use in this audit</th><th>How to interpret it</th></tr></thead>
+   <tbody>
+    <tr><td><b>Visibility Overview</b></td><td>Filter to ChatGPT and the U.S. market to orient the audit: review broad visibility, mentions, monthly audience, cited pages, and trends &mdash; identify areas worth investigating for the card.</td><td>Market-level context, not the result for Cedarline&rsquo;s exact 64 prompts.</td></tr>
+    <tr><td><b>Prompt Research</b> <span class="ref">&middot; sourcing view</span></td><td>Review the questions and topics shaping AI discovery, and which brands and domains appear. Use relevant cash-back and rewards conversations to challenge whether the custom set covers realistic discovery language.</td><td>The one view that surfaces candidate themes and wording; do not import every suggested prompt.</td></tr>
+    <tr><td><b>Market Comparison</b></td><td>Examine where relevant card issuers appear more often or are cited on topics where Cedarline is weaker; check whether the custom set covers the competitive questions that matter.</td><td>Competitive context, not proof that a specific competitor caused Cedarline&rsquo;s result.</td></tr>
+   </tbody>
+  </table>
+  <p class="ref" style="margin-top:10px">Reference: <a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/ai-visibility" target="_blank" rel="noopener">AI Visibility documentation</a></p>
+ </div>
+ <div class="notebox">
+  <b>Illustrative sourcing example.</b> For this fictional sample, Prompt Research is shown surfacing <b>140 market-wide candidate themes</b> for U.S. cash-back credit cards &mdash; brand-agnostic language, not yet filtered to Cedarline or the Summit Cash Rewards Card. Of those, the subset judged relevant to this product becomes the &ldquo;Semrush suggestions&rdquo; source reviewed in Prompt Strategy (Section 05). These figures illustrate what a sourcing trail looks like; replace them with your own AI Visibility export counts, filters, and review date for an actual audit.
+ </div>
+ <div class="safeguard">
+  <b>Recording note.</b> The GEO baseline report does not include the underlying AI Visibility exports or their exact view settings. For a customer-ready version, record the market, ChatGPT filter, reporting period where available, and the date reviewed. Keep any market-level Semrush values visibly separate from the custom-set baseline.
+ </div>
+</div></section>
+
+<section id="strategy"><div class="wrap">
+ <p class="eyebrow"><span class="n">05</span> Prompt Strategy</p>
+ <h2>The candidate-review stage between discovery and tracking</h2>
+ <p class="sec-lead">Prompt Strategy sits between broad discovery and the prompts Cedarline actively tracks. It surfaces suggestions from four sources; reviewed candidates are added to the Prompt Library with Track.</p>
+ <div class="srcgrid">
+  <div class="src"><p class="tag2">Source 1</p><h3>Semrush suggestions</h3>
+   <p>Identify market-relevant conversations about cash-back and comparison cards; use ChatGPT observations where the selection lets you choose the AI engine.</p></div>
+  <div class="src"><p class="tag2">Source 2</p><h3>Google Search Console</h3>
+   <p>If connected, use actual Cedarline search queries as supporting evidence for customer language. Treat search queries as an input, not automatically as AI prompts.</p></div>
+  <div class="src"><p class="tag2">Source 3</p><h3>Synthetic Personas</h3>
+   <p>Use persona-based suggestions to test whether the set covers different generic customer needs &mdash; comparing cards, understanding redemption &mdash; without introducing personalized credit advice.</p></div>
+  <div class="src"><p class="tag2">Source 4</p><h3>Citation Attempt</h3>
+   <p>Check whether pages AI agents access as potential sources are represented by the tracked prompt set &mdash; especially relevant to the three pages flagged in the GEO baseline.</p></div>
+ </div>
+ <div class="panel">
+  <h4>Illustrative candidate funnel, by source</h4>
+  <p class="cap">How many candidates each Prompt Strategy source surfaced, and how many were tracked into the Enhanced Prompt Library after the selection rule below was applied.</p>
+  <table class="mtbl">
+   <thead><tr><th>Source</th><th class="n">Candidates surfaced</th><th class="n">Tracked to library</th><th class="n">Dismissed</th></tr></thead>
+   <tbody>
+    <tr><td>Semrush suggestions</td><td class="n">50</td><td class="n ok">32</td><td class="n">18</td></tr>
+    <tr><td>Google Search Console</td><td class="n">17</td><td class="n ok">14</td><td class="n">3</td></tr>
+    <tr><td>Synthetic Personas</td><td class="n">14</td><td class="n ok">10</td><td class="n">4</td></tr>
+    <tr><td>Citation Attempt</td><td class="n">8</td><td class="n ok">8</td><td class="n">0</td></tr>
+   </tbody>
+   <tfoot><tr><td>Total</td><td class="n">89</td><td class="n">64</td><td class="n">25</td></tr></tfoot>
+  </table>
+ </div>
+ <div class="safeguard">
+  <b>Selection rule.</b> Keep suggestions only when they fit the Summit Cash Rewards Card, the U.S. market, ChatGPT scope, and a distinct customer question. Dismiss duplicates, irrelevant products, and prompts that ask for individual approval odds or account-specific decisions. Semrush suggestions can be reviewed by AI engine before prompts are added. The 25 dismissed candidates above are mainly duplicate discovery phrasing and a handful of individual-approval-odds questions caught by this rule.
+ </div>
+ <p class="ref" style="margin-top:10px">The funnel above is an illustrative example for this fictional sample &mdash; substitute your own Prompt Strategy review counts and dismissal reasons for an actual audit.</p>
+ <p class="ref" style="margin-top:14px">Reference: <a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/prompt-management" target="_blank" rel="noopener">Prompt Management</a> &middot; <a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/resources/citation-attempt" target="_blank" rel="noopener">Citation Attempt</a> &middot; <a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/resources/semrush-suggestions" target="_blank" rel="noopener">Semrush Suggestions</a></p>
+</div></section>
+
+<section id="library"><div class="wrap">
+ <p class="eyebrow"><span class="n">06</span> Enhanced Prompt Library</p>
+ <h2>The source of truth for the 64 tracked prompts</h2>
+ <p class="sec-lead">Unlike AI Visibility&rsquo;s broad discovery data, the library holds the curated prompt set used for ongoing Brand Presence measurement. Prompts appear in a flat list organized by Category, Subcategory, Market, and Language.</p>
+ <p class="subhead">Health checks before relying on the set for comparison</p>
+ <ol class="steps">
+  <li><b>Branded / unbranded balance</b> &mdash; confirm the classification on each prompt record; the four group labels alone don&rsquo;t establish the exact branded/unbranded ratio, since rewards and terms questions could be either.</li>
+  <li><b>Intent coverage</b> &mdash; confirm the library covers branded awareness, unbranded discovery, rewards use, and public product terms, not just one stage of the card journey.</li>
+  <li><b>Agentic URL coverage</b> &mdash; confirm the three pages in the GEO baseline are represented by relevant tracked prompts; the baseline identifies page-level issues but not the library&rsquo;s URL-coverage status.</li>
+  <li><b>Market, language, and platform</b> &mdash; confirm the U.S./English scope and keep the measured results ChatGPT-only.</li>
+  <li><b>Prompt status and processing</b> &mdash; confirm all 64 prompts are active and processed before the measurement window; newly added prompts must process (up to 24 hours) before contributing to Brand Presence.</li>
+ </ol>
+ <p class="subhead">Suggestions surfaced directly in the library</p>
+ <p style="font-size:14.5px;color:var(--muted);max-width:78ch;margin:0 0 4px">Beyond hosting the 64 tracked prompts, the library&rsquo;s own Agentic URL Coverage panel flags pages where agent-request volume outpaces tracked-prompt coverage &mdash; a second, narrower stream of suggestions distinct from the broader Prompt Strategy queue in Section 05.</p>
+ <div class="notebox">
+  <b>Illustrative library flag.</b> For this fictional sample, the coverage panel flags <span style="font-family:var(--mono);font-size:13px">/…/rates-and-fees</span> as under-covered relative to its traffic (920 agent requests against only the 8 prompts in the rates/fees/eligibility group) and surfaces <b>3 additional Citation Attempt&ndash;based suggestions</b> tied to that page, not yet tracked. As with the funnel in Section 05, this is an illustrative example &mdash; check the library&rsquo;s actual coverage panel for real pending suggestions.
+ </div>
+ <p class="ref" style="margin-top:14px">Reference: <a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/prompt-management" target="_blank" rel="noopener">Prompt Management</a></p>
+</div></section>
+
+<section id="coverage"><div class="wrap">
+ <p class="eyebrow"><span class="n">07</span> Coverage for the Optimize at Edge test</p>
+ <h2>Do the tracked prompts actually touch the three flagged pages?</h2>
+ <p class="sec-lead">The prompt set should let the later evaluation check whether the recovered page content is relevant to the questions Cedarline is tracking.</p>
+ <div class="panel">
+  <h4>Page-to-prompt-group coverage map</h4>
+  <table class="mtbl">
+   <thead><tr><th>GEO baseline page</th><th>Prompt groups to check for coverage</th></tr></thead>
+   <tbody>
+    <tr><td><span style="font-family:var(--mono);font-size:12.5px">/summit-cash-rewards</span></td><td>Branded product questions; unbranded card discovery and comparison</td></tr>
+    <tr><td><span style="font-family:var(--mono);font-size:12.5px">/…/rates-and-fees</span></td><td>Public rates, fees, and eligibility</td></tr>
+    <tr><td><span style="font-family:var(--mono);font-size:12.5px">/learn/…/cash-back-rewards</span></td><td>Rewards and redemption; relevant unbranded discovery questions</td></tr>
+   </tbody>
+  </table>
+ </div>
+ <div class="safeguard">
+  <b>Audit check.</b> The page-to-prompt mapping above is the intended coverage map, not a claim that the Enhanced Prompt Library already reports each URL as covered &mdash; verify the actual Agentic URL Coverage indicator and prompt assignments in the library.
+ </div>
+ <div class="notebox">
+  <b>Locked set.</b> Because the GEO report describes this 64-prompt set as locked, preserve it for the planned before/after comparison. If a page is not covered, use Citation Attempt to inform a future prompt addition; do not silently add or replace prompts in the locked comparison set &mdash; track any new prompts as a new version or separate cohort.
+ </div>
+</div></section>
+
+<section id="conclusion"><div class="wrap">
+ <p class="eyebrow"><span class="n">08</span> Audit conclusion</p>
+ <h2>Fit for the defined baseline; prompt-by-prompt checks remain open</h2>
+ <p class="sec-lead">The 64-prompt set is fit for the defined ChatGPT-only baseline at the group level. It sits within the requested size range, covers four distinct credit-card question types, and makes the unbranded discovery gap visible without suggesting Cedarline is absent from all answers.</p>
+ <div class="find">
+  <div><p class="cap"><span class="dot ok"></span>Confirmed at the group level</p>
+   <h3>What this audit confirms</h3>
+   <ul>
+    <li>64 unique prompts, within the intended 50&ndash;80 range</li>
+    <li>Four distinct question types, each with a clear measurement role</li>
+    <li>Clean mapping to three of the four GEO goals (G1, G2, G3)</li>
+    <li>Distinct, non-overlapping roles for AI Visibility, Prompt Strategy, and the Enhanced Prompt Library</li>
+    <li>A page-to-prompt-group coverage map for the three Optimize at Edge pages</li>
+   </ul></div>
+  <div><p class="cap"><span class="dot warn"></span>Needs the raw prompt rows &mdash; or a different instrument</p>
+   <h3>What still needs verification</h3>
+   <ul>
+    <li>Individual prompt wording, and duplicate or near-duplicate prompts</li>
+    <li>Branded/unbranded tags on each prompt record</li>
+    <li>Actual Agentic URL Coverage status for the three priority pages</li>
+    <li>AI Visibility and Prompt Strategy export settings (market, filter, date reviewed)</li>
+    <li><b>G4</b> &mdash; no prompt can test it; it needs the Adobe Analytics connector, not this audit</li>
+   </ul></div>
+ </div>
+ <div class="scope"><p class="st">Scope &amp; honesty notes</p>
+  <p>This audit uses the group-level composition and results published in the companion <i>GEO Baseline and Optimization Plan</i>; it does not have the raw 64 prompt rows or the AI Visibility and Prompt Strategy exports, so prompt-by-prompt quality checks (wording, duplicates, tags) cannot be completed from the report alone. Sharing those rows or exports would let this become a prompt-by-prompt audit. Cedarline Bank, the Summit Cash Rewards Credit Card, and all figures remain fictional and illustrative. Both documents are a worked example for the GEO operating playbook &mdash; the Define phase of one loop.</p></div>
+</div></section>
+
+ </main></div>
+</div>
+
+<footer class="site-footer"><div class="foot-inner">
+ <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe&nbsp;<span>Brand Visibility</span></div>
+ <div class="foot-right">
+  <p class="a">Prompt audit report &mdash; Cedarline Bank, Summit Cash Rewards Credit Card.</p>
+  <p class="b">Companion to the GEO Baseline and Optimization Plan &middot; worked example. &copy; 2026 Adobe</p>
+ </div>
+</div></footer>
+
+<script>
+(function(){
+ var links = Array.prototype.slice.call(document.querySelectorAll('#spy-nav a'));
+ var map = {}; links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
+ var sections = links.map(function(l){ return document.getElementById(l.getAttribute('href').slice(1)); }).filter(Boolean);
+ function setActive(id){ links.forEach(function(l){ l.classList.remove('active'); }); if(map[id]) map[id].classList.add('active'); }
+ if('IntersectionObserver' in window){
+  var vis = {};
+  var obs = new IntersectionObserver(function(entries){
+   entries.forEach(function(e){ vis[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0; });
+   var best=null, bestR=0; Object.keys(vis).forEach(function(k){ if(vis[k]>bestR){bestR=vis[k]; best=k;} });
+   if(best) setActive(best);
+  }, { rootMargin:'-15% 0px -70% 0px', threshold:[0,0.15,0.5,1] });
+  sections.forEach(function(s){ obs.observe(s); });
+ }
+ links.forEach(function(l){ l.addEventListener('click', function(){ setActive(l.getAttribute('href').slice(1)); }); });
+ var pb=document.getElementById('progressbar');
+ if(pb){ var upd=function(){ var h=document.documentElement.scrollHeight-window.innerHeight;
+   pb.style.transform='scaleX('+Math.min(1,Math.max(0,h>0?window.scrollY/h:0))+')'; };
+  window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd(); }
+})();
+</script>
+
+</div>
+
+<script>
+  var PV_PASSWORD = "go-abv-to-win";
+  function pvTryUnlock() {
+    var input = document.getElementById('pv-pw').value;
+    if (input === PV_PASSWORD) {
+      document.getElementById('pv-gate').style.display = 'none';
+      document.getElementById('pv-protected').style.display = 'block';
+    } else {
+      document.getElementById('pv-error').textContent = 'Incorrect password.';
+    }
+  }
+  document.getElementById('pv-pw').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') pvTryUnlock();
+  });
+</script>
+</body></html>

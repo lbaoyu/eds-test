@@ -1,1 +1,624 @@
+<!DOCTYPE html>
+<html lang="en-US"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loop Readout Report — Cedarline Bank | Adobe Brand Visibility</title>
+<meta name="description" content="Post-implementation readout for the Cedarline Bank GEO plan: what was deployed, before/after results on the locked 64-prompt set, Impact Measurement Engine results where available, learnings, and next steps.">
+<style>
+:root{
+ --adobe-red:#D7301B; --adobe-red-tint:#FCEBE8; --coral-1:#E0472B; --coral-2:#F6A28C;
+ --text:#171717; --body:#3A3A3A; --muted:#6A6A6A; --faint:#8C8C8C;
+ --gray-500:#8C8C8C; --gray-400:#B4B4B4; --gray-300:#D6D6D6; --gray-200:#E7E7E7; --gray-100:#F2F2F2; --gray-75:#F8F8F7; --gray-50:#FBFBFA; --white:#FFF;
+ --s2-blue:#3155E8; --s2-blue-down:#2140C8; --s2-blue-tint:#E9EFFF; --s2-blue-tint-faint:#F5F8FF;
+ --border:#E7E6E3; --border-strong:#D6D5D1; --line:#ECEBE8;
+ --pos:#10794A; --pos-tint:#E7F3EC; --pos-border:#A7D6BB;
+ --neg:#C0261D; --neg-tint:#FBEAE8; --neg-border:#EDB0AB;
+ --warn:#8A5A00; --warn-tint:#FBF1DE; --warn-border:#ECC77E;
+ --sans:"adobe-clean","Source Sans 3","Source Sans Pro","Segoe UI",-apple-system,BlinkMacSystemFont,Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+ --mono:"SF Mono",ui-monospace,"Cascadia Code","Roboto Mono",Menlo,Consolas,"Liberation Mono",monospace;
+ --r:14px; --r-lg:18px; --r-sm:9px; --pill:9999px;
+ --sh-sm:0 1px 2px rgba(20,20,20,.05); --sh:0 1px 2px rgba(20,20,20,.05),0 8px 22px rgba(20,20,20,.05);
+ --sh-lg:0 2px 6px rgba(20,20,20,.05),0 20px 46px rgba(20,20,20,.08); --maxw:1180px;
+ --fs-display:clamp(27px,3.6vw,40px); --fs-h2:clamp(23px,2.4vw,29px);
+ --fs-lead:17px; --fs-body:15px; --fs-title:20px; --fs-label:13px; --fs-stat:32px;
+ --num:"tnum" 1,"lnum" 1;
+}
+*{box-sizing:border-box;} html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+body{margin:0;font-family:var(--sans);color:var(--body);background:var(--white);line-height:1.6;font-size:var(--fs-body);font-weight:400;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;font-feature-settings:"kern" 1,"liga" 1;}
+::selection{background:var(--s2-blue-tint);}
+p{margin:0 0 15px;} strong,b{font-weight:700;color:var(--text);}
+.num,.n,.bval,.stat .v,.axl,.lcl,.big{font-variant-numeric:tabular-nums;font-feature-settings:var(--num);}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+a{color:var(--s2-blue-down);text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:focus-visible{outline:2px solid var(--s2-blue);outline-offset:2px;border-radius:3px;}
+.ref{font-size:12.5px;color:var(--faint);}
+.ref a{font-weight:600;}
 
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:100;pointer-events:none;}
+.progress span{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;
+ background:linear-gradient(90deg,var(--coral-1),var(--coral-2));will-change:transform;}
+
+.ai-note{background:var(--gray-75);border-bottom:1px solid var(--border);}
+.ai-note-inner{max-width:var(--maxw);margin:0 auto;padding:9px 28px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:var(--fs-body);color:var(--faint);}
+.ai-note b{color:var(--muted);font-weight:600;}
+
+/* hero */
+.hero{position:relative;overflow:hidden;color:#fff;
+ background:radial-gradient(1300px 700px at 86% -22%,rgba(255,255,255,.13),rgba(255,255,255,.05) 42%,transparent 82%),linear-gradient(135deg,#2b2b2b 0%,#1b1b1b 52%,#0d0d0d 100%);
+ padding:48px 28px 56px;}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.028) 1px,transparent 1px);background-size:100% 36px;opacity:.6;-webkit-mask:linear-gradient(#000,transparent 74%);mask:linear-gradient(#000,transparent 74%);}
+.hero-inner{max-width:var(--maxw);margin:0 auto;position:relative;z-index:1;}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid rgba(255,255,255,.14);}
+.brandrow{display:flex;align-items:center;gap:11px;}
+.brandrow img{height:24px;width:auto;filter:drop-shadow(0 2px 12px rgba(255,255,255,.18));}
+.brandname{font-size:var(--fs-lead);font-weight:700;letter-spacing:-.01em;color:#fff;}
+.brandname span{font-weight:400;color:#d7d7d7;}
+.kicker{font-size:var(--fs-label);letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:#f6a28c;white-space:nowrap;}
+.hero h1{margin:28px 0 0;font-size:var(--fs-display);line-height:1.2;font-weight:800;letter-spacing:-.018em;max-width:32ch;}
+.hero h1 .hl{background:linear-gradient(90deg,#DF5A3F 0%,#E4775F 15%,#E88D78 30%,#DF5F45 45%,#E99582 60%,#E26D54 75%,#E78974 90%,#ECA08E 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;padding-bottom:.12em;}
+.hero .lead{margin:20px 0 0;font-size:var(--fs-lead);line-height:1.55;color:#cececd;max-width:74ch;font-weight:400;}
+.hero .lead b{color:#fff;font-weight:600;}
+.hero .subline{margin:16px 0 0;font-size:var(--fs-label);color:#a4a4a3;letter-spacing:.02em;font-family:var(--mono);}
+.hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 0;padding:0;list-style:none;}
+.hero-chips li{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:var(--pill);padding:9px 16px;font-size:var(--fs-body);font-weight:400;color:#e6e6e5;}
+.hero-chips li b{color:#fb8a6d;font-weight:800;}
+
+/* fictional badge under hero */
+.fictional-band{background:var(--warn-tint);border-bottom:1px solid var(--warn-border);}
+.fictional-inner{max-width:var(--maxw);margin:0 auto;padding:10px 28px;display:flex;align-items:center;gap:9px;font-size:13px;color:var(--warn);}
+.fictional-inner svg{flex:none;}
+.fictional-inner b{font-weight:700;}
+
+/* companion badge */
+.companion-band{background:var(--s2-blue-tint-faint);border-bottom:1px solid var(--s2-blue-tint);}
+.companion-inner{max-width:var(--maxw);margin:0 auto;padding:10px 28px;display:flex;align-items:center;gap:9px;font-size:13px;color:var(--s2-blue-down);}
+.companion-inner svg{flex:none;}
+.companion-inner b{font-weight:700;}
+
+/* left-rail shell */
+.shell{max-width:var(--maxw);margin:0 auto;padding:0 28px 70px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:48px;}
+.rail{position:sticky;top:22px;align-self:start;padding-top:44px;}
+.rail-title{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 0 12px;padding-left:13px;}
+.rail nav{display:flex;flex-direction:column;gap:2px;}
+.rail nav a{display:flex;align-items:center;gap:10px;padding:9px 13px;border-radius:var(--r-sm);color:var(--muted);
+ font-size:13.5px;font-weight:600;border-left:2px solid transparent;transition:background .15s,color .15s,border-color .15s;}
+.rail nav a .num{font-size:11px;font-weight:700;color:var(--gray-300);min-width:15px;font-variant-numeric:tabular-nums;font-family:var(--mono);}
+.rail nav a:hover{background:var(--gray-100);color:var(--text);}
+.rail nav a.active{color:var(--s2-blue-down);background:var(--s2-blue-tint);border-left-color:var(--s2-blue);}
+.rail nav a.active .num{color:var(--s2-blue);}
+.rail nav a:focus-visible{outline:2px solid var(--s2-blue);outline-offset:-2px;}
+.content{padding-top:44px;min-width:0;}
+@media(max-width:980px){.shell{grid-template-columns:1fr;gap:0;}.rail{display:none;}}
+
+/* sections */
+section{padding:46px 0;scroll-margin-top:20px;} section+section{border-top:1px solid var(--line);}
+section:first-child{padding-top:0;}
+.eyebrow{font-family:var(--mono);font-size:var(--fs-label);font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 14px;display:flex;align-items:center;gap:9px;}
+.eyebrow .n{color:var(--adobe-red);font-weight:700;}
+h2{font-size:var(--fs-h2);line-height:1.16;letter-spacing:-.02em;font-weight:800;color:var(--text);margin:0 0 12px;}
+h3{font-size:var(--fs-title);font-weight:800;letter-spacing:-.01em;color:var(--text);margin:0 0 8px;}
+h4{font-size:15px;font-weight:800;margin:0 0 4px;color:var(--text);}
+.sec-lead{font-size:var(--fs-lead);line-height:1.55;color:var(--muted);max-width:74ch;margin:0 0 4px;}
+.em{color:var(--coral-1);font-weight:800;}
+
+/* BLUF */
+.bluf{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px;}
+.bcard{border:1px solid var(--border);border-top:3px solid var(--c,var(--s2-blue));border-radius:var(--r);padding:22px 22px 24px;background:var(--white);box-shadow:var(--sh-sm);}
+.bcard .tag{font-family:var(--mono);font-size:var(--fs-label);letter-spacing:.1em;text-transform:uppercase;color:var(--c,var(--s2-blue));font-weight:700;margin:0 0 12px;}
+.bcard .big{font-size:var(--fs-stat);font-weight:800;letter-spacing:-.03em;line-height:1;color:var(--text);}
+.bcard .big small{font-size:var(--fs-label);font-weight:700;color:var(--faint);letter-spacing:0;}
+.bcard h3{font-size:var(--fs-title);font-weight:800;letter-spacing:-.01em;margin:13px 0 7px;color:var(--text);}
+.bcard p{font-size:var(--fs-body);line-height:1.5;color:var(--muted);margin:0;}
+@media(max-width:840px){.bluf{grid-template-columns:1fr;}}
+
+/* stat band */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-top:16px;}
+.stat{background:var(--white);padding:16px 18px;}
+.stat .v{font-size:var(--fs-title);font-weight:800;letter-spacing:-.02em;line-height:1;color:var(--text);}
+.stat .v small{font-size:var(--fs-label);font-weight:700;color:var(--faint);}
+.stat .l{font-size:var(--fs-label);color:var(--muted);margin-top:7px;line-height:1.35;}
+@media(max-width:840px){.stats{grid-template-columns:repeat(2,1fr);}}
+
+/* panel + tables */
+.panel{border:1px solid var(--border);border-radius:var(--r);background:var(--white);box-shadow:var(--sh-sm);padding:22px 22px 14px;margin-top:24px;}
+.panel .cap{font-size:12.5px;color:var(--faint);margin:0 0 16px;}
+.mtbl{width:100%;border-collapse:collapse;font-size:13.5px;}
+.mtbl th{text-align:left;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);
+ font-weight:700;padding:0 10px 8px;border-bottom:1px solid var(--border);}
+.mtbl td{padding:10px 10px;border-bottom:1px solid var(--gray-100);color:var(--body);}
+.mtbl th.n,.mtbl td.n{text-align:right;font-variant-numeric:tabular-nums;}
+.mtbl td.n.bad{color:var(--neg);font-weight:700;}
+.mtbl td.n.ok{color:var(--pos);font-weight:700;}
+.mtbl tbody tr:last-child td{border-bottom:none;}
+.mtbl tbody tr:hover td{background:var(--gray-100);}
+.mtbl tfoot td{padding:9px 10px;border-top:2px solid var(--border);font-weight:700;color:var(--text);}
+
+/* find blocks */
+.find{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;align-items:start;margin-top:30px;}
+.find .cap{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.8px;
+ letter-spacing:.08em;text-transform:uppercase;color:var(--faint);font-weight:700;margin:0 0 9px;}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--s2-blue);flex:none;}
+.dot.ok{background:var(--pos);} .dot.warn{background:var(--warn);}
+.find h3{font-size:18px;line-height:1.28;}
+.find .b-body{font-size:14.5px;line-height:1.6;color:var(--body);margin:0 0 10px;}
+.find .ev{font-size:13.5px;line-height:1.55;color:var(--muted);background:var(--gray-75);
+ border:1px solid var(--border);border-radius:var(--r-sm);padding:11px 13px;margin:0;}
+.find ul{margin:0;padding-left:20px;font-size:13.8px;line-height:1.65;color:var(--body);}
+.find ul li{margin-bottom:6px;}
+@media(max-width:900px){.find{grid-template-columns:1fr;}}
+
+/* source cards (2-col grid) */
+.srcgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:26px;}
+.src{border:1px solid var(--border);border-radius:var(--r);background:var(--white);box-shadow:var(--sh-sm);padding:20px 20px 22px;}
+.src .tag2{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--s2-blue-down);margin:0 0 8px;}
+.src h3{font-size:15.5px;margin:0 0 8px;}
+.src p{font-size:13.8px;line-height:1.55;color:var(--body);margin:0;}
+@media(max-width:760px){.srcgrid{grid-template-columns:1fr;}}
+
+/* priority / opportunity / evidence cards */
+.loop{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px;align-items:stretch;}
+.act{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:var(--r);background:var(--white);box-shadow:var(--sh-sm);padding:22px 22px 24px;height:100%;}
+.pill{display:inline-flex;align-items:center;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.06em;
+ text-transform:uppercase;padding:5px 11px;border-radius:var(--pill);margin:0 0 14px;align-self:flex-start;}
+.pill.p1{background:var(--adobe-red-tint);color:var(--adobe-red);}
+.pill.p2{background:var(--s2-blue-tint);color:var(--s2-blue-down);}
+.act h3{font-size:16.5px;line-height:1.3;margin:0 0 18px;min-height:2.6em;display:flex;align-items:flex-start;}
+.act .row{display:flex;flex-direction:column;gap:4px;padding-top:12px;margin-top:12px;border-top:1px solid var(--gray-100);}
+.act .row:first-of-type{padding-top:0;margin-top:0;border-top:none;}
+.act .row:last-child:not(:first-of-type){margin-top:auto;padding-top:16px;border-top:1px dashed var(--border);}
+.act .k{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);}
+.act .v{font-size:13.5px;color:var(--body);line-height:1.5;}
+@media(max-width:900px){.loop{grid-template-columns:1fr;}.act{height:auto;}}
+
+/* checklist steps */
+.subhead{margin:38px 0 8px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--adobe-red);}
+.steps{counter-reset:st;margin:14px 0 0;padding:0;list-style:none;display:grid;gap:12px;}
+.steps li{counter-increment:st;position:relative;padding:14px 16px 14px 52px;border:1px solid var(--border);
+ border-radius:var(--r-sm);background:var(--white);box-shadow:var(--sh-sm);font-size:14.5px;line-height:1.55;color:var(--body);}
+.steps li::before{content:counter(st,decimal-leading-zero);position:absolute;left:16px;top:50%;transform:translateY(-50%);
+ font-family:var(--mono);font-weight:800;font-size:14px;color:var(--adobe-red);}
+.steps li b{color:var(--text);}
+.safeguard{margin-top:20px;border:1px solid var(--warn-border);background:var(--warn-tint);border-radius:var(--r-sm);
+ padding:14px 16px;font-size:13.8px;line-height:1.55;color:#5f4300;}
+.safeguard b{color:#4a3400;}
+.notebox{margin-top:20px;border:1px solid var(--s2-blue-tint);background:var(--s2-blue-tint-faint);border-radius:var(--r-sm);
+ padding:14px 16px;font-size:13.8px;line-height:1.55;color:var(--text);}
+.notebox b{color:var(--s2-blue-down);}
+
+/* scope box */
+.scope{margin-top:30px;border-top:1px solid var(--border);padding-top:20px;}
+.scope .st{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;
+ text-transform:uppercase;color:var(--faint);margin:0 0 8px;}
+.scope p{font-size:13.5px;line-height:1.6;color:var(--muted);max-width:82ch;margin:0;}
+
+/* footer */
+.site-footer{background:#141414;color:#8a8a8a;}
+.foot-inner{max-width:var(--maxw);margin:0 auto;padding:26px 28px;display:flex;flex-wrap:wrap;
+ gap:12px 24px;align-items:center;justify-content:space-between;}
+.foot-brand{display:flex;align-items:center;gap:10px;color:#fff;font-weight:800;font-size:15px;letter-spacing:-.01em;}
+.foot-brand img{height:20px;width:auto;display:block;}
+.foot-brand span{font-weight:400;color:#cfcfcf;}
+.foot-right{text-align:right;line-height:1.5;}
+.foot-right p{margin:0;}
+.foot-right .a{font-size:12.5px;font-weight:600;color:#b9b9b9;}
+.foot-right .b{margin-top:2px;font-size:11.5px;color:#6f6f6f;}
+@media(max-width:620px){.foot-inner{flex-direction:column;align-items:flex-start;}.foot-right{text-align:left;}}
+
+/* delta indicators */
+.delta{font-weight:700;}
+.delta.up{color:var(--pos);}
+.delta.down{color:var(--neg);}
+.delta.flat{color:var(--faint);}
+
+/* goal tags — cross-reference badges used throughout for G1-G4 */
+.gtag{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.04em;
+ color:var(--s2-blue-down);background:var(--s2-blue-tint);border-radius:var(--r-sm);padding:2px 7px;
+ margin-left:8px;vertical-align:middle;white-space:nowrap;}
+.gtag.warn{color:var(--warn);background:var(--warn-tint);}
+.status-pill{display:inline-block;font-size:11.5px;font-weight:700;padding:4px 11px;border-radius:var(--pill);}
+.status-pill.met{background:var(--pos-tint);color:var(--pos);}
+.status-pill.trend{background:var(--s2-blue-tint);color:var(--s2-blue-down);}
+.status-pill.new{background:var(--gray-100);color:var(--muted);}
+
+/* grouped before/after table headers */
+.mtbl th.grp-before{background:var(--gray-100);color:var(--muted);}
+.mtbl th.grp-after{background:var(--s2-blue-tint);color:var(--s2-blue-down);}
+.mtbl th.grp-label{font-size:11px;letter-spacing:.1em;text-align:center;padding:8px 10px 6px;}
+.mtbl td.col-divider,.mtbl th.col-divider{border-left:2px solid var(--border-strong);}
+.mtbl tbody tr.row-after td{background:var(--s2-blue-tint-faint);}
+.mtbl tbody tr.row-after td:first-child{font-weight:700;color:var(--s2-blue-down);}
+
+/* scale / iterate / hold / stop decision selector */
+.decision-frame{border:1px solid var(--border);border-radius:var(--r-lg);background:var(--white);
+ box-shadow:var(--sh-sm);padding:26px;margin-top:28px;display:grid;grid-template-columns:1fr 1.35fr;gap:30px;align-items:center;}
+.decision-options{display:flex;flex-direction:column;gap:9px;}
+.doption{display:flex;align-items:center;gap:12px;padding:11px 15px;border-radius:var(--r-sm);
+ border:1px solid var(--border);color:var(--gray-500);font-weight:700;font-size:13.5px;letter-spacing:.03em;text-transform:uppercase;}
+.doption .dc{width:19px;height:19px;border-radius:50%;border:2px solid var(--gray-300);flex:none;
+ display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent;}
+.doption.selected{border-color:var(--adobe-red);background:var(--adobe-red-tint);color:var(--adobe-red);
+ box-shadow:0 0 0 1px var(--adobe-red) inset;}
+.doption.selected .dc{background:var(--adobe-red);border-color:var(--adobe-red);color:#fff;}
+.decision-detail .dtag{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;
+ text-transform:uppercase;color:var(--adobe-red);margin:0 0 8px;}
+.decision-detail h3{font-size:19px;margin:0 0 10px;}
+.decision-detail p{font-size:14.5px;line-height:1.6;color:var(--body);margin:0;}
+@media(max-width:760px){.decision-frame{grid-template-columns:1fr;}}
+</style></head>
+<body>
+
+<style>
+  #pv-gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;overflow:hidden;
+    color:#fff;font-family:var(--sans);
+    background:radial-gradient(1350px 720px at 90% -18%,rgba(255,255,255,.12),rgba(255,255,255,.05) 42%,transparent 82%),
+      linear-gradient(135deg,#2d2d2d 0%,#1c1c1c 52%,#0e0e0e 100%);}
+  #pv-gate::after{content:"";position:absolute;inset:0;pointer-events:none;
+    background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px);background-size:100% 34px;
+    opacity:.5;-webkit-mask:linear-gradient(#000,transparent 70%);mask:linear-gradient(#000,transparent 70%);}
+  #pv-gate .pv-card{position:relative;z-index:1;width:100%;max-width:380px;padding:40px 36px;box-sizing:border-box;
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);border-radius:var(--r-lg,18px);
+    box-shadow:0 4px 8px rgba(0,0,0,.3),0 16px 40px rgba(0,0,0,.35);text-align:center;}
+  #pv-gate .pv-brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:22px;}
+  #pv-gate .pv-brand img{height:24px;width:auto;filter:drop-shadow(0 2px 12px rgba(255,255,255,.18));}
+  #pv-gate .pv-brand span{font-size:15px;font-weight:800;letter-spacing:-.02em;color:#fff;}
+  #pv-gate .pv-kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:#f6a28c;margin:0 0 10px;}
+  #pv-gate h1{font-size:20px;font-weight:800;letter-spacing:-.02em;margin:0 0 8px;color:#fff;}
+  #pv-gate .pv-sub{font-size:14px;color:#c8c8c8;margin:0 0 24px;}
+  #pv-gate input{width:100%;padding:12px 14px;font-size:15px;border-radius:8px;border:1px solid rgba(255,255,255,.18);
+    background:rgba(255,255,255,.06);color:#fff;box-sizing:border-box;margin-bottom:14px;font-family:inherit;}
+  #pv-gate input::placeholder{color:#8a8a8a;}
+  #pv-gate input:focus-visible{outline:2px solid var(--s2-blue,#3155E8);outline-offset:2px;}
+  #pv-gate button{width:100%;padding:12px 14px;font-size:15px;font-weight:700;border-radius:8px;border:none;cursor:pointer;
+    color:#fff;background:linear-gradient(100deg,var(--coral-1,#E0472B) 0%,var(--coral-2,#F6A28C) 100%);
+    box-shadow:0 2px 4px rgba(0,0,0,.2);transition:filter .15s;}
+  #pv-gate button:hover{filter:brightness(1.08);}
+  #pv-error{color:#ff8f84;font-size:13px;min-height:1.2em;margin-top:10px;}
+  #pv-protected{display:none;}
+</style>
+
+<div id="pv-gate">
+  <div class="pv-card">
+    <div class="pv-brand"><img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe"><span>Adobe&nbsp;<span style="font-weight:400;color:#d9d9d9;">Brand Visibility</span></span></div>
+    <p class="pv-kicker">Restricted access</p>
+    <h1>This document is protected</h1>
+    <p class="pv-sub">Enter the access password to continue.</p>
+    <input type="password" id="pv-pw" placeholder="Password" autofocus>
+    <button onclick="pvTryUnlock()">Unlock</button>
+    <div id="pv-error"></div>
+  </div>
+</div>
+
+<div id="pv-protected">
+<div class="progress"><span id="progressbar"></span></div>
+<div class="ai-note"><div class="ai-note-inner">
+ <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#a3a3a3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+ <span><b>Prepared with AI assistance.</b> Please review for accuracy before use &mdash; this document may contain errors.</span></div></div>
+
+<header class="hero"><div class="hero-inner">
+ <div class="masthead">
+  <div class="brandrow"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe"><span class="brandname">Adobe&nbsp;<span>Brand Visibility</span></span></div>
+  <span class="kicker">Loop Readout Report</span>
+ </div>
+ <h1>Post-implementation readout for the <span class="hl">Summit Cash Rewards Credit Card</span> optimization</h1>
+ <p class="lead">Six weeks after deploying the four prioritized opportunities from the GEO Baseline and Optimization Plan, this readout scores all four GEO goals for the card, re-runs the same locked 64-prompt ChatGPT set, reports Impact Measurement Engine (IME) results where they&rsquo;re available, and closes with what to do next.</p>
+ <p class="subline">Cedarline Bank &middot; Summit Cash Rewards Credit Card &middot; Loop readout (Phase 5), companion to the GEO Baseline and Prompt Audit reports &middot; United States / English &middot; ChatGPT only</p>
+ <ul class="hero-chips">
+  <li><b>29%&rarr;34%</b> overall citation rate</li>
+  <li><b>100%</b> content visibility on all 3 pages</li>
+  <li><b>22%&rarr;29%</b> unbranded discovery citation, trending up</li>
+  <li><b>Decision:</b> Scale the operating model</li>
+ </ul>
+</div></header>
+
+<div class="fictional-band"><div class="fictional-inner">
+ <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A5A00" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+ <span><b>Illustrative sample only.</b> Cedarline Bank, the Summit Cash Rewards Credit Card, its pages, and all figures below are fictional. No actual APRs, fees, or product terms are represented.</span>
+</div></div>
+<div class="companion-band"><div class="companion-inner">
+ <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2140C8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 4.5 21 12l-7.5 7.5M10.5 19.5 3 12l7.5-7.5"></path></svg>
+ <span><b>Loop close.</b> This is the <b>Prove &amp; Decide</b> phase of one GEO loop &mdash; it closes the loop opened in Define by the GEO Baseline and Optimization Plan and the Prompt Audit Report (same locked prompt set, same four priorities, now measured after deployment), and its next steps seed the following loops.</span>
+</div></div>
+
+<div class="shell">
+ <aside class="rail">
+  <p class="rail-title">Contents</p>
+  <nav id="spy-nav">
+   <a href="#summary"><span class="num">01</span> Executive summary</a>
+   <a href="#goals"><span class="num">02</span> Goals &amp; KPIs</a>
+   <a href="#changes"><span class="num">03</span> What changed</a>
+   <a href="#beforeafter"><span class="num">04</span> Before &amp; after</a>
+   <a href="#ime"><span class="num">05</span> Impact Measurement Engine</a>
+   <a href="#caveats"><span class="num">06</span> Read this carefully</a>
+   <a href="#learnings"><span class="num">07</span> Learnings</a>
+   <a href="#nextsteps"><span class="num">08</span> Recommendation &amp; next steps</a>
+  </nav>
+ </aside>
+ <div class="content"><main>
+
+<section id="summary"><div class="wrap">
+ <p class="eyebrow"><span class="n">01</span> Executive summary</p>
+ <h2>The operating model worked; the decision is to scale it</h2>
+ <p class="sec-lead">This program set out to prove a <b>repeatable operating model</b> &mdash; lock a baseline, deploy a prioritized fix, measure the change against fixed goals &mdash; on one product before scaling it. Measured by re-running the same locked 64 prompts on ChatGPT six weeks after deployment, plus Impact Measurement Engine (IME) results for the one supported opportunity type, that cycle held. Section 08 carries the full decision: <b>Scale</b>.</p>
+ <div class="bluf">
+  <div class="bcard" style="--c:var(--pos)"><p class="tag">Content visibility</p>
+   <div class="big">100%<small> on all 3 pages</small></div>
+   <h3>Optimize at Edge fully closed the gap</h3>
+   <p>24&ndash;34% baseline visibility recovered to full, 100% agent-readable parity across all three RCV pages, confirmed by the Impact Measurement Engine.</p></div>
+  <div class="bcard" style="--c:var(--s2-blue)"><p class="tag">Citation rate</p>
+   <div class="big">29%&rarr;34%<small> overall</small></div>
+   <h3>Improved in every group</h3>
+   <p>Aggregate owned-page citation rate improved 5 points, with the largest gains in rates/fees (+8) and unbranded discovery (+7); discovery is trending toward its 35% target.</p></div>
+  <div class="bcard" style="--c:var(--warn)"><p class="tag">Attribution</p>
+   <div class="big">3<small> content priorities, 1 window</small></div>
+   <h3>Can&rsquo;t fully separate their effects</h3>
+   <p>The three citation-affecting priorities (1&ndash;3) shipped in the same window, so the group-level lift reflects their combined effect, not each in isolation. Priority 4 only turned on tracking, so it doesn&rsquo;t affect the citation numbers.</p></div>
+ </div>
+ <div class="stats">
+  <div class="stat"><div class="v">29%&rarr;34%</div><div class="l">Owned-page citation rate, all groups</div></div>
+  <div class="stat"><div class="v">53%&rarr;58%</div><div class="l">Mention rate, all groups</div></div>
+  <div class="stat"><div class="v">22%&rarr;29%</div><div class="l">Unbranded discovery citation rate</div></div>
+  <div class="stat"><div class="v">24&ndash;34%&rarr;100%</div><div class="l">Content visibility range, 3 pages</div></div>
+  <div class="stat"><div class="v">100%</div><div class="l">Visibility reached (target was &ge;75%)</div></div>
+  <div class="stat"><div class="v">+7pts</div><div class="l">IME-measured citation-rate delta (RCV scope)</div></div>
+  <div class="stat"><div class="v">6 wks</div><div class="l">Deployment to this readout</div></div>
+  <div class="stat"><div class="v">3 of 3</div><div class="l">Priority-1 pages meeting the visibility target</div></div>
+  <div class="stat"><div class="v">1 of 4</div><div class="l">Priorities with automated IME coverage</div></div>
+  <div class="stat"><div class="v">612</div><div class="l">AI-referred sessions, 3 pages (new G4 baseline)</div></div>
+  <div class="stat"><div class="v">0</div><div class="l">Prompts added to the locked 64-set</div></div>
+  <div class="stat"><div class="v">3</div><div class="l">Citation Attempt suggestions queued, not yet tracked</div></div>
+ </div>
+</div></section>
+
+<section id="goals"><div class="wrap">
+ <p class="eyebrow"><span class="n">02</span> Goals &amp; KPIs</p>
+ <h2>Where each goal landed after six weeks</h2>
+ <p class="sec-lead">The GEO Baseline and Prompt Audit reports framed this program around four goals for the Summit Cash Rewards Card. Here&rsquo;s the same locked KPI set, before and after.</p>
+ <div class="panel">
+  <h4>Goals scorecard</h4>
+  <p class="cap">Baseline and target figures carry over unchanged from the GEO plan; the &ldquo;After&rdquo; column is this readout&rsquo;s contribution.</p>
+  <table class="mtbl">
+   <thead>
+    <tr><th>Goal</th><th>KPI</th><th class="n">Baseline</th><th class="n">After &middot; 6 wks</th><th>Status</th></tr>
+   </thead>
+   <tbody>
+    <tr><td><b>G1</b> &middot; Win unbranded discovery</td><td>Unbranded discovery citation rate</td><td class="n">22%</td><td class="n ok">29%</td><td><span class="status-pill trend">Trending toward 35%</span></td></tr>
+    <tr><td><b>G2</b> &middot; Agent-readable product pages</td><td>Content visibility, 3 priority pages</td><td class="n">24&ndash;34%</td><td class="n ok">100%</td><td><span class="status-pill met">Target met</span></td></tr>
+    <tr><td><b>G3</b> &middot; Be the cited source</td><td>Owned-page citation rate, overall</td><td class="n">29%</td><td class="n ok">34%</td><td><span class="status-pill trend">Trending toward &ge;40%</span></td></tr>
+    <tr><td><b>G4</b> &middot; Convert visibility into engagement</td><td>AI-referred sessions, 3 priority pages</td><td class="n">Not yet instrumented</td><td class="n ok">612 sessions</td><td><span class="status-pill new">Baseline established</span></td></tr>
+   </tbody>
+  </table>
+ </div>
+ <div class="notebox">
+  <b>G4, read carefully.</b> 612 sessions is a first measurable count, not a before/after comparison &mdash; Adobe Analytics was connected as part of Priority 4, in the same window as the other three priorities, so there is no prior period to compare it against. The number matters as a working baseline for the next readout, not as a lift.
+ </div>
+ <p class="ref" style="margin-top:14px">One goal (G2) fully met its target; two (G1, G3) are trending in the right direction without yet reaching theirs; one (G4) moved from no metric to a working baseline. Section 08 carries the Scale decision built on this scorecard, not on G2 alone.</p>
+</div></section>
+
+<section id="changes"><div class="wrap">
+ <p class="eyebrow"><span class="n">03</span> What changed</p>
+ <h2>Four opportunities deployed &mdash; none altered any product term</h2>
+ <p class="sec-lead">All four priorities shipped in the same window. Per the GEO plan&rsquo;s credit-card content safeguard, none altered any rate, fee, reward, or eligibility term: Priority 1 changed only how already-published content is delivered to agents (no CMS authoring change), and Priorities 2&ndash;3 added structure and FAQs around already-approved content. &ldquo;Product terms&rdquo; here means the regulated card facts &mdash; APR, fees, rewards rates, eligibility, disclosures &mdash; which the safeguard required us to leave untouched at the edge.</p>
+ <div class="loop" style="grid-template-columns:repeat(2,1fr)">
+  <div class="act"><div class="ptag-row"><span class="pill p1">Priority 1 &middot; Done</span><span class="gtag">G2</span></div><h3>Recover content visibility</h3>
+   <div class="row"><span class="k">Finding</span><span class="v">24&ndash;34% content visibility across 3 high-traffic pages</span></div>
+   <div class="row"><span class="k">Action taken</span><span class="v">Optimize at Edge deployed on all 3 pages via the 5-step plan; live agent-facing view verified against the approved source before go-live</span></div>
+   <div class="row"><span class="k">Result</span><span class="v"><b>100% visibility</b>, confirmed by the Impact Measurement Engine</span></div></div>
+  <div class="act"><div class="ptag-row"><span class="pill p2">Priority 2 &middot; Shipped</span><span class="gtag">G1</span></div><h3>Close the discovery gap</h3>
+   <div class="row"><span class="k">Finding</span><span class="v">22% owned-page citation rate on unbranded discovery, vs. 35% on branded</span></div>
+   <div class="row"><span class="k">Action taken</span><span class="v">Published new extractable, comparison-ready FAQ and content blocks across the discovery-relevant pages</span></div>
+   <div class="row"><span class="k">Result</span><span class="v">Citation rate moved to <b>29%</b> (+7pts) and is trending toward the 35% target; a second content pass is planned to carry it the rest of the way</span></div></div>
+  <div class="act"><div class="ptag-row"><span class="pill p2">Priority 3 &middot; Shipped</span><span class="gtag">G3</span></div><h3>Strengthen citation readiness</h3>
+   <div class="row"><span class="k">Finding</span><span class="v">Mention rate (53%) ran well ahead of citation rate (29%) in every group</span></div>
+   <div class="row"><span class="k">Action taken</span><span class="v">Added structured FAQPage schema and citable fact blocks across all three tracked pages</span></div>
+   <div class="row"><span class="k">Result</span><span class="v">Contributed to the overall <b>+5pt</b> citation-rate lift; effect not separable from Priority 2</span></div></div>
+  <div class="act"><div class="ptag-row"><span class="pill p2">Priority 4 &middot; Done</span><span class="gtag">G4</span></div><h3>Instrument AI-referred engagement</h3>
+   <div class="row"><span class="k">Finding</span><span class="v">No AI-referred traffic baseline existed for the 3 priority pages</span></div>
+   <div class="row"><span class="k">Action taken</span><span class="v">Enabled the Adobe Analytics integration alongside the Priority 1&ndash;3 deployment</span></div>
+   <div class="row"><span class="k">Result</span><span class="v"><b>612 sessions</b> tracked in the 6-week window &mdash; a working baseline, not yet a lift (see Section 02)</span></div></div>
+ </div>
+ <div class="notebox">
+  <b>Locked set preserved.</b> Per the Prompt Audit&rsquo;s own rule, the 3 pending Citation Attempt suggestions flagged by the Enhanced Prompt Library&rsquo;s coverage panel for <span style="font-family:var(--mono);font-size:13px">/…/rates-and-fees</span> were <b>not</b> folded into the locked 64-prompt set. They remain queued as a separate cohort (see Section 08).
+ </div>
+</div></section>
+
+<section id="beforeafter"><div class="wrap">
+ <p class="eyebrow"><span class="n">04</span> Before &amp; after</p>
+ <h2>Same 64 prompts, six weeks apart</h2>
+ <p class="sec-lead">The same prompt-level ChatGPT scorecard from the GEO baseline, re-run under comparable settings.</p>
+ <div class="panel">
+  <h4>Mention / citation rate, by prompt group</h4>
+  <p class="cap">192 answer runs each round, same 64 prompts, ChatGPT only.</p>
+  <table class="mtbl">
+   <thead>
+    <tr>
+     <th rowspan="2"></th>
+     <th colspan="2" class="grp-before grp-label">BEFORE &middot; baseline</th>
+     <th colspan="2" class="grp-after grp-label col-divider">AFTER &middot; 6 weeks</th>
+     <th rowspan="2" class="n">Citation &Delta;</th>
+    </tr>
+    <tr>
+     <th class="n grp-before">Mentioned</th><th class="n grp-before">Cited</th>
+     <th class="n grp-after col-divider">Mentioned</th><th class="n grp-after">Cited</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr><td>Branded &amp; product <span class="gtag">G3</span></td><td class="n">67%</td><td class="n">35%</td><td class="n col-divider">73%</td><td class="n">40%</td><td class="n"><span class="delta up">+5pts</span></td></tr>
+    <tr><td>Unbranded discovery <span class="gtag">G1</span></td><td class="n">40%</td><td class="n">22%</td><td class="n col-divider">47%</td><td class="n">29%</td><td class="n"><span class="delta up">+7pts</span></td></tr>
+    <tr><td>Rewards &amp; redemption <span class="gtag">G3</span></td><td class="n">54%</td><td class="n">27%</td><td class="n col-divider">58%</td><td class="n">31%</td><td class="n"><span class="delta up">+4pts</span></td></tr>
+    <tr><td>Rates, fees &amp; eligibility <span class="gtag">G2</span></td><td class="n">58%</td><td class="n">38%</td><td class="n col-divider">63%</td><td class="n">46%</td><td class="n"><span class="delta up">+8pts</span></td></tr>
+   </tbody>
+   <tfoot><tr><td>Total (192 runs)</td><td class="n">53%</td><td class="n">29%</td><td class="n col-divider">58%</td><td class="n">34%</td><td class="n"><span class="delta up">+5pts</span></td></tr></tfoot>
+  </table>
+ </div>
+ <div class="panel">
+  <h4>Content visibility, by page <span class="gtag">G2</span></h4>
+  <p class="cap">Estimated gain from the GEO plan vs. the gain actually observed, now that each page is fully recovered.</p>
+  <table class="mtbl">
+   <thead>
+    <tr>
+     <th rowspan="2">Page</th>
+     <th class="n grp-before grp-label">BEFORE</th>
+     <th class="n grp-after grp-label col-divider">AFTER &middot; 6 wks</th>
+     <th colspan="2" class="n grp-label" style="background:var(--gray-50)">GAIN</th>
+    </tr>
+    <tr>
+     <th class="n grp-before">Visibility</th>
+     <th class="n grp-after col-divider">Visibility</th>
+     <th class="n">Estimated</th><th class="n">Actual</th>
+    </tr>
+   </thead>
+   <tbody>
+    <tr><td><span style="font-family:var(--mono);font-size:12.5px">/summit-cash-rewards</span></td><td class="n">24%</td><td class="n ok col-divider">100%</td><td class="n">4.2&times;</td><td class="n ok">4.2&times;</td></tr>
+    <tr><td><span style="font-family:var(--mono);font-size:12.5px">/…/rates-and-fees</span></td><td class="n">29%</td><td class="n ok col-divider">100%</td><td class="n">3.4&times;</td><td class="n ok">3.4&times;</td></tr>
+    <tr><td><span style="font-family:var(--mono);font-size:12.5px">/learn/…/cash-back-rewards</span></td><td class="n">34%</td><td class="n ok col-divider">100%</td><td class="n">2.9&times;</td><td class="n ok">2.9&times;</td></tr>
+   </tbody>
+  </table>
+  <p class="ref" style="margin-top:10px">All three pages reached full, 100% agent-readable parity with the human-visible page &mdash; past the &ge;75% planning threshold. Note that &ldquo;actual gain&rdquo; equals &ldquo;estimated gain&rdquo; here <b>by construction, not as a validated forecast</b>: the GEO plan&rsquo;s estimate assumed full (100%) recovery, and full recovery is what happened, so the multipliers coincide arithmetically. The real result to read is the visibility jump (24&ndash;34% &rarr; 100%), not the matching gain figures.</p>
+ </div>
+</div></section>
+
+<section id="ime"><div class="wrap">
+ <p class="eyebrow"><span class="n">05</span> Impact Measurement Engine results</p>
+ <h2>Automated results for the one supported opportunity type</h2>
+ <p class="sec-lead">The Impact Measurement Engine measures the effectiveness of Recover Content Visibility optimizations by automatically comparing citation performance before and after deployment, within Opportunity Workspace. Priority 1 (Optimize at Edge / Recover Content Visibility) is a supported opportunity type; Priorities 2, 3, and 4 are not, so they have no automated IME output &mdash; Priority 2&rsquo;s and 3&rsquo;s results in Section 04 come only from the manual 64-prompt re-run, and Priority 4 is a tracking baseline rather than a citation intervention.</p>
+ <div class="panel">
+  <h4>IME strategy summary &mdash; Recover Content Visibility, Summit Cash Rewards pages</h4>
+  <table class="mtbl">
+   <thead><tr><th>Field</th><th>Value</th></tr></thead>
+   <tbody>
+    <tr><td>Objective</td><td>Recover Content Visibility (Optimize at Edge)</td></tr>
+    <tr><td>Associated URLs</td><td>3 &mdash; the pages listed in Section 04</td></tr>
+    <tr><td>Monitored prompts (strategy scope)</td><td>22 prompts most directly tied to the 3 URLs &mdash; a subset of the locked 64, not the full set</td></tr>
+    <tr><td>Citation rate &middot; BEFORE (IME scope)</td><td>29%</td></tr>
+    <tr class="row-after"><td>Citation rate &middot; AFTER, 6 wks (IME scope)</td><td class="ok" style="font-weight:700">36%</td></tr>
+    <tr><td>IME-measured delta</td><td><span class="delta up">+7pts</span> <span style="color:var(--faint);font-weight:400">(29%&rarr;36%, RCV-scope citation rate)</span></td></tr>
+   </tbody>
+  </table>
+  <p class="ref" style="margin-top:10px">Reference: <a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/opportunities/opportunity-workspace" target="_blank" rel="noopener">Opportunity Workspace &amp; Impact Measurement Engine</a></p>
+ </div>
+ <div class="notebox">
+  <b>Two scopes, one direction.</b> IME&rsquo;s automated delta is <b>the RCV-scope citation rate: 29%&rarr;36% (+7pts)</b> across the 22 prompts monitored within the RCV strategy. The manual re-run of the full locked 64-prompt set shows a smaller aggregate delta &mdash; overall owned-page citation rate 29%&rarr;34% (+5pts) &mdash; because it also includes prompt groups the strategy doesn&rsquo;t monitor. Two coincidences to note so they aren&rsquo;t misread: both scopes happen to <b>start at 29%</b> (they are different measures that share a baseline value), and the RCV-scope +7pts happens to match the unbranded-discovery group&rsquo;s +7pts in Section 04 &mdash; also unrelated. Both instruments point the same direction; treat them as overlapping-but-not-identical evidence, not a discrepancy to reconcile.
+ </div>
+ <div class="safeguard">
+  <b>Not yet available.</b> Priorities 2 and 3 (discovery content, citation-readiness schema) are not supported opportunity types for the Impact Measurement Engine in this release; their only evidence to date is the manual before/after comparison in Section 04. Priority 4 (engagement instrumentation) is measured in Adobe Analytics, not IME, so it has no IME output by design.
+ </div>
+</div></section>
+
+<section id="caveats"><div class="wrap">
+ <p class="eyebrow"><span class="n">06</span> Read this carefully</p>
+ <h2>What this readout does and doesn&rsquo;t tell you</h2>
+ <div class="find">
+  <div><p class="cap"><span class="dot warn"></span>Confound</p>
+   <h3>Three citation priorities, one deployment window</h3>
+   <p class="b-body">Priorities 1&ndash;3 all shipped together, so the +5pt aggregate citation-rate lift is their combined effect. There is no isolated evidence for how much came from recovered content vs. the new FAQ content vs. the schema markup alone. (Priority 4 only enabled tracking, so it isn&rsquo;t part of this confound.)</p></div>
+  <div><p class="cap"><span class="dot warn"></span>Scope mismatch</p>
+   <h3>IME watches 22 prompts, the comparison watches 64</h3>
+   <p class="b-body">The Impact Measurement Engine&rsquo;s citation-rate delta is scoped to the prompts monitored within the RCV strategy, not the full locked set. Use it as a faster, narrower confirmation signal &mdash; not a replacement for the full re-run.</p></div>
+ </div>
+ <div class="find">
+  <div><p class="cap"><span class="dot warn"></span>Time window</p>
+   <h3>Six weeks may be early for discovery content</h3>
+   <p class="b-body">New FAQ and comparison content can take longer than six weeks to be fully re-crawled and cited by AI systems. The 22%&rarr;29% unbranded-discovery movement may still be understating the eventual effect.</p></div>
+  <div><p class="cap"><span class="dot ok"></span>Integrity held</p>
+   <h3>The locked set stayed locked</h3>
+   <p class="b-body">The 3 new Citation Attempt suggestions surfaced by the library were correctly queued rather than added mid-comparison &mdash; which also means the rates-and-fees under-coverage flagged in the Prompt Audit is still open, not yet addressed by this readout.</p></div>
+ </div>
+</div></section>
+
+<section id="learnings"><div class="wrap">
+ <p class="eyebrow"><span class="n">07</span> Learnings</p>
+ <h2>What this round confirmed about the approach</h2>
+ <ul style="font-size:14.5px;line-height:1.7;color:var(--body);max-width:82ch;padding-left:20px;margin:26px 0 0">
+  <li style="margin-bottom:12px"><b>Content-visibility recovery worked essentially as diagnosed.</b> The content already existed; making it agent-readable through Optimize at Edge produced a fast, large lift with no CMS authoring change &mdash; the cleanest result of the three content priorities (1&ndash;3).</li>
+  <li style="margin-bottom:12px"><b>Publishing and schema work moved the discovery numbers fast.</b> Unbranded discovery citation rate improved 22%&rarr;29% in just six weeks &mdash; real progress toward the 35% target, with a deeper content pass likely to close the rest.</li>
+  <li style="margin-bottom:12px"><b>The Impact Measurement Engine is a faster confirmation path, but only for supported opportunity types.</b> Non-RCV work still needs the manual prompt re-run as its only evidence.</li>
+  <li style="margin-bottom:12px"><b>Keeping the prompt set locked, and queuing new candidates separately, kept this comparison clean.</b> The discipline the Prompt Audit recommended paid off directly in this readout.</li>
+ </ul>
+</div></section>
+
+<section id="nextsteps"><div class="wrap">
+ <p class="eyebrow"><span class="n">08</span> Recommendation &amp; next steps</p>
+ <h2>Scale the operating model; keep refining Priority 2 inside it</h2>
+ <p class="sec-lead">Across the four-goal scorecard: G2 met its target, G1 and G3 are trending toward theirs, and G4 has a working baseline for the first time. That combination &mdash; one goal fully proven, none regressed &mdash; is enough evidence to scale the pattern, not just repeat it once more.</p>
+
+ <div class="decision-frame">
+  <div class="decision-options">
+   <div class="doption selected"><span class="dc">&check;</span> Scale</div>
+   <div class="doption"><span class="dc"></span> Iterate</div>
+   <div class="doption"><span class="dc"></span> Hold</div>
+   <div class="doption"><span class="dc"></span> Stop</div>
+  </div>
+  <div class="decision-detail">
+   <p class="dtag">Decision &middot; Section 08</p>
+   <h3>Scale the locked-baseline &rarr; measured-change pattern to more pages</h3>
+   <p>This isn&rsquo;t a single-metric call. <b>G2</b> (content visibility) hit 100% on all 3 pages, confirmed by the Impact Measurement Engine &mdash; full proof of the cycle. <b>G1</b> and <b>G3</b> (discovery and citation) both improved without fully closing, and <b>G4</b> (engagement) went from no metric to a working baseline. Nothing regressed. That&rsquo;s enough to extend the same pattern to the next tier of high-traffic pages, while Priority 2&rsquo;s discovery-content work continues in parallel, inside the scaled program, rather than gating it. In program terms, <b>Scale</b> means opening the next loops &mdash; the next tier of pages here, then parallel loops on other products and markets &mdash; each with its own locked baseline, staggered so no more than one or two are in Activate at once, with this loop&rsquo;s method carried forward.</p>
+  </div>
+ </div>
+
+ <p class="subhead">What scaling means in practice</p>
+ <ol class="steps">
+  <li><b>Extend Optimize at Edge / Recover Content Visibility to the next tier of high-traffic pages</b> beyond the current 3, using the Impact Measurement Engine to confirm sustained lift as each new page goes live.</li>
+  <li><b>Track the 3 queued Citation Attempt prompts</b> for the rates-and-fees page into a new v2 cohort &mdash; do not fold them into the locked 64-prompt comparison.</li>
+  <li><b>Run a second pass on Priority 2</b> &mdash; deepen comparison-style content on the unbranded cash-back cluster specifically, to carry the trending 29% citation rate the rest of the way to the 35% target.</li>
+  <li><b>Re-run the full 64-prompt evaluation in 4&ndash;6 weeks</b> to see whether the discovery-content lift keeps compounding as pages are further crawled and cited.</li>
+  <li><b>Set up a recurring IME strategy review</b> (e.g., monthly) as more Recover Content Visibility opportunities are deployed, to catch regressions early while scaling.</li>
+  <li><b>Let G4&rsquo;s 612 sessions stand as the baseline, not a target</b> &mdash; report against it at the next readout instead of comparing it to a number that didn&rsquo;t exist before this window.</li>
+ </ol>
+
+ <div class="scope"><p class="st">Scope &amp; honesty notes</p>
+  <p>Illustrative sample only &mdash; Cedarline Bank, the Summit Cash Rewards Credit Card, and all figures in this readout are fictional, including the Impact Measurement Engine values shown. No actual APRs, fees, or product terms are represented. This report reads together with the GEO Baseline and Optimization Plan and the Prompt Audit Report; figures here supersede the &ldquo;later evaluation&rdquo; placeholders in the GEO plan&rsquo;s evaluation-plan table. All three documents are a worked example for the GEO operating playbook &mdash; one complete loop, Define through Prove &amp; Decide.</p></div>
+</div></section>
+
+ </main></div>
+</div>
+
+<footer class="site-footer"><div class="foot-inner">
+ <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe&nbsp;<span>Brand Visibility</span></div>
+ <div class="foot-right">
+  <p class="a">Loop readout report &mdash; Cedarline Bank, Summit Cash Rewards Credit Card.</p>
+  <p class="b">Companion to the GEO Baseline and Prompt Audit reports. &copy; 2026 Adobe</p>
+ </div>
+</div></footer>
+
+<script>
+(function(){
+ var links = Array.prototype.slice.call(document.querySelectorAll('#spy-nav a'));
+ var map = {}; links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
+ var sections = links.map(function(l){ return document.getElementById(l.getAttribute('href').slice(1)); }).filter(Boolean);
+ function setActive(id){ links.forEach(function(l){ l.classList.remove('active'); }); if(map[id]) map[id].classList.add('active'); }
+ if('IntersectionObserver' in window){
+  var vis = {};
+  var obs = new IntersectionObserver(function(entries){
+   entries.forEach(function(e){ vis[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0; });
+   var best=null, bestR=0; Object.keys(vis).forEach(function(k){ if(vis[k]>bestR){bestR=vis[k]; best=k;} });
+   if(best) setActive(best);
+  }, { rootMargin:'-15% 0px -70% 0px', threshold:[0,0.15,0.5,1] });
+  sections.forEach(function(s){ obs.observe(s); });
+ }
+ links.forEach(function(l){ l.addEventListener('click', function(){ setActive(l.getAttribute('href').slice(1)); }); });
+ var pb=document.getElementById('progressbar');
+ if(pb){ var upd=function(){ var h=document.documentElement.scrollHeight-window.innerHeight;
+   pb.style.transform='scaleX('+Math.min(1,Math.max(0,h>0?window.scrollY/h:0))+')'; };
+  window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd(); }
+})();
+</script>
+
+</div>
+
+<script>
+  var PV_PASSWORD = "go-abv-to-win";
+  function pvTryUnlock() {
+    var input = document.getElementById('pv-pw').value;
+    if (input === PV_PASSWORD) {
+      document.getElementById('pv-gate').style.display = 'none';
+      document.getElementById('pv-protected').style.display = 'block';
+    } else {
+      document.getElementById('pv-error').textContent = 'Incorrect password.';
+    }
+  }
+  document.getElementById('pv-pw').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') pvTryUnlock();
+  });
+</script>
+</body></html>

@@ -1,1 +1,467 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operating Model &amp; Change Management | Adobe Brand Visibility</title>
+<meta name="description" content="A flexible customer framework for Adobe Brand Visibility: operating approaches, roles, decisions, work cycle, governance, people adoption, measurement, and ongoing operations.">
+<style>:root{
+  --adobe-red:#EB1000;--adobe-red-dark:#B71000;--adobe-red-tint:#FDECEA;
+  --coral-1:#F04A2E;--coral-2:#F9A392;--coral-bright:#FB6A4E;
+  --s2-blue:#3B63FB;--s2-blue-down:#274DEA;--s2-blue-active:#1D3ECF;
+  --s2-blue-tint:#E5F0FE;--s2-blue-tint-faint:#F5F9FF;
+  --ink:#1B1B1B;--charcoal:#2C2C2C;--charcoal-2:#141414;
+  --gray-900:#1F1F1F;--gray-800:#222222;--gray-700:#464646;
+  --gray-600:#6D6D6D;--gray-500:#909090;--gray-400:#B1B1B1;
+  --gray-300:#D5D5D5;--gray-200:#E6E6E6;--gray-100:#F8F8F8;
+  --gray-75:#FAFAFA;--gray-50:#FDFDFD;--white:#FFFFFF;
+  --bg-base:#FFFFFF;--bg-layer-1:#FAFAFA;--bg-layer-2:#F4F4F5;
+  --border:#E6E6E6;--border-strong:#D5D5D5;
+  --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+  --radius:16px;--radius-sm:8px;--radius-pill:9999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 8px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08);
+  --focus-ring:var(--s2-blue);--maxw:1200px;
+  --hero-start:#2d2d2d;--hero-mid:#1c1c1c;--hero-end:#0e0e0e;
+  --hero-text:#d3d3d3;--hero-muted:#d9d9d9;--hero-kicker:#ff8f84;--hero-chip-text:#ececec;
+  --hero-lift:rgba(255,255,255,.12);--hero-lift-soft:rgba(255,255,255,.05);
+  --scanline:rgba(255,255,255,.03);--scan-mask:#000;--clear:transparent;
+  --hero-line:rgba(255,255,255,.12);--mark-glow:rgba(255,255,255,.18);
+  --chip-fill:rgba(255,255,255,.09);--chip-line:rgba(255,255,255,.20);--chip-top:rgba(255,255,255,.17);--chip-shadow:rgba(0,0,0,.12);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;font-family:var(--font);color:var(--gray-800);background:var(--bg-base);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+::selection{background:var(--s2-blue-tint);}
+a{color:var(--s2-blue-down);text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:focus-visible,button:focus-visible,summary:focus-visible,[contenteditable]:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px;border-radius:var(--radius-sm);}
+button{font:inherit;cursor:pointer;}
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:100;pointer-events:none;}
+.progress span{display:block;width:100%;height:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,var(--coral-1),var(--coral-2));}
+.ai-note{background:var(--gray-100);border-bottom:1px solid var(--border);}
+.ai-note-inner{max-width:var(--maxw);margin:auto;padding:9px 24px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;line-height:1.45;color:var(--gray-500);}
+.ai-note b{color:var(--gray-600);font-weight:600;}
+.ai-note svg{flex:none;}
+.hero{position:relative;overflow:hidden;color:var(--white);padding:56px 24px 64px;background:radial-gradient(1350px 720px at 90% -18%,var(--hero-lift),var(--hero-lift-soft) 42%,var(--clear) 82%),linear-gradient(135deg,var(--hero-start),var(--hero-mid) 52%,var(--hero-end));}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--scanline) 1px,var(--clear) 1px);background-size:100% 34px;opacity:.5;-webkit-mask:linear-gradient(var(--scan-mask),var(--clear) 70%);mask:linear-gradient(var(--scan-mask),var(--clear) 70%);}
+.hero-inner{max-width:var(--maxw);margin:auto;position:relative;z-index:1;}
+.masthead{display:flex;justify-content:space-between;align-items:center;gap:10px 16px;flex-wrap:wrap;padding-bottom:24px;border-bottom:1px solid var(--hero-line);}
+.brandrow{display:flex;align-items:center;gap:11px;}
+.brand-mark{height:26px;width:auto;flex:none;filter:drop-shadow(0 2px 12px var(--mark-glow));}
+.brandname{font-size:19px;font-weight:800;letter-spacing:-.02em;}
+.brandname span{font-weight:400;color:var(--hero-muted);}
+.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:800;color:var(--hero-kicker);}
+.hero-body{margin-top:40px;}
+.hero h1{margin:0;font-size:clamp(36px,4.6vw,58px);line-height:1.05;letter-spacing:-.025em;font-weight:800;max-width:21ch;}
+.hero h1 .hl{background:linear-gradient(100deg,var(--coral-1),var(--coral-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:var(--clear);color:var(--clear);padding-bottom:.3em;}
+.lead{font-size:clamp(17px,2vw,21px);color:var(--hero-text);max-width:68ch;margin:22px 0 0;}
+.hero-chips{display:flex;flex-wrap:wrap;gap:12px;padding:0;margin:30px 0 0;list-style:none;}
+.hero-chips li{border:1px solid var(--chip-line);background:var(--chip-fill);padding:9px 17px;border-radius:var(--radius-pill);font-size:13.5px;color:var(--hero-chip-text);box-shadow:inset 0 1px 0 var(--chip-top),0 1px 5px var(--chip-shadow);}
+.shell{max-width:var(--maxw);margin:auto;padding:0 24px 64px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:64px;}
+.rail{position:sticky;top:24px;align-self:start;padding:40px 0 12px;max-height:calc(100vh - 48px);overflow-y:auto;}
+.rail-title{padding-left:14px;margin:0 0 14px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-500);}
+.rail nav{display:flex;flex-direction:column;gap:2px;}
+.rail nav a{display:flex;align-items:center;gap:11px;padding:9px 14px;border-left:2px solid var(--clear);border-radius:var(--radius-sm);color:var(--gray-600);font-size:14px;font-weight:600;transition:background .15s,color .15s,border-color .15s;}
+.rail nav a:hover{background:var(--gray-100);color:var(--ink);text-decoration:none;}
+.rail nav .num{font-family:var(--mono);font-size:11px;color:var(--gray-300);min-width:16px;}
+.rail nav a.active{color:var(--s2-blue-down);background:var(--s2-blue-tint);border-left-color:var(--s2-blue);}
+.rail nav a.active .num{color:var(--s2-blue);}
+.rail nav a:focus-visible{outline-offset:-2px;}
+.rail-meta{margin-top:20px;padding:16px 14px 0;border-top:1px solid var(--border);color:var(--gray-600);font-size:12px;line-height:1.6;}
+.rail-meta b{display:block;font-family:var(--mono);font-size:11px;color:var(--gray-700);margin-bottom:4px;}
+.content{min-width:0;padding-top:48px;}
+.mobile-meta{display:none;}
+main{counter-reset:sec;}
+section{scroll-margin-top:24px;padding-bottom:48px;counter-increment:sec;}
+section+section{border-top:1px solid var(--border);border-image:linear-gradient(90deg,var(--clear),var(--border) 18%,var(--border) 82%,var(--clear)) 1;padding-top:48px;}
+.sec-eyebrow{margin:0 0 14px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--gray-500);}
+.sec-eyebrow::before{content:counter(sec,decimal-leading-zero) "  ·  ";font-family:var(--mono);font-weight:600;letter-spacing:.02em;color:var(--adobe-red);white-space:pre;}
+h2{font-size:clamp(25px,2.8vw,33px);line-height:1.15;letter-spacing:-.015em;font-weight:800;color:var(--ink);margin:0 0 22px;}
+h3{font-size:19px;line-height:1.3;letter-spacing:-.01em;color:var(--ink);margin:32px 0 14px;}
+h4{font-size:16px;line-height:1.35;letter-spacing:-.008em;color:var(--ink);margin:0 0 8px;}
+p{margin:0 0 18px;}
+strong{color:var(--ink);}
+.guide-list{padding-left:22px;margin:18px 0;}
+.guide-list li{padding-left:3px;margin:10px 0;}
+.overview>p:first-of-type{font-size:18px;color:var(--gray-700);}
+.subhead{display:flex;align-items:center;gap:14px;margin:36px 0 18px;}
+.subhead h3{margin:0;}
+.subhead::after{content:"";flex:1;height:1px;background:var(--border);}
+.takeaway{position:relative;margin:26px 0;padding:20px 24px 20px 28px;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius);}
+.takeaway::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:3px;border-radius:0 3px 3px 0;background:linear-gradient(var(--adobe-red),var(--coral-1));}
+.tk-label,.ol-label{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;margin-bottom:8px;}
+.tk-label{color:var(--adobe-red);}
+.takeaway p{margin:0;}
+.oneliner{margin-top:28px;padding:26px 28px;border-radius:var(--radius);background:radial-gradient(700px 360px at 95% -30%,var(--hero-lift),var(--hero-lift-soft) 45%,var(--clear) 80%),linear-gradient(135deg,var(--hero-start),var(--hero-mid) 55%,var(--hero-end));color:var(--hero-text);box-shadow:var(--shadow);}
+.ol-label{color:var(--coral-bright);}
+.oneliner p{margin:0;font-size:16px;line-height:1.65;}
+.oneliner strong{color:var(--white);}
+.outcome-grid,.principle-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:0;margin:20px 0;list-style:none;}
+.outcome-grid li:last-child{grid-column:1/-1;}
+.outcome-grid p{font-size:16px;line-height:1.55;margin:12px 0 0;color:var(--ink);}
+.principle-grid .card{background:var(--bg-layer-1);box-shadow:var(--shadow-sm);padding:20px;}
+.principle-grid p{margin:0;font-size:15px;color:var(--gray-700);}
+.patterns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;list-style:none;padding:0;margin:28px 0;}
+.patterns .card{padding:20px;}
+.patterns h3{font-size:20px;margin:20px 0 12px;}
+.patterns p{margin:0;color:var(--gray-700);line-height:1.55;}
+.diagram{display:flex;align-items:center;justify-content:center;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius-sm);min-height:116px;padding:8px;}
+.diagram svg{width:100%;max-width:176px;height:100px;display:block;}
+.dg-line{stroke:var(--gray-400);stroke-width:1.5;}
+.dg-dash{stroke:var(--gray-400);stroke-width:1.5;stroke-dasharray:4 3;}
+.dg-halo{fill:var(--gray-200);}
+.dg-hub{fill:var(--gray-800);}
+.dg-team{fill:var(--gray-300);stroke:var(--gray-500);stroke-width:1;}
+.dg-sat{fill:var(--gray-400);}
+.dg-ring{fill:var(--clear);stroke:var(--gray-300);stroke-width:1.5;stroke-dasharray:4 4;}
+.dg-faint{stroke:var(--gray-300);stroke-width:1.5;stroke-dasharray:3 3;}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);margin:24px 0;background:var(--bg-base);box-shadow:var(--shadow-sm);}
+table{border-collapse:collapse;width:100%;font-size:15px;text-align:left;}
+th{background:var(--bg-layer-2);padding:14px 18px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-600);font-weight:600;}
+td{padding:16px 18px;border-top:1px solid var(--border);vertical-align:top;}
+td:first-child{font-weight:700;color:var(--ink);}
+tbody tr{transition:background .15s;}
+tbody tr:hover td{background:var(--gray-100);}
+.role-table{min-width:600px;}
+.role-table td:first-child{width:33%;}
+.cycle-phases{display:grid;gap:30px;margin:28px 0;}
+.phase-head{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:16px;}
+.phase-head h3{margin:0;font-size:18px;}
+.phase-head .cnum{white-space:nowrap;}
+.work-cycle{counter-reset:work;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;list-style:none;padding:0;margin:0;}
+.work-cycle[start="5"]{counter-reset:work 4;}
+.work-cycle li{position:relative;counter-increment:work;padding:64px 22px 22px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-base);box-shadow:var(--shadow);font-size:15.5px;line-height:1.55;transition:border-color .15s,box-shadow .15s;}
+.work-cycle li:hover{border-color:var(--border-strong);box-shadow:var(--shadow-lg);}
+.work-cycle li::before{content:counter(work,decimal-leading-zero);position:absolute;top:20px;left:22px;display:grid;place-items:center;min-width:28px;height:28px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-1);font-family:var(--mono);font-size:12px;font-weight:700;color:var(--adobe-red);}
+.work-cycle li:nth-child(odd)::after{content:"";position:absolute;right:24px;top:30px;width:6px;height:6px;border-top:1px solid var(--gray-400);border-right:1px solid var(--gray-400);transform:rotate(45deg);}
+.work-cycle strong{display:block;font-size:17px;line-height:1.35;margin-bottom:8px;}
+.review-panel{padding:24px;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius);margin:24px 0;}
+.panel-title{font-weight:700;color:var(--ink);margin-bottom:18px;}
+.review-pack,.pilot-checks{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 24px;}
+.review-pack li,.pilot-checks li{position:relative;padding:14px 0 14px 28px;border-top:1px solid var(--border);font-size:15px;line-height:1.55;}
+.review-pack li::before,.pilot-checks li::before{content:"";position:absolute;left:2px;top:19px;width:6px;height:10px;border-right:1.5px solid var(--gray-600);border-bottom:1.5px solid var(--gray-600);transform:rotate(45deg);}
+.pilot-checks{margin:24px 0;}
+.adoption-steps{list-style:none;counter-reset:adoption;padding:0 0 0 50px;margin:28px 0;position:relative;}
+.adoption-steps::before{content:"";position:absolute;top:24px;bottom:24px;left:16px;width:1px;background:var(--border-strong);}
+.adoption-steps li{position:relative;counter-increment:adoption;margin:14px 0;padding:20px 24px;}
+.adoption-steps li::before{content:counter(adoption);position:absolute;left:-50px;top:20px;display:grid;place-items:center;width:33px;height:33px;border:1px solid var(--coral-1);border-radius:var(--radius-pill);background:var(--bg-base);color:var(--adobe-red);font-family:var(--mono);font-size:12px;font-weight:700;}
+.adoption-steps h3{font-size:17px;margin:0 0 6px;}
+.adoption-steps p{margin:0;color:var(--gray-700);}
+.adoption-steps .card:hover{transform:none;}
+.measurement-compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin:26px 0;}
+.measure-panel{display:flex;flex-direction:column;}
+.measure-panel h3{font-size:20px;}
+.measure-panel p{margin:0;color:var(--gray-700);}
+.measure-panel .cnum{font-size:11px;}
+.card{border:1px solid var(--border);border-radius:var(--radius);padding:22px;background:var(--bg-base);box-shadow:var(--shadow);transition:border-color .15s,transform .15s,box-shadow .15s;}
+.card:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow-lg);}
+.cnum{font-family:var(--mono);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--gray-500);}
+.card h3{margin:12px 0;}
+.card p,.card li{font-size:15px;}
+.utility{font-size:13.5px;color:var(--gray-600);line-height:1.55;margin:22px 0 0;}
+.ws-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:24px 0;}
+.ws-status{font-size:13px;color:var(--gray-600);}
+.ws-status.is-error{color:var(--gray-800);font-weight:600;}
+.ws-actions{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto;}
+.btn{border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:9px 13px;background:var(--bg-base);font-size:13px;font-weight:600;color:var(--gray-700);}
+.btn:hover{background:var(--gray-100);}
+.btn-primary{background:var(--s2-blue);border-color:var(--s2-blue);color:var(--white);}
+.btn-primary:hover{background:var(--s2-blue-down);}
+.ws-table{min-width:620px;}
+.ws-table td:first-child{width:35%;}
+.ws-table small{display:block;color:var(--gray-600);font-weight:400;font-size:12px;margin-top:4px;}
+.fill{min-height:38px;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius-sm);padding:8px 10px;font-weight:400;font-size:14px;color:var(--gray-800);white-space:pre-wrap;overflow-wrap:anywhere;}
+.fill:empty::before{content:attr(data-placeholder);color:var(--gray-500);pointer-events:none;}
+.fill:focus{background:var(--bg-base);}
+.seg{display:flex;flex-wrap:wrap;gap:6px;}
+.seg button{border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-1);color:var(--gray-600);font-size:12px;padding:7px 10px;}
+.seg button[aria-pressed="true"]{border-color:var(--s2-blue);color:var(--s2-blue-down);background:var(--s2-blue-tint);}
+.legacy-planning{border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-top:24px;background:var(--bg-layer-1);}
+.legacy-planning summary{font-weight:700;cursor:pointer;color:var(--gray-700);}
+.legacy-planning[open]>summary{margin-bottom:18px;}
+.esc-table{min-width:720px;font-size:14px;}
+.esc-table td:first-child{width:21%;}
+.esc-table td:nth-child(2){width:27%;}
+.esc-table td:nth-child(3),.esc-table td:nth-child(4){width:26%;}
+.site-footer{background:var(--charcoal-2);color:var(--gray-400);}
+.foot-inner{max-width:var(--maxw);margin:auto;padding:30px 24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px 24px;}
+.foot-brand{display:flex;align-items:center;gap:11px;font-weight:800;font-size:16px;letter-spacing:-.01em;color:var(--white);}
+.foot-brand img{height:22px;width:auto;display:block;}
+.foot-brand span{font-weight:400;color:var(--gray-300);}
+.foot-right{text-align:right;line-height:1.5;}
+.fr-1{font-size:13px;font-weight:600;color:var(--gray-400);margin:0;}
+.fr-2{font-size:12px;color:var(--gray-600);margin:2px 0 0;}
+@media(max-width:980px){.shell{grid-template-columns:minmax(0,1fr);gap:0;}.rail{display:none;}.mobile-meta{display:block;font-size:12px;color:var(--gray-600);margin-bottom:30px;}}
+@media(max-width:640px){
+  .hero{padding:32px 24px 42px;}.hero-body{margin-top:30px;}.kicker{font-size:10.5px;letter-spacing:.13em;}
+  .hero-chips{gap:8px;margin-top:24px;}.hero-chips li{font-size:12px;padding:7px 12px;}
+  .shell{padding:0 20px 40px;}.content{padding-top:36px;}
+  section{padding-bottom:36px;}section+section{padding-top:36px;}
+  .outcome-grid,.principle-grid,.patterns,.work-cycle,.measurement-compare,.review-pack,.pilot-checks{grid-template-columns:1fr;}
+  .outcome-grid li:last-child{grid-column:auto;}
+  .patterns .card{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px 18px;align-items:start;}
+  .patterns .diagram{grid-column:1;grid-row:1/3;min-height:90px;padding:4px;margin-top:4px;}
+  .patterns .diagram svg{height:auto;}
+  .patterns h3{grid-column:2;margin:0;font-size:19px;}
+  .patterns p{grid-column:2;}
+  .work-cycle li{padding:18px 18px 18px 58px;}.work-cycle li::before{left:16px;top:18px;}
+  .work-cycle li:nth-child(odd)::after{display:none;}
+  .phase-head{gap:8px;flex-direction:column;}
+  .adoption-steps{padding-left:42px;}.adoption-steps li{padding:18px;}.adoption-steps li::before{left:-42px;}
+  .review-panel{padding:20px;}
+  .oneliner{padding:22px;}.takeaway{padding:18px 20px 18px 24px;}
+  .ws-table{min-width:0;}.ws-table th:first-child,.ws-table td:first-child{width:35%;}
+  .ws-table td,.ws-table th{padding:12px 10px;}.ws-table td{font-size:13px;}.fill{font-size:13px;}
+  .legacy-planning{padding:16px;}.foot-inner{flex-direction:column;align-items:flex-start;}.foot-right{text-align:left;}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto;}*{animation:none!important;transition:none!important;}}
+@media print{
+  .progress,.rail,.hero-chips,.ws-actions,.ws-status{display:none!important;}
+  .mobile-meta{display:block;font-size:11px;color:var(--gray-600);margin-bottom:24px;}
+  .shell{display:block;padding:0;}.content{padding-top:28px;}
+  .hero{padding:28px 20px;}.hero h1{font-size:36px;}.hero-body{margin-top:24px;}.masthead{padding-bottom:16px;}
+  section{padding-bottom:26px;}section+section{padding-top:26px;}
+  h2{font-size:24px;break-after:avoid;}h3,.sec-eyebrow{break-after:avoid;}
+  .table-wrap{overflow:visible;box-shadow:none;}.role-table,.ws-table,.esc-table{min-width:0;}
+  td,th{padding:9px;font-size:11px;}tr{break-inside:avoid;}
+  .card,.work-cycle li{box-shadow:none;break-inside:avoid;}
+  .outcome-grid,.principle-grid,.work-cycle,.measurement-compare,.review-pack,.pilot-checks{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .patterns{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+  .patterns .card{display:block;padding:14px;}
+  .patterns h3{margin:12px 0;font-size:16px;}
+  .patterns p,.principle-grid p,.outcome-grid p,.work-cycle li,.adoption-steps p,.measure-panel p{font-size:12px;}
+  .work-cycle li{padding:48px 16px 16px;}.work-cycle li::before{top:12px;left:16px;}
+  .work-cycle strong{font-size:14px;}
+  .phase-head{break-after:avoid;}
+  .oneliner,.takeaway{break-inside:avoid;}
+  .adoption-steps li{margin:10px 0;padding:14px 18px;}
+  .diagram{min-height:90px;}
+  .diagram svg{height:80px;}
+  .legacy-planning{border:0;padding:0;background:var(--bg-base);}
+  .fill:empty::before{color:var(--gray-600);}
+}
+</style></head>
+<body>
+<div class="progress" aria-hidden="true"><span id="progressbar"></span></div>
+<div class="ai-note"><div class="ai-note-inner">
+<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+<span><b>Prepared with AI assistance.</b> Please review for accuracy before use &mdash; this document may contain errors.</span>
+</div></div>
+<header class="hero"><div class="hero-inner">
+<div class="masthead"><div class="brandrow"><img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe"><span class="brandname">Adobe&nbsp;<span>Brand Visibility</span></span></div>
+<span class="kicker">Customer operating framework &middot; ABV</span></div>
+<div class="hero-body"><h1>Operating model &amp; <span class="hl">change</span> <span class="hl">management</span></h1>
+<p class="lead">Organize, adopt, and sustain the way teams turn ABV insights into action.</p>
+<ul class="hero-chips"><li>Clear ownership</li><li>Agreed decisions</li><li>Supported adoption</li></ul>
+</div></div></header>
+<div class="shell"><aside class="rail"><p class="rail-title">Contents</p><nav id="spy-nav" aria-label="Contents"><a href="#why"><span class="num">01</span>Purpose &amp; principles</a>
+<a href="#structure"><span class="num">02</span>Operating approach</a>
+<a href="#roles"><span class="num">03</span>Roles &amp; decisions</a>
+<a href="#work-cycle"><span class="num">04</span>ABV work cycle</a>
+<a href="#governance"><span class="num">05</span>Governance &amp; cadence</a>
+<a href="#adoption"><span class="num">06</span>Change &amp; adoption</a>
+<a href="#measures"><span class="num">07</span>Measurement</a>
+<a href="#practice"><span class="num">08</span>Pilot &amp; handover</a>
+<a href="#summary"><span class="num">09</span>Planning worksheet</a></nav>
+<div class="rail-meta"><b>Version 0.6</b>Updated September 30, 2026<br>Owner: customer ABV program lead<br>Review: quarterly and on material operating changes</div></aside>
+<div class="content"><p class="mobile-meta">Version 0.6 &middot; September 30, 2026<br>Owner: customer ABV program lead &middot; Review quarterly and on material operating changes</p><main><section id="why" class="overview"><p class="sec-eyebrow">Purpose &amp; principles</p><h2>Purpose and intended outcomes</h2><p>This guide describes how teams can organize and sustain work with Adobe Brand Visibility (ABV). It focuses on the people, decisions, governance, and change practices needed to turn ABV insights into prioritized actions and evaluate their impact.</p>
+<div class="takeaway intro-definition"><span class="tk-label">Two complementary disciplines</span><p>The operating model clarifies <strong>who is involved, how decisions are made, and how work moves across teams</strong>. Change management helps people understand, adopt, and sustain the agreed ways of working.</p></div>
+<p>This is a flexible framework, not a prescribed organization design. Adapt it to the customer&#x27;s structure, objectives, and existing governance.</p><div class="subhead"><h3>Intended outcomes</h3></div><p>An effective ABV operating model and change approach should help teams:</p>
+<ul class="outcome-grid"><li class="card"><span class="cnum">01 &middot; Business alignment</span><p>Align ABV work to business priorities and relevant customer journeys.</p></li><li class="card"><span class="cnum">02 &middot; Clear ownership</span><p>Establish clear ownership, decision rights, and cross-functional collaboration.</p></li><li class="card"><span class="cnum">03 &middot; Insight to action</span><p>Move from insight to approved action, implementation, and review.</p></li><li class="card"><span class="cnum">04 &middot; People adoption</span><p>Build the sponsorship, communication, and capabilities needed for adoption.</p></li><li class="card"><span class="cnum">05 &middot; Sustained operations</span><p>Sustain the work through an agreed governance cadence and transition to business as usual.</p></li></ul><div class="subhead"><h3>Guiding principles</h3></div><ul class="principle-grid"><li class="card"><h4>Start with the business objective.</h4><p>Define what the team wants to improve before selecting measures or actions.</p></li><li class="card"><h4>Use evidence to guide decisions.</h4><p>Connect recommendations to ABV insights, customer priorities, and an agreed measurement approach.</p></li><li class="card"><h4>Make ownership explicit.</h4><p>Every decision and action should have a clear owner.</p></li><li class="card"><h4>Work across functions.</h4><p>Include the business, brand, content, GEO/SEO, web, analytics, and other relevant teams.</p></li><li class="card"><h4>Use existing processes where possible.</h4><p>Align ABV reviews and resulting changes with established planning, approval, release, and reporting practices.</p></li><li class="card"><h4>Adapt the model.</h4><p>Governance should provide enough clarity and control without adding unnecessary overhead.</p></li></ul></section>
+<section id="structure" class="guide-section"><p class="sec-eyebrow">Operating approach</p><h2>Choose an operating approach</h2><p>Organizations may use centralized, federated, or decentralized ways of working. The right approach depends on factors such as the number of business units, the level of local autonomy, available capabilities, and the need for shared oversight.</p>
+<ul class="patterns"><li class="card"><div class="diagram" aria-hidden="true"><svg viewBox="0 0 176 100">
+                <line class="dg-line" x1="88" y1="50" x2="28" y2="20"/>
+                <line class="dg-line" x1="88" y1="50" x2="148" y2="20"/>
+                <line class="dg-line" x1="88" y1="50" x2="28" y2="80"/>
+                <line class="dg-line" x1="88" y1="50" x2="148" y2="80"/>
+                <circle class="dg-halo" cx="88" cy="50" r="21"/>
+                <circle class="dg-hub" cx="88" cy="50" r="13"/>
+                <circle class="dg-team" cx="28" cy="20" r="7"/>
+                <circle class="dg-team" cx="148" cy="20" r="7"/>
+                <circle class="dg-team" cx="28" cy="80" r="7"/>
+                <circle class="dg-team" cx="148" cy="80" r="7"/>
+              </svg>
+</div><h3>Centralized:</h3><p>A central team coordinates priorities, standards, and decisions; delivery teams carry out agreed work.</p></li><li class="card"><div class="diagram" aria-hidden="true"><svg viewBox="0 0 176 100">
+                <line class="dg-dash" x1="88" y1="50" x2="34" y2="26"/>
+                <line class="dg-dash" x1="88" y1="50" x2="142" y2="26"/>
+                <line class="dg-dash" x1="88" y1="50" x2="34" y2="74"/>
+                <line class="dg-dash" x1="88" y1="50" x2="142" y2="74"/>
+                <line class="dg-line" x1="34" y1="26" x2="12" y2="10"/><line class="dg-line" x1="34" y1="26" x2="10" y2="38"/>
+                <line class="dg-line" x1="142" y1="26" x2="164" y2="10"/><line class="dg-line" x1="142" y1="26" x2="166" y2="38"/>
+                <line class="dg-line" x1="34" y1="74" x2="10" y2="62"/><line class="dg-line" x1="34" y1="74" x2="12" y2="90"/>
+                <line class="dg-line" x1="142" y1="74" x2="166" y2="62"/><line class="dg-line" x1="142" y1="74" x2="164" y2="90"/>
+                <circle class="dg-halo" cx="88" cy="50" r="16"/>
+                <circle class="dg-hub" cx="88" cy="50" r="9"/>
+                <circle class="dg-team" cx="34" cy="26" r="10"/>
+                <circle class="dg-team" cx="142" cy="26" r="10"/>
+                <circle class="dg-team" cx="34" cy="74" r="10"/>
+                <circle class="dg-team" cx="142" cy="74" r="10"/>
+                <circle class="dg-sat" cx="12" cy="10" r="3.5"/><circle class="dg-sat" cx="10" cy="38" r="3.5"/>
+                <circle class="dg-sat" cx="164" cy="10" r="3.5"/><circle class="dg-sat" cx="166" cy="38" r="3.5"/>
+                <circle class="dg-sat" cx="10" cy="62" r="3.5"/><circle class="dg-sat" cx="12" cy="90" r="3.5"/>
+                <circle class="dg-sat" cx="166" cy="62" r="3.5"/><circle class="dg-sat" cx="164" cy="90" r="3.5"/>
+              </svg>
+</div><h3>Federated:</h3><p>A central team sets shared direction and governance while business units or markets plan and execute locally.</p></li><li class="card"><div class="diagram" aria-hidden="true"><svg viewBox="0 0 176 100">
+                <ellipse class="dg-ring" cx="88" cy="50" rx="80" ry="44"/>
+                <line class="dg-faint" x1="42" y1="34" x2="88" y2="54"/>
+                <line class="dg-faint" x1="88" y1="54" x2="134" y2="30"/>
+                <line class="dg-faint" x1="88" y1="54" x2="58" y2="76"/>
+                <line class="dg-faint" x1="88" y1="54" x2="128" y2="74"/>
+                <circle class="dg-team" cx="42" cy="34" r="9"/>
+                <circle class="dg-team" cx="134" cy="30" r="9"/>
+                <circle class="dg-team" cx="88" cy="54" r="9"/>
+                <circle class="dg-team" cx="58" cy="76" r="9"/>
+                <circle class="dg-team" cx="128" cy="74" r="9"/>
+              </svg>
+</div><h3>Decentralized:</h3><p>Individual teams lead their own work within shared enterprise principles and agreed guardrails.</p></li></ul>
+<div class="takeaway"><span class="tk-label">Design for your organization</span><p>The operating approach may evolve as ABV work matures. The essential requirement is clarity about who coordinates, who decides, and who executes.</p></div></section>
+<section id="roles" class="guide-section"><p class="sec-eyebrow">Roles &amp; decisions</p><h2>Define roles and decision rights</h2><p>Assign responsibilities based on the customer&#x27;s organization. One person may cover more than one role.</p>
+<div class="table-wrap"><table class="role-table"><thead><tr><th scope="col">Role</th><th scope="col">Primary responsibility</th></tr></thead><tbody><tr><td>Executive sponsor</td><td>Connects ABV work to business priorities, provides visible support, and helps resolve cross-functional barriers.</td></tr><tr><td>ABV program or operating lead</td><td>Coordinates the work, maintains priorities and actions, and facilitates governance and communication.</td></tr><tr><td>Business, brand, or product owner</td><td>Defines the business context and customer journey, validates priorities, and makes or sponsors business decisions.</td></tr><tr><td>GEO/SEO and content teams</td><td>Interpret relevant insights and recommend or create content and experience changes.</td></tr><tr><td>Web, engineering, or implementation teams</td><td>Assess and deliver approved changes through the organization&#x27;s established processes.</td></tr><tr><td>Analytics or measurement owner</td><td>Aligns measurement definitions, maintains the baseline where applicable, and supports review of results.</td></tr><tr><td>Legal, compliance, or other reviewers</td><td>Participate when the proposed change requires their review under the organization&#x27;s processes.</td></tr></tbody></table></div>
+<div class="takeaway"><span class="tk-label">Clarify the decision path</span><p>For each recurring decision, clarify who <strong>recommends</strong>, <strong>approves</strong>, <strong>executes</strong>, and <strong>reviews</strong>. For example, identify who can prioritize an opportunity, who approves a proposed change, and who confirms that the change was implemented and assessed.</p></div></section>
+<section id="work-cycle" class="guide-section"><p class="sec-eyebrow">ABV work cycle</p><h2>Use a consistent ABV work cycle</h2><p>Use a repeatable cycle to connect ABV insights to action:</p>
+<div class="cycle-phases"><div class="cycle-phase"><div class="phase-head"><span class="cnum">01 &middot; Frame the work</span><h3>Focus, scope, objectives, and evidence</h3></div><ol class="work-cycle" start="1"><li><strong>Set the focus.</strong> Identify the product, business priority, and customer journey the team will address.</li><li><strong>Select the GEO loop.</strong> Agree on the scope of the work and the question the team wants to answer.</li><li><strong>Choose the objective and KPIs.</strong> Select relevant goals and measures from the GEO metrics funnel in the step-by-step guide. The appropriate measures will vary by product and customer journey. Use the sample reports for examples of how results can be presented.</li><li><strong>Establish the measurement approach.</strong> Agree on the starting point, the measures to review, and the owners responsible for interpreting results.</li></ol></div><div class="cycle-phase"><div class="phase-head"><span class="cnum">02 &middot; Act and learn</span><h3>Priorities, decisions, delivery, and review</h3></div><ol class="work-cycle" start="5"><li><strong>Prioritize opportunities.</strong> Review available evidence, assess relevance and feasibility, and identify the actions that merit consideration.</li><li><strong>Make and document decisions.</strong> Record the decision, rationale, approver, owner, and any dependencies.</li><li><strong>Implement approved changes.</strong> Route work through the customer&#x27;s established content, approval, and release processes.</li><li><strong>Review and learn.</strong> Assess results against the agreed objective and measures. Capture lessons and decide whether to continue, adjust, or expand the work.</li></ol></div></div>
+<div class="oneliner"><span class="ol-label">The loop is a decision discipline</span><p>The goal is not to change every cycle. It is to make decisions and next steps clear, traceable, and aligned to the agreed objective.</p></div></section>
+<section id="governance" class="guide-section"><p class="sec-eyebrow">Governance &amp; cadence</p><h2>Establish governance and a working cadence</h2><p>Use existing forums where they can support ABV decisions. Add a dedicated review only when current forums do not provide the required ownership or decision-making.</p>
+<div class="review-panel"><p class="panel-title">A governance review should cover:</p>
+<ul class="review-pack"><li>The current objective, GEO loop, and relevant customer journey.</li><li>Key insights and proposed priorities.</li><li>Decisions required, including the decision owner.</li><li>Actions in progress, accountable owners, and dependencies.</li><li>Adoption or implementation barriers.</li><li>Measurement updates and the next review point.</li></ul></div>
+<div class="takeaway"><span class="tk-label">Keep follow-through visible</span><p>Set the review frequency according to the pace of the work and the customer&#x27;s planning cycle. Keep a shared record of decisions, actions, owners, and outcomes so that teams can follow through between reviews.</p></div></section>
+<section id="adoption" class="guide-section"><p class="sec-eyebrow">Change &amp; adoption</p><h2>Plan for change and adoption</h2><p>Change management should begin when the work is planned—not after changes are ready to launch.</p>
+<ul class="adoption-steps"><li class="card"><h3>Secure sponsorship.</h3><p>Confirm a leader who can explain why the work matters and help resolve barriers.</p></li><li class="card"><h3>Identify impacted teams.</h3><p>Understand which roles or workflows will change and involve relevant stakeholders early.</p></li><li class="card"><h3>Communicate clearly.</h3><p>Explain the purpose, expected changes, timing, responsibilities, and where people can ask questions.</p></li><li class="card"><h3>Enable people for their roles.</h3><p>Provide focused guidance, examples, or working sessions that help each group perform its part of the process.</p></li><li class="card"><h3>Check readiness.</h3><p>Confirm that owners, approvals, capacity, and supporting processes are in place before scaling changes.</p></li><li class="card"><h3>Gather feedback.</h3><p>Provide a way for teams to raise issues and share what is or is not working.</p></li><li class="card"><h3>Reinforce adoption.</h3><p>Use review forums and leadership communication to recognize progress, address gaps, and sustain the agreed practices.</p></li></ul></section>
+<section id="measures" class="guide-section"><p class="sec-eyebrow">Measurement</p><h2>Measure progress</h2><p>Keep business outcomes and operating effectiveness distinct.</p><div class="measurement-compare"><article class="card measure-panel"><span class="cnum">Outcomes</span><h3>ABV and business measures:</h3><p>For each GEO loop, select the relevant objective and KPIs from the GEO metrics funnel in the step-by-step guide. The measures should reflect the product and customer journey in scope.</p></article><article class="card measure-panel"><span class="cnum">Ways of working</span><h3>Operating and adoption measures:</h3><p>Where useful, review whether teams are following through on decisions, completing agreed actions, engaging the necessary stakeholders, and using the agreed process. Select measures that help the team improve; do not add metrics without a clear purpose.</p></article></div><div class="takeaway"><span class="tk-label">Agree the review contract</span><p>Agree in advance who will review each measure, how often it will be discussed, and how the results will influence the next decision. Do not assume that one set of KPIs or thresholds applies to every product, journey, or customer.</p></div></section>
+<section id="practice" class="guide-section"><p class="sec-eyebrow">Pilot &amp; handover</p><h2>Pilot, learn, and transition to ongoing operations</h2><p>Begin with a focused scope that is meaningful to the business and manageable for the participating teams. Before expanding the work, review:</p>
+<ul class="pilot-checks"><li>Whether roles and decision rights were clear.</li><li>Whether the right stakeholders participated.</li><li>Whether actions moved through the agreed process.</li><li>Whether the measures supported useful decisions.</li><li>What should be adjusted before the next GEO loop or broader rollout.</li></ul>
+<div class="oneliner"><span class="ol-label">Transition to ongoing operations</span><p>When the work becomes part of ongoing operations, confirm the accountable business owner, recurring governance forum, action-tracking approach, measurement responsibilities, and onboarding approach for new participants. Document lessons and update the working approach as business priorities or team structures change.</p></div></section>
+<section id="summary" class="guide-section"><p class="sec-eyebrow">Planning worksheet</p><h2>Record the agreed way of working</h2><p>Use this supporting worksheet to capture the choices made with the customer. Keep formal approvals and sensitive records in the organization&rsquo;s approved system.</p><div class="ws-bar"><span class="ws-status" id="ws-status" aria-live="polite"></span><div class="ws-actions"><button class="btn btn-quiet" type="button" id="ws-clear">Clear saved entries</button><button class="btn btn-primary" type="button" id="ws-print">Print or save as PDF</button></div></div><div class="table-wrap"><table class="ws-table"><thead><tr><th scope="col">Item</th><th scope="col">Your decision</th></tr></thead><tbody><tr><td class="item">Business outcome(s)<small>Linked to business priorities</small></td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Business outcomes" data-key="outcomes" data-placeholder="Agreed business outcomes"></div></td></tr><tr><td class="item">Operating approach<small>Centralized, federated, or decentralized</small></td><td>
+                <div class="seg" role="group" aria-label="Operating approach">
+                  <button type="button" data-value="centralized" aria-pressed="false">Centralized</button>
+                  <button type="button" data-value="federated" aria-pressed="false">Federated</button>
+                  <button type="button" data-value="decentralized" aria-pressed="false">Decentralized</button>
+                </div></td></tr><tr><td class="item">Executive sponsor</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Executive sponsor" data-key="sponsor" data-placeholder="Name"></div></td></tr><tr><td class="item">Governance forum owner</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Governance forum owner" data-key="opco-chair" data-placeholder="Name"></div></td></tr><tr><td class="item">ABV program or operating lead</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="ABV program or operating lead" data-key="geo-lead" data-placeholder="Name"></div></td></tr><tr><td class="item">Adoption owner and local champions</td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Adoption owner and champions" data-key="adoption-owner" data-placeholder="Owner &middot; market/role champions &middot; backups"></div></td></tr><tr><td class="item">Business, brand, or product owners</td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Business, brand, or product owners" data-key="category-owners" data-placeholder="Product or journey &rarr; owner"></div></td></tr><tr><td class="item">Web, engineering, or implementation owner</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Web, engineering, or implementation owner" data-key="it-owner" data-placeholder="Name"></div></td></tr><tr><td class="item">Analytics or measurement owner</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Analytics or measurement owner" data-key="insights-lead" data-placeholder="Name"></div></td></tr><tr><td class="item">Committed capacity and system of record</td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Capacity and system of record" data-key="capacity-records" data-placeholder="Team &middot; capacity &middot; shared decision/action record"></div></td></tr><tr><td class="item">Forums and cadence</td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Forums and cadence" data-key="forums" data-placeholder="Forum &middot; frequency &middot; chair"></div></td></tr><tr><td class="item">Objectives and measures</td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Objectives and measures" data-key="measures" data-placeholder="GEO loop &middot; relevant KPIs &middot; starting point &middot; owner &middot; review point"></div></td></tr><tr><td class="item">Focused pilot and learning criteria</td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Focused pilot and learning criteria" data-key="pilot" data-placeholder="Scope &middot; objective &middot; learning criteria &middot; review date"></div></td></tr><tr><td class="item">Transition to ongoing operations</td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="BAU handover" data-key="handover" data-placeholder="Business owner &middot; forum &middot; action tracking &middot; measurement &middot; onboarding"></div></td></tr><tr><td class="item">Playbook owner and next review</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Playbook owner and next review" data-key="review-date" data-placeholder="Owner &middot; date"></div></td></tr></tbody></table></div><details class="legacy-planning"><summary>Additional planning and escalation details</summary><p>These fields are retained from the detailed playbook so existing entries remain accessible. Use only what supports your agreed operating approach; this guide does not impose lane rules, incident targets, or technical controls.</p><div class="table-wrap"><table class="ws-table"><thead><tr><th scope="col">Item</th><th scope="col">Your decision</th></tr></thead><tbody><tr><td class="item">Legal and compliance reviewer</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Legal and compliance reviewer" data-key="legal" data-placeholder="Name"></div></td></tr><tr><td class="item">Fast Lane allowance and lane rules</td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Fast Lane allowance and lane rules" data-key="lanes" data-placeholder="Allowance &middot; what qualifies &middot; deciders &middot; targets"></div></td></tr><tr><td class="item">Prompt approval path</td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Prompt approval path" data-key="prompt-approval" data-placeholder="Who agrees &middot; who decides &middot; when legal reviews &middot; prompt budget"></div></td></tr><tr><td class="item">Crawler-access decision<small>Per engine and purpose</small></td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Crawler-access decision" data-key="crawler" data-placeholder="Search, training, user fetch &middot; owner"></div></td></tr><tr><td class="item">Release and rollback readiness</td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Release and rollback readiness" data-key="release-readiness" data-placeholder="Approval &middot; tests &middot; rollback triggers &middot; named delegate &middot; evidence location"></div></td></tr><tr><td class="item">Incident coverage and acceptance</td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Incident coverage" data-key="incident-coverage" data-placeholder="Hours/timezone &middot; corporate on-call &middot; service targets &middot; accepted gaps"></div></td></tr><tr><td class="item">Role impacts, proficiency, and support</td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Role impacts and proficiency" data-key="people-readiness" data-placeholder="Changed behaviors &middot; skill/access gaps &middot; observed exercises &middot; help route"></div></td></tr><tr><td class="item">Communications and feedback plan</td><td><div class="fill" contenteditable="true" role="textbox" aria-multiline="true" aria-label="Communications plan" data-key="communications" data-placeholder="Audience &middot; message &middot; sender &middot; timing &middot; barrier log owner"></div></td></tr></tbody></table></div><h3>Escalation contacts</h3><div class="table-wrap"><table class="esc-table">
+            <thead><tr><th scope="col">Role</th><th scope="col">When to contact</th><th scope="col">Primary</th><th scope="col">Backup</th></tr></thead>
+            <tbody>
+              <tr><td class="item">GEO program lead</td><td>Every incident; sets severity</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="GEO program lead, primary contact" data-key="esc-geo-1" data-placeholder="Name &middot; phone"></div></td><td><div class="fill" contenteditable="true" role="textbox" aria-label="GEO program lead, backup contact" data-key="esc-geo-2" data-placeholder="Name &middot; phone"></div></td></tr>
+              <tr><td class="item">Business owner</td><td>Critical and High in their Category</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Business owner, primary contact" data-key="esc-bo-1" data-placeholder="Name &middot; phone"></div></td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Business owner, backup contact" data-key="esc-bo-2" data-placeholder="Name &middot; phone"></div></td></tr>
+              <tr><td class="item">Legal and compliance</td><td>Critical; any regulated claim</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Legal and compliance, primary contact" data-key="esc-legal-1" data-placeholder="Name &middot; phone"></div></td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Legal and compliance, backup contact" data-key="esc-legal-2" data-placeholder="Name &middot; phone"></div></td></tr>
+              <tr><td class="item">PR and communications</td><td>Critical; media or social exposure</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="PR and communications, primary contact" data-key="esc-pr-1" data-placeholder="Name &middot; phone"></div></td><td><div class="fill" contenteditable="true" role="textbox" aria-label="PR and communications, backup contact" data-key="esc-pr-2" data-placeholder="Name &middot; phone"></div></td></tr>
+              <tr><td class="item">IT, CDN, or on-call</td><td>Edge rollback; agents blocked</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="IT or CDN on-call, primary contact" data-key="esc-it-1" data-placeholder="Name or rota &middot; phone"></div></td><td><div class="fill" contenteditable="true" role="textbox" aria-label="IT or CDN on-call, backup contact" data-key="esc-it-2" data-placeholder="Name or rota &middot; phone"></div></td></tr>
+              <tr><td class="item">Executive sponsor</td><td>Critical, at notification</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Executive sponsor, primary contact" data-key="esc-sponsor-1" data-placeholder="Name &middot; phone"></div></td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Executive sponsor, backup contact" data-key="esc-sponsor-2" data-placeholder="Name &middot; phone"></div></td></tr>
+              <tr><td class="item">Adobe account team</td><td>Suspected product or data issue</td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Adobe account team, primary contact" data-key="esc-adobe-1" data-placeholder="Name &middot; email"></div></td><td><div class="fill" contenteditable="true" role="textbox" aria-label="Adobe account team, backup contact" data-key="esc-adobe-2" data-placeholder="Name &middot; email"></div></td></tr>
+            </tbody>
+          </table></div></details><p class="utility">Entries can be saved locally in this browser on this device if storage is permitted; nothing is sent anywhere. Moving the file or browser policies may affect access to saved entries. Heed the save status and use Print or save as PDF for a shareable snapshot. Do not enter sensitive personal or customer information.</p></section></main></div></div>
+<footer class="site-footer"><div class="foot-inner"><div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe&nbsp;<span>Brand Visibility</span></div>
+<div class="foot-right"><p class="fr-1">Operating model &amp; change management &middot; v0.6</p><p class="fr-2">&copy; 2026 Adobe</p></div></div></footer>
+<script>(function(){
+  /* Scrollspy */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#spy-nav a'));
+  var map = {}; links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
+  var sections = links.map(function(l){ return document.getElementById(l.getAttribute('href').slice(1)); }).filter(Boolean);
+  function setActive(id){
+    links.forEach(function(l){
+      var active=l===map[id]; l.classList.toggle('active',active);
+      if(active) l.setAttribute('aria-current','location');
+      else l.removeAttribute('aria-current');
+    });
+  }
+  function updateSpy(){
+    if(!sections.length) return;
+    var active=sections[0].id, line=Math.min(160,window.innerHeight*.15);
+    sections.forEach(function(section){ if(section.getBoundingClientRect().top<=line) active=section.id; });
+    if(window.scrollY+window.innerHeight>=document.documentElement.scrollHeight-2) active=sections[sections.length-1].id;
+    setActive(active);
+  }
+  var spyFrame;
+  function requestSpy(){
+    if(spyFrame) return;
+    spyFrame=window.requestAnimationFrame(function(){ spyFrame=null;updateSpy(); });
+  }
+  window.addEventListener('scroll',requestSpy,{passive:true});
+  window.addEventListener('resize',requestSpy);
+  updateSpy();
+  links.forEach(function(l){ l.addEventListener('click', function(){ setActive(l.getAttribute('href').slice(1)); }); });
+
+  /* Scroll-progress bar */
+  var pb=document.getElementById('progressbar');
+  if(pb){ var upd=function(){ var h=document.documentElement.scrollHeight-window.innerHeight;
+    pb.style.transform='scaleX('+Math.min(1,Math.max(0,h>0?window.scrollY/h:0))+')'; };
+    window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd(); }
+
+  /* Retain the v0.3 key so existing completed fields survive document revisions. */
+  var KEY='abv-operating-model-governance-worksheet-v3';
+  var data={};
+  var statusEl=document.getElementById('ws-status'), statusT;
+  var unreadable=false;
+  function storageError(message){
+    clearTimeout(statusT);
+    if(statusEl){ statusEl.textContent=message; statusEl.classList.add('is-error'); }
+  }
+  try{
+    var stored=JSON.parse(localStorage.getItem(KEY)||'{}');
+    if(!stored || typeof stored!=='object' || Array.isArray(stored) ||
+       Object.keys(stored).some(function(k){ return typeof stored[k]!=='string'; })){
+      throw new Error('Invalid worksheet data');
+    }
+    data=stored;
+  }catch(e){
+    unreadable=true;
+    storageError('Saved entries could not be read. Print a copy of new edits; Clear resets saved data.');
+  }
+  function save(){
+    if(unreadable) return;
+    try{ localStorage.setItem(KEY, JSON.stringify(data)); }
+    catch(e){
+      storageError('Not saved: browser storage is unavailable. Print or save as PDF to keep your entries.');
+      return;
+    }
+    if(statusEl){
+      statusEl.classList.remove('is-error'); statusEl.textContent='Saved in this browser'; clearTimeout(statusT);
+      statusT=setTimeout(function(){ statusEl.textContent=''; },1800);
+    }
+  }
+  var fills=Array.prototype.slice.call(document.querySelectorAll('.fill[data-key]'));
+  fills.forEach(function(f){
+    var k=f.getAttribute('data-key');
+    if(data[k]) f.textContent=data[k];
+    f.addEventListener('input',function(){
+      var v=f.innerText.replace(/\s+$/,'');
+      if(!v.trim()){ f.innerHTML=''; v=''; }
+      data[k]=v; save();
+    });
+    f.addEventListener('paste',function(e){
+      var t=(e.clipboardData||window.clipboardData);
+      if(!t) return;
+      e.preventDefault();
+      document.execCommand('insertText', false, t.getData('text/plain'));
+    });
+  });
+  var seg=Array.prototype.slice.call(document.querySelectorAll('.seg button'));
+  function paintSeg(){ seg.forEach(function(b){ b.setAttribute('aria-pressed', String(data.pattern===b.getAttribute('data-value'))); }); }
+  seg.forEach(function(b){ b.addEventListener('click',function(){
+    var v=b.getAttribute('data-value'); data.pattern = data.pattern===v ? '' : v; paintSeg(); save(); }); });
+  paintSeg();
+  var clr=document.getElementById('ws-clear');
+  if(clr) clr.addEventListener('click',function(){
+    if(!window.confirm('Clear all worksheet entries and escalation contacts saved for this playbook?')) return;
+    data={}; unreadable=false; fills.forEach(function(f){ f.innerHTML=''; }); paintSeg(); save();
+  });
+  var pr=document.getElementById('ws-print');
+  if(pr) pr.addEventListener('click',function(){ window.print(); });
+  var printDetails=null;
+  function preparePrint(){
+    if(printDetails) return;
+    printDetails=Array.prototype.slice.call(document.querySelectorAll('.legacy-planning')).map(function(detail){
+      var previous=detail.open;
+      if(Array.prototype.some.call(detail.querySelectorAll('.fill'),function(field){ return field.textContent.trim(); })) detail.open=true;
+      return {element:detail,open:previous};
+    });
+  }
+  function finishPrint(){
+    if(!printDetails) return;
+    printDetails.forEach(function(detail){ detail.element.open=detail.open; }); printDetails=null;
+  }
+  window.addEventListener('beforeprint',preparePrint);
+  window.addEventListener('afterprint',finishPrint);
+  window.matchMedia('print').addEventListener('change',function(event){ if(event.matches) preparePrint(); else finishPrint(); });
+})();
+</script></body></html>
 

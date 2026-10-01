@@ -133,32 +133,50 @@ main{min-width:0;display:grid;gap:24px;scroll-margin-top:28px;counter-reset:sec}
   .tile-output::before{content:none}
 }
 section{scroll-margin-top:28px;min-width:0;counter-increment:sec}
-.module{padding:32px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-base)}
+.module{container:module / inline-size;padding:32px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-base)}
 #actions,#review{background:var(--bg-layer-1)}
 #actions .feature-map,#actions .edge-catalog,#review .feature-map,#review .card{background:var(--bg-base)}
 .sec-eyebrow{font-size:11px;line-height:1.4;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-600);margin:0 0 12px}
 .sec-eyebrow::before{content:counter(sec,decimal-leading-zero) "  ·  ";font-family:var(--mono);color:var(--adobe-red);letter-spacing:.02em}
-.step-grid{display:grid;grid-template-columns:minmax(0,1fr) 242px;gap:32px;align-items:start}
-.step-side{display:grid;gap:14px;min-width:0}
-.actions{margin:0;padding-left:21px}
-.actions li{margin:0 0 15px;padding-left:4px}
-.actions li::marker{font-family:var(--mono);font-size:12px;color:var(--gray-500)}
-.actions li:last-child{margin-bottom:0}
-.feature-map{padding:20px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-1)}
+.actions{display:grid;gap:10px;margin:0;padding:0;list-style:none;counter-reset:act}
+.actions li{position:relative;counter-increment:act;display:grid;grid-template-columns:29px minmax(0,13.5rem) minmax(0,1fr);column-gap:20px;align-items:baseline;min-width:0;padding:18px 22px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-base);box-shadow:var(--shadow-sm);color:var(--gray-700);font-size:15px;line-height:1.6;transition:border-color .15s,transform .15s,box-shadow .15s}
+.actions li:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.actions li::before{content:counter(act,decimal-leading-zero);display:grid;place-items:center;width:29px;height:29px;border:1px solid var(--border-strong);border-radius:50%;background:var(--bg-base);font:600 10px/1 var(--mono);color:var(--adobe-red)}
+.actions li>strong:first-child{color:var(--ink);font-size:16px;line-height:1.4;letter-spacing:-.005em}
+.actions .desc{min-width:0}
+.feature-map{margin:0 0 24px;padding:18px 20px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-1)}
 .feature-heading{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-600);margin:0 0 12px}
 .feature-heading::before{content:"";width:7px;height:7px;flex:none;border:1px solid var(--gray-400);border-radius:2px}
-.feature-map dl{display:grid;gap:10px;margin:0}
+.feature-map dl{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:18px;margin:0}
 .feature-entry{min-width:0}
-.feature-entry+ .feature-entry{padding-top:10px;border-top:1px solid var(--border)}
+.feature-entry+ .feature-entry{padding-left:18px;border-left:1px solid var(--border)}
 .feature-map dt{font-size:14px;font-weight:600;line-height:1.4;color:var(--ink)}
 .feature-map dd{font-size:13px;line-height:1.55;color:var(--gray-700);margin:5px 0 0}
+.feature-map:has(.feature-entry:only-child){display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;padding-block:14px}
+.feature-map:has(.feature-entry:only-child) .feature-heading{margin:0}
+.feature-map:has(.feature-entry:only-child) .feature-entry{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px}
+.feature-map:has(.feature-entry:only-child) dd{margin:0}
 .feature-map .conditional{font-size:10px;color:var(--gray-600);font-weight:500}
-.review-map{margin:0 0 22px}
-.review-map dl{grid-template-columns:1fr 1fr 1fr;gap:18px}
-.review-map .feature-entry+ .feature-entry{padding-top:0;border-top:0;border-left:1px solid var(--border);padding-left:18px}
-.checkpoint{padding:15px 18px;border:1px solid var(--border);border-left:2px solid var(--coral-1);border-radius:var(--radius-sm);background:var(--bg-base)}
-.checkpoint .label{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--adobe-red-dark);margin:0 0 7px}
-.checkpoint p{font-size:13px;line-height:1.6;margin:0}
+.checkpoint{display:flex;align-items:baseline;gap:4px 14px;margin:24px 0 0;padding:17px 0 0;border-top:1px solid var(--border)}
+.checkpoint .label{flex:none;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--adobe-red-dark);margin:0}
+.checkpoint .label::before{content:"\2192\00a0";color:var(--coral-1)}
+.checkpoint p{font-size:14px;line-height:1.6;margin:0;color:var(--gray-700)}
+@container module (max-width:879px){
+  .actions li{display:block;padding:16px 20px 16px 64px}
+  .actions li::before{position:absolute;top:15px;left:20px}
+  .actions li>strong:first-child{display:block;margin-bottom:4px;line-height:1.35}
+}
+@container module (max-width:620px){
+  .feature-map dl{grid-auto-flow:row;gap:10px}
+  .feature-entry+ .feature-entry{padding:10px 0 0;border-left:0;border-top:1px solid var(--border)}
+  .checkpoint{flex-direction:column}
+}
+@container module (max-width:479px){
+  .actions li{padding:16px}
+  .actions li::before{position:static;margin-bottom:12px}
+  .feature-map:has(.feature-entry:only-child){display:block}
+  .feature-map:has(.feature-entry:only-child) .feature-heading{margin-bottom:10px}
+}
 .note{font-size:14px;line-height:1.6;color:var(--gray-700);margin:24px 0 0;padding:16px 18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-2)}
 .edge-catalog{margin-top:22px;padding:17px 18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-1)}
 .edge-types{display:flex;flex-wrap:wrap;gap:7px;list-style:none;padding:0;margin:0}
@@ -191,8 +209,6 @@ td:first-child{font-weight:600}
 @media(max-width:1200px){
   .shell{grid-template-columns:200px minmax(0,1fr);gap:28px}
   .module,.framework-map{padding:26px}
-  .step-grid{grid-template-columns:1fr;gap:22px}
-  .step-side{grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);align-items:start}
   .decisions{grid-template-columns:1fr 1fr}
 }
 @media(max-width:980px){
@@ -226,9 +242,6 @@ td:first-child{font-weight:600}
   .hero-body{margin-top:28px}.lead{margin-top:18px}
   .shell{padding:20px 16px 36px;gap:20px}main{gap:22px}
   .module,.framework-map{padding:22px}.intro{margin-bottom:24px}
-  .step-side{grid-template-columns:1fr}
-  .review-map dl{grid-template-columns:1fr;gap:10px}
-  .review-map .feature-entry+ .feature-entry{padding:10px 0 0;border-left:0;border-top:1px solid var(--border)}
   .feature-map{padding:15px 17px}
   .sec-eyebrow{font-size:10px}
   h2{font-size:26px;margin-bottom:20px}.decisions{gap:10px}.card{padding:16px}
@@ -243,7 +256,7 @@ td:first-child{font-weight:600}
 }
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}
-  .card:hover,.map-tile:hover{transform:none}
+  .card:hover,.map-tile:hover,.actions li:hover{transform:none}
 }
 @media print{
   @page{size:A4;margin:12mm 13mm 15mm;
@@ -270,12 +283,10 @@ td:first-child{font-weight:600}
   .map-phase:first-child .tile-item:last-child,.map-phase:last-child .tile-item{grid-column:auto}
   .map-tile{min-height:120px;padding:12px}.tile-num{font-size:26px}.tile-title{font-size:13px;margin:8px 0 10px}.tile-output{font-size:11px}
   .tile-item::before,.tile-item::after{display:none}
-  h2,h3,.sec-eyebrow{break-after:avoid}.feature-map,.checkpoint,.card,.finish,tr{break-inside:avoid}
-  .step-grid{grid-template-columns:minmax(0,1fr) 180px;gap:20px}
-  .step-side{grid-template-columns:1fr}.review-map dl{grid-template-columns:1fr 1fr 1fr}
-  .review-map .feature-entry+ .feature-entry{padding:0 0 0 14px;border-top:0;border-left:1px solid var(--border)}
+  h2,h3,.sec-eyebrow{break-after:avoid}.feature-map,.checkpoint,.card,.finish,tr,.actions li{break-inside:avoid}
+  .actions li{box-shadow:none}
   .table-wrap{overflow:visible}table{font-size:9pt}
-  .card:hover{transform:none;box-shadow:none}
+  .card:hover,.actions li:hover{transform:none;box-shadow:none}
   .finish{padding:23px}.finish h3{font-size:23px}
   .site-footer{margin-top:20px}.foot-inner{padding:20px 24px}.ai-note-inner{padding:6px 0}
 }
@@ -353,90 +364,73 @@ td:first-child{font-weight:600}
   <section class="module" id="scope" tabindex="-1">
     <p class="sec-eyebrow">Frame the strategy</p>
     <h2>Define the goal before choosing prompts</h2>
-    <div class="step-grid">
-      <ol class="actions">
-        <li><strong>Choose one priority gap.</strong> State the audience, business objective, and what should improve: brand representation, source citations, or content accessible to AI agents.</li>
-        <li><strong>Set the scope.</strong> Identify the brand, target URL or deployment batch, topic, market-language, platform, and exclusions. Keep a first manual initiative focused; group only actions serving the same objective and scope.</li>
-        <li><strong>Agree ownership and measurement.</strong> Name the strategy owner and reviewer, primary metric, evaluation period, guardrails, and criteria for the next decision. Choose the execution route—Optimize at Edge or owner-managed publishing—separately from manual or supported automatic measurement.</li>
-      </ol>
-      <div class="step-side">
-        <aside class="feature-map" aria-label="ABV features for framing the strategy">
-          <p class="feature-heading">ABV features</p>
-          <dl><div class="feature-entry"><dt>Opportunity Workspace</dt><dd>Plan the parent strategy and its scope.</dd></div></dl>
-        </aside>
-        <aside class="checkpoint"><p class="label">Move on when</p><p>The objective, scope, owner, and measurement approach are agreed.</p></aside>
-      </div>
-    </div>
+    <aside class="feature-map" aria-label="ABV features for framing the strategy">
+      <p class="feature-heading">ABV features</p>
+      <dl><div class="feature-entry"><dt>Opportunity Workspace</dt><dd>Plan the parent strategy and its scope.</dd></div></dl>
+    </aside>
+    <ol class="actions">
+      <li><strong>Choose one priority gap.</strong> <span class="desc">State the audience, business objective, and what should improve: brand representation, source citations, or content accessible to AI agents.</span></li>
+      <li><strong>Set the scope.</strong> <span class="desc">Identify the brand, target URL or deployment batch, topic, market-language, platform, and exclusions. Keep a first manual initiative focused; group only actions serving the same objective and scope.</span></li>
+      <li><strong>Agree ownership and measurement.</strong> <span class="desc">Name the strategy owner and reviewer, primary metric, evaluation period, guardrails, and criteria for the next decision. Choose the execution route—Optimize at Edge or owner-managed publishing—separately from manual or supported automatic measurement.</span></li>
+    </ol>
     <p class="note">Define the brief first. Reuse an existing strategy when its objective and scope match, use a generated strategy when provided—documented for RCV—or create one manually when needed. Do not assume every edge deployment creates a strategy or experiment.</p>
+    <aside class="checkpoint"><p class="label">Move on when</p><p>The objective, scope, owner, and measurement approach are agreed.</p></aside>
   </section>
 
   <section class="module" id="prompts" tabindex="-1">
     <p class="sec-eyebrow">Curate the tracked cohort</p>
     <h2>Select conversations that match the strategy</h2>
-    <div class="step-grid">
-      <ol class="actions">
-        <li><strong>Use discovery to inform selection.</strong> Review relevant AI Visibility findings and Prompt Strategy suggestions from Semrush, Google Search Console, Synthetic Personas, or Citation Attempt, as applicable.</li>
-        <li><strong>Define the tracked prompt set.</strong> Build a relevant, deduplicated cohort in the paid Prompt Library, covering important intents and branded/unbranded questions.</li>
-        <li><strong>Keep a stable core cohort.</strong> Maintain consistent wording, library organization, and market-language scope; keep exploratory additions separate. The cohort must be processed and identifiable for comparison; new prompts can take up to 24 hours.</li>
-      </ol>
-      <div class="step-side">
-        <aside class="feature-map" aria-label="ABV features for curating prompts">
-          <p class="feature-heading">ABV features</p>
-          <dl>
-            <div class="feature-entry"><dt>AI Visibility</dt><dd>Discover market and competitor gaps.</dd></div>
-            <div class="feature-entry"><dt>Prompt Strategy</dt><dd>Review recommendations and select prompts.</dd></div>
-            <div class="feature-entry"><dt>Prompt Library</dt><dd>Organize the tracked core cohort.</dd></div>
-          </dl>
-        </aside>
-        <aside class="checkpoint"><p class="label">Move on when</p><p>The strategy-aligned cohort is processed, identifiable, and ready for comparison.</p></aside>
-      </div>
-    </div>
+    <aside class="feature-map" aria-label="ABV features for curating prompts">
+      <p class="feature-heading">ABV features</p>
+      <dl>
+        <div class="feature-entry"><dt>AI Visibility</dt><dd>Discover market and competitor gaps.</dd></div>
+        <div class="feature-entry"><dt>Prompt Strategy</dt><dd>Review recommendations and select prompts.</dd></div>
+        <div class="feature-entry"><dt>Prompt Library</dt><dd>Organize the tracked core cohort.</dd></div>
+      </dl>
+    </aside>
+    <ol class="actions">
+      <li><strong>Use discovery to inform selection.</strong> <span class="desc">Review relevant AI Visibility findings and Prompt Strategy suggestions from Semrush, Google Search Console, Synthetic Personas, or Citation Attempt, as applicable.</span></li>
+      <li><strong>Define the tracked prompt set.</strong> <span class="desc">Build a relevant, deduplicated cohort in the paid Prompt Library, covering important intents and branded/unbranded questions.</span></li>
+      <li><strong>Keep a stable core cohort.</strong> <span class="desc">Maintain consistent wording, library organization, and market-language scope; keep exploratory additions separate. The cohort must be processed and identifiable for comparison; new prompts can take up to 24 hours.</span></li>
+    </ol>
     <p class="note">Market-discovery figures are not tracked-cohort results. Paid Brand Presence is also Semrush-powered; its monitored-prompt metrics remain valid. Supported experiment prompts are separate from the Prompt Library.</p>
+    <aside class="checkpoint"><p class="label">Move on when</p><p>The strategy-aligned cohort is processed, identifiable, and ready for comparison.</p></aside>
   </section>
 
   <section class="module" id="baseline" tabindex="-1">
     <p class="sec-eyebrow">Establish the starting position</p>
     <h2>Capture the baseline before related changes</h2>
-    <div class="step-grid">
-      <ol class="actions">
-        <li><strong>Record the measurement scope.</strong> Use the intended cohort, brand, market-language, platform, filters, comparison brands, dates, and timezone. Do not label an account-wide metric a strategy-specific result if the view cannot isolate your scope.</li>
-        <li><strong>Capture paid Brand Presence metrics.</strong> Use <strong>Brand Visibility</strong> and <strong>Source Visibility</strong> with their displayed units. Include <strong>Share of Voice</strong> only for an agreed competitive objective; response volume is coverage context, not an outcome.</li>
-        <li><strong>Confirm the comparison protocol.</strong> Agree comparable baseline/follow-up windows. Include relevant prompt answers, claims, URL, or traffic evidence. Where automatic measurement is supported and eligible, preserve its pre-deployment baseline and evaluation period as a separate lane; otherwise evaluate manually.</li>
-      </ol>
-      <div class="step-side">
-        <aside class="feature-map" aria-label="ABV features for establishing the baseline">
-          <p class="feature-heading">ABV features</p>
-          <dl>
-            <div class="feature-entry"><dt>Brand Presence</dt><dd>Baseline monitored-prompt performance.</dd></div>
-            <div class="feature-entry"><dt>Brand Claims / URL Inspector</dt><dd>Inspect relevant claims and page evidence.</dd></div>
-            <div class="feature-entry"><dt>Agentic Traffic / Referral Traffic <span class="conditional">· when relevant</span></dt><dd>Add supporting traffic context.</dd></div>
-          </dl>
-        </aside>
-        <aside class="checkpoint"><p class="label">Move on when</p><p>The starting evidence and comparison method are agreed before deployment.</p></aside>
-      </div>
-    </div>
+    <aside class="feature-map" aria-label="ABV features for establishing the baseline">
+      <p class="feature-heading">ABV features</p>
+      <dl>
+        <div class="feature-entry"><dt>Brand Presence</dt><dd>Baseline monitored-prompt performance.</dd></div>
+        <div class="feature-entry"><dt>Brand Claims / URL Inspector</dt><dd>Inspect relevant claims and page evidence.</dd></div>
+        <div class="feature-entry"><dt>Agentic Traffic / Referral Traffic <span class="conditional">· when relevant</span></dt><dd>Add supporting traffic context.</dd></div>
+      </dl>
+    </aside>
+    <ol class="actions">
+      <li><strong>Record the measurement scope.</strong> <span class="desc">Use the intended cohort, brand, market-language, platform, filters, comparison brands, dates, and timezone. Do not label an account-wide metric a strategy-specific result if the view cannot isolate your scope.</span></li>
+      <li><strong>Capture paid Brand Presence metrics.</strong> <span class="desc">Use <strong>Brand Visibility</strong> and <strong>Source Visibility</strong> with their displayed units. Include <strong>Share of Voice</strong> only for an agreed competitive objective; response volume is coverage context, not an outcome.</span></li>
+      <li><strong>Confirm the comparison protocol.</strong> <span class="desc">Agree comparable baseline/follow-up windows. Include relevant prompt answers, claims, URL, or traffic evidence. Where automatic measurement is supported and eligible, preserve its pre-deployment baseline and evaluation period as a separate lane; otherwise evaluate manually.</span></li>
+    </ol>
+    <aside class="checkpoint"><p class="label">Move on when</p><p>The starting evidence and comparison method are agreed before deployment.</p></aside>
   </section>
 
   <section class="module" id="actions" tabindex="-1">
     <p class="sec-eyebrow">Organize the work</p>
     <h2>Turn the gap into an owned action plan</h2>
-    <div class="step-grid">
-      <ol class="actions">
-        <li><strong>Prioritize what to change.</strong> Use the baseline to review ABV's automatically surfaced suggestions and your team's own findings. Agree the proposed change, target URL or claim, and how it addresses the strategy's content or technical gap.</li>
-        <li><strong>Group the work in Opportunity Workspace.</strong> Link existing opportunities or create manual ones within an existing strategy. Group only work sharing the same objective and measurement scope.</li>
-        <li><strong>Confirm execution, ownership, and approval.</strong> Choose <strong>Optimize at Edge</strong> for supported types, or owner-managed publishing for other onsite/offsite work. Agree owners, approval, timing, validation, and rollback. Check measurement separately; manual work does not automatically join an existing experiment's measured scope.</li>
-      </ol>
-      <div class="step-side">
-        <aside class="feature-map" aria-label="ABV features for organizing the action plan">
-          <p class="feature-heading">ABV features</p>
-          <dl>
-            <div class="feature-entry"><dt>Opportunities</dt><dd>Prioritize changes that address the gap.</dd></div>
-            <div class="feature-entry"><dt>Opportunity Workspace</dt><dd>Group surfaced and manually created opportunities; assign owners.</dd></div>
-          </dl>
-        </aside>
-        <aside class="checkpoint"><p class="label">Move on when</p><p>The selected opportunities are in scope, approved, owned, and evaluable.</p></aside>
-      </div>
-    </div>
+    <aside class="feature-map" aria-label="ABV features for organizing the action plan">
+      <p class="feature-heading">ABV features</p>
+      <dl>
+        <div class="feature-entry"><dt>Opportunities</dt><dd>Prioritize changes that address the gap.</dd></div>
+        <div class="feature-entry"><dt>Opportunity Workspace</dt><dd>Group surfaced and manually created opportunities; assign owners.</dd></div>
+      </dl>
+    </aside>
+    <ol class="actions">
+      <li><strong>Prioritize what to change.</strong> <span class="desc">Use the baseline to review ABV's automatically surfaced suggestions and your team's own findings. Agree the proposed change, target URL or claim, and how it addresses the strategy's content or technical gap.</span></li>
+      <li><strong>Group the work in Opportunity Workspace.</strong> <span class="desc">Link existing opportunities or create manual ones within an existing strategy. Group only work sharing the same objective and measurement scope.</span></li>
+      <li><strong>Confirm execution, ownership, and approval.</strong> <span class="desc">Choose <strong>Optimize at Edge</strong> for supported types, or owner-managed publishing for other onsite/offsite work. Agree owners, approval, timing, validation, and rollback. Check measurement separately; manual work does not automatically join an existing experiment's measured scope.</span></li>
+    </ol>
     <aside class="edge-catalog" aria-label="Supported Optimize at Edge opportunity types">
       <p class="feature-heading">Optimize at Edge · Supported opportunity types</p>
       <ul class="edge-types">
@@ -451,36 +445,33 @@ td:first-child{font-weight:600}
       <p class="availability">Use types enabled in your account; Commerce enrichment requires Adobe Commerce. Not every automatically surfaced opportunity supports edge deployment.</p>
     </aside>
     <p class="note"><strong>Deployment is not measurement eligibility.</strong> These supported types offer one-click edge deployment after review. For the documented RCV impact-analysis path, current guidance calls for at least <strong>20 High Impact URLs</strong>; this is not a minimum for simply deploying at the edge. Confirm automatic-measurement support and eligibility for the selected type, or evaluate manually.</p>
+    <aside class="checkpoint"><p class="label">Move on when</p><p>The selected opportunities are in scope, approved, owned, and evaluable.</p></aside>
   </section>
 
   <section class="module" id="deploy" tabindex="-1">
     <p class="sec-eyebrow">Implement and validate</p>
     <h2>Deploy the approved work and verify it is live</h2>
-    <div class="step-grid">
-      <ol class="actions">
-        <li><strong>Use the right delivery route.</strong> Deploy supported opportunities with <strong>Optimize at Edge</strong>; use the responsible CMS, engineering, catalog, or partner owner for other onsite/offsite work.</li>
-        <li><strong>Confirm the work is live.</strong> Validate the intended content and agent experience, resolve failed or partial delivery, and ensure Workspace reflects what shipped. A proposed offsite change is not published work.</li>
-        <li><strong>Protect the evaluation.</strong> Keep scope and implementation dates clear. Monitor guardrails and account for other changes or rollbacks that could affect measurement.</li>
-      </ol>
-      <div class="step-side">
-        <aside class="feature-map" aria-label="ABV features for deployment">
-          <p class="feature-heading">ABV features</p>
-          <dl>
-            <div class="feature-entry"><dt>Opportunities</dt><dd>Review surfaced suggestions for the selected type.</dd></div>
-            <div class="feature-entry"><dt>Optimize at Edge <span class="conditional">· supported types</span></dt><dd>Deploy and manage supported edge optimizations.</dd></div>
-            <div class="feature-entry"><dt>Opportunity Workspace</dt><dd>Track the generated or manually managed strategy.</dd></div>
-          </dl>
-        </aside>
-        <aside class="checkpoint"><p class="label">Move on when</p><p>The work is live and validated, and Workspace reflects what actually shipped.</p></aside>
-      </div>
-    </div>
+    <aside class="feature-map" aria-label="ABV features for deployment">
+      <p class="feature-heading">ABV features</p>
+      <dl>
+        <div class="feature-entry"><dt>Opportunities</dt><dd>Review surfaced suggestions for the selected type.</dd></div>
+        <div class="feature-entry"><dt>Optimize at Edge <span class="conditional">· supported types</span></dt><dd>Deploy and manage supported edge optimizations.</dd></div>
+        <div class="feature-entry"><dt>Opportunity Workspace</dt><dd>Track the generated or manually managed strategy.</dd></div>
+      </dl>
+    </aside>
+    <ol class="actions">
+      <li><strong>Use the right delivery route.</strong> <span class="desc">Deploy supported opportunities with <strong>Optimize at Edge</strong>; use the responsible CMS, engineering, catalog, or partner owner for other onsite/offsite work.</span></li>
+      <li><strong>Confirm the work is live.</strong> <span class="desc">Validate the intended content and agent experience, resolve failed or partial delivery, and ensure Workspace reflects what shipped. A proposed offsite change is not published work.</span></li>
+      <li><strong>Protect the evaluation.</strong> <span class="desc">Keep scope and implementation dates clear. Monitor guardrails and account for other changes or rollbacks that could affect measurement.</span></li>
+    </ol>
     <p class="note">Optimize at Edge serves supported changes to agentic traffic without changing the origin CMS or human/SEO-bot experience; validate the intended delivery. Edge deployment alone does not guarantee automatic impact measurement.</p>
+    <aside class="checkpoint"><p class="label">Move on when</p><p>The work is live and validated, and Workspace reflects what actually shipped.</p></aside>
   </section>
 
   <section class="module" id="review" tabindex="-1">
     <p class="sec-eyebrow">Measure and complete</p>
     <h2>Review the evidence and decide what happens next</h2>
-    <aside class="feature-map review-map" aria-label="ABV features for measurement and review">
+    <aside class="feature-map" aria-label="ABV features for measurement and review">
       <p class="feature-heading">ABV features</p>
       <dl>
         <div class="feature-entry"><dt>Brand Presence</dt><dd>Compare the ongoing tracked cohort.</dd></div>
@@ -498,9 +489,9 @@ td:first-child{font-weight:600}
       </table>
     </div>
     <ol class="actions">
-      <li><strong>Compare accurately.</strong> Use exact metric names and units; distinguish percentage-point changes from relative percentages. Keep Workspace scores and supported experiment results separate from Brand Presence. Impact Engine measurement prompts do not count toward the Prompt quota and retire after the experiment.</li>
-      <li><strong>State the result and its limits.</strong> Review improved, unchanged, and worsened evidence. Disclose coverage gaps, changed settings, and other interventions. Report strategy-level movement; do not assign it to one child action or claim revenue causation without separate evidence.</li>
-      <li><strong>Close with a reviewed decision.</strong> Summarize objective and scope → work completed → results → limitations → next action. Have the owner and measurement reviewer agree the conclusion, then update Workspace progress as supported.</li>
+      <li><strong>Compare accurately.</strong> <span class="desc">Use exact metric names and units; distinguish percentage-point changes from relative percentages. Keep Workspace scores and supported experiment results separate from Brand Presence. Impact Engine measurement prompts do not count toward the Prompt quota and retire after the experiment.</span></li>
+      <li><strong>State the result and its limits.</strong> <span class="desc">Review improved, unchanged, and worsened evidence. Disclose coverage gaps, changed settings, and other interventions. Report strategy-level movement; do not assign it to one child action or claim revenue causation without separate evidence.</span></li>
+      <li><strong>Close with a reviewed decision.</strong> <span class="desc">Summarize objective and scope → work completed → results → limitations → next action. Have the owner and measurement reviewer agree the conclusion, then update Workspace progress as supported.</span></li>
     </ol>
     <div class="decisions">
       <div class="card"><h3>Scale</h3><p>Agreed criteria are met. Repeat or expand through a clearly defined next scope.</p></div>

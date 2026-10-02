@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Companion worksheet for recording and tracking your first Adobe Brand Visibility optimization strategy: charter, prompt cohort, baseline, actions, results, and the reviewed decision.">
+<title>First ABV Optimization Strategy Worksheet · Customer Onboarding</title>
+<style>
+:root{
+  --adobe-red:#EB1000;--adobe-red-dark:#B71000;--adobe-red-tint:#FDECEA;
+  --coral-1:#F04A2E;--coral-2:#F9A392;--coral-bright:#FB6A4E;
+  --s2-blue:#3B63FB;--s2-blue-down:#274DEA;--s2-blue-active:#1D3ECF;
+  --s2-blue-tint:#E5F0FE;--s2-blue-tint-faint:#F5F9FF;
+  --ink:#1B1B1B;--charcoal:#2C2C2C;--charcoal-2:#141414;
+  --gray-900:#1F1F1F;--gray-800:#222222;--gray-700:#464646;--gray-600:#6D6D6D;
+  --gray-500:#909090;--gray-400:#B1B1B1;--gray-300:#D5D5D5;--gray-200:#E6E6E6;
+  --gray-100:#F8F8F8;--gray-75:#FAFAFA;--gray-50:#FDFDFD;--white:#FFFFFF;
+  --bg-base:#FFFFFF;--bg-layer-1:#FAFAFA;--bg-layer-2:#F4F4F5;
+  --border:#E6E6E6;--border-strong:#D5D5D5;
+  --hero-start:#2D2D2D;--hero-mid:#1C1C1C;--hero-end:#0E0E0E;
+  --white-lift:rgba(255,255,255,.12);--white-mid:rgba(255,255,255,.05);
+  --white-scan:rgba(255,255,255,.03);--white-line:rgba(255,255,255,.16);
+  --hero-muted:#D3D3D3;--hero-kicker:#FF8F84;--hero-soft:#ECECEC;
+  --hero-chip:rgba(255,255,255,.09);--hero-chip-border:rgba(255,255,255,.20);
+  --hero-chip-edge:rgba(255,255,255,.17);--hero-chip-shadow:rgba(0,0,0,.12);
+  --map-dot:rgba(0,0,0,.075);
+  --nav-surface:rgba(255,255,255,.94);--transparent:transparent;
+  --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+  --radius:16px;--radius-md:12px;--radius-sm:8px;--radius-pill:9999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 8px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08);
+  --brand-glow:0 2px 12px rgba(255,255,255,.18);
+  --focus-ring:var(--s2-blue);--maxw:1344px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);font-size:16px;line-height:1.6;color:var(--gray-800);background:var(--bg-base);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--s2-blue-tint);color:var(--ink)}
+a{color:var(--s2-blue-down);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px;border-radius:3px}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+p{margin:0 0 16px}
+h1,h2{text-wrap:balance;letter-spacing:-.025em}
+h2{font-size:clamp(25px,2.65vw,32px);font-weight:800;line-height:1.2;margin:0 0 14px}
+strong{font-weight:700}
+.skip{position:fixed;left:16px;top:-100px;z-index:110;padding:10px 16px;background:var(--white);border:1px solid var(--s2-blue);border-radius:var(--radius-sm)}
+.skip:focus{top:10px}
+.progress{position:fixed;inset:0 0 auto;height:2px;z-index:100;pointer-events:none}
+.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--coral-1),var(--coral-2));transform:scaleX(0);transform-origin:0 50%}
+.ai-note{background:var(--gray-100);border-bottom:1px solid var(--gray-200)}
+.ai-note-inner{max-width:var(--maxw);margin:auto;padding:9px 24px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;line-height:1.45;color:var(--gray-600)}
+.ai-note b{font-weight:600;color:var(--gray-600)}
+.ai-note svg{flex:none;color:var(--gray-500)}
+.hero{position:relative;overflow:hidden;color:var(--white);background:radial-gradient(1350px 720px at 90% -18%,var(--white-lift),var(--white-mid) 42%,var(--transparent) 82%),linear-gradient(135deg,var(--hero-start),var(--hero-mid) 52%,var(--hero-end));padding:32px 24px 44px}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--white-scan) 1px,var(--transparent) 1px);background-size:100% 34px;opacity:.5;-webkit-mask:linear-gradient(var(--ink),var(--transparent) 70%);mask:linear-gradient(var(--ink),var(--transparent) 70%)}
+.hero-inner{max-width:var(--maxw);margin:auto;position:relative;z-index:1}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:20px;border-bottom:1px solid var(--white-line)}
+.brandrow{display:flex;align-items:center;gap:11px}
+.brand-mark{height:26px;width:auto;flex:none;display:block;filter:drop-shadow(var(--brand-glow))}
+.brandname{font-size:19px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.brandname span{font-weight:400;color:var(--hero-muted)}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--hero-kicker);text-align:right}
+.hero-body{margin-top:36px}
+.hero h1{font-size:clamp(39px,4.8vw,62px);line-height:1.08;letter-spacing:-.035em;font-weight:800;margin:0}
+.hl{background:linear-gradient(100deg,var(--coral-1),var(--coral-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--transparent);padding-bottom:.3em;-webkit-box-decoration-break:slice;box-decoration-break:slice}
+.lead{font-size:19px;line-height:1.5;color:var(--hero-muted);margin:18px 0 0;max-width:68ch}
+.assumption{font-size:12px;color:var(--gray-400);margin:16px 0 0;line-height:1.6}
+.hero-meta{display:flex;flex-wrap:wrap;gap:10px;margin:28px 0 0}
+.hero-meta span{padding:8px 15px;border:1px solid var(--hero-chip-border);border-radius:var(--radius-pill);background:var(--hero-chip);box-shadow:inset 0 1px 0 var(--hero-chip-edge),0 1px 5px var(--hero-chip-shadow);font-size:13px;line-height:1.45;font-weight:500;color:var(--hero-soft)}
+.hero-meta strong{color:var(--white);font-weight:700}
+.shell{max-width:var(--maxw);margin:auto;padding:40px 24px 64px;display:grid;grid-template-columns:216px minmax(0,1fr);gap:44px;align-items:start}
+.toc{position:sticky;top:28px;align-self:start;min-width:0;max-height:calc(100vh - 56px);overflow-y:auto;scrollbar-width:thin}
+.toc-heading{padding:0 12px 16px}
+.toc-heading p{margin:0;font-size:13px;font-weight:700;color:var(--ink)}
+.toc-items{display:flex;flex-direction:column;gap:3px}
+.toc-items a{display:flex;align-items:flex-start;gap:11px;width:100%;border-left:2px solid var(--transparent);border-radius:var(--radius-sm);color:var(--gray-700);padding:10px;text-align:left;transition:background .15s,color .15s,border-color .15s}
+.toc-items a:hover{background:var(--gray-100);text-decoration:none}
+.toc-items a.active{color:var(--s2-blue-down);background:var(--s2-blue-tint);border-left-color:var(--s2-blue)}
+.toc-items a:focus-visible{outline-offset:-2px}
+.toc-number{flex:none;min-width:14px;padding-top:2px;font:600 11px/1.5 var(--mono);color:var(--gray-500)}
+.toc-items a.active .toc-number{color:var(--s2-blue)}
+.toc-number svg{display:block;width:14px;height:14px;margin-top:1px}
+.toc-label{display:block;font-size:13px;line-height:1.4;font-weight:700}
+.toc-description{display:block;margin-top:3px;color:var(--gray-600);font-size:11px;line-height:1.45}
+.toc-toggle{display:none}
+.toc-toggle:focus-visible{border-radius:var(--radius-sm)}
+.toc-actions{display:none;margin:20px 12px 0;padding:20px 0 4px;border-top:1px solid var(--border)}
+.js .toc-actions{display:block}
+.toc-actions .button{width:100%;margin:0 0 8px}
+.rail-note{font-size:12px;line-height:1.5;color:var(--gray-600);margin:12px 0 0}
+.toc-actions .status{font-size:12px;min-height:0;margin:8px 0 0}
+.button,.pdf-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 16px;border:1px solid var(--border-strong);border-radius:var(--radius-pill);background:var(--bg-base);color:var(--ink);font-size:13px;line-height:1.3;font-weight:700;text-align:center;box-shadow:var(--shadow-sm);transition:background .15s,border-color .15s,color .15s}
+.button:hover,.pdf-button:hover{border-color:var(--gray-400);background:var(--gray-100);text-decoration:none}
+.button:active,.pdf-button:active{background:var(--gray-200)}
+.button:focus-visible,.pdf-button:focus-visible{border-radius:var(--radius-pill)}
+.button svg,.pdf-button svg{flex:none;color:var(--gray-600)}
+.button.primary{background:var(--s2-blue);border-color:var(--s2-blue);color:var(--white)}
+.button.primary svg{color:var(--white)}
+.button.primary:hover{background:var(--s2-blue-down);border-color:var(--s2-blue-down)}
+.button.primary:active{background:var(--s2-blue-active);border-color:var(--s2-blue-active)}
+.pdf-button{width:100%;white-space:nowrap}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 12px}
+.js-only{display:none}
+html.js .js-only{display:inline-flex}
+.status{font-size:13px;line-height:1.5;min-height:20px;margin:8px 0 0;color:var(--gray-600)}
+.status.error{color:var(--adobe-red-dark)}
+main{min-width:0;display:grid;gap:24px;scroll-margin-top:28px}
+section{scroll-margin-top:28px;min-width:0}
+.module{container:module / inline-size;padding:32px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-base)}
+.module:focus{outline:none}
+#tracker{background:var(--bg-layer-1)}
+#tracker .callout{background:var(--bg-base)}
+.sheet{display:contents}
+.module>.toolbar:last-child{margin-bottom:0}
+.sec-eyebrow{font-size:11px;line-height:1.4;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-600);margin:0 0 12px}
+.sheet-module .sec-eyebrow::before{content:attr(data-step) "  ·  ";font-family:var(--mono);color:var(--adobe-red);letter-spacing:.02em}
+.module:not(.sheet-module) .sec-eyebrow{display:flex;align-items:center;gap:10px}
+.module:not(.sheet-module) .sec-eyebrow::before{content:"";flex:none;width:22px;height:2px;background:var(--adobe-red)}
+.sec-lead{font-size:18px;line-height:1.55;color:var(--gray-700);margin:0 0 22px;max-width:78ch}
+.label{font:600 10px/1.4 var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--gray-600);margin:0 0 10px}
+.small{font-size:13px;line-height:1.6;color:var(--gray-600)}
+.callout{margin:24px 0;padding:17px 20px;border:1px solid var(--border);border-left:3px solid var(--coral-1);border-radius:var(--radius-sm);background:var(--bg-layer-1);font-size:14px;line-height:1.6;color:var(--gray-700)}
+.callout p:last-child{margin:0}
+.callout .label{color:var(--adobe-red-dark)}
+.system-note{margin:24px 0;padding:16px 18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-2);font-size:14px;line-height:1.6;color:var(--gray-700)}
+.system-note strong{color:var(--ink)}
+.gate{display:flex;gap:14px;align-items:flex-start;margin:12px 0 0;padding:16px 18px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--bg-base);font-size:14px;line-height:1.6;color:var(--gray-700);cursor:pointer;transition:border-color .15s,background .15s}
+.gate:hover{border-color:var(--gray-400)}
+.gate:has(input:checked){border-color:var(--s2-blue);background:var(--s2-blue-tint-faint)}
+.gate strong{display:block;color:var(--ink);font-size:15px}
+input[type=checkbox]{accent-color:var(--s2-blue);flex:none;width:19px;height:19px;margin:3px 0 0;cursor:pointer}
+.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 18px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0}
+.field.full{grid-column:1/-1}
+.field>span{font-size:13px;font-weight:700;color:var(--gray-700)}
+.field input,.field select,.field textarea{width:100%;min-width:0;min-height:42px;padding:10px 12px;border:1px solid var(--border-strong);border-radius:var(--radius-sm);background:var(--bg-base);color:var(--ink);font-size:14px;line-height:1.55;transition:border-color .15s}
+.field input:hover,.field select:hover,.field textarea:hover{border-color:var(--gray-400)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--s2-blue)}
+.field textarea{resize:vertical;min-height:106px}
+.field input::placeholder,.field textarea::placeholder{color:var(--gray-600);opacity:1}
+.tracker{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:24px 0 12px;padding:24px 26px;border-radius:var(--radius);background:radial-gradient(900px 360px at 100% -30%,var(--white-mid),var(--transparent) 70%),var(--charcoal);color:var(--white)}
+.tracker strong{font:800 clamp(30px,3.4vw,40px)/1 var(--font);letter-spacing:-.04em;font-variant-numeric:tabular-nums lining-nums;color:var(--white)}
+.tracker span{font-size:14px;color:var(--gray-300)}
+.tracker progress{flex-basis:100%;width:100%;height:8px;margin-top:12px;-webkit-appearance:none;appearance:none;border:0;border-radius:var(--radius-pill);overflow:hidden;background:var(--white-line)}
+.tracker progress::-webkit-progress-bar{background:var(--white-line);border-radius:var(--radius-pill)}
+.tracker progress::-webkit-progress-value{background:linear-gradient(90deg,var(--coral-1),var(--coral-2));border-radius:var(--radius-pill)}
+.tracker progress::-moz-progress-bar{background:linear-gradient(90deg,var(--coral-1),var(--coral-2));border-radius:var(--radius-pill)}
+.finish-checks{display:grid;gap:10px;margin-top:20px}
+.finish-checks .gate{margin:0}
+.check-group{margin:30px 0 12px}
+.check-group + .finish-checks{margin-top:0}
+.site-footer{background:var(--charcoal-2);color:var(--gray-400)}
+.foot-inner{max-width:var(--maxw);margin:auto;padding:28px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.foot-brand{display:flex;gap:11px;align-items:center;font-size:16px;font-weight:800;color:var(--white)}
+.foot-brand img{height:22px;width:auto}
+.foot-brand span{font-weight:400;color:var(--gray-300)}
+.foot-right{text-align:right;max-width:65ch}
+.foot-right p{font-size:12px;line-height:1.6;margin:0}
+.foot-right p:first-child{font-weight:600;color:var(--gray-300);font-size:13px;margin-bottom:3px}
+@container module (max-width:640px){
+  .fields{grid-template-columns:minmax(0,1fr)}
+  .field.full{grid-column:auto}
+}
+@media(max-width:1200px){
+  .shell{grid-template-columns:200px minmax(0,1fr);gap:28px}
+  .module{padding:26px}
+}
+@media(max-width:980px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:24px;padding-top:24px}
+  .toc{position:static;max-height:none;overflow:visible;padding:8px;border:1px solid var(--border);border-radius:var(--radius);background:var(--nav-surface)}
+  .toc-heading{padding:8px 10px 12px}
+  .toc-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .js .toc{position:sticky;top:2px;z-index:50;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:6px;backdrop-filter:saturate(180%) blur(12px);box-shadow:var(--shadow-sm)}
+  .js .toc-actions{grid-row:1;grid-column:2;margin:0;padding:0;border:0}
+  .js .toc-actions .button,.js .toc-actions .rail-note,.js .toc-actions .status{display:none}
+  .pdf-button{width:auto;min-height:38px;padding:0 13px;font-size:12px;box-shadow:none}
+  .pdf-extra{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .js .toc-heading{display:none}
+  .js .toc-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;min-width:0;padding:5px 10px;border:0;background:var(--transparent);text-align:left;color:var(--gray-700)}
+  .toc-toggle>span{min-width:0}
+  .toc-mobile-label{display:block;margin-bottom:2px;font:500 9px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--gray-600)}
+  .toc-current{display:block;font-size:13px;line-height:1.5;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .toc-toggle svg{flex:none;transition:transform .15s}
+  .toc.is-open .toc-toggle svg{transform:rotate(180deg)}
+  .js .toc-items{display:none;grid-column:1 / -1;max-height:calc(100dvh - 110px);overflow-y:auto;margin-top:8px;border-top:1px solid var(--border);padding-top:8px}
+  .js .toc.is-open .toc-items{display:flex}
+  main,section{scroll-margin-top:88px}
+}
+@media(max-width:800px){
+  .hero h1{font-size:clamp(35px,5.8vw,46px)}
+  .lead{font-size:17px}
+}
+@media(max-width:640px){
+  .hero{padding:26px 20px 32px}.brandname{font-size:14px;white-space:normal}.brandrow{gap:8px}.brand-mark{height:24px}
+  .masthead{gap:12px}.kicker{max-width:120px;font-size:9px;letter-spacing:.08em;flex:none}
+  .hero h1{font-size:clamp(36px,9.8vw,53px)}.hero h1 br{display:none}
+  .hero-body{margin-top:28px}.lead{margin-top:18px}
+  .hero-meta{gap:8px;margin-top:22px}.hero-meta span{padding:7px 12px;font-size:12px}
+  .shell{padding:20px 16px 36px;gap:20px}main{gap:22px}
+  .module{padding:22px}
+  .sec-eyebrow{font-size:10px}.sec-lead{font-size:17px}
+  h2{font-size:26px}
+  .tracker{padding:20px 22px}
+  .foot-inner{flex-direction:column;align-items:flex-start;gap:16px;padding:27px 20px}.foot-right{text-align:left}
+}
+@media(max-width:360px){
+  .brandname{font-size:13px}.kicker{font-size:8px;max-width:95px}
+  .module{padding:19px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}
+}
+@media print{
+  @page{size:A4;margin:12mm 13mm 15mm;
+    @bottom-left{content:"ABV first optimization strategy worksheet \00b7  Adobe Brand Visibility";font:8pt/1 -apple-system,"Segoe UI",Helvetica,Arial,sans-serif;color:#909090}
+    @bottom-right{content:counter(page) " / " counter(pages);font:8pt/1 "SF Mono",Menlo,Consolas,monospace;color:#909090}
+  }
+  html{scroll-behavior:auto}
+  body{font-size:10.5pt;background:var(--white);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .toc,.js .toc,.progress,.skip,.toolbar,.status,.js-only,html.js .js-only{display:none!important}
+  .shell{display:block;padding:20px 0}
+  .hero{padding:22px 24px 24px}.masthead{padding-bottom:14px}.hero-body{margin-top:20px}
+  .hero h1{font-size:36px}.hero h1 br{display:block}
+  .hl{padding-bottom:0;background:none;-webkit-text-fill-color:var(--coral-bright);color:var(--coral-bright)}
+  .lead{font-size:15px;margin-top:10px}.assumption{margin-top:10px}
+  .hero-meta{margin-top:14px}.hero-meta span{padding:5px 11px;font-size:9pt;box-shadow:none}
+  main{display:block}
+  .module{padding:24px;box-shadow:none}
+  .module{margin-top:20px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  h2,.sec-eyebrow{break-after:avoid}
+  .callout,.gate,.system-note,.tracker,.field{break-inside:avoid}
+  .field textarea{height:auto;overflow:visible}
+  .print-value{white-space:pre-wrap;border:1px solid var(--border);padding:8px 10px;border-radius:var(--radius-sm);font-size:10pt;overflow-wrap:anywhere;margin:0;background:var(--bg-base)}
+  .site-footer{margin-top:20px}.foot-inner{padding:20px 24px}.ai-note-inner{padding:6px 0}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the worksheet</a>
+<div class="progress" aria-hidden="true"><span id="progressbar"></span></div>
+<div class="ai-note">
+  <div class="ai-note-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
+    <span><b>Prepared with AI assistance.</b> Please review for accuracy before use &mdash; this document may contain errors.</span>
+  </div>
+</div>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="masthead">
+      <div class="brandrow">
+        <img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe" width="27" height="26">
+        <span class="brandname">Adobe&nbsp;<span>Brand Visibility</span></span>
+      </div>
+      <span class="kicker">Paid customer onboarding · Companion worksheet</span>
+    </div>
+    <div class="hero-body">
+      <h1>Your first ABV<br> <span class="hl">strategy</span> <span class="hl">worksheet</span></h1>
+      <p class="lead">Record the charter, prompt cohort, baseline, actions, results, and reviewed decision as you work through the six-step guide.</p>
+      <p class="assumption">Companion to &ldquo;Complete your first ABV optimization strategy.&rdquo; Entries stay in this file&mdash;nothing is uploaded or synchronized with ABV.</p>
+      <div class="hero-meta"><span><strong>5 sections</strong> · A&ndash;E working record</span><span><strong>10 checks</strong> · Completion tracker</span><span><strong>Offline-safe</strong> · Save a working copy</span></div>
+    </div>
+  </div>
+</header>
+<div class="shell">
+  <aside class="toc" aria-label="Worksheet contents and tools">
+    <div class="toc-heading"><p>In this worksheet</p></div>
+    <button class="toc-toggle" type="button" aria-expanded="false" aria-controls="spy-nav" aria-label="Show worksheet contents">
+      <span><span class="toc-mobile-label">In this worksheet</span><span class="toc-current" id="toc-current-step">Before you start</span></span>
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg>
+    </button>
+    <nav class="toc-items" id="spy-nav" aria-label="Contents">
+      <a href="#before" class="active" aria-current="location"><span class="toc-number" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 14V2.5M3.5 3h8l-1.6 2.75L11.5 8.5h-8"/></svg></span><span><span class="toc-label">Before you start</span><span class="toc-description">Saving and privacy</span></span></a>
+      <a href="#charter"><span class="toc-number">A</span><span><span class="toc-label">Strategy charter</span><span class="toc-description">Step 01 · Scope</span></span></a>
+      <a href="#cohort"><span class="toc-number">B</span><span><span class="toc-label">Prompt cohort</span><span class="toc-description">Step 02 · Prompts</span></span></a>
+      <a href="#evidence"><span class="toc-number">C</span><span><span class="toc-label">Baseline &amp; opportunities</span><span class="toc-description">Steps 03&ndash;04</span></span></a>
+      <a href="#delivery"><span class="toc-number">D</span><span><span class="toc-label">Deployment &amp; follow-up</span><span class="toc-description">Steps 05&ndash;06</span></span></a>
+      <a href="#readout"><span class="toc-number">E</span><span><span class="toc-label">Readout &amp; decision</span><span class="toc-description">Step 06 · Decide</span></span></a>
+      <a href="#tracker"><span class="toc-number" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="m5.6 8.1 1.7 1.7 3.1-3.5"/></svg></span><span><span class="toc-label">Completion tracker</span><span class="toc-description">Ten evidence-backed checks</span></span></a>
+    </nav>
+    <div class="toc-actions">
+      <button class="button primary js-only" type="button" data-action="save"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg>Save working copy</button>
+      <button class="button js-only" type="button" data-action="notes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>Download notes</button>
+      <button class="pdf-button" type="button" id="save-pdf" data-action="print"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span><span class="pdf-extra">Save as </span>PDF</span></button>
+      <p class="rail-note">Offline-safe. Entries stay in this tab until you save a working copy. <a href="abv-first-optimization-strategy.html" target="_blank" rel="noopener">Open the guide</a></p>
+      <p class="status" id="rail-status" role="status" aria-live="polite"></p>
+    </div>
+  </aside>
+  <main id="main">
+    <section class="module" id="before" tabindex="-1">
+      <p class="sec-eyebrow">Before you start</p>
+      <h2>One working record for your first strategy</h2>
+      <p class="sec-lead">Complete each section as you finish the matching guide step. Use it as a charter, action register, and review record&mdash;not as a substitute for the actual strategy in ABV.</p>
+      <div class="system-note"><strong>Saving and privacy:</strong> Entries are held in this tab only; there is no automatic browser storage, upload, or ABV synchronization. <strong>Save working copy</strong> downloads a standalone HTML file with your current entries and checks. Reopen that file to continue. Protect completed copies under your organization's data-handling rules; do not enter credentials, personal data, or sensitive unpublished content.</div>
+      <p class="small">Field placeholders are instructions, not customer data. Opportunity statuses and decision labels are planning conventions; use your account's actual UI fields and statuses in ABV. For the method behind each section, see the companion guide, <a href="abv-first-optimization-strategy.html" target="_blank" rel="noopener">Complete your first ABV optimization strategy</a>.</p>
+      <div class="toolbar">
+        <button class="button primary js-only" type="button" data-action="save"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg>Save working copy</button>
+        <button class="button js-only" type="button" data-action="notes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>Download notes (.txt)</button>
+      </div>
+      <p class="status" id="worksheet-status" role="status" aria-live="polite">No automatic saving. Save a working copy before closing this tab.</p>
+      <noscript><div class="callout">JavaScript is disabled. You can still read and fill in the worksheet, but saving, notes export, and the completion tracker are unavailable. Use your browser's print function or copy your entries to an approved document.</div></noscript>
+    </section>
+
+    <form class="sheet" id="strategy-form" autocomplete="off" onsubmit="return false">
+    <section class="module sheet-module" id="charter" tabindex="-1">
+      <p class="sec-eyebrow" data-step="A">Guide step 01 · Scope</p>
+      <h2>Strategy charter</h2>
+      <p class="sec-lead">Objective, boundary, route, owners, and decision criteria&mdash;agreed before prompt sourcing.</p>
+      <div class="fields" role="group" aria-label="Strategy charter">
+        <label class="field"><span>Strategy name</span><input id="w-name" type="text" placeholder="Action + topic / intended improvement" data-label="Strategy name"></label>
+        <label class="field"><span>Customer / brand / domain</span><input id="w-brand" type="text" placeholder="Actual brand and onboarded domain" data-label="Customer / brand / domain"></label>
+        <label class="field full"><span>Business objective and hypothesis</span><textarea id="w-objective" placeholder="Objective: What relevant gap should improve?&#10;Hypothesis: Why might these actions help?" data-label="Business objective and hypothesis"></textarea></label>
+        <label class="field full"><span>Target URL or deployed URL batch</span><textarea id="w-urls" placeholder="Owner-managed work: exact target URL or source reference.&#10;Optimize at Edge: selected deployment URLs; identify any experiment's measured subset separately." data-label="Target URL or deployed URL batch"></textarea></label>
+        <label class="field"><span>Topic / use case / audience</span><input id="w-topic" type="text" placeholder="One focused use case and target audience" data-label="Topic / use case / audience"></label>
+        <label class="field"><span>Market / language / AI platform</span><input id="w-market" type="text" placeholder="Exact market-language and platform filter" data-label="Market / language / AI platform"></label>
+        <label class="field"><span>Strategy owner</span><input id="w-owner" type="text" placeholder="Owner role / approved team reference" data-label="Strategy owner"></label>
+        <label class="field"><span>Approver and measurement reviewer</span><input id="w-reviewers" type="text" placeholder="Content / technical / measurement reviewers" data-label="Approver and measurement reviewer"></label>
+        <label class="field"><span>Execution / measurement route</span><select id="w-route" data-label="Execution / measurement route"><option value="">Select the agreed route</option><option>Optimize at Edge — manual evaluation</option><option>Optimize at Edge — supported automatic impact evaluation</option><option>Manual onsite — manual evaluation</option><option>Manual offsite — manual evaluation</option><option>Other supported route — document confirmed measurement</option></select></label>
+        <label class="field"><span>Workspace strategy ID / reference</span><input id="w-workspace" type="text" placeholder="Actual ID / link, or pending with reason" data-label="Workspace strategy ID / reference"></label>
+        <label class="field full"><span>Selected opportunity type(s) and supported action path</span><input id="w-opportunity-types" type="text" placeholder="Exact type names; confirm edge deployment, owner publishing, or catalog/publisher action" data-label="Selected opportunity type(s) and supported action path"></label>
+        <label class="field full"><span>Scope, exclusions, and comparison brands</span><textarea id="w-scope" placeholder="What is included / excluded? Which brands, domains, aliases, filters, or business-unit boundaries must remain stable?" data-label="Scope, exclusions, and comparison brands"></textarea></label>
+        <label class="field full"><span>Primary outcome, decision criteria, and guardrails</span><textarea id="w-criteria" placeholder="Exact metric and unit; criteria for scale / iterate / hold / stop; evidence requirements; factual, brand, technical, and delivery guardrails." data-label="Primary outcome, decision criteria, and guardrails"></textarea></label>
+      </div>
+    </section>
+
+    <section class="module sheet-module" id="cohort" tabindex="-1">
+      <p class="sec-eyebrow" data-step="B">Guide step 02 · Prompts</p>
+      <h2>Prompt cohort</h2>
+      <p class="sec-lead">The versioned core cohort, its processing check, and how prompts were sourced.</p>
+      <div class="fields" role="group" aria-label="Prompt cohort">
+        <label class="field"><span>Core cohort version / count / lock date</span><input id="w-cohort" type="text" placeholder="Actual version, prompt count, and date" data-label="Core cohort version / count / lock date"></label>
+        <label class="field"><span>Prompt processing check</span><input id="w-processing" type="text" placeholder="Checked date and Brand Presence availability" data-label="Prompt processing check"></label>
+        <label class="field full"><span>Exact prompt register or approved export reference</span><textarea id="w-prompts" rows="6" placeholder="ID | exact prompt | category / subcategory | intent | branded? | market / language | core / exploratory&#10;Record source and inclusion rationale; keep excluded candidates separately." data-label="Exact prompt register or approved export reference"></textarea></label>
+        <label class="field full"><span>Discovery sources, exclusions, and coverage gaps</span><textarea id="w-sourcing" placeholder="Which sources informed selection? Why were prompts included or excluded? Note intent, audience, URL, and language gaps." data-label="Discovery sources, exclusions, and coverage gaps"></textarea></label>
+      </div>
+    </section>
+
+    <section class="module sheet-module" id="evidence" tabindex="-1">
+      <p class="sec-eyebrow" data-step="C">Guide steps 03&ndash;04 · Baseline and action plan</p>
+      <h2>Baseline and opportunities</h2>
+      <p class="sec-lead">Pre-change evidence, supporting diagnostics, and the child opportunity register.</p>
+      <div class="fields" role="group" aria-label="Baseline and opportunities">
+        <label class="field"><span>Baseline period / timezone</span><input id="w-baseline-period" type="text" placeholder="Start / end dates, timezone, pre-change check" data-label="Baseline period / timezone"></label>
+        <label class="field"><span>Planned follow-up / cadence</span><input id="w-plan-period" type="text" placeholder="Dates or supported experiment window" data-label="Planned follow-up / cadence"></label>
+        <label class="field full"><span>Brand Presence baseline and evidence</span><textarea id="w-baseline" rows="5" placeholder="Exact metric | value | unit | scope / filters | source / timestamp&#10;Record Brand Visibility, Source Visibility, selected diagnostics, and response coverage if available. Mark missing data with a reason." data-label="Brand Presence baseline and evidence"></textarea></label>
+        <label class="field full"><span>Claims, URL, and traffic diagnostics</span><textarea id="w-diagnostics" placeholder="Relevant answer / claim evidence; URL readability / citations; connected traffic or business signals; unavailable signals and reasons." data-label="Claims, URL, and traffic diagnostics"></textarea></label>
+        <label class="field full"><span>Child opportunity register</span><textarea id="w-actions" rows="6" placeholder="Opportunity ID / reference | automatically surfaced / manually created | action | target | owner | approver | status | planned / actual date | evidence&#10;One row per related opportunity in the existing or new parent strategy. Do not assign parent-strategy uplift to a child without separate evidence." data-label="Child opportunity register"></textarea></label>
+        <label class="field full"><span>Automatic-measurement support / eligibility, if applicable</span><textarea id="w-eligibility" placeholder="Selected type; automatic-measurement support checked separately from edge deployment; current eligibility; generated baseline / prompt references. For the documented RCV path, record High Impact URL count. Otherwise record manual evaluation." data-label="Automatic-measurement support / eligibility"></textarea></label>
+      </div>
+    </section>
+
+    <section class="module sheet-module" id="delivery" tabindex="-1">
+      <p class="sec-eyebrow" data-step="D">Guide steps 05&ndash;06 · Deploy and measure</p>
+      <h2>Deployment and follow-up</h2>
+      <p class="sec-lead">What shipped, how it was validated, and the comparable follow-up results.</p>
+      <div class="fields" role="group" aria-label="Deployment and follow-up">
+        <label class="field"><span>Actual implementation / deployment date</span><input id="w-deploy-date" type="text" placeholder="Date, time, timezone; staggered actions if applicable" data-label="Actual implementation / deployment date"></label>
+        <label class="field"><span>Actual follow-up period</span><input id="w-followup-period" type="text" placeholder="Start / end dates and data-completeness check" data-label="Actual follow-up period"></label>
+        <label class="field full"><span>Approval, live validation, and rollback evidence</span><textarea id="w-validation" placeholder="Approval reference; deployment / version ID; actual successful / failed URLs; human / SEO / agent checks; rollback or correction procedure." data-label="Approval, live validation, and rollback evidence"></textarea></label>
+        <label class="field full"><span>Brand Presence follow-up scorecard</span><textarea id="w-results" rows="5" placeholder="Exact metric | baseline | follow-up | change and unit | evidence / scope notes&#10;Use the same core cohort and recorded configuration; response volume is coverage context." data-label="Brand Presence follow-up scorecard"></textarea></label>
+        <label class="field full"><span>Separate Workspace / experiment results, if available</span><textarea id="w-experiment" rows="5" placeholder="Exact metric / unit | baseline | post-optimization | dates | experiment prompt reference | deployed vs. measured URLs&#10;Include Citation Rate / Content Visibility only as actually displayed. Do not merge with Brand Presence." data-label="Separate Workspace / experiment results"></textarea></label>
+        <label class="field full"><span>Configuration changes, interference, and evidence limitations</span><textarea id="w-limits" placeholder="Prompt / alias / filter changes, missing or uneven data, unrelated page changes, external influences, coverage gaps, and attribution limitations." data-label="Configuration changes, interference, and evidence limitations"></textarea></label>
+      </div>
+    </section>
+
+    <section class="module sheet-module" id="readout" tabindex="-1">
+      <p class="sec-eyebrow" data-step="E">Guide step 06 · Decide</p>
+      <h2>Reviewed readout and next decision</h2>
+      <p class="sec-lead">The reviewed interpretation, decision, next owner and date, and where the evidence lives.</p>
+      <div class="fields" role="group" aria-label="Reviewed readout and next decision">
+        <label class="field full"><span>Strategy-level interpretation</span><textarea id="w-readout" rows="6" placeholder="Objective and measured scope → work completed → results → coverage → what the evidence supports → what it does not establish. Keep ongoing and experiment results separate." data-label="Strategy-level interpretation"></textarea></label>
+        <label class="field"><span>Next-cycle decision</span><select id="w-decision" data-label="Next-cycle decision"><option value="">Select after review</option><option>Scale</option><option>Iterate</option><option>Hold</option><option>Stop</option></select></label>
+        <label class="field"><span>Review / approval date</span><input id="w-review-date" type="text" placeholder="Date and reviewer references" data-label="Review / approval date"></label>
+        <label class="field full"><span>Decision rationale and next action</span><textarea id="w-next" placeholder="How does the decision relate to the agreed criteria? What happens next, who owns it, and by what date? For hold, record the blocker and next evidence review." data-label="Decision rationale and next action"></textarea></label>
+        <label class="field full"><span>Evidence pack location / repeatable process</span><textarea id="w-evidence" placeholder="Approved folder / record references; charter, prompts, baseline, actions, validation, scorecard, readout, and method for the next strategy." data-label="Evidence pack location / repeatable process"></textarea></label>
+      </div>
+    </section>
+    </form>
+
+    <section class="module" id="tracker" tabindex="-1">
+      <p class="sec-eyebrow">Completion tracker</p>
+      <h2>Confirm the activity is genuinely complete</h2>
+      <p class="sec-lead">Six step criteria plus four final quality checks. Check only what your evidence supports&mdash;this is a self-check, not an automatic certification or an ABV status update.</p>
+      <div class="tracker">
+        <strong id="completion-count">0 / 10</strong><span>evidence-backed checks completed</span>
+        <progress id="completion-progress" max="10" value="0" aria-label="Onboarding completion checks">0 of 10</progress>
+      </div>
+      <p class="small" id="completion-message" role="status" aria-live="polite">Check each step criterion as you complete it, then the four final checks. Leave measurement-dependent items open until the evidence supports them.</p>
+      <p class="label check-group">Step criteria</p>
+      <div class="finish-checks">
+        <label class="gate"><input type="checkbox" id="gate-scope" data-check="completion"><span><strong>Step 01 · Scope</strong>The strategy objective and scope are defined before prompt sourcing, with an owner, measurement route, and agreed decision criteria.</span></label>
+        <label class="gate"><input type="checkbox" id="gate-prompts" data-check="completion"><span><strong>Step 02 · Prompts</strong>Strategy-aligned prompts are processed and recorded as a versioned ongoing cohort; any experiment-specific prompt set is distinguished from that cohort.</span></label>
+        <label class="gate"><input type="checkbox" id="gate-baseline" data-check="completion"><span><strong>Step 03 · Baseline</strong>A pre-change baseline and comparison protocol are approved for the selected route; any automated experiment baseline is separately identified and verified before or through the supported deployment flow.</span></label>
+        <label class="gate"><input type="checkbox" id="gate-actions" data-check="completion"><span><strong>Step 04 · Action plan</strong>Real, in-scope opportunities have owners and approvals, with a valid deployment route and a documented measurement approach.</span></label>
+        <label class="gate"><input type="checkbox" id="gate-deploy" data-check="completion"><span><strong>Step 05 · Deploy</strong>Approved actions are implemented, live behavior is validated, and the Workspace record and opportunity evidence reflect what actually shipped.</span></label>
+        <label class="gate"><input type="checkbox" id="gate-outcome" data-check="completion"><span><strong>Step 06 · Measure &amp; decide</strong>Follow-up evidence has been reviewed against the correct baseline&mdash;or a genuine measurement limitation is investigated and documented with a next review date&mdash;and the two measurement lanes remain separate. The reviewed readout states the evidence and limitations, with a recorded decision, named next-action owner, and review date.</span></label>
+      </div>
+      <p class="label check-group">Final quality checks</p>
+      <div class="finish-checks">
+        <label class="gate"><input type="checkbox" id="gate-evidence" data-check="completion"><span><strong>The evidence pack is saved.</strong>The brief, prompt cohort, baseline, real child actions, deployment validation, follow-up or investigated limitation, and readout are retrievable.</span></label>
+        <label class="gate"><input type="checkbox" id="gate-integrity" data-check="completion"><span><strong>Measurement and attribution are accurate.</strong>Metric names, units, dates, cohorts, filters, and coverage are explicit. Workspace experiment results are separate; no unsupported child-action or revenue causation is claimed.</span></label>
+        <label class="gate"><input type="checkbox" id="gate-review" data-check="completion"><span><strong>The owner and reviewer have approved the conclusion.</strong>The decision follows the agreed criteria. Any hold, missing analysis, or unfinished work remains visible, with a clear follow-up.</span></label>
+        <label class="gate"><input type="checkbox" id="gate-next" data-check="completion"><span><strong>The next action has an owner and date.</strong>Your team can repeat the method for a new scope without silently changing this strategy's original cohort or baseline.</span></label>
+      </div>
+      <div class="callout"><p class="label">When the readout is “hold”</p><p>You can document and review a hold decision without pretending measurement is finished. Leave any unsupported checkpoint unchecked, retain the deployed strategy as appropriate, and revisit the activity when the required evidence or agreed evaluation of the limitation is available. Do not override the product's actual experiment lifecycle.</p></div>
+      <div class="toolbar">
+        <button class="button primary js-only" type="button" data-action="save"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11l3 3v13H5z"/><path d="M8 4v5h7V4M8 20v-6h8v6"/></svg>Save working copy</button>
+        <button class="button js-only" type="button" data-action="notes"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></svg>Download notes (.txt)</button>
+      </div>
+    </section>
+  </main>
+</div>
+<footer class="site-footer">
+  <div class="foot-inner">
+    <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe" width="23" height="22">Adobe&nbsp;<span>Brand Visibility</span></div>
+    <div class="foot-right"><p>Paid customer onboarding · First-strategy worksheet</p><p>Verify workflow-specific guidance against your configured account and current documentation.<br>&copy; 2026 Adobe. All rights reserved.</p></div>
+  </div>
+</footer>
+<script>
+(function(){
+  'use strict';
+  document.documentElement.classList.add('js');
+  var links = Array.from(document.querySelectorAll('#spy-nav a'));
+  var sections = links.map(function(link){return document.getElementById(link.hash.slice(1));});
+  var progressbar = document.getElementById('progressbar');
+  var form = document.getElementById('strategy-form');
+  var checks = Array.from(document.querySelectorAll('[data-check="completion"]'));
+  var fields = Array.from(form.querySelectorAll('input, textarea, select'));
+  var dirty = false;
+  var printing = false;
+  var media = window.matchMedia('(max-width: 980px)');
+  var toc = document.querySelector('.toc');
+  var toggle = document.querySelector('.toc-toggle');
+  var currentLabel = document.getElementById('toc-current-step');
+  var lastActive = null;
+  var pageTitle = document.title;
+  function setMenu(open){
+    toc.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Hide worksheet contents' : 'Show worksheet contents');
+  }
+  function keepActiveVisible(link){
+    if(media.matches || toc.scrollHeight <= toc.clientHeight){return;}
+    var box = toc.getBoundingClientRect();
+    var item = link.getBoundingClientRect();
+    if(item.top < box.top + 8){toc.scrollTop -= box.top + 8 - item.top;}
+    else if(item.bottom > box.bottom - 8){toc.scrollTop += item.bottom - box.bottom + 8;}
+  }
+
+  function setStatus(text, isError){
+    ['rail-status','worksheet-status'].forEach(function(id){
+      var element = document.getElementById(id);
+      element.textContent = text;
+      element.classList.toggle('error', Boolean(isError));
+    });
+  }
+  function updateCompletion(){
+    var count = checks.filter(function(check){return check.checked;}).length;
+    document.getElementById('completion-count').textContent = count + ' / ' + checks.length;
+    var progress = document.getElementById('completion-progress');
+    progress.max = checks.length;
+    progress.value = count;
+    progress.textContent = count + ' of ' + checks.length;
+    document.getElementById('completion-message').textContent = count === checks.length
+      ? 'All ten checks are marked complete. Confirm reviewer approval, then save the evidence-backed working copy. This does not change ABV status.'
+      : 'Check each step criterion as you complete it, then the four final checks. Leave measurement-dependent items open until the evidence supports them.';
+  }
+  function noteChange(){
+    dirty = true;
+    setStatus('Unsaved changes in this tab. Save a working copy before closing.', false);
+  }
+  form.addEventListener('input', noteChange);
+  form.addEventListener('change', noteChange);
+  checks.forEach(function(check){
+    check.addEventListener('change', function(){updateCompletion();noteChange();});
+  });
+
+  var scrollScheduled = false;
+  function updateScroll(){
+    scrollScheduled = false;
+    var height = document.documentElement.scrollHeight - window.innerHeight;
+    progressbar.style.transform = 'scaleX(' + Math.max(0, Math.min(1, height > 0 ? window.scrollY / height : 0)) + ')';
+    var active = sections[0];
+    var activationLine = media.matches ? 104 : 64;
+    sections.forEach(function(section){if(section.getBoundingClientRect().top <= activationLine){active = section;}});
+    if(height > 0 && window.scrollY >= height - 5){active = sections[sections.length - 1];}
+    var activeLink = null;
+    links.forEach(function(link){
+      var current = link.hash.slice(1) === active.id;
+      link.classList.toggle('active', current);
+      if(current){link.setAttribute('aria-current','location');activeLink = link;}else{link.removeAttribute('aria-current');}
+    });
+    var number = activeLink.querySelector('.toc-number').textContent.trim();
+    currentLabel.textContent = (number ? number + ' \u00b7 ' : '') + activeLink.querySelector('.toc-label').textContent;
+    if(activeLink !== lastActive){lastActive = activeLink;keepActiveVisible(activeLink);}
+  }
+  function scheduleScroll(){
+    if(!scrollScheduled){scrollScheduled = true;window.requestAnimationFrame(updateScroll);}
+  }
+  window.addEventListener('scroll',scheduleScroll,{passive:true});
+  window.addEventListener('resize',scheduleScroll);
+  window.addEventListener('load',scheduleScroll);
+  toggle.addEventListener('click',function(){setMenu(toggle.getAttribute('aria-expanded') !== 'true');});
+  toc.addEventListener('keydown',function(event){
+    if(event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true'){
+      setMenu(false);
+      toggle.focus();
+    }
+  });
+  document.addEventListener('click',function(event){
+    if(toc.classList.contains('is-open') && !toc.contains(event.target)){setMenu(false);}
+  });
+  Array.from(document.querySelectorAll('.toc-items a,.skip')).forEach(function(link){
+    link.addEventListener('click',function(){setMenu(false);});
+  });
+  media.addEventListener('change',function(){setMenu(false);scheduleScroll();});
+
+  function download(content, type, filename){
+    var url = URL.createObjectURL(new Blob([content],{type:type}));
+    var anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = filename;
+    document.body.appendChild(anchor);
+    anchor.click();
+    anchor.remove();
+    window.setTimeout(function(){URL.revokeObjectURL(url);},30000);
+  }
+  function filenameBase(){
+    var name = document.getElementById('w-name').value.trim();
+    var safe = name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,70);
+    return safe || 'abv-first-strategy-worksheet';
+  }
+  function saveCopy(){
+    var clone = document.documentElement.cloneNode(true);
+    fields.forEach(function(field){
+      var target = clone.querySelector('#' + field.id);
+      if(field.tagName === 'TEXTAREA'){target.textContent = field.value;}
+      else if(field.tagName === 'SELECT'){
+        Array.from(target.options).forEach(function(option,index){
+          option.toggleAttribute('selected',index === field.selectedIndex);
+        });
+      }else{target.setAttribute('value',field.value);}
+    });
+    checks.forEach(function(check){
+      clone.querySelector('#' + check.id).toggleAttribute('checked',check.checked);
+    });
+    clone.classList.remove('js');
+    clone.querySelector('.toc').classList.remove('is-open');
+    clone.querySelector('.toc-toggle').setAttribute('aria-expanded','false');
+    clone.querySelector('.toc-toggle').setAttribute('aria-label','Show worksheet contents');
+    clone.querySelectorAll('.print-value').forEach(function(node){node.remove();});
+    clone.querySelectorAll('[data-print-hidden]').forEach(function(node){
+      node.removeAttribute('hidden');node.removeAttribute('data-print-hidden');
+    });
+    clone.querySelectorAll('.status').forEach(function(node){
+      node.textContent = 'Reopened working copy. Save again after any new changes.';
+      node.classList.remove('error');
+    });
+    download('<!DOCTYPE html>\n' + clone.outerHTML,'text/html;charset=utf-8',filenameBase() + '-working-copy.html');
+    dirty = false;
+    setStatus('Working-copy download requested. Confirm it is saved in Downloads before closing this tab.',false);
+  }
+  function downloadNotes(){
+    var lines = ['ABV FIRST OPTIMIZATION STRATEGY - WORKSHEET','Exported: ' + new Date().toISOString(),''];
+    fields.forEach(function(field){
+      lines.push(field.dataset.label,field.value.trim() || '[Not recorded]','');
+    });
+    lines.push('COMPLETION SELF-CHECKS');
+    checks.forEach(function(check){
+      lines.push((check.checked ? '[x] ' : '[ ] ') + check.closest('label').innerText.replace(/\s+/g,' ').trim());
+    });
+    lines.push('','Notes export does not update ABV and cannot restore the editable worksheet. Save a working HTML copy to continue editing.');
+    download(lines.join('\n'),'text/plain;charset=utf-8',filenameBase() + '-notes.txt');
+    setStatus('Strategy-notes download requested. Save a working HTML copy to preserve an editable worksheet.',false);
+  }
+  document.querySelectorAll('[data-action]').forEach(function(button){
+    button.addEventListener('click',function(){
+      try{
+        if(button.dataset.action === 'save'){saveCopy();}
+        else if(button.dataset.action === 'notes'){downloadNotes();}
+        else if(button.dataset.action === 'print'){setMenu(false);window.print();}
+      }catch(error){
+        setStatus('Unable to ' + button.dataset.action + ': ' + error.message + '. Your entries remain in this tab; copy them to an approved record.',true);
+        console.error(error);
+      }
+    });
+  });
+  window.addEventListener('beforeunload',function(event){
+    if(dirty && !printing){event.preventDefault();event.returnValue = '';}
+  });
+  window.addEventListener('beforeprint',function(){
+    setMenu(false);
+    document.title = 'ABV first optimization strategy - worksheet';
+    if(printing){return;}
+    printing = true;
+    fields.forEach(function(field){
+      var display = document.createElement('p');
+      display.className = 'print-value';
+      display.textContent = field.value || '[Not recorded]';
+      field.insertAdjacentElement('afterend',display);
+      field.hidden = true;
+      field.setAttribute('data-print-hidden','');
+    });
+  });
+  window.addEventListener('afterprint',function(){
+    document.querySelectorAll('.print-value').forEach(function(node){node.remove();});
+    document.querySelectorAll('[data-print-hidden]').forEach(function(node){
+      node.hidden = false;node.removeAttribute('data-print-hidden');
+    });
+    printing = false;
+    document.title = pageTitle;
+  });
+  updateCompletion();
+  updateScroll();
+})();
+</script>
+</body>
+</html>

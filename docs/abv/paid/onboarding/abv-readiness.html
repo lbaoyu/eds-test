@@ -93,11 +93,11 @@ button{font:inherit}
 .pdf-button:focus-visible{border-radius:var(--radius-pill)}
 .pdf-button svg{flex:none;color:var(--gray-600)}
 main{min-width:0;display:grid;gap:24px;scroll-margin-top:28px}
-.framework-map{container:map / inline-size;padding:30px 32px 26px;border:1px solid var(--border);border-radius:var(--radius);background:radial-gradient(circle,var(--map-dot) 1px,var(--transparent) 1.4px) 0 0 / 18px 18px,var(--bg-layer-1)}
-.intro{font-size:15px;line-height:1.6;color:var(--gray-700);margin:0 0 28px;max-width:86ch}
+.framework-map{container:map / inline-size;padding:28px 30px 24px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-layer-1)}
+.intro{font-size:15px;line-height:1.6;color:var(--gray-700);margin:0 0 24px;max-width:86ch}
 .map-flow{--g:22px;display:grid;grid-template-columns:calc((100% - 5 * var(--g)) / 2 + 2 * var(--g)) calc((100% - 5 * var(--g)) / 3 + var(--g)) minmax(0,1fr);gap:22px var(--g);margin:0;padding:0;list-style:none}
 .map-phase{display:flex;flex-direction:column;min-width:0}
-.phase-label{display:flex;align-items:center;gap:10px;margin:0 0 12px;font:500 10px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gray-600)}
+.phase-label{display:flex;align-items:center;gap:10px;margin:0 0 10px;font:600 9.5px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gray-600)}
 .phase-label::after{content:"";flex:1;height:1px;background:var(--border-strong)}
 .phase-tiles{flex:1;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:var(--g);margin:0;padding:0;list-style:none}
 .tile-item{position:relative;display:flex;min-width:0}
@@ -108,8 +108,8 @@ main{min-width:0;display:grid;gap:24px;scroll-margin-top:28px}
 .map-tile:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:var(--shadow-lg);text-decoration:none}
 .map-tile:focus-visible{border-radius:var(--radius-md)}
 .tile-num{display:block;font:800 34px/1 var(--font);font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.045em;color:var(--coral-1)}
-.tile-title{display:block;margin:12px 0 14px;font-size:15px;font-weight:700;line-height:1.3;letter-spacing:-.01em}
-.tile-output{display:block;margin-top:auto;padding-top:10px;border-top:1px solid var(--border);color:var(--gray-600);font-size:13px;line-height:1.4}
+.tile-title{display:block;min-height:2.6em;margin:12px 0 14px;font-size:15px;font-weight:700;line-height:1.3;letter-spacing:-.01em}
+.tile-output{display:block;min-height:calc(2 * 1.4em + 10px);margin-top:auto;padding-top:10px;border-top:1px solid var(--border);color:var(--gray-600);font-size:13px;line-height:1.4}
 .tile-output::before{content:"\21B3\00a0";color:var(--gray-400)}
 .map-tile.is-goal{border-color:var(--charcoal);background:radial-gradient(260px 180px at 100% 0,var(--white-lift),var(--transparent) 72%),var(--charcoal);color:var(--white)}
 .is-goal .tile-num{color:var(--coral-bright)}
@@ -144,19 +144,8 @@ section{scroll-margin-top:28px;min-width:0}
 .actions li::before{content:counter(act,decimal-leading-zero);display:grid;place-items:center;width:29px;height:29px;border:1px solid var(--border-strong);border-radius:50%;background:var(--bg-base);font:600 10px/1 var(--mono);color:var(--adobe-red)}
 .actions li>strong:first-child{color:var(--ink);font-size:16px;line-height:1.4;letter-spacing:-.005em}
 .actions .desc{min-width:0}
-.feature-map{margin:0 0 24px;padding:18px 20px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-1)}
 .feature-heading{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-600);margin:0 0 12px}
 .feature-heading::before{content:"";width:7px;height:7px;flex:none;border:1px solid var(--gray-400);border-radius:2px}
-.feature-map dl{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:18px;margin:0}
-.feature-entry{min-width:0}
-.feature-entry+ .feature-entry{padding-left:18px;border-left:1px solid var(--border)}
-.feature-map dt{font-size:14px;font-weight:600;line-height:1.4;color:var(--ink)}
-.feature-map dd{font-size:13px;line-height:1.55;color:var(--gray-700);margin:5px 0 0}
-.feature-map:has(.feature-entry:only-child){display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;padding-block:14px}
-.feature-map:has(.feature-entry:only-child) .feature-heading{margin:0}
-.feature-map:has(.feature-entry:only-child) .feature-entry{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px}
-.feature-map:has(.feature-entry:only-child) dd{margin:0}
-.feature-map .conditional{font-size:10px;color:var(--gray-600);font-weight:500}
 .checkpoint{display:flex;align-items:baseline;gap:4px 14px;margin:24px 0 0;padding:17px 0 0;border-top:1px solid var(--border)}
 .checkpoint .label{flex:none;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--adobe-red-dark);margin:0}
 .checkpoint .label::before{content:"\2192\00a0";color:var(--coral-1)}
@@ -167,15 +156,11 @@ section{scroll-margin-top:28px;min-width:0}
   .actions li>strong:first-child{display:block;margin-bottom:4px;line-height:1.35}
 }
 @container module (max-width:620px){
-  .feature-map dl{grid-auto-flow:row;gap:10px}
-  .feature-entry+ .feature-entry{padding:10px 0 0;border-left:0;border-top:1px solid var(--border)}
   .checkpoint{flex-direction:column}
 }
 @container module (max-width:479px){
   .actions li{padding:16px}
   .actions li::before{position:static;margin-bottom:12px}
-  .feature-map:has(.feature-entry:only-child){display:block}
-  .feature-map:has(.feature-entry:only-child) .feature-heading{margin-bottom:10px}
 }
 .note{font-size:14px;line-height:1.6;color:var(--gray-700);margin:24px 0 0;padding:16px 18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-2)}
 .card{padding:20px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-layer-1);box-shadow:var(--shadow-sm);transition:border-color .15s,transform .15s,box-shadow .15s}
@@ -189,7 +174,6 @@ section{scroll-margin-top:28px;min-width:0}
 .subhead{display:flex;align-items:center;gap:10px;margin:30px 0 12px;font:600 10px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gray-600)}
 .subhead::after{content:"";flex:1;height:1px;background:var(--border)}
 .subhead:first-of-type{margin-top:0}
-.fine{font-size:13px;line-height:1.55;color:var(--gray-600);margin:12px 0 0}
 .roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0 0 24px;padding:0;list-style:none}
 .role{display:flex;flex-direction:column;min-width:0;padding:18px 20px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-base);box-shadow:var(--shadow-sm);transition:border-color .15s,transform .15s,box-shadow .15s}
 .role:hover,.conn:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow-lg)}
@@ -200,14 +184,23 @@ section{scroll-margin-top:28px;min-width:0}
 .tag.is-core{color:var(--ink);border-color:var(--border-strong);background:var(--bg-base)}
 .tag.is-core::before{background:var(--coral-1)}
 .approach{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.approach .card h3{font-size:16px;margin-bottom:6px}
-.approach .card p{font-size:14px}
+.approach .card{padding:20px}
+.approach-visual{margin:0 0 16px;padding:10px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--bg-layer-1)}
+.approach-visual svg{display:block;width:100%;height:auto;aspect-ratio:2 / 1}
+.approach-visual .diagram-line{fill:none;stroke:var(--gray-400);stroke-width:2.5}
+.approach-visual .diagram-line.is-dashed{stroke-dasharray:6 6}
+.approach-visual .diagram-node{fill:var(--gray-300);stroke:var(--gray-500);stroke-width:2}
+.approach-visual .diagram-halo{fill:var(--gray-200)}
+.approach-visual .diagram-hub{fill:var(--ink)}
+.approach-visual .diagram-boundary{fill:none;stroke:var(--gray-300);stroke-width:2.5;stroke-dasharray:7 7}
+.approach .card h3{font-size:21px;margin:0 0 10px}
+.approach .card p{font-size:14px;line-height:1.6}
 .path{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;margin:0;padding:0;list-style:none}
 .path li{position:relative;display:flex;flex-direction:column;min-width:0;padding:16px 18px 14px;border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-sm)}
 .path li+li::before{content:"";position:absolute;top:50%;left:-17px;width:10px;height:1.5px;background:var(--gray-400)}
 .path li+li::after{content:"";position:absolute;top:50%;left:-11px;width:7px;height:7px;margin-top:-2.75px;border-top:1.5px solid var(--gray-400);border-right:1.5px solid var(--gray-400);transform:rotate(45deg)}
 .path-verb{display:block;font-size:18px;font-weight:800;line-height:1.25;letter-spacing:-.02em;color:var(--ink)}
-.path-who{display:block;margin:6px 0 12px;font:600 10px/1.45 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--gray-600)}
+.path-who{display:block;min-height:2.9em;margin:6px 0 12px;font:600 10px/1.45 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--gray-600)}
 .path-what{display:block;padding-top:10px;border-top:1px solid var(--border);font-size:13.5px;line-height:1.5;color:var(--gray-700)}
 .connections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .conn{display:flex;flex-direction:column;min-width:0;padding:22px 22px 18px;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);transition:border-color .15s,transform .15s,box-shadow .15s}
@@ -216,9 +209,8 @@ section{scroll-margin-top:28px;min-width:0}
 .flag{padding:3px 9px;border:1px solid var(--border);border-radius:var(--radius-pill);font:600 9.5px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gray-600);white-space:nowrap}
 .flag.is-first{color:var(--adobe-red-dark);border-color:var(--coral-2);background:var(--adobe-red-tint)}
 .conn h3{font-size:20px;margin:0 0 6px}
-.conn h3 a{color:inherit}
-.conn h3 a::after{content:"\2197";margin-left:5px;font-size:.62em;font-weight:600;vertical-align:.32em;color:var(--gray-500);transition:color .15s}
-.conn h3 a:hover,.conn h3 a:hover::after{color:var(--s2-blue-down)}
+.conn h3 a{color:var(--s2-blue-down);text-decoration:none}
+.conn h3 a:hover{color:var(--s2-blue-active);text-decoration:underline;text-underline-offset:3px}
 .conn-why{font-size:14px;line-height:1.55;color:var(--gray-700);margin:0 0 18px}
 .conn-meta{display:grid;gap:10px;margin:0;padding-top:14px;border-top:1px solid var(--border)}
 .conn-meta div{display:grid;grid-template-columns:84px minmax(0,1fr);gap:12px;align-items:baseline}
@@ -298,7 +290,6 @@ section{scroll-margin-top:28px;min-width:0}
   .hero-body{margin-top:28px}.lead{margin-top:18px}
   .shell{padding:20px 16px 36px;gap:20px}main{gap:22px}
   .module,.framework-map{padding:22px}.intro{margin-bottom:24px}
-  .feature-map{padding:15px 17px}
   .sec-eyebrow{font-size:10px}
   h2{font-size:26px;margin-bottom:20px}.card{padding:16px}
   .finish{padding:23px}.finish h3{font-size:25px}
@@ -337,7 +328,7 @@ section{scroll-margin-top:28px;min-width:0}
   .map-phase:first-child .tile-item:last-child,.map-phase:last-child .tile-item{grid-column:auto}
   .map-tile{min-height:120px;padding:12px}.tile-num{font-size:26px}.tile-title{font-size:13px;margin:8px 0 10px}.tile-output{font-size:11px}
   .tile-item::before,.tile-item::after{display:none}
-  h2,h3,.sec-eyebrow,.subhead{break-after:avoid}.feature-map,.checkpoint,.card,.finish,.actions li,.role,.path li,.conn,.ready-group,.note{break-inside:avoid}
+  h2,h3,.sec-eyebrow,.subhead{break-after:avoid}.checkpoint,.card,.finish,.actions li,.role,.path li,.conn,.ready-group,.note{break-inside:avoid}
   .role,.conn,.path li,.card{box-shadow:none}
   .actions li{box-shadow:none}
   .card:hover,.actions li:hover,.role:hover,.conn:hover{transform:none;box-shadow:none}
@@ -430,12 +421,6 @@ section{scroll-margin-top:28px;min-width:0}
       <li class="role"><span class="tag">Technical</span><h3>IT / CDN and security</h3><p>Owns log forwarding, crawler access, WAF and bot management, and edge routing when it is in scope.</p></li>
       <li class="role"><span class="tag">As needed</span><h3>Approvers and reviewers</h3><p>Brand, legal, compliance, or technical sign-off when a change requires it under your processes.</p></li>
     </ul>
-    <aside class="feature-map" aria-label="ABV features for ownership">
-      <p class="feature-heading">ABV features</p>
-      <dl>
-        <div class="feature-entry"><dt><a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/opportunities/opportunity-workspace" target="_blank" rel="noopener">Opportunity Workspace</a></dt><dd>Assign named owners to strategies and opportunities so accountability carries into delivery.</dd></div>
-      </dl>
-    </aside>
     <aside class="checkpoint"><p class="label">Move on when</p><p>Every role has a named owner or is marked not needed, and each person knows what they own.</p></aside>
   </section>
 
@@ -443,12 +428,51 @@ section{scroll-margin-top:28px;min-width:0}
     <p class="sec-eyebrow" data-step="02">Agree ways of working</p>
     <h2>Agree how decisions get made</h2>
     <h3 class="subhead">Operating approach</h3>
+    <p class="section-lead">Organizations may work in centralized, federated, or decentralized ways. The right fit depends on factors such as the number of business units, local autonomy, available capabilities, and the need for shared oversight.</p>
     <div class="approach">
-      <div class="card"><h3>Centralized</h3><p>A central team sets priorities, standards, and decisions; delivery teams carry out the agreed work.</p></div>
-      <div class="card"><h3>Federated</h3><p>A central team sets direction and governance; business units or markets plan and execute locally.</p></div>
-      <div class="card"><h3>Decentralized</h3><p>Individual teams lead their own work within shared principles and agreed guardrails.</p></div>
+      <article class="card">
+        <div class="approach-visual">
+          <svg viewBox="0 0 420 210" aria-hidden="true" focusable="false">
+            <path class="diagram-line" d="M210 105 105 52M210 105 315 52M210 105 105 158M210 105 315 158"/>
+            <circle class="diagram-node" cx="105" cy="52" r="13"/><circle class="diagram-node" cx="315" cy="52" r="13"/>
+            <circle class="diagram-node" cx="105" cy="158" r="13"/><circle class="diagram-node" cx="315" cy="158" r="13"/>
+            <circle class="diagram-halo" cx="210" cy="105" r="38"/><circle class="diagram-hub" cx="210" cy="105" r="23"/>
+          </svg>
+        </div>
+        <h3>Centralized</h3>
+        <p>A central ABV team coordinates priorities, standards, and decisions; delivery teams carry out approved work.</p>
+      </article>
+      <article class="card">
+        <div class="approach-visual">
+          <svg viewBox="0 0 420 210" aria-hidden="true" focusable="false">
+            <path class="diagram-line is-dashed" d="M210 105 110 58M210 105 310 58M210 105 110 152M210 105 310 152"/>
+            <path class="diagram-line" d="M110 58 68 28M110 58 68 88M310 58 352 28M310 58 352 88M110 152 68 122M110 152 68 182M310 152 352 122M310 152 352 182"/>
+            <circle class="diagram-node" cx="110" cy="58" r="18"/><circle class="diagram-node" cx="310" cy="58" r="18"/>
+            <circle class="diagram-node" cx="110" cy="152" r="18"/><circle class="diagram-node" cx="310" cy="152" r="18"/>
+            <circle class="diagram-node" cx="68" cy="28" r="7"/><circle class="diagram-node" cx="68" cy="88" r="7"/>
+            <circle class="diagram-node" cx="352" cy="28" r="7"/><circle class="diagram-node" cx="352" cy="88" r="7"/>
+            <circle class="diagram-node" cx="68" cy="122" r="7"/><circle class="diagram-node" cx="68" cy="182" r="7"/>
+            <circle class="diagram-node" cx="352" cy="122" r="7"/><circle class="diagram-node" cx="352" cy="182" r="7"/>
+            <circle class="diagram-halo" cx="210" cy="105" r="30"/><circle class="diagram-hub" cx="210" cy="105" r="17"/>
+          </svg>
+        </div>
+        <h3>Federated</h3>
+        <p>A central team sets shared direction and governance while business units or markets plan and execute locally.</p>
+      </article>
+      <article class="card">
+        <div class="approach-visual">
+          <svg viewBox="0 0 420 210" aria-hidden="true" focusable="false">
+            <ellipse class="diagram-boundary" cx="210" cy="105" rx="145" ry="73"/>
+            <path class="diagram-line is-dashed" d="M210 105 128 67M210 105 292 67M210 105 151 151M210 105 269 151"/>
+            <circle class="diagram-node" cx="128" cy="67" r="17"/><circle class="diagram-node" cx="292" cy="67" r="17"/>
+            <circle class="diagram-node" cx="151" cy="151" r="17"/><circle class="diagram-node" cx="269" cy="151" r="17"/>
+            <circle class="diagram-node" cx="210" cy="105" r="17"/>
+          </svg>
+        </div>
+        <h3>Decentralized</h3>
+        <p>Individual teams lead their own ABV work within shared enterprise principles and agreed guardrails.</p>
+      </article>
     </div>
-    <p class="fine">Pick what fits today; it can evolve. What matters is clarity on who coordinates, who decides, and who executes.</p>
     <h3 class="subhead">Decision path</h3>
     <ol class="path" aria-label="Decision path">
       <li><span class="path-verb">Recommend</span><span class="path-who">GEO/SEO and content</span><span class="path-what">Propose prioritized opportunities and changes.</span></li>
@@ -469,14 +493,6 @@ section{scroll-margin-top:28px;min-width:0}
   <section class="module" id="measures" tabindex="-1">
     <p class="sec-eyebrow" data-step="03">Define success</p>
     <h2>Agree what success looks like and who reviews it</h2>
-    <aside class="feature-map" aria-label="ABV features for measurement">
-      <p class="feature-heading">ABV features</p>
-      <dl>
-        <div class="feature-entry"><dt><a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/brand-visibility/brand-presence-semrush" target="_blank" rel="noopener">Brand Presence</a></dt><dd>Brand Visibility, Source Visibility, and Share of Voice for your tracked prompts.</dd></div>
-        <div class="feature-entry"><dt><a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/agentic-traffic" target="_blank" rel="noopener">Agentic</a> &amp; <a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/referral-traffic" target="_blank" rel="noopener">Referral Traffic</a> <span class="conditional">· CDN logs</span></dt><dd>AI-agent requests to your site and traffic from AI citations.</dd></div>
-        <div class="feature-entry"><dt><a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/resources/impact-measurement-engine" target="_blank" rel="noopener">Impact Measurement Engine</a> <span class="conditional">· eligible types</span></dt><dd>Before-and-after measurement for supported optimizations.</dd></div>
-      </dl>
-    </aside>
     <ol class="actions">
       <li><strong>Start from the business objective.</strong> <span class="desc">Name the outcome the first loop should move, and the product and journey it applies to, before choosing metrics.</span></li>
       <li><strong>Pick a primary KPI and supporting measures.</strong> <span class="desc">Choose what is relevant to that journey, such as Brand Visibility or Share of Voice, plus AI-referral engagement or conversions where analytics is connected.</span></li>
@@ -490,18 +506,12 @@ section{scroll-margin-top:28px;min-width:0}
   <section class="module" id="access" tabindex="-1">
     <p class="sec-eyebrow" data-step="04">Configure the account</p>
     <h2>Set up the account, scope, and access</h2>
-    <aside class="feature-map" aria-label="ABV features for account setup">
-      <p class="feature-heading">ABV features</p>
-      <dl>
-        <div class="feature-entry"><dt><a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/brands-management" target="_blank" rel="noopener">Brands Management</a></dt><dd>Brand, market, domains, aliases, competitors, and the analytics and CDN configurations.</dd></div>
-      </dl>
-    </aside>
     <ol class="actions">
       <li><strong>Confirm capabilities with Adobe.</strong> <span class="desc">Check which capabilities, integrations, and opportunity types are available in your account. Some are access-gated; for example, product-page enrichment requires Adobe Commerce.</span></li>
       <li><strong>Give the right people access.</strong> <span class="desc">The ABV administrator sets up users. Make sure at least one person can configure and, where applicable, deploy.</span></li>
       <li><strong>Configure the brand and first scope.</strong> <span class="desc">In Brands Management, add the brand, market, primary domain and supporting URLs, aliases, and 3&ndash;5 competitors. Start small: one brand, one market, and one or two priority journeys.</span></li>
       <li><strong>Confirm crawler access.</strong> <span class="desc">The technical owner checks robots.txt, WAF, bot-management, and CDN rules so <a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/essentials/quick-start#allowing-adobe-brand-visibility-to-access-public-pages" target="_blank" rel="noopener">the ABV crawler (Spacecat/1.0)</a> and the AI agents you intend to allow can reach in-scope content.</span></li>
-      <li><strong>Agree the publishing route.</strong> <span class="desc">Use <strong><a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/resources/optimize-at-edge/overview" target="_blank" rel="noopener">Optimize at Edge</a></strong> for supported changes where edge is in scope; otherwise route work through CMS, engineering, or offsite owners.</span></li>
+      <li><strong>Agree the publishing route.</strong> <span class="desc">Use <a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/resources/optimize-at-edge/overview" target="_blank" rel="noopener">Optimize at Edge</a> for supported changes where edge is in scope; otherwise route work through CMS, engineering, or offsite owners.</span></li>
     </ol>
     <aside class="checkpoint"><p class="label">Move on when</p><p>Users have the access they need, Brands Management reflects the agreed scope, and crawler access and the publishing route are confirmed.</p></aside>
   </section>

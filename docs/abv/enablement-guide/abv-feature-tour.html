@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="A complete ABV feature reference organized into setup, discovery, measurement, diagnosis, action, and evaluation, with walkthrough focuses and interpretation limits.">
+<title>ABV Features Guide | Adobe Brand Visibility</title>
+<style>
+:root{
+  --adobe-red:#EB1000;--adobe-red-dark:#B71000;--adobe-red-tint:#FDECEA;
+  --coral-1:#F04A2E;--coral-2:#F9A392;--coral-bright:#FB6A4E;
+  --s2-blue:#3B63FB;--s2-blue-down:#274DEA;--s2-blue-active:#1D3ECF;
+  --s2-blue-tint:#E5F0FE;--s2-blue-tint-faint:#F5F9FF;
+  --ink:#1B1B1B;--charcoal:#2C2C2C;--charcoal-2:#141414;
+  --gray-900:#1F1F1F;--gray-800:#222222;--gray-700:#464646;
+  --gray-600:#6D6D6D;--gray-500:#909090;--gray-400:#B1B1B1;
+  --gray-300:#D5D5D5;--gray-200:#E6E6E6;--gray-100:#F8F8F8;
+  --gray-75:#FAFAFA;--gray-50:#FDFDFD;--white:#FFFFFF;
+  --bg-base:#FFFFFF;--bg-layer-1:#FAFAFA;--bg-layer-2:#F4F4F5;
+  --border:#E6E6E6;--border-strong:#D5D5D5;
+  --hero-start:#2D2D2D;--hero-mid:#1C1C1C;--hero-end:#0E0E0E;
+  --white-lift:rgba(255,255,255,.12);--white-mid:rgba(255,255,255,.05);
+  --white-scan:rgba(255,255,255,.03);--white-line:rgba(255,255,255,.16);
+  --hero-muted:#D3D3D3;--hero-kicker:#FF8F84;--hero-soft:rgba(255,255,255,.2);
+  --hero-chip-bg:rgba(255,255,255,.07);--hero-chip-color:#ECECEC;--transparent:transparent;
+  --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+  --radius:16px;--radius-md:12px;--radius-sm:8px;--radius-pill:9999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 8px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08);
+  --brand-glow:0 2px 12px rgba(255,255,255,.18);
+  --focus-ring:var(--s2-blue);--maxw:1280px;
+  --demo-text:#E9E9E9;--demo-muted:#A9A9A9;--demo-line:rgba(255,255,255,.10);--demo-dot-halo:rgba(235,16,0,.28);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+body{margin:0;font-family:var(--font);font-size:16px;line-height:1.62;color:var(--gray-800);background:var(--bg-base);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--s2-blue-tint);color:var(--ink)}
+a{color:var(--s2-blue-down);text-decoration:none}
+a:hover{text-decoration:underline}
+a:focus-visible,button:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px;border-radius:3px}
+p{margin:0 0 14px}
+h1,h2,h3{color:var(--ink);text-wrap:balance}
+h2{font-size:clamp(27px,2.8vw,36px);font-weight:800;line-height:1.14;letter-spacing:-.028em;margin:0 0 18px;max-width:28ch}
+h3{font-size:18px;line-height:1.3;letter-spacing:-.015em;margin:0 0 10px}
+strong{font-weight:700}
+.skip{position:fixed;left:16px;top:-100px;z-index:120;padding:10px 16px;background:var(--white);border:1px solid var(--s2-blue);border-radius:var(--radius-sm)}
+.skip:focus{top:10px}
+.progress{position:fixed;inset:0 0 auto;height:2px;z-index:110;pointer-events:none}
+.progress span{display:block;width:100%;height:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,var(--coral-1),var(--coral-2))}
+.ai-note{background:var(--gray-100);border-bottom:1px solid var(--gray-200)}
+.ai-note-inner{max-width:var(--maxw);margin:auto;padding:9px 24px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;line-height:1.45;color:var(--gray-500)}
+.ai-note b{font-weight:600;color:var(--gray-600)}
+.ai-note svg{flex:none;color:var(--gray-500)}
+.hero{position:relative;overflow:hidden;color:var(--white);background:radial-gradient(1350px 720px at 90% -18%,var(--white-lift),var(--white-mid) 42%,var(--transparent) 82%),linear-gradient(135deg,var(--hero-start),var(--hero-mid) 52%,var(--hero-end));padding:44px 32px 64px}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--white-scan) 1px,var(--transparent) 1px);background-size:100% 34px;opacity:.5;-webkit-mask:linear-gradient(var(--ink),var(--transparent) 70%);mask:linear-gradient(var(--ink),var(--transparent) 70%)}
+.hero-inner{position:relative;z-index:1;max-width:var(--maxw);margin:auto}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:14px 20px;flex-wrap:wrap;padding-bottom:20px;border-bottom:1px solid var(--white-line)}
+.brandrow{display:flex;align-items:center;gap:11px}
+.brand-mark{height:26px;width:auto;flex:none;filter:drop-shadow(var(--brand-glow))}
+.brandname{font-size:19px;font-weight:800;letter-spacing:-.02em;color:var(--white)}
+.brandname span{font-weight:400;color:var(--hero-muted)}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--hero-kicker);text-align:right}
+.hero-body{margin-top:40px}
+.hero h1{max-width:20ch;font-size:clamp(39px,5vw,62px);line-height:1.05;letter-spacing:-.035em;font-weight:800;color:var(--white);margin:0}
+.hl{background:linear-gradient(100deg,var(--coral-1),var(--coral-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:var(--transparent);color:var(--transparent);padding-bottom:.3em;-webkit-box-decoration-break:slice;box-decoration-break:slice}
+.lead{max-width:72ch;font-size:clamp(17px,1.8vw,20px);line-height:1.5;color:var(--hero-muted);margin:17px 0 0}
+.hero-rail{display:flex;flex-wrap:wrap;gap:10px;margin:30px 0 0;padding:0;list-style:none}
+.hero-rail li{padding:8px 15px;box-shadow:inset 0 1px 0 rgba(255,255,255,.14);border:1px solid var(--hero-soft);border-radius:var(--radius-pill);background:var(--hero-chip-bg);font-size:12px;color:var(--hero-chip-color)}
+.hero-rail b{color:var(--white)}
+.shell{max-width:var(--maxw);margin:auto;padding:56px 32px 96px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:56px;align-items:start}
+.toc{position:sticky;top:32px;align-self:start;max-height:calc(100vh - 44px);overflow-y:auto;scrollbar-width:thin}
+.toc-title{margin:0 0 12px;padding:0 12px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-500)}
+.toc nav{display:flex;flex-direction:column;gap:3px}
+.toc nav a{display:flex;align-items:flex-start;gap:10px;padding:8px 11px;border-left:2px solid transparent;border-radius:var(--radius-sm);color:var(--gray-700);font-size:13px;line-height:1.35;font-weight:600;transition:background .15s,color .15s,border-color .15s}
+.toc nav a:hover{background:var(--gray-100);text-decoration:none}
+.toc nav a.active{color:var(--s2-blue-down);background:var(--s2-blue-tint);border-left-color:var(--s2-blue)}
+.toc .num{min-width:20px;font:600 10px/1.5 var(--mono);color:var(--gray-500)}
+.toc nav a.active .num{color:var(--s2-blue)}
+.toc-actions{margin:18px 12px 0;padding-top:16px;border-top:1px solid var(--border)}
+.pdf-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:40px;padding:0 14px;border:1px solid var(--border-strong);border-radius:var(--radius-pill);background:var(--bg-base);color:var(--ink);font-size:12px;font-weight:700;cursor:pointer;box-shadow:var(--shadow-sm);transition:background .15s,border-color .15s}
+.pdf-button:hover{border-color:var(--gray-400);background:var(--gray-100)}
+.pdf-button svg{flex:none;color:var(--gray-600)}
+main{min-width:0;counter-reset:sec}
+.module{counter-increment:sec;scroll-margin-top:32px;padding:48px 52px 50px;border:1px solid var(--border);border-radius:20px;background:var(--bg-base);box-shadow:var(--shadow-sm)}
+.module + .module{margin-top:36px}
+main .module > * + *{margin-top:28px}
+main .module > .sec-eyebrow + h2,main .module > h2 + .section-lead{margin-top:0}
+main .module > .doc-links{margin-top:20px}
+.doc-links{display:flex;flex-wrap:wrap;gap:10px}
+.sources{margin-bottom:24px;padding:22px 26px 24px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-layer-1)}
+.source-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:8px 0 0;padding:0;list-style:none}
+.source-list li{display:flex;flex-direction:column;gap:6px;min-width:0;padding:4px 20px}
+.source-list li:first-child{padding-left:0}
+.source-list li:last-child{padding-right:0}
+.source-list li + li{border-left:1px solid var(--border)}
+.src-name{font-size:14.5px;font-weight:700;color:var(--ink)}
+.src-what{font-size:13.5px;line-height:1.5;color:var(--gray-600)}
+@media(max-width:980px){.source-list{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:18px}.source-list li:nth-child(3){border-left:0;padding-left:0}.source-list li:nth-child(2){padding-right:0}}
+@media(max-width:620px){.sources{padding:18px}.source-list{grid-template-columns:minmax(0,1fr);row-gap:0}.source-list li,.source-list li:nth-child(n){padding:12px 0;border-left:0}.source-list li + li{border-top:1px solid var(--gray-200)}}
+.toc-group{margin:16px 11px 4px;font:600 9.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gray-400)}
+.toc nav .toc-group:first-child{margin-top:0}
+.tour-map{padding:40px 52px 44px;border:1px solid var(--border);border-radius:20px;background:var(--bg-layer-1)}
+.tour-map + .module{margin-top:36px}
+.tour-map h2{margin:0;font-size:clamp(21px,2vw,25px)}
+.tour-lead{margin:10px 0 0;color:var(--gray-600);font-size:15.5px;max-width:70ch}
+.phases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:28px 0 0;padding:0;list-style:none;border-top:1px solid var(--border)}
+.phases li{padding:22px 24px 4px 0}
+.phases li:nth-child(n+4){border-top:1px solid var(--border)}
+.ph-num{margin:0;font:600 11px/1.4 var(--mono);letter-spacing:.06em;color:var(--adobe-red)}
+.phases h3{margin:6px 0 0;font-size:17px;letter-spacing:-.01em}
+.ph-views{margin:4px 0 0;font-size:13px;font-weight:600;color:var(--gray-700)}
+.ph-why{margin:8px 0 0;font-size:14px;line-height:1.55;color:var(--gray-600)}
+.actions{padding:22px 26px 10px;border:1px solid var(--border);border-radius:var(--radius)}
+.actions-title{margin:0 0 6px;font:600 10px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gray-500)}
+.action-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:36px;margin:0;padding:0;list-style:none}
+.action-list li{display:flex;flex-direction:column;gap:7px;padding:13px 0;border-top:1px solid var(--gray-200)}
+.action-list li:nth-child(-n+2){border-top:0}
+.ui-set{display:flex;flex-wrap:wrap;gap:6px}
+.ui{display:inline-block;padding:2px 9px;border:1px solid var(--border-strong);border-radius:6px;background:var(--bg-base);box-shadow:0 1px 0 var(--gray-200);font-size:12.5px;font-weight:700;line-height:1.5;color:var(--ink);white-space:nowrap}
+.ui-what{font-size:14px;line-height:1.5;color:var(--gray-600)}
+.sec-eyebrow{margin:0 0 14px;font-size:11px;line-height:1.4;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-500)}
+.sec-eyebrow::before{content:counter(sec,decimal-leading-zero) "  ·  ";font:600 11px/1 var(--mono);letter-spacing:.02em;color:var(--adobe-red)}
+.section-lead{max-width:70ch;margin:0;font-size:17px;line-height:1.65;color:var(--gray-700)}
+.feature-brief{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-layer-1)}
+.feature-brief div{position:relative;min-width:0;padding:20px 26px 22px}
+.feature-brief div + div{border-left:1px solid var(--border)}
+.feature-brief div + div::before{content:"";position:absolute;top:50%;left:-9px;width:16px;height:16px;margin-top:-8px;border:1px solid var(--border);border-radius:50%;background:var(--bg-base) no-repeat center/8px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath d='M2.5 1.2 5.3 4 2.5 6.8' fill='none' stroke='%23909090' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.feature-brief div:last-child{background:var(--bg-base);border-radius:0 var(--radius) var(--radius) 0}
+.feature-brief dt{margin:0 0 8px;color:var(--gray-500);font:600 10px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase}
+.feature-brief div:last-child dt{color:var(--adobe-red-dark)}
+.feature-brief dd{margin:0;color:var(--gray-700);font-size:14px;line-height:1.55}
+.feature-brief dd strong{color:var(--ink)}
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.card{min-width:0;padding:26px 26px 28px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-base);box-shadow:var(--shadow-sm);transition:border-color .15s,transform .15s,box-shadow .15s}
+.card:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.card p{margin:0;color:var(--gray-700);font-size:15px;line-height:1.62}
+.card h3{font-size:18px}
+.eyelabel{display:inline-flex;align-items:center;gap:7px;width:fit-content;margin:0 0 14px;padding:3px 10px;border:1px solid var(--border);border-radius:var(--radius-pill);background:var(--bg-layer-1);font:600 9.5px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gray-600)}
+.eyelabel::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--gray-400)}
+.card ul,.list{margin:14px 0 0;padding-left:19px;color:var(--gray-700);font-size:15px;line-height:1.6}
+.card li+li,.list li+li{margin-top:8px}
+.demo{position:relative;overflow:hidden;padding:30px 34px 32px;border-radius:var(--radius);color:var(--demo-text);background:radial-gradient(900px 420px at 100% -40%,var(--white-lift),var(--white-mid) 45%,var(--transparent) 80%),linear-gradient(135deg,var(--hero-start),var(--hero-mid) 55%,var(--hero-end));box-shadow:var(--shadow)}
+.demo::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--white-scan) 1px,var(--transparent) 1px);background-size:100% 30px;-webkit-mask:linear-gradient(var(--ink),var(--transparent) 75%);mask:linear-gradient(var(--ink),var(--transparent) 75%)}
+.demo-dot{position:relative;flex:none;width:10px;height:10px;border-radius:50%;background:var(--adobe-red);box-shadow:0 0 0 5px var(--demo-dot-halo)}
+.demo-dot::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1px solid var(--coral-1);opacity:0;animation:demo-pulse 2.4s ease-out infinite}
+@keyframes demo-pulse{0%{transform:scale(.6);opacity:.7}100%{transform:scale(1.9);opacity:0}}
+.demo-steps{position:relative;z-index:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 40px;margin:22px 0 0;padding:22px 0 0;border-top:1px solid var(--demo-line);list-style:none}
+.demo-steps li{position:relative;min-width:0;padding-left:30px;color:var(--demo-text);font-size:15px;line-height:1.6}
+.demo-steps li:only-child{grid-column:1/-1}
+.demo-title{position:relative;z-index:1;margin:18px 0 0!important;color:var(--white);font-size:clamp(22px,2.2vw,28px);font-weight:800;letter-spacing:-.02em;line-height:1.2}
+.demo-steps li::before{content:"";position:absolute;left:0;top:4px;width:17px;height:17px;box-sizing:border-box;border:1.25px solid var(--coral-bright);border-radius:5px}
+.demo-steps li::after{content:"";position:absolute;left:4px;top:8px;width:9px;height:9px;background:var(--coral-bright);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.3 4.8 9 10 3' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.3 4.8 9 10 3' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.demo-label{position:relative;z-index:1;display:flex;align-items:center;gap:14px;margin:0;font-size:13px;font-weight:700;line-height:1;letter-spacing:.28em;text-transform:uppercase;color:var(--coral-bright)}
+
+.demo strong{color:var(--white)}
+.compare{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--bg-base)}
+.compare-col{padding:30px 32px}
+.compare-col + .compare-col{border-left:1px solid var(--border)}
+.card .eyelabel,.compare-col .eyelabel{margin:0 0 14px;font-size:9.5px;line-height:1.4;color:var(--gray-600)}
+.compare-col h3{font-size:20px;margin-bottom:8px}
+.compare-col p{margin:0;color:var(--gray-700);font-size:15px;line-height:1.62}
+.contrast{margin:20px 0 0!important;padding-top:16px;border-top:1px solid var(--border);font-size:14px!important;line-height:1.5;color:var(--gray-700)}
+.contrast b{color:var(--ink)}
+.steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:0;padding:0;list-style:none;counter-reset:item}
+.steps li{counter-increment:item;min-width:0;padding:20px 20px 22px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--bg-base);font-size:14px;line-height:1.55;color:var(--gray-700)}
+.steps li::before{content:counter(item,decimal-leading-zero);display:block;margin-bottom:8px;font:700 13px/1 var(--mono);color:var(--coral-1)}
+.steps strong{display:block;margin-bottom:4px;color:var(--ink)}
+.signal-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:0;padding:0;list-style:none}
+.signal{padding:18px 20px;border-radius:var(--radius-md);background:var(--bg-layer-2)}
+.signal b{display:block;margin-bottom:6px;color:var(--ink);font-size:14px}
+.signal span{display:block;color:var(--gray-700);font-size:14px;line-height:1.55}
+.claim-flow{margin:0;padding:28px;border:1px solid var(--border);border-radius:var(--radius);background:linear-gradient(180deg,var(--bg-layer-1),var(--bg-base));}
+.claim-flow figcaption{margin:0 0 20px;color:var(--ink);font-size:16px;font-weight:750;letter-spacing:-.01em}
+.claim-flow-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:22px;margin:0;padding:0;list-style:none;counter-reset:claimstep}
+.claim-flow-step{position:relative;min-width:0;min-height:140px;padding:18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-base);box-shadow:var(--shadow-sm)}
+.claim-flow-step:not(:last-child)::after{content:"";position:absolute;top:50%;left:calc(100% + 1px);width:21px;border-top:1px solid var(--gray-400)}
+.claim-flow-step:not(:last-child)::before{content:"";position:absolute;z-index:1;top:calc(50% - 3px);left:calc(100% + 16px);width:6px;height:6px;border-top:1px solid var(--gray-500);border-right:1px solid var(--gray-500);transform:rotate(45deg)}
+.claim-flow-step .flow-step-label{display:block;margin-bottom:7px;color:var(--gray-500);font:600 9px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase}
+.claim-flow-step .flow-step-label::before{content:counter(claimstep,decimal-leading-zero) " · ";counter-increment:claimstep;color:var(--adobe-red)}
+.claim-flow-step strong{display:block;margin-bottom:6px;color:var(--ink);font-size:14px;line-height:1.35}
+.claim-flow-step span:last-child{display:block;color:var(--gray-700);font-size:13px;line-height:1.52}
+.claim-flow-outcomes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0 0;padding:20px 0 0;border-top:1px solid var(--border)}
+.claim-flow-outcome{padding:18px 20px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-base)}
+.claim-flow-outcome strong{display:block;margin-bottom:4px;color:var(--ink);font-size:13px}
+.claim-flow-outcome p{margin:0;color:var(--gray-700);font-size:13.5px;line-height:1.55}
+.claim-flow-handoff{margin:16px 0 0;padding:14px 18px;font-size:13.5px!important;border-radius:var(--radius-sm);background:var(--s2-blue-tint-faint);color:var(--gray-700);font-size:12px;line-height:1.5}
+.claim-flow-handoff strong{color:var(--ink)}
+.route{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.route-card{min-width:0;padding:22px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--bg-base)}
+.route-card h3{font-size:16px;margin:0 0 8px}
+.route-card p{margin:0;font-size:14px;line-height:1.58;color:var(--gray-700)}
+.caveat{position:relative;padding:18px 22px 18px 56px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--bg-layer-1);font-size:14.5px;line-height:1.65;color:var(--gray-700)}
+.caveat::before{content:"i";position:absolute;left:20px;top:19px;display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--bg-base);border:1px solid var(--border-strong);color:var(--gray-600);font:700 12px/1 Georgia,serif;font-style:italic}
+.caveat strong{color:var(--ink)}
+.el-link{display:inline-flex;align-items:center;gap:7px;padding:8px 15px;border:1px solid var(--border);border-radius:var(--radius-pill);font-size:13px;font-weight:600;transition:border-color .15s,background .15s}
+.el-link:hover{text-decoration:none;border-color:var(--s2-blue);background:var(--s2-blue-tint-faint)}
+.el-link::after{content:"\2197";font-size:11px;color:var(--s2-blue)}
+.feature-line{display:flex;align-items:flex-start;gap:12px}
+.feature-line + .feature-line{margin-top:13px;padding-top:13px;border-top:1px solid var(--border)}
+.feature-icon{flex:none;display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--s2-blue-tint);color:var(--s2-blue-down);font:700 11px/1 var(--mono)}
+.feature-line h3{font-size:15px;margin:0 0 3px}
+.feature-line p{margin:0;font-size:13px;line-height:1.5;color:var(--gray-700)}
+.split-note{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:15px;margin-top:17px;padding:15px 17px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-base)}
+.split-note div{min-width:0}
+.split-note b{display:block;font-size:13px;color:var(--ink)}
+.split-note span{display:block;font-size:12.5px;line-height:1.45;color:var(--gray-600)}
+.split-arrow{font-size:19px;color:var(--gray-400)}
+.site-footer{background:var(--charcoal-2);color:var(--gray-400)}
+.foot-inner{max-width:var(--maxw);margin:auto;padding:32px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:18px}
+.foot-brand{display:flex;align-items:center;gap:10px;color:var(--white);font-size:15px;font-weight:800}
+.foot-brand img{height:22px;width:auto}
+.foot-brand span{font-weight:400;color:var(--gray-300)}
+.foot-right{text-align:right}
+.foot-right p{margin:0;font-size:12px;line-height:1.5}
+.foot-right p:first-child{font-weight:600;color:var(--gray-300)}
+@media(max-width:1050px){
+  .shell{grid-template-columns:190px minmax(0,1fr);gap:24px}
+  .steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:800px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:20px;padding:24px 20px 48px}
+  .toc{position:static;max-height:none;overflow:visible;padding:12px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-base)}
+  .toc-title{margin-bottom:8px}
+  .toc nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+  .toc nav a{padding:8px}
+  .toc-actions{display:none}
+  .module{padding:34px 30px}
+}
+@media(max-width:620px){
+  .tour-map{padding:28px 22px 30px}.phases{grid-template-columns:minmax(0,1fr)}.phases li:nth-child(n+2){border-top:1px solid var(--border)}.phases li{padding-right:0}
+  .actions{padding:18px 18px 6px}.action-list{grid-template-columns:minmax(0,1fr)}.action-list li:nth-child(2){border-top:1px solid var(--gray-200)}
+  .hero{padding:28px 20px 36px}
+  .hero h1{font-size:clamp(36px,9.5vw,50px)}
+  .brandname{font-size:16px}.brand-mark{height:24px}.kicker{max-width:130px;font-size:9px;letter-spacing:.09em}
+  .shell{padding:18px 16px 36px}
+  .toc nav{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid-2,.grid-3,.compare,.route,.signal-list{grid-template-columns:minmax(0,1fr)}
+  .compare-col + .compare-col{border-left:0;border-top:1px solid var(--border)}
+  .split-note{grid-template-columns:minmax(0,1fr);gap:9px}
+  .split-arrow{transform:rotate(90deg);justify-self:start}
+  .claim-flow-track{grid-template-columns:minmax(0,1fr);gap:18px}
+  .claim-flow-step{min-height:0}
+  .claim-flow-step:not(:last-child)::after{top:calc(100% + 1px);left:50%;width:0;height:17px;border-top:0;border-left:1px solid var(--gray-400)}
+  .claim-flow-step:not(:last-child)::before{top:calc(100% + 12px);left:calc(50% - 3px);transform:rotate(135deg)}
+  .claim-flow-outcomes{grid-template-columns:minmax(0,1fr)}
+  .feature-brief{grid-template-columns:minmax(0,1fr)}
+  .module{padding:28px 22px}main .module > * + *{margin-top:22px}
+  .feature-brief div + div{border-left:0;border-top:1px solid var(--border)}
+  .feature-brief div + div::before{top:-8px;left:26px;margin-top:0;transform:rotate(90deg)}
+  .feature-brief div:last-child{border-radius:0 0 var(--radius) var(--radius)}
+  .demo{padding:24px 22px 26px}.demo-steps{grid-template-columns:minmax(0,1fr)}
+  .foot-inner{flex-direction:column;align-items:flex-start}.foot-right{text-align:left}
+}
+@media(max-width:420px){
+  .masthead{gap:9px}.brandname{font-size:14px}.kicker{max-width:104px;font-size:8px}
+  .steps{grid-template-columns:minmax(0,1fr)}
+
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}
+  .card:hover{transform:none}
+}
+@media print{
+  @page{size:A4;margin:12mm 13mm 15mm;
+    @bottom-left{content:"ABV platform features · Adobe Brand Visibility";font:8pt/1 -apple-system,"Segoe UI",Helvetica,Arial,sans-serif;color:#909090}
+    @bottom-right{content:counter(page) " / " counter(pages);font:8pt/1 "SF Mono",Menlo,Consolas,monospace;color:#909090}
+  }
+  body{font-size:10pt;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .progress,.toc,.skip{display:none!important}
+  .shell{display:block;padding:20px 0}
+  .module{margin:0 0 14px!important;padding:22px;box-shadow:none;break-inside:auto}
+  .card,.demo,.compare,.route-card,.signal,.steps li,.caveat,.feature-brief{break-inside:avoid;box-shadow:none}
+  .module{padding:26px!important}main .module > * + *{margin-top:18px}
+  .site-footer{margin-top:16px}
+}
+
+  .series-links{max-width:var(--maxw);margin:0 auto;padding:18px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+  .series-label{font:600 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gray-500);margin-right:10px}
+  .series-links a{font-size:13px;font-weight:600;padding:7px 11px;border-radius:var(--radius-sm);color:var(--s2-blue-down)}
+  .series-links a[aria-current="page"]{background:var(--s2-blue-tint);color:var(--s2-blue-active)}
+  .learning-focus{padding:22px 24px;margin:0 0 28px;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm)}
+  .learning-label{margin:0 0 8px;font:600 11px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500)}
+  .learning-focus p{margin:0 0 10px}
+  .learning-focus ul{margin:0;padding-left:20px}
+  .learning-focus li+li{margin-top:5px}
+  .knowledge-check{margin:32px 0 0;padding:22px 24px;border-top:2px solid var(--coral-1);background:var(--bg-layer-1);border-radius:var(--radius-sm)}
+  .knowledge-check h3{margin:0 0 12px;font-size:20px;line-height:1.3}
+  .knowledge-check ul{padding-left:20px;margin:0}
+  .knowledge-check li+li{margin-top:8px}
+  .loop-summary{font-size:17px;line-height:1.6;margin:0 0 20px}
+  .loop-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:20px 0}
+  .loop-fact{padding:18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-1)}
+  .loop-fact dt{font:600 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gray-500);margin-bottom:8px}
+  .loop-fact dd{margin:0;font-size:15px;line-height:1.6}
+  .loop-note{padding:16px 18px;background:var(--bg-layer-2);border-radius:var(--radius-sm);font-size:15px;line-height:1.6}
+  .loop-note strong{color:var(--ink)}
+  .loop-routes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0}
+  .loop-route{padding:20px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-1)}
+  .loop-route h3{margin:0 0 10px;font-size:18px;line-height:1.3}
+  .loop-route p{margin:0;font-size:15px;line-height:1.6}
+  .loop-decision-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}
+  .loop-decision{padding:18px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+  .loop-decision h3{font-size:18px;margin:0 0 6px}
+  .loop-decision p{font-size:15px;margin:0}
+  @media(max-width:620px){.series-links{padding:14px 20px;gap:4px}.series-label{flex-basis:100%;margin-bottom:5px}.loop-facts,.loop-routes,.loop-decision-grid{grid-template-columns:1fr}.learning-focus,.knowledge-check{padding:18px}}
+  @media print{.series-links{display:none}.learning-focus,.knowledge-check,.loop-fact,.loop-route,.loop-decision{box-shadow:none;break-inside:avoid}.loop-facts{grid-template-columns:repeat(3,minmax(0,1fr))}.loop-routes,.loop-decision-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the guide</a>
+<div class="progress" aria-hidden="true"><span id="progressbar"></span></div>
+<div class="ai-note"><div class="ai-note-inner">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+  <span><b>Prepared with AI assistance.</b> Please review for accuracy before use &mdash; this document may contain errors.</span>
+</div></div>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="masthead">
+      <div class="brandrow"><img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe"><span class="brandname">Adobe&nbsp;<span>Brand Visibility</span></span></div>
+      <span class="kicker">Knowledge sharing · Features guide</span>
+    </div>
+    <div class="hero-body">
+      <h1>ABV <span class="hl">features</span> guide</h1>
+      <p class="lead">Understand what each ABV capability answers, the evidence it uses, and how insight connects to action and outcomes.</p>
+      <ul class="hero-rail">
+        <li><b>Discover</b> the market</li><li><b>Track</b> your prompt set</li><li><b>Act</b> on evidence</li><li><b>Evaluate</b> the result</li>
+      </ul>
+    </div>
+  </div>
+</header>
+<div class="series-links" role="navigation" aria-label="ABV enablement library"><span class="series-label">ABV enablement</span><a href="abv-product-overview.html">Product overview</a><a href="abv-readiness-guide.html">Readiness guide</a><a href="abv-geo-loop-guide.html">Full GEO loop</a><a href="abv-features-guide.html" aria-current="page">Features guide</a></div>
+<div class="shell">
+  <aside class="toc" aria-label="Guide contents">
+    <p class="toc-title">Platform tour</p>
+    <nav id="spy-nav" aria-label="Module sections">
+      <p class="toc-group">Set up</p>
+      <a href="#lenses" class="active"><span class="num">01</span><span>Two visibility views</span></a>
+      <a href="#brands"><span class="num">02</span><span>Configure brand scope</span></a>
+      <p class="toc-group">Discover</p>
+      <a href="#discovery"><span class="num">03</span><span>Discover the market</span></a>
+      <a href="#prompt-strategy"><span class="num">04</span><span>Find prompts to track</span></a>
+      <a href="#prompts"><span class="num">05</span><span>Maintain the Prompt Library</span></a>
+      <p class="toc-group">Measure</p>
+      <a href="#presence"><span class="num">06</span><span>Measure Brand Presence</span></a>
+      <a href="#brand-claims"><span class="num">07</span><span>Understand Brand Claims</span></a>
+      <p class="toc-group">Diagnose</p>
+      <a href="#agentic-traffic"><span class="num">08</span><span>Check agent access</span></a>
+      <a href="#url-inspector"><span class="num">09</span><span>Inspect URL evidence</span></a>
+      <p class="toc-group">Act</p>
+      <a href="#opportunities"><span class="num">10</span><span>Prioritize opportunities</span></a>
+      <a href="#workspace"><span class="num">11</span><span>Coordinate strategies</span></a>
+      <a href="#edge"><span class="num">12</span><span>Optimize at Edge</span></a>
+      <p class="toc-group">Prove</p>
+      <a href="#measurement"><span class="num">13</span><span>Measure optimization impact</span></a>
+      <a href="#referral-traffic"><span class="num">14</span><span>Follow AI referrals</span></a>
+      <a href="#business-impact"><span class="num">15</span><span>Connect business impact</span></a>
+    </nav>
+    <div class="toc-actions"><button class="pdf-button" id="save-pdf" type="button"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Save as PDF</button></div>
+  </aside>
+  <main id="main">
+<div class="learning-focus" aria-label="Learning objectives"><p class="learning-label">Knowledge sharing &amp; enablement</p><p><strong>For:</strong> ABV practitioners, cross-functional stakeholders, and facilitators preparing feature walkthroughs.</p><p><strong>After reading, you should be able to:</strong></p><ul><li>Match a business or diagnostic question to the appropriate ABV view.</li><li>Explain the inputs, key actions, interpretation limits, and dependencies across all fifteen guide areas.</li><li>Keep agent requests, human referrals, optimization experiments, and business outcomes distinct.</li></ul></div>
+    <div class="tour-map" aria-labelledby="tour-title">
+      <h2 id="tour-title">How this tour is ordered</h2>
+      <p class="tour-lead">Fifteen views, sequenced the way a working GEO loop runs—each phase depends on the one before it.</p>
+      <ol class="phases"><li><p class="ph-num">01–02</p><h3>Set up</h3><p class="ph-views">Two views · Brands Management</p><p class="ph-why">Every number depends on the brand, markets, and connections you configure.</p></li><li><p class="ph-num">03–05</p><h3>Discover</h3><p class="ph-views">AI Visibility · Prompt Strategy · Prompt Library</p><p class="ph-why">Decide what is worth measuring before you measure it.</p></li><li><p class="ph-num">06–07</p><h3>Measure</h3><p class="ph-views">Brand Presence · Brand Claims</p><p class="ph-why">First whether you appear, then what AI says about you.</p></li><li><p class="ph-num">08–09</p><h3>Diagnose</h3><p class="ph-views">Agentic Traffic · URL Inspector</p><p class="ph-why">Check that agents can reach your pages, then tie pages to citations.</p></li><li><p class="ph-num">10–12</p><h3>Act</h3><p class="ph-views">Opportunities · Workspace · Optimize at Edge</p><p class="ph-why">Turn evidence into owned, approved, delivered change.</p></li><li><p class="ph-num">13–15</p><h3>Prove</h3><p class="ph-views">IME · Referral Traffic · Business Impact</p><p class="ph-why">Measure the change, then follow people through to outcomes.</p></li></ol>
+    </div>
+
+    <section class="module" id="lenses">
+      <p class="sec-eyebrow">Start with the question</p>
+      <h2>Two visibility views answer different questions</h2>
+      <p class="section-lead">ABV combines broad market intelligence with your organization’s own tracked prompt set. Think of the first as a way to choose where to focus; the second is how you follow the topics you have chosen.</p>
+      <aside class="caveat"><strong>How to use this feature reference.</strong> It highlights the enhanced experience and workflows relevant to paid ABV customers; it does not imply every capability is paid-exclusive. Some foundational views have trial counterparts. Feature access, available data, and deployment depend on your organization’s entitlement, rollout, and connected-site setup.</aside>
+      <div class="compare">
+        <article class="compare-col">
+          <p class="eyelabel">Market discovery · Semrush data</p>
+          <h3>AI Visibility</h3>
+          <p>Explore how brands appear across AI answers for a broad market prompt set. Start immediately—without first configuring your own prompts.</p>
+          <p class="contrast"><b>Best question:</b> What topics, brands, and sources should we pay attention to?</p>
+        </article>
+        <article class="compare-col">
+          <p class="eyelabel">Ongoing monitoring · your tracked prompts</p>
+          <h3>Brand Presence</h3>
+          <p>Measure your brand against the prompts in your Prompt Library, then review changes across the platforms and markets configured for your account.</p>
+          <p class="contrast"><b>Best question:</b> How are we showing up for the conversations we chose to track?</p>
+        </article>
+      </div>
+      <aside class="caveat"><strong>Keep the lenses distinct.</strong> AI Visibility and Brand Presence use different prompt scopes and metric methods. Use each view for its intended decision; don’t treat their scores as a direct before-and-after comparison.</aside>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Contrast the two lenses</h3><ul class="demo-steps"><li>One market topic in AI Visibility</li><li>One tracked prompt in Brand Presence</li><li>Call out the data-scope difference first</li><li>Then interpret each result</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/ai-visibility" target="_blank" rel="noopener">AI Visibility guide</a><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/brand-visibility/brand-presence-semrush" target="_blank" rel="noopener">Brand Presence guide</a></nav>
+    </section>
+
+    <section class="module" id="brands">
+      <p class="sec-eyebrow">Set the brand and measurement scope</p>
+      <h2>Brands Management defines what ABV will recognize and monitor</h2>
+      <p class="section-lead">Before interpreting dashboards, confirm the brand identity and web properties ABV should associate with it. Brands Management is where teams establish the configured brand, market, and site context that supports the downstream workflows.</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>Your organization’s brand identity, domains, target markets, and available connections.</dd></div>
+        <div><dt>Explore</dt><dd>Brand setup, URL scope, aliases, markets, and tracked/competitor brands as configured.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Making subsequent discovery and monitoring relevant to your organization.</strong></dd></div>
+      </dl>
+      <div class="grid-3">
+        <article class="card"><p class="eyelabel">Identity</p><h3>Create and describe the brand</h3><p>Create the brand with its name, industry, and website, then add aliases so known name variants are recognized as the same brand. Paid accounts can manage multiple brands.</p></article>
+        <article class="card"><p class="eyelabel">Market scope</p><h3>Add markets and languages</h3><p>Each market pairs a country or region with a language and market website. When adding a market, you can start from a Semrush-suggested prompt set.</p></article>
+        <article class="card"><p class="eyelabel">Sites and connections</p><h3>Onboard domains and connect data</h3><p><strong>Add a URL</strong> to track citations only, or <strong>onboard a domain</strong> for content analysis and site capabilities. Then use <strong>Manage connections</strong> for CDN, Google Search Console, and analytics.</p></article>
+      </div>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">Create Brand</span></span><span class="ui-what">Set name, industry, and website; save as pending if not ready</span></li><li><span class="ui-set"><span class="ui">Add market</span></span><span class="ui-what">Pair country/region, language, and market website</span></li><li><span class="ui-set"><span class="ui">Aliases</span></span><span class="ui-what">Add or remove alternate brand names</span></li><li><span class="ui-set"><span class="ui">Track other brands</span></span><span class="ui-what">Add comparison brands individually or by CSV</span></li><li><span class="ui-set"><span class="ui">Categories</span></span><span class="ui-what">Create categories and subcategories that organize prompts</span></li><li><span class="ui-set"><span class="ui">Add a URL</span><span class="ui">Onboard a domain</span></span><span class="ui-what">Citation tracking only vs. full content analysis</span></li><li><span class="ui-set"><span class="ui">Manage connections</span></span><span class="ui-what">CDN Configuration, Google Search Console, and Analytics tabs</span></li><li><span class="ui-set"><span class="ui">Send Invitation</span></span><span class="ui-what">Invite teammates from Collaboration</span></li></ul></div>
+      <aside class="caveat"><strong>Start from the organization’s tenant.</strong> Available fields and connection states vary. Validate the configured brand and URL scope with the team before drawing conclusions from AI Visibility or Brand Presence. The domain chosen at onboarding applies organization-wide and cannot be changed later—confirm it before you start.</aside>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Walk the brand setup</h3><ul class="demo-steps"><li>Brand, industry, and aliases</li><li>Markets and languages</li><li>Tracked URLs vs. onboarded domains</li><li>Manage connections: CDN, GSC, Analytics</li><li>Categories and comparison brands</li><li>Setup gaps to fix before reading metrics</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/brands-management" target="_blank" rel="noopener">Brands Management guide</a><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/collaboration" target="_blank" rel="noopener">Collaboration guide</a></nav>
+    </section>
+
+    <section class="module" id="discovery">
+      <p class="sec-eyebrow">Discover the market</p>
+      <h2>Use AI Visibility to find a focused starting point</h2>
+      <p class="section-lead">AI Visibility is powered by Semrush market data. It gives you a market-wide view before you build or refine the prompt set your team will monitor over time; it is not a feed of private prompts submitted by individual users to AI providers.</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>Semrush’s broader market prompt and response data.</dd></div>
+        <div><dt>Explore</dt><dd>Visibility Overview, Prompt Research, and Market Comparison.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Finding topics, sources, and competitors</strong> worth investigating or tracking.</dd></div>
+      </dl>
+      <div class="grid-3">
+        <article class="card"><p class="eyelabel">Benchmark</p><h3>Visibility Overview</h3><p>See headline visibility, mentions, estimated audience, and cited pages. Filter by domain, market, AI platform, and reporting period, and switch the by-model and by-market charts between Mentions, Visibility, and Audience.</p></article>
+        <article class="card"><p class="eyelabel">Explore a topic</p><h3>Prompt Research</h3><p>Enter a topic for one market. Expand a topic to see the prompts behind it, then open <strong>Details</strong> for the full AI answer—brands mentioned, citations, and source URLs.</p></article>
+        <article class="card"><p class="eyelabel">Compare</p><h3>Market Comparison</h3><p>Compare your brand with up to five others. Gap tables by Topics or Source domains show where everyone appears, where competitors lead, and where you are unique.</p></article>
+      </div>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">Domain</span><span class="ui">Market</span><span class="ui">Platform</span></span><span class="ui-what">Switch to your brand or any competitor; one engine or all</span></li><li><span class="ui-set"><span class="ui">Reporting period</span></span><span class="ui-what">Change the time window in Visibility Overview</span></li><li><span class="ui-set"><span class="ui">Topic</span></span><span class="ui-what">Search a topic in Prompt Research, then expand it into prompts</span></li><li><span class="ui-set"><span class="ui">Details</span></span><span class="ui-what">Open the full AI answer with mentions and sources</span></li><li><span class="ui-set"><span class="ui">Track</span></span><span class="ui-what">Add a topic or individual prompt to the Prompt Library</span></li><li><span class="ui-set"><span class="ui">Add brand</span></span><span class="ui-what">Compare up to five brands in Market Comparison</span></li><li><span class="ui-set"><span class="ui">Mentions</span><span class="ui">Visibility</span><span class="ui">Audience</span></span><span class="ui-what">Toggle the chart metric</span></li><li><span class="ui-set"><span class="ui">Export</span></span><span class="ui-what">Download any results table as CSV</span></li></ul></div>
+      <div class="caveat"><strong>Scope and transition.</strong> AI Visibility is a discovery lens—not your configured monitoring cohort. Its current public guide lists ChatGPT, Google AI Overviews, Google AI Mode, and Gemini. Monthly Audience is an estimate, not verified reach. When a subdomain or subfolder is selected, AI Visibility and Monthly Audience may still represent the root domain; check the in-product data-scope indicator. Choose <strong>Track</strong> on a topic or prompt to add it to your Prompt Library; only prompts deliberately tracked become part of ongoing Brand Presence measurement.</div>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Research a topic, then track it</h3><ul class="demo-steps"><li>Set market and AI platform</li><li>Search a business-relevant topic in Prompt Research</li><li>Expand it; open Details on one prompt</li><li>Check one competitor gap in Market Comparison</li><li>Track the topic or prompt</li><li>Show it arriving in the Prompt Library</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/ai-visibility" target="_blank" rel="noopener">AI Visibility guide</a></nav>
+    </section>
+
+    <section class="module" id="prompt-strategy">
+      <p class="sec-eyebrow">Find prompts worth tracking</p>
+      <h2>Prompt Strategy turns discovery into tracking candidates</h2>
+      <p class="section-lead">Prompt Strategy is the review queue for potential additions. It surfaces suggested topics and prompts from available sources so your team can decide what deserves ongoing measurement—before anything enters the tracked set.</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>Market research plus available connected or generated prompt sources.</dd></div>
+        <div><dt>Explore</dt><dd>Recommended topics and prompts, where each came from, and the gap or presence it signals.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Choosing deliberate additions</strong> to the tracked prompt set.</dd></div>
+      </dl>
+      <div class="grid-3">
+        <article class="card"><p class="eyelabel">Source</p><h3>Know where a suggestion comes from</h3><p>Each recommendation is labeled with one of four sources, as available in your account. The source tells you what kind of evidence sits behind it—see the breakdown below.</p></article>
+        <article class="card"><p class="eyelabel">Fit</p><h3>Check it against your plan</h3><p>Review the individual prompts behind a suggestion. Keep the ones that match your business, audience, market, language, and measurement goals.</p></article>
+        <article class="card"><p class="eyelabel">Track</p><h3>Promote the keepers</h3><p>Choose <strong>Track</strong> to add selected prompts to the active library. Recommendations can reveal new conversations, competitor gaps, or areas where your brand already appears.</p></article>
+      </div>
+      <div class="sources"><p class="actions-title">Suggestion sources</p><ul class="source-list"><li><span class="src-name">Semrush</span><span class="src-what">Search and competitor data, grouped into strategic categories—such as topics you already win versus opportunities to grow.</span></li><li><span class="src-name">Google Search Console</span><span class="src-what">Prompts derived from your own Search Console data, grounded in how people already find your site. Refresh on demand.</span></li><li><span class="src-name">Synthetic Personas</span><span class="src-what">Prompt sets written from the perspective of different audience personas, covering journeys keyword data can miss.</span></li><li><span class="src-name">Citation Attempt</span><span class="src-what">Prompts aimed at the pages where you want to earn citations, so priority URLs get measured.</span></li></ul></div>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">Source</span></span><span class="ui-what">Filter the queue: Semrush, Google Search Console, Synthetic Personas, Citation Attempt</span></li><li><span class="ui-set"><span class="ui">Track</span></span><span class="ui-what">Add selected prompts, or the whole recommendation, after a confirmation</span></li><li><span class="ui-set"><span class="ui">Dismiss</span></span><span class="ui-what">Remove a suggestion, optionally with a reason</span></li><li><span class="ui-set"><span class="ui">Refresh</span></span><span class="ui-what">Pull fresh Search Console suggestions on demand, subject to a cooldown</span></li></ul></div>
+      <aside class="caveat"><strong>Recommendations are candidates, not a plan.</strong> Available sources depend on your account’s connections. Size additions against the prompt allowance in your agreement, and treat each Track decision as a change to what Brand Presence measures.</aside>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Promote one recommendation to tracking</h3><ul class="demo-steps"><li>Filter the queue by source</li><li>Open a recommendation and read its prompts</li><li>Check fit: market, language, intent</li><li>Track selected prompts</li><li>Dismiss one that doesn’t fit, with a reason</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/prompt-management" target="_blank" rel="noopener">Prompt Management guide</a></nav>
+    </section>
+
+    <section class="module" id="prompts">
+      <p class="sec-eyebrow">Maintain the measured cohort</p>
+      <h2>Prompt Library keeps the agreed set ABV measures</h2>
+      <p class="section-lead">In the paid experience, the Prompt Library is the curated set ABV uses for ongoing Brand Presence measurement. Its shape determines what Brand Presence can—and cannot—tell you.</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>Prompts tracked from Prompt Strategy or brought in through import.</dd></div>
+        <div><dt>Explore</dt><dd>A flat list by Category, Subcategory, Market, and Language, with search, filters, import/export, and health indicators.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Keeping a balanced, stable cohort</strong> for trend comparison.</dd></div>
+      </dl>
+      <div class="grid-3">
+        <article class="card"><p class="eyelabel">Balance</p><h3>Branded and unbranded</h3><p>Balance existing brand demand with discovery by people who may not know you yet.</p></article>
+        <article class="card"><p class="eyelabel">Coverage</p><h3>Customer intent</h3><p>Check whether the cohort reflects different customer needs and journey stages, not just one type of question.</p></article>
+        <article class="card"><p class="eyelabel">Pages</p><h3>Agentic URL coverage</h3><p>Use page activity to inform prompt coverage. Prompts are scoped to a brand and market/language—not a separate test of every URL.</p></article>
+      </div>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">Search</span><span class="ui">Filter</span></span><span class="ui-what">By Category, Subcategory, Market, and Language</span></li><li><span class="ui-set"><span class="ui">Add prompt</span></span><span class="ui-what">Add a prompt for continuous tracking</span></li><li><span class="ui-set"><span class="ui">Import</span><span class="ui">Export</span></span><span class="ui-what">Bulk-manage prompts by CSV; exports include each prompt’s source</span></li><li><span class="ui-set"><span class="ui">Strategic recommendations</span></span><span class="ui-what">Jump from the health tile to Prompt Strategy</span></li><li><span class="ui-set"><span class="ui">Tags</span></span><span class="ui-what">Organize prompts with nested tags, where enabled</span></li></ul></div>
+      <aside class="caveat"><strong>Allow for processing.</strong> Newly added prompts can take up to 24 hours to begin contributing to Brand Presence. Keep the core cohort stable when you need a meaningful trend comparison; label exploratory additions separately.</aside>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Tour the paid library</h3><ul class="demo-steps"><li>Filter by Category and Market</li><li>Find the newly tracked prompt</li><li>Read the three health tiles</li><li>Follow Strategic recommendations</li><li>Export the library for team review</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/prompt-management" target="_blank" rel="noopener">Prompt Management guide</a></nav>
+    </section>
+
+    <section class="module" id="presence">
+      <p class="sec-eyebrow">Monitor what matters to your brand</p>
+      <h2>Brand Presence shows how the tracked cohort changes</h2>
+      <p class="section-lead">For paid customers, the enhanced Brand Presence experience powered by Semrush runs the active prompt set on a recurring basis. Use it to review trends and understand how your brand appears in responses—not as a guaranteed measure of business outcomes.</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>Your active Prompt Library, market, language, and platform scope.</dd></div>
+        <div><dt>Explore</dt><dd>Brand Visibility, Share of Voice, Source Visibility, topics, and response evidence.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Monitoring the chosen conversation set</strong> and spotting a change to investigate.</dd></div>
+      </dl>
+      <div class="signal-list">
+        <div class="signal"><b>Brand Visibility</b><span>How frequently your brand is mentioned across monitored prompts.</span></div>
+        <div class="signal"><b>Source Visibility</b><span>How often your website is cited in AI-generated responses.</span></div>
+        <div class="signal"><b>Share of Voice</b><span>Visibility weighted by search demand and ranking position.</span></div>
+        <div class="signal"><b>Topic Volume</b><span>Market search demand associated with a topic—not a count of private AI prompts.</span></div>
+        <div class="signal"><b>Aspect sentiment</b><span>Different aspects in one response can carry different sentiment; one label may not describe the whole answer.</span></div>
+        <div class="signal"><b>Mentions / Citations</b><span>Current response-based measures count responses containing a mention or citation, not every repeated occurrence.</span></div>
+      </div>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">Filter</span></span><span class="ui-what">Date range, market-language, platform, and category</span></li><li><span class="ui-set"><span class="ui">Compare brands</span></span><span class="ui-what">Add competitors to the mention and citation trends</span></li><li><span class="ui-set"><span class="ui">Expand</span><span class="ui">Details</span></span><span class="ui-what">Topic → prompts → the individual AI responses</span></li><li><span class="ui-set"><span class="ui">Configure Columns</span></span><span class="ui-what">Choose the metrics shown in tables</span></li><li><span class="ui-set"><span class="ui">Export</span></span><span class="ui-what">Download tables as CSV for analysis</span></li></ul></div>
+      <aside class="caveat"><strong>Explain the metric transition.</strong> Brand Visibility replaces the former Visibility Score in the enhanced experience. If a customer is moving from a legacy view, compare like-for-like periods and explain definition changes first; historical scores and occurrence counts may not map one-to-one to current measures.</aside>
+      <div class="grid-2">
+        <article class="card"><p class="eyelabel">Read the pattern</p><h3>Move from roll-up to evidence</h3><p>Start with the overall direction, then segment by the market-language, platform, category, prompt, and time views available in your account. Inspect prompt-level responses, mentions, citations, topic context, and competitor patterns before deciding what to change.</p></article>
+        <article class="card"><p class="eyelabel">Keep comparisons useful</p><h3>Use a consistent scope</h3><p>For a fair trend, keep the tracked prompts, market-language, platform selection, and time windows comparable. Expanded prompt coverage can improve representation of your business, but it also changes what the dashboard measures.</p></article>
+      </div>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Trace a change to its evidence</h3><ul class="demo-steps"><li>Pick one market-language and category</li><li>Start from the headline metrics</li><li>Add one competitor to the trend</li><li>Expand a topic; open Details on a response</li><li>Ask: what changed, where, and what next?</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/brand-visibility/brand-presence-semrush" target="_blank" rel="noopener">Brand Presence powered by Semrush guide</a></nav>
+    </section>
+
+    <section class="module" id="brand-claims">
+      <p class="sec-eyebrow">Brand Claims · understand AI’s representation</p>
+      <h2>Brand Claims organizes what tracked AI responses say about you</h2>
+      <p class="section-lead">For paid customers, Brand Claims moves the question from “our brand appeared” to “what did the response assert?” It extracts claims from responses to prompts in your Brand Presence set and groups them so teams can review recurring perceptions rather than scan an unstructured response wall.</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>Responses to prompts tracked in Brand Presence—not all conversations across the web.</dd></div>
+        <div><dt>Explore</dt><dd>Claim text, sentiment, category, brand relevance, claim type, recurrence, responses, and cited sources.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Validating a perception and deciding whether it warrants follow-up.</strong></dd></div>
+      </dl>
+      <div class="grid-2">
+        <article class="card"><p class="eyelabel">Organize the response narrative</p><h3>Find the claims that recur</h3><p>Review the assertion, sentiment, business category, brand relevance, claim type, and recurrence. One response may produce multiple claims, so a claim count is not a prompt count.</p></article>
+        <article class="card"><p class="eyelabel">Investigate the evidence</p><h3>Open responses and sources</h3><p>Trace a claim to the AI response where it appeared and inspect the sources cited in that response. Use the evidence to frame the question—not as independent proof that the claim is true or false.</p></article>
+      </div>
+      <figure class="claim-flow" aria-labelledby="claim-flow-caption">
+        <figcaption id="claim-flow-caption">Brand Claims workflow · from tracked responses to an owned or earned action</figcaption>
+        <ol class="claim-flow-track">
+          <li class="claim-flow-step">
+            <span class="flow-step-label">Input</span>
+            <strong>Tracked prompt responses</strong>
+            <span>Brand Claims works from responses associated with prompts in your Brand Presence set.</span>
+          </li>
+          <li class="claim-flow-step">
+            <span class="flow-step-label">Organize</span>
+            <strong>Review recurring claims</strong>
+            <span>Use sentiment, category, and recurrence to decide which assertions deserve attention.</span>
+          </li>
+          <li class="claim-flow-step">
+            <span class="flow-step-label">Investigate</span>
+            <strong>Open response and sources</strong>
+            <span>Trace each selected claim to supporting AI responses and the sources cited there.</span>
+          </li>
+          <li class="claim-flow-step">
+            <span class="flow-step-label">Validate</span>
+            <strong>Check against what you know</strong>
+            <span>Decide whether the assertion is accurate, incomplete, or needs further review.</span>
+          </li>
+        </ol>
+        <div class="claim-flow-outcomes" aria-label="Brand Claims follow-up paths">
+          <div class="claim-flow-outcome">
+            <strong>Owned · content you control</strong>
+            <p>Consider whether your site, product information, or messaging needs clarification or stronger supporting evidence.</p>
+          </div>
+          <div class="claim-flow-outcome">
+            <strong>Earned · external sources and conversation</strong>
+            <p>Consider whether a cited article, review, video, forum, or community source merits outreach or an earned-content response.</p>
+          </div>
+        </div>
+        <p class="claim-flow-handoff"><strong>If a claim is worth pursuing:</strong> use <strong>Create this Strategy</strong> to bring the work into Opportunity Workspace, assign an owner, and agree how you will assess progress. This is a team decision—not a claim that ABV automatically changes external sources or verifies resolution.</p>
+      </figure>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">Filter</span><span class="ui">With opportunities</span></span><span class="ui-what">Narrow All Claims; surface claims linked to offsite opportunities</span></li><li><span class="ui-set"><span class="ui">Details</span></span><span class="ui-what">Open a claim from Top claims or All Claims</span></li><li><span class="ui-set"><span class="ui">Overview</span><span class="ui">Recommendations</span><span class="ui">Responses</span></span><span class="ui-what">Read context, suggested actions, and the source responses</span></li><li><span class="ui-set"><span class="ui">Owned actions</span><span class="ui">Earned actions</span></span><span class="ui-what">Separate site fixes from external outreach</span></li><li><span class="ui-set"><span class="ui">Create this Strategy</span></span><span class="ui-what">Turn a recommendation into a strategy in Opportunity Workspace</span></li><li><span class="ui-set"><span class="ui">Feedback</span></span><span class="ui-what">Rate claim quality with thumbs up/down and a comment</span></li></ul></div>
+      <aside class="caveat"><strong>Availability and interpretation.</strong> Brand Claims is generally available to paid customers; release guidance has also described limited trial run access. Confirm the organization’s current tenant and entitlement rather than inferring access from a visible surface. Brand Claims surfaces assertions; it does not fact-check them. A strategy’s deployment status does not prove impact or claim resolution.</aside>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Walk one claim end to end</h3><ul class="demo-steps"><li>Open one relevant claim via Details</li><li>Overview: sentiment, category, recurrence</li><li>Responses: the answer and cited sources</li><li>Ask what the team can confirm</li><li>Recommendations: owned vs. earned</li><li>Create this Strategy, if warranted</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/brand-visibility/brand-claims" target="_blank" rel="noopener">Brand Claims guide</a></nav>
+    </section>
+
+    <section class="module" id="agentic-traffic">
+      <p class="sec-eyebrow">Check that AI agents can reach you</p>
+      <h2>Agentic Traffic shows how AI agents request your site</h2>
+      <p class="section-lead">Sourced from CDN logs, Agentic Traffic shows which AI crawlers and chatbots request your pages, how often, and whether they get a successful response. It answers an access question: can AI systems retrieve the content you want them to use?</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>CDN log forwarding configured for an onboarded domain.</dd></div>
+        <div><dt>Explore</dt><dd>Request trends, agent types and platforms, success rates, movers, and per-URL performance.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Spotting access failures and the pages agents care about most.</strong></dd></div>
+      </dl>
+      <div class="grid-3">
+        <article class="card"><p class="eyelabel">Trend</p><h3>Agentic Traffic Trends</h3><p>Weekly request volume by platform and agent type. Top Movers and Bottom Movers show which URLs are gaining or losing agent attention.</p></article>
+        <article class="card"><p class="eyelabel">Agents</p><h3>User Agent Analysis</h3><p>See which crawlers and chatbots request your pages. Separate crawlers from chatbots and compare platforms, which can include ChatGPT, Claude, Perplexity, Gemini, Meta AI, and GitHub Copilot.</p></article>
+        <article class="card"><p class="eyelabel">Health</p><h3>URL Performance Analysis</h3><p>Check request volume and success rate per URL. Open <strong>Details</strong> for that page’s citations, topics, and agentic and referral trend.</p></article>
+      </div>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">Filter</span></span><span class="ui-what">Date Range, Category, Platform, Agent Type, Success Rate, Content Type</span></li><li><span class="ui-set"><span class="ui">Apply Filters</span></span><span class="ui-what">Refresh the whole dashboard for the selection</span></li><li><span class="ui-set"><span class="ui">Top Movers</span><span class="ui">Bottom Movers</span></span><span class="ui-what">Spot URLs gaining or losing agent requests</span></li><li><span class="ui-set"><span class="ui">Details</span></span><span class="ui-what">Open one URL’s citation and traffic context</span></li><li><span class="ui-set"><span class="ui">Configure Columns</span><span class="ui">Export</span></span><span class="ui-what">Shape and download agent and URL tables as CSV</span></li><li><span class="ui-set"><span class="ui">Brands Management</span><span class="ui">CDN</span></span><span class="ui-what">Set up log forwarding if the dashboard is empty</span></li></ul></div>
+      <aside class="caveat"><strong>A request is not a visit—or influence.</strong> Agent requests are automated retrievals, not people. Some answers use cached or indexed content without a live fetch to your site. Access problems surface as opportunities such as Agentic Traffic Errors and Traffic Blocked by robots.txt.</aside>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Check agent access to key pages</h3><ul class="demo-steps"><li>Filter by Agent Type and Platform</li><li>Read the weekly trend</li><li>Scan Top and Bottom Movers</li><li>Sort URLs by success rate</li><li>Open Details on one URL</li><li>Route failures to Opportunities</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/agentic-traffic" target="_blank" rel="noopener">Agentic Traffic guide</a><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/opportunities/traffic-blocked-by-robots" target="_blank" rel="noopener">Traffic Blocked by robots.txt guide</a></nav>
+    </section>
+
+    <section class="module" id="url-inspector">
+      <p class="sec-eyebrow">Inspect page-level evidence</p>
+      <h2>URL Inspector connects a page to citations and traffic signals</h2>
+      <p class="section-lead">Move from a brand or prompt-level signal to a specific URL. URL Inspector helps teams examine how owned pages and cited external pages relate to AI responses and, when connected, site activity.</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>An owned or third-party URL and the ABV signals available for it.</dd></div>
+        <div><dt>Explore</dt><dd>Citations, related prompts and topics, and connected traffic signals.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Choosing which page or source to investigate next.</strong></dd></div>
+      </dl>
+      <div class="grid-3">
+        <article class="card"><p class="eyelabel">Owned page</p><h3>Inspect citation context</h3><p>Review unique prompts that cite a page, times cited, and—where available—URL-level agentic and referral activity.</p></article>
+        <article class="card"><p class="eyelabel">External page</p><h3>Trace competing sources</h3><p>Review trending third-party URLs cited for relevant prompts and follow an available link into a matching Cited Web Sources opportunity.</p></article>
+        <article class="card"><p class="eyelabel">Connected signals</p><h3>Read activity with context</h3><p>Use the multi-model platform filter and other signals available in the account. Agentic requests and human referrals are not interchangeable.</p></article>
+      </div>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">Filter</span></span><span class="ui-what">Date Range, Category, Platform (or All models), Page Content type, Region</span></li><li><span class="ui-set"><span class="ui">Your Cited URLs</span></span><span class="ui-what">Owned pages AI responses cite, with times cited</span></li><li><span class="ui-set"><span class="ui">Trending URLs</span></span><span class="ui-what">Third-party pages competing for citations</span></li><li><span class="ui-set"><span class="ui">Details</span></span><span class="ui-what">Citations, prompts, topics, and agentic and referral trends for one URL</span></li><li><span class="ui-set"><span class="ui">Offsite badge</span></span><span class="ui-what">Jump from a cited external URL to its matching offsite opportunity</span></li><li><span class="ui-set"><span class="ui">Configure Columns</span><span class="ui">Export</span></span><span class="ui-what">Shape and download either table</span></li></ul></div>
+      <aside class="caveat"><strong>Interpret the page, not causality.</strong> URL Inspector is not a complete crawl or inventory of every AI answer on the web. A URL’s appearance in a citation or traffic view is evidence to investigate; it does not by itself explain why a model selected that source or prove business impact. Available filters and signals depend on the account and connections.</aside>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Inspect one page’s evidence</h3><ul class="demo-steps"><li>Filter to one platform or All models</li><li>Open Details on an owned cited URL</li><li>Read its prompts, topics, and traffic trend</li><li>Compare a trending external URL</li><li>Follow its offsite badge, if shown</li><li>State what the view does—and doesn’t—prove</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/url-inspector" target="_blank" rel="noopener">URL Inspector guide</a></nav>
+    </section>
+
+    <section class="module" id="opportunities">
+      <p class="sec-eyebrow">Prioritize optimization work</p>
+      <h2>Opportunities turn a diagnosed gap into a proposed action</h2>
+      <p class="section-lead">An opportunity is a recommendation tied to a page, source, or visibility gap. Review the evidence and proposed change, then decide whether the work fits your priorities, approval path, and delivery route.</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>Signals from owned pages or cited external sources.</dd></div>
+        <div><dt>Explore</dt><dd>Why the item surfaced, its affected URL/source, and the proposed action.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Selecting, assigning, and routing appropriate work.</strong></dd></div>
+      </dl>
+      <div class="grid-2">
+        <article class="card"><p class="eyelabel">Technical GEO</p><h3>Help agents reach and read your pages</h3><p><strong>Recover Content Visibility</strong> finds content hidden from agents by client-side rendering and can be fixed at the edge. <strong>Traffic Blocked by robots.txt</strong> and <strong>Agentic Traffic Errors</strong> (404, 403, 5xx) point to fixes made in your own stack.</p></article>
+        <article class="card"><p class="eyelabel">Content and structure</p><h3>Make pages easier to use in answers</h3><p><strong>Add LLM-friendly Summaries</strong>, <strong>Add Relevant FAQs</strong>, <strong>Simplify Complex Content</strong>, and <strong>Add Table of Contents</strong>, plus <strong>Add Multimedia Transcript Summaries</strong> (Early Access). Suggestions can be edited before delivery.</p></article>
+        <article class="card"><p class="eyelabel">Offsite</p><h3>Strengthen the sources AI cites</h3><p><strong>Cited Web Sources</strong>, <strong>YouTube</strong>, and <strong>Reddit</strong> Visibility &amp; Reputation Analysis, plus <strong>Wikipedia Analysis</strong>. They appear only when relevant citations or articles exist, and inform earned work—ABV does not edit third-party properties.</p></article>
+        <article class="card"><p class="eyelabel">Adobe Commerce</p><h3>Strengthen product information</h3><p><strong>Enrich Product Detail Pages</strong> recovers catalog details missing from agent-visible PDPs at the edge. <strong>Enrich Product Catalog</strong> (Beta) writes improved names and descriptions to the catalog itself, so every channel sees them.</p></article>
+      </div>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">Search</span><span class="ui">Tag</span></span><span class="ui-what">Find opportunities or filter them by tag</span></li><li><span class="ui-set"><span class="ui">Details</span></span><span class="ui-what">Open an opportunity’s page and guidance</span></li><li><span class="ui-set"><span class="ui">Expand</span></span><span class="ui-what">Read the AI Analysis: what’s wrong and why it matters</span></li><li><span class="ui-set"><span class="ui">Preview</span><span class="ui">Edit</span></span><span class="ui-what">Compare current vs. proposed; refine the suggestion</span></li><li><span class="ui-set"><span class="ui">Deploy optimizations</span></span><span class="ui-what">Send supported suggestions to Optimize at Edge</span></li><li><span class="ui-set"><span class="ui">Mark as Fixed</span><span class="ui">Ignore</span></span><span class="ui-what">Resolve or dismiss; review in Current, Fixed, and Ignored Suggestions</span></li><li><span class="ui-set"><span class="ui">Action Items</span></span><span class="ui-what">Offsite: implementation steps and responsible teams</span></li><li><span class="ui-set"><span class="ui">Share</span><span class="ui">Dismiss</span></span><span class="ui-what">Agentic Traffic Errors: route or close a suggestion</span></li></ul></div>
+      <aside class="caveat"><strong>Eligibility varies by opportunity.</strong> Deployment and automatic impact measurement are available only for supported opportunity types and configured routes. An opportunity is a recommendation to assess—not a promise of deployment access or measured uplift.</aside>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Unpack one opportunity</h3><ul class="demo-steps"><li>Search or filter by tag</li><li>Open Details; expand the AI Analysis</li><li>Preview the proposed change</li><li>Decide: deploy, Mark as Fixed, or Ignore</li><li>Offsite: read Action Items and owners</li><li>Confirm approver and delivery route</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/opportunities/opportunities-overview" target="_blank" rel="noopener">Opportunities overview</a><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/opportunities/recover-content-visibility" target="_blank" rel="noopener">Recover Content Visibility guide</a><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/opportunities/cited-sentiment-analysis" target="_blank" rel="noopener">Cited Web Sources guide</a><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/opportunities/agentic-traffic-errors" target="_blank" rel="noopener">Agentic Traffic Errors guide</a></nav>
+    </section>
+
+    <section class="module" id="workspace">
+      <p class="sec-eyebrow">Coordinate ownership and progress</p>
+      <h2>Opportunity Workspace brings optimization work into strategies</h2>
+      <p class="section-lead">A strategy is an initiative-level record that helps teams organize related opportunities, URLs, monitored prompts, owners, status, and progress around an optimization goal.</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>A prioritized opportunity or coordinated initiative.</dd></div>
+        <div><dt>Explore</dt><dd>Related work, owners, strategy status, and the next action.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Keeping the team aligned from investigation through follow-up.</strong></dd></div>
+      </dl>
+      <div class="route">
+        <article class="route-card"><h3>Supported workflow</h3><p>For eligible opportunity types and configured routes, ABV can create or update a strategy as work moves through the supported optimization and measurement stages.</p></article>
+        <article class="route-card"><h3>Customer-managed publishing</h3><p>Coordinate owners and progress in the strategy; publish other owned-site changes through the organization’s CMS, engineering, and release process.</p></article>
+        <article class="route-card"><h3>Offsite coordination</h3><p>Assign and track external or earned actions. Their outcomes generally need an agreed manual assessment rather than an automatic before/after result.</p></article>
+      </div>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">Create strategy</span></span><span class="ui-what">Set goal, opportunities, target URLs, prompts, and AI platforms</span></li><li><span class="ui-set"><span class="ui">Add opportunity</span></span><span class="ui-what">Group related opportunities under one initiative</span></li><li><span class="ui-set"><span class="ui">Owner</span><span class="ui">Status</span></span><span class="ui-what">Assign responsibility and track progress</span></li><li><span class="ui-set"><span class="ui">Lifecycle</span></span><span class="ui-what">Supported types: Baseline collected → Deployed → Measuring → Complete</span></li><li><span class="ui-set"><span class="ui">Cancel optimization</span></span><span class="ui-what">Stop an in-progress optimization, with rollback confirmation</span></li><li><span class="ui-set"><span class="ui">Promote prompts</span></span><span class="ui-what">Move experiment prompts into the Prompt Library</span></li></ul></div>
+      <aside class="caveat"><strong>Workspace is coordination, not universal automation.</strong> A strategy can help track work without deploying it. A status change alone does not show that a claim was resolved or that visibility improved.</aside>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Follow one strategy</h3><ul class="demo-steps"><li>Open one strategy and its goal</li><li>Linked opportunities, URLs, and prompts</li><li>Owner, status, and lifecycle stage</li><li>A claim-driven strategy, if one exists</li><li>Next action and where approval happens</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/opportunities/opportunity-workspace" target="_blank" rel="noopener">Opportunity Workspace guide</a></nav>
+    </section>
+
+    <section class="module" id="edge">
+      <p class="sec-eyebrow">Deliver supported changes at the edge</p>
+      <h2>Optimize at Edge serves configured optimizations to AI agents</h2>
+      <p class="section-lead">For eligible opportunities, Optimize at Edge applies supported changes at the CDN layer. The organization’s origin CMS remains unchanged; the workflow is designed for AI-agent traffic rather than human or SEO delivery.</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>A supported opportunity and an onboarded, routed site.</dd></div>
+        <div><dt>Explore</dt><dd>Proposed change, preview, configured scope, deployment, and validation controls.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Testing supported agent-facing changes without editing origin content.</strong></dd></div>
+      </dl>
+      <div class="grid-3">
+        <article class="card"><p class="eyelabel">Scope</p><h3>Supported opportunity only</h3><p>Eligible types can include RCV, product-detail-page enrichment, summaries, FAQs, simplified content, tables of contents, or transcript summaries. Availability varies; confirm the enabled opportunity in the organization’s tenant.</p></article>
+        <article class="card"><p class="eyelabel">Routing</p><h3>Configured site paths</h3><p>CDN routing and access prerequisites must be complete. When routing covers selected paths, only those configured paths are in scope.</p></article>
+        <article class="card"><p class="eyelabel">Control</p><h3>Preview and verify</h3><p>Use preview and live validation where available; rollback applies to supported deployed changes. Do not assume deployment is instant or automatic.</p></article>
+      </div>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">Brands Management</span><span class="ui">CDN</span></span><span class="ui-what">Onboard routing; self-serve for AEM Cloud Service with Fastly</span></li><li><span class="ui-set"><span class="ui">Preview</span></span><span class="ui-what">Read-only side-by-side of current vs. optimized HTML</span></li><li><span class="ui-set"><span class="ui">Edit</span></span><span class="ui-what">Refine the AI-generated suggestion before it goes live</span></li><li><span class="ui-set"><span class="ui">Deploy to Edge</span></span><span class="ui-what">Confirm selected URLs and suggestion type, then deploy</span></li><li><span class="ui-set"><span class="ui">View Live</span></span><span class="ui-what">Verify the change is served to agent traffic</span></li><li><span class="ui-set"><span class="ui">Rollback</span></span><span class="ui-what">Revert one or many deployed changes, typically within minutes</span></li></ul></div>
+      <aside class="caveat"><strong>Confirm readiness before a live demo.</strong> Check tenant availability, opportunity eligibility, CDN routing at the outermost CDN, access/allowlisting for the AdobeEdgeOptimize user agent, WAF/bot rules, and route coverage. Some selected opportunities may be Early Access. The initial CDN setup may require the organization’s IT/CDN team; if prerequisites are not confirmed, demo the workflow without implying it is ready for deployment.</aside>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Run the deployment loop</h3><ul class="demo-steps"><li>Use an approved, safe example</li><li>Preview, then Edit the suggestion</li><li>Deploy to Edge on selected URLs</li><li>View Live to validate</li><li>Rollback to show reversibility</li><li>Agent delivery vs. human and SEO delivery</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/resources/optimize-at-edge/overview" target="_blank" rel="noopener">Optimize at Edge overview</a></nav>
+    </section>
+
+    <section class="module" id="measurement">
+      <p class="sec-eyebrow">Evaluate supported optimization impact</p>
+      <h2>Impact Measurement Engine evaluates eligible RCV work over time</h2>
+      <p class="section-lead">Impact Measurement Engine (IME) is a controlled before-and-after measurement workflow for supported optimization work—not a live dashboard or universal score attached to every deployment.</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>An eligible Recover Content Visibility (RCV) opportunity and qualifying URLs.</dd></div>
+        <div><dt>Measures</dt><dd>Baseline and post-deployment responses using custom measurement prompts generated for the qualifying URLs.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Reviewing measured changes for the eligible experiment.</strong></dd></div>
+      </dl>
+      <ol class="steps">
+        <li><strong>Confirm eligibility</strong>Check supported opportunity type, RCV setup, and qualifying URLs.</li>
+        <li><strong>Establish baseline</strong>Generate URL-specific measurement prompts and capture the pre-deployment responses.</li>
+        <li><strong>Deploy the change</strong>Use the supported route and avoid unrelated page changes during evaluation.</li>
+        <li><strong>Review the result</strong>Read the completed evaluation and its scope in Opportunity Workspace.</li>
+      </ol>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">High Impact URLs</span></span><span class="ui-what">Filter RCV pages to select qualifying URLs (20+ recommended)</span></li><li><span class="ui-set"><span class="ui">Deploy optimizations</span></span><span class="ui-what">Starting a supported deployment triggers measurement automatically</span></li><li><span class="ui-set"><span class="ui">Key Outcomes</span><span class="ui">Performance Summary</span></span><span class="ui-what">Baseline, post-optimization, and change</span></li><li><span class="ui-set"><span class="ui">Citation Rate Trend</span></span><span class="ui-what">Watch the measured trend over the evaluation window</span></li><li><span class="ui-set"><span class="ui">Top URL performers</span><span class="ui">New URLs Cited</span></span><span class="ui-what">See which pages moved and where new citations appeared</span></li></ul></div>
+      <aside class="caveat"><strong>Set the right expectation.</strong> RCV is the currently documented supported opportunity. Public guidance recommends at least 20 URLs from the High Impact URLs filter; evaluation typically takes about two weeks and may analyze a representative subset with sufficient data. Reported outcomes include Content Visibility and Citation Rate—not revenue attribution. This is an eligibility recommendation, not a commercial quota. Confirm current eligibility in the account; a deployment does not guarantee a report or positive uplift.</aside>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Read an IME evaluation</h3><ul class="demo-steps"><li>Select URLs with High Impact URLs</li><li>Follow the strategy’s lifecycle stages</li><li>Open the Performance Summary</li><li>Read Citation Rate Trend and top URLs</li><li>Show a result only if available</li><li>Explain its measured scope</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/resources/impact-measurement-engine" target="_blank" rel="noopener">Impact Measurement Engine guide</a><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility-learn/tutorials/measurement/how-does-the-impact-measurement-engine-work" target="_blank" rel="noopener">How IME works</a></nav>
+    </section>
+
+    <section class="module" id="referral-traffic">
+      <p class="sec-eyebrow">Follow people who arrive from AI</p>
+      <h2>Referral Traffic shows human visits that come from AI platforms</h2>
+      <p class="section-lead">When someone clicks a link in an AI answer and lands on your site, that visit appears here. It is where AI visibility first becomes measurable human traffic—and the bridge to Business Impact.</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>CDN log forwarding configured for an onboarded domain.</dd></div>
+        <div><dt>Explore</dt><dd>Traffic Insights by platform, page intent, channel source, device, and region.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Seeing which AI platforms and pages send people to you.</strong></dd></div>
+      </dl>
+      <div class="grid-3">
+        <article class="card"><p class="eyelabel">Sources</p><h3>Referral Sources Details</h3><p>Visits by AI platform and referral source. Channel Source separates LLM referrals from earned, paid, and mixed sources.</p></article>
+        <article class="card"><p class="eyelabel">Pages</p><h3>URL Performance Analysis</h3><p>See which landing pages receive AI-referred visits, and narrow by Page Intent, Device Type, or Region.</p></article>
+        <article class="card"><p class="eyelabel">Context</p><h3>Platform change markers</h3><p>Trend charts can mark known model or platform changes, such as a platform’s linking update, so a shift isn’t mistaken for the effect of your own work.</p></article>
+      </div>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">Filter</span></span><span class="ui-what">Date Range, Platform, Page Intent, Channel Source, Device Type, Region</span></li><li><span class="ui-set"><span class="ui">Traffic Insights</span><span class="ui">Business Impact</span></span><span class="ui-what">Switch between visit trends and connected outcomes</span></li><li><span class="ui-set"><span class="ui">Referral Sources Details</span><span class="ui">URL Performance Analysis</span></span><span class="ui-what">Switch between source and landing-page tables</span></li><li><span class="ui-set"><span class="ui">Configure Columns</span><span class="ui">Export</span></span><span class="ui-what">Shape and download either table as CSV</span></li></ul></div>
+      <aside class="caveat"><strong>A referral is only the visible part.</strong> Only clicks with a recognizable AI referrer are counted, and many AI answers lead to no click at all. Engagement and conversion context requires a connected analytics source—see Business Impact.</aside>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Follow AI-referred visitors</h3><ul class="demo-steps"><li>Filter by Platform and Channel Source</li><li>Read the trend and any change markers</li><li>Top landing pages in URL Performance</li><li>Compare one page with its agent activity</li><li>Open the Business Impact tab</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/referral-traffic" target="_blank" rel="noopener">Referral Traffic guide</a></nav>
+    </section>
+
+    <section class="module" id="business-impact">
+      <p class="sec-eyebrow">Connect referrals to business outcomes</p>
+      <h2>Business Impact depends on an available analytics connection</h2>
+      <p class="section-lead">Business Impact is a tab inside Referral Traffic. When a supported analytics source is connected, it can add downstream engagement and conversion context to AI-referred traffic. The measures and dimensions available depend on the source and its configuration.</p>
+      <dl class="feature-brief">
+        <div><dt>Starts with</dt><dd>Referral signals plus an eligible, connected analytics source.</dd></div>
+        <div><dt>Explore</dt><dd>Available engagement and conversion measures and their attribution context.</dd></div>
+        <div><dt>Use the result for</dt><dd><strong>Assessing referred visits in business terms when the data supports it.</strong></dd></div>
+      </dl>
+      <div class="grid-3">
+        <article class="card"><p class="eyelabel">Paid ABV integration</p><h3>Adobe Analytics</h3><p>Requires a paid ABV offer plus Adobe Analytics and report-suite access for the signed-in user in the same IMS organization. The connected suite provides supported Business Impact reporting.</p></article>
+        <article class="card"><p class="eyelabel">Paid ABV integration</p><h3>Google Analytics 4</h3><p>Requires a paid ABV offer and at least Viewer access to the GA4 property. Reporting uses supported aggregated data attributed to LLM sources, not raw user-level events.</p></article>
+        <article class="card"><p class="eyelabel">Organization enabled</p><h3>Customer Journey Analytics</h3><p>The CJA-to-Brand Visibility Business Impact path requires organization enablement and user access to the relevant data view in the same IMS organization. CJA can also receive a separate paid ABV CDN bot-summary dataset; that aggregated path is not person-level attribution.</p></article>
+      </div>
+      <div class="actions"><p class="actions-title">Key actions in this view</p><ul class="action-list"><li><span class="ui-set"><span class="ui">Connect to Analytics</span></span><span class="ui-what">From the Business Impact tab, opens Brands Management › Analytics</span></li><li><span class="ui-set"><span class="ui">Connect Adobe Analytics</span></span><span class="ui-what">Choose Report Suite and Page URL Dimension, then Save &amp; Enable</span></li><li><span class="ui-set"><span class="ui">Connect Google Analytics 4</span></span><span class="ui-what">Connect account, approve read-only access, choose a property</span></li><li><span class="ui-set"><span class="ui">Connect Customer Journey Analytics</span></span><span class="ui-what">Choose a Data View, confirm Field mapping, Save &amp; Enable</span></li><li><span class="ui-set"><span class="ui">Reconfigure</span></span><span class="ui-what">Change the data view, mapping, account, or property later</span></li></ul></div>
+      <aside class="caveat"><strong>Verify the data before making a business claim.</strong> Confirm the connector, selected report suite/data view, and available measures. Do not promise revenue or conversion reporting unless those metrics exist in the connected source and are represented in the organization’s account. The separate ABV-to-CJA bot dataset is aggregated by URL/host; it does not identify which person later converted. New connections backfill the last four full calendar weeks plus the current week, then refresh daily.</aside>
+      <aside class="demo" aria-label="Walkthrough focus"><p class="demo-label"><span class="demo-dot" aria-hidden="true"></span>Walkthrough focus</p><h3 class="demo-title">Follow referrals to outcomes</h3><ul class="demo-steps"><li>Open Referral Traffic › Business Impact</li><li>Connected: referred visits to available measures</li><li>Explain the attribution context</li><li>Not connected: walk Connect to Analytics</li><li>Don’t imply outcome data exists</li></ul></aside>
+      <nav class="doc-links" aria-label="Documentation"><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/resources/adobe-analytics-integration" target="_blank" rel="noopener">Adobe Analytics integration</a><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/resources/google-analytics-integration" target="_blank" rel="noopener">Google Analytics integration</a><a class="el-link" href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/resources/customer-journey-analytics-integration" target="_blank" rel="noopener">CJA to Brand Visibility</a><a class="el-link" href="https://experienceleague.adobe.com/en/docs/analytics-platform/using/integrations/bv" target="_blank" rel="noopener">Brand Visibility data in CJA</a></nav>
+    </section>
+  <aside class="knowledge-check" aria-label="Discussion prompts"><h3>Check your understanding</h3><ul><li>How do Prompt Strategy, Prompt Library, and an Opportunity Workspace Strategy differ?</li><li>Why are Agentic Traffic and Referral Traffic different signals?</li><li>Which checks separate an edge-deployable opportunity from an automatically measurable experiment?</li><li>What does Brand Claims show, and what does it not verify?</li></ul></aside>
+</main>
+</div>
+<footer class="site-footer"><div class="foot-inner">
+  <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe&nbsp;<span>Brand Visibility</span></div>
+  <div class="foot-right"><p>Knowledge sharing · ABV features guide</p><p>&copy; 2026 Adobe</p></div>
+</div></footer>
+<script>
+(function(){
+  var links=Array.prototype.slice.call(document.querySelectorAll('#spy-nav a'));
+  var sections=links.map(function(a){return document.getElementById(a.getAttribute('href').slice(1));}).filter(Boolean);
+  function activate(id){links.forEach(function(a){var on=a.getAttribute('href')==='#'+id;a.classList.toggle('active',on);if(on)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');});}
+  var scheduled=false;
+  function updateSection(){
+    scheduled=false;
+    var active=sections[0];
+    sections.forEach(function(section){if(section.getBoundingClientRect().top<=64)active=section;});
+    var max=document.documentElement.scrollHeight-window.innerHeight;
+    if(max>0&&window.scrollY>=max-5)active=sections[sections.length-1];
+    if(active)activate(active.id);
+  }
+  function scheduleSection(){if(!scheduled){scheduled=true;window.requestAnimationFrame(updateSection);}}
+  window.addEventListener('scroll',scheduleSection,{passive:true});
+  window.addEventListener('resize',scheduleSection);
+  updateSection();
+  links.forEach(function(a){a.addEventListener('click',function(){activate(a.getAttribute('href').slice(1));});});
+  var bar=document.getElementById('progressbar');
+  function progress(){var max=document.documentElement.scrollHeight-window.innerHeight;bar.style.transform='scaleX('+Math.min(1,Math.max(0,max>0?window.scrollY/max:0))+')';}
+  window.addEventListener('scroll',progress,{passive:true});window.addEventListener('resize',progress);progress();
+  document.getElementById('save-pdf').addEventListener('click',function(){window.print();});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="description" content="A high-level ABV learning guide: frame, curate, baseline, plan, implement, and review one end-to-end GEO loop.">
+<title>ABV Full GEO Loop Guide | Adobe Brand Visibility</title>
+<style>
+:root{
+  --adobe-red:#EB1000;--adobe-red-dark:#B71000;--adobe-red-tint:#FDECEA;
+  --coral-1:#F04A2E;--coral-2:#F9A392;--coral-bright:#FB6A4E;
+  --s2-blue:#3B63FB;--s2-blue-down:#274DEA;--s2-blue-active:#1D3ECF;
+  --s2-blue-tint:#E5F0FE;--s2-blue-tint-faint:#F5F9FF;
+  --ink:#1B1B1B;--charcoal:#2C2C2C;--charcoal-2:#141414;
+  --gray-900:#1F1F1F;--gray-800:#222222;--gray-700:#464646;--gray-600:#6D6D6D;
+  --gray-500:#909090;--gray-400:#B1B1B1;--gray-300:#D5D5D5;--gray-200:#E6E6E6;
+  --gray-100:#F8F8F8;--gray-75:#FAFAFA;--gray-50:#FDFDFD;--white:#FFFFFF;
+  --bg-base:#FFFFFF;--bg-layer-1:#FAFAFA;--bg-layer-2:#F4F4F5;
+  --border:#E6E6E6;--border-strong:#D5D5D5;
+  --hero-start:#2D2D2D;--hero-mid:#1C1C1C;--hero-end:#0E0E0E;
+  --white-lift:rgba(255,255,255,.12);--white-mid:rgba(255,255,255,.05);
+  --white-scan:rgba(255,255,255,.03);--white-line:rgba(255,255,255,.16);
+  --hero-muted:#D3D3D3;--hero-kicker:#FF8F84;--hero-soft:#ECECEC;
+  --hero-chip:rgba(255,255,255,.09);--hero-chip-border:rgba(255,255,255,.20);
+  --map-dot:rgba(0,0,0,.075);
+  --nav-surface:rgba(255,255,255,.94);--transparent:transparent;
+  --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+  --radius:16px;--radius-md:12px;--radius-sm:8px;--radius-pill:9999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 8px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08);
+  --brand-glow:0 2px 12px rgba(255,255,255,.18);
+  --focus-ring:var(--s2-blue);--maxw:1344px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);font-size:16px;line-height:1.6;color:var(--gray-800);background:var(--bg-base);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--s2-blue-tint);color:var(--ink)}
+a{color:var(--s2-blue-down);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px;border-radius:3px}
+p{margin:0 0 16px}
+h1,h2,h3{text-wrap:balance;letter-spacing:-.025em}
+h2{font-size:clamp(25px,2.65vw,32px);font-weight:800;line-height:1.2;margin:0 0 24px}
+h3{font-size:18px;margin:0 0 8px;line-height:1.3;letter-spacing:-.015em}
+strong{font-weight:700}
+button{font:inherit}
+.skip{position:fixed;left:16px;top:-100px;z-index:110;padding:10px 16px;background:var(--white);border:1px solid var(--s2-blue);border-radius:var(--radius-sm)}
+.skip:focus{top:10px}
+.progress{position:fixed;inset:0 0 auto;height:2px;z-index:100;pointer-events:none}
+.progress span{display:block;height:100%;background:linear-gradient(90deg,var(--coral-1),var(--coral-2));transform:scaleX(0);transform-origin:0 50%}
+.ai-note{background:var(--gray-100);border-bottom:1px solid var(--gray-200)}
+.ai-note-inner{max-width:var(--maxw);margin:auto;padding:9px 24px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;line-height:1.45;color:var(--gray-600)}
+.ai-note b{font-weight:600;color:var(--gray-600)}
+.ai-note svg{flex:none;color:var(--gray-500)}
+.hero{position:relative;overflow:hidden;color:var(--white);background:radial-gradient(1350px 720px at 90% -18%,var(--white-lift),var(--white-mid) 42%,var(--transparent) 82%),linear-gradient(135deg,var(--hero-start),var(--hero-mid) 52%,var(--hero-end));padding:32px 24px 44px}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--white-scan) 1px,var(--transparent) 1px);background-size:100% 34px;opacity:.5;-webkit-mask:linear-gradient(var(--ink),var(--transparent) 70%);mask:linear-gradient(var(--ink),var(--transparent) 70%)}
+.hero-inner{max-width:var(--maxw);margin:auto;position:relative;z-index:1}
+.masthead{display:flex;align-items:center;justify-content:space-between;gap:20px;padding-bottom:20px;border-bottom:1px solid var(--white-line)}
+.brandrow{display:flex;align-items:center;gap:11px}
+.brand-mark{height:26px;width:auto;flex:none;display:block;filter:drop-shadow(var(--brand-glow))}
+.brandname{font-size:19px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.brandname span{font-weight:400;color:var(--hero-muted)}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--hero-kicker);text-align:right}
+.hero-body{margin-top:36px}
+.hero-copy{min-width:0}
+.hero h1{font-size:clamp(39px,4.8vw,62px);line-height:1.08;letter-spacing:-.035em;font-weight:800;margin:0}
+.hl{background:linear-gradient(100deg,var(--coral-1),var(--coral-2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--transparent);padding-bottom:.3em;-webkit-box-decoration-break:slice;box-decoration-break:slice}
+.lead{font-size:19px;line-height:1.5;color:var(--hero-muted);margin:18px 0 0;max-width:68ch}
+.assumption{font-size:12px;color:var(--gray-400);margin:20px 0 0;line-height:1.6}
+.shell{max-width:var(--maxw);margin:auto;padding:40px 24px 64px;display:grid;grid-template-columns:216px minmax(0,1fr);gap:44px;align-items:start}
+.toc{position:sticky;top:28px;align-self:start;min-width:0;max-height:calc(100vh - 56px);overflow-y:auto;scrollbar-width:thin}
+.toc-heading{padding:0 12px 18px}
+.toc-heading p{margin:0;font-size:13px;font-weight:700;color:var(--ink)}
+.toc-items{display:flex;flex-direction:column;gap:5px}
+.toc-items a{display:flex;align-items:flex-start;gap:11px;width:100%;border-left:2px solid var(--transparent);border-radius:var(--radius-sm);color:var(--gray-700);padding:13px 10px;text-align:left;transition:background .15s,color .15s,border-color .15s}
+.toc-items a:hover{background:var(--gray-100);text-decoration:none}
+.toc-items a.active{color:var(--s2-blue-down);background:var(--s2-blue-tint);border-left-color:var(--s2-blue)}
+.toc-items a:focus-visible{outline-offset:-2px}
+.toc-number{flex:none;padding-top:2px;font:600 11px/1.5 var(--mono);color:var(--gray-500)}
+.toc-items a.active .toc-number{color:var(--s2-blue)}
+.toc-label{display:block;font-size:13px;line-height:1.4;font-weight:700}
+.toc-description{display:block;margin-top:4px;color:var(--gray-600);font-size:11px;line-height:1.45}
+.toc-toggle{display:none}
+.toc-toggle:focus-visible{border-radius:var(--radius-sm)}
+.toc-actions{display:none;margin:23px 12px 0;padding:22px 0 6px;border-top:1px solid var(--border)}
+.js .toc-actions{display:block}
+.pdf-button{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:40px;padding:0 16px;border:1px solid var(--border-strong);border-radius:var(--radius-pill);background:var(--bg-base);color:var(--ink);font-size:13px;font-weight:700;white-space:nowrap;cursor:pointer;box-shadow:var(--shadow-sm);transition:background .15s,border-color .15s}
+.pdf-button:hover{border-color:var(--gray-400);background:var(--gray-100)}
+.pdf-button:active{background:var(--gray-200)}
+.pdf-button:focus-visible{border-radius:var(--radius-pill)}
+.pdf-button svg{flex:none;color:var(--gray-600)}
+main{min-width:0;display:grid;gap:24px;scroll-margin-top:28px;counter-reset:sec}
+.framework-map{container:map / inline-size;padding:30px 32px 26px;border:1px solid var(--border);border-radius:var(--radius);background:radial-gradient(circle,var(--map-dot) 1px,var(--transparent) 1.4px) 0 0 / 18px 18px,var(--bg-layer-1)}
+.intro{font-size:15px;line-height:1.6;color:var(--gray-700);margin:0 0 28px;max-width:86ch}
+.map-flow{--g:22px;display:grid;grid-template-columns:calc((100% - 5 * var(--g)) / 2 + 2 * var(--g)) calc((100% - 5 * var(--g)) / 3 + var(--g)) minmax(0,1fr);gap:22px var(--g);margin:0;padding:0;list-style:none}
+.map-phase{display:flex;flex-direction:column;min-width:0}
+.phase-label{display:flex;align-items:center;gap:10px;margin:0 0 12px;font:500 10px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gray-600)}
+.phase-label::after{content:"";flex:1;height:1px;background:var(--border-strong)}
+.phase-tiles{flex:1;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:var(--g);margin:0;padding:0;list-style:none}
+.tile-item{position:relative;display:flex;min-width:0}
+.tile-item::before{content:"";position:absolute;top:50%;left:calc(var(--g) * -1 + 5px);width:calc(var(--g) - 12px);height:1.5px;background:var(--gray-400)}
+.tile-item::after{content:"";position:absolute;top:50%;left:-11px;width:7px;height:7px;margin-top:-2.75px;border-top:1.5px solid var(--gray-400);border-right:1.5px solid var(--gray-400);transform:rotate(45deg)}
+.map-phase:first-child .tile-item:first-child::before,.map-phase:first-child .tile-item:first-child::after{display:none}
+.map-tile{display:flex;flex-direction:column;width:100%;min-height:154px;padding:16px 16px 14px;border:1px solid var(--border);border-radius:var(--radius-md);background:var(--bg-base);box-shadow:var(--shadow-sm);color:var(--ink);text-align:left;transition:border-color .15s,transform .15s,box-shadow .15s}
+.map-tile:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:var(--shadow-lg);text-decoration:none}
+.map-tile:focus-visible{border-radius:var(--radius-md)}
+.tile-num{display:block;font:800 34px/1 var(--font);font-variant-numeric:tabular-nums lining-nums;letter-spacing:-.045em;color:var(--coral-1)}
+.tile-title{display:block;margin:12px 0 14px;font-size:15px;font-weight:700;line-height:1.3;letter-spacing:-.01em}
+.tile-output{display:block;margin-top:auto;padding-top:10px;border-top:1px solid var(--border);color:var(--gray-600);font-size:13px;line-height:1.4}
+.tile-output::before{content:"\21B3\00a0";color:var(--gray-400)}
+.map-tile.is-goal{border-color:var(--charcoal);background:radial-gradient(260px 180px at 100% 0,var(--white-lift),var(--transparent) 72%),var(--charcoal);color:var(--white)}
+.is-goal .tile-num{color:var(--coral-bright)}
+.is-goal .tile-output{border-top-color:var(--white-line);color:var(--hero-muted)}
+@container map (max-width:879px){
+  .map-flow{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .map-phase:first-child{grid-column:1 / -1}
+  .map-phase:nth-child(2){grid-column:span 2}
+  .map-phase:nth-child(2) .tile-item:first-child::before,.map-phase:nth-child(2) .tile-item:first-child::after{display:none}
+}
+@container map (max-width:560px){
+  .map-flow{--g:16px;grid-template-columns:minmax(0,1fr)}
+  .map-phase,.map-phase:first-child,.map-phase:nth-child(2){grid-column:auto}
+  .phase-tiles{grid-auto-flow:row;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .map-phase:first-child .tile-item:last-child,.map-phase:last-child .tile-item{grid-column:1 / -1}
+  .tile-item::before,.tile-item::after{display:none}
+  .map-tile{min-height:134px;padding:14px 13px 12px}
+  .tile-num{font-size:28px}
+  .tile-title{font-size:14px}
+  .tile-output{font-size:12px}
+  .tile-output::before{content:none}
+}
+section{scroll-margin-top:28px;min-width:0;counter-increment:sec}
+.module{container:module / inline-size;padding:32px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-base)}
+#actions,#review{background:var(--bg-layer-1)}
+#actions .feature-map,#actions .edge-catalog,#review .feature-map,#review .card{background:var(--bg-base)}
+.sec-eyebrow{font-size:11px;line-height:1.4;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-600);margin:0 0 12px}
+.sec-eyebrow::before{content:attr(data-step) "  ·  ";font-family:var(--mono);color:var(--adobe-red);letter-spacing:.02em}
+.actions{display:grid;gap:10px;margin:0;padding:0;list-style:none;counter-reset:act}
+.actions li{position:relative;counter-increment:act;display:grid;grid-template-columns:29px minmax(0,13.5rem) minmax(0,1fr);column-gap:20px;align-items:baseline;min-width:0;padding:18px 22px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-base);box-shadow:var(--shadow-sm);color:var(--gray-700);font-size:15px;line-height:1.6;transition:border-color .15s,transform .15s,box-shadow .15s}
+.actions li:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.actions li::before{content:counter(act,decimal-leading-zero);display:grid;place-items:center;width:29px;height:29px;border:1px solid var(--border-strong);border-radius:50%;background:var(--bg-base);font:600 10px/1 var(--mono);color:var(--adobe-red)}
+.actions li>strong:first-child{color:var(--ink);font-size:16px;line-height:1.4;letter-spacing:-.005em}
+.actions .desc{min-width:0}
+.feature-map{margin:0 0 24px;padding:18px 20px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-1)}
+.feature-heading{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-600);margin:0 0 12px}
+.feature-heading::before{content:"";width:7px;height:7px;flex:none;border:1px solid var(--gray-400);border-radius:2px}
+.feature-map dl{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:18px;margin:0}
+.feature-entry{min-width:0}
+.feature-entry+ .feature-entry{padding-left:18px;border-left:1px solid var(--border)}
+.feature-map dt{font-size:14px;font-weight:600;line-height:1.4;color:var(--ink)}
+.feature-map dd{font-size:13px;line-height:1.55;color:var(--gray-700);margin:5px 0 0}
+.feature-map:has(.feature-entry:only-child){display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px;padding-block:14px}
+.feature-map:has(.feature-entry:only-child) .feature-heading{margin:0}
+.feature-map:has(.feature-entry:only-child) .feature-entry{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 12px}
+.feature-map:has(.feature-entry:only-child) dd{margin:0}
+.feature-map .conditional{font-size:10px;color:var(--gray-600);font-weight:500}
+.checkpoint{display:flex;align-items:baseline;gap:4px 14px;margin:24px 0 0;padding:17px 0 0;border-top:1px solid var(--border)}
+.checkpoint .label{flex:none;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--adobe-red-dark);margin:0}
+.checkpoint .label::before{content:"\2192\00a0";color:var(--coral-1)}
+.checkpoint p{font-size:14px;line-height:1.6;margin:0;color:var(--gray-700)}
+@container module (max-width:879px){
+  .actions li{display:block;padding:16px 20px 16px 64px}
+  .actions li::before{position:absolute;top:15px;left:20px}
+  .actions li>strong:first-child{display:block;margin-bottom:4px;line-height:1.35}
+}
+@container module (max-width:620px){
+  .feature-map dl{grid-auto-flow:row;gap:10px}
+  .feature-entry+ .feature-entry{padding:10px 0 0;border-left:0;border-top:1px solid var(--border)}
+  .checkpoint{flex-direction:column}
+}
+@container module (max-width:479px){
+  .actions li{padding:16px}
+  .actions li::before{position:static;margin-bottom:12px}
+  .feature-map:has(.feature-entry:only-child){display:block}
+  .feature-map:has(.feature-entry:only-child) .feature-heading{margin-bottom:10px}
+}
+.note{font-size:14px;line-height:1.6;color:var(--gray-700);margin:24px 0 0;padding:16px 18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-2)}
+.edge-catalog{margin-top:22px;padding:17px 18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-1)}
+.edge-types{display:flex;flex-wrap:wrap;gap:7px;list-style:none;padding:0;margin:0}
+.edge-types li{font-size:12px;line-height:1.5;color:var(--gray-700);padding:5px 10px;border:1px solid var(--border);border-radius:var(--radius-pill);background:var(--bg-base)}
+.edge-catalog .availability{font-size:12px;line-height:1.55;color:var(--gray-600);margin:12px 0 0}
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius-sm);margin:22px 0}
+table{border-collapse:collapse;width:100%;font-size:14px;text-align:left;line-height:1.55}
+th{font-size:11px;letter-spacing:.04em;background:var(--bg-layer-2);color:var(--gray-700);font-weight:700}
+th,td{padding:12px 14px;vertical-align:top;border-bottom:1px solid var(--border)}
+tr:last-child td{border-bottom:0}
+tbody tr{transition:background .15s}
+tbody tr:hover td{background:var(--gray-100)}
+td:first-child{font-weight:600}
+.decisions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}
+.card{padding:20px;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg-layer-1);box-shadow:var(--shadow-sm);transition:border-color .15s,transform .15s,box-shadow .15s}
+.card:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+.card p{font-size:13px;line-height:1.55;margin:0;color:var(--gray-700)}
+.finish{padding:30px;background:radial-gradient(900px 360px at 100% -30%,var(--white-mid),var(--transparent) 70%),var(--charcoal);color:var(--white);border-radius:var(--radius);margin:24px 0 0}
+.finish h3{font-size:clamp(23px,2.5vw,29px);line-height:1.18;letter-spacing:-.025em;margin-bottom:12px}
+.finish .em{color:var(--coral-bright)}
+.finish p{font-size:15px;margin:0;color:var(--gray-300)}
+.site-footer{background:var(--charcoal-2);color:var(--gray-400)}
+.foot-inner{max-width:var(--maxw);margin:auto;padding:28px 24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+.foot-brand{display:flex;gap:11px;align-items:center;font-size:16px;font-weight:800;color:var(--white)}
+.foot-brand img{height:22px;width:auto}
+.foot-brand span{font-weight:400;color:var(--gray-300)}
+.foot-right{text-align:right}
+.foot-right p{font-size:12px;line-height:1.6;margin:0}
+.foot-right p:first-child{font-weight:600;color:var(--gray-300);font-size:13px;margin-bottom:3px}
+@media(max-width:1200px){
+  .shell{grid-template-columns:200px minmax(0,1fr);gap:28px}
+  .module,.framework-map{padding:26px}
+  .decisions{grid-template-columns:1fr 1fr}
+}
+@media(max-width:980px){
+  .shell{grid-template-columns:minmax(0,1fr);gap:24px;padding-top:24px}
+  .toc{position:static;max-height:none;overflow:visible;padding:8px;border:1px solid var(--border);border-radius:var(--radius);background:var(--nav-surface)}
+  .toc-heading{padding:8px 10px 12px}
+  .toc-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .toc-items a{padding:10px}
+  .js .toc{position:sticky;top:2px;z-index:50;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:6px;backdrop-filter:saturate(180%) blur(12px);box-shadow:var(--shadow-sm)}
+  .js .toc-actions{grid-row:1;grid-column:2;margin:0;padding:0;border:0}
+  .pdf-button{width:auto;min-height:38px;padding:0 13px;font-size:12px;box-shadow:none}
+  .pdf-extra{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .js .toc-heading{display:none}
+  .js .toc-toggle{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:5px 10px;border:0;background:var(--transparent);text-align:left;color:var(--gray-700);cursor:pointer}
+  .toc-mobile-label{display:block;margin-bottom:2px;font:500 9px/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--gray-600)}
+  .toc-current{display:block;font-size:13px;line-height:1.5;font-weight:700}
+  .toc-toggle svg{flex:none;transition:transform .15s}
+  .toc.is-open .toc-toggle svg{transform:rotate(180deg)}
+  .js .toc-items{display:none;grid-column:1 / -1;max-height:calc(100dvh - 110px);overflow-y:auto;margin-top:8px;border-top:1px solid var(--border);padding-top:8px}
+  .js .toc.is-open .toc-items{display:flex}
+  main,section{scroll-margin-top:88px}
+}
+@media(max-width:800px){
+  .hero h1{font-size:clamp(35px,5.8vw,46px)}
+  .lead{font-size:17px}
+}
+@media(max-width:640px){
+  .hero{padding:26px 20px 32px}.brandname{font-size:14px;white-space:normal}.brandrow{gap:8px}.brand-mark{height:24px}
+  .masthead{gap:12px}.kicker{max-width:100px;font-size:9px;letter-spacing:.08em;flex:none}
+  .hero h1{font-size:clamp(36px,9.8vw,53px)}.hero h1 br{display:none}
+  .hero-body{margin-top:28px}.lead{margin-top:18px}
+  .shell{padding:20px 16px 36px;gap:20px}main{gap:22px}
+  .module,.framework-map{padding:22px}.intro{margin-bottom:24px}
+  .feature-map{padding:15px 17px}
+  .sec-eyebrow{font-size:10px}
+  h2{font-size:26px;margin-bottom:20px}.decisions{gap:10px}.card{padding:16px}
+  .finish{padding:23px}.finish h3{font-size:25px}
+  th,td{padding:10px;font-size:12px;overflow-wrap:anywhere}
+  th:first-child,td:first-child{width:104px;min-width:104px;overflow-wrap:normal}
+  .foot-inner{flex-direction:column;align-items:flex-start;gap:16px;padding:27px 20px}.foot-right{text-align:left}
+}
+@media(max-width:360px){
+  .brandname{font-size:13px}.kicker{font-size:8px;max-width:85px}
+  .module,.framework-map{padding:19px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}
+  .card:hover,.map-tile:hover,.actions li:hover{transform:none}
+}
+@media print{
+  @page{size:A4;margin:12mm 13mm 15mm;
+    @bottom-left{content:"ABV first GEO loop \00b7  Adobe Brand Visibility";font:8pt/1 -apple-system,"Segoe UI",Helvetica,Arial,sans-serif;color:#909090}
+    @bottom-right{content:counter(page) " / " counter(pages);font:8pt/1 "SF Mono",Menlo,Consolas,monospace;color:#909090}
+  }
+  html{scroll-behavior:auto}
+  body{font-size:10.5pt;background:var(--white);-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .toc,.js .toc,.progress,.skip{display:none}
+  .shell{display:block;padding:20px 0}
+  .hero-body{display:block}
+  .hero{padding:22px 24px 24px}.masthead{padding-bottom:14px}.hero-body{margin-top:20px}
+  .hero h1{font-size:36px}.hero h1 br{display:block}
+  .hl{padding-bottom:0;background:none;-webkit-text-fill-color:var(--coral-bright);color:var(--coral-bright)}
+  .lead{font-size:15px;margin-top:10px}.assumption{margin-top:12px}
+  main{display:block}
+  .module,.framework-map{padding:24px;box-shadow:none}
+  .module{margin-top:20px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+  .framework-map{break-inside:avoid;padding:22px 24px 18px}
+  .intro{font-size:10.5pt;margin-bottom:18px}
+  .map-flow{--g:16px;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+  .map-phase:first-child{grid-column:1 / -1}.map-phase:nth-child(2){grid-column:span 2}.map-phase:last-child{grid-column:span 1}
+  .phase-tiles{grid-auto-flow:column;grid-template-columns:none}
+  .map-phase:first-child .tile-item:last-child,.map-phase:last-child .tile-item{grid-column:auto}
+  .map-tile{min-height:120px;padding:12px}.tile-num{font-size:26px}.tile-title{font-size:13px;margin:8px 0 10px}.tile-output{font-size:11px}
+  .tile-item::before,.tile-item::after{display:none}
+  h2,h3,.sec-eyebrow{break-after:avoid}.feature-map,.checkpoint,.card,.finish,tr,.actions li{break-inside:avoid}
+  .actions li{box-shadow:none}
+  .table-wrap{overflow:visible}table{font-size:9pt}
+  .card:hover,.actions li:hover{transform:none;box-shadow:none}
+  .finish{padding:23px}.finish h3{font-size:23px}
+  .site-footer{margin-top:20px}.foot-inner{padding:20px 24px}.ai-note-inner{padding:6px 0}
+}
+
+  .series-links{max-width:var(--maxw);margin:0 auto;padding:18px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+  .series-label{font:600 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gray-500);margin-right:10px}
+  .series-links a{font-size:13px;font-weight:600;padding:7px 11px;border-radius:var(--radius-sm);color:var(--s2-blue-down)}
+  .series-links a[aria-current="page"]{background:var(--s2-blue-tint);color:var(--s2-blue-active)}
+  .learning-focus{padding:22px 24px;margin:0 0 28px;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm)}
+  .learning-label{margin:0 0 8px;font:600 11px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500)}
+  .learning-focus p{margin:0 0 10px}
+  .learning-focus ul{margin:0;padding-left:20px}
+  .learning-focus li+li{margin-top:5px}
+  .knowledge-check{margin:32px 0 0;padding:22px 24px;border-top:2px solid var(--coral-1);background:var(--bg-layer-1);border-radius:var(--radius-sm)}
+  .knowledge-check h3{margin:0 0 12px;font-size:20px;line-height:1.3}
+  .knowledge-check ul{padding-left:20px;margin:0}
+  .knowledge-check li+li{margin-top:8px}
+  .loop-summary{font-size:17px;line-height:1.6;margin:0 0 20px}
+  .loop-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin:20px 0}
+  .loop-fact{padding:18px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-1)}
+  .loop-fact dt{font:600 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--gray-500);margin-bottom:8px}
+  .loop-fact dd{margin:0;font-size:15px;line-height:1.6}
+  .loop-note{padding:16px 18px;background:var(--bg-layer-2);border-radius:var(--radius-sm);font-size:15px;line-height:1.6}
+  .loop-note strong{color:var(--ink)}
+  .loop-routes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin:20px 0}
+  .loop-route{padding:20px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-layer-1)}
+  .loop-route h3{margin:0 0 10px;font-size:18px;line-height:1.3}
+  .loop-route p{margin:0;font-size:15px;line-height:1.6}
+  .loop-decision-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin:20px 0}
+  .loop-decision{padding:18px;border:1px solid var(--border);border-radius:var(--radius-sm)}
+  .loop-decision h3{font-size:18px;margin:0 0 6px}
+  .loop-decision p{font-size:15px;margin:0}
+  @media(max-width:620px){.series-links{padding:14px 20px;gap:4px}.series-label{flex-basis:100%;margin-bottom:5px}.loop-facts,.loop-routes,.loop-decision-grid{grid-template-columns:1fr}.learning-focus,.knowledge-check{padding:18px}}
+  @media print{.series-links{display:none}.learning-focus,.knowledge-check,.loop-fact,.loop-route,.loop-decision{box-shadow:none;break-inside:avoid}.loop-facts{grid-template-columns:repeat(3,minmax(0,1fr))}.loop-routes,.loop-decision-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the guide</a>
+<div class="progress" aria-hidden="true"><span id="progressbar"></span></div>
+<div class="ai-note">
+  <div class="ai-note-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4M12 8h.01"></path></svg>
+    <span><b>Prepared with AI assistance.</b> Please review for accuracy before use &mdash; this document may contain errors.</span>
+  </div>
+</div>
+<header class="hero">
+  <div class="hero-inner">
+    <div class="masthead">
+      <div class="brandrow"><img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe" width="27" height="26"><span class="brandname">Adobe&nbsp;<span>Brand Visibility</span></span></div>
+      <span class="kicker">Knowledge sharing · Full GEO loop</span>
+    </div>
+    <div class="hero-body">
+      <div class="hero-copy">
+      <h1>One full <span class="hl">GEO</span> <span class="hl">loop</span></h1>
+      <p class="lead">A high-level view of how a business goal becomes tracked conversations, approved changes, evidence, and a next decision.</p>
+      <p class="assumption">Conceptual guide, not a deployment runbook. Readiness and feature details are covered in the companion guides.</p>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="series-links" role="navigation" aria-label="ABV enablement library"><span class="series-label">ABV enablement</span><a href="abv-product-overview.html">Product overview</a><a href="abv-readiness-guide.html">Readiness guide</a><a href="abv-geo-loop-guide.html" aria-current="page">Full GEO loop</a><a href="abv-features-guide.html">Features guide</a></div>
+<div class="shell">
+  <aside class="toc" aria-label="Guide contents">
+    <div class="toc-heading"><p>Contents</p></div>
+    <button class="toc-toggle" type="button" aria-expanded="false" aria-controls="strategy-toc" aria-label="Show strategy steps">
+      <span><span class="toc-mobile-label">Full GEO loop</span><span class="toc-current" id="toc-current-step">01 &middot; Scope</span></span>
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 7 5 5 5-5"/></svg>
+    </button>
+    <nav class="toc-items" id="strategy-toc" aria-label="Strategy steps">
+      <a href="#scope" class="active" aria-current="location"><span class="toc-number">01</span><span><span class="toc-label">Scope</span><span class="toc-description">Frame the strategy</span></span></a>
+      <a href="#prompts"><span class="toc-number">02</span><span><span class="toc-label">Prompts</span><span class="toc-description">Curate the tracked cohort</span></span></a>
+      <a href="#baseline"><span class="toc-number">03</span><span><span class="toc-label">Baseline</span><span class="toc-description">Establish the starting position</span></span></a>
+      <a href="#actions"><span class="toc-number">04</span><span><span class="toc-label">Action plan</span><span class="toc-description">Organize the work</span></span></a>
+      <a href="#deploy"><span class="toc-number">05</span><span><span class="toc-label">Deploy</span><span class="toc-description">Implement and validate</span></span></a>
+      <a href="#review"><span class="toc-number">06</span><span><span class="toc-label">Measure &amp; decide</span><span class="toc-description">Measure and complete</span></span></a>
+    </nav>
+    <div class="toc-actions"><button class="pdf-button" type="button" id="save-pdf"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg><span><span class="pdf-extra">Save as </span>PDF</span></button></div>
+  </aside>
+<main id="main">
+<div class="learning-focus" aria-label="Learning objectives"><p class="learning-label">Knowledge sharing &amp; enablement</p><p><strong>For:</strong> Stakeholders who need the end-to-end operating model without a screen-by-screen execution guide.</p><p><strong>After reading, you should be able to:</strong></p><ul><li>Explain the six stages, accountable roles, and output of a complete GEO loop.</li><li>Separate strategy coordination, publishing routes, and measurement eligibility.</li><li>Describe how evidence leads to scale, iterate, hold, or stop.</li></ul></div>
+<div class="framework-map" role="region" aria-label="Strategy at a glance">
+  <p class="intro"><strong>A loop is a learning cycle, not a feature checklist.</strong> Start with one business goal, use a stable prompt cohort, record the baseline, deliver approved work, then review the evidence and decide what happens next. Opportunity Workspace coordinates the initiative; Prompt Strategy helps select conversations, and Prompt Library defines ongoing monitoring.</p>
+    <ol class="map-flow" aria-label="Six-step strategy overview">
+      <li class="map-phase">
+        <p class="phase-label">Plan</p>
+        <ol class="phase-tiles">
+          <li class="tile-item"><a class="map-tile" href="#scope"><span class="tile-num">01</span><span class="tile-title">Scope</span><span class="tile-output">Agreed scope</span></a></li>
+          <li class="tile-item"><a class="map-tile" href="#prompts"><span class="tile-num">02</span><span class="tile-title">Prompts</span><span class="tile-output">Tracked cohort</span></a></li>
+          <li class="tile-item"><a class="map-tile" href="#baseline"><span class="tile-num">03</span><span class="tile-title">Baseline</span><span class="tile-output">Starting evidence</span></a></li>
+        </ol>
+      </li>
+      <li class="map-phase">
+        <p class="phase-label">Activate</p>
+        <ol class="phase-tiles">
+          <li class="tile-item"><a class="map-tile" href="#actions"><span class="tile-num">04</span><span class="tile-title">Action plan</span><span class="tile-output">Owned actions</span></a></li>
+          <li class="tile-item"><a class="map-tile" href="#deploy"><span class="tile-num">05</span><span class="tile-title">Deploy</span><span class="tile-output">Validated delivery</span></a></li>
+        </ol>
+      </li>
+      <li class="map-phase">
+        <p class="phase-label">Learn</p>
+        <ol class="phase-tiles">
+          <li class="tile-item"><a class="map-tile is-goal" href="#review"><span class="tile-num">06</span><span class="tile-title">Measure &amp; decide</span><span class="tile-output">Next decision</span></a></li>
+        </ol>
+      </li>
+    </ol>
+  </div>
+
+  
+<section class="module" id="scope" tabindex="-1">
+  <p class="sec-eyebrow" data-step="01">Frame</p>
+  <h2>Start with the business decision</h2>
+  <p class="loop-summary">Choose a focused audience, journey, and visibility gap. Define what should improve and why it matters before choosing prompts or optimizations.</p>
+  <dl class="loop-facts">
+    <div class="loop-fact"><dt>Key question</dt><dd>Which discovery, representation, citation, or engagement gap is worth addressing?</dd></div>
+    <div class="loop-fact"><dt>Lead</dt><dd>Business or strategy owner, supported by content/SEO and analytics.</dd></div>
+    <div class="loop-fact"><dt>Output</dt><dd>An agreed objective, scope, owner, primary measure, and review criteria.</dd></div>
+  </dl>
+  <p class="loop-note"><strong>ABV role:</strong> Opportunity Workspace organizes related work around the objective. Keep the business hypothesis separate from a promised result; no universal uplift threshold applies to every loop.</p>
+</section>
+<section class="module" id="prompts" tabindex="-1">
+  <p class="sec-eyebrow" data-step="02">Curate</p>
+  <h2>Select the conversations that matter</h2>
+  <p class="loop-summary">Use market and audience evidence to choose a relevant prompt cohort. Include the intents and branded/unbranded questions that reflect the selected journey, then keep the core set identifiable for comparison.</p>
+  <dl class="loop-facts">
+    <div class="loop-fact"><dt>Key question</dt><dd>Do these conversations represent the audience and goal we selected?</dd></div>
+    <div class="loop-fact"><dt>Lead</dt><dd>Content/SEO, with the strategy owner confirming relevance.</dd></div>
+    <div class="loop-fact"><dt>Output</dt><dd>A processed, stable core cohort with a clear market-language and platform scope.</dd></div>
+  </dl>
+  <p class="loop-note"><strong>ABV role:</strong> AI Visibility informs market discovery; Prompt Strategy suggests candidates; Prompt Library contains the tracked set. Broad market-discovery scores are not a baseline for your own cohort.</p>
+</section>
+<section class="module" id="baseline" tabindex="-1">
+  <p class="sec-eyebrow" data-step="03">Baseline</p>
+  <h2>Record the starting position before changes</h2>
+  <p class="loop-summary">Capture visibility and relevant supporting evidence under an agreed measurement scope. Decide how the follow-up will be compared before implementation starts.</p>
+  <dl class="loop-facts">
+    <div class="loop-fact"><dt>Key question</dt><dd>What evidence will let us judge movement fairly?</dd></div>
+    <div class="loop-fact"><dt>Lead</dt><dd>Analytics or measurement lead, supported by the practitioner team.</dd></div>
+    <div class="loop-fact"><dt>Output</dt><dd>A dated baseline, exact metric names and units, and comparable review windows.</dd></div>
+  </dl>
+  <p class="loop-note"><strong>ABV role:</strong> Brand Presence measures the tracked cohort. Brand Claims and URL Inspector add representation and page context; Agentic Traffic shows agent requests, while Referral Traffic shows human visits. Connected analytics may add business outcomes. Preserve a supported experiment's separate baseline and scope.</p>
+</section>
+<section class="module" id="actions" tabindex="-1">
+  <p class="sec-eyebrow" data-step="04">Plan</p>
+  <h2>Turn the evidence into owned work</h2>
+  <p class="loop-summary">Select the changes most relevant to the gap, group related opportunities, and agree responsibility, approval, delivery route, validation, and rollback.</p>
+  <dl class="loop-facts">
+    <div class="loop-fact"><dt>Key question</dt><dd>Which action addresses the gap, and who can deliver it?</dd></div>
+    <div class="loop-fact"><dt>Lead</dt><dd>Strategy owner with content, web, IT/CDN, and required reviewers.</dd></div>
+    <div class="loop-fact"><dt>Output</dt><dd>An approved action plan with owners and an explicit evaluation approach.</dd></div>
+  </dl>
+  <p class="loop-note"><strong>ABV role:</strong> Opportunities proposes work; Opportunity Workspace coordinates surfaced and manually created opportunities. An opportunity is a recommendation, not published content. Creating a strategy does not automatically make it an experiment.</p>
+</section>
+<section class="module" id="deploy" tabindex="-1">
+  <p class="sec-eyebrow" data-step="05">Implement</p>
+  <h2>Deliver the approved change and validate it</h2>
+  <p class="loop-summary">Use the appropriate publishing route, confirm what actually went live, and preserve implementation dates and scope so the later evaluation remains interpretable.</p>
+  <dl class="loop-facts">
+    <div class="loop-fact"><dt>Key question</dt><dd>Is the approved work live for the intended audience or agent?</dd></div>
+    <div class="loop-fact"><dt>Lead</dt><dd>Content, web, IT/CDN, or an offsite owner, depending on the work.</dd></div>
+    <div class="loop-fact"><dt>Output</dt><dd>Validated delivery, known guardrails, and an accurate record of what shipped.</dd></div>
+  </dl>
+  <div class="loop-routes">
+    <div class="loop-route"><h3>Owner-managed publishing</h3><p>Use CMS, engineering, catalog, or partner processes for work outside the supported edge route. Offsite work needs coordination and confirmation that the change was actually published.</p></div>
+    <div class="loop-route"><h3>Supported Optimize at Edge</h3><p>Serve eligible changes through configured CDN routes to AI agents, without changing the origin CMS or human/SEO delivery. Confirm opportunity support, route coverage, and validation controls.</p></div>
+  </div>
+  <p class="loop-note"><strong>Keep execution and measurement separate.</strong> Edge deployment does not guarantee an automatically generated strategy, an Impact Measurement Engine report, or positive uplift.</p>
+</section>
+<section class="module" id="review" tabindex="-1">
+  <p class="sec-eyebrow" data-step="06">Review</p>
+  <h2>Interpret the evidence and choose the next move</h2>
+  <p class="loop-summary">Compare like with like, review improved and worsened signals, and state the evidence limits. The purpose is a defensible decision—not a requirement to show a positive result.</p>
+  <div class="loop-routes">
+    <div class="loop-route"><h3>Ongoing cohort evaluation</h3><p>Use the same Prompt Library cohort, configuration, and comparable Brand Presence periods. Add relevant claims, URL evidence, referrals, and connected analytics. Evaluate manually when automatic measurement is not supported.</p></div>
+    <div class="loop-route"><h3>Supported experiment evaluation</h3><p>Use the experiment's own prompts, measured URLs, dates, and reported outcomes. IME is documented for eligible Recover Content Visibility work; do not generalize that eligibility or its metrics to every optimization. Confirm current support in your account.</p></div>
+  </div>
+  <dl class="loop-facts">
+    <div class="loop-fact"><dt>Key question</dt><dd>What does the evidence support, and what should we do next?</dd></div>
+    <div class="loop-fact"><dt>Lead</dt><dd>Measurement lead and business owner agree the interpretation.</dd></div>
+    <div class="loop-fact"><dt>Output</dt><dd>A reviewed readout with results, limitations, and a next action, owner, and date.</dd></div>
+  </dl>
+  <div class="loop-decision-grid">
+    <div class="loop-decision"><h3>Scale</h3><p>The agreed criteria are met; repeat or expand with a clearly defined next scope.</p></div>
+    <div class="loop-decision"><h3>Iterate</h3><p>Refine the action or approach while keeping the original comparison identifiable.</p></div>
+    <div class="loop-decision"><h3>Hold</h3><p>Evidence is insufficient; assign the blocker and next review date. Measurement stays open.</p></div>
+    <div class="loop-decision"><h3>Stop</h3><p>Continuing is not justified; record the learning and any correction or rollback.</p></div>
+  </div>
+  <p class="loop-note"><strong>A complete loop connects goal → cohort → baseline → owned work → validated delivery → evidence and a decision.</strong> A deployment or UI status alone is not completion. Cohort movement does not prove one action caused it, and AI-referred conversions are not causal revenue attribution. Add parallel loops only when implementation and review capacity are ready.</p>
+  <p><a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/dashboards/opportunities/opportunity-workspace" target="_blank" rel="noopener">Opportunity Workspace reference</a> · <a href="https://experienceleague.adobe.com/en/docs/brand-visibility/using/resources/impact-measurement-engine" target="_blank" rel="noopener">Impact Measurement Engine reference</a></p>
+</section>
+
+<aside class="knowledge-check" aria-label="Discussion prompts"><h3>Check your understanding</h3><ul><li>What must be agreed before an optimization goes live?</li><li>Which comparison remains valid if a tracked prompt cohort changes?</li><li>Why can an edge deployment still need manual evaluation?</li><li>What makes a next decision defensible when the result is unchanged or inconclusive?</li></ul></aside>
+</main>
+</div>
+<footer class="site-footer">
+  <div class="foot-inner">
+    <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe" width="23" height="22">Adobe&nbsp;<span>Brand Visibility</span></div>
+    <div class="foot-right"><p>Knowledge sharing · Full GEO loop overview</p><p>Confirm supported workflows, entitlement, and measurement scope in your environment.<br>&copy; 2026 Adobe. All rights reserved.</p></div>
+  </div>
+</footer>
+<script>
+(function(){
+  'use strict';
+  var links = Array.from(document.querySelectorAll('.toc-items a'));
+  var sections = links.map(function(link){return document.getElementById(link.hash.slice(1));});
+  var bar = document.getElementById('progressbar');
+  var toc = document.querySelector('.toc');
+  var toggle = document.querySelector('.toc-toggle');
+  var currentLabel = document.getElementById('toc-current-step');
+  var mobile = window.matchMedia('(max-width:980px)');
+  document.documentElement.classList.add('js');
+  var scheduled = false;
+  function setMenu(open){
+    toc.classList.toggle('is-open',open);
+    toggle.setAttribute('aria-expanded',String(open));
+    toggle.setAttribute('aria-label',open ? 'Hide strategy steps' : 'Show strategy steps');
+  }
+  function update(){
+    scheduled = false;
+    var height = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.transform = 'scaleX(' + Math.max(0, Math.min(1, height > 0 ? window.scrollY / height : 0)) + ')';
+    var active = sections[0];
+    var activationLine = mobile.matches ? 104 : 64;
+    sections.forEach(function(section){if(section.getBoundingClientRect().top <= activationLine){active = section;}});
+    if(height > 0 && window.scrollY >= height - 5){active = sections[sections.length - 1];}
+    links.forEach(function(link){
+      var current = link.hash.slice(1) === active.id;
+      link.classList.toggle('active',current);
+      if(current){link.setAttribute('aria-current','location');}else{link.removeAttribute('aria-current');}
+    });
+    var activeLink = links.find(function(link){return link.hash.slice(1) === active.id;});
+    currentLabel.textContent = activeLink.querySelector('.toc-number').textContent + ' \u00b7 ' + activeLink.querySelector('.toc-label').textContent;
+  }
+  function schedule(){
+    if(!scheduled){scheduled = true;window.requestAnimationFrame(update);}
+  }
+  toggle.addEventListener('click',function(){setMenu(toggle.getAttribute('aria-expanded') !== 'true');});
+  toc.addEventListener('keydown',function(event){
+    if(event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true'){
+      setMenu(false);
+      toggle.focus();
+    }
+  });
+  Array.from(document.querySelectorAll('.toc-items a,.map-tile,.skip')).forEach(function(link){
+    link.addEventListener('click',function(){setMenu(false);});
+  });
+  mobile.addEventListener('change',function(){setMenu(false);schedule();});
+  document.getElementById('save-pdf').addEventListener('click',function(){setMenu(false);window.print();});
+  var pageTitle = document.title;
+  window.addEventListener('beforeprint',function(){setMenu(false);document.title = 'ABV full GEO loop - enablement';});
+  window.addEventListener('afterprint',function(){document.title = pageTitle;});
+  window.addEventListener('scroll',schedule,{passive:true});
+  window.addEventListener('resize',schedule);
+  window.addEventListener('load',schedule);
+  update();
+})();
+</script>
+</body>
+</html>

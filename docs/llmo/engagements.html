@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<!-- saved from url=(0070)https://main-%2Deds-test-%2Dlbaoyu.aem.live/docs/llmo/engagements.html -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Adobe Brand Visibility — Accelerator Portfolio</title>
 <style>
   :root{
@@ -28,6 +28,7 @@
     --completed:#0E7490;
     --paid:#B8860B;
     --paid-tint:rgba(184,134,11,.055);
+    --review:#5B5FC7;
 
     --shadow:0 1px 2px rgba(20,20,20,.04), 0 4px 14px rgba(20,20,20,.04);
   }
@@ -217,388 +218,51 @@
     .masthead .meta{ text-align:left; }
     .grid{ grid-template-columns:1fr; }
   }
+
+  .card.s-review::before{background:var(--review)}
+  .badge.s-review{background:rgba(91,95,199,.11);color:var(--review)}
+  .badge.s-review .dot{background:var(--review)}
+  .reconciliation{margin:0 0 18px;padding:12px 14px;border-left:3px solid var(--red);border-radius:0 9px 9px 0;background:var(--surface);color:var(--text-2);font-size:13px;line-height:1.5}
+  .reconciliation strong{color:var(--text)}
+  .ai-note{background:#F4F4F2;border-bottom:1px solid #E4E4E0;color:#8B8B84;font-size:12px;text-align:center;padding:8px 16px}
+  .ai-note strong{color:#57574F}
+  .chip.all[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
 </style>
 </head>
-<body cz-shortcut-listen="true">
+<body>
+<div class="ai-note"><strong>Prepared with AI assistance.</strong> Please review for accuracy before use &mdash; this document may contain errors.</div>
 <div class="wrap">
-
   <div class="masthead">
-    <div>
-      <div class="eyebrow">
-        <span class="adobe">Adobe</span><span class="bar"></span>
-        <span class="product">Adobe Brand Visibility</span>
-      </div>
-      <h1>Accelerator Portfolio</h1>
-    </div>
-    <div class="meta">
-      As of <strong>31 Aug 2026</strong><br>
-      Owner <a href="mailto:lbaoyu@adobe.com">lbaoyu@adobe.com</a>
-    </div>
+    <div><div class="eyebrow"><span class="adobe">Adobe</span><span class="bar"></span><span class="product">Adobe Brand Visibility</span></div><h1>Accelerator Portfolio</h1></div>
+    <div class="meta">As of <strong>20 Oct 2026</strong><br>Owner <a href="mailto:lbaoyu@adobe.com">lbaoyu@adobe.com</a></div>
   </div>
-
   <div class="kpis" id="kpis"></div>
-
-  <div class="pipeline">
-    <div class="pipeline-top">
-      <h2>Pipeline by stage</h2>
-      <span class="hint">Click a segment to filter</span>
-    </div>
-    <div class="track" id="track" role="group" aria-label="Pipeline by stage"></div>
-  </div>
-
-  <div class="controls">
-    <div class="search-wrap">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B8B84" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <input id="search" type="search" placeholder="Search customer…" aria-label="Search customer name">
-    </div>
-    <div class="chips" id="chips" role="group" aria-label="Filter by stage"></div>
-    <button class="chip paid-toggle" id="paidToggle" type="button" aria-pressed="false"><span class="star">✓</span> Converted</button>
-    <button class="reset-btn" id="reset" type="button" hidden="">Clear</button>
-  </div>
-
-  <p id="live" class="sr-only" aria-live="polite">Showing 25 of 25 customers</p>
-
-  <main id="main"></main>
-
-  <footer><span class="src">Source: Adobe Workfront — AIREADINESS accelerator tasks</span></footer>
-
+  <div class="pipeline"><div class="pipeline-top"><h2>Pipeline by stage</h2><span class="hint">Click a segment to filter</span></div><div class="track" id="track" role="group" aria-label="Pipeline by stage"></div></div>
+  <p class="reconciliation"><strong>Source reconciliation:</strong> detailed records list 30 customers (5 Greater China, 16 South East Asia, 2 India, and 7 ANZ), while the supplied summary reports 29 and 17 in South East Asia. Calculated from the detailed records: 13 live engagements, 7 CPL, and 5 stalled / at risk; the supplied stage summary reports 14, 4, and 5, respectively. Dashboard totals use the detailed records.</p>
+  <div class="controls"><div class="search-wrap"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8B8B84" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg><input id="search" type="search" placeholder="Search customer…" aria-label="Search customer name"></div><div class="chips" id="chips" role="group" aria-label="Filter by stage"></div><button class="chip paid-toggle" id="paidToggle" type="button" aria-pressed="false"><span class="star">✓</span> Converted</button><button class="reset-btn" id="reset" type="button" hidden>Clear</button></div>
+  <p id="live" class="sr-only" aria-live="polite"></p><main id="main"></main>
+  <footer>Adobe Brand Visibility · Accelerator Portfolio · <span class="src">As of 20 Oct 2026</span></footer>
 </div>
-
 <script>
 (function(){
-  "use strict";
-
-  var WF = "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/";
-
-  var ORDER = ["completed","cpl-active","active","cpl","cpl-can","on-hold","can","none"];
-  var META = {
-    "completed":{ label:"Completed" },
-    "cpl-active":{ label:"CPL + Active" },
-    "active":{ label:"Active" },
-    "cpl":{ label:"CPL" },
-    "cpl-can":{ label:"CPL + Cancelled" },
-    "on-hold":{ label:"On Hold" },
-    "can":{ label:"Cancelled" },
-    "none":{ label:"Not started" }
-  };
-
-  var REGIONS = [
-    { name:"Greater China", customers:[
-      { name:"Hong Kong Tourism Board (HKTB)", status:"completed", paid:true, tasks:[
-        {t:"#AIREADINESS - LLM O- Workshop - 03-16-2026", id:"697734f70186e709230528c87f63e951"},
-        {t:"#AIREADINESS - LLMO Deskside coaching and Pilot launch - 05-31-2026", id:"69e1a18500d1ef231714503408c8628e"}
-      ]},
-      { name:"Cathay United Bank", status:"cpl-active", tasks:[
-        {t:"#AIREADINESS - #BNA CUB - Deskside Coaching on LLMO Trial - 11-16-2025", id:"691af3e804d20383dc9ac8e80812d08a"},
-        {t:"#AIReadiness CUB - Adoption of AI Agents in AEM and CJA - 03-23-2026", id:"69a94a590171718ca87ebfda70dc44e6"},
-        {t:"#AIREADINESS - CUB LLMO pilot support - 09-14-2026", id:"6a0a7dd00489ccf3f020cdd36b8efba1"}
-      ]},
-      { name:"ASUS", status:"completed", paid:true, tasks:[
-        {t:"#AIREADINESS - LLM Optimizer Trail Enablement - ASUS.com", id:"69a04f0601150b44632e7f3cd4ff4218"},
-        {t:"#AIREADINESS - asus.com LLMO Trial Support - 08-17-2026", id:"69f94468020ed60e752fc5defcea918e"},
-        {t:"#AIREADINESS - CTO: LLMO Trial Support - 08-17-2026", id:"69f94446020e86b83240eb2162f49b7a"}
-      ]},
-      { name:"Chow Tai Fook Jewellery", status:"completed", paid:true, tasks:[
-        {t:"#AIREADINESS - CTF LLMO Trial Support - 07-05-2026", id:"6a22733d0162243d6e10598fada961cf"}
-      ]},
-      { name:"AIA", status:"active", tasks:[
-        {t:"LLMO Trial and Kick-off Guidance", id:"69d5f73d008f85da54ea51544c99b798"}
-      ] }
-    ]},
-    { name:"South East Asia", customers:[
-      { name:"Standard Chartered", status:"cpl-can", tasks:[
-        {t:"#AIREADINESS AEM AI Demo & QnA - Copy Generation and Smart Tagging - 08-03-2025", id:"687e3ef50028fc4bf85dd7101259b7f4"},
-        {t:"#AIREADINESS - SCB LLMO Session - 09-13-2026", id:"69f97c870282678c83de83c53444e32b"}
-      ]},
-      { name:"United Overseas Bank (UOB)", status:"cpl-active", tasks:[
-        {t:"#AIREADINESS - LLMO onboarding and training - 03-22-2026", id:"69bbd1a601d8f31315c773b9b20d215c"},
-        {t:"#AIREADINESS - UOB LLMO Pilot program - 04-30-2026", id:"69e9a6b80048fd6e3e0898229d3814ba"}
-      ]},
-      { name:"Philippine Airlines", status:"cpl-active", tasks:[
-        {t:"#AIREADINESS - LLMO Introduction and feature walkthrough - 12-03-2025", id:"692969e000b5ebf50ed914df0e5b8334"},
-        {t:"#AIREADINESS - LLMO Introduction and feature walkthrough - 03-08-2026", id:"696f28ba118fdd6bfc8b4326d0372a60"},
-        {t:"#AIREADINESS - LLMO onboarding and training - 03-29-2026", id:"69bbcadb01c55b2237271868dc48cd55"},
-        {t:"#AIREADINESS - PAL LLMO Pilot program - 04-30-2026", id:"69e9a3360024c8cc0b39bde685a2b689"}
-      ]},
-      { name:"Malaysia Aviation Group", status:"cpl", tasks:[
-        {t:"#AIREADINESS - LLM Optimizer runthrough - 11-18-2025", id:"691d4cfa013d3cd9238ff4d25ca7c713"}
-      ]},
-      { name:"KrisShop", status:"cpl-active", tasks:[
-        {t:"#AIREADINESS - LLMO Introduction mentoring session - 11-11-2025", id:"690b1ac101d975f39482ecab43b15374"},
-        {t:"#AIREADINESS - Enablement and knowledge to utilization LLMO - 05-25-2026", id:"69df3df00538e23a5905d442b6f7e4bb"}
-      ]},
-      { name:"Bank of Thailand (BOT)", status:"cpl", tasks:[
-        {t:"#AIREADINESS - [BOT] LLMO Mentor Session - 01-06-2026", id:"695df72400f5a716a1cc39e907636582"}
-      ]},
-      { name:"Kasikornbank (KBank)", status:"cpl-active", tasks:[
-        {t:"#AIREADINESS - [KBank] Deskside Coaching for LLMO - 05-11-2026", id:"69cfaaa10002bc82e6459b822087c1be"},
-        {t:"#AIREADINESS - [KBank] LLMO Pilot - 06-28-2026", id:"69e9d0ea06dac69e3821caa2706f49e0"}
-      ]},
-      { name:"Techcombank", status:"cpl-active", tasks:[
-        {t:"#AIREADINESS - LLMO deskside coaching - 01-04-2026", id:"695b88ac068940fc6e08b11137e57f1f"},
-        {t:"#AIREADINESS - TCB LLMO Deskside Coaching - 06-29-2026", id:"6a27686800a54ff1dbdcfaebdb351af5"}
-      ]},
-      { name:"BDO Unibank", status:"cpl-active", tasks:[
-        {t:"#AIREADINESS - LLMO workshop and handholding - 03-29-2026", id:"69bbd18a01d8beaf3df06f0969978e47"},
-        {t:"#AIREADINESS - BDO LLMO Pilot program - 04-30-2026", id:"69e9a02e0033b898e0270917d820ce75"}
-      ]},
-      { name:"Bank of the Philippine Islands", status:"cpl", tasks:[
-        {t:"#AIREADINESS - [BPI] AEM Deskside Coaching for LLMO - 04-13-2026", id:"69a94a8601719e2e01dfc866987288b7"}
-      ]},
-      { name:"Central Provident Fund Board", status:"cpl-active", tasks:[
-        {t:"#AIREADINESS - Guide Customer on LLM Optimiser - 01-05-2026", id:"6949369d001d6798a9106d2e3cd9b798"},
-        {t:"#AIREADINESS - LLMO POC Support Request - 07-12-2026", id:"69eaedb0001f3c644fb9286867109582"}
-      ]},
-      { name:"Changi Airport", status:"can", tasks:[
-        {t:"#AIREADINESS - [CAG] LLM Optimizer Enablement - 11-30-2025", id:"691d57d00159f0249f30059aa94fca04"}
-      ]},
-      { name:"Resorts World at Sentosa (RWS)", status:"cpl", tasks:[
-        {t:"#AIREADINESS - LLMO Overview Walkthrough - 10-11-2026", id:"6a3cb14a00fcc243c52c7846e398b958"},
-        {t:"#AIREADINESS - LLMO - Deskside Coaching - GentingSingapore.com - 07-26-2026", id:"69f061770183ffe4fb2732a7946deb4c"}
-      ]},
-      { name:"Singapore Tourism Board (STB)", status:"active", tasks:[
-        {t:"#AIREADINESS - Government of Singapore - DC - Sites", id:"6a505c8400ceff3c8cea40e9182498ae"}
-      ]},
-      { name:"National Heritage Board (NHB)", status:"active", tasks:[
-        {t:"#AIREADINESS - Heritage Singapore - LLMO POC for SG Night Festival - 07-13-2026", id:"6a0715e9002b3248610797f207aeb1a0"},
-        {t:"#AIREADINESS - DC - Brand Concierge", id:"6a4469ca00a91df212b4d43083499c2d"}
-      ]},
-      { name:"Vietnam Airlines", status:"active", tasks:[
-        {t:"#AIREADINESS - Vietnam Airlines - DC - Sites", id:"6a4c530900a8b21ff7559e984c82de13"}
-      ]}
-    ]},
-    { name:"India", customers:[
-      { name:"HDFC Bank", status:"on-hold", tasks:[
-        {t:"#AIREADINESS - LLMO Enablement session for HDFC Bank PWS website - 05-10-2026", id:"69cb95a300415347c84c0aba7e6ea735"}
-      ]}
-    ]},
-    { name:"ANZ", customers:[
-      { name:"Woolworths", status:"cpl", tasks:[
-        {t:"#AIREADINESS - Woolworths - LLM optimizer (Enablement and value realization - 12-09-2025)", id:"692ff973014c72e38d07a4bf02809075"}
-      ]},
-      { name:"The Lottery Corporation (TLC)", status:"on-hold", tasks:[
-        {t:"#AIREADINESS - LLMO Use Case - 08-16-2026", id:"69f41a580128b6513095cf882a7df471"}
-      ]},
-      { name:"National Broadband Network (NBN)", status:"active", tasks:[
-        {t:"#AIREADINESS - NBN - LLMO Trial Adoption - CoWorking Pilot - 09-13-2026", id:"6a0a9d750017a3269634dbd5893270c9"}
-      ]}
-    ]}
-  ];
-
-  var TOTAL = REGIONS.reduce(function(n,r){ return n + r.customers.length; }, 0);
-
-  var state = { query:"", statuses:new Set(), paidOnly:false };
-
-  function h(tag, attrs, kids){
-    var e = document.createElement(tag);
-    attrs = attrs || {};
-    for (var k in attrs){
-      var v = attrs[k];
-      if (v == null) continue;
-      if (k === "class") e.className = v;
-      else if (k.indexOf("on") === 0 && typeof v === "function") e.addEventListener(k.slice(2), v);
-      else e.setAttribute(k, v);
-    }
-    (kids||[]).forEach(function(c){
-      if (c == null) return;
-      e.appendChild(c.nodeType ? c : document.createTextNode(String(c)));
-    });
-    return e;
-  }
-
-  function counts(){
-    var out = {};
-    ORDER.forEach(function(k){ out[k]=0; });
-    REGIONS.forEach(function(r){ r.customers.forEach(function(c){ out[c.status]++; }); });
-    return out;
-  }
-
-  function paidCount(){
-    var n = 0;
-    REGIONS.forEach(function(r){ r.customers.forEach(function(c){ if (c.paid) n++; }); });
-    return n;
-  }
-
-  function stripPrefix(t){ return t.replace(/^#AIREADINESS\s*-?\s*/i, ""); }
-  function slug(s){ return s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/(^-|-$)/g,""); }
-
-  function match(c){
-    if (state.statuses.size && !state.statuses.has(c.status)) return false;
-    if (state.paidOnly && !c.paid) return false;
-    if (state.query && c.name.toLowerCase().indexOf(state.query) === -1) return false;
-    return true;
-  }
-
-  function toggle(key){
-    if (state.statuses.has(key)) state.statuses.delete(key);
-    else state.statuses.add(key);
-    render();
-  }
-  function clearAll(){
-    state.query = ""; state.statuses.clear(); state.paidOnly = false;
-    var s = document.getElementById("search"); if (s) s.value = "";
-    render();
-  }
-
-  function renderKpis(){
-    var c = counts();
-    var live = c["cpl-active"] + c["active"];
-    var pipeline = c["cpl"];
-    var risk = c["on-hold"] + c["can"] + c["none"];
-    var tiles = [
-      { cls:"", val:TOTAL, lbl:"Customers", sub:REGIONS.length + " regions" },
-      { cls:"k-live", val:live, lbl:"Live engagements", sub:"CPL+Active & Active" },
-      { cls:"k-pipeline", val:pipeline, lbl:"In pipeline", sub:"CPL, not yet active" },
-      { cls:"k-risk", val:risk, lbl:"Stalled / at risk", sub:"On hold, cancelled, not started" },
-      { cls:"k-paid", val:paidCount(), lbl:"Converted", sub:"To paid engagement" }
-    ];
-    var el = document.getElementById("kpis");
-    el.innerHTML = "";
-    tiles.forEach(function(t){
-      el.appendChild(h("div", { class:"kpi " + t.cls }, [
-        h("div", { class:"val" }, [String(t.val)]),
-        h("div", { class:"lbl" }, [t.lbl]),
-        h("div", { class:"sub" }, [t.sub])
-      ]));
-    });
-  }
-
-  function renderTrack(){
-    var c = counts();
-    var track = document.getElementById("track");
-    track.innerHTML = "";
-    var sel = state.statuses.size > 0;
-    ORDER.forEach(function(key){
-      var n = c[key]; if (!n) return;
-      var pct = (n / TOTAL) * 100;
-      var dim = sel && !state.statuses.has(key);
-      track.appendChild(h("button", {
-        type:"button",
-        class:"seg" + (dim ? " dimmed" : ""),
-        style:"width:" + pct + "%;background:var(--" + key + ")",
-        title:META[key].label + ": " + n + " (" + Math.round(pct) + "%)",
-        "aria-label":META[key].label + ", " + n + " customers",
-        "aria-pressed": state.statuses.has(key) ? "true" : "false",
-        onclick:function(){ toggle(key); }
-      }, []));
-    });
-  }
-
-  function renderChips(){
-    var c = counts();
-    var el = document.getElementById("chips");
-    el.innerHTML = "";
-    el.appendChild(h("button", {
-      type:"button", class:"chip all",
-      "aria-pressed": state.statuses.size === 0 ? "true" : "false",
-      onclick: clearAll
-    }, ["All " + TOTAL]));
-    ORDER.forEach(function(key){
-      var n = c[key]; if (!n) return;
-      el.appendChild(h("button", {
-        type:"button", class:"chip",
-        "aria-pressed": state.statuses.has(key) ? "true" : "false",
-        onclick:function(){ toggle(key); }
-      }, [
-        h("span", { class:"dot", style:"background:var(--" + key + ")" }, []),
-        META[key].label + " " + n
-      ]));
-    });
-  }
-
-  function badge(status){
-    return h("span", { class:"badge s-" + status }, [
-      h("span", { class:"dot" }, []),
-      META[status].label
-    ]);
-  }
-
-  function taskBlock(c){
-    if (!c.tasks.length){
-      return h("span", { class:"lead" }, ["No accelerators logged"]);
-    }
-    var n = c.tasks.length;
-    return h("div", { class:"tasks" }, [
-      h("div", { class:"tasks-label" }, [ n + " accelerator" + (n===1?"":"s") ]),
-      h("ul", {}, c.tasks.map(function(task){
-        return h("li", {}, [
-          h("span", { class:"marker" }, ["↳"]),
-          h("a", { href: WF + task.id + "/", target:"_blank", rel:"noopener" }, [stripPrefix(task.t)])
-        ]);
-      }))
-    ]);
-  }
-
-  function render(){
-    renderKpis();
-    renderTrack();
-    renderChips();
-
-    var main = document.getElementById("main");
-    main.innerHTML = "";
-    var shown = 0;
-
-    REGIONS.forEach(function(region){
-      var list = region.customers.filter(match);
-      if (!list.length) return;
-      shown += list.length;
-
-      var label = list.length === region.customers.length
-        ? list.length + " customer" + (list.length===1?"":"s")
-        : list.length + " of " + region.customers.length;
-
-      var grid = h("div", { class:"grid" }, list.map(function(c){
-        return h("div", { class:"card s-" + c.status + (c.paid ? " is-paid" : "") + (c.tasks.length ? "" : " no-tasks") }, [
-          h("div", { class:"card-top" }, [
-            h("div", { class:"name-row" }, [
-              h("span", { class:"card-name" }, [c.name]),
-              c.paid ? h("span", { class:"paid-badge" }, [ h("span", { class:"star" }, ["✓"]), "Converted" ]) : null
-            ]),
-            badge(c.status)
-          ]),
-          h("div", { class:"card-foot" }, [ taskBlock(c) ])
-        ]);
-      }));
-
-      main.appendChild(h("section", { class:"region", id:slug(region.name) }, [
-        h("div", { class:"region-head" }, [
-          h("h2", {}, [region.name]),
-          h("span", { class:"count" }, [label])
-        ]),
-        grid
-      ]));
-    });
-
-    if (!shown){
-      main.appendChild(h("div", { class:"grid" }, [
-        h("div", { class:"empty" }, [
-          h("strong", {}, ["No customers match"]),
-          "Adjust your search or clear the active filters.",
-          h("button", { type:"button", onclick: clearAll }, ["Clear filters"])
-        ])
-      ]));
-    }
-
-    var pt = document.getElementById("paidToggle");
-    pt.setAttribute("aria-pressed", state.paidOnly ? "true" : "false");
-
-    document.getElementById("live").textContent = "Showing " + shown + " of " + TOTAL + " customers";
-    document.getElementById("reset").hidden = !(state.query || state.statuses.size || state.paidOnly);
-  }
-
-  document.getElementById("search").addEventListener("input", function(e){
-    state.query = e.target.value.trim().toLowerCase();
-    render();
-  });
-  document.getElementById("paidToggle").addEventListener("click", function(){
-    state.paidOnly = !state.paidOnly;
-    render();
-  });
-  document.getElementById("reset").addEventListener("click", clearAll);
-
-  render();
+  var REGIONS=[{"name": "Greater China", "customers": [{"name": "Hong Kong Tourism Board (HKTB)", "status": "completed", "paid": true, "tasks": [{"t": "#AIREADINESS - LLM O- Workshop - 03-16-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/697734f70186e709230528c87f63e951"}, {"t": "#AIREADINESS - LLMO Deskside Coaching and Pilot Launch - 05-31-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69e1a18500d1ef231714503408c8628e"}]}, {"name": "AIA Group (American International Assurance Korea)", "status": "active", "paid": false, "tasks": [{"t": "#AIREADINESS - AIA Group - LLMO Trial and Kick-off Guidance - 04-10-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69d5f73d008f85da54ea51544c99b798"}]}, {"name": "Cathay United Bank (CUB)", "status": "cpl-active", "paid": false, "tasks": [{"t": "#AIREADINESS - #BNA CUB - Deskside Coaching on LLMO Trial - 11-16-2025", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/691af3e804d20383dc9ac8e80812d08a"}, {"t": "#AIReadiness CUB - Adoption of AI Agents in AEM and CJA - 03-23-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69a94a590171718ca87ebfda70dc44e6"}, {"t": "#AIREADINESS - CUB LLMO Pilot Support - 09-14-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6a0a7dd00489ccf3f020cdd36b8efba1"}]}, {"name": "ASUS", "status": "completed", "paid": true, "tasks": [{"t": "#AIREADINESS - LLM Optimizer Trail Enablement - ASUS.com", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69a04f0601150b44632e7f3cd4ff4218"}, {"t": "#AIREADINESS - asus.com LLMO Trial Support - 08-17-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69f94468020ed60e752fc5defcea918e"}, {"t": "#AIREADINESS - CTO: LLMO Trial Support - 08-17-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69f94446020e86b83240eb2162f49b7a"}]}, {"name": "Chow Tai Fook Jewellery (CTF)", "status": "completed", "paid": true, "tasks": [{"t": "#AIREADINESS - CTF LLMO Trial Support - 07-05-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6a22733d0162243d6e10598fada961cf"}]}]}, {"name": "South East Asia", "customers": [{"name": "United Overseas Bank (UOB)", "status": "cpl-active", "paid": false, "tasks": [{"t": "#AIREADINESS - LLMO Onboarding and Training - 03-22-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69bbd1a601d8f31315c773b9b20d215c"}, {"t": "#AIREADINESS - UOB LLMO Pilot Program - 04-30-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69e9a6b80048fd6e3e0898229d3814ba"}]}, {"name": "Philippine Airlines (PAL)", "status": "cpl-active", "paid": false, "tasks": [{"t": "#AIREADINESS - LLMO Introduction and Feature Walkthrough - 12-03-2025", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/692969e000b5ebf50ed914df0e5b8334"}, {"t": "#AIREADINESS - LLMO Introduction and Feature Walkthrough - 03-08-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/696f28ba118fdd6bfc8b4326d0372a60"}, {"t": "#AIREADINESS - LLMO Onboarding and Training - 03-29-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69bbcadb01c55b2237271868dc48cd55"}, {"t": "#AIREADINESS - PAL LLMO Pilot Program - 04-30-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69e9a3360024c8cc0b39bde685a2b689"}]}, {"name": "BDO Unibank", "status": "cpl-active", "paid": false, "tasks": [{"t": "#AIREADINESS - LLMO Workshop and Handholding - 03-29-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69bbd18a01d8beaf3df06f0969978e47"}, {"t": "#AIREADINESS - BDO LLMO Pilot Program - 04-30-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69e9a02e0033b898e0270917d820ce75"}]}, {"name": "Bank of the Philippine Islands (BPI)", "status": "cpl-active", "paid": false, "tasks": [{"t": "#AIREADINESS - [BPI] AEM Deskside Coaching for LLMO - 04-13-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69a94a8601719e2e01dfc866987288b7"}, {"t": "#AIREADINESS - BPI ABV Trial - Ayala - DC - Sites - 09-14-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6aa748ac05ce41065a3df528351601ad"}]}, {"name": "Techcombank", "status": "cpl-active", "paid": false, "tasks": [{"t": "#AIREADINESS - LLMO Deskside Coaching - 01-04-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/695b88ac068940fc6e08b11137e57f1f"}, {"t": "#AIREADINESS - TCB LLMO Deskside Coaching - 06-29-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6a27686800a54ff1dbdcfaebdb351af5"}, {"t": "#AIREADINESS - ABV Techcombank - DC - Sites - 09-30-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6abcb46201130145d3120e0a32dd21c1"}]}, {"name": "KrisShop", "status": "cpl", "paid": false, "tasks": [{"t": "#AIREADINESS - LLMO Introduction Mentoring Session - 11-11-2025", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/690b1ac101d975f39482ecab43b15374"}, {"t": "#AIREADINESS - Enablement and Knowledge to Utilization LLMO - 05-25-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69df3df00538e23a5905d442b6f7e4bb"}]}, {"name": "Standard Chartered (SCB)", "status": "cpl-can", "paid": false, "tasks": [{"t": "#AIREADINESS - SCB LLMO Session - 09-13-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69f97c870282678c83de83c53444e32b"}]}, {"name": "Malaysia Aviation Group (MAG)", "status": "cpl", "paid": false, "tasks": [{"t": "#AIREADINESS - LLM Optimizer Runthrough - 11-18-2025", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/691d4cfa013d3cd9238ff4d25ca7c713"}]}, {"name": "Bank of Thailand (BOT)", "status": "cpl", "paid": false, "tasks": [{"t": "#AIREADINESS - [BOT] LLMO Mentor Session - 01-06-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/695df72400f5a716a1cc39e907636582"}]}, {"name": "Kasikornbank (KBank)", "status": "cpl", "paid": false, "tasks": [{"t": "#AIREADINESS - [KBank] Deskside Coaching for LLMO - 05-11-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69cfaaa10002bc82e6459b822087c1be"}, {"t": "#AIREADINESS - [KBank] LLMO Pilot - 06-28-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69e9d0ea06dac69e3821caa2706f49e0"}]}, {"name": "Central Provident Fund Board (CPF)", "status": "completed", "paid": true, "tasks": [{"t": "#AIREADINESS - Guide Customer on LLM Optimiser - 01-05-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6949369d001d6798a9106d2e3cd9b798"}, {"t": "#AIREADINESS - LLMO POC Support Request - 07-12-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69eaedb0001f3c644fb9286867109582"}]}, {"name": "Changi Airport (CAG)", "status": "can", "paid": false, "tasks": [{"t": "#AIREADINESS - [CAG] LLM Optimizer Enablement - 11-30-2025", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/691d57d00159f0249f30059aa94fca04"}]}, {"name": "Resorts World at Sentosa (RWS)", "status": "cpl", "paid": false, "tasks": [{"t": "#AIREADINESS - LLMO - Deskside Coaching - GentingSingapore.com - 07-26-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69f061770183ffe4fb2732a7946deb4c"}, {"t": "#AIREADINESS - LLMO Overview Walkthrough - 10-11-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6a3cb14a00fcc243c52c7846e398b958"}]}, {"name": "Singapore Tourism Board (STB)", "status": "active", "paid": false, "tasks": [{"t": "#AIREADINESS - Government of Singapore - DC - Sites - 08-31-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6a505c8400ceff3c8cea40e9182498ae"}]}, {"name": "National Heritage Board (NHB)", "status": "cpl-active", "paid": false, "tasks": [{"t": "#AIREADINESS - Heritage Singapore - LLMO POC for SG Night Festival - 07-13-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6a0715e9002b3248610797f207aeb1a0"}]}, {"name": "Vietnam Airlines", "status": "cpl", "paid": false, "tasks": [{"t": "#AIREADINESS - Vietnam Airlines - DC - Sites - 08-31-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6a4c530900a8b21ff7559e984c82de13"}]}]}, {"name": "India", "customers": [{"name": "HDFC Bank", "status": "active", "paid": false, "tasks": [{"t": "#AIREADINESS - LLMO Enablement Session for HDFC Bank PWS Website - 05-10-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/69cb95a300415347c84c0aba7e6ea735"}]}, {"name": "Bajaj Finance", "status": "review", "paid": false, "tasks": [{"t": "#AIREADINESS - Bajaj Finance AI Visibility Strategy \u0026 ABV Deep-Dive Engagement - 10-12-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6ac5d0c701442caf02017d800800c86f"}]}]}, {"name": "ANZ", "customers": [{"name": "Woolworths", "status": "cpl", "paid": false, "tasks": [{"t": "#AIREADINESS - Woolworths LLM Optimizer Enablement and Value Realization - 12-09-2025", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/692ff973014c72e38d07a4bf02809075"}, {"t": "#AIREADINESS - [AI] LLMO Onboarding Setup \u0026 Enablement - 03-08-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/695cc51801610681b0c18db06bd61711"}]}, {"name": "Australia Post", "status": "active", "paid": false, "tasks": [{"t": "#AIREADINESS - Government of Australia - AAGR - Sites - 09-22-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6ab0836a06394411d3327e8cc5bdd331"}]}, {"name": "AGL Energy", "status": "active", "paid": false, "tasks": [{"t": "#AIREADINESS - ABV Support for AGL - Sites - SCSM - 10-05-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6ab6656900279807c05e5edcfdfacbbc"}]}, {"name": "RACQ Operations", "status": "cpl-active", "paid": false, "tasks": [{"t": "RACQ - VMF - BRC (ABV Value Measurement)", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6abca3fa0013632899b9662684344c40"}]}, {"name": "Spark Telecom", "status": "on-hold", "paid": false, "tasks": [{"t": "#AIREADINESS - ABV - Spark Telecom - DC - Sites - 10-26-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6a966bf6017c67a9cd9562798d80e7f0"}]}, {"name": "Qantas", "status": "on-hold", "paid": false, "tasks": [{"t": "Qantas - SOR - Sites (ABV) - 09-01-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6a7419160159fc7d6a8f81747ca27925"}]}, {"name": "National Broadband Network (NBN)", "status": "can", "paid": false, "tasks": [{"t": "#AIREADINESS - NBN - LLMO Trial Adoption - CoWorking Pilot - 09-13-2026", "url": "https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/6a0a9d750017a3269634dbd5893270c9"}]}]}], WF='https://experience.adobe.com/#/@wfadoberm/so:adoberm-Production/workfront/task/';
+  var ORDER=['completed','cpl-active','active','cpl','cpl-can','on-hold','can','review'];
+  var META={completed:{label:'Converted',color:'--completed'},'cpl-active':{label:'CPL + Active',color:'--cpl-active'},active:{label:'Active',color:'--active'},cpl:{label:'CPL',color:'--cpl'},'cpl-can':{label:'CPL + Cancelled',color:'--cpl-can'},'on-hold':{label:'On Hold',color:'--on-hold'},can:{label:'Cancelled',color:'--can'},review:{label:'In Review',color:'--review'}};
+  var TOTAL=REGIONS.reduce(function(n,r){return n+r.customers.length;},0),state={query:'',statuses:new Set(),paidOnly:false};
+  function h(tag,attrs,kids){var e=document.createElement(tag);attrs=attrs||{};for(var k in attrs){var v=attrs[k];if(v==null)continue;if(k==='class')e.className=v;else if(k.indexOf('on')===0&&typeof v==='function')e.addEventListener(k.slice(2),v);else e.setAttribute(k,v);} (kids||[]).forEach(function(c){if(c==null)return;e.appendChild(c.nodeType?c:document.createTextNode(String(c)));});return e;}
+  function counts(){var out={};ORDER.forEach(function(k){out[k]=0;});REGIONS.forEach(function(r){r.customers.forEach(function(c){out[c.status]++;});});return out;}
+  function paidCount(){var n=0;REGIONS.forEach(function(r){r.customers.forEach(function(c){if(c.paid)n++;});});return n;}
+  function stripPrefix(t){return t.replace(/^#AIREADINESS\s*-?\s*/i,'');}
+  function match(c){return (!state.statuses.size||state.statuses.has(c.status))&&(!state.paidOnly||c.paid)&&(!state.query||c.name.toLowerCase().indexOf(state.query)!==-1);}
+  function toggle(key){if(state.statuses.has(key))state.statuses.delete(key);else state.statuses.add(key);render();}
+  function clearAll(){state.query='';state.statuses.clear();state.paidOnly=false;var s=document.getElementById('search');if(s)s.value='';render();}
+  function renderKpis(){var c=counts(),live=c['cpl-active']+c.active,risk=c['cpl-can']+c['on-hold']+c.can;var tiles=[{cls:'',val:TOTAL,lbl:'Customers',sub:REGIONS.length+' regions'},{cls:'k-live',val:live,lbl:'Live engagements',sub:'CPL + Active & Active'},{cls:'k-pipeline',val:c.cpl,lbl:'In pipeline',sub:'CPL, not yet active'},{cls:'k-risk',val:risk,lbl:'Stalled / at risk',sub:'On hold or cancelled'},{cls:'k-paid',val:paidCount(),lbl:'Converted',sub:'To paid engagement'}];var el=document.getElementById('kpis');el.textContent='';tiles.forEach(function(t){el.appendChild(h('div',{class:'kpi '+t.cls},[h('div',{class:'val'},[t.val]),h('div',{class:'lbl'},[t.lbl]),h('div',{class:'sub'},[t.sub])]));});}
+  function renderTrack(){var c=counts(),track=document.getElementById('track');track.textContent='';var selected=state.statuses.size>0;ORDER.forEach(function(key){var n=c[key];if(!n)return;var pct=n/TOTAL*100;track.appendChild(h('button',{type:'button',class:'seg'+(selected&&!state.statuses.has(key)?' dimmed':''),style:'width:'+pct+'%;background:var('+META[key].color+')',title:META[key].label+': '+n+' ('+Math.round(pct)+'%)','aria-label':META[key].label+', '+n+' customers','aria-pressed':state.statuses.has(key)?'true':'false',onclick:function(){toggle(key);}},[]));});}
+  function renderChips(){var c=counts(),el=document.getElementById('chips');el.textContent='';el.appendChild(h('button',{type:'button',class:'chip all','aria-pressed':state.statuses.size===0?'true':'false',onclick:function(){state.statuses.clear();render();}},['All '+TOTAL]));ORDER.forEach(function(key){if(!c[key])return;el.appendChild(h('button',{type:'button',class:'chip','aria-pressed':state.statuses.has(key)?'true':'false',onclick:function(){toggle(key);}},[h('span',{class:'dot',style:'background:var('+META[key].color+')'},[]),META[key].label+' '+c[key]]));});}
+  function badge(status){return h('span',{class:'badge s-'+status},[h('span',{class:'dot'},[]),META[status].label]);}
+  function render(){renderKpis();renderTrack();renderChips();var main=document.getElementById('main');main.textContent='';var shown=0;REGIONS.forEach(function(region){var list=region.customers.filter(match);if(!list.length)return;shown+=list.length;var grid=h('div',{class:'grid'},list.map(function(c){return h('div',{class:'card s-'+c.status+(c.paid?' is-paid':'')},[h('div',{class:'card-top'},[h('div',{class:'name-row'},[h('span',{class:'card-name'},[c.name]),c.paid?h('span',{class:'paid-badge'},[h('span',{class:'star'},['✓']),'Converted']):null]),badge(c.status)]),h('div',{class:'card-foot'},[h('div',{class:'tasks'},[h('div',{class:'tasks-label'},[c.tasks.length+' accelerator'+(c.tasks.length===1?'':'s')]),h('ul',{},c.tasks.map(function(task){return h('li',{},[h('span',{class:'marker'},['↳']),h('a',{href:task.url,target:'_blank',rel:'noopener'},[stripPrefix(task.t)])]);}))])])]);}));main.appendChild(h('section',{class:'region',id:region.name.toLowerCase().replace(/[^a-z0-9]+/g,'-')},[h('div',{class:'region-head'},[h('h2',{},[region.name]),h('span',{class:'count'},[list.length===region.customers.length?list.length+' customer'+(list.length===1?'':'s'):list.length+' of '+region.customers.length])]),grid]));});if(!shown)main.appendChild(h('div',{class:'grid'},[h('div',{class:'empty'},[h('strong',{},['No customers match']),'Adjust your search or clear the active filters.',h('button',{type:'button',onclick:clearAll},['Clear filters'])])]));document.getElementById('paidToggle').setAttribute('aria-pressed',state.paidOnly?'true':'false');document.getElementById('live').textContent='Showing '+shown+' of '+TOTAL+' customers';document.getElementById('reset').hidden=!(state.query||state.statuses.size||state.paidOnly);}
+  document.getElementById('search').addEventListener('input',function(e){state.query=e.target.value.trim().toLowerCase();render();});document.getElementById('paidToggle').addEventListener('click',function(){state.paidOnly=!state.paidOnly;render();});document.getElementById('reset').addEventListener('click',clearAll);render();
 })();
 </script>
-
-
-</body></html>
+</body>
+</html>

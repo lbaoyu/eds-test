@@ -76,12 +76,13 @@
   .kpi.k-pipeline::before{ background:var(--cpl); }
   .kpi.k-risk::before{ background:var(--can); }
   .kpi.k-paid{
-    background:linear-gradient(180deg, rgba(184,134,11,.10) 0%, rgba(184,134,11,.03) 100%);
-    border-color:#E3CE93;
-    box-shadow:0 2px 5px rgba(184,134,11,.14), 0 10px 26px rgba(184,134,11,.12);
+    background:linear-gradient(145deg,#FFF9E8 0%,#FFFFFF 78%);
+    border-color:#D9B95D;
+    box-shadow:0 2px 5px rgba(184,134,11,.18), 0 10px 26px rgba(184,134,11,.14);
   }
-  .kpi.k-paid::before{ width:4px; background:linear-gradient(180deg,#E8B21E,#B8860B); }
+  .kpi.k-paid::before{ width:5px; background:linear-gradient(180deg,#F6CF58,#B8860B); }
   .kpi.k-paid .val{ color:var(--paid); }
+  .kpi.k-paid .lbl{ color:#7A5700; }
   .kpi .val{ font-size:38px; font-weight:800; letter-spacing:-.02em; line-height:1; color:var(--text); }
   .kpi .lbl{ margin-top:8px; font-size:13.5px; color:var(--text-2); font-weight:700; }
   .kpi .sub{ margin-top:3px; font-size:12.5px; color:var(--text-3); }
@@ -145,8 +146,10 @@
     transition:border-color .12s ease, box-shadow .12s ease;
   }
   .card:hover{ border-color:#D6D6D1; box-shadow:0 2px 4px rgba(20,20,20,.06), 0 8px 22px rgba(20,20,20,.06); }
-  .card.is-paid{ background:var(--paid-tint); border-color:#E3CE93; }
-  .card.is-paid::after{ content:""; position:absolute; right:0; top:0; bottom:0; width:3px; background:linear-gradient(180deg,#E8B21E,#B8860B); }
+  .card.is-paid{ background:linear-gradient(145deg,#FFF9E8 0%,#FFFFFF 82%); border-color:#D9B95D; box-shadow:0 2px 5px rgba(184,134,11,.12),0 8px 20px rgba(184,134,11,.08); }
+  .card.is-paid:hover{ border-color:#B8860B; box-shadow:0 4px 10px rgba(184,134,11,.18),0 14px 28px rgba(184,134,11,.13); }
+  .card.is-paid::before{ width:5px; background:linear-gradient(180deg,#F6CF58,#B8860B); }
+  .card.is-paid::after{ content:""; position:absolute; right:0; top:0; bottom:0; width:4px; background:linear-gradient(180deg,#F6CF58,#B8860B); }
   .card::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; }
   .card.s-completed::before{ background:var(--completed); }
   .card.s-cpl-active::before{ background:var(--cpl-active); }
@@ -161,12 +164,12 @@
   .card-name{ font-size:17px; font-weight:700; color:var(--text); line-height:1.3; }
   .name-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
   .paid-badge{
-    display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:999px;
-    font-size:11px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; white-space:nowrap;
-    color:#fff; background:linear-gradient(135deg,#E8B21E,#B8860B);
-    box-shadow:0 1px 2px rgba(184,134,11,.5); border:none;
+    display:inline-flex; align-items:center; gap:6px; padding:5px 11px; border-radius:999px;
+    font-size:10.5px; font-weight:800; letter-spacing:.055em; text-transform:uppercase; white-space:nowrap;
+    color:#fff; background:linear-gradient(135deg,#D6A21A,#8F6500);
+    box-shadow:0 2px 5px rgba(143,101,0,.28),inset 0 1px 0 rgba(255,255,255,.24); border:1px solid rgba(122,87,0,.28);
   }
-  .paid-badge .star{ font-size:10px; line-height:1; }
+  .paid-badge .star{ display:inline-grid; place-items:center; width:16px; height:16px; border-radius:50%; background:rgba(255,255,255,.2); font-size:10px; line-height:1; }
   .chip.paid-toggle .star{ color:var(--paid); font-size:11px; }
   .chip.paid-toggle[aria-pressed="true"]{ background:linear-gradient(135deg,#E8B21E,#B8860B); border-color:#B8860B; color:#fff; }
   .chip.paid-toggle[aria-pressed="true"] .star{ color:#fff; }
@@ -260,7 +263,7 @@
   function renderTrack(){var c=counts(),track=document.getElementById('track');track.textContent='';var selected=state.statuses.size>0;ORDER.forEach(function(key){var n=c[key];if(!n)return;var pct=n/TOTAL*100;track.appendChild(h('button',{type:'button',class:'seg'+(selected&&!state.statuses.has(key)?' dimmed':''),style:'width:'+pct+'%;background:var('+META[key].color+')',title:META[key].label+': '+n+' ('+Math.round(pct)+'%)','aria-label':META[key].label+', '+n+' customers','aria-pressed':state.statuses.has(key)?'true':'false',onclick:function(){toggle(key);}},[]));});}
   function renderChips(){var c=counts(),el=document.getElementById('chips');el.textContent='';el.appendChild(h('button',{type:'button',class:'chip all','aria-pressed':state.statuses.size===0?'true':'false',onclick:function(){state.statuses.clear();render();}},['All '+TOTAL]));ORDER.forEach(function(key){if(!c[key])return;el.appendChild(h('button',{type:'button',class:'chip','aria-pressed':state.statuses.has(key)?'true':'false',onclick:function(){toggle(key);}},[h('span',{class:'dot',style:'background:var('+META[key].color+')'},[]),META[key].label+' '+c[key]]));});}
   function badge(status){return h('span',{class:'badge s-'+status},[h('span',{class:'dot'},[]),META[status].label]);}
-  function render(){renderKpis();renderTrack();renderChips();var main=document.getElementById('main');main.textContent='';var shown=0;REGIONS.forEach(function(region){var list=region.customers.filter(match);if(!list.length)return;shown+=list.length;var grid=h('div',{class:'grid'},list.map(function(c){return h('div',{class:'card s-'+c.status+(c.paid?' is-paid':'')},[h('div',{class:'card-top'},[h('div',{class:'name-row'},[h('span',{class:'card-name'},[c.name]),c.paid?h('span',{class:'paid-badge'},[h('span',{class:'star'},['✓']),'Converted']):null]),badge(c.status)]),h('div',{class:'card-foot'},[h('div',{class:'tasks'},[h('div',{class:'tasks-label'},[c.tasks.length+' accelerator'+(c.tasks.length===1?'':'s')]),h('ul',{},c.tasks.map(function(task){return h('li',{},[h('span',{class:'marker'},['↳']),h('a',{href:task.url,target:'_blank',rel:'noopener'},[stripPrefix(task.t)])]);}))])])]);}));main.appendChild(h('section',{class:'region',id:region.name.toLowerCase().replace(/[^a-z0-9]+/g,'-')},[h('div',{class:'region-head'},[h('h2',{},[region.name]),h('span',{class:'count'},[list.length===region.customers.length?list.length+' customer'+(list.length===1?'':'s'):list.length+' of '+region.customers.length])]),grid]));});if(!shown)main.appendChild(h('div',{class:'grid'},[h('div',{class:'empty'},[h('strong',{},['No customers match']),'Adjust your search or clear the active filters.',h('button',{type:'button',onclick:clearAll},['Clear filters'])])]));document.getElementById('paidToggle').setAttribute('aria-pressed',state.paidOnly?'true':'false');document.getElementById('live').textContent='Showing '+shown+' of '+TOTAL+' customers';document.getElementById('reset').hidden=!(state.query||state.statuses.size||state.paidOnly);}
+  function render(){renderKpis();renderTrack();renderChips();var main=document.getElementById('main');main.textContent='';var shown=0;REGIONS.forEach(function(region){var list=region.customers.filter(match);if(!list.length)return;shown+=list.length;var grid=h('div',{class:'grid'},list.map(function(c){return h('div',{class:'card s-'+c.status+(c.paid?' is-paid':'')},[h('div',{class:'card-top'},[h('div',{class:'name-row'},[h('span',{class:'card-name'},[c.name]),c.paid?h('span',{class:'paid-badge'},[h('span',{class:'star'},['✓']),'Converted to paid']):null]),badge(c.status)]),h('div',{class:'card-foot'},[h('div',{class:'tasks'},[h('div',{class:'tasks-label'},[c.tasks.length+' accelerator'+(c.tasks.length===1?'':'s')]),h('ul',{},c.tasks.map(function(task){return h('li',{},[h('span',{class:'marker'},['↳']),h('a',{href:task.url,target:'_blank',rel:'noopener'},[stripPrefix(task.t)])]);}))])])]);}));main.appendChild(h('section',{class:'region',id:region.name.toLowerCase().replace(/[^a-z0-9]+/g,'-')},[h('div',{class:'region-head'},[h('h2',{},[region.name]),h('span',{class:'count'},[list.length===region.customers.length?list.length+' customer'+(list.length===1?'':'s'):list.length+' of '+region.customers.length])]),grid]));});if(!shown)main.appendChild(h('div',{class:'grid'},[h('div',{class:'empty'},[h('strong',{},['No customers match']),'Adjust your search or clear the active filters.',h('button',{type:'button',onclick:clearAll},['Clear filters'])])]));document.getElementById('paidToggle').setAttribute('aria-pressed',state.paidOnly?'true':'false');document.getElementById('live').textContent='Showing '+shown+' of '+TOTAL+' customers';document.getElementById('reset').hidden=!(state.query||state.statuses.size||state.paidOnly);}
   document.getElementById('search').addEventListener('input',function(e){state.query=e.target.value.trim().toLowerCase();render();});document.getElementById('paidToggle').addEventListener('click',function(){state.paidOnly=!state.paidOnly;render();});document.getElementById('reset').addEventListener('click',clearAll);render();
 })();
 </script>

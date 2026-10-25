@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Customer-facing overview of Adobe Experience Manager as a Cloud Service features across Sites, Assets, Content Hub, Dynamic Media, Cloud Manager, and platform operations.">
+  <title>AEM Cloud Service Feature Overview | Adobe</title>
+  <style>
+    :root{
+      --adobe-red:#EB1000; --adobe-red-dark:#B71000; --adobe-red-tint:#FDECEA;
+      --coral-1:#F04A2E; --coral-2:#F9A392; --coral-bright:#FB6A4E;
+      --s2-blue:#3B63FB; --s2-blue-down:#274DEA; --s2-blue-active:#1D3ECF;
+      --s2-blue-tint:#E5F0FE; --s2-blue-tint-faint:#F5F9FF;
+      --ink:#1B1B1B; --charcoal:#2C2C2C; --charcoal-2:#141414;
+      --gray-900:#1F1F1F; --gray-800:#222222; --gray-700:#464646;
+      --gray-600:#6D6D6D; --gray-500:#909090; --gray-400:#B1B1B1;
+      --gray-300:#D5D5D5; --gray-200:#E6E6E6; --gray-100:#F8F8F8;
+      --gray-75:#FAFAFA; --gray-50:#FDFDFD; --white:#FFFFFF;
+      --bg-base:#FFFFFF; --bg-layer-1:#FAFAFA; --bg-layer-2:#F4F4F5;
+      --border:#E6E6E6; --border-strong:#D5D5D5;
+      --hero-charcoal-1:#2D2D2D; --hero-charcoal-2:#1C1C1C; --hero-charcoal-3:#0E0E0E;
+      --hero-lift:rgba(255,255,255,.12); --hero-lift-mid:rgba(255,255,255,.05);
+      --hero-scanline:rgba(255,255,255,.03); --hero-rule:rgba(255,255,255,.12);
+      --hero-text:#D3D3D3; --hero-subtle:#D9D9D9; --hero-kicker:#FF8F84;
+      --chip-fill:rgba(255,255,255,.09); --chip-border:rgba(255,255,255,.20);
+      --chip-edge:rgba(255,255,255,.17); --chip-text:#ECECEC;
+      --white-shadow:rgba(255,255,255,.18); --black-shadow:rgba(0,0,0,.12);
+      --nav-glass:rgba(255,255,255,.92); --footer-text:#8A8A8A;
+      --footer-brand-muted:#CFCFCF; --footer-strong:#B9B9B9;
+      --mask-opaque:#000000;
+      --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,
+        BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+      --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+      --radius:16px; --radius-sm:8px; --radius-pill:9999px;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+      --shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.06);
+      --shadow-lg:0 4px 8px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08);
+      --focus-ring:var(--s2-blue); --maxw:1200px;
+    }
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+    body{margin:0;font-family:var(--font);color:var(--gray-800);background:var(--bg-base);line-height:1.6;font-size:16px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+    ::selection{background:var(--s2-blue-tint)}
+    a{color:var(--s2-blue-down);text-decoration:none}
+    a:hover{text-decoration:underline}
+    a:focus-visible{outline:2px solid var(--focus-ring);outline-offset:2px;border-radius:3px}
+    .progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:100;pointer-events:none}
+    .progress span{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;background:linear-gradient(90deg,var(--coral-1),var(--coral-2));will-change:transform}
+    .ai-note{background:var(--gray-100);border-bottom:1px solid var(--gray-200)}
+    .ai-note-inner{max-width:var(--maxw);margin:0 auto;padding:9px 24px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;line-height:1.45;color:var(--gray-500)}
+    .ai-note b{color:var(--gray-600);font-weight:600}
+    .ai-note svg{flex:none;color:var(--gray-400)}
+    .hero{position:relative;overflow:hidden;color:var(--white);background:radial-gradient(1350px 720px at 90% -18%,var(--hero-lift),var(--hero-lift-mid) 42%,transparent 82%),linear-gradient(135deg,var(--hero-charcoal-1) 0%,var(--hero-charcoal-2) 52%,var(--hero-charcoal-3) 100%);padding:48px 24px 58px}
+    .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--hero-scanline) 1px,transparent 1px);background-size:100% 34px;opacity:.5;-webkit-mask:linear-gradient(var(--mask-opaque),transparent 70%);mask:linear-gradient(var(--mask-opaque),transparent 70%)}
+    .hero-inner{max-width:var(--maxw);margin:0 auto;position:relative;z-index:1}
+    .masthead{display:flex;align-items:center;justify-content:space-between;gap:10px 16px;flex-wrap:wrap;padding-bottom:22px;border-bottom:1px solid var(--hero-rule)}
+    .brandrow{display:flex;align-items:center;gap:11px}
+    .brand-mark{height:26px;width:auto;flex:none;filter:drop-shadow(0 2px 12px var(--white-shadow))}
+    .brandname{font-size:19px;font-weight:800;letter-spacing:-.02em;color:var(--white)}
+    .brandname span{font-weight:400;color:var(--hero-subtle)}
+    .kicker{font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:800;color:var(--hero-kicker);white-space:nowrap}
+    .hero-body{margin-top:32px}
+    .hero h1{margin:0;font-size:clamp(36px,5.2vw,60px);line-height:1.05;font-weight:800;letter-spacing:-.025em;max-width:17ch}
+    .hero h1 .hl{background:linear-gradient(100deg,var(--coral-1) 0%,var(--coral-2) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;-webkit-box-decoration-break:slice;box-decoration-break:slice;padding-bottom:.3em}
+    .hero .lead{margin:18px 0 0;font-size:clamp(17px,2vw,20px);color:var(--hero-text);max-width:68ch}
+    .hero .lead strong{color:var(--white);font-weight:700}
+    .hero-chips{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0 0;padding:0;list-style:none}
+    .hero-chips li{background:var(--chip-fill);border:1px solid var(--chip-border);border-radius:var(--radius-pill);padding:8px 14px;font-size:13px;font-weight:500;color:var(--chip-text);box-shadow:inset 0 1px 0 var(--chip-edge),0 1px 5px var(--black-shadow)}
+    .shell{max-width:var(--maxw);margin:0 auto;padding:0 24px 72px;display:grid;grid-template-columns:210px minmax(0,1fr);gap:56px}
+    .rail{position:sticky;top:24px;align-self:start;padding-top:52px}
+    .rail-title{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-500);margin:0 0 14px;padding-left:14px}
+    .rail nav{display:flex;flex-direction:column;gap:2px}
+    .rail nav a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:var(--radius-sm);color:var(--gray-600);font-size:13px;font-weight:600;border-left:2px solid transparent;transition:background .15s,color .15s,border-color .15s}
+    .rail nav a .num{font-size:10px;font-weight:700;color:var(--gray-300);min-width:18px;font-variant-numeric:tabular-nums;font-family:var(--mono)}
+    .rail nav a:hover{background:var(--gray-100);color:var(--ink);text-decoration:none}
+    .rail nav a.active{color:var(--s2-blue-down);background:var(--s2-blue-tint);border-left-color:var(--s2-blue)}
+    .rail nav a.active .num{color:var(--s2-blue)}
+    .rail nav a:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px}
+    .content{padding-top:52px;min-width:0}
+    main{counter-reset:sec}
+    section{scroll-margin-top:82px;padding-bottom:58px;counter-increment:sec}
+    section+section{border-top:1px solid var(--gray-200);border-image:linear-gradient(90deg,transparent,var(--gray-200) 18%,var(--gray-200) 82%,transparent) 1;padding-top:52px}
+    .sec-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-500);margin:0 0 12px}
+    .sec-eyebrow::before{content:counter(sec,decimal-leading-zero) "  ·  ";font-family:var(--mono);font-weight:600;letter-spacing:.02em;color:var(--adobe-red)}
+    h2{font-size:clamp(25px,2.8vw,33px);line-height:1.15;letter-spacing:-.015em;font-weight:800;color:var(--ink);margin:0 0 14px}
+    .section-intro{max-width:74ch;color:var(--gray-600);margin:0 0 22px}
+    .cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .card{min-width:0;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius);padding:20px 21px;box-shadow:var(--shadow-sm);transition:border-color .15s,transform .15s,box-shadow .15s}
+    .card:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow-lg)}
+    .card-meta{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:0 0 10px}
+    .cnum{font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--gray-500);font-weight:600}
+    .status{border:1px solid var(--border);border-radius:var(--radius-pill);padding:2px 8px;background:var(--white);font-size:10px;line-height:1.5;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--gray-600)}
+    .card h3{font-size:17px;line-height:1.3;letter-spacing:-.01em;color:var(--ink);margin:0 0 8px}
+    .card p{font-size:14px;line-height:1.58;color:var(--gray-600);margin:0}
+    .card p+p{margin-top:10px}
+    .sources{display:flex;flex-wrap:wrap;gap:6px 13px;margin-top:14px;font-size:12px;font-weight:600}
+    .sources a{display:inline-flex;align-items:center;gap:4px}
+    .sources a::after{content:"↗";font-size:11px}
+    .takeaway{margin:26px 0 0;border-left:3px solid var(--coral-1);padding:13px 17px;background:var(--gray-100);border-radius:0 var(--radius-sm) var(--radius-sm) 0;color:var(--gray-700);font-size:14px}
+    .takeaway strong{color:var(--adobe-red-dark)}
+    .readiness{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:22px}
+    .ready-item{border:1px solid var(--border);border-radius:var(--radius-sm);padding:15px;background:var(--white)}
+    .ready-item .step{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.08em;color:var(--gray-500);margin-bottom:7px}
+    .ready-item strong{display:block;font-size:14px;color:var(--ink);margin-bottom:4px}
+    .ready-item p{font-size:13px;line-height:1.5;color:var(--gray-600);margin:0}
+    .site-footer{background:var(--charcoal-2);color:var(--footer-text)}
+    .foot-inner{max-width:var(--maxw);margin:0 auto;padding:28px 24px;display:flex;flex-wrap:wrap;gap:14px 24px;align-items:center;justify-content:space-between}
+    .foot-brand{display:flex;align-items:center;gap:11px;color:var(--white);font-weight:800;font-size:16px;letter-spacing:-.01em}
+    .foot-brand img{height:22px;width:auto;display:block}
+    .foot-brand span{font-weight:400;color:var(--footer-brand-muted)}
+    .foot-right{text-align:right;line-height:1.5}
+    .foot-right .fr-1{margin:0;font-size:13px;font-weight:600;color:var(--footer-strong);letter-spacing:.01em}
+    .foot-right .fr-2{margin:2px 0 0;font-size:12px;color:var(--footer-text);letter-spacing:.02em}
+    @media(max-width:980px){.shell{grid-template-columns:1fr;gap:0}.rail{top:0;z-index:50;padding:10px 0;background:var(--nav-glass);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--gray-200)}.rail-title{display:none}.rail nav{flex-direction:row;overflow-x:auto;scrollbar-width:none}.rail nav::-webkit-scrollbar{display:none}.rail nav a{white-space:nowrap;border-left:0;border-bottom:2px solid transparent}.rail nav a.active{border-bottom-color:var(--s2-blue)}.content{padding-top:32px}}
+    @media(max-width:760px){.hero{padding:38px 20px 44px}.hero-inner,.shell,.foot-inner{padding-left:20px;padding-right:20px}.cards{grid-template-columns:1fr}.readiness{grid-template-columns:1fr}.content{padding-top:26px}section{padding-bottom:42px}section+section{padding-top:40px}}
+    @media(max-width:620px){.foot-inner{flex-direction:column;align-items:flex-start}.foot-right{text-align:left}.kicker{font-size:10px;letter-spacing:.14em}.ai-note-inner{justify-content:flex-start;padding-left:20px;padding-right:20px}.hero h1{font-size:clamp(35px,10vw,50px)}}
+  </style>
+</head>
+<body>
+  <div class="progress" aria-hidden="true"><span id="progressbar"></span></div>
+  <div class="ai-note">
+    <div class="ai-note-inner">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>
+      </svg>
+      <span><b>Prepared with AI assistance.</b> Please review for accuracy before use &mdash; this document may contain errors.</span>
+    </div>
+  </div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="masthead">
+        <div class="brandrow">
+          <img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">
+          <span class="brandname">Adobe&nbsp;<span>Experience Manager</span></span>
+        </div>
+        <span class="kicker">Customer feature overview</span>
+      </div>
+      <div class="hero-body">
+        <h1>AEM Cloud Service <span class="hl">features</span></h1>
+        <p class="lead">A customer-facing guide to recent capabilities across <strong>Sites, Assets, Content Hub, Dynamic Media, Cloud Manager, and platform operations</strong>. Availability can vary by release, configuration, and access.</p>
+        <ul class="hero-chips">
+          <li>Content creation</li><li>Asset discovery &amp; activation</li><li>Development &amp; operations</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+  <div class="shell">
+    <aside class="rail" aria-label="Contents">
+      <p class="rail-title">Contents</p>
+      <nav id="spy-nav" aria-label="Document contents">
+        <a href="#content"><span class="num">01</span> Create content</a>
+        <a href="#assets"><span class="num">02</span> Find and activate</a>
+        <a href="#governance"><span class="num">03</span> Brand and access</a>
+        <a href="#search"><span class="num">04</span> Search and quality</a>
+        <a href="#operations"><span class="num">05</span> Develop and operate</a>
+        <a href="#readiness"><span class="num">06</span> Availability</a>
+      </nav>
+    </aside>
+    <div class="content">
+      <main>
+        <section id="content">
+          <p class="sec-eyebrow">Sites and authoring</p>
+          <h2>Create and manage content</h2>
+          <p class="section-intro">Recent authoring capabilities span structured content, AI-assisted production, and content-modeling workflows. Specific access can differ by job and environment.</p>
+          <div class="cards">
+            <article class="card">
+              <div class="card-meta"><span class="cnum">SITES · 01</span><span class="status">Released · tier not stated</span></div>
+              <h3>Visual Content Fragments</h3>
+              <p>Authors can preview structured content in a rendered format before publication. A related Figma workflow can help create AEM content models, fragments, and visualization templates from a design.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/release-notes/release-notes/2026/2026-6-0">2026.6 Sites release notes</a><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/ai-in-aem/agentic-capabilities/brand-experience/experience-production/figma-to-visual-content-fragments">Figma to Visual Content Fragments</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">SITES · 02</span><span class="status">GA capabilities · job-level access varies</span></div>
+              <h3>Experience Production Agent</h3>
+              <p>AEM agentic capabilities are GA in CX Enterprise Coworker. Supported workflows include updating content, making bulk changes, and creating pages from a brief. The <strong>Content Create</strong> job is Limited Availability.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/release-notes/release-notes/release-notes-current">Current AEM release notes</a><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/ai-in-aem/agentic-capabilities/brand-experience/experience-production/use-cases">Experience Production Agent use cases</a><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/ai-in-aem/agents/brand-experience/overview">Brand Experience Agent</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">SITES · 03</span><span class="status">Tier not stated</span></div>
+              <h3>Generate Variations</h3>
+              <p>Authors can generate and refine content variations from supported AEM editors. The release notes do not state a current GA, Limited Availability, or Beta tier.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/release-notes/generate-variations/release-notes-generate-variations">Generate Variations release notes</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">SITES · 04</span><span class="status">GA with Adobe apps</span></div>
+              <h3>Content Advisor</h3>
+              <p>Helps teams discover and reuse relevant assets in supported application workflows.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/on-demand-events/2026-3-0">2026.03.0 AEM release overview</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">SITES · 05</span><span class="status">Phased rollout</span></div>
+              <h3>Content Reference Picker</h3>
+              <p>The 2026.7 release notes describe rollout of an improved picker in the new Content Fragment Editor across development, stage, and production environments. A separate availability tier is not stated.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/release-notes/release-notes/2026/2026-7-0">2026.7 release notes</a></div>
+            </article>
+          </div>
+        </section>
+        <section id="assets">
+          <p class="sec-eyebrow">Assets and activation</p>
+          <h2>Find, organize, and activate assets</h2>
+          <p class="section-intro">Search and delivery enhancements help teams find suitable content and prepare it for channel use. Several Content Hub and video capabilities remain access- or program-dependent.</p>
+          <div class="cards">
+            <article class="card">
+              <div class="card-meta"><span class="cnum">ASSETS · 01</span><span class="status">Documented · tier not stated</span></div>
+              <h3>AI Search in Assets View</h3>
+              <p>Supports intent-based searches rather than relying only on exact keyword matching. The public help page documents the feature and configuration but does not state a GA or Limited Availability tier.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/assets-view/search-assets-view">Search assets in Assets View</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">CONTENT HUB · 02</span><span class="status">Limited Availability</span></div>
+              <h3>Content Hub AI Search</h3>
+              <p>Enables intent-based, multilingual search and can recognize synonyms and misspellings. Enablement and minimum-release requirements apply.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/content-hub/search-assets-content-hub">Search assets in Content Hub</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">CONTENT HUB · 03</span><span class="status">Limited Availability</span></div>
+              <h3>Smart Collections and related features</h3>
+              <p>Smart Collections can update automatically as assets meet saved criteria. Content Hub also lists custom metadata sorting, asset search/download events, and delivery URLs as Limited Availability.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/content-hub/whats-new">What's new in Content Hub</a><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/release-notes/release-notes/2026/2026-5-0">2026.5 Assets release notes</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">CONTENT HUB · 04</span><span class="status">August 2026 feature · tier not stated</span></div>
+              <h3>On-demand Dynamic Media renditions</h3>
+              <p>Allows teams to create channel-appropriate variations on demand, reducing the need to maintain as many pre-generated renditions.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/content-hub/whats-new">What's new in Content Hub</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">DYNAMIC MEDIA · 05</span><span class="status">Limited Availability</span></div>
+              <h3>Video viewer, captions, and delivery controls</h3>
+              <p>Current release notes highlight a customizable video viewer, AI-generated captions, multiple caption and audio tracks, and attribute-based delivery controls. These capabilities support accessible, localized, and governed video experiences.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/release-notes/release-notes/release-notes-current">Current AEM release notes</a></div>
+            </article>
+          </div>
+        </section>
+        <section id="governance">
+          <p class="sec-eyebrow">Brand governance and permissions</p>
+          <h2>Protect brand integrity and manage access</h2>
+          <p class="section-intro">Governance capabilities can help teams operationalize brand policies and understand permissions, but availability and the ability to take action depend on the workflow.</p>
+          <div class="cards">
+            <article class="card">
+              <div class="card-meta"><span class="cnum">GOVERNANCE · 01</span><span class="status">GA capabilities · access varies</span></div>
+              <h3>Governance Agent</h3>
+              <p>Part of the GA AEM agentic capabilities in CX Enterprise Coworker. It can check content and assets against brand rules such as tone, claims, logo usage, typography, and imagery. Teams can import brand policies and turn guidance into structured checks.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/ai-in-aem/agentic-capabilities/brand-governance/overview">Governance Agent overview</a><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/ai-in-aem/agentic-capabilities/brand-governance/how-to-import-a-brand-policy">Import a brand policy</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">GOVERNANCE · 02</span><span class="status">Documented · capability-dependent</span></div>
+              <h3>Permission and digital-rights workflows</h3>
+              <p>In Content Hub, the Governance Agent can help manage attribute-based permissions and usage rights. In AEM, it can explain effective permissions and identify policies behind access decisions. The AEM permission-audit function is read-only: it diagnoses and recommends but does not change ACLs. Governance through the MCP workflow requires an Agents trial or paid license.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/ai-in-aem/agentic-capabilities/brand-governance/overview">Governance Agent overview</a><a href="https://experienceleague.adobe.com/en/docs/experience-manager-learn/cloud-service/ai/mcp-servers/experience-governance-mcp-server">Check AEM content for brand compliance</a></div>
+            </article>
+          </div>
+        </section>
+        <section id="search">
+          <p class="sec-eyebrow">Customer experience and optimization</p>
+          <h2>Improve search experiences and site quality</h2>
+          <p class="section-intro">Search and optimization products have eligibility, environment, and commercial terms that should be confirmed before a customer-specific recommendation.</p>
+          <div class="cards">
+            <article class="card">
+              <div class="card-meta"><span class="cnum">SEARCH · 01</span><span class="status">Eligibility and terms vary</span></div>
+              <h3>AEM Content AI Search</h3>
+              <p>Documented options include semantic search using the existing site index and AEM Content AI Search, which can provide semantic and natural-language search plus an optional AI-generated answer with sources. Confirm eligibility and current terms before positioning it as included for a customer.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-content-ai/using/site-search">Get started with AEM Content AI Search</a><a href="https://experienceleague.adobe.com/en/docs/experience-cloud-kcs/kbarticles/ka-43529">Availability and cost information</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">OPTIMIZATION · 02</span><span class="status">Trial for eligible customers</span></div>
+              <h3>AEM Sites Optimizer</h3>
+              <p>The documented trial requires a publicly accessible production site using AEM Sites frontend delivery. Headless sites are not supported by the trial.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-sites-optimizer/content/documentation/trial">Sites Optimizer trial</a></div>
+            </article>
+          </div>
+        </section>
+        <section id="operations">
+          <p class="sec-eyebrow">Engineering and platform operations</p>
+          <h2>Develop and operate AEM</h2>
+          <p class="section-intro">The latest release overview emphasizes cloud operations, developer productivity, and safer release practices. Check each item's program status before setting expectations.</p>
+          <div class="cards">
+            <article class="card">
+              <div class="card-meta"><span class="cnum">PLATFORM · 01</span><span class="status">Documented · access varies</span></div>
+              <h3>AEM MCP Server</h3>
+              <p>Supports AEM content and asset operations, with Cloud Manager operations also included. Access varies by capability; some governance functions have additional requirements.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/ai-in-aem/mcp-support/using-mcp-with-aem-as-a-cloud-service">Using MCP with AEM as a Cloud Service</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">CLOUD MANAGER · 02</span><span class="status">Released · tier not stated</span></div>
+              <h3>Workflow improvements</h3>
+              <p>The 2026.9 notes include external Git submodule authentication, content-sync tracking, and automatic syncing of new GitLab branches.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/release-notes/cloud-manager/2026/2026-9-0">Cloud Manager 2026.9 release notes</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">DEVELOPMENT · 03</span><span class="status">Released · tier not stated</span></div>
+              <h3>Development Agent and IDE tooling</h3>
+              <p>Recent highlights include pipeline Code Quality troubleshooting, query optimization, and code-migration patterns.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/on-demand-events/2026-2-0">2026.02.0 AEM release overview</a><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/release-notes/release-notes/release-notes-current">Current AEM release notes</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">PLATFORM · 04</span><span class="status">GA · AI Assistant management is LA</span></div>
+              <h3>Quiet Hours and Update-Free Periods</h3>
+              <p>The settings are GA. Managing them through the AEM AI Assistant is Limited Availability.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/on-demand-events/2026-2-0">2026.02.0 AEM release overview</a><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/release-notes/release-notes/2026/2026-5-0">2026.5 Foundation release notes</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">OBSERVABILITY · 05</span><span class="status">Limited Availability</span></div>
+              <h3>OpenTelemetry-based application performance monitoring</h3>
+              <p>OpenTelemetry-based APM is identified as Limited Availability in the current release overview.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/release-notes/release-notes/release-notes-current">Current AEM release notes</a></div>
+            </article>
+            <article class="card">
+              <div class="card-meta"><span class="cnum">DEPLOYMENT · 06</span><span class="status">Beta</span></div>
+              <h3>Canary production deployments</h3>
+              <p>The 2026.6 release notes explicitly identify canary deployments as a Beta Program. The 2026.9 overview also highlights them; no later source in this review reclassifies the feature as GA.</p>
+              <div class="sources"><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/release-notes/release-notes/2026/2026-6-0">2026.6 Canary Beta details</a><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/release-notes/release-notes/release-notes-current">Current AEM release notes</a></div>
+            </article>
+          </div>
+        </section>
+        <section id="readiness">
+          <p class="sec-eyebrow">Before a customer walkthrough</p>
+          <h2>Validate availability in context</h2>
+          <p class="section-intro">“Released” or “documented” does not mean a capability is enabled in every customer environment. Confirm the customer's release, configuration, and access—especially where public documentation does not explicitly state GA, Limited Availability, or Beta.</p>
+          <div class="readiness">
+            <div class="ready-item"><span class="step">CHECK · 01</span><strong>Release</strong><p>Confirm the customer's AEM release and any minimum-release requirement.</p></div>
+            <div class="ready-item"><span class="step">CHECK · 02</span><strong>Configuration</strong><p>Verify required services, integrations, editors, and environment setup.</p></div>
+            <div class="ready-item"><span class="step">CHECK · 03</span><strong>Access and terms</strong><p>Confirm permissions, program enrollment, eligibility, and licensing.</p></div>
+          </div>
+          <div class="takeaway"><strong>Scope note:</strong> This overview covers Sites, Assets, Content Hub, Dynamic Media, Cloud Manager, and platform operations. Forms and Edge Delivery-specific items are excluded. The latest published release notes referenced here are for AEM as a Cloud Service <strong>2026.9.0</strong>.</div>
+        </section>
+      </main>
+    </div>
+  </div>
+  <footer class="site-footer">
+    <div class="foot-inner">
+      <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe&nbsp;<span>Experience Manager</span></div>
+      <div class="foot-right"><p class="fr-1">AEM Cloud Service · Customer feature overview</p><p class="fr-2">&copy; 2026 Adobe</p></div>
+    </div>
+  </footer>
+  <script>
+    (function(){
+      var allLinks=Array.prototype.slice.call(document.querySelectorAll('#spy-nav a'));
+      var map={};
+      allLinks.forEach(function(link){
+        var id=link.getAttribute('href').slice(1);
+        (map[id]||(map[id]=[])).push(link);
+      });
+      var sections=Object.keys(map).map(function(id){return document.getElementById(id);}).filter(Boolean);
+      function setActive(id){
+        allLinks.forEach(function(link){link.classList.remove('active');});
+        (map[id]||[]).forEach(function(link){link.classList.add('active');});
+      }
+      if('IntersectionObserver' in window){
+        var visible={};
+        var observer=new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){visible[entry.target.id]=entry.isIntersecting?entry.intersectionRatio:0;});
+          var best=null,bestRatio=0;
+          Object.keys(visible).forEach(function(id){if(visible[id]>bestRatio){bestRatio=visible[id];best=id;}});
+          if(best)setActive(best);
+        },{rootMargin:'-15% 0px -70% 0px',threshold:[0,.15,.5,1]});
+        sections.forEach(function(section){observer.observe(section);});
+      }
+      allLinks.forEach(function(link){link.addEventListener('click',function(){setActive(link.getAttribute('href').slice(1));});});
+      var bar=document.getElementById('progressbar');
+      if(bar){
+        var update=function(){
+          var height=document.documentElement.scrollHeight-window.innerHeight;
+          bar.style.transform='scaleX('+Math.min(1,Math.max(0,height>0?window.scrollY/height:0))+')';
+        };
+        window.addEventListener('scroll',update,{passive:true});
+        window.addEventListener('resize',update);
+        update();
+      }
+    })();
+  </script>
+</body>
+</html>

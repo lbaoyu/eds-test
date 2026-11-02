@@ -1,1 +1,313 @@
-test
+<!doctype html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A customer discussion worksheet for ICICI Bank’s AEM Sites and supporting website assets solution and adoption review.">
+<title>ICICI Bank | AEM Sites &amp; Assets Solution &amp; Adoption Review</title>
+<style>
+:root{
+ --adobe-red:#EB1000;--adobe-red-dark:#B71000;--adobe-red-tint:#FDECEA;
+ --coral-1:#F04A2E;--coral-2:#F9A392;--coral-bright:#FB6A4E;
+ --s2-blue:#3B63FB;--s2-blue-down:#274DEA;--s2-blue-active:#1D3ECF;--s2-blue-tint:#E5F0FE;--s2-blue-tint-faint:#F5F9FF;
+ --ink:#1B1B1B;--charcoal:#2C2C2C;--charcoal-2:#141414;--gray-900:#1F1F1F;--gray-800:#222222;--gray-700:#464646;
+ --gray-600:#6D6D6D;--gray-500:#909090;--gray-400:#B1B1B1;--gray-300:#D5D5D5;--gray-200:#E6E6E6;--gray-100:#F8F8F8;--gray-75:#FAFAFA;--gray-50:#FDFDFD;--white:#FFFFFF;
+ --bg-base:#FFFFFF;--bg-layer-1:#FAFAFA;--bg-layer-2:#F4F4F5;--border:#E6E6E6;--border-strong:#D5D5D5;
+ --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+ --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+ --radius:16px;--radius-sm:8px;--radius-pill:9999px;
+ --shadow-sm:0 1px 2px rgba(0,0,0,.06);--shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.06);--shadow-lg:0 4px 8px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08);
+ --focus-ring:var(--s2-blue);--maxw:1440px;
+ --hero-lift:rgba(255,255,255,.12);--hero-lift-mid:rgba(255,255,255,.05);--hero-start:#2d2d2d;--hero-mid:#1c1c1c;--hero-end:#0e0e0e;
+ --hero-scan:rgba(255,255,255,.03);--hero-line:rgba(255,255,255,.12);--hero-chip:rgba(255,255,255,.09);--hero-chip-line:rgba(255,255,255,.20);--hero-glow:rgba(255,255,255,.18);--transparent:transparent;
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font:16px/1.6 var(--font);color:var(--gray-800);background:var(--bg-base);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:var(--s2-blue-tint)}a{color:var(--s2-blue-down);text-decoration:none}a:hover{text-decoration:underline}button,input,textarea{font:inherit}button{cursor:pointer}:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px}
+.progress{position:fixed;inset:0 0 auto;height:2px;z-index:100;pointer-events:none}.progress span{display:block;height:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,var(--coral-1),var(--coral-2))}
+.ai-note{background:var(--gray-100);border-bottom:1px solid var(--gray-200)}.ai-note-inner{max-width:1280px;margin:auto;padding:9px 24px;display:flex;justify-content:center;align-items:center;gap:8px;font-size:12px;line-height:1.45;color:var(--gray-600)}.ai-note svg{flex:none;stroke:var(--gray-500)}.ai-note b{font-weight:600}
+.hero{position:relative;overflow:hidden;color:var(--white);background:radial-gradient(1350px 720px at 90% -18%,var(--hero-lift),var(--hero-lift-mid) 42%,var(--transparent) 82%),linear-gradient(135deg,var(--hero-start),var(--hero-mid) 52%,var(--hero-end));padding:30px 28px 36px}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(var(--hero-scan) 1px,var(--transparent) 1px);background-size:100% 34px;opacity:.5;mask:linear-gradient(var(--ink),var(--transparent) 70%)}
+.hero-inner{max-width:1280px;margin:auto;position:relative;z-index:1}.masthead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;border-bottom:1px solid var(--hero-line);padding-bottom:18px}.brandrow{display:flex;align-items:center;gap:11px}.brand-mark{height:26px;width:auto;filter:drop-shadow(0 2px 12px var(--hero-glow))}.brandname{font-size:18px;font-weight:800;letter-spacing:-.02em}.brandname span{font-weight:400;color:var(--gray-300)}.kicker{font-size:11px;letter-spacing:.13em;text-transform:uppercase;font-weight:700;color:var(--coral-2)}
+.hero h1{font-size:clamp(32px,4.2vw,48px);line-height:1.15;letter-spacing:-.03em;margin:28px 0 14px}.hl{background:linear-gradient(100deg,var(--coral-1),var(--coral-2));background-clip:text;-webkit-background-clip:text;color:var(--transparent);-webkit-text-fill-color:var(--transparent);padding-bottom:.3em;box-decoration-break:slice;-webkit-box-decoration-break:slice}.lead{color:var(--gray-300);font-size:17px;margin:0}
+.toolbar{border-bottom:1px solid var(--border);background:var(--bg-layer-1)}.toolbar-inner{max-width:1280px;margin:auto;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.actions{display:flex;flex-wrap:wrap;gap:8px}button{border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:10px 15px;background:var(--white);color:var(--ink);font-size:13px;font-weight:650;line-height:1.4;box-shadow:var(--shadow-sm)}button:hover{background:var(--gray-100);border-color:var(--gray-500)}button.primary{background:var(--s2-blue);border-color:var(--s2-blue);color:var(--white)}button.primary:hover{background:var(--s2-blue-down)}.save-status{font-size:12px;color:var(--gray-600);max-width:55ch}
+.message{margin:0 auto;max-width:1280px;padding:12px 28px;background:var(--s2-blue-tint);font-size:13px;color:var(--ink)}[hidden]{display:none!important}
+.shell{max-width:1280px;margin:auto;padding:32px 28px 60px;display:grid;grid-template-columns:208px minmax(0,1fr);gap:40px}.rail{min-width:0;position:sticky;top:24px;align-self:start}.rail-title{font:700 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--gray-600);padding-left:12px}.rail nav{display:flex;flex-direction:column;gap:4px}.rail nav a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-left:2px solid var(--transparent);border-radius:var(--radius-sm);color:var(--gray-600);font-size:13px;font-weight:600}.rail nav a .num{font:11px var(--mono);min-width:16px;color:var(--gray-500)}.rail nav a:hover{background:var(--gray-100);text-decoration:none}.rail nav a.active{background:var(--s2-blue-tint);color:var(--s2-blue-down);border-left-color:var(--s2-blue)}.rail nav a.active .num{color:var(--s2-blue)}.rail-tip{font-size:12px;color:var(--gray-600);margin:24px 12px}.rail-tip strong{color:var(--ink)}main{min-width:0;counter-reset:area}
+#review-details{scroll-margin-top:24px;margin-bottom:32px}.setup-title{font-size:19px;font-weight:750;margin:0 0 16px;letter-spacing:-.02em}.metadata{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.field{display:flex;flex-direction:column;gap:7px;min-width:0}.field label{font-size:12px;font-weight:700;color:var(--gray-700)}.field input,.field textarea{min-width:0;width:100%;background:var(--white);border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:11px 12px;color:var(--ink);font-size:15px;line-height:1.6}.field input:focus,.field textarea:focus{border-color:var(--s2-blue)}.field textarea{resize:vertical;min-height:145px}.field input::placeholder,.field textarea::placeholder{color:var(--gray-600)}.intro-note{font-size:13px;color:var(--gray-600);margin:18px 0 0;border-left:2px solid var(--coral-1);padding:0 0 0 13px}
+.feature-area{counter-increment:area;scroll-margin-top:24px;margin:0 0 36px;padding-top:30px;border-top:1px solid var(--border);border-image:linear-gradient(90deg,var(--transparent),var(--border) 15%,var(--border) 85%,var(--transparent)) 1}
+.sec-eyebrow{font:700 11px var(--mono);text-transform:uppercase;letter-spacing:.12em;color:var(--gray-600);margin:0 0 10px}.sec-eyebrow::before{content:counter(area,decimal-leading-zero) "  ·  ";color:var(--adobe-red)}
+h2{font-size:clamp(24px,2.4vw,30px);line-height:1.2;letter-spacing:-.025em;margin:0 0 20px}.area-card{padding:22px;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);transition:border-color .15s,box-shadow .15s}.area-card:hover{border-color:var(--border-strong);box-shadow:var(--shadow)}.questions{margin:0 0 22px;padding-left:21px;color:var(--gray-700);font-size:15px}.questions li{margin:0 0 9px;padding-left:3px}.questions li:last-child{margin-bottom:0}.notes-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:16px}
+.site-footer{background:var(--charcoal-2);color:var(--gray-400)}.foot-inner{max-width:1280px;margin:auto;padding:28px;display:flex;justify-content:space-between;align-items:center;gap:20px}.foot-brand{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--white);white-space:nowrap}.foot-brand img{height:22px;width:auto}.foot-brand span{font-weight:400;color:var(--gray-300)}.foot-right{text-align:right;font-size:12px;max-width:65ch}.foot-right p{margin:3px 0}#print-report{display:none}noscript{display:block;padding:18px;background:var(--adobe-red-tint)}
+@media(max-width:850px){.shell{grid-template-columns:minmax(0,1fr);gap:24px;padding:20px 20px 40px}.rail{position:static}.rail nav{flex-direction:row;overflow-x:auto;padding-bottom:8px}.rail nav a{flex:none;white-space:nowrap;border-left:none;border-bottom:2px solid var(--transparent)}.rail nav a.active{border-bottom-color:var(--s2-blue)}.rail-title,.rail-tip{display:none}.hero{padding:24px 20px 30px}.toolbar-inner{padding:15px 20px}}
+@media(max-width:570px){.metadata,.notes-grid{grid-template-columns:minmax(0,1fr)}.field textarea{min-height:125px}.area-card{padding:18px}.hero h1{font-size:32px}.lead{font-size:15px}.brandname{font-size:16px}.kicker{font-size:10px}.foot-inner{flex-direction:column;align-items:flex-start}.foot-right{text-align:left}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+@media print{
+ @page{size:A4;margin:16mm}
+ body{font-size:10pt;background:var(--white);color:var(--ink)}
+ body>div,body>header,body>footer,body>noscript{display:none!important}
+ #print-report{display:block!important}
+ #print-report h1{font-size:22pt;line-height:1.2;margin:0 0 6mm}
+ #print-report h2{font-size:15pt;line-height:1.3;margin:0 0 3mm}
+ #print-report .print-area{break-inside:avoid-page;border-top:1px solid var(--border);padding-top:5mm;margin-top:6mm}
+ #print-report p{white-space:pre-wrap;overflow-wrap:anywhere;margin:2mm 0 4mm}
+ #print-report li{margin-bottom:2mm}
+ #print-report .print-note{font-size:9pt;color:var(--gray-600)}
+}
+</style>
+</head>
+<body>
+<div class="progress" aria-hidden="true"><span id="progressbar"></span></div>
+<div class="ai-note"><div class="ai-note-inner"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span><b>Prepared with AI assistance.</b> Please review for accuracy before use &mdash; this document may contain errors.</span></div></div>
+<header class="hero"><div class="hero-inner">
+ <div class="masthead"><div class="brandrow"><img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe"><span class="brandname">Adobe <span>Experience Manager</span></span></div><span class="kicker">Adobe Experience Manager · Review discussion</span></div>
+ <h1>AEM Sites &amp; Assets<br><span class="hl">Solution</span> &amp; <span class="hl">Adoption</span> Review</h1>
+ <p class="lead">ICICI Bank · AEM Managed Services</p>
+</div></header>
+<div class="toolbar"><div class="toolbar-inner"><div class="actions"><button type="button" class="primary" id="save-html">Download completed HTML</button><button type="button" id="print">Print / Save as PDF</button></div><span class="save-status" id="save-status" role="status" aria-live="polite">Starting worksheet…</span></div></div>
+<div class="message" id="message" role="status" aria-live="polite" hidden></div>
+<noscript>JavaScript is required to save and restore your notes. Enable it in a local browser; no internet connection is needed.</noscript>
+<div class="shell">
+ <aside class="rail" aria-label="Feature areas"><p class="rail-title">Feature areas</p><nav id="spy-nav"><a href="#review-details"><span class="num">—</span>Review details</a>
+<a href="#page-authoring"><span class="num">01</span>Page authoring</a>
+<a href="#templates-components"><span class="num">02</span>Templates and components</a>
+<a href="#review-publishing"><span class="num">03</span>Review, workflow, and publishing</a>
+<a href="#content-fragments"><span class="num">04</span>Content Fragments</a>
+<a href="#experience-fragments"><span class="num">05</span>Experience Fragments</a>
+<a href="#multi-site"><span class="num">06</span>Multi-site and localization</a>
+<a href="#headless-integrations"><span class="num">07</span>Headless and integrations</a>
+<a href="#assets-upload"><span class="num">08</span>Assets: upload and findability</a>
+<a href="#assets-sites"><span class="num">09</span>Assets: use in Sites</a>
+<a href="#assets-updates"><span class="num">10</span>Assets: updates and publishing</a></nav><p class="rail-tip"><strong>Keep a copy of your review.</strong><br>Download your completed worksheet to keep or share your notes. Your entries are also saved in this browser.</p></aside>
+ <main>
+  <div id="review-details">
+   <h2 class="setup-title">Review details</h2>
+   <div class="metadata">
+    <div class="field"><label for="customer">Customer</label><input id="customer" data-meta="customer" type="text" maxlength="500" value="ICICI Bank"></div>
+    <div class="field"><label for="reviewer">Participants / review team</label><input id="reviewer" data-meta="reviewer" type="text" maxlength="500" placeholder="Names or teams taking part"></div>
+    <div class="field"><label for="date">Review date</label><input id="date" data-meta="date" type="date"></div>
+    <div class="field"><label for="version">AEM version / service pack</label><input id="version" data-meta="version" type="text" maxlength="500" placeholder="Version / service pack, if known"></div>
+   </div>
+   <p class="intro-note">Use these questions to discuss your current approach, how AEM supports your teams, and opportunities to improve adoption. The Assets discussion focuses on website images and documents used in Sites, rather than a centralized enterprise DAM. Record examples and agreed next steps; note where further confirmation is needed, including production usage.</p>
+  </div>
+  
+<section class="feature-area" id="page-authoring">
+ <p class="sec-eyebrow">Feature area</p><h2>Page authoring</h2>
+ <div class="area-card">
+  <ul class="questions"><li>What challenges or limitations do authors encounter when creating, editing, or previewing pages using the Page Editor and component dialogs?</li><li>Can authors update text, images, links, and page properties independently, or which of these tasks require developer support?</li></ul>
+  <div class="notes-grid">
+   <div class="field"><label for="page-authoring-notes">Current approach / observations</label>
+    <textarea id="page-authoring-notes" data-area="page-authoring" data-field="notes" rows="5" maxlength="50000" placeholder="Describe your current approach, how the capability is used, and examples discussed."></textarea></div>
+   <div class="field"><label for="page-authoring-actions">Opportunities / agreed next steps</label>
+    <textarea id="page-authoring-actions" data-area="page-authoring" data-field="actions" rows="5" maxlength="50000" placeholder="Capture opportunities, agreed actions, and follow-ups. Include an owner and timing where agreed."></textarea></div>
+  </div>
+ </div>
+</section>
+
+<section class="feature-area" id="templates-components">
+ <p class="sec-eyebrow">Feature area</p><h2>Templates and components</h2>
+ <div class="area-card">
+  <ul class="questions"><li>Which templates and components are available to your authors, and how do they support your site&#x27;s needs?</li><li>Are Editable Templates in use, and do template editors use Content Policies to control allowed components and their settings?</li><li>How is the Style System used to provide approved component styles?</li><li>Where do component dialogs or layout options limit changes authors need to make?</li><li>How are templates and components reused when launching new sites in AEM?</li></ul>
+  <div class="notes-grid">
+   <div class="field"><label for="templates-components-notes">Current approach / observations</label>
+    <textarea id="templates-components-notes" data-area="templates-components" data-field="notes" rows="5" maxlength="50000" placeholder="Describe your current approach, how the capability is used, and examples discussed."></textarea></div>
+   <div class="field"><label for="templates-components-actions">Opportunities / agreed next steps</label>
+    <textarea id="templates-components-actions" data-area="templates-components" data-field="actions" rows="5" maxlength="50000" placeholder="Capture opportunities, agreed actions, and follow-ups. Include an owner and timing where agreed."></textarea></div>
+  </div>
+ </div>
+</section>
+
+<section class="feature-area" id="review-publishing">
+ <p class="sec-eyebrow">Feature area</p><h2>Review, workflow, and publishing</h2>
+ <div class="area-card">
+  <ul class="questions"><li>Which AEM workflows handle content approval, and how are approved pages published or scheduled through Manage Publication?</li><li>Are AEM Launches used to prepare and coordinate scheduled content updates?</li><li>Where do approval handoffs, scheduled publishing, or unpublished referenced assets cause release delays?</li></ul>
+  <div class="notes-grid">
+   <div class="field"><label for="review-publishing-notes">Current approach / observations</label>
+    <textarea id="review-publishing-notes" data-area="review-publishing" data-field="notes" rows="5" maxlength="50000" placeholder="Describe your current approach, how the capability is used, and examples discussed."></textarea></div>
+   <div class="field"><label for="review-publishing-actions">Opportunities / agreed next steps</label>
+    <textarea id="review-publishing-actions" data-area="review-publishing" data-field="actions" rows="5" maxlength="50000" placeholder="Capture opportunities, agreed actions, and follow-ups. Include an owner and timing where agreed."></textarea></div>
+  </div>
+ </div>
+</section>
+
+<section class="feature-area" id="content-fragments">
+ <p class="sec-eyebrow">Feature area</p><h2>Content Fragments</h2>
+ <div class="area-card">
+  <ul class="questions"><li>Are Content Fragments and Content Fragment Models used to manage structured content?</li><li>Which production pages, applications, or APIs consume the Content Fragments, and for what use cases?</li></ul>
+  <div class="notes-grid">
+   <div class="field"><label for="content-fragments-notes">Current approach / observations</label>
+    <textarea id="content-fragments-notes" data-area="content-fragments" data-field="notes" rows="5" maxlength="50000" placeholder="Describe your current approach, how the capability is used, and examples discussed."></textarea></div>
+   <div class="field"><label for="content-fragments-actions">Opportunities / agreed next steps</label>
+    <textarea id="content-fragments-actions" data-area="content-fragments" data-field="actions" rows="5" maxlength="50000" placeholder="Capture opportunities, agreed actions, and follow-ups. Include an owner and timing where agreed."></textarea></div>
+  </div>
+ </div>
+</section>
+
+<section class="feature-area" id="experience-fragments">
+ <p class="sec-eyebrow">Feature area</p><h2>Experience Fragments</h2>
+ <div class="area-card">
+  <ul class="questions"><li>Are Experience Fragments and variations used in your sites?</li><li>Which shared page sections reuse these fragments, and are any variations used with Adobe Target for personalization?</li></ul>
+  <div class="notes-grid">
+   <div class="field"><label for="experience-fragments-notes">Current approach / observations</label>
+    <textarea id="experience-fragments-notes" data-area="experience-fragments" data-field="notes" rows="5" maxlength="50000" placeholder="Describe your current approach, how the capability is used, and examples discussed."></textarea></div>
+   <div class="field"><label for="experience-fragments-actions">Opportunities / agreed next steps</label>
+    <textarea id="experience-fragments-actions" data-area="experience-fragments" data-field="actions" rows="5" maxlength="50000" placeholder="Capture opportunities, agreed actions, and follow-ups. Include an owner and timing where agreed."></textarea></div>
+  </div>
+ </div>
+</section>
+
+<section class="feature-area" id="multi-site">
+ <p class="sec-eyebrow">Feature area</p><h2>Multi-site and localization</h2>
+ <div class="area-card">
+  <ul class="questions"><li>Which Live Copies, language copies, or translation integrations are in place?</li><li>How are updates rolled out to Live Copies, and how are language copies sent for translation and reviewed?</li></ul>
+  <div class="notes-grid">
+   <div class="field"><label for="multi-site-notes">Current approach / observations</label>
+    <textarea id="multi-site-notes" data-area="multi-site" data-field="notes" rows="5" maxlength="50000" placeholder="Describe your current approach, how the capability is used, and examples discussed."></textarea></div>
+   <div class="field"><label for="multi-site-actions">Opportunities / agreed next steps</label>
+    <textarea id="multi-site-actions" data-area="multi-site" data-field="actions" rows="5" maxlength="50000" placeholder="Capture opportunities, agreed actions, and follow-ups. Include an owner and timing where agreed."></textarea></div>
+  </div>
+ </div>
+</section>
+
+<section class="feature-area" id="headless-integrations">
+ <p class="sec-eyebrow">Feature area</p><h2>Headless and integrations</h2>
+ <div class="area-card">
+  <ul class="questions"><li>Which GraphQL capabilities, content delivery APIs, or Adobe and third-party integrations are in place?</li><li>Which websites, apps, or other channels consume these APIs, and what content or data is exchanged through the integrations?</li></ul>
+  <div class="notes-grid">
+   <div class="field"><label for="headless-integrations-notes">Current approach / observations</label>
+    <textarea id="headless-integrations-notes" data-area="headless-integrations" data-field="notes" rows="5" maxlength="50000" placeholder="Describe your current approach, how the capability is used, and examples discussed."></textarea></div>
+   <div class="field"><label for="headless-integrations-actions">Opportunities / agreed next steps</label>
+    <textarea id="headless-integrations-actions" data-area="headless-integrations" data-field="actions" rows="5" maxlength="50000" placeholder="Capture opportunities, agreed actions, and follow-ups. Include an owner and timing where agreed."></textarea></div>
+  </div>
+ </div>
+</section>
+ 
+<section class="feature-area" id="assets-upload">
+ <p class="sec-eyebrow">Feature area</p><h2>Assets: upload and findability</h2>
+ <div class="area-card">
+  <ul class="questions"><li>Does the asset-processing workflow generate the previews and renditions needed for uploaded website images and documents?</li><li>Can authors find website assets using the folder structure, asset titles, tags, and search filters?</li></ul>
+  <div class="notes-grid">
+   <div class="field"><label for="assets-upload-notes">Current approach / observations</label>
+    <textarea id="assets-upload-notes" data-area="assets-upload" data-field="notes" rows="5" maxlength="50000" placeholder="Describe your current approach, how the capability is used, and examples discussed."></textarea></div>
+   <div class="field"><label for="assets-upload-actions">Opportunities / agreed next steps</label>
+    <textarea id="assets-upload-actions" data-area="assets-upload" data-field="actions" rows="5" maxlength="50000" placeholder="Capture opportunities, agreed actions, and follow-ups. Include an owner and timing where agreed."></textarea></div>
+  </div>
+ </div>
+</section>
+
+<section class="feature-area" id="assets-sites">
+ <p class="sec-eyebrow">Feature area</p><h2>Assets: use in Sites</h2>
+ <div class="area-card">
+  <ul class="questions"><li>Do page authors select existing images and documents from AEM Assets, or upload additional copies when building pages?</li><li>Do the page Image components provide the required responsive sizes and crops, using standard AEM delivery or Dynamic Media where applicable?</li></ul>
+  <div class="notes-grid">
+   <div class="field"><label for="assets-sites-notes">Current approach / observations</label>
+    <textarea id="assets-sites-notes" data-area="assets-sites" data-field="notes" rows="5" maxlength="50000" placeholder="Describe your current approach, how the capability is used, and examples discussed."></textarea></div>
+   <div class="field"><label for="assets-sites-actions">Opportunities / agreed next steps</label>
+    <textarea id="assets-sites-actions" data-area="assets-sites" data-field="actions" rows="5" maxlength="50000" placeholder="Capture opportunities, agreed actions, and follow-ups. Include an owner and timing where agreed."></textarea></div>
+  </div>
+ </div>
+</section>
+
+<section class="feature-area" id="assets-updates">
+ <p class="sec-eyebrow">Feature area</p><h2>Assets: updates and publishing</h2>
+ <div class="area-card">
+  <ul class="questions"><li>How are asset replacements and versions managed so existing pages retain the correct image or document without broken references?</li><li>When pages are published, how are referenced assets published or republished, and who checks for outdated or broken asset links?</li></ul>
+  <div class="notes-grid">
+   <div class="field"><label for="assets-updates-notes">Current approach / observations</label>
+    <textarea id="assets-updates-notes" data-area="assets-updates" data-field="notes" rows="5" maxlength="50000" placeholder="Describe your current approach, how the capability is used, and examples discussed."></textarea></div>
+   <div class="field"><label for="assets-updates-actions">Opportunities / agreed next steps</label>
+    <textarea id="assets-updates-actions" data-area="assets-updates" data-field="actions" rows="5" maxlength="50000" placeholder="Capture opportunities, agreed actions, and follow-ups. Include an owner and timing where agreed."></textarea></div>
+  </div>
+ </div>
+</section>
+ </main>
+</div>
+<footer class="site-footer"><div class="foot-inner"><div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe <span>Experience Manager</span></div><div class="foot-right"><p>AEM Sites &amp; Assets · Solution &amp; adoption review</p><p>Notes reflect the scope reviewed. Keep items requiring further confirmation open.</p><p>© 2026 Adobe</p></div></div></footer>
+<div id="print-report"></div>
+<script type="application/json" id="embedded-state">{"schema": "adobe-aem-sites-assets-customer-review", "version": 1, "workbookId": "icici-aem-sites-assets-customer-20261102", "updatedAt": "2026-11-02T13:01:18.109682+00:00", "meta": {"customer": "ICICI Bank", "reviewer": "", "date": "", "version": ""}, "areas": {"page-authoring": {"notes": "", "actions": ""}, "templates-components": {"notes": "", "actions": ""}, "review-publishing": {"notes": "", "actions": ""}, "content-fragments": {"notes": "", "actions": ""}, "experience-fragments": {"notes": "", "actions": ""}, "multi-site": {"notes": "", "actions": ""}, "headless-integrations": {"notes": "", "actions": ""}, "assets-upload": {"notes": "", "actions": ""}, "assets-sites": {"notes": "", "actions": ""}, "assets-updates": {"notes": "", "actions": ""}}}</script>
+<script>
+(() => {
+ 'use strict';
+ const $=id=>document.getElementById(id);
+ const BASE=JSON.parse($('embedded-state').textContent);
+ const KEY='adobe-aem-simple:'+BASE.workbookId;
+ const ids=[...document.querySelectorAll('.feature-area')].map(e=>e.id);
+ let state=JSON.parse(JSON.stringify(BASE)),timer=null,storageWarning=false;
+ function message(text){$('message').textContent=text;$('message').hidden=false;}
+ function text(value,max){if(typeof value!=='string'||value.length>max)throw new Error('Invalid saved field.');return value;}
+ function validate(raw){
+  if(!raw||raw.schema!==BASE.schema||raw.version!==1||raw.workbookId!==BASE.workbookId||!raw.meta||!raw.areas||!Number.isFinite(Date.parse(raw.updatedAt)))throw new Error('Saved worksheet format is invalid.');
+  const clean={schema:BASE.schema,version:1,workbookId:BASE.workbookId,updatedAt:raw.updatedAt,meta:{},areas:{}};
+  for(const key of Object.keys(BASE.meta))clean.meta[key]=text(raw.meta[key],500);
+  const date=clean.meta.date;
+  if(date&&(!/^\d{4}-\d{2}-\d{2}$/.test(date)||!Number.isFinite(Date.parse(date))||new Date(date).toISOString().slice(0,10)!==date))throw new Error('Saved review date is invalid.');
+  for(const id of ids){const area=raw.areas[id];if(!area)throw new Error('A saved feature area is missing.');clean.areas[id]={notes:text(area.notes,50000),actions:text(area.actions,50000)};}
+  return clean;
+ }
+ try{
+  state=validate(BASE);
+  const saved=localStorage.getItem(KEY);
+  if(saved){const candidate=validate(JSON.parse(saved));if(Date.parse(candidate.updatedAt)>Date.parse(state.updatedAt))state=candidate;}
+ }catch(error){storageWarning=true;message('Local autosave could not be loaded: '+error.message+' Use Download completed HTML to keep a portable copy.');}
+ function save(){
+  timer=null;state.updatedAt=new Date().toISOString();
+  try{localStorage.setItem(KEY,JSON.stringify(state));$('save-status').textContent='Saved locally at '+new Date().toLocaleTimeString()+'. Download a copy to share.';}
+  catch(error){storageWarning=true;$('save-status').textContent='Local autosave unavailable — download your filled HTML.';message('Local saving failed: '+error.message+' Your notes remain on this page. Use Download completed HTML before closing it.');}
+ }
+ function schedule(){clearTimeout(timer);$('save-status').textContent='Saving locally…';timer=setTimeout(save,350);}
+ for(const input of document.querySelectorAll('[data-meta]')){
+  input.value=state.meta[input.dataset.meta];
+  input.addEventListener(input.type==='date'?'change':'input',()=>{state.meta[input.dataset.meta]=input.value;schedule();});
+ }
+ for(const input of document.querySelectorAll('textarea[data-area]')){
+  input.value=state.areas[input.dataset.area][input.dataset.field];
+  input.addEventListener('input',()=>{state.areas[input.dataset.area][input.dataset.field]=input.value;schedule();});
+ }
+ $('save-html').addEventListener('click',()=>{
+  clearTimeout(timer);save();
+  const root=document.documentElement.cloneNode(true);
+  root.querySelector('#embedded-state').textContent=JSON.stringify(state).replace(/</g,'\\u003c');
+  root.querySelector('#print-report').replaceChildren();
+  root.querySelector('#message').textContent='';root.querySelector('#message').hidden=true;
+  root.querySelector('#save-status').textContent='Starting worksheet…';
+  root.querySelectorAll('input[data-meta]').forEach(input=>{input.value='';input.removeAttribute('value');});
+  root.querySelectorAll('textarea').forEach(input=>input.textContent='');
+  root.querySelector('title').textContent=(state.meta.customer||'Customer')+' | AEM Sites & Assets Solution & Adoption Review';
+  const name=(state.meta.customer||'Customer').replace(/[^a-z0-9]+/gi,'_').replace(/^_|_$/g,'').slice(0,70)||'Customer';
+  const filename=name+'_AEM_Sites_Assets_Solution_Adoption_Review_'+new Date().toISOString().slice(0,10)+'.html';
+  const url=URL.createObjectURL(new Blob(['<!doctype html>\n'+root.outerHTML],{type:'text/html;charset=utf-8'}));
+  const a=document.createElement('a');a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),2000);
+  message('Download requested: '+filename+'. The new file includes your notes; check your browser’s downloads.');
+ });
+ function element(tag,value){const el=document.createElement(tag);if(value!==undefined)el.textContent=value;return el;}
+ function buildPrint(){
+  const report=$('print-report');report.replaceChildren();
+  report.append(element('h1',(state.meta.customer||'Customer')+' — AEM Sites & Assets Solution & Adoption Review'));
+  const disclosure=element('p','Prepared with AI assistance. Please review for accuracy before use — this document may contain errors.');disclosure.className='print-note';report.append(disclosure);
+  report.append(element('p','AEM Managed Services · Scope: AEM Sites and the supporting website asset library.'));
+  report.append(element('p','Participants: '+(state.meta.reviewer||'[Not recorded]')+'  |  Date: '+(state.meta.date||'[Not recorded]')+'  |  AEM version: '+(state.meta.version||'[Not recorded]')));
+  const caveat=element('p','Notes reflect the review discussion and supporting examples. Confirm production usage where needed and record agreed follow-ups.');caveat.className='print-note';report.append(caveat);
+  ids.forEach((id,index)=>{
+   const section=element('div');section.className='print-area';
+   section.append(element('h2',String(index+1).padStart(2,'0')+' · '+$(id).querySelector('h2').textContent));
+   const questions=element('ul');for(const li of $(id).querySelectorAll('.questions li'))questions.append(element('li',li.textContent));section.append(questions);
+   for(const [key,label] of [['notes','Current approach / observations'],['actions','Opportunities / agreed next steps']]){section.append(element('strong',label),element('p',state.areas[id][key]||'[Not recorded]'));}
+   report.append(section);
+  });
+ }
+ $('print').addEventListener('click',()=>{buildPrint();window.print();});window.addEventListener('beforeprint',buildPrint);
+ document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&timer){clearTimeout(timer);save();}});
+ window.addEventListener('beforeunload',()=>{if(timer){clearTimeout(timer);save();}});
+ window.addEventListener('storage',event=>{if(event.key===KEY)message('This worksheet changed in another tab. Your current notes were not replaced. Download a copy before reloading.');});
+ const links=[...document.querySelectorAll('#spy-nav a')],sections=links.map(a=>$(a.hash.slice(1)));
+ function updateNavigation(){
+  let active=sections[0];for(const s of sections)if(s.getBoundingClientRect().top<=110)active=s;
+  for(const a of links){const current=a.hash==='#'+active.id;a.classList.toggle('active',current);if(current)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current');}
+  const max=document.documentElement.scrollHeight-innerHeight;$('progressbar').style.transform='scaleX('+Math.min(1,Math.max(0,max>0?scrollY/max:0))+')';
+ }
+ let scheduled=false;window.addEventListener('scroll',()=>{if(!scheduled){scheduled=true;requestAnimationFrame(()=>{updateNavigation();scheduled=false;});}},{passive:true});window.addEventListener('resize',updateNavigation);updateNavigation();
+ if(!storageWarning)$('save-status').textContent='Your notes are saved in this browser. Download a copy to keep or share.';
+ else $('save-status').textContent='Use Download completed HTML to preserve your notes.';
+})();
+</script>
+</body>
+</html>

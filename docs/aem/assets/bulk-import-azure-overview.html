@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SharePoint to AEM Assets via Azure &mdash; Approach Overview</title>
-<meta name="description" content="How AEM Assets Bulk Import uses Azure Blob Storage as a staging area for SharePoint content: the route, why Azure, key concepts, how an import runs, what happens to content and metadata, and the security model.">
+<meta name="description" content="How AEM Assets Bulk Import uses Azure Blob Storage as a staging area for SharePoint content: the route, why Azure, anatomy, how an import runs, what happens to content and metadata, and the security model.">
 <style>
 :root{
   /* Brand — kept for the mark and for editorial accents */
@@ -666,9 +666,230 @@ body.onepager section{scroll-margin-top:76px;}
 .c-eg code{font-size:11.5px;}
 @media(max-width:760px){ .concept-grid{grid-template-columns:1fr;} }
 
+/* ===== Azure overview visuals ===== */
+.sprite{position:absolute; width:0; height:0; overflow:hidden;}
+.ic{width:20px; height:20px; flex:none; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
+.ic-sm{width:14px; height:14px;}
+.ic-box{width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+  background:var(--bg-layer-2); border:1px solid var(--border); color:var(--ink); flex:none;}
+.ic-box.dark{background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.18); color:var(--white);}
+
+/* Shared arrow connector (horizontal on desktop, vertical when stacked) */
+.f-conn{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:0 8px;
+  text-align:center; font-size:11.5px; font-weight:600; color:var(--gray-700); line-height:1.3;}
+.f-arrow{position:relative; width:100%; min-width:24px; height:2px; background:var(--gray-400);}
+.f-arrow::after{content:""; position:absolute; right:-1px; top:50%; transform:translateY(-50%);
+  border-left:7px solid var(--gray-400); border-top:5px solid transparent; border-bottom:5px solid transparent;}
+.f-conn.dash .f-arrow{background:repeating-linear-gradient(90deg,var(--gray-400) 0 5px,transparent 5px 9px);}
+
+/* 01 · Route flow */
+.flow{display:grid; grid-template-columns:minmax(0,1fr) 104px minmax(0,1fr) 104px minmax(0,1fr); gap:10px 0;
+  align-items:stretch; background:var(--bg-layer-1); border:1px solid var(--border); border-radius:var(--radius);
+  padding:20px; box-shadow:var(--shadow-sm);}
+.c1{grid-column:1}.c2{grid-column:2}.c3{grid-column:3}.c4{grid-column:4}.c5{grid-column:5}
+.r1{grid-row:1}.r2{grid-row:2}.r3{grid-row:3}
+.f-node{background:linear-gradient(135deg,var(--charcoal) 0%,var(--charcoal-2) 100%); color:var(--white);
+  border-radius:12px; padding:13px 14px; display:flex; align-items:center; gap:12px; border:1px solid var(--gray-800);}
+.f-node strong{display:block; font-size:15px; line-height:1.25;}
+.f-node span{display:block; font-size:12px; color:var(--gray-300); margin-top:2px;}
+.f-cell{background:var(--bg-base); border:1px solid var(--border); border-radius:12px; padding:11px 14px;
+  font-size:13.5px; color:var(--gray-800); line-height:1.45;}
+.f-cell.meta{background:var(--bg-layer-2); border-style:dashed; border-color:var(--border-strong);}
+.f-lane{display:block; font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gray-600); margin-bottom:3px;}
+.flow-legend{display:flex; flex-wrap:wrap; gap:16px; margin:12px 2px 0; font-size:12.5px; color:var(--gray-600);}
+.flow-legend span{display:inline-flex; align-items:center; gap:8px;}
+.flow-legend i{display:inline-block; width:22px; height:2px; background:var(--gray-400);}
+.flow-legend i.dash{background:repeating-linear-gradient(90deg,var(--gray-400) 0 5px,transparent 5px 9px);}
+
+/* 02 · Why tiles */
+.why-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px;}
+.why-tile{background:var(--bg-base); border:1px solid var(--border); border-radius:14px; padding:18px;
+  box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:10px;
+  transition:border-color .15s, transform .15s, box-shadow .15s;}
+.why-tile:hover{border-color:var(--border-strong); transform:translateY(-1px); box-shadow:var(--shadow-lg);}
+.why-tile h3{margin:0; font-size:16px;}
+.why-tile p{margin:0; font-size:13.8px; color:var(--gray-700); line-height:1.52;}
+
+/* 03 · Anatomy diagram */
+.anat{display:grid; grid-template-columns:minmax(0,1.2fr) 48px minmax(0,.9fr) 48px minmax(0,1fr); align-items:center;
+  background:var(--bg-layer-1); border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-sm);}
+.anat-side{display:flex; flex-direction:column; gap:8px; min-width:0;}
+.anat-cap{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-600);}
+.nbox{border:1px solid var(--border-strong); border-radius:12px; padding:10px 12px 12px; background:var(--bg-layer-2); min-width:0;}
+.nbox .nbox{margin-top:10px; background:var(--bg-base);}
+.nbox .nbox .nbox{background:var(--bg-layer-1); border-style:dashed;}
+.nb-head{display:flex; flex-wrap:wrap; align-items:baseline; gap:2px 8px;}
+.nb-term{font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--adobe-red-dark);}
+.nb-name{font-family:var(--mono); font-size:13px; font-weight:700; color:var(--ink); overflow-wrap:anywhere;}
+.nb-note{display:block; font-size:12.5px; color:var(--gray-700); line-height:1.45; margin-top:3px;}
+.files{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-direction:column; gap:4px;}
+.files li{display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:11.8px; color:var(--ink);
+  background:var(--bg-base); border:1px solid var(--border); border-radius:7px; padding:5px 8px; min-width:0;}
+.files li span{overflow-wrap:anywhere; min-width:0;}
+.files li .ic{color:var(--gray-600);}
+.files li .nb-term{margin-left:auto; font-size:9.5px; white-space:nowrap;}
+.anat-foot{font-size:12.5px; color:var(--gray-600); line-height:1.45; margin:2px 2px 0;}
+.anat-foot strong{color:var(--gray-800);}
+.cfg{background:linear-gradient(135deg,var(--charcoal) 0%,var(--charcoal-2) 100%); color:var(--gray-200);
+  border-radius:14px; padding:16px; box-shadow:var(--shadow); border:1px solid var(--gray-800); min-width:0;}
+.cfg .nb-term{color:var(--coral-2);}
+.cfg .nb-note{color:var(--gray-300);}
+.cfg dl{margin:12px 0 0; display:grid; grid-template-columns:auto minmax(0,1fr); gap:8px 10px; font-size:12.3px;}
+.cfg dt{font-family:var(--mono); font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; color:var(--gray-400); padding-top:2px;}
+.cfg dd{margin:0; font-family:var(--mono); color:var(--white); overflow-wrap:anywhere; display:flex; align-items:center; gap:6px;}
+.cfg dd .ic{color:var(--coral-2);}
+.cfg-more{margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,.12); font-size:12px; color:var(--gray-300);}
+.pathmap{margin:14px 0 0; background:var(--bg-base); border:1px solid var(--border); border-radius:14px; padding:14px 18px; box-shadow:var(--shadow-sm);}
+.pm-row{display:flex; flex-wrap:wrap; align-items:flex-start; gap:6px 10px;}
+.pm-group{display:flex; flex-wrap:wrap; align-items:flex-start; gap:6px;}
+.pm-seg.ctx code{color:var(--gray-600); background:var(--bg-layer-1);}
+.pm-seg{display:flex; flex-direction:column; gap:4px;}
+.pm-seg code{font-size:12.8px; padding:5px 8px;}
+.pm-seg small{font-size:10.5px; color:var(--gray-600); font-family:var(--mono); letter-spacing:.02em;}
+.pm-seg.drop code{text-decoration:line-through; color:var(--gray-500); background:var(--bg-layer-1); border-style:dashed;}
+.pm-seg.drop small{color:var(--adobe-red-dark);}
+.pm-seg.keep code{font-weight:700; border-color:var(--border-strong); background:var(--bg-base);}
+.pm-arrow{font-family:var(--mono); font-weight:700; color:var(--gray-600); padding:4px 8px 0;}
+
+/* 04 · Stepper */
+.stepper{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px;}
+.st-bracket{grid-column:1 / span 2; grid-row:1; position:relative; height:20px; margin:8px 10px 0;
+  border:1px solid var(--border-strong); border-bottom:none; border-radius:10px 10px 0 0;}
+.st-bracket span{position:absolute; top:-9px; left:50%; transform:translateX(-50%); background:var(--bg-base); padding:0 8px;
+  font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-700); white-space:nowrap;}
+.step-c{grid-row:2; position:relative; background:var(--bg-base); border:1px solid var(--border); border-radius:14px; padding:16px;
+  box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:7px;}
+.step-c:not(:last-child)::after{content:""; position:absolute; right:-13px; top:33px; width:14px; height:2px; background:var(--gray-400);}
+.st-top{display:flex; align-items:center; justify-content:space-between; gap:6px;}
+.st-flag{font-family:var(--mono); font-size:9.5px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--adobe-red-dark);
+  background:var(--adobe-red-tint); border:1px solid var(--coral-2); border-radius:var(--radius-pill); padding:2px 7px; white-space:nowrap;}
+.step-c h3{margin:0; font-size:15.5px;}
+.step-c p{margin:0; font-size:13.2px; color:var(--gray-700); line-height:1.5; flex:1;}
+.st-see{font-size:12.5px; color:var(--gray-800); padding-top:8px; border-top:1px solid var(--gray-200); line-height:1.4;}
+.st-see b{display:block; font-family:var(--mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-600); margin-bottom:1px;}
+.controls{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:14px 0 0;}
+.ctrl{display:flex; gap:12px; align-items:flex-start; background:var(--bg-layer-1); border:1px solid var(--border); border-radius:12px; padding:14px 16px;}
+.ctrl strong{display:block; font-size:14.5px; color:var(--ink); margin-bottom:2px;}
+.ctrl span{font-size:13.5px; color:var(--gray-700); line-height:1.5;}
+
+/* 05 · Content fate */
+.fate-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px;}
+.fate{background:var(--bg-base); border:1px solid var(--border); border-radius:14px; padding:18px; box-shadow:var(--shadow-sm);
+  display:flex; flex-direction:column; gap:12px;}
+.fate.stay{background:var(--bg-layer-1);}
+.fate-head{display:flex; align-items:center; gap:10px;}
+.fate-head h3{margin:0; font-size:16px;}
+.fate ul{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:8px;}
+.fate li{display:flex; align-items:flex-start; gap:8px; font-size:13.8px; color:var(--gray-800); line-height:1.45;}
+.fate li .ic{margin-top:2px; color:var(--gray-600);}
+.xf{display:flex; flex-direction:column; gap:5px; padding:10px 12px; background:var(--bg-layer-1); border:1px solid var(--border); border-radius:10px;}
+.xf-row{display:flex; flex-wrap:wrap; align-items:center; gap:6px; font-family:var(--mono); font-size:12.3px;}
+.xf-kind{font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-600);}
+.xf-from{color:var(--gray-700);}
+.xf-to{font-weight:700; color:var(--ink); background:var(--bg-base); border:1px solid var(--border-strong); border-radius:6px; padding:2px 6px;}
+.xf small{font-size:12px; color:var(--gray-600); font-family:var(--font); line-height:1.4;}
+.fate-foot{margin-top:auto; font-size:12.8px; color:var(--gray-700); padding-top:10px; border-top:1px solid var(--gray-200); line-height:1.45;}
+.mode-card h3 .ic{color:var(--gray-700);}
+
+/* 06 · Metadata mapping */
+.mapv{background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden;}
+.mapv-row{display:grid; grid-template-columns:minmax(0,1fr) 44px minmax(0,.8fr) minmax(0,1.5fr); gap:12px; align-items:center;
+  padding:11px 18px; border-top:1px solid var(--gray-200); transition:background .15s;}
+.mapv-row:hover{background:var(--gray-75);}
+.mapv-row.head{background:var(--bg-layer-2); border-top:none; font-family:var(--mono); font-size:11px; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--gray-700); padding:10px 18px;}
+.mapv-row.head:hover{background:var(--bg-layer-2);}
+.mv-sp{display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+.mv-sp strong{font-size:14px; color:var(--ink);}
+.mv-type{font-family:var(--mono); font-size:10.5px; color:var(--gray-600); border:1px dashed var(--border-strong); border-radius:4px; padding:1px 5px;}
+.mv-aem{display:inline-flex; justify-self:start; font-weight:700; font-size:13.5px; color:var(--ink); background:var(--bg-layer-1);
+  border:1px solid var(--border-strong); border-radius:var(--radius-pill); padding:4px 11px;}
+.mv-why{font-size:13.3px; color:var(--gray-700); line-height:1.45;}
+.mapv-row.warn .mv-aem{background:var(--adobe-red-tint); border-color:var(--coral-2); color:var(--adobe-red-dark);}
+
+/* 07 · Security */
+.sec-grid{display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:18px; align-items:start;}
+.token{background:linear-gradient(135deg,var(--charcoal) 0%,var(--charcoal-2) 100%); color:var(--gray-200);
+  border-radius:var(--radius); padding:22px 24px; box-shadow:var(--shadow-lg); border:1px solid var(--gray-800);}
+.tk-head{display:flex; align-items:center; gap:12px; padding-bottom:14px; border-bottom:1px dashed rgba(255,255,255,.22);}
+.tk-head strong{display:block; color:var(--white); font-size:17px;}
+.tk-head span{display:block; font-size:12.5px; color:var(--gray-400);}
+.tk-rows{display:flex; flex-direction:column; gap:15px; margin-top:16px;}
+.tk-row{display:grid; grid-template-columns:104px minmax(0,1fr); gap:12px;}
+.tk-k{font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--coral-2); padding-top:3px;}
+.tk-v{font-size:13.8px; color:var(--gray-200); line-height:1.5;}
+.tk-v strong{color:var(--white);}
+.tk-v code{background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.16); color:var(--white);}
+.perm{display:inline-flex; align-items:center; gap:5px; font-family:var(--mono); font-size:12px; font-weight:700;
+  padding:3px 10px; border-radius:var(--radius-pill); margin:0 6px 6px 0;}
+.perm.on{background:var(--white); color:var(--ink);}
+.perm.opt{border:1px dashed rgba(255,255,255,.38); color:var(--gray-300);}
+.tk-note{display:block; font-size:12.5px; color:var(--gray-400); margin-top:2px;}
+.sec-list{display:flex; flex-direction:column; gap:10px;}
+.sec-item{display:grid; grid-template-columns:40px minmax(0,1fr); gap:12px; background:var(--bg-base); border:1px solid var(--border);
+  border-radius:12px; padding:14px 16px; box-shadow:var(--shadow-sm);}
+.sec-item strong{display:block; font-size:14.5px; color:var(--ink); margin-bottom:2px;}
+.sec-item p{margin:0; font-size:13.3px; color:var(--gray-700); line-height:1.5;}
+
+/* Responsive */
+@media(max-width:980px){
+  .why-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .anat, .flow{display:flex; flex-direction:column; gap:8px;}
+  .anat .f-conn, .flow .f-conn{flex-direction:row; justify-content:flex-start; padding:0 0 0 18px; min-height:22px;}
+  .f-arrow{width:2px; min-width:0; height:20px; flex:none;}
+  .f-arrow::after{right:auto; left:50%; top:auto; bottom:-1px; transform:translateX(-50%);
+    border-left:5px solid transparent; border-right:5px solid transparent; border-top:7px solid var(--gray-400); border-bottom:none;}
+  .f-conn.dash .f-arrow{background:repeating-linear-gradient(180deg,var(--gray-400) 0 5px,transparent 5px 9px);}
+  .anat{align-items:stretch;}
+  .anat .f-conn{justify-content:center; padding:0;}
+  .stepper{display:flex; flex-direction:column; gap:12px;}
+  .st-bracket{height:auto; margin:0; border:none; border-left:2px solid var(--border-strong); padding-left:10px;}
+  .st-bracket span{position:static; transform:none; padding:0;}
+  .step-c:not(:last-child)::after{right:auto; left:33px; top:auto; bottom:-13px; width:2px; height:14px;}
+  .sec-grid{grid-template-columns:1fr;}
+  .fate-grid{grid-template-columns:1fr;}
+}
+@media(max-width:760px){
+  .why-grid, .controls{grid-template-columns:1fr;}
+  .mapv-row{grid-template-columns:1fr; gap:6px;}
+  .mapv-row.head, .mapv .mv-arrow{display:none;}
+  .mv-aem::before{content:"\2192\00a0";}
+  .tk-row{grid-template-columns:1fr; gap:4px;}
+  .pm-row{flex-direction:column; gap:6px;}
+  .pm-arrow{transform:rotate(90deg); padding:0 0 0 6px;}
+}
+
 </style>
 </head>
 <body class="onepager">
+
+<svg class="sprite" aria-hidden="true" focusable="false">
+  <symbol id="i-library" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
+  <symbol id="i-box" viewBox="0 0 24 24"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></symbol>
+  <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" y1="8" x2="22" y2="13"/><line x1="22" y1="8" x2="17" y2="13"/></symbol>
+  <symbol id="i-badge" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
+  <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></symbol>
+  <symbol id="i-sheet" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></symbol>
+  <symbol id="i-key" viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="10" y1="15" x2="10" y2="9"/><line x1="14" y1="15" x2="14" y2="9"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="8" y1="12" x2="16" y2="12"/></symbol>
+  <symbol id="i-skip" viewBox="0 0 24 24"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" y1="5" x2="19" y2="19"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+  <symbol id="i-nonet" viewBox="0 0 24 24"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55"/><path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39"/><path d="M10.71 5.05A16 16 0 0 1 22.58 9"/><path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></symbol>
+</svg>
 
 <div class="progress"><span id="progressbar"></span></div>
 
@@ -695,9 +916,6 @@ body.onepager section{scroll-margin-top:76px;}
     <div class="hero-body">
       <h1>Move SharePoint assets into AEM Assets through <span class="hl">Azure</span>.</h1>
       <p class="lead">How AEM&rsquo;s Bulk Import uses <strong>Azure Blob Storage</strong> as a staging area, and why that&rsquo;s the cleanest route for content that lives in SharePoint today.</p>
-      <div class="hero-actions">
-        <a class="btn btn-ghost" href="folder-structure-design-guide.html">Folder structure guide</a>
-      </div>
     </div>
   </div>
 </header>
@@ -709,213 +927,285 @@ body.onepager section{scroll-margin-top:76px;}
     <div class="nav-links">
       <a href="#route" class="active">The route</a>
       <a href="#why">Why Azure</a>
-      <a href="#concepts">Concepts</a>
+      <a href="#anatomy">Anatomy</a>
       <a href="#lifecycle">How it runs</a>
       <a href="#content">Your content</a>
       <a href="#metadata">Metadata</a>
       <a href="#security">Security</a>
-      <a href="#know">Good to know</a>
     </div>
   </div>
 </nav>
 
 <main class="page">
 
-  <!-- ============================== 01 ============================== -->
+  <!-- ============================== 01 · ROUTE ============================== -->
   <section id="route">
     <p class="sec-eyebrow">The route</p>
     <h2>Three hops: SharePoint, Azure, AEM Assets</h2>
-    <p class="sec-intro">AEM&rsquo;s Bulk Import collects files from cloud storage, not from collaboration sites. It can&rsquo;t read SharePoint directly. Instead, the SharePoint content is copied once into a private Azure Blob Storage container, and Bulk Import pulls it from there into AEM Assets, folder structure and all.</p>
+    <p class="sec-intro">AEM&rsquo;s Bulk Import collects files from cloud storage, not from collaboration sites, so it can&rsquo;t read SharePoint directly. The content takes one detour through a private Azure Blob Storage container. Files and their SharePoint column data travel on two separate paths and meet again in AEM.</p>
 
     <div class="oneliner">
       <p>Think of Azure as a <span class="em">loading dock</span>. Content is <strong>copied there once</strong>, AEM <strong>collects it from there</strong>, and the dock is <strong>cleared</strong> when the move is done.</p>
       <div class="oneliner-stat">
-        <span class="big">1 container</span>
-        <span class="cap">plus one scoped, expiring access token. No personal sign-in.</span>
+        <span class="big">One-way</span>
+        <span class="cap">A copy, not a sync. Later SharePoint changes need another copy and import.</span>
       </div>
     </div>
 
-    <div class="arch-diagram">
-      <p class="arch-caption">Content path &middot; where the files are at each step</p>
-      <div class="arch-lanes">
-        <div class="arch-stage">
-          <div>
-            <p class="arch-step"><span>01</span> &middot; Today</p>
-            <h4>SharePoint libraries</h4>
-            <p>Assets sit in document libraries, often with extra columns such as campaign, market, or rights.</p>
-          </div>
-          <div class="arch-foot"><span class="pill">files</span><span class="pill">column metadata</span></div>
-        </div>
-        <div class="arch-stage">
-          <div>
-            <p class="arch-step"><span>02</span> &middot; Copy</p>
-            <h4>Copy out of SharePoint</h4>
-            <p>A copy tool approved by IT writes the files into the container and keeps the folders. Library views are exported to a spreadsheet for metadata.</p>
-          </div>
-          <div class="arch-foot"><span class="pill">one-way copy</span><span class="pill">spreadsheet</span></div>
-        </div>
-        <div class="arch-stage">
-          <div>
-            <p class="arch-step"><span>03</span> &middot; Staging</p>
-            <h4>Azure Blob container</h4>
-            <p>A private, temporary container in the Azure region you choose. AEM reads it with a token limited to that one container.</p>
-          </div>
-          <div class="arch-foot"><span class="pill">private</span><span class="pill">temporary</span></div>
-        </div>
-        <div class="arch-stage">
-          <div>
-            <p class="arch-step"><span>04</span> &middot; Destination</p>
-            <h4>AEM Assets</h4>
-            <p>Bulk Import copies each file into the target folder. AEM then generates renditions, applies profiles and metadata, and makes assets searchable.</p>
-          </div>
-          <div class="arch-foot"><span class="pill">Bulk Import</span><span class="pill solid">searchable</span></div>
-        </div>
-      </div>
+    <div class="flow" role="img" aria-label="Files and metadata flow from SharePoint to an Azure Blob container, then into AEM Assets">
+      <div class="f-node c1 r1"><span class="ic-box dark"><svg class="ic"><use href="#i-library"/></svg></span><div><strong>SharePoint</strong><span>Where the content lives today</span></div></div>
+      <div class="f-cell c1 r2"><span class="f-lane">Files</span>Document libraries and their folders</div>
+      <div class="f-cell meta c1 r3"><span class="f-lane">Metadata</span>Library columns: campaign, market, rights, expiry</div>
+      <div class="f-conn c2 r2"><span class="f-arrow"></span>Copy tool approved by IT</div>
+      <div class="f-conn dash c2 r3"><span class="f-arrow"></span>Export view as a spreadsheet</div>
+
+      <div class="f-node c3 r1"><span class="ic-box dark"><svg class="ic"><use href="#i-box"/></svg></span><div><strong>Azure Blob container</strong><span>Private, temporary staging</span></div></div>
+      <div class="f-cell c3 r2"><span class="f-lane">Files</span>Arranged in batch folders that mirror the target design</div>
+      <div class="f-cell meta c3 r3"><span class="f-lane">Metadata</span>Metadata file (CSV) saved next to the files</div>
+      <div class="f-conn c4 r2"><span class="f-arrow"></span>Bulk Import</div>
+      <div class="f-conn dash c4 r3"><span class="f-arrow"></span>Applied during import</div>
+
+      <div class="f-node c5 r1"><span class="ic-box dark"><svg class="ic"><use href="#i-image"/></svg></span><div><strong>AEM Assets</strong><span>The destination</span></div></div>
+      <div class="f-cell c5 r2"><span class="f-lane">Files</span>Assets with previews, renditions, and crops</div>
+      <div class="f-cell meta c5 r3"><span class="f-lane">Metadata</span>Titles, tags, rights, and expiry on each asset</div>
     </div>
+    <div class="flow-legend"><span><i></i>Files</span><span><i class="dash"></i>Column metadata</span></div>
   </section>
 
-  <!-- ============================== 02 ============================== -->
+  <!-- ============================== 02 · WHY ============================== -->
   <section id="why">
     <p class="sec-eyebrow">Why Azure</p>
     <h2>Six reasons Azure is the cleanest staging area</h2>
-    <p class="sec-intro">Bulk Import supports several cloud sources. Azure Blob Storage is the most mature of them, and it fits naturally for organizations that already run on Microsoft&nbsp;365.</p>
-    <div class="principle-grid">
-      <div class="role-card"><span class="cnum">Reason 1 &middot; Continuity</span><h3>Not tied to a person</h3><p>AEM connects with a storage credential, not an employee&rsquo;s sign-in. Password resets, MFA changes, and people changing roles don&rsquo;t interrupt the import.</p></div>
-      <div class="role-card"><span class="cnum">Reason 2 &middot; Security</span><h3>Scoped, expiring access</h3><p>A shared access signature (SAS) token can be limited to one container, to read-only access, and to an end date. It can be cut off early if needed.</p></div>
-      <div class="role-card"><span class="cnum">Reason 3 &middot; Maturity</span><h3>Adobe&rsquo;s recommended route</h3><p>Adobe recommends Azure or S3 for large and scheduled imports. Both Bulk Import interfaces support it: Admin view (Tools &rsaquo; Assets &rsaquo; Bulk Import) and the newer Assets view.</p></div>
-      <div class="role-card"><span class="cnum">Reason 4 &middot; Scale</span><h3>Built for volume</h3><p>No per-copy size caps or personal storage quotas. Very large files are fine, and any batch can be re-run safely.</p></div>
-      <div class="role-card"><span class="cnum">Reason 5 &middot; Transfer</span><h3>Cloud-to-cloud copy</h3><p>Files move directly from the container into AEM&rsquo;s cloud storage. Nothing passes through a laptop or a browser upload.</p></div>
-      <div class="role-card"><span class="cnum">Reason 6 &middot; Control</span><h3>Easy to inspect, easy to remove</h3><p>IT can browse exactly what&rsquo;s staged with Azure&rsquo;s own tools before anything is imported. Once the migration is signed off, the container is deleted.</p></div>
+    <p class="sec-intro">Bulk Import supports several cloud sources. Azure Blob Storage is the most mature of them, and the natural fit for organizations that already run on Microsoft&nbsp;365.</p>
+    <div class="why-grid">
+      <div class="why-tile"><span class="ic-box"><svg class="ic"><use href="#i-user"/></svg></span><h3>Not tied to a person</h3><p>AEM connects with a storage credential, not an employee&rsquo;s sign-in. Password resets, MFA changes, and role changes don&rsquo;t interrupt imports.</p></div>
+      <div class="why-tile"><span class="ic-box"><svg class="ic"><use href="#i-badge"/></svg></span><h3>Adobe&rsquo;s recommended route</h3><p>Adobe recommends Azure (or Amazon S3) for large and scheduled imports.</p></div>
+      <div class="why-tile"><span class="ic-box"><svg class="ic"><use href="#i-layers"/></svg></span><h3>Works in both interfaces</h3><p>Admin view (Tools &rsaquo; Assets &rsaquo; Bulk Import) and the newer Assets view run the same engine. Both support Azure, health checks, dry runs, and schedules.</p></div>
+      <div class="why-tile"><span class="ic-box"><svg class="ic"><use href="#i-db"/></svg></span><h3>Built for volume</h3><p>No per-copy size caps or personal storage quotas, and very large files are fine.</p></div>
+      <div class="why-tile"><span class="ic-box"><svg class="ic"><use href="#i-cloud"/></svg></span><h3>Cloud-to-cloud transfer</h3><p>Files move straight from the container into AEM&rsquo;s cloud storage, never through a laptop or a browser upload.</p></div>
+      <div class="why-tile"><span class="ic-box"><svg class="ic"><use href="#i-eye"/></svg></span><h3>Easy to inspect</h3><p>IT can browse exactly what&rsquo;s staged with Azure&rsquo;s own tools before anything is imported.</p></div>
     </div>
   </section>
 
-  <!-- ============================== 03 ============================== -->
-  <section id="concepts">
-    <p class="sec-eyebrow">Key concepts</p>
-    <h2>The eight terms you&rsquo;ll hear</h2>
-    <p class="sec-intro">These terms come up in every conversation about this route. The examples use the sample company <em>Meridian</em> from the folder structure guide.</p>
-    <div class="concept-grid">
-      <div class="concept"><span class="c-term">Storage account</span><p>Your organization&rsquo;s Azure storage resource. It&rsquo;s created in a region you choose and billed to your Azure subscription.</p><span class="c-eg">e.g. <code>meridianmigration</code></span></div>
-      <div class="concept"><span class="c-term">Container</span><p>A private space inside the storage account that holds the staged files. A single container for the whole migration is typical.</p><span class="c-eg">e.g. <code>aem-migration</code></span></div>
-      <div class="concept"><span class="c-term">Folders</span><p>Azure doesn&rsquo;t have real folders. The path in each file&rsquo;s name acts as one, and AEM turns those paths into real folders.</p><span class="c-eg">e.g. <code>campaigns/2026/hero.jpg</code></span></div>
-      <div class="concept"><span class="c-term">SAS token</span><p>A signed, time-limited key that grants only the permissions it lists, such as read and list on one container. You paste it into AEM, and it stops working when it expires or is revoked.</p><span class="c-eg">read + list &middot; expires after the migration</span></div>
-      <div class="concept"><span class="c-term">Source folder</span><p>The folder inside the container that an import reads. Everything below it is imported. The source folder name itself doesn&rsquo;t carry over.</p><span class="c-eg">e.g. <code>wave01/</code></span></div>
-      <div class="concept"><span class="c-term">Target folder</span><p>The AEM folder that receives the import. The subfolders below the source folder are recreated underneath it.</p><span class="c-eg">e.g. <code>/content/dam/meridian</code></span></div>
-      <div class="concept"><span class="c-term">Import configuration</span><p>Saved settings in AEM: which container and source folder, where files go, filters, how to treat assets that already exist, and an optional schedule.</p><span class="c-eg">one per batch, reusable</span></div>
-      <div class="concept"><span class="c-term">Metadata file</span><p>A spreadsheet saved as CSV in the container. It gives AEM the title, tags, rights, and expiry for each asset as it lands.</p><span class="c-eg">built from SharePoint columns</span></div>
+  <!-- ============================== 03 · ANATOMY ============================== -->
+  <section id="anatomy">
+    <p class="sec-eyebrow">Anatomy</p>
+    <h2>Where everything lives</h2>
+    <p class="sec-intro">The terms that come up in every conversation about this route, shown in place. The examples use <em>Meridian</em>, the sample company from the <a href="folder-structure-design-guide.html">folder structure guide</a>.</p>
+
+    <div class="anat">
+      <div class="anat-side">
+        <span class="anat-cap">In Azure</span>
+        <div class="nbox">
+          <div class="nb-head"><span class="nb-term">Storage account</span><span class="nb-name">meridianmigration</span></div>
+          <span class="nb-note">Your Azure storage resource. Use a standard Blob account; Data Lake accounts with a hierarchical namespace aren&rsquo;t documented as supported.</span>
+          <div class="nbox">
+            <div class="nb-head"><span class="nb-term">Container</span><span class="nb-name">aem-migration</span></div>
+            <span class="nb-note">The private space that holds the staged files. One per migration is typical.</span>
+            <div class="nbox">
+              <div class="nb-head"><span class="nb-term">Source folder</span><span class="nb-name">wave01/</span></div>
+              <span class="nb-note">What one import reads.</span>
+              <ul class="files">
+                <li><svg class="ic ic-sm"><use href="#i-file"/></svg><span>campaigns/2026/hero.jpg</span></li>
+                <li><svg class="ic ic-sm"><use href="#i-file"/></svg><span>products/cards/platinum.png</span></li>
+                <li><svg class="ic ic-sm"><use href="#i-sheet"/></svg><span>metadata.csv</span><span class="nb-term">Metadata file</span></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p class="anat-foot"><strong>Folders:</strong> Azure has no real folders. The path in each file&rsquo;s name acts as one, and AEM turns it into real folders.</p>
+      </div>
+
+      <div class="f-conn"><span class="f-arrow"></span></div>
+
+      <div class="anat-side">
+      <div class="cfg">
+        <div class="nb-head"><span class="nb-term">Import configuration</span></div>
+        <span class="nb-note">Saved settings in AEM. One per batch, reusable.</span>
+        <dl>
+          <dt>Source</dt><dd>aem-migration / wave01/</dd>
+          <dt>Access</dt><dd><svg class="ic ic-sm"><use href="#i-key"/></svg>SAS token</dd>
+          <dt>Target</dt><dd>/content/dam/meridian</dd>
+          <dt>Metadata</dt><dd>metadata.csv</dd>
+        </dl>
+        <div class="cfg-more">Also sets filters, the import mode, and an optional schedule.</div>
+      </div>
+      <p class="anat-foot"><strong>SAS token:</strong> the signed, limited key AEM uses to read the container. See <a href="#security">Security</a>.</p>
+      </div>
+
+      <div class="f-conn"><span class="f-arrow"></span></div>
+
+      <div class="anat-side">
+        <span class="anat-cap">In AEM Assets</span>
+        <div class="nbox">
+          <div class="nb-head"><span class="nb-term">Target folder</span><span class="nb-name">/content/dam/meridian/</span></div>
+          <span class="nb-note">The AEM folder that receives the import.</span>
+          <ul class="files">
+            <li><svg class="ic ic-sm"><use href="#i-image"/></svg><span>campaigns/2026/hero.jpg</span></li>
+            <li><svg class="ic ic-sm"><use href="#i-image"/></svg><span>products/cards/platinum.png</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="pathmap" role="img" aria-label="Path mapping: the container and source folder are dropped, the rest of the path is recreated under the target folder">
+      <p class="sub-heading" style="margin:0 0 10px">How one path maps</p>
+      <div class="pm-row">
+        <div class="pm-group">
+          <div class="pm-seg ctx"><code>aem-migration/</code><small>container</small></div>
+          <div class="pm-seg drop"><code>wave01/</code><small>source folder &middot; not carried over</small></div>
+          <div class="pm-seg keep"><code>campaigns/2026/hero.jpg</code><small>kept as-is</small></div>
+        </div>
+        <span class="pm-arrow" aria-hidden="true">&rarr;</span>
+        <div class="pm-group">
+          <div class="pm-seg ctx"><code>/content/dam/meridian/</code><small>target folder</small></div>
+          <div class="pm-seg keep"><code>campaigns/2026/hero.jpg</code><small>recreated</small></div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- ============================== 04 ============================== -->
+  <!-- ============================== 04 · LIFECYCLE ============================== -->
   <section id="lifecycle">
     <p class="sec-eyebrow">How an import runs</p>
-    <h2>What AEM does at each stage</h2>
-    <p class="sec-intro">Every import goes through the same stages, whether it&rsquo;s 50 files or 50,000. The first two stages change nothing, which is why they always come before a real run.</p>
-    <div class="phase-grid">
-      <div class="phase-card">
-        <div class="ph-top"><span class="ph-num">01</span><span class="ph-when">Check</span></div>
-        <h3>Test the connection</h3>
-        <p>AEM confirms it can reach the container and that the token is valid, not expired, and has the right permissions.</p>
-        <div class="ph-out"><b>You see</b>A success or failure message.</div>
+    <h2>Five stages, every time</h2>
+    <p class="sec-intro">Every import goes through the same stages, whether it&rsquo;s 50 files or 50,000.</p>
+
+    <div class="stepper">
+      <div class="st-bracket"><span>Steps 1&ndash;2 change nothing &middot; always run first</span></div>
+      <div class="step-c">
+        <div class="st-top"><span class="ph-num">01</span></div>
+        <h3>Check</h3>
+        <p>Confirms AEM can reach the container, and that the token is valid, unexpired, and has the right permissions.</p>
+        <div class="st-see"><b>You see</b>Success or failure</div>
       </div>
-      <div class="phase-card">
-        <div class="ph-top"><span class="ph-num">02</span><span class="ph-when">Dry run</span></div>
-        <h3>Preview the import</h3>
-        <p>AEM lists what it would import, flags assets that already exist, and reports problems. It doesn&rsquo;t copy anything.</p>
-        <div class="ph-out"><b>You see</b>Counts, conflicts, and warnings.</div>
+      <div class="step-c">
+        <div class="st-top"><span class="ph-num">02</span></div>
+        <h3>Dry run</h3>
+        <p>Lists what would be imported, flags assets that already exist, and reports problems. Copies nothing.</p>
+        <div class="st-see"><b>You see</b>Counts, conflicts, warnings</div>
       </div>
-      <div class="phase-card">
-        <div class="ph-top"><span class="ph-num">03</span><span class="ph-when">Run</span></div>
-        <h3>Copy into AEM</h3>
-        <p>AEM copies each file into the target folder, recreating the folder structure and applying its naming rules on the way in.</p>
-        <div class="ph-out"><b>You see</b>Status moves from Processing to Succeeded.</div>
+      <div class="step-c">
+        <div class="st-top"><span class="ph-num">03</span></div>
+        <h3>Run</h3>
+        <p>Copies each file into the target folder, recreating the folder tree and applying AEM&rsquo;s naming rules.</p>
+        <div class="st-see"><b>You see</b>Processing &rarr; Succeeded</div>
       </div>
-      <div class="phase-card">
-        <div class="ph-top"><span class="ph-num">04</span><span class="ph-when">Process</span></div>
-        <h3>Make assets usable</h3>
-        <p>AEM creates thumbnails and renditions and applies folder profiles (default metadata, Smart Crops) and the metadata file. This step, not the copy, sets the overall pace.</p>
-        <div class="ph-out"><b>You see</b>Previews appear and metadata fills in.</div>
+      <div class="step-c">
+        <div class="st-top"><span class="ph-num">04</span><span class="st-flag">Sets the pace</span></div>
+        <h3>Process</h3>
+        <p>Creates previews and renditions, then applies folder profiles (default metadata, Smart Crops) and the metadata file. Adobe publishes no throughput figure, so large libraries go in batches.</p>
+        <div class="st-see"><b>You see</b>Previews and metadata appear</div>
       </div>
-      <div class="phase-card">
-        <div class="ph-top"><span class="ph-num">05</span><span class="ph-when">Review</span></div>
-        <h3>Confirm the result</h3>
-        <p>The job history records who ran the import, when, the totals, and any files that failed, with logs. <em>View Assets</em> opens the target folder.</p>
-        <div class="ph-out"><b>You see</b>A complete record for every run.</div>
+      <div class="step-c">
+        <div class="st-top"><span class="ph-num">05</span></div>
+        <h3>Review</h3>
+        <p>Job history records who ran it, when, the totals, and any failed files, with logs. <em>View Assets</em> opens the target folder.</p>
+        <div class="st-see"><b>You see</b>A full record of every run</div>
       </div>
-      <div class="phase-card">
-        <div class="ph-top"><span class="ph-num">&#8635;</span><span class="ph-when">Controls</span></div>
-        <h3>Stop, resume, schedule</h3>
-        <p>A running import can be stopped. In Admin view, running it again resumes where it stopped. Imports can also be scheduled once, hourly, daily, or weekly to pick up new files.</p>
-        <div class="ph-out"><b>You see</b>Imports that are safe to repeat.</div>
-      </div>
+    </div>
+
+    <div class="controls">
+      <div class="ctrl"><span class="ic-box"><svg class="ic"><use href="#i-pause"/></svg></span><div><strong>Stop and resume</strong><span>Stop a running import at any time. In Admin view, running it again resumes where it stopped.</span></div></div>
+      <div class="ctrl"><span class="ic-box"><svg class="ic"><use href="#i-clock"/></svg></span><div><strong>Schedule</strong><span>Repeat an import once, hourly, daily, or weekly to pick up newly staged files.</span></div></div>
     </div>
   </section>
 
-  <!-- ============================== 05 ============================== -->
+  <!-- ============================== 05 · CONTENT ============================== -->
   <section id="content">
     <p class="sec-eyebrow">What happens to your content</p>
-    <h2>What carries over, what changes, and what stays behind</h2>
-    <div class="stack-cols">
-      <div class="stack-card">
-        <div class="stack-card-head"><span class="ey">Carried over</span><h3>Structure, names, and originals</h3></div>
-        <ol class="rule-stack">
-          <li><span class="r-idx">1</span><div class="r-text"><strong>Folder structure</strong><span>Everything below the source folder is recreated under the target folder.</span></div></li>
-          <li><span class="r-idx">2</span><div class="r-text"><strong>Original names as titles</strong><span>Folder and file names as they appeared in SharePoint stay visible as titles, even when the underlying name is adjusted.</span></div></li>
-          <li><span class="r-idx">3</span><div class="r-text"><strong>Original files, untouched</strong><span>The original file is kept as-is. Previews, renditions, and crops are added alongside it.</span></div></li>
-        </ol>
+    <h2>What comes across, what gets renamed, what stays behind</h2>
+
+    <div class="fate-grid">
+      <div class="fate">
+        <div class="fate-head"><span class="ic-box"><svg class="ic"><use href="#i-check"/></svg></span><h3>Comes across</h3></div>
+        <ul>
+          <li><svg class="ic ic-sm"><use href="#i-check"/></svg>The folder tree below the source folder</li>
+          <li><svg class="ic ic-sm"><use href="#i-check"/></svg>Original files, unchanged</li>
+          <li><svg class="ic ic-sm"><use href="#i-check"/></svg>Original names, kept as the visible titles</li>
+        </ul>
+        <p class="fate-foot">Column data comes across only through the <a href="#metadata">metadata file</a>.</p>
       </div>
-      <div class="stack-card">
-        <div class="stack-card-head"><span class="ey">Adjusted</span><h3>Names and conflicts</h3></div>
-        <ol class="rule-stack">
-          <li><span class="r-idx">1</span><div class="r-text"><strong>Folder names are normalized</strong><span>Lowercase, with spaces and special characters replaced by hyphens. &ldquo;Autumn Rewards&rdquo; becomes <code>autumn-rewards</code>.</span></div></li>
-          <li><span class="r-idx">2</span><div class="r-text"><strong>Special characters in file names are encoded</strong><span>For example, <code>%</code> becomes <code>%25</code>. Renaming before the copy avoids this.</span></div></li>
-          <li><span class="r-idx">3</span><div class="r-text"><strong>Existing assets follow a rule you choose</strong><span>Skip them, add the incoming file as a new version, or replace them (see below).</span></div></li>
-        </ol>
+      <div class="fate">
+        <div class="fate-head"><span class="ic-box"><svg class="ic"><use href="#i-edit"/></svg></span><h3>Gets renamed</h3></div>
+        <div class="xf">
+          <span class="xf-kind">Folder</span>
+          <div class="xf-row"><span class="xf-from">Autumn Rewards</span>&rarr;<span class="xf-to">autumn-rewards</span></div>
+          <small>Lowercase; spaces and special characters become hyphens.</small>
+        </div>
+        <div class="xf">
+          <span class="xf-kind">File</span>
+          <div class="xf-row"><span class="xf-from">50% Off.jpg</span>&rarr;<span class="xf-to">50%25 Off.jpg</span></div>
+          <small>Special characters are encoded.</small>
+        </div>
+        <p class="fate-foot">Rename to your naming standard before staging to avoid both.</p>
+      </div>
+      <div class="fate stay">
+        <div class="fate-head"><span class="ic-box"><svg class="ic"><use href="#i-minus"/></svg></span><h3>Stays in SharePoint</h3></div>
+        <ul>
+          <li><svg class="ic ic-sm"><use href="#i-minus"/></svg>Permissions</li>
+          <li><svg class="ic ic-sm"><use href="#i-minus"/></svg>Version history</li>
+          <li><svg class="ic ic-sm"><use href="#i-minus"/></svg>Comments and check-out state</li>
+        </ul>
+        <p class="fate-foot">In AEM, access follows the folder design and history starts fresh.</p>
       </div>
     </div>
 
-    <p class="sub-heading">Settings that shape the result</p>
+    <p class="sub-heading">When an asset already exists: the import mode</p>
+    <div class="mode-grid">
+      <div class="mode-card rec">
+        <span class="cnum">Default</span>
+        <h3><svg class="ic"><use href="#i-skip"/></svg>Skip</h3>
+        <p>Leaves the existing asset alone, so re-running an import only adds what&rsquo;s missing.</p>
+        <div class="use"><b>Use for</b>First loads and catch-up runs.</div>
+      </div>
+      <div class="mode-card">
+        <span class="cnum">Refresh</span>
+        <h3><svg class="ic"><use href="#i-copy"/></svg>Create version</h3>
+        <p>Adds the incoming file as a new version and keeps the history.</p>
+        <div class="use"><b>Use for</b>Assets already used on websites or in delivery links.</div>
+      </div>
+      <div class="mode-card">
+        <span class="cnum">Correction</span>
+        <h3><svg class="ic"><use href="#i-refresh"/></svg>Replace <span class="pill alert">Caution</span></h3>
+        <p>Overwrites the asset and gives it a new internal ID.</p>
+        <div class="use"><b>Use for</b>Fixing a bad load before anyone uses it.</div>
+      </div>
+    </div>
+
+    <p class="sub-heading">Options that narrow or tidy an import</p>
     <div class="table-wrap">
       <table class="data">
-        <thead><tr><th>Setting</th><th>What it does</th><th>Typical use</th></tr></thead>
+        <thead><tr><th>Option</th><th>What it does</th><th>Typical use</th></tr></thead>
         <tbody>
-          <tr><td><strong>Import mode: Skip</strong></td><td>Leaves an asset alone if one already exists at the same location</td><td>The default. Re-running an import only adds what&rsquo;s missing</td></tr>
-          <tr><td><strong>Import mode: Create version</strong></td><td>Adds the incoming file as a new version and keeps the history</td><td>Refreshing assets already in use on websites or in delivery links</td></tr>
-          <tr><td><strong>Import mode: Replace</strong></td><td>Overwrites the asset and gives it a new internal ID</td><td>Fixing a bad load before anyone uses it</td></tr>
-          <tr><td><strong>Size filters</strong></td><td>Include only files above or below a size</td><td>Running large video and design files separately</td></tr>
-          <tr><td><strong>File-type filters</strong></td><td>Include or exclude formats</td><td>Keeping the metadata spreadsheet out of the assets</td></tr>
-          <tr><td><strong>Path or name filter</strong></td><td>Include or exclude files that match a pattern</td><td>Leaving out drafts or working files</td></tr>
-          <tr><td><strong>Delete source after import</strong></td><td>Removes each file from the container once it&rsquo;s in AEM</td><td>Recurring intake folders. It needs a token that also allows delete</td></tr>
-          <tr><td><strong>Schedule</strong></td><td>Runs the same import once, hourly, daily, or weekly</td><td>Picking up files added after the main copy</td></tr>
+          <tr><td><strong>Size filters</strong></td><td>Includes only files above or below a size</td><td>Running large video and design files separately</td></tr>
+          <tr><td><strong>File-type filters</strong></td><td>Includes or excludes formats</td><td>Keeping the metadata file out of the assets</td></tr>
+          <tr><td><strong>Path or name filter</strong></td><td>Includes or excludes files that match a pattern</td><td>Leaving out drafts and working files</td></tr>
+          <tr><td><strong>Delete source after import</strong></td><td>Removes each file from the container once it&rsquo;s in AEM</td><td>Recurring intake folders</td></tr>
         </tbody>
       </table>
     </div>
 
     <div class="callout wide">
-      <span class="co-label">Stays behind in SharePoint</span>
-      <strong class="co-title">Only files and folders move. Collaboration data doesn&rsquo;t</strong>
-      <p>SharePoint permissions, version history, comments, and check-out state don&rsquo;t come across. In AEM, access follows the folder design, and history starts fresh. Column metadata comes across only through the metadata file.</p>
+      <span class="co-label">Folder design comes first</span>
+      <p>Bulk Import reproduces whatever structure it finds. Arrange the staged folders to match the target design from the <a href="folder-structure-design-guide.html">folder structure guide</a> before importing.</p>
     </div>
   </section>
 
-  <!-- ============================== 06 ============================== -->
+  <!-- ============================== 06 · METADATA ============================== -->
   <section id="metadata">
     <p class="sec-eyebrow">Metadata &amp; approval</p>
     <h2>How SharePoint columns become AEM metadata</h2>
-    <p class="sec-intro">Copying files carries only the files. Any extra columns a SharePoint library holds (campaign, market, usage rights, expiry) need a second path: export the library view to a spreadsheet, map each column to an AEM field, and save it as the import&rsquo;s metadata file. AEM matches each row to its asset by the asset&rsquo;s final location in AEM.</p>
+    <p class="sec-intro">Export the library view to a spreadsheet, map each column to an AEM field, and save it as a CSV next to the staged files. AEM matches each row to its asset by the asset&rsquo;s final location in AEM.</p>
 
-    <div class="table-wrap">
-      <table class="data">
-        <thead><tr><th>SharePoint column (example)</th><th>Becomes in AEM</th><th>Why it matters</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Title</strong> (text)</td><td>Title</td><td>What people see in search and in connected apps. Local-language titles are fine</td></tr>
-          <tr><td><strong>Description</strong> (text)</td><td>Description</td><td>Improves search relevance and gives context to reuse</td></tr>
-          <tr><td><strong>Campaign</strong>, <strong>Market</strong> (choice)</td><td>Tags</td><td>Powers search filters and smart collections. The tags must exist in AEM first</td></tr>
-          <tr><td><strong>Usage rights</strong> (text)</td><td>Rights</td><td>Tells reusers where an asset may and may not be used</td></tr>
-          <tr><td><strong>Expiry date</strong> (date)</td><td>Expiration date</td><td>AEM flags expired assets automatically</td></tr>
-          <tr><td><strong>Approved</strong> (yes/no)</td><td>Approval status</td><td>Controls delivery. See the note below</td></tr>
-        </tbody>
-      </table>
+    <div class="mapv" role="table" aria-label="SharePoint column to AEM field mapping">
+      <div class="mapv-row head" role="row"><span role="columnheader">SharePoint column</span><span></span><span role="columnheader">AEM field</span><span role="columnheader">Why it matters</span></div>
+      <div class="mapv-row" role="row"><div class="mv-sp" role="cell"><strong>Title</strong><span class="mv-type">text</span></div><span class="f-arrow mv-arrow" aria-hidden="true"></span><span class="mv-aem" role="cell">Title</span><span class="mv-why" role="cell">What people see in search and connected apps. Local-language titles are fine</span></div>
+      <div class="mapv-row" role="row"><div class="mv-sp" role="cell"><strong>Description</strong><span class="mv-type">text</span></div><span class="f-arrow mv-arrow" aria-hidden="true"></span><span class="mv-aem" role="cell">Description</span><span class="mv-why" role="cell">Better search relevance and context for reuse</span></div>
+      <div class="mapv-row" role="row"><div class="mv-sp" role="cell"><strong>Campaign, Market</strong><span class="mv-type">choice</span></div><span class="f-arrow mv-arrow" aria-hidden="true"></span><span class="mv-aem" role="cell">Tags</span><span class="mv-why" role="cell">Powers search filters and smart collections. The tags must exist in AEM first</span></div>
+      <div class="mapv-row" role="row"><div class="mv-sp" role="cell"><strong>Usage rights</strong><span class="mv-type">text</span></div><span class="f-arrow mv-arrow" aria-hidden="true"></span><span class="mv-aem" role="cell">Rights</span><span class="mv-why" role="cell">Where an asset may and may not be used</span></div>
+      <div class="mapv-row" role="row"><div class="mv-sp" role="cell"><strong>Expiry date</strong><span class="mv-type">date</span></div><span class="f-arrow mv-arrow" aria-hidden="true"></span><span class="mv-aem" role="cell">Expiration date</span><span class="mv-why" role="cell">AEM flags expired assets automatically</span></div>
+      <div class="mapv-row warn" role="row"><div class="mv-sp" role="cell"><strong>Approved</strong><span class="mv-type">yes/no</span></div><span class="f-arrow mv-arrow" aria-hidden="true"></span><span class="mv-aem" role="cell">Approval status</span><span class="mv-why" role="cell">Controls delivery. See below</span></div>
     </div>
 
     <div class="callouts">
@@ -932,57 +1222,27 @@ body.onepager section{scroll-margin-top:76px;}
     </div>
   </section>
 
-  <!-- ============================== 07 ============================== -->
+  <!-- ============================== 07 · SECURITY ============================== -->
   <section id="security">
     <p class="sec-eyebrow">Security model</p>
     <h2>The token is the lock</h2>
-    <p class="sec-intro">The container stays private, and AEM gets in only with a token. Because the transfer runs cloud-to-cloud, that token, not a network rule, is what controls access.</p>
-    <div class="spec-ledger">
-      <div class="spec-row">
-        <div class="spec-metric"><span class="spec-num"><span>01</span> &middot; Container</span><span class="spec-val">Private</span></div>
-        <div class="spec-body"><h3>No public access</h3><p>Adobe asks for a private container that accepts only authorized requests. Nobody can browse or download the staged files without a valid credential.</p></div>
-      </div>
-      <div class="spec-row">
-        <div class="spec-metric"><span class="spec-num"><span>02</span> &middot; Permissions</span><span class="spec-val">Read + List</span></div>
-        <div class="spec-body"><h3>Least privilege, one container</h3><p>The token only needs to list and read files. Add delete only if AEM should remove files after import. A token scoped to the container is more reliable than an account-wide one and limits exposure.</p></div>
-      </div>
-      <div class="spec-row">
-        <div class="spec-metric"><span class="spec-num"><span>03</span> &middot; Lifetime</span><span class="spec-val">Expires</span></div>
-        <div class="spec-body"><h3>An end date built in</h3><p>Set the token to expire shortly after the planned end of the migration. It can also be revoked early, by rotating the storage account key or removing the token&rsquo;s access policy, which cuts off access immediately.</p></div>
-      </div>
-      <div class="spec-row">
-        <div class="spec-metric"><span class="spec-num"><span>04</span> &middot; Network</span><span class="spec-val">Token-based</span></div>
-        <div class="spec-body"><h3>Network allow-lists aren&rsquo;t supported</h3><p>Bulk Import doesn&rsquo;t support restricting the storage account to specific networks or IP addresses. Part of the transfer runs inside Azure&rsquo;s own services, so access is controlled by the token, not the network.</p></div>
-      </div>
-      <div class="spec-row">
-        <div class="spec-metric"><span class="spec-num"><span>05</span> &middot; Residency</span><span class="spec-val">Your region</span></div>
-        <div class="spec-body"><h3>Data stays where you put it</h3><p>The storage account is created in the Azure region your policies require, on your own subscription. Storage and data-transfer charges apply for as long as the container exists.</p></div>
-      </div>
-      <div class="spec-row">
-        <div class="spec-metric"><span class="spec-num"><span>06</span> &middot; In AEM</span><span class="spec-val">Admins only</span></div>
-        <div class="spec-body"><h3>Restricted on the AEM side too</h3><p>Only AEM administrators can create or run Bulk Import configurations. The token is stored in the configuration, not shared with users.</p></div>
-      </div>
-    </div>
-  </section>
+    <p class="sec-intro">The container stays private, and AEM gets in only with a shared access signature (SAS) token. That token, not a network rule, controls access.</p>
 
-  <!-- ============================== 08 ============================== -->
-  <section id="know">
-    <p class="sec-eyebrow">Good to know</p>
-    <h2>Behaviors worth understanding upfront</h2>
-    <div class="stack-cols">
-      <div class="stack-card">
-        <ol class="rule-stack">
-          <li><span class="r-idx">1</span><div class="r-text"><strong>A one-way copy, not a sync</strong><span>Changes made in SharePoint after the copy don&rsquo;t reach AEM unless they&rsquo;re copied again and imported, either by re-running or on a schedule.</span></div></li>
-          <li><span class="r-idx">2</span><div class="r-text"><strong>Processing sets the pace</strong><span>Adobe doesn&rsquo;t publish throughput figures. Generating previews and renditions takes longer than copying, so large libraries are imported in batches.</span></div></li>
-          <li><span class="r-idx">3</span><div class="r-text"><strong>Re-runs are safe by design</strong><span>With Skip mode, running an import again only adds what&rsquo;s missing, and a stopped run can pick up where it left off.</span></div></li>
-        </ol>
+    <div class="sec-grid">
+      <div class="token">
+        <div class="tk-head"><span class="ic-box dark"><svg class="ic"><use href="#i-key"/></svg></span><div><strong>SAS token</strong><span>The only key AEM is given</span></div></div>
+        <div class="tk-rows">
+          <div class="tk-row"><span class="tk-k">Scope</span><div class="tk-v">One container: <code>aem-migration</code><span class="tk-note">More reliable than an account-wide token, and limits exposure.</span></div></div>
+          <div class="tk-row"><span class="tk-k">Permissions</span><div class="tk-v"><span class="perm on"><svg class="ic ic-sm"><use href="#i-check"/></svg>Read</span><span class="perm on"><svg class="ic ic-sm"><use href="#i-check"/></svg>List</span><span class="perm opt">Delete</span><span class="tk-note">Delete only if <strong>Delete source after import</strong> is on.</span></div></div>
+          <div class="tk-row"><span class="tk-k">Expires</span><div class="tk-v">Shortly after the planned end of the migration</div></div>
+          <div class="tk-row"><span class="tk-k">Revoke early</span><div class="tk-v">Rotate the storage account key or remove the token&rsquo;s access policy. Access stops immediately.</div></div>
+        </div>
       </div>
-      <div class="stack-card">
-        <ol class="rule-stack">
-          <li><span class="r-idx">4</span><div class="r-text"><strong>One engine, two interfaces</strong><span>Admin view and Assets view run the same Bulk Import engine. Both support Azure, health checks, dry runs, and schedules.</span></div></li>
-          <li><span class="r-idx">5</span><div class="r-text"><strong>Use a standard Blob storage account</strong><span>Adobe&rsquo;s documentation covers Azure Blob Storage. Data Lake accounts with a hierarchical namespace aren&rsquo;t documented as supported.</span></div></li>
-          <li><span class="r-idx">6</span><div class="r-text"><strong>Folder design comes first</strong><span>Bulk Import reproduces whatever structure it finds. Arrange the container to match the target folder design before importing.</span></div></li>
-        </ol>
+      <div class="sec-list">
+        <div class="sec-item"><span class="ic-box"><svg class="ic"><use href="#i-lock"/></svg></span><div><strong>Private container</strong><p>No public access. Only authorized requests are accepted, so nobody can browse or download the staged files without a valid credential.</p></div></div>
+        <div class="sec-item"><span class="ic-box"><svg class="ic"><use href="#i-nonet"/></svg></span><div><strong>No network allow-lists</strong><p>Bulk Import doesn&rsquo;t support limiting the storage account to specific networks or IP addresses, because the copy runs between cloud services.</p></div></div>
+        <div class="sec-item"><span class="ic-box"><svg class="ic"><use href="#i-pin"/></svg></span><div><strong>Your region, your subscription</strong><p>The storage account lives in the Azure region your policies require. Storage and data-transfer charges apply while the container exists.</p></div></div>
+        <div class="sec-item"><span class="ic-box"><svg class="ic"><use href="#i-shield"/></svg></span><div><strong>Admins only in AEM</strong><p>Only AEM administrators can create or run Bulk Import configurations. The token is stored in the configuration, not shared with users.</p></div></div>
       </div>
     </div>
 

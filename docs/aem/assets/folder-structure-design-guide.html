@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AEM Assets Folder Structure Design Guide — Architecture &amp; Governance</title>
+<style>
+:root{
+  /* Brand — kept for the mark and for editorial accents (see Accent policy) */
+  --adobe-red:#EB1000;
+  --adobe-red-dark:#B71000;
+  --adobe-red-tint:#FDECEA;
+  --coral-1:#F04A2E; --coral-2:#F9A392; --coral-bright:#FB6A4E;
+
+  /* Spectrum 2 interactive accent — owns links / active nav / focus / selection */
+  --s2-blue:#3B63FB; --s2-blue-down:#274DEA; --s2-blue-active:#1D3ECF;
+  --s2-blue-tint:#E5F0FE; --s2-blue-tint-faint:#F5F9FF;
+
+  /* Neutrals — Spectrum 2 gray ramp */
+  --ink:#1B1B1B;
+  --charcoal:#2C2C2C;
+  --charcoal-2:#141414;
+  --gray-900:#1F1F1F; --gray-800:#222222; --gray-700:#464646;
+  --gray-600:#6D6D6D; --gray-500:#909090; --gray-400:#B1B1B1;
+  --gray-300:#D5D5D5; --gray-200:#E6E6E6; --gray-100:#F8F8F8;
+  --gray-75:#FAFAFA;  --gray-50:#FDFDFD;  --white:#FFFFFF;
+
+  /* Spectrum 2 surface layering (base / layer 1 / layer 2) + borders */
+  --bg-base:#FFFFFF; --bg-layer-1:#FAFAFA; --bg-layer-2:#F4F4F5;
+  --border:#E6E6E6; --border-strong:#D5D5D5;
+
+  /* Type — Adobe Clean when present, graceful fallback offline */
+  --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,
+         BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+
+  /* Radius / shadow — S2 softer rounding + layered elevation */
+  --radius:16px; --radius-sm:8px; --radius-pill:9999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 8px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08);
+  --focus-ring:var(--s2-blue);
+
+  /* Layout */
+  --maxw:1220px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;} *{animation:none!important;transition:none!important;}
+}
+body{
+  margin:0; font-family:var(--font); color:var(--gray-800);
+  background:var(--bg-base); line-height:1.6; font-size:16px;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+::selection{background:var(--s2-blue-tint);}
+a{color:var(--s2-blue-down);text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:focus-visible, button:focus-visible, input:focus-visible{
+  outline:2px solid var(--focus-ring); outline-offset:2px; border-radius:4px;
+}
+
+/* 2px Scroll-progress bar */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:100;pointer-events:none;}
+.progress span{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;
+  background:linear-gradient(90deg,var(--coral-1),var(--coral-2));will-change:transform;}
+
+/* AI-disclosure band (fixed house wording) */
+.ai-note{background:var(--gray-100); border-bottom:1px solid var(--gray-200);}
+.ai-note-inner{max-width:var(--maxw); margin:0 auto; padding:9px 24px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  font-size:12px; line-height:1.45; color:var(--gray-600);}
+.ai-note b{color:var(--gray-700); font-weight:600;}
+.ai-note svg{flex:none; color:var(--gray-600);}
+
+/* Hero (canonical charcoal + neutral desaturated upper-right radial lift + scanline) */
+.hero{
+  position:relative; overflow:hidden; color:var(--white);
+  background:
+    radial-gradient(1350px 720px at 90% -18%, rgba(255,255,255,.12),
+      rgba(255,255,255,.05) 42%, transparent 82%),
+    linear-gradient(135deg,#2d2d2d 0%,#1c1c1c 52%,#0e0e0e 100%);
+  padding:52px 24px 64px;
+}
+.hero::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:100% 34px; opacity:.5;
+  -webkit-mask:linear-gradient(#000, transparent 70%);
+          mask:linear-gradient(#000, transparent 70%);
+}
+.hero-inner{max-width:var(--maxw); margin:0 auto; position:relative; z-index:1;}
+
+.masthead{display:flex; align-items:center; justify-content:space-between;
+  gap:10px 16px; flex-wrap:wrap;
+  padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,.12);}
+.brandrow{display:flex; align-items:center; gap:11px;}
+.brandrow .brand-mark{height:26px; width:auto; flex:none;
+  filter:drop-shadow(0 2px 12px rgba(255,255,255,.18));}
+.brandname{font-size:19px; font-weight:800; letter-spacing:-.02em; color:var(--white);}
+.brandname span{font-weight:400; color:var(--gray-300);}
+.kicker{font-size:12px; letter-spacing:.2em; text-transform:uppercase;
+  font-weight:800; color:var(--coral-2); white-space:nowrap;}
+
+.hero-body{margin-top:36px;}
+.hero h1{margin:0; font-size:clamp(34px,4.5vw,54px); line-height:1.06;
+  font-weight:800; letter-spacing:-.025em; max-width:21ch; text-wrap:balance;}
+.hero h1 .hl{
+  background:linear-gradient(100deg,var(--coral-1) 0%,var(--coral-2) 100%);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent;
+  -webkit-box-decoration-break:slice; box-decoration-break:slice;
+  padding-bottom:.3em;
+}
+.hero .lead{margin:20px 0 0; font-size:clamp(17px,1.85vw,20px); color:var(--gray-300);
+  max-width:64ch; line-height:1.55;}
+.hero .lead strong{color:var(--white); font-weight:700;}
+
+.hero-chips{display:flex; flex-wrap:wrap; gap:10px; margin:28px 0 0; padding:0; list-style:none;}
+.hero-chips li{background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.20);
+  border-radius:var(--radius-pill); padding:8px 15px; font-size:13.5px; font-weight:500; color:var(--gray-200);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.17), 0 1px 5px rgba(0,0,0,.12);}
+.hero-chips li strong{color:var(--white); font-weight:700;}
+
+/* Compact sticky jump bar for narrow / side-panel viewports (<980px) */
+.mobile-jump{
+  display:none; position:sticky; top:0; z-index:45;
+  background:rgba(255,255,255,.94); backdrop-filter:saturate(180%) blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.mobile-jump-inner{
+  max-width:var(--maxw); margin:0 auto; padding:8px 16px;
+  display:flex; gap:6px; overflow-x:auto; scrollbar-width:none;
+}
+.mobile-jump-inner::-webkit-scrollbar{display:none;}
+.mobile-jump a{
+  flex:none; font-size:12.5px; font-weight:600; color:var(--gray-700);
+  padding:6px 11px; border-radius:var(--radius-pill); background:var(--bg-layer-1);
+  border:1px solid var(--border); text-decoration:none; white-space:nowrap;
+  transition:background .15s, color .15s, border-color .15s;
+}
+.mobile-jump a.active{
+  color:var(--s2-blue-down); background:var(--s2-blue-tint); border-color:var(--s2-blue);
+}
+
+/* Two-column Shell & Left Rail (Pattern A) */
+.shell{max-width:var(--maxw); margin:0 auto; padding:0 24px 88px;
+  display:grid; grid-template-columns:224px minmax(0,1fr); gap:56px;}
+.rail{position:sticky; top:28px; align-self:start; padding-top:52px;}
+.rail-title{font-size:11px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gray-600); margin:0 0 12px; padding-left:14px;}
+.rail nav{display:flex; flex-direction:column; gap:2px;}
+.rail nav a{display:flex; align-items:center; gap:10px; padding:9px 14px;
+  border-radius:var(--radius-sm); color:var(--gray-700); font-size:13.5px;
+  font-weight:600; border-left:2px solid transparent; text-decoration:none;
+  transition:background .15s, color .15s, border-color .15s;}
+.rail nav a .num{font-size:11px; font-weight:700; color:var(--gray-600);
+  min-width:18px; font-variant-numeric:tabular-nums; font-family:var(--mono);}
+.rail nav a:hover{background:var(--gray-100); color:var(--ink); text-decoration:none;}
+.rail nav a.active{color:var(--s2-blue-down); background:var(--s2-blue-tint);
+  border-left-color:var(--s2-blue);}
+.rail nav a.active .num{color:var(--s2-blue-down);}
+.rail nav a:focus-visible{outline:2px solid var(--focus-ring); outline-offset:-2px;}
+
+.content{padding-top:52px; min-width:0;}
+main{counter-reset:sec;}
+section{scroll-margin-top:56px; padding-bottom:68px; counter-increment:sec;}
+section + section{
+  border-top:1px solid var(--gray-200);
+  border-image:linear-gradient(90deg,transparent,var(--gray-200) 18%,var(--gray-200) 82%,transparent) 1;
+  padding-top:64px;
+}
+
+/* Section Typography & Hierarchy */
+.sec-eyebrow{font-size:12px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gray-600); margin:0 0 10px;}
+.sec-eyebrow::before{content:counter(sec,decimal-leading-zero) "  ·  ";
+  font-family:var(--mono); font-weight:700; letter-spacing:.02em; color:var(--adobe-red);}
+h2{font-size:clamp(25px,2.7vw,32px); line-height:1.16; letter-spacing:-.018em;
+  font-weight:800; color:var(--ink); margin:0 0 14px; text-wrap:balance;}
+h3{font-size:18px; line-height:1.3; letter-spacing:-.01em; font-weight:700; color:var(--ink); margin:0 0 8px;}
+.sec-intro{font-size:16.5px; color:var(--gray-700); max-width:68ch; margin:0 0 28px; line-height:1.62;}
+.sub-heading{
+  font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--gray-600); font-family:var(--mono); margin:32px 0 14px;
+}
+
+/* Inline code & badges */
+code{
+  font-family:var(--mono); font-size:12.5px; background:var(--bg-layer-2);
+  color:var(--ink); padding:2px 6px; border-radius:5px; border:1px solid var(--border);
+  overflow-wrap:break-word;
+}
+.pill{
+  display:inline-flex; align-items:center; gap:5px; font-family:var(--mono); font-size:11.5px;
+  font-weight:600; padding:3px 9px; border-radius:var(--radius-pill);
+  background:var(--bg-layer-2); color:var(--gray-800); border:1px solid var(--border);
+  max-width:100%; line-height:1.35;
+}
+.pill.solid{background:var(--ink); color:var(--white); border-color:var(--ink);}
+.pill.alert{background:var(--adobe-red-tint); color:var(--adobe-red-dark); border-color:var(--coral-2);}
+
+/* ==========================================================================
+   SECTION 01: Executive Callout + Two-Layer Responsibility Split
+   ========================================================================== */
+.oneliner{
+  background:linear-gradient(135deg,var(--charcoal) 0%,var(--charcoal-2) 100%);
+  color:var(--white); border-radius:var(--radius); padding:24px 28px; margin:0 0 28px;
+  box-shadow:var(--shadow); border:1px solid var(--gray-800);
+  display:grid; grid-template-columns:minmax(0,1fr) auto; gap:20px; align-items:center;
+}
+.oneliner p{margin:0; font-size:17px; line-height:1.55; font-weight:500; color:var(--gray-200); max-width:62ch;}
+.oneliner strong{color:var(--white); font-weight:700;}
+.oneliner .em{color:var(--coral-bright); font-weight:800;}
+.oneliner-stat{
+  border-left:1px solid rgba(255,255,255,.16); padding-left:22px; text-align:left;
+}
+.oneliner-stat .big{display:block; font-family:var(--mono); font-size:24px; font-weight:800; color:var(--white); line-height:1.1;}
+.oneliner-stat .cap{display:block; font-size:12px; color:var(--gray-300); margin-top:4px; max-width:16ch; line-height:1.35;}
+
+.split-compare{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px;
+}
+.layer-panel{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
+  padding:24px; box-shadow:var(--shadow);
+}
+.layer-panel.secondary{background:var(--bg-layer-1);}
+.layer-head{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+  padding-bottom:16px; margin-bottom:16px; border-bottom:1px solid var(--border);
+}
+.layer-kicker{
+  display:block; font-family:var(--mono); font-size:11px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--gray-600); margin-bottom:4px;
+}
+.layer-kicker span{color:var(--adobe-red);}
+.layer-head h3{margin:0; font-size:19px;}
+.layer-sub{margin:0 0 16px; font-size:14.5px; color:var(--gray-700); line-height:1.5;}
+
+.resp-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px;}
+.resp-item{
+  display:grid; grid-template-columns:32px minmax(0,1fr); gap:12px; align-items:start;
+}
+.resp-icon{
+  width:32px; height:32px; border-radius:8px; background:var(--bg-layer-2);
+  border:1px solid var(--border); display:flex; align-items:center; justify-content:center;
+  color:var(--ink); flex:none; margin-top:1px;
+}
+.layer-panel.secondary .resp-icon{background:var(--bg-base);}
+.resp-body > strong{display:block; font-size:14.5px; font-weight:700; color:var(--ink); line-height:1.3;}
+.resp-body > span{display:block; font-size:13.8px; color:var(--gray-700); line-height:1.48; margin-top:2px;}
+
+/* ==========================================================================
+   SECTION 02: Structured 6-Rule Specification Ledger (replaces generic card wall)
+   ========================================================================== */
+.spec-ledger{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); overflow:hidden;
+}
+.spec-row{
+  display:grid; grid-template-columns:210px minmax(0,1fr); gap:24px;
+  padding:20px 24px; align-items:start; transition:background .15s;
+}
+.spec-row + .spec-row{border-top:1px solid var(--gray-200);}
+.spec-row:hover{background:var(--gray-75);}
+.spec-metric{
+  background:var(--bg-layer-1); border:1px solid var(--border); border-radius:12px;
+  padding:12px 14px;
+}
+.spec-num{
+  display:block; font-family:var(--mono); font-size:10.5px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--gray-600); margin-bottom:4px;
+}
+.spec-num span{color:var(--adobe-red);}
+.spec-val{
+  display:block; font-size:18px; font-weight:800; letter-spacing:-.015em; color:var(--ink); line-height:1.2;
+}
+.spec-body h3{margin:0 0 5px; font-size:16.5px; font-weight:700; color:var(--ink);}
+.spec-body p{margin:0; font-size:14.5px; color:var(--gray-700); line-height:1.55; max-width:66ch;}
+.spec-why{
+  margin-top:8px!important; font-size:13px!important; color:var(--gray-600)!important;
+  font-family:var(--font);
+}
+.spec-why strong{color:var(--gray-800); font-weight:600;}
+
+/* ==========================================================================
+   SECTION 03: Visual Folder Explorer + Top-Level Architecture Map
+   ========================================================================== */
+.bp-shell{
+  background:var(--bg-layer-1); border:1px solid var(--border);
+  border-radius:var(--radius); padding:22px; box-shadow:var(--shadow);
+}
+.bp-tabs-bar{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  gap:12px; padding-bottom:18px; border-bottom:1px solid var(--border); margin-bottom:20px;
+}
+.bp-tabs{display:flex; flex-wrap:wrap; gap:8px;}
+.bp-tab{
+  appearance:none; border:1px solid var(--border); background:var(--bg-base);
+  color:var(--gray-700); font-family:var(--font); font-size:13.5px; font-weight:700;
+  padding:9px 14px; border-radius:var(--radius-sm); cursor:pointer;
+  transition:background .15s, color .15s, border-color .15s, box-shadow .15s;
+}
+.bp-tab:hover{background:var(--gray-100); color:var(--ink); border-color:var(--border-strong);}
+.bp-tab[aria-selected="true"]{
+  background:var(--s2-blue-tint); color:var(--s2-blue-down);
+  border-color:var(--s2-blue); box-shadow:var(--shadow-sm);
+}
+.bp-toggle-all{
+  appearance:none; border:none; background:transparent; color:var(--s2-blue-down);
+  font-family:var(--font); font-size:13px; font-weight:600; cursor:pointer; padding:6px 10px;
+  border-radius:6px;
+}
+.bp-toggle-all:hover{background:var(--s2-blue-tint-faint); text-decoration:underline;}
+
+.bp-panel{display:none;}
+.bp-panel.is-open{display:block;}
+.bp-shell.show-all .bp-panel{display:block;}
+.bp-shell.show-all .bp-panel + .bp-panel{margin-top:32px; padding-top:28px; border-top:1px solid var(--border);}
+
+.bp-header{margin-bottom:18px;}
+.bp-header h3{display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin:0 0 6px; font-size:19px;}
+.bp-header p{margin:0; font-size:14.5px; color:var(--gray-700); max-width:72ch; line-height:1.55;}
+
+/* Visual 6-Branch At-a-Glance Strip inside Blueprint A */
+.zone-map{
+  display:grid; grid-template-columns:2fr 1fr; gap:12px; margin:0 0 18px;
+}
+.zone-group{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:12px; padding:14px 16px;
+}
+.zone-group.restricted{
+  background:var(--bg-layer-2); border-style:dashed; border-color:var(--border-strong);
+}
+.zone-label{
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.08em; color:var(--gray-600); margin-bottom:10px;
+}
+.zone-branches{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px;}
+.zone-group.restricted .zone-branches{grid-template-columns:1fr;}
+.zchip{
+  background:var(--bg-layer-1); border:1px solid var(--border); border-radius:8px;
+  padding:8px 10px; font-size:12.5px;
+}
+.zone-group.restricted .zchip{background:var(--bg-base);}
+.zchip code{border:none; background:transparent; padding:0; font-weight:700; font-size:12.5px;}
+.zchip span{display:block; font-size:11.5px; color:var(--gray-600); margin-top:2px;}
+
+/* Visual Folder Explorer Rows */
+.explorer{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:12px;
+  overflow:hidden; box-shadow:var(--shadow-sm);
+}
+.exp-toolbar{
+  background:var(--charcoal); color:var(--gray-200); padding:10px 16px;
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px;
+  font-family:var(--mono); font-size:12px;
+}
+.exp-toolbar strong{color:var(--white);}
+.exp-legend{display:flex; flex-wrap:wrap; gap:12px; font-size:11px; color:var(--gray-300);}
+
+.exp-row{
+  display:grid; grid-template-columns:minmax(250px,34%) minmax(0,66%);
+  gap:20px; padding:15px 18px; border-bottom:1px solid var(--gray-200);
+  align-items:start; transition:background .15s;
+}
+.exp-row:last-child{border-bottom:none;}
+.exp-row:hover{background:var(--gray-75);}
+.exp-row.is-root{background:var(--bg-layer-1);}
+.exp-row.is-child{background:var(--gray-50);}
+
+.folder-cell{display:flex; align-items:flex-start; gap:9px;}
+.folder-cell.depth-1{padding-left:14px; border-left:2px solid var(--gray-200); margin-left:6px;}
+.folder-cell.depth-2{padding-left:32px; border-left:2px solid var(--gray-300); margin-left:6px;}
+.f-ico{width:18px; height:18px; flex:none; margin-top:2px; color:var(--gray-700);}
+.exp-row.is-restricted .f-ico{color:var(--adobe-red-dark);}
+.f-slug{font-family:var(--mono); font-size:13px; font-weight:700; color:var(--ink); line-height:1.35; word-break:break-word;}
+.f-ui-title{display:block; font-size:12px; color:var(--gray-600); margin-top:2px;}
+
+.meta-cell{display:flex; flex-direction:column; gap:8px;}
+.meta-desc{margin:0; font-size:13.8px; color:var(--gray-800); line-height:1.48;}
+.meta-pills{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+
+/* ==========================================================================
+   SECTION 04: Dual-Identifier Anatomy + Filename Token Builder + Do/Avoid
+   ========================================================================== */
+.anatomy-box{
+  background:var(--bg-layer-1); border:1px solid var(--border); border-radius:var(--radius);
+  padding:22px 24px; margin:0 0 22px;
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px;
+}
+.anat-col{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:12px; padding:18px 20px;
+}
+.anat-tag{
+  font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.08em; color:var(--gray-600); margin-bottom:8px; display:block;
+}
+.anat-sample{
+  font-size:18px; font-weight:800; color:var(--ink); background:var(--bg-layer-1);
+  border:1px solid var(--border); border-radius:8px; padding:10px 14px; margin-bottom:10px;
+}
+.anat-sample.mono{font-family:var(--mono); font-size:15px;}
+.anat-col ul{margin:0; padding-left:18px; font-size:13.8px; color:var(--gray-700); line-height:1.55;}
+.anat-col li + li{margin-top:5px;}
+
+.char-strip{
+  display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px;
+  background:var(--bg-layer-2); border:1px solid var(--border); border-radius:12px;
+  padding:13px 18px; margin:0 0 22px; font-size:13.8px; color:var(--gray-700);
+}
+.char-strip strong{color:var(--ink);}
+.bad-chars{
+  font-family:var(--mono); font-size:13px; font-weight:700; letter-spacing:.2em;
+  background:var(--adobe-red-tint); color:var(--adobe-red-dark);
+  border:1px solid var(--coral-2); border-radius:6px; padding:4px 10px;
+}
+
+.formula-card{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
+  padding:22px 24px; margin:0 0 24px; box-shadow:var(--shadow);
+}
+.formula-head{
+  display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center;
+  gap:8px; margin-bottom:14px;
+}
+.formula-label{
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--gray-600); margin:0;
+}
+.formula-tokens{display:flex; flex-wrap:wrap; align-items:stretch; gap:5px; margin-bottom:14px;}
+.ftok{
+  font-family:var(--mono); font-size:12px; font-weight:700; color:var(--ink);
+  background:var(--bg-layer-1); border:1px solid var(--border-strong); border-radius:var(--radius-sm);
+  padding:8px 10px;
+}
+.ftok small{display:block; font-family:var(--font); font-size:11px; font-weight:500; color:var(--gray-600); margin-top:3px;}
+.fsep{display:flex; align-items:center; font-family:var(--mono); font-weight:700; color:var(--gray-600);}
+.formula-example{
+  font-size:13.8px; color:var(--gray-700); padding-top:12px; border-top:1px solid var(--border);
+  display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center;
+}
+
+/* Side-by-Side Do vs Avoid Strips */
+.compare-stack{display:flex; flex-direction:column; gap:12px;}
+.cmp-card{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:12px;
+  padding:16px 18px; box-shadow:var(--shadow-sm);
+}
+.cmp-topic{
+  font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--gray-600); font-family:var(--mono); margin:0 0 10px;
+}
+.cmp-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px;}
+.cmp-side{
+  background:var(--bg-layer-1); border:1px solid var(--border); border-radius:8px; padding:12px 14px;
+}
+.cmp-side.bad{background:var(--adobe-red-tint); border-color:var(--coral-2);}
+.cmp-badge{
+  display:inline-block; font-family:var(--mono); font-size:10.5px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.06em; padding:2px 7px; border-radius:4px;
+  background:var(--ink); color:var(--white); margin-bottom:6px;
+}
+.cmp-side.bad .cmp-badge{background:var(--adobe-red-dark); color:var(--white);}
+.cmp-side code{background:var(--bg-base); display:inline-block; margin:2px 0; font-weight:600;}
+.cmp-side small{display:block; font-size:12.5px; color:var(--gray-700); margin-top:5px; line-height:1.45;}
+.cmp-side.bad small{color:var(--gray-800);}
+
+/* ==========================================================================
+   SECTION 05: Visual Architecture Pipeline + Numbered Stack Rules
+   ========================================================================== */
+.arch-diagram{
+  background:var(--bg-layer-1); border:1px solid var(--border); border-radius:var(--radius);
+  padding:22px; margin:0 0 24px; box-shadow:var(--shadow-sm);
+}
+.arch-caption{
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gray-600); margin:0 0 14px;
+}
+.arch-lanes{
+  display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; position:relative;
+}
+.arch-stage{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:12px;
+  padding:16px; display:flex; flex-direction:column; justify-content:space-between;
+  box-shadow:var(--shadow-sm);
+}
+.arch-stage.muted-stage{background:var(--bg-layer-2); border-style:dashed; border-color:var(--border-strong);}
+.arch-step{
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--gray-600); margin:0 0 6px;
+}
+.arch-step span{color:var(--adobe-red);}
+.arch-stage h4{margin:0 0 6px; font-size:15px; font-weight:700; color:var(--ink); line-height:1.3;}
+.arch-stage p{margin:0 0 12px; font-size:13px; color:var(--gray-700); line-height:1.48;}
+.arch-foot{
+  padding-top:10px; border-top:1px solid var(--gray-200);
+  display:flex; flex-direction:column; gap:5px;
+}
+
+.stack-cols{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px;}
+.stack-card{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
+  padding:24px; box-shadow:var(--shadow);
+}
+.stack-card-head{
+  padding-bottom:14px; margin-bottom:16px; border-bottom:1px solid var(--border);
+}
+.stack-card-head .ey{
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--adobe-red); display:block; margin-bottom:4px;
+}
+.stack-card-head h3{margin:0; font-size:18.5px;}
+.rule-stack{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:16px;}
+.rule-stack li{
+  display:grid; grid-template-columns:26px minmax(0,1fr); gap:10px; align-items:start;
+}
+.r-idx{
+  width:24px; height:24px; border-radius:6px; background:var(--bg-layer-2);
+  border:1px solid var(--border-strong); font-family:var(--mono); font-size:11.5px;
+  font-weight:700; color:var(--ink); display:flex; align-items:center; justify-content:center;
+  margin-top:1px;
+}
+.r-text > strong{display:block; font-size:14.5px; font-weight:700; color:var(--ink); margin-bottom:3px; line-height:1.35;}
+.r-text > span{display:block; font-size:13.8px; color:var(--gray-700); line-height:1.52;}
+
+/* ==========================================================================
+   SECTION 06: Governance Principles Strip + Clean Matrix Table
+   ========================================================================== */
+.gov-strip{
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:0 0 22px;
+}
+.gov-mini{
+  background:var(--bg-layer-1); border:1px solid var(--border); border-radius:12px; padding:16px 18px;
+}
+.gov-mini strong{display:block; font-size:14.5px; color:var(--ink); margin-bottom:4px;}
+.gov-mini p{margin:0; font-size:13.5px; color:var(--gray-700); line-height:1.48;}
+
+.table-wrap{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
+  overflow-x:auto; box-shadow:var(--shadow);
+}
+table.data{width:100%; border-collapse:collapse; font-size:13.8px; min-width:700px;}
+table.data thead th{
+  text-align:left; font-family:var(--mono); font-size:11px; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--gray-600);
+  background:var(--bg-layer-1); padding:13px 16px; border-bottom:1px solid var(--border);
+}
+table.data tbody td{
+  padding:14px 16px; border-bottom:1px solid var(--gray-200); vertical-align:top;
+  color:var(--gray-700); line-height:1.5;
+}
+table.data tbody tr:last-child td{border-bottom:none;}
+table.data tbody tr{transition:background .15s;}
+table.data tbody tr:hover td{background:var(--gray-75);}
+
+/* ==========================================================================
+   SECTION 07: Trap -> Refactor Cards + Interactive Pre-Flight Sign-Off
+   ========================================================================== */
+.refactor-list{display:flex; flex-direction:column; gap:12px; margin:0 0 28px;}
+.ref-item{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:12px;
+  padding:16px 20px; box-shadow:var(--shadow-sm);
+  display:grid; grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr); gap:14px; align-items:center;
+}
+.ref-trap .lbl{
+  font-family:var(--mono); font-size:10.5px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.08em; color:var(--adobe-red-dark); display:block; margin-bottom:4px;
+}
+.ref-fix .lbl{
+  font-family:var(--mono); font-size:10.5px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.08em; color:var(--gray-600); display:block; margin-bottom:4px;
+}
+.ref-trap > strong, .ref-fix > strong{display:block; font-size:15px; color:var(--ink); margin-bottom:4px; line-height:1.35;}
+.ref-trap p, .ref-fix p{margin:0; font-size:13.5px; color:var(--gray-700); line-height:1.5;}
+.ref-arrow{
+  width:28px; height:28px; border-radius:var(--radius-pill); background:var(--bg-layer-2);
+  border:1px solid var(--border); display:flex; align-items:center; justify-content:center;
+  font-family:var(--mono); font-size:14px; color:var(--gray-700);
+}
+
+/* Interactive Pre-Flight Takeaway Card */
+.takeaway{
+  background:var(--bg-layer-1); border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:24px 28px; box-shadow:var(--shadow);
+}
+.takeaway-top{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  gap:12px; margin-bottom:16px;
+}
+.takeaway-label{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--adobe-red); margin:0 0 6px;
+}
+.takeaway-label::before{
+  content:""; width:20px; height:2px; background:var(--adobe-red); border-radius:2px;
+}
+.takeaway h3{margin:0; font-size:19px; color:var(--ink);}
+.check-status{
+  font-family:var(--mono); font-size:12px; font-weight:700;
+  padding:5px 12px; border-radius:var(--radius-pill);
+  background:var(--bg-base); border:1px solid var(--border); color:var(--gray-700);
+}
+.check-status.active-prog{background:var(--s2-blue-tint); color:var(--s2-blue-down); border-color:var(--s2-blue);}
+
+.checklist{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 20px;
+  list-style:none; padding:0; margin:0;
+}
+.check-card{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:10px;
+  padding:12px 14px; transition:border-color .15s, background .15s;
+}
+.check-card:hover{border-color:var(--border-strong);}
+.check-card.checked{background:var(--s2-blue-tint-faint); border-color:var(--s2-blue);}
+.check-card label{
+  display:grid; grid-template-columns:20px minmax(0,1fr); gap:10px; align-items:start;
+  cursor:pointer; font-size:13.8px; color:var(--gray-700); line-height:1.48;
+}
+.check-card input[type="checkbox"]{
+  width:17px; height:17px; margin:2px 0 0; accent-color:var(--s2-blue); cursor:pointer;
+}
+.check-card strong{color:var(--ink); font-weight:700;}
+
+/* Footer */
+.site-footer{background:var(--charcoal-2); color:var(--gray-400);}
+.foot-inner{max-width:var(--maxw); margin:0 auto; padding:30px 24px; display:flex;
+  flex-wrap:wrap; gap:14px 24px; align-items:center; justify-content:space-between;}
+.foot-brand{display:flex; align-items:center; gap:11px; color:var(--white); font-weight:800;
+  font-size:16px; letter-spacing:-.01em;}
+.foot-brand img{height:22px; width:auto; display:block;}
+.foot-brand span{font-weight:400; color:var(--gray-300);}
+.foot-right{text-align:right; line-height:1.5;}
+.foot-right .fr-1{margin:0; font-size:13px; font-weight:600; color:var(--gray-300); letter-spacing:.01em;}
+.foot-right .fr-2{margin:2px 0 0; font-size:12px; color:var(--gray-400); letter-spacing:.02em;}
+
+/* Responsive Adaptation */
+@media(max-width:980px){
+  .shell{grid-template-columns:1fr; gap:0;}
+  .rail{display:none;}
+  .mobile-jump{display:block;}
+  .content{padding-top:36px;}
+  .zone-map{grid-template-columns:1fr;}
+  .arch-lanes{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .gov-strip{grid-template-columns:1fr;}
+}
+@media(max-width:760px){
+  .oneliner{grid-template-columns:1fr;}
+  .oneliner-stat{border-left:none; border-top:1px solid rgba(255,255,255,.16); padding:14px 0 0;}
+  .split-compare, .anatomy-box, .cmp-grid, .stack-cols, .checklist{grid-template-columns:1fr;}
+  .spec-row{grid-template-columns:1fr; gap:12px; padding:18px;}
+  .exp-row{grid-template-columns:1fr; gap:10px;}
+  .ref-item{grid-template-columns:1fr; gap:10px;}
+  .ref-arrow{transform:rotate(90deg);}
+  .arch-lanes{grid-template-columns:1fr;}
+  .zone-branches{grid-template-columns:1fr;}
+  .hero{padding:42px 20px 50px;}
+  .kicker{white-space:normal; line-height:1.4;}
+  .shell{padding:0 18px 64px;}
+  .bp-shell{padding:16px;}
+}
+@media(max-width:620px){
+  .foot-inner{flex-direction:column; align-items:flex-start;}
+  .foot-right{text-align:left;}
+}
+@media print{
+  .progress, .rail, .mobile-jump, .bp-toggle-all{display:none!important;}
+  .shell{grid-template-columns:1fr;}
+  .bp-panel{display:block!important; margin-bottom:28px;}
+}
+</style>
+</head>
+<body>
+
+<div class="progress"><span id="progressbar"></span></div>
+
+<div class="ai-note">
+  <div class="ai-note-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/>
+      <line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span><b>Prepared with AI assistance.</b> Please review for accuracy before use
+      &mdash; this document may contain errors.</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="masthead">
+      <div class="brandrow">
+        <img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">
+        <span class="brandname">Adobe&nbsp;<span>Experience Manager Assets</span></span>
+      </div>
+      <span class="kicker">Architecture &amp; Governance Guide &middot; AEM Assets</span>
+    </div>
+    <div class="hero-body">
+      <h1>Design folders for <span class="hl">governance,</span> not browsing.</h1>
+      <p class="lead">A practical taxonomy blueprint for structuring <strong>AEM Assets</strong> repositories that scale permissions, metadata inheritance, <strong>Dynamic Media</strong> delivery, and <strong>Adobe Express</strong> self-service without creating content silos.</p>
+      <ul class="hero-chips">
+        <li><strong>3&ndash;5 levels max:</strong> shallow paths, binaries in leaf nodes</li>
+        <li><strong>&le;1,000 assets/folder:</strong> unordered JCR folders for UI speed</li>
+        <li><strong>Express + Dynamic Media ready:</strong> clean sync, Smart Crop &amp; remix boundaries</li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<!-- Sticky section jump bar for narrow / side-panel screens (<980px) -->
+<nav class="mobile-jump" aria-label="Mobile section navigation">
+  <div class="mobile-jump-inner" id="mobile-spy-nav">
+    <a href="#mental-model" class="active">01 Core Principle</a>
+    <a href="#guardrails">02 Guardrails</a>
+    <a href="#blueprints">03 Folder Blueprints</a>
+    <a href="#naming">04 Naming</a>
+    <a href="#express-dm">05 Express &amp; DM</a>
+    <a href="#governance">06 Governance</a>
+    <a href="#antipatterns">07 Anti-Patterns</a>
+  </div>
+</nav>
+
+<div class="shell">
+  <aside class="rail" aria-label="Section navigation">
+    <p class="rail-title">Contents</p>
+    <nav id="spy-nav">
+      <a href="#mental-model" class="active"><span class="num">01</span> Core Principle</a>
+      <a href="#guardrails"><span class="num">02</span> Guardrails</a>
+      <a href="#blueprints"><span class="num">03</span> Folder Blueprints</a>
+      <a href="#naming"><span class="num">04</span> Naming Standards</a>
+      <a href="#express-dm"><span class="num">05</span> Express &amp; Dynamic Media</a>
+      <a href="#governance"><span class="num">06</span> Governance Matrix</a>
+      <a href="#antipatterns"><span class="num">07</span> Anti-Patterns &amp; Checklist</a>
+    </nav>
+  </aside>
+
+  <div class="content">
+    <main>
+
+      <!-- ==================================================================
+           SECTION 01 · CORE PRINCIPLE
+           ================================================================== -->
+      <section id="mental-model">
+        <p class="sec-eyebrow">Core Principle</p>
+        <h2>Folders enforce governance; metadata drives discovery</h2>
+        <p class="sec-intro">The single biggest mistake in Digital Asset Management (DAM) implementations is rebuilding a shared network drive&mdash;nesting 9 levels of folders to anticipate every way someone might browse for a file. In AEM Assets, folder paths are permanent infrastructure whose primary job is <strong>inheritance and operational control</strong>.</p>
+
+        <div class="oneliner">
+          <p>Treat your folder hierarchy as the <span class="em">structural foundation</span> of the house, and Omnisearch, AI Search, faceted metadata, and Collections as how teams move through it. <strong>Store every master asset in one canonical folder</strong> and surface it everywhere else dynamically.</p>
+          <div class="oneliner-stat">
+            <span class="big">1 Asset : 1 Path</span>
+            <span class="cap">Zero duplicate files across channel or team folders</span>
+          </div>
+        </div>
+
+        <div class="split-compare">
+          <!-- Left: Folders Own -->
+          <div class="layer-panel">
+            <div class="layer-head">
+              <div>
+                <span class="layer-kicker"><span>Layer A</span> &middot; Storage &amp; Inheritance</span>
+                <h3>What folders should govern</h3>
+              </div>
+              <span class="pill solid">Physical Path</span>
+            </div>
+            <p class="layer-sub">Create a new folder branch <strong>only</strong> when assets need a distinct setting in at least one of these five inherited AEM mechanics:</p>
+            <ul class="resp-list">
+              <li class="resp-item">
+                <span class="resp-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </span>
+                <div class="resp-body">
+                  <strong>Access Control Lists (ACLs)</strong>
+                  <span>Group-based Read, Modify, Create, Delete, and Publish permissions inherited down the subtree.</span>
+                </div>
+              </li>
+              <li class="resp-item">
+                <span class="resp-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
+                </span>
+                <div class="resp-body">
+                  <strong>Metadata Schemas &amp; Metadata Profiles</strong>
+                  <span>Which property form tabs display, plus auto-stamped defaults on upload (Brand, Campaign, Region).</span>
+                </div>
+              </li>
+              <li class="resp-item">
+                <span class="resp-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </span>
+                <div class="resp-body">
+                  <strong>Processing, Image &amp; Video Profiles</strong>
+                  <span>Folder-assigned renditions, Dynamic Media Smart Crop aspect ratios, and video encoding presets.</span>
+                </div>
+              </li>
+              <li class="resp-item">
+                <span class="resp-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                </span>
+                <div class="resp-body">
+                  <strong>Publication &amp; Dynamic Media Sync Scope</strong>
+                  <span>Controlling which subtrees sync to Dynamic Media CDN delivery versus staying author-only.</span>
+                </div>
+              </li>
+              <li class="resp-item">
+                <span class="resp-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </span>
+                <div class="resp-body">
+                  <strong>Lifecycle Stage Isolation</strong>
+                  <span>Cleanly separating studio Work-in-Progress (WIP) from approved production libraries and admin archives.</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Right: Metadata & Collections Own -->
+          <div class="layer-panel secondary">
+            <div class="layer-head">
+              <div>
+                <span class="layer-kicker"><span>Layer B</span> &middot; Discovery &amp; Curation</span>
+                <h3>What metadata &amp; Collections handle</h3>
+              </div>
+              <span class="pill">Virtual Facets</span>
+            </div>
+            <p class="layer-sub">Never split or duplicate folders for dimensions that AEM Assets natively indexes, filters, or groups virtually:</p>
+            <ul class="resp-list">
+              <li class="resp-item">
+                <span class="resp-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>
+                </span>
+                <div class="resp-body">
+                  <strong>File Type, Format &amp; Orientation</strong>
+                  <span>Omnisearch and Adobe Express Content Advisor include out-of-the-box MIME type, format, and size filters.</span>
+                </div>
+              </li>
+              <li class="resp-item">
+                <span class="resp-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                </span>
+                <div class="resp-body">
+                  <strong>Multi-Channel Reuse</strong>
+                  <span>One master image serving web, email, and social stays in one folder&mdash;tag channels in metadata and deliver crops via Dynamic Media.</span>
+                </div>
+              </li>
+              <li class="resp-item">
+                <span class="resp-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                </span>
+                <div class="resp-body">
+                  <strong>Cross-Folder Campaign Kits (Collections)</strong>
+                  <span>Assemble seasonal kits or agency handoffs across folders using static or Smart Search Collections.</span>
+                </div>
+              </li>
+              <li class="resp-item">
+                <span class="resp-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </span>
+                <div class="resp-body">
+                  <strong>Approval Status &amp; DRM Expiration</strong>
+                  <span>Track <code>Asset Status</code>, <code>Usage Rights</code>, and <code>Expiration Date</code> in metadata instead of moving files daily.</span>
+                </div>
+              </li>
+              <li class="resp-item">
+                <span class="resp-icon" aria-hidden="true">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                </span>
+                <div class="resp-body">
+                  <strong>AI Search &amp; Brief Matching</strong>
+                  <span>Content Advisor AI Search in Express resolves multilingual intent, synonyms, and uploaded campaign briefs via metadata.</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           SECTION 02 · REPOSITORY GUARDRAILS
+           ================================================================== -->
+      <section id="guardrails">
+        <p class="sec-eyebrow">Repository Guardrails</p>
+        <h2>Six technical rules for scalable JCR hierarchies</h2>
+        <p class="sec-intro">Under the hood, AEM Assets stores folders and assets as nodes inside Apache Jackrabbit Oak (JCR). Designing within these six technical boundaries keeps the Author UI fast, simplifies permission audits, and prevents broken CDN links.</p>
+
+        <div class="spec-ledger">
+          <div class="spec-row">
+            <div class="spec-metric">
+              <span class="spec-num">Rule <span>01</span> &middot; Depth</span>
+              <span class="spec-val">3&ndash;5 Levels Max</span>
+            </div>
+            <div class="spec-body">
+              <h3>Keep folder hierarchies shallow under <code>/content/dam/&lt;org&gt;</code></h3>
+              <p>Structure paths as <code>/org/domain/category/leaf</code>. Shallow hierarchies make upload destinations unmistakable for contributors and keep folder breadcrumbs readable inside Adobe Express.</p>
+              <p class="spec-why"><strong>Why it matters:</strong> Deep 8&ndash;10 level trees hide inherited ACL overrides and bloat delivery URLs.</p>
+            </div>
+          </div>
+
+          <div class="spec-row">
+            <div class="spec-metric">
+              <span class="spec-num">Rule <span>02</span> &middot; Density</span>
+              <span class="spec-val">&le;500&ndash;1,000 Assets</span>
+            </div>
+            <div class="spec-body">
+              <h3>Cap direct child assets per leaf folder at 1,000</h3>
+              <p>Partition growing branches predictably (by year, product line, or campaign) before any single folder exceeds 1,000 files. While AEM as a Cloud Service scales higher than AEM 6.5, keeping leaf counts under 1,000 preserves instant card/list rendering.</p>
+              <p class="spec-why"><strong>Why it matters:</strong> Multi-thousand-node folders slow UI scrolling, bulk metadata edits, and browser memory.</p>
+            </div>
+          </div>
+
+          <div class="spec-row">
+            <div class="spec-metric">
+              <span class="spec-num">Rule <span>03</span> &middot; Placement</span>
+              <span class="spec-val">Leaf Nodes Only</span>
+            </div>
+            <div class="spec-body">
+              <h3>Store asset binaries only in terminal leaf folders</h3>
+              <p>Keep Level 1 and Level 2 folders purely structural (holding subfolders only) and upload actual files into the lowest leaf folder of each branch.</p>
+              <p class="spec-why"><strong>Why it matters:</strong> Mixing hundreds of loose files alongside subfolders degrades AEM UI tree loading and muddies profile inheritance.</p>
+            </div>
+          </div>
+
+          <div class="spec-row">
+            <div class="spec-metric">
+              <span class="spec-num">Rule <span>04</span> &middot; Node Type</span>
+              <span class="spec-val"><code>sling:Folder</code></span>
+            </div>
+            <div class="spec-body">
+              <h3>Use unordered folders over <code>sling:OrderedFolder</code></h3>
+              <p>Always create standard unordered <code>sling:Folder</code> nodes (the AEM Assets default) in API scripts and migration packages rather than <code>sling:OrderedFolder</code>.</p>
+              <p class="spec-why"><strong>Why it matters:</strong> Oak tracks ordered child nodes in a single parent array property, causing write contention under concurrent uploads.</p>
+            </div>
+          </div>
+
+          <div class="spec-row">
+            <div class="spec-metric">
+              <span class="spec-num">Rule <span>05</span> &middot; Moves</span>
+              <span class="spec-val">Unpublish First</span>
+            </div>
+            <div class="spec-body">
+              <h3>Unpublish folders or assets before moving, renaming, or archiving</h3>
+              <p>Treat JCR folder slugs as permanent system paths once live. Whenever restructuring or retiring content, unpublish the subtree from AEM Publish and Dynamic Media <em>before</em> moving it.</p>
+              <p class="spec-why"><strong>Why it matters:</strong> Moving published paths directly leaves orphaned, unreachable &ldquo;stranded assets&rdquo; live on Publish/CDN tiers.</p>
+            </div>
+          </div>
+
+          <div class="spec-row">
+            <div class="spec-metric">
+              <span class="spec-num">Rule <span>06</span> &middot; Geography</span>
+              <span class="spec-val">Locale at the Leaf</span>
+            </div>
+            <div class="spec-body">
+              <h3>Put global domains at the top and regional adaptations at the leaf</h3>
+              <p>Avoid starting the DAM with <code>/apac</code>, <code>/emea</code>, and <code>/americas</code> at Level 1 unless strict legal residency mandates total isolation. Nest locale folders underneath the shared product or campaign instead.</p>
+              <p class="spec-why"><strong>Why it matters:</strong> Top-level regional folders wall off teams into silos and trigger duplicate uploads of the same global photography.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           SECTION 03 · REFERENCE ARCHITECTURES (VISUAL FOLDER EXPLORER)
+           ================================================================== -->
+      <section id="blueprints">
+        <p class="sec-eyebrow">Reference Architectures</p>
+        <h2>Three proven folder blueprints with real-world examples</h2>
+        <p class="sec-intro">High-performing AEM Assets deployments converge on three repeatable topologies. Switch tabs below to inspect exact JCR paths, group permissions, Metadata/Image Profiles, Dynamic Media sync rules, and Adobe Express drop zones.</p>
+
+        <div class="bp-shell" id="bp-explorer">
+          <div class="bp-tabs-bar">
+            <div class="bp-tabs" role="tablist" aria-label="Folder structure blueprints">
+              <button type="button" class="bp-tab" role="tab" id="tab-hybrid" aria-controls="panel-hybrid" aria-selected="true">Blueprint A &middot; Enterprise Hybrid (Recommended)</button>
+              <button type="button" class="bp-tab" role="tab" id="tab-multibrand" aria-controls="panel-multibrand" aria-selected="false">Blueprint B &middot; Multi-Brand Portfolio</button>
+              <button type="button" class="bp-tab" role="tab" id="tab-global" aria-controls="panel-global" aria-selected="false">Blueprint C &middot; Global-to-Local Hub</button>
+            </div>
+            <button type="button" class="bp-toggle-all" id="bp-toggle-btn" aria-pressed="false">Show all 3 blueprints</button>
+          </div>
+
+          <!-- ==================== PANEL A: ENTERPRISE HYBRID ==================== -->
+          <div class="bp-panel is-open" id="panel-hybrid" role="tabpanel" aria-labelledby="tab-hybrid">
+            <div class="bp-header">
+              <h3>Blueprint A: Enterprise Hybrid Architecture <span class="pill solid">Recommended Default</span></h3>
+              <p>Best for single-brand or master-brand enterprises running <strong>AEM Assets + Dynamic Media + Adobe Express</strong>. Notice how the 6 top-level branches cleanly divide into <strong>4 delivery-enabled branches</strong> (synced to Dynamic Media &amp; visible in Express) and <strong>2 restricted operational branches</strong> (WIP &amp; Archive, excluded from DM sync).</p>
+            </div>
+
+            <!-- Visual 2-Zone At-a-Glance Map -->
+            <div class="zone-map" aria-label="Level-1 branch overview">
+              <div class="zone-group">
+                <div class="zone-label">
+                  <span>Production &amp; Express-Accessible Branches (4)</span>
+                  <span class="pill">DM Sync: Enabled</span>
+                </div>
+                <div class="zone-branches">
+                  <div class="zchip"><code>/brand-foundation</code><span>Logos, icons, guidelines (Read-only kit)</span></div>
+                  <div class="zchip"><code>/products</code><span>Evergreen SKU packshots &amp; PDP Smart Crops</span></div>
+                  <div class="zchip"><code>/campaigns</code><span>Masters + <code>express-adaptations/</code> drop zone</span></div>
+                  <div class="zchip"><code>/shared-media</code><span>Lifestyle, venues &amp; DRM-governed stock</span></div>
+                </div>
+              </div>
+              <div class="zone-group restricted">
+                <div class="zone-label">
+                  <span>Restricted (2)</span>
+                  <span class="pill alert">DM Sync: Off</span>
+                </div>
+                <div class="zone-branches">
+                  <div class="zchip"><code>/wip-studio</code><span>Raw shoots &amp; agency drafts (Studio only)</span></div>
+                  <div class="zchip"><code>/archive</code><span>Unpublished retired assets (Admin only)</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Detailed Visual Explorer -->
+            <div class="explorer">
+              <div class="exp-toolbar">
+                <span>Repository Root: <strong>/content/dam/meridian/</strong></span>
+                <div class="exp-legend">
+                  <span><strong>R:</strong> Read / Browse</span>
+                  <span><strong>W:</strong> Upload / Edit</span>
+                  <span><strong>DM:</strong> Dynamic Media</span>
+                </div>
+              </div>
+
+              <div class="exp-row is-root">
+                <div class="folder-cell">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">/content/dam/meridian/</span>
+                    <span class="f-ui-title">Meridian Root Namespace</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Single organization root. Intentionally named differently from the Dynamic Media Company alias to avoid Smart Crop link collisions.</p>
+                  <div class="meta-pills">
+                    <span class="pill">Structure: DAM Admins</span>
+                    <span class="pill">Base Corporate Schema</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row">
+                <div class="folder-cell depth-1">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">brand-foundation/</span>
+                    <span class="f-ui-title">Brand Foundation &amp; Identity</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Leaves: <code>logos/</code>, <code>icons-svg/</code>, <code>guidelines/</code>, <code>typography/</code>. Approved SVG/PNG/PDF identity elements consumed read-only in Adobe Express Content Advisor.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R: All DAM + Express</span>
+                    <span class="pill">W: brand-stewards</span>
+                    <span class="pill solid">DM Sync: On</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row">
+                <div class="folder-cell depth-1">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">products/</span>
+                    <span class="f-ui-title">Product Catalog (Evergreen)</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Leaves: <code>&lt;line&gt;/&lt;family&gt;/</code> (e.g., <code>cards/platinum/</code>, <code>loans/home/</code>). Master SKU packshots, 360 spins, and product sheets.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R: All DAM + Express</span>
+                    <span class="pill">W: product-mktg</span>
+                    <span class="pill">Product Schema + PDP Smart Crop (1:1, 4:5)</span>
+                    <span class="pill solid">DM Sync: On</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row">
+                <div class="folder-cell depth-1">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">campaigns/2026/autumn-rewards/</span>
+                    <span class="f-ui-title">2026 &rarr; Autumn Rewards Campaign</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Partitioned by <code>&lt;YYYY&gt;/&lt;campaign-slug&gt;/</code> to keep leaf volume under 1,000. Folder Metadata Profile auto-stamps <code>Campaign = Autumn Rewards 2026</code> on every child upload.</p>
+                  <div class="meta-pills">
+                    <span class="pill">Auto-Tag: Campaign + Year</span>
+                    <span class="pill">Splits Masters vs. Express Outputs below</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row is-child">
+                <div class="folder-cell depth-2">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">master-toolkit/</span>
+                    <span class="f-ui-title">Approved Campaign Masters</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Final key visuals, high-res photography, and master MP4s. Express users pull lightweight ~2.5 MB Dynamic Media renditions from here without touching 300 MB TIFFs.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R: All DAM + Express</span>
+                    <span class="pill">W: creative-producers</span>
+                    <span class="pill">Hero Crops (16:9, 9:16) + Video Profile</span>
+                    <span class="pill solid">DM Sync: On</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row is-child">
+                <div class="folder-cell depth-2">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">express-adaptations/</span>
+                    <span class="f-ui-title">Adobe Express Remix Drop Zone</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Dedicated destination folder when marketers click <em>Share &rarr; AEM Assets</em> in Adobe Express. Isolates self-service social/banner exports from master assets.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R/W: mktg-express-creators</span>
+                    <span class="pill">Pub: mktg-approvers</span>
+                    <span class="pill">Stamps Source=Express, Status=In Review</span>
+                    <span class="pill">Publish: On Activation</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row">
+                <div class="folder-cell depth-1">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">shared-media/</span>
+                    <span class="f-ui-title">Evergreen Shared Library</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Leaves: <code>lifestyle/</code>, <code>branches-venues/</code>, <code>executives/</code>, <code>licensed-stock/</code>. Reusable cross-campaign photography and B-roll.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R: All DAM + Express</span>
+                    <span class="pill">W: dam-librarians</span>
+                    <span class="pill">DRM Schema (Mandatory Expiration Date)</span>
+                    <span class="pill solid">DM Sync: On</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row is-restricted">
+                <div class="folder-cell depth-1">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">wip-studio/</span>
+                    <span class="f-ui-title">Creative WIP &amp; Agency Intake</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Leaves: <code>internal/&lt;project&gt;/</code> and <code>agency-intake/&lt;vendor&gt;/</code>. Raw camera shoots, unapproved cuts, and layered INDD/PSD working files. Promoted to <code>master-toolkit/</code> upon approval.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R/W: creative-producers &amp; scoped agency-&lt;x&gt;</span>
+                    <span class="pill alert">DM Sync: Disabled</span>
+                    <span class="pill alert">Hidden from Express</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row is-restricted">
+                <div class="folder-cell depth-1">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">archive/</span>
+                    <span class="f-ui-title">Retired &amp; Expired Vault</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Leaves: <code>2024/</code>, <code>2025/</code>. Unpublished, retired, or rights-expired assets moved via archival workflow for legal audit history without cluttering Omnisearch.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R/W: dam-administrators only</span>
+                    <span class="pill alert">Unpublished Before Move</span>
+                    <span class="pill alert">DM Sync: Disabled</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== PANEL B: MULTI-BRAND ==================== -->
+          <div class="bp-panel" id="panel-multibrand" role="tabpanel" aria-labelledby="tab-multibrand">
+            <div class="bp-header">
+              <h3>Blueprint B: Multi-Brand / Holding Group Topology</h3>
+              <p>Use when a single AEM Assets environment hosts distinct commercial brands (e.g., banking subsidiaries, retail banners, or hospitality flags) needing separate user permissions, brand-specific Metadata Profiles, and separate Adobe Express Brand Kits.</p>
+            </div>
+
+            <div class="explorer">
+              <div class="exp-toolbar">
+                <span>Repository Root: <strong>/content/dam/</strong></span>
+                <div class="exp-legend"><span>Identical 2nd-level grammar repeated inside every brand root</span></div>
+              </div>
+
+              <div class="exp-row">
+                <div class="folder-cell">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">/content/dam/group-corporate/</span>
+                    <span class="f-ui-title">Enterprise Shared Pool</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Leaves: <code>investor-relations/</code>, <code>enterprise-logos/</code>, <code>group-licensed-stock/</code>. Assets shared across every brand in the holding group.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R: All brand groups</span>
+                    <span class="pill">W: corp-comms</span>
+                    <span class="pill solid">DM Sync: On</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row">
+                <div class="folder-cell">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">/content/dam/brand-aurora/</span>
+                    <span class="f-ui-title">Aurora Brand Root</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Repeats the standard 2nd-level skeleton: <code>brand-foundation/</code>, <code>products/</code>, <code>campaigns/2026/</code>, <code>shared-media/</code>, <code>wip-studio/</code>.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R/W: Scoped to aurora-* groups</span>
+                    <span class="pill">Auto-Stamps Brand = Aurora</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row">
+                <div class="folder-cell">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">/content/dam/brand-solstice/</span>
+                    <span class="f-ui-title">Solstice Brand Root</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Mirrors the exact same subfolder structure (<code>brand-foundation/</code>, <code>products/</code>, <code>campaigns/2026/</code>, <code>wip-studio/</code>) so cross-brand admins never relearn navigation.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R/W: Scoped to solstice-* groups</span>
+                    <span class="pill">Auto-Stamps Brand = Solstice + Solstice Crops</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row is-restricted">
+                <div class="folder-cell">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">/content/dam/archive/</span>
+                    <span class="f-ui-title">Centralized Admin Archive</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Leaves: <code>brand-aurora/2025/</code>, <code>brand-solstice/2025/</code>. Single admin-governed archive keeps expired files out of all brand searches and Express panels.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R/W: dam-administrators only</span>
+                    <span class="pill alert">DM Sync: Disabled</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ==================== PANEL C: GLOBAL TO LOCAL ==================== -->
+          <div class="bp-panel" id="panel-global" role="tabpanel" aria-labelledby="tab-global">
+            <div class="bp-header">
+              <h3>Blueprint C: Global-to-Regional Localization Topology</h3>
+              <p>Built for multinational APAC/EMEA/Americas teams where global headquarters delivers master campaign toolkits and regional marketers localize copy, offers, and aspect ratios in Adobe Express&mdash;without creating regional silos at Level 1.</p>
+            </div>
+
+            <div class="explorer">
+              <div class="exp-toolbar">
+                <span>Campaign Path: <strong>/content/dam/meridian/campaigns/2026/summer-travel/</strong></span>
+                <div class="exp-legend"><span>Global toolkit + peer market Express outputs side-by-side</span></div>
+              </div>
+
+              <div class="exp-row is-root">
+                <div class="folder-cell">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">.../2026/summer-travel/</span>
+                    <span class="f-ui-title">Summer Travel 2026 (Shared Campaign Home)</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Single global campaign parent folder visible across HQ and regional hubs, preventing markets from re-uploading duplicate master photography.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R: Global + All Regional Teams</span>
+                    <span class="pill">Stamps Campaign = Summer Travel 2026</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row">
+                <div class="folder-cell depth-1">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">01-global-masters/</span>
+                    <span class="f-ui-title">Global Master Toolkit</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Textless key visuals, clean video beds, and approved hero imagery. Regional marketers pull Dynamic Media Smart Crops from here into Express.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R: All Regions</span>
+                    <span class="pill">W: global-studio</span>
+                    <span class="pill solid">DM Sync: On</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row">
+                <div class="folder-cell depth-1">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">02-apac-sg/</span>
+                    <span class="f-ui-title">APAC &mdash; Singapore Adaptations</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Singapore Adobe Express adaptations, local regulatory footers, and SGD promotional lockups.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R: All Regions</span>
+                    <span class="pill">W: mktg-apac-sg</span>
+                    <span class="pill">Stamps Region=APAC, Market=SG, Locale=en-SG</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row">
+                <div class="folder-cell depth-1">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">03-apac-hk/</span>
+                    <span class="f-ui-title">APAC &mdash; Hong Kong Adaptations</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">Traditional Chinese and English Hong Kong Express exports and local partner co-branding.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R: All Regions</span>
+                    <span class="pill">W: mktg-apac-hk</span>
+                    <span class="pill">Stamps Region=APAC, Market=HK (zh-HK / en-HK)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-row">
+                <div class="folder-cell depth-1">
+                  <svg class="f-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                  <div>
+                    <span class="f-slug">04-emea-uk/</span>
+                    <span class="f-ui-title">EMEA &mdash; United Kingdom Adaptations</span>
+                  </div>
+                </div>
+                <div class="meta-cell">
+                  <p class="meta-desc">UK market adaptations&mdash;viewable by peer markets for inspiration, editable only by UK marketing.</p>
+                  <div class="meta-pills">
+                    <span class="pill">R: All Regions</span>
+                    <span class="pill">W: mktg-emea-uk</span>
+                    <span class="pill">Stamps Region=EMEA, Market=UK, Locale=en-GB</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           SECTION 04 · NAMING STANDARDS
+           ================================================================== -->
+      <section id="naming">
+        <p class="sec-eyebrow">Naming Standards</p>
+        <h2>Decouple human titles from immutable JCR node slugs</h2>
+        <p class="sec-intro">Every AEM folder stores two separate values: a business-friendly <strong>Folder Title</strong> shown in cards and breadcrumbs, and a machine-safe <strong>Node Name</strong> used in JCR paths and delivery URLs. Keep titles readable while locking down strict slug and filename rules.</p>
+
+        <!-- Dual Identifier Visual Anatomy -->
+        <div class="anatomy-box">
+          <div class="anat-col">
+            <span class="anat-tag">1 &middot; UI Display Property (<code>jcr:title</code>)</span>
+            <div class="anat-sample">Autumn Rewards &mdash; APAC (2026)</div>
+            <ul>
+              <li><strong>Human-friendly:</strong> Title case, spaces, and readable labels for business authors and Express users.</li>
+              <li><strong>Safe to refine:</strong> Updating <code>jcr:title</code> later does <em>not</em> change the underlying repository path or break published links.</li>
+              <li><strong>Consistent grammar:</strong> Choose plural nouns for containers (<em>Campaigns</em>, <em>Products</em>, <em>Logos</em>) and omit redundant words like &ldquo;Folder&rdquo;.</li>
+            </ul>
+          </div>
+          <div class="anat-col">
+            <span class="anat-tag">2 &middot; JCR System Path Slug (Node Name)</span>
+            <div class="anat-sample mono">autumn-rewards-apac-2026</div>
+            <ul>
+              <li><strong>Strict slug syntax:</strong> Lowercase ASCII letters, digits, and hyphens only (spaces in folder titles auto-convert to <code>-</code> on creation).</li>
+              <li><strong>Treat as immutable:</strong> Never rename live node slugs without unpublishing first.</li>
+              <li><strong>Sortable ISO prefixes:</strong> Use <code>YYYY</code> or <code>YYYY-MM</code> (<code>2026-09</code>) and ISO locale codes (<code>en-sg</code>, <code>zh-hk</code>) for chronological sorting.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="char-strip" role="note" aria-label="Disallowed characters in AEM Assets">
+          <strong>Disallowed AEM Assets filename characters:</strong>
+          <span class="bad-chars">* / : [ \ ] | # % { } ? &amp;</span>
+          <span>Also avoid spaces, accents, and punctuation (<code>! @ $ ^ + = ~ ,</code>) to prevent URL percent-encoding bugs across CDNs.</span>
+        </div>
+
+        <!-- Filename Formula Builder -->
+        <div class="formula-card">
+          <div class="formula-head">
+            <p class="formula-label">Recommended Asset Filename Formula</p>
+            <span class="pill">Target 50&ndash;75 chars &middot; Critical info in first 100 chars (Dynamic Media)</span>
+          </div>
+          <div class="formula-tokens">
+            <span class="ftok">[brand]<small>meridian</small></span>
+            <span class="fsep">-</span>
+            <span class="ftok">[domain-or-campaign]<small>autumn26</small></span>
+            <span class="fsep">-</span>
+            <span class="ftok">[subject-descriptor]<small>platinum-card-couple</small></span>
+            <span class="fsep">-</span>
+            <span class="ftok">[aspect-or-variant]<small>hero-16x9</small></span>
+            <span class="fsep">-</span>
+            <span class="ftok">[locale]<small>en-sg</small></span>
+            <span class="fsep">.</span>
+            <span class="ftok">[ext]<small>jpg</small></span>
+          </div>
+          <div class="formula-example">
+            <span><strong>Compiled result (56 chars):</strong> <code>meridian-autumn26-platinum-card-couple-hero-16x9-en-sg.jpg</code></span>
+            <span>Upload revisions as a new <strong>AEM Version</strong> of the same file&mdash;never <code>_FINAL_v2_REAL.jpg</code>.</span>
+          </div>
+        </div>
+
+        <p class="sub-heading">Side-by-Side Naming Examples</p>
+        <div class="compare-stack">
+          <div class="cmp-card">
+            <p class="cmp-topic">Scenario 1 &middot; Campaign Folder Path</p>
+            <div class="cmp-grid">
+              <div class="cmp-side">
+                <span class="cmp-badge">Recommended</span><br>
+                <code>/campaigns/2026/lunar-new-year</code>
+                <small>Title: <em>Lunar New Year 2026</em> &mdash; clean lowercase slug nested under a 4-digit year container.</small>
+              </div>
+              <div class="cmp-side bad">
+                <span class="cmp-badge">Avoid</span><br>
+                <code>/Campaigns Folder/Q1_2026_LNY!/</code>
+                <small>Redundant &ldquo;Folder&rdquo; label, mixed case, underscores, and unsafe <code>!</code> punctuation.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="cmp-card">
+            <p class="cmp-topic">Scenario 2 &middot; Hero Assets Across Two Separate Campaigns (Dynamic Media Trap)</p>
+            <div class="cmp-grid">
+              <div class="cmp-side">
+                <span class="cmp-badge">Recommended</span><br>
+                <code>meridian-lny26-family-dinner-hero.jpg</code><br>
+                <code>meridian-midautumn26-family-hero.jpg</code>
+                <small>Globally unique across the entire repository; each asset gets a deterministic Dynamic Media URL.</small>
+              </div>
+              <div class="cmp-side bad">
+                <span class="cmp-badge">Avoid</span><br>
+                <code>/lny/hero-banner.jpg</code> &amp; <code>/midautumn/hero-banner.jpg</code>
+                <small>Dynamic Media flattens folder paths into a global Asset ID&mdash;duplicate names overwrite each other or spawn <code>hero-banner-1</code> URLs.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="cmp-card">
+            <p class="cmp-topic">Scenario 3 &middot; Product Catalog &amp; Adobe Express Exports</p>
+            <div class="cmp-grid">
+              <div class="cmp-side">
+                <span class="cmp-badge">Recommended</span><br>
+                <code>/campaigns/2026/lny/express-adaptations/</code><br>
+                <code>meridian-lny26-cashback-story-9x16-sg.png</code>
+                <small>Saved into the scoped Express adaptation folder with campaign, placement, ratio, and market encoded.</small>
+              </div>
+              <div class="cmp-side bad">
+                <span class="cmp-badge">Avoid</span><br>
+                <code>/brand-foundation/logos/Untitled Design (3).png</code>
+                <small>Default Express canvas title saved directly into a master brand folder with spaces and parentheses.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           SECTION 05 · ADOBE EXPRESS & DYNAMIC MEDIA INTEGRATION
+           ================================================================== -->
+      <section id="express-dm">
+        <p class="sec-eyebrow">Stack Integration</p>
+        <h2>How Dynamic Media and Adobe Express shape your folder tree</h2>
+        <p class="sec-intro">Because your environment combines <strong>AEM Assets</strong>, <strong>Dynamic Media</strong>, and <strong>Adobe Express</strong>, folder boundaries directly govern CDN sync costs, Smart Crop automation, 80 MB file-size bridging, and self-service brand safety.</p>
+
+        <!-- End-to-End Visual Architecture Swimlane -->
+        <div class="arch-diagram" aria-label="Asset flow across AEM Assets, Dynamic Media, and Adobe Express">
+          <p class="arch-caption">End-to-End Folder &amp; Rendition Flow</p>
+          <div class="arch-lanes">
+            <div class="arch-stage muted-stage">
+              <div>
+                <p class="arch-step"><span>01</span> &middot; Studio WIP</p>
+                <h4>Ingest &amp; Draft</h4>
+                <p>Agencies &amp; designers upload raw shoots and layered PSD/INDD drafts into restricted WIP folders.</p>
+              </div>
+              <div class="arch-foot">
+                <code>/wip-studio/...</code>
+                <span class="pill alert">DM Sync: Disabled</span>
+              </div>
+            </div>
+
+            <div class="arch-stage">
+              <div>
+                <p class="arch-step"><span>02</span> &middot; Master DAM</p>
+                <h4>Approve &amp; Process</h4>
+                <p>Approved masters move to canonical product or campaign folders, inheriting Metadata &amp; Smart Crop Profiles.</p>
+              </div>
+              <div class="arch-foot">
+                <code>.../master-toolkit/</code>
+                <span class="pill solid">DM Sync: Enabled</span>
+              </div>
+            </div>
+
+            <div class="arch-stage">
+              <div>
+                <p class="arch-step"><span>03</span> &middot; Adobe Express</p>
+                <h4>Discover &amp; Remix</h4>
+                <p>Content Advisor connects to <strong>Author</strong> repo; marketers pull ~2.5 MB DM renditions onto Express canvases.</p>
+              </div>
+              <div class="arch-foot">
+                <code>Content Advisor &rarr; DM Tab</code>
+                <span class="pill">Bridges 80 MB Cap</span>
+              </div>
+            </div>
+
+            <div class="arch-stage">
+              <div>
+                <p class="arch-step"><span>04</span> &middot; Save &amp; Deliver</p>
+                <h4>Governed Output</h4>
+                <p>Express exports save to <code>express-adaptations/</code> (stamped <em>In Review</em>), publish on approval, and retire to <code>/archive</code>.</p>
+              </div>
+              <div class="arch-foot">
+                <code>.../express-adaptations/</code>
+                <span class="pill">Publish: On Activation</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 + 4 Scannable Numbered Rules -->
+        <div class="stack-cols">
+          <div class="stack-card">
+            <div class="stack-card-head">
+              <span class="ey">Dynamic Media</span>
+              <h3>4 folder rules for clean CDN delivery</h3>
+            </div>
+            <ol class="rule-stack">
+              <li>
+                <span class="r-idx">1</span>
+                <div class="r-text">
+                  <strong>Enforce globally unique filenames across all folders</strong>
+                  <span>Dynamic Media (Scene7) uses a flat global Asset ID rather than the JCR folder path. Two files named <code>banner.jpg</code> in separate folders overwrite one another or generate <code>-1</code> / <code>-2</code> URL suffixes.</span>
+                </div>
+              </li>
+              <li>
+                <span class="r-idx">2</span>
+                <div class="r-text">
+                  <strong>Never match a Level-1 folder name to the DM Company name</strong>
+                  <span>Keep root <code>/content/dam/&lt;folder&gt;</code> slugs distinct from your Dynamic Media Company alias, and assign a dedicated DM Company per AEM environment (Dev/Stage/Prod) to prevent shared Smart Crop link collisions.</span>
+                </div>
+              </li>
+              <li>
+                <span class="r-idx">3</span>
+                <div class="r-text">
+                  <strong>Scope <code>Dynamic Media sync mode</code> per folder branch</strong>
+                  <span>Uncheck global <em>Sync all content</em> so you can set <strong>Enable for subfolders</strong> on master libraries and <strong>Disabled for subfolders</strong> on <code>/wip-studio</code> and <code>/archive</code>.</span>
+                </div>
+              </li>
+              <li>
+                <span class="r-idx">4</span>
+                <div class="r-text">
+                  <strong>Group folders by Smart Crop &amp; Selective Publish needs</strong>
+                  <span>Image and Video Profiles attach at the folder level: separate <code>/products</code> (<code>1:1</code>, <code>4:5</code> PDP crops) from <code>/campaigns</code> (<code>16:9</code>, <code>9:16</code> hero crops), and use <strong>On Activation</strong> or <strong>Selective Publish</strong> so drafts are not live on public URLs prematurely.</span>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="stack-card">
+            <div class="stack-card-head">
+              <span class="ey">Adobe Express</span>
+              <h3>4 folder rules for self-service velocity</h3>
+            </div>
+            <ol class="rule-stack">
+              <li>
+                <span class="r-idx">1</span>
+                <div class="r-text">
+                  <strong>Always select the AEM Author repository in Content Advisor</strong>
+                  <span>Selecting the <strong>Author</strong> repository in Adobe Express preserves your folder tree, Collections, Saved Searches, AI Search, and brief upload. A <em>Delivery</em> repository flattens all assets to root and disables Content Advisor.</span>
+                </div>
+              </li>
+              <li>
+                <span class="r-idx">2</span>
+                <div class="r-text">
+                  <strong>Use DM-enabled folders to bridge Express&rsquo;s 80 MB import cap</strong>
+                  <span>Adobe Express web caps direct raster uploads at 80 MB (40 MB mobile). Enabling Dynamic Media on master folders lets users drag a crisp ~2.5 MB DM rendition of a 300 MB master TIFF straight from the asset&rsquo;s <em>Dynamic Media</em> tab.</span>
+                </div>
+              </li>
+              <li>
+                <span class="r-idx">3</span>
+                <div class="r-text">
+                  <strong>Carve out dedicated <code>express-adaptations/</code> write folders</strong>
+                  <span>Keep <code>/brand-foundation</code> and <code>/products</code> read-only for marketers and open write access on campaign output folders. Exporting <em>All Pages</em> of a multi-page canvas as PNG/JPEG auto-creates a child folder inside that destination.</span>
+                </div>
+              </li>
+              <li>
+                <span class="r-idx">4</span>
+                <div class="r-text">
+                  <strong>Disable Content Hub Auto-approval for Embedded Express</strong>
+                  <span>When saving to Content Hub (where mandatory <em>Project/Campaign Name</em> metadata routes files into hydrated folders), disable <strong>Auto-approval</strong> and stamp <code>Status = Under Review</code> via Metadata Profile so unvetted drafts do not publish automatically.</span>
+                </div>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           SECTION 06 · GOVERNANCE MATRIX
+           ================================================================== -->
+      <section id="governance">
+        <p class="sec-eyebrow">Governance Matrix</p>
+        <h2>Bind permissions and metadata profiles high in the tree</h2>
+        <p class="sec-intro">Configure security and automation once at Level 1 or Level 2 and let inheritance carry them downward. Follow three operational rules to keep access clean and auditable:</p>
+
+        <div class="gov-strip">
+          <div class="gov-mini">
+            <strong>1. Groups, never individuals</strong>
+            <p>Assign every ACL to role-based groups (<code>express-creators</code>, <code>brand-stewards</code>) so onboarding or offboarding never requires folder edits.</p>
+          </div>
+          <div class="gov-mini">
+            <strong>2. Allow-centric inheritance</strong>
+            <p>Start restrictive and grant explicit <code>Allow</code> privileges top-down; avoid deep subfolder <code>Deny</code> rules that become brittle to debug.</p>
+          </div>
+          <div class="gov-mini">
+            <strong>3. Metadata-Driven Permissions</strong>
+            <p>In AEMaaCS, layer attribute policies (e.g., <code>Status = Approved</code>) when visibility must vary inside the same folder branch.</p>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="data">
+            <thead>
+              <tr>
+                <th style="width:20%">Folder Branch</th>
+                <th style="width:17%">Read / Browse</th>
+                <th style="width:18%">Create / Modify</th>
+                <th style="width:14%">Publish Rights</th>
+                <th style="width:31%">Inherited Schema, Profiles &amp; Sync</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>/brand-foundation</code></td>
+                <td><code>dam-users</code><br><code>express-creators</code></td>
+                <td><code>brand-stewards</code></td>
+                <td><code>brand-stewards</code></td>
+                <td><strong>Brand Schema</strong> &middot; Stamps <code>Usage = Approved Brand Kit</code> &middot; <span class="pill solid">DM Sync: On</span></td>
+              </tr>
+              <tr>
+                <td><code>/products</code></td>
+                <td><code>dam-users</code><br><code>express-creators</code></td>
+                <td><code>product-authors</code></td>
+                <td><code>product-approvers</code></td>
+                <td><strong>Product Schema</strong> (SKU, Line, Launch Date) &middot; PDP Smart Crop Profile &middot; <span class="pill solid">DM Sync: On</span></td>
+              </tr>
+              <tr>
+                <td><code>/campaigns</code><br><small><code>&rarr; master-toolkit/</code></small></td>
+                <td><code>dam-users</code><br><code>express-creators</code></td>
+                <td><code>creative-producers</code></td>
+                <td><code>mktg-approvers</code></td>
+                <td><strong>Campaign Profile</strong> (auto-stamps Campaign &amp; Year) &middot; Hero Image/Video Profiles &middot; <span class="pill solid">DM Sync: On</span></td>
+              </tr>
+              <tr>
+                <td><code>/campaigns</code><br><small><code>&rarr; express-adaptations/</code></small></td>
+                <td><code>dam-users</code><br><code>express-creators</code></td>
+                <td><code>express-creators</code><br><code>creative-producers</code></td>
+                <td><code>mktg-approvers</code></td>
+                <td>Stamps <code>Source = Adobe Express</code>, <code>Status = Under Review</code> &middot; <span class="pill">On-Activation Publish</span></td>
+              </tr>
+              <tr>
+                <td><code>/shared-media</code></td>
+                <td><code>dam-users</code><br><code>express-creators</code></td>
+                <td><code>dam-librarians</code></td>
+                <td><code>dam-librarians</code></td>
+                <td><strong>DRM Schema</strong> (mandatory Expiration Date, Territory, Talent Rights) &middot; <span class="pill solid">DM Sync: On</span></td>
+              </tr>
+              <tr>
+                <td><code>/wip-studio</code></td>
+                <td><code>creative-producers</code><br><code>agency-&lt;partner&gt;</code></td>
+                <td><code>creative-producers</code><br><code>agency-&lt;partner&gt;</code></td>
+                <td><span class="pill alert">Blocked</span></td>
+                <td>Lightweight Draft Schema &middot; <span class="pill alert">DM Sync: Disabled</span> (no CDN or Express exposure)</td>
+              </tr>
+              <tr>
+                <td><code>/archive</code></td>
+                <td><code>dam-administrators</code></td>
+                <td><code>dam-administrators</code></td>
+                <td><span class="pill alert">Unpublished First</span></td>
+                <td>Historical metadata retained &middot; <span class="pill alert">DM Sync: Disabled</span> &middot; Hidden from Omnisearch</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           SECTION 07 · ANTI-PATTERNS & INTERACTIVE CHECKLIST
+           ================================================================== -->
+      <section id="antipatterns">
+        <p class="sec-eyebrow">Anti-Patterns &amp; Checklist</p>
+        <h2>Five folder traps to avoid &mdash; and how to refactor them</h2>
+        <p class="sec-intro">Nearly every expensive DAM restructuring engagement stems from one of these five anti-patterns introduced during initial setup. Pressure-test your proposed folder tree against each pair before migrating files.</p>
+
+        <div class="refactor-list">
+          <div class="ref-item">
+            <div class="ref-trap">
+              <span class="lbl">Trap 01 &middot; Org-Chart Folders</span>
+              <strong>Mirroring internal team names (<code>/mktg-squad-b/</code>)</strong>
+              <p>Teams reorganize every 12&ndash;24 months; renaming published JCR paths breaks live links or strands CDN assets.</p>
+            </div>
+            <div class="ref-arrow" aria-hidden="true">&rarr;</div>
+            <div class="ref-fix">
+              <span class="lbl">Best-Practice Refactor</span>
+              <strong>Organize by enduring content domains</strong>
+              <p>Anchor Level 1 on stable business domains (<code>/products</code>, <code>/campaigns</code>, <code>/brand-foundation</code>) that outlast reorgs.</p>
+            </div>
+          </div>
+
+          <div class="ref-item">
+            <div class="ref-trap">
+              <span class="lbl">Trap 02 &middot; Format Silos</span>
+              <strong>Splitting Level 1 by file type (<code>/images</code>, <code>/videos</code>, <code>/pdfs</code>)</strong>
+              <p>Scatters a single campaign across three distant trees and forces admins to maintain duplicate Metadata Profiles.</p>
+            </div>
+            <div class="ref-arrow" aria-hidden="true">&rarr;</div>
+            <div class="ref-fix">
+              <span class="lbl">Best-Practice Refactor</span>
+              <strong>Group by campaign or product; filter by MIME facet</strong>
+              <p>Store mixed formats together in their campaign/product leaf and use built-in <strong>File Type</strong> facets in Omnisearch and Express.</p>
+            </div>
+          </div>
+
+          <div class="ref-item">
+            <div class="ref-trap">
+              <span class="lbl">Trap 03 &middot; Channel Duplication</span>
+              <strong>Copying files per channel (<code>/web/hero.jpg</code>, <code>/social/hero.jpg</code>)</strong>
+              <p>Triples storage, splits version history, triggers Dynamic Media ID collisions, and leaves expired copies live.</p>
+            </div>
+            <div class="ref-arrow" aria-hidden="true">&rarr;</div>
+            <div class="ref-fix">
+              <span class="lbl">Best-Practice Refactor</span>
+              <strong>Store one master; deliver crops via Dynamic Media</strong>
+              <p>Keep one canonical file, serve channel ratios via <strong>Smart Crop / Image Presets</strong>, and bundle kits with <strong>Collections</strong>.</p>
+            </div>
+          </div>
+
+          <div class="ref-item">
+            <div class="ref-trap">
+              <span class="lbl">Trap 04 &middot; Open Folder Sprawl</span>
+              <strong>Letting all contributors create root or Level-2 folders</strong>
+              <p>Spawns thousands of ungoverned folders (<code>/Johns_Test</code>, <code>/New Folder 2</code>) missing Metadata and Image Profiles.</p>
+            </div>
+            <div class="ref-arrow" aria-hidden="true">&rarr;</div>
+            <div class="ref-fix">
+              <span class="lbl">Best-Practice Refactor</span>
+              <strong>Lock Levels 1&ndash;2 to DAM Administrators</strong>
+              <p>Permit contributor subfolder creation only inside scoped <code>/campaigns/&lt;YYYY&gt;/</code> and <code>/wip-studio/</code> containers.</p>
+            </div>
+          </div>
+
+          <div class="ref-item">
+            <div class="ref-trap">
+              <span class="lbl">Trap 05 &middot; Unpartitioned Dumps</span>
+              <strong>Bulk-uploading 12,000 legacy files into <code>/legacy-import</code></strong>
+              <p>Breaches the 1,000-asset ceiling, slows UI listings, and syncs unvetted files into Dynamic Media and Express.</p>
+            </div>
+            <div class="ref-arrow" aria-hidden="true">&rarr;</div>
+            <div class="ref-fix">
+              <span class="lbl">Best-Practice Refactor</span>
+              <strong>Stage in batches + enrich via CSV bulk metadata</strong>
+              <p>Partition folders first, apply required metadata via CSV import, and promote only active, rights-cleared assets.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Pre-Flight Sign-Off -->
+        <div class="takeaway">
+          <div class="takeaway-top">
+            <div>
+              <p class="takeaway-label">Pre-Flight Sign-Off</p>
+              <h3>Six checks to complete before bulk upload</h3>
+            </div>
+            <span class="check-status" id="check-counter" aria-live="polite">0 of 6 verified</span>
+          </div>
+          <ul class="checklist" id="preflight-list">
+            <li class="check-card">
+              <label>
+                <input type="checkbox" class="pf-box">
+                <span><strong>Lock Levels 1&ndash;2:</strong> Top-level branches map to enduring domains and do not match the Dynamic Media Company name.</span>
+              </label>
+            </li>
+            <li class="check-card">
+              <label>
+                <input type="checkbox" class="pf-box">
+                <span><strong>Verify leaf partitioning:</strong> Every planned leaf folder has a natural split key (year, line, campaign) keeping counts &le;1,000.</span>
+              </label>
+            </li>
+            <li class="check-card">
+              <label>
+                <input type="checkbox" class="pf-box">
+                <span><strong>Bind profiles before upload:</strong> Metadata Schemas, Metadata Profiles, and DM Image/Video Profiles are attached <em>prior</em> to ingest.</span>
+              </label>
+            </li>
+            <li class="check-card">
+              <label>
+                <input type="checkbox" class="pf-box">
+                <span><strong>Scope Dynamic Media sync:</strong> DM sync is disabled on <code>/wip-studio</code> and <code>/archive</code>; globally unique naming is enforced.</span>
+              </label>
+            </li>
+            <li class="check-card">
+              <label>
+                <input type="checkbox" class="pf-box">
+                <span><strong>Validate Adobe Express paths:</strong> Content Advisor points to the <strong>Author</strong> repo; <code>express-adaptations/</code> write access is tested.</span>
+              </label>
+            </li>
+            <li class="check-card">
+              <label>
+                <input type="checkbox" class="pf-box">
+                <span><strong>Document ACL &amp; archival SOPs:</strong> Role-based User Groups are mapped and unpublish-before-move workflows are in place.</span>
+              </label>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="foot-inner">
+    <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe&nbsp;<span>Experience Manager Assets</span></div>
+    <div class="foot-right">
+      <p class="fr-1">Customer Solutions &middot; Architecture &amp; Governance Reference</p>
+      <p class="fr-2">&copy; 2026 Adobe</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* Scrollspy — syncs both desktop Left Rail (#spy-nav) and narrow Mobile Jump Bar (#mobile-spy-nav) */
+  var railLinks = Array.prototype.slice.call(document.querySelectorAll('#spy-nav a'));
+  var mobLinks = Array.prototype.slice.call(document.querySelectorAll('#mobile-spy-nav a'));
+  var allLinks = railLinks.concat(mobLinks);
+  var sections = railLinks.map(function(l){
+    return document.getElementById(l.getAttribute('href').slice(1));
+  }).filter(Boolean);
+
+  function setActive(id){
+    allLinks.forEach(function(l){
+      var match = l.getAttribute('href') === '#' + id;
+      l.classList.toggle('active', match);
+    });
+  }
+
+  if('IntersectionObserver' in window){
+    var vis = {};
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ vis[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0; });
+      var best = null, bestR = 0;
+      Object.keys(vis).forEach(function(k){ if(vis[k] > bestR){ bestR = vis[k]; best = k; } });
+      if(best) setActive(best);
+    }, { rootMargin:'-15% 0px -68% 0px', threshold:[0, 0.15, 0.5, 1] });
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+  allLinks.forEach(function(l){
+    l.addEventListener('click', function(){ setActive(l.getAttribute('href').slice(1)); });
+  });
+
+  /* Scroll-progress bar */
+  var pb = document.getElementById('progressbar');
+  if(pb){
+    var upd = function(){
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.transform = 'scaleX(' + Math.min(1, Math.max(0, h > 0 ? window.scrollY / h : 0)) + ')';
+    };
+    window.addEventListener('scroll', upd, {passive:true});
+    window.addEventListener('resize', upd);
+    upd();
+  }
+
+  /* Interactive Blueprint Explorer Tabs */
+  var explorer = document.getElementById('bp-explorer');
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.bp-tab'));
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.bp-panel'));
+  var toggleBtn = document.getElementById('bp-toggle-btn');
+
+  function activateTab(tab){
+    if(explorer && explorer.classList.contains('show-all')){
+      explorer.classList.remove('show-all');
+      if(toggleBtn){
+        toggleBtn.setAttribute('aria-pressed', 'false');
+        toggleBtn.textContent = 'Show all 3 blueprints';
+      }
+    }
+    var targetId = tab.getAttribute('aria-controls');
+    tabs.forEach(function(t){ t.setAttribute('aria-selected', t === tab ? 'true' : 'false'); });
+    panels.forEach(function(p){ p.classList.toggle('is-open', p.id === targetId); });
+  }
+
+  tabs.forEach(function(tab, idx){
+    tab.addEventListener('click', function(){ activateTab(tab); });
+    tab.addEventListener('keydown', function(e){
+      if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+        e.preventDefault();
+        var next = e.key === 'ArrowRight' ? (idx + 1) % tabs.length : (idx - 1 + tabs.length) % tabs.length;
+        tabs[next].focus();
+        activateTab(tabs[next]);
+      }
+    });
+  });
+
+  if(toggleBtn && explorer){
+    toggleBtn.addEventListener('click', function(){
+      var allOpen = explorer.classList.toggle('show-all');
+      toggleBtn.setAttribute('aria-pressed', allOpen ? 'true' : 'false');
+      toggleBtn.textContent = allOpen ? 'Collapse to tabs' : 'Show all 3 blueprints';
+    });
+  }
+
+  /* Interactive Pre-Flight Sign-Off Counter */
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.pf-box'));
+  var counter = document.getElementById('check-counter');
+  function syncChecks(){
+    var done = 0;
+    boxes.forEach(function(b){
+      var card = b.closest('.check-card');
+      if(b.checked) done++;
+      if(card) card.classList.toggle('checked', b.checked);
+    });
+    if(counter){
+      counter.textContent = done + ' of ' + boxes.length + ' verified';
+      counter.classList.toggle('active-prog', done > 0);
+    }
+  }
+  boxes.forEach(function(b){ b.addEventListener('change', syncChecks); });
+})();
+</script>
+</body>
+</html>

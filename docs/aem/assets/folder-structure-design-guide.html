@@ -724,9 +724,9 @@ table.data tbody tr:hover td{background:var(--gray-75);}
 table.data tbody td code{font-size:11.5px; white-space:nowrap;}
 
 /* ==========================================================================
-   SECTION 07: Common Traps + Interactive Pre-Launch Checklist
+   SECTION 07: Common Pitfalls
    ========================================================================== */
-.refactor-list{display:flex; flex-direction:column; gap:10px; margin:0 0 26px;}
+.refactor-list{display:flex; flex-direction:column; gap:10px; margin:0;}
 .ref-item{
   background:var(--bg-base); border:1px solid var(--border); border-radius:12px;
   padding:14px 18px; box-shadow:var(--shadow-sm);
@@ -741,47 +741,6 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
   border:1px solid var(--border); display:flex; align-items:center; justify-content:center;
   font-family:var(--mono); font-size:14px; color:var(--gray-700);
 }
-
-.takeaway{
-  background:var(--bg-layer-1); border:1px solid var(--border);
-  border-radius:var(--radius); padding:24px 26px; box-shadow:var(--shadow);
-}
-.takeaway-top{
-  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
-  gap:12px; margin-bottom:16px;
-}
-.takeaway-label{
-  display:inline-flex; align-items:center; gap:9px;
-  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--adobe-red); margin:0 0 5px;
-}
-.takeaway-label::before{content:""; width:20px; height:2px; background:var(--adobe-red); border-radius:2px;}
-.takeaway h3{margin:0; font-size:18.5px; color:var(--ink);}
-.check-status{
-  font-family:var(--mono); font-size:12px; font-weight:700;
-  padding:5px 12px; border-radius:var(--radius-pill);
-  background:var(--bg-base); border:1px solid var(--border); color:var(--gray-700);
-}
-.check-status.active-prog{background:var(--s2-blue-tint); color:var(--s2-blue-down); border-color:var(--s2-blue);}
-
-.checklist{
-  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 18px;
-  list-style:none; padding:0; margin:0;
-}
-.check-card{
-  background:var(--bg-base); border:1px solid var(--border); border-radius:10px;
-  padding:11px 13px; transition:border-color .15s, background .15s;
-}
-.check-card:hover{border-color:var(--border-strong);}
-.check-card.checked{background:var(--s2-blue-tint-faint); border-color:var(--s2-blue);}
-.check-card label{
-  display:grid; grid-template-columns:20px minmax(0,1fr); gap:10px; align-items:start;
-  cursor:pointer; font-size:13.4px; color:var(--gray-700); line-height:1.46;
-}
-.check-card input[type="checkbox"]{
-  width:17px; height:17px; margin:2px 0 0; accent-color:var(--s2-blue); cursor:pointer;
-}
-.check-card strong{color:var(--ink); font-weight:700;}
 
 /* Footer */
 .site-footer{background:var(--charcoal-2); color:var(--gray-400);}
@@ -816,7 +775,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
   .shell{grid-template-columns:1fr; gap:0; padding:0 18px 64px;}
   .rail{position:static; padding:24px 0 20px; border-bottom:1px solid var(--border);}
   .content{padding-top:28px;}
-  .split-compare, .anatomy-box, .stack-cols, .checklist, .guard-grid, .pipe-track, .cascade-steps{grid-template-columns:1fr;}
+  .split-compare, .anatomy-box, .stack-cols, .guard-grid, .pipe-track, .cascade-steps{grid-template-columns:1fr;}
   .ref-item{grid-template-columns:1fr; gap:8px;}
   .ref-arrow{transform:rotate(90deg);}
   .d-step.l1 .d-bar, .d-step.l2 .d-bar, .d-step.l3 .d-bar, .d-step.leaf .d-bar, .d-step.over .d-bar{margin-left:0;}
@@ -885,7 +844,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
       <a href="#naming"><span class="num">04</span> Naming Standards</a>
       <a href="#express-dm"><span class="num">05</span> Express &amp; Dynamic Media</a>
       <a href="#governance"><span class="num">06</span> Roles &amp; Permissions</a>
-      <a href="#antipatterns"><span class="num">07</span> Pitfalls &amp; Checklist</a>
+      <a href="#antipatterns"><span class="num">07</span> Common Pitfalls</a>
     </nav>
   </aside>
 
@@ -1867,11 +1826,11 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
       </section>
 
       <!-- ==================================================================
-           SECTION 07 · COMMON PITFALLS & PRE-LAUNCH CHECKLIST
+           SECTION 07 · COMMON PITFALLS
            ================================================================== -->
       <section id="antipatterns">
-        <p class="sec-eyebrow">Pitfalls &amp; Checklist</p>
-        <h2>Five folder traps to avoid &mdash; and your pre-launch checklist</h2>
+        <p class="sec-eyebrow">Common Pitfalls</p>
+        <h2>Five folder traps to avoid</h2>
         <p class="sec-intro">Catching these five habits before migrating files saves months of manual cleanup later.</p>
 
         <div class="refactor-list">
@@ -1944,54 +1903,6 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
               <p>Migrate only active, rights-cleared assets into partitioned folders and apply metadata in bulk via CSV.</p>
             </div>
           </div>
-        </div>
-
-        <div class="takeaway">
-          <div class="takeaway-top">
-            <div>
-              <p class="takeaway-label">Pre-Launch Readiness</p>
-              <h3>Six sign-off checks before uploading assets</h3>
-            </div>
-            <span class="check-status" id="check-counter" aria-live="polite">0 of 6 verified</span>
-          </div>
-          <ul class="checklist" id="preflight-list">
-            <li class="check-card">
-              <label>
-                <input type="checkbox" class="pf-box">
-                <span><strong>Top levels locked:</strong> Levels 1&ndash;2 reflect enduring business domains and only DAM Admins can add top-level folders.</span>
-              </label>
-            </li>
-            <li class="check-card">
-              <label>
-                <input type="checkbox" class="pf-box">
-                <span><strong>Folders sized for growth:</strong> High-volume branches split by Year or Product Line (&le;1,000 files/folder) with <strong>Orderable</strong> left unchecked.</span>
-              </label>
-            </li>
-            <li class="check-card">
-              <label>
-                <input type="checkbox" class="pf-box">
-                <span><strong>Metadata &amp; Smart Crops attached first:</strong> Default Metadata Profiles and lean Image Profiles (~5 crops) are applied <em>before</em> bulk upload.</span>
-              </label>
-            </li>
-            <li class="check-card">
-              <label>
-                <input type="checkbox" class="pf-box">
-                <span><strong>Approval rights restricted:</strong> Only designated Approvers can mark assets <strong>Approved</strong> for Dynamic Media delivery.</span>
-              </label>
-            </li>
-            <li class="check-card">
-              <label>
-                <input type="checkbox" class="pf-box">
-                <span><strong>Adobe Express paths tested:</strong> Express points to the <strong>Author</strong> repo, master folders are read-only, and <code>express-adaptations/</code> requires review.</span>
-              </label>
-            </li>
-            <li class="check-card">
-              <label>
-                <input type="checkbox" class="pf-box">
-                <span><strong>Move &amp; archive rules agreed:</strong> Teams unapprove files before archiving, and reprocess unapproved files moved into auto-approved folders.</span>
-              </label>
-            </li>
-          </ul>
         </div>
       </section>
 
@@ -2100,23 +2011,6 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
       });
     });
   });
-
-  /* Interactive Pre-Launch Sign-Off Counter */
-  var boxes = Array.prototype.slice.call(document.querySelectorAll('.pf-box'));
-  var counter = document.getElementById('check-counter');
-  function syncChecks(){
-    var done = 0;
-    boxes.forEach(function(b){
-      var card = b.closest('.check-card');
-      if(b.checked) done++;
-      if(card) card.classList.toggle('checked', b.checked);
-    });
-    if(counter){
-      counter.textContent = done + ' of ' + boxes.length + ' verified';
-      counter.classList.toggle('active-prog', done > 0);
-    }
-  }
-  boxes.forEach(function(b){ b.addEventListener('change', syncChecks); });
 })();
 </script>
 </body>

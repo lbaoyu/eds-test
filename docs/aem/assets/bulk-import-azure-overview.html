@@ -670,7 +670,7 @@ body.onepager section{scroll-margin-top:76px;}
 .sprite{position:absolute; width:0; height:0; overflow:hidden;}
 .ic{width:20px; height:20px; flex:none; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round;}
 .ic-sm{width:14px; height:14px;}
-.ic-box{width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center;
+.ic-box, span.ic-box{width:40px; height:40px; border-radius:10px; display:flex; line-height:0; margin:0; align-items:center; justify-content:center;
   background:var(--bg-layer-2); border:1px solid var(--border); color:var(--ink); flex:none;}
 .ic-box.dark{background:rgba(255,255,255,.08); border-color:rgba(255,255,255,.18); color:var(--white);}
 
@@ -683,7 +683,7 @@ body.onepager section{scroll-margin-top:76px;}
 .f-conn.dash .f-arrow{background:repeating-linear-gradient(90deg,var(--gray-400) 0 5px,transparent 5px 9px);}
 
 /* 01 · Route flow */
-.flow{display:grid; grid-template-columns:minmax(0,1fr) 104px minmax(0,1fr) 104px minmax(0,1fr); gap:10px 0;
+.flow{display:grid; grid-template-columns:minmax(0,1fr) 92px minmax(0,1fr) 92px minmax(0,1fr); gap:10px 0;
   align-items:stretch; background:var(--bg-layer-1); border:1px solid var(--border); border-radius:var(--radius);
   padding:20px; box-shadow:var(--shadow-sm);}
 .c1{grid-column:1}.c2{grid-column:2}.c3{grid-column:3}.c4{grid-column:4}.c5{grid-column:5}
@@ -691,7 +691,7 @@ body.onepager section{scroll-margin-top:76px;}
 .f-node{background:linear-gradient(135deg,var(--charcoal) 0%,var(--charcoal-2) 100%); color:var(--white);
   border-radius:12px; padding:13px 14px; display:flex; align-items:center; gap:12px; border:1px solid var(--gray-800);}
 .f-node strong{display:block; font-size:15px; line-height:1.25;}
-.f-node span{display:block; font-size:12px; color:var(--gray-300); margin-top:2px;}
+.f-node div > span{display:block; font-size:12px; color:var(--gray-300); margin-top:2px;}
 .f-cell{background:var(--bg-base); border:1px solid var(--border); border-radius:12px; padding:11px 14px;
   font-size:13.5px; color:var(--gray-800); line-height:1.45;}
 .f-cell.meta{background:var(--bg-layer-2); border-style:dashed; border-color:var(--border-strong);}
@@ -712,9 +712,13 @@ body.onepager section{scroll-margin-top:76px;}
 .why-tile p{margin:0; font-size:13.8px; color:var(--gray-700); line-height:1.52;}
 
 /* 03 · Anatomy diagram */
-.anat{display:grid; grid-template-columns:minmax(0,1.2fr) 48px minmax(0,.9fr) 48px minmax(0,1fr); align-items:center;
+.anat{display:grid; grid-template-columns:minmax(0,1.1fr) 48px minmax(0,1fr); align-items:center;
   background:var(--bg-layer-1); border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow-sm);}
 .anat-side{display:flex; flex-direction:column; gap:8px; min-width:0;}
+.anat-right{display:flex; flex-direction:column; gap:8px; min-width:0;}
+.f-conn.down{min-height:22px;}
+.f-conn.down .f-arrow{width:2px; min-width:0; height:20px; flex:none;}
+.f-conn.down .f-arrow::after{right:auto; left:50%; top:auto; bottom:-1px; transform:translateX(-50%); border-left:5px solid transparent; border-right:5px solid transparent; border-top:7px solid var(--gray-400); border-bottom:none;}
 .anat-cap{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-600);}
 .nbox{border:1px solid var(--border-strong); border-radius:12px; padding:10px 12px 12px; background:var(--bg-layer-2); min-width:0;}
 .nbox .nbox{margin-top:10px; background:var(--bg-base);}
@@ -726,7 +730,7 @@ body.onepager section{scroll-margin-top:76px;}
 .files{list-style:none; margin:8px 0 0; padding:0; display:flex; flex-direction:column; gap:4px;}
 .files li{display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:11.8px; color:var(--ink);
   background:var(--bg-base); border:1px solid var(--border); border-radius:7px; padding:5px 8px; min-width:0;}
-.files li span{overflow-wrap:anywhere; min-width:0;}
+.files li span{overflow-wrap:break-word; min-width:0;}
 .files li .ic{color:var(--gray-600);}
 .files li .nb-term{margin-left:auto; font-size:9.5px; white-space:nowrap;}
 .anat-foot{font-size:12.5px; color:var(--gray-600); line-height:1.45; margin:2px 2px 0;}
@@ -741,7 +745,7 @@ body.onepager section{scroll-margin-top:76px;}
 .cfg dd .ic{color:var(--coral-2);}
 .cfg-more{margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,.12); font-size:12px; color:var(--gray-300);}
 .pathmap{margin:14px 0 0; background:var(--bg-base); border:1px solid var(--border); border-radius:14px; padding:14px 18px; box-shadow:var(--shadow-sm);}
-.pm-row{display:flex; flex-wrap:wrap; align-items:flex-start; gap:6px 10px;}
+.pm-row{display:flex; flex-direction:column; align-items:flex-start; gap:4px;}
 .pm-group{display:flex; flex-wrap:wrap; align-items:flex-start; gap:6px;}
 .pm-seg.ctx code{color:var(--gray-600); background:var(--bg-layer-1);}
 .pm-seg{display:flex; flex-direction:column; gap:4px;}
@@ -750,7 +754,7 @@ body.onepager section{scroll-margin-top:76px;}
 .pm-seg.drop code{text-decoration:line-through; color:var(--gray-500); background:var(--bg-layer-1); border-style:dashed;}
 .pm-seg.drop small{color:var(--adobe-red-dark);}
 .pm-seg.keep code{font-weight:700; border-color:var(--border-strong); background:var(--bg-base);}
-.pm-arrow{font-family:var(--mono); font-weight:700; color:var(--gray-600); padding:4px 8px 0;}
+.pm-arrow{font-family:var(--mono); font-weight:700; color:var(--gray-600); padding:0 0 0 10px; transform:rotate(90deg);}
 
 /* 04 · Stepper */
 .stepper{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px;}
@@ -771,7 +775,7 @@ body.onepager section{scroll-margin-top:76px;}
 .controls{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; margin:14px 0 0;}
 .ctrl{display:flex; gap:12px; align-items:flex-start; background:var(--bg-layer-1); border:1px solid var(--border); border-radius:12px; padding:14px 16px;}
 .ctrl strong{display:block; font-size:14.5px; color:var(--ink); margin-bottom:2px;}
-.ctrl span{font-size:13.5px; color:var(--gray-700); line-height:1.5;}
+.ctrl div > span{font-size:13.5px; color:var(--gray-700); line-height:1.5;}
 
 /* 05 · Content fate */
 .fate-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px;}
@@ -814,7 +818,7 @@ body.onepager section{scroll-margin-top:76px;}
   border-radius:var(--radius); padding:22px 24px; box-shadow:var(--shadow-lg); border:1px solid var(--gray-800);}
 .tk-head{display:flex; align-items:center; gap:12px; padding-bottom:14px; border-bottom:1px dashed rgba(255,255,255,.22);}
 .tk-head strong{display:block; color:var(--white); font-size:17px;}
-.tk-head span{display:block; font-size:12.5px; color:var(--gray-400);}
+.tk-head div > span{display:block; font-size:12.5px; color:var(--gray-400);}
 .tk-rows{display:flex; flex-direction:column; gap:15px; margin-top:16px;}
 .tk-row{display:grid; grid-template-columns:104px minmax(0,1fr); gap:12px;}
 .tk-k{font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--coral-2); padding-top:3px;}
@@ -833,8 +837,7 @@ body.onepager section{scroll-margin-top:76px;}
 .sec-item p{margin:0; font-size:13.3px; color:var(--gray-700); line-height:1.5;}
 
 /* Responsive */
-@media(max-width:980px){
-  .why-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+@media(max-width:1180px){
   .anat, .flow{display:flex; flex-direction:column; gap:8px;}
   .anat .f-conn, .flow .f-conn{flex-direction:row; justify-content:flex-start; padding:0 0 0 18px; min-height:22px;}
   .f-arrow{width:2px; min-width:0; height:20px; flex:none;}
@@ -847,6 +850,9 @@ body.onepager section{scroll-margin-top:76px;}
   .st-bracket{height:auto; margin:0; border:none; border-left:2px solid var(--border-strong); padding-left:10px;}
   .st-bracket span{position:static; transform:none; padding:0;}
   .step-c:not(:last-child)::after{right:auto; left:33px; top:auto; bottom:-13px; width:2px; height:14px;}
+}
+@media(max-width:980px){
+  .why-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .sec-grid{grid-template-columns:1fr;}
   .fate-grid{grid-template-columns:1fr;}
 }
@@ -856,13 +862,11 @@ body.onepager section{scroll-margin-top:76px;}
   .mapv-row.head, .mapv .mv-arrow{display:none;}
   .mv-aem::before{content:"\2192\00a0";}
   .tk-row{grid-template-columns:1fr; gap:4px;}
-  .pm-row{flex-direction:column; gap:6px;}
-  .pm-arrow{transform:rotate(90deg); padding:0 0 0 6px;}
 }
 
 </style>
 </head>
-<body class="onepager">
+<body>
 
 <svg class="sprite" aria-hidden="true" focusable="false">
   <symbol id="i-library" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></symbol>
@@ -920,23 +924,35 @@ body.onepager section{scroll-margin-top:76px;}
   </div>
 </header>
 
-<nav class="topnav" aria-label="Section navigation">
-  <div class="topnav-inner">
-    <img class="nav-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="">
-    <span class="nav-title">SharePoint &rarr; Azure &rarr; AEM</span>
-    <div class="nav-links">
-      <a href="#route" class="active">The route</a>
-      <a href="#why">Why Azure</a>
-      <a href="#anatomy">Anatomy</a>
-      <a href="#lifecycle">How it runs</a>
-      <a href="#content">Your content</a>
-      <a href="#metadata">Metadata</a>
-      <a href="#security">Security</a>
-    </div>
+<nav class="mobile-jump" aria-label="Section navigation (compact)">
+  <div class="mobile-jump-inner" id="mobile-spy-nav">
+    <a href="#route" class="active">01 The route</a>
+    <a href="#why">02 Why Azure</a>
+    <a href="#anatomy">03 Anatomy</a>
+    <a href="#lifecycle">04 How it runs</a>
+    <a href="#content">05 Your content</a>
+    <a href="#metadata">06 Metadata</a>
+    <a href="#security">07 Security</a>
   </div>
 </nav>
 
-<main class="page">
+<div class="shell">
+  <aside class="rail" aria-label="Section navigation">
+    <p class="rail-title">Contents</p>
+    <nav id="spy-nav">
+      <a href="#route" class="active"><span class="num">01</span> The route</a>
+      <a href="#why"><span class="num">02</span> Why Azure</a>
+      <a href="#anatomy"><span class="num">03</span> Anatomy</a>
+      <a href="#lifecycle"><span class="num">04</span> How it runs</a>
+      <a href="#content"><span class="num">05</span> Your content</a>
+      <a href="#metadata"><span class="num">06</span> Metadata &amp; approval</a>
+      <a href="#security"><span class="num">07</span> Security model</a>
+    </nav>
+  </aside>
+
+  <div class="content">
+
+<main>
 
   <!-- ============================== 01 · ROUTE ============================== -->
   <section id="route">
@@ -953,19 +969,19 @@ body.onepager section{scroll-margin-top:76px;}
     </div>
 
     <div class="flow" role="img" aria-label="Files and metadata flow from SharePoint to an Azure Blob container, then into AEM Assets">
-      <div class="f-node c1 r1"><span class="ic-box dark"><svg class="ic"><use href="#i-library"/></svg></span><div><strong>SharePoint</strong><span>Where the content lives today</span></div></div>
+      <div class="f-node c1 r1"><span class="ic-box dark"><svg class="ic"><use href="#i-library"/></svg></span><div><strong>SharePoint</strong><span>Today&rsquo;s home</span></div></div>
       <div class="f-cell c1 r2"><span class="f-lane">Files</span>Document libraries and their folders</div>
       <div class="f-cell meta c1 r3"><span class="f-lane">Metadata</span>Library columns: campaign, market, rights, expiry</div>
-      <div class="f-conn c2 r2"><span class="f-arrow"></span>Copy tool approved by IT</div>
-      <div class="f-conn dash c2 r3"><span class="f-arrow"></span>Export view as a spreadsheet</div>
+      <div class="f-conn c2 r2"><span class="f-arrow"></span>IT-approved copy tool</div>
+      <div class="f-conn dash c2 r3"><span class="f-arrow"></span>Export to spreadsheet</div>
 
-      <div class="f-node c3 r1"><span class="ic-box dark"><svg class="ic"><use href="#i-box"/></svg></span><div><strong>Azure Blob container</strong><span>Private, temporary staging</span></div></div>
+      <div class="f-node c3 r1"><span class="ic-box dark"><svg class="ic"><use href="#i-box"/></svg></span><div><strong>Azure Blob</strong><span>Private staging</span></div></div>
       <div class="f-cell c3 r2"><span class="f-lane">Files</span>Arranged in batch folders that mirror the target design</div>
       <div class="f-cell meta c3 r3"><span class="f-lane">Metadata</span>Metadata file (CSV) saved next to the files</div>
       <div class="f-conn c4 r2"><span class="f-arrow"></span>Bulk Import</div>
-      <div class="f-conn dash c4 r3"><span class="f-arrow"></span>Applied during import</div>
+      <div class="f-conn dash c4 r3"><span class="f-arrow"></span>Applied on import</div>
 
-      <div class="f-node c5 r1"><span class="ic-box dark"><svg class="ic"><use href="#i-image"/></svg></span><div><strong>AEM Assets</strong><span>The destination</span></div></div>
+      <div class="f-node c5 r1"><span class="ic-box dark"><svg class="ic"><use href="#i-image"/></svg></span><div><strong>AEM Assets</strong><span>Destination</span></div></div>
       <div class="f-cell c5 r2"><span class="f-lane">Files</span>Assets with previews, renditions, and crops</div>
       <div class="f-cell meta c5 r3"><span class="f-lane">Metadata</span>Titles, tags, rights, and expiry on each asset</div>
     </div>
@@ -1018,6 +1034,7 @@ body.onepager section{scroll-margin-top:76px;}
 
       <div class="f-conn"><span class="f-arrow"></span></div>
 
+      <div class="anat-right">
       <div class="anat-side">
       <div class="cfg">
         <div class="nb-head"><span class="nb-term">Import configuration</span></div>
@@ -1033,7 +1050,7 @@ body.onepager section{scroll-margin-top:76px;}
       <p class="anat-foot"><strong>SAS token:</strong> the signed, limited key AEM uses to read the container. See <a href="#security">Security</a>.</p>
       </div>
 
-      <div class="f-conn"><span class="f-arrow"></span></div>
+      <div class="f-conn down"><span class="f-arrow"></span></div>
 
       <div class="anat-side">
         <span class="anat-cap">In AEM Assets</span>
@@ -1045,6 +1062,7 @@ body.onepager section{scroll-margin-top:76px;}
             <li><svg class="ic ic-sm"><use href="#i-image"/></svg><span>products/cards/platinum.png</span></li>
           </ul>
         </div>
+      </div>
       </div>
     </div>
 
@@ -1258,6 +1276,8 @@ body.onepager section{scroll-margin-top:76px;}
   </section>
 
 </main>
+  </div>
+</div>
 
 <footer class="site-footer">
   <div class="foot-inner">

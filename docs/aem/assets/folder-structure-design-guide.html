@@ -124,31 +124,10 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   box-shadow:inset 0 1px 0 rgba(255,255,255,.17), 0 1px 5px rgba(0,0,0,.12);}
 .hero-chips li strong{color:var(--white); font-weight:700;}
 
-/* Sticky jump bar for narrow / side-panel viewports (<980px) */
-.mobile-jump{
-  display:none; position:sticky; top:0; z-index:45;
-  background:rgba(255,255,255,.94); backdrop-filter:saturate(180%) blur(10px);
-  border-bottom:1px solid var(--border);
-}
-.mobile-jump-inner{
-  max-width:var(--maxw); margin:0 auto; padding:8px 16px;
-  display:flex; gap:6px; overflow-x:auto; scrollbar-width:none;
-}
-.mobile-jump-inner::-webkit-scrollbar{display:none;}
-.mobile-jump a{
-  flex:none; font-size:12.5px; font-weight:600; color:var(--gray-700);
-  padding:6px 11px; border-radius:var(--radius-pill); background:var(--bg-layer-1);
-  border:1px solid var(--border); text-decoration:none; white-space:nowrap;
-  transition:background .15s, color .15s, border-color .15s;
-}
-.mobile-jump a.active{
-  color:var(--s2-blue-down); background:var(--s2-blue-tint); border-color:var(--s2-blue);
-}
-
-/* Two-column Shell & Left Rail (Pattern A) */
+/* Two-column Shell & Vertical Left Rail TOC (Pattern A — active across desktop & side-panel) */
 .shell{max-width:var(--maxw); margin:0 auto; padding:0 24px 88px;
   display:grid; grid-template-columns:220px minmax(0,1fr); gap:56px;}
-.rail{position:sticky; top:28px; align-self:start; padding-top:52px;}
+.rail{position:sticky; top:24px; align-self:start; padding-top:52px;}
 .rail-title{font-size:11px; font-weight:700; letter-spacing:.14em;
   text-transform:uppercase; color:var(--gray-600); margin:0 0 12px; padding-left:14px;}
 .rail nav{display:flex; flex-direction:column; gap:2px;}
@@ -166,7 +145,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
 
 .content{padding-top:52px; min-width:0;}
 main{counter-reset:sec;}
-section{scroll-margin-top:56px; padding-bottom:64px; counter-increment:sec;}
+section{scroll-margin-top:24px; padding-bottom:64px; counter-increment:sec;}
 section + section{
   border-top:1px solid var(--gray-200);
   border-image:linear-gradient(90deg,transparent,var(--gray-200) 18%,var(--gray-200) 82%,transparent) 1;
@@ -735,11 +714,11 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
 .foot-right .fr-1{margin:0; font-size:13px; font-weight:600; color:var(--gray-300); letter-spacing:.01em;}
 .foot-right .fr-2{margin:2px 0 0; font-size:12px; color:var(--gray-400); letter-spacing:.02em;}
 
-/* Responsive Adaptation */
-@media(max-width:980px){
-  .shell{grid-template-columns:1fr; gap:0;}
-  .rail{display:none;}
-  .mobile-jump{display:block;}
+/* Responsive Adaptation — preserve vertical Left Rail TOC in side-panel/tablet, vertical TOC stack on phones */
+@media(max-width:1020px){
+  .shell{grid-template-columns:186px minmax(0,1fr); gap:28px; padding:0 20px 72px;}
+  .rail{padding-top:36px;}
+  .rail nav a{padding:8px 11px; font-size:13px; gap:8px;}
   .content{padding-top:36px;}
   .hub-grid{grid-template-columns:1fr;}
   .hub-conn{flex-direction:row; gap:8px; padding:2px 0;}
@@ -750,7 +729,10 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
   .bridge-strip{grid-template-columns:1fr; gap:8px;}
   .b-arr{display:none;}
 }
-@media(max-width:760px){
+@media(max-width:720px){
+  .shell{grid-template-columns:1fr; gap:0; padding:0 18px 64px;}
+  .rail{position:static; padding:24px 0 20px; border-bottom:1px solid var(--border);}
+  .content{padding-top:28px;}
   .split-compare, .anatomy-box, .stack-cols, .checklist, .guard-grid, .pipe-track, .cascade-steps{grid-template-columns:1fr;}
   .ref-item{grid-template-columns:1fr; gap:8px;}
   .ref-arrow{transform:rotate(90deg);}
@@ -758,7 +740,6 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
   .vt-files{padding-left:0;}
   .hero{padding:42px 20px 50px;}
   .kicker{white-space:normal; line-height:1.4;}
-  .shell{padding:0 18px 64px;}
   .bp-shell{padding:16px;}
 }
 @media(max-width:620px){
@@ -766,7 +747,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
   .foot-right{text-align:left;}
 }
 @media print{
-  .progress, .rail, .mobile-jump, .bp-toggle-all, .dam-actions{display:none!important;}
+  .progress, .rail, .bp-toggle-all, .dam-actions{display:none!important;}
   .shell{grid-template-columns:1fr;}
   .bp-panel{display:block!important; margin-bottom:28px;}
 }
@@ -807,18 +788,6 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
     </div>
   </div>
 </header>
-
-<nav class="mobile-jump" aria-label="Mobile section navigation">
-  <div class="mobile-jump-inner" id="mobile-spy-nav">
-    <a href="#mental-model" class="active">01 Mental Model</a>
-    <a href="#guardrails">02 Guardrails</a>
-    <a href="#blueprints">03 Sample Structures</a>
-    <a href="#naming">04 Naming &amp; URLs</a>
-    <a href="#express-dm">05 OpenAPI &amp; Express</a>
-    <a href="#governance">06 Governance</a>
-    <a href="#antipatterns">07 Anti-Patterns</a>
-  </div>
-</nav>
 
 <div class="shell">
   <aside class="rail" aria-label="Section navigation">
@@ -1930,18 +1899,17 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
 
 <script>
 (function(){
-  /* Scrollspy — syncs desktop Left Rail (#spy-nav) and Mobile Jump Bar (#mobile-spy-nav) */
-  var railLinks = Array.prototype.slice.call(document.querySelectorAll('#spy-nav a'));
-  var mobLinks = Array.prototype.slice.call(document.querySelectorAll('#mobile-spy-nav a'));
-  var allLinks = railLinks.concat(mobLinks);
-  var sections = railLinks.map(function(l){
+  /* Scrollspy — Pattern A vertical Left Rail TOC (#spy-nav) */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#spy-nav a'));
+  var map = {};
+  links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
+  var sections = links.map(function(l){
     return document.getElementById(l.getAttribute('href').slice(1));
   }).filter(Boolean);
 
   function setActive(id){
-    allLinks.forEach(function(l){
-      l.classList.toggle('active', l.getAttribute('href') === '#' + id);
-    });
+    links.forEach(function(l){ l.classList.remove('active'); });
+    if(map[id]) map[id].classList.add('active');
   }
 
   if('IntersectionObserver' in window){
@@ -1954,7 +1922,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
     }, { rootMargin:'-15% 0px -68% 0px', threshold:[0, 0.15, 0.5, 1] });
     sections.forEach(function(s){ obs.observe(s); });
   }
-  allLinks.forEach(function(l){
+  links.forEach(function(l){
     l.addEventListener('click', function(){ setActive(l.getAttribute('href').slice(1)); });
   });
 

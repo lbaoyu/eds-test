@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AEM Assets Bulk Import from OneDrive &mdash; Approach Overview</title>
+<meta name="description" content="High-level approach for migrating content from Microsoft OneDrive into AEM Assets as a Cloud Service: fit, roles, phases, decisions, wave plan, risks, and success criteria.">
+<style>
+:root{
+  /* Brand — kept for the mark and for editorial accents */
+  --adobe-red:#EB1000;
+  --adobe-red-dark:#B71000;
+  --adobe-red-tint:#FDECEA;
+  --coral-1:#F04A2E; --coral-2:#F9A392; --coral-bright:#FB6A4E;
+
+  /* Spectrum 2 interactive accent — links / active nav / focus / selection */
+  --s2-blue:#3B63FB; --s2-blue-down:#274DEA; --s2-blue-active:#1D3ECF;
+  --s2-blue-tint:#E5F0FE; --s2-blue-tint-faint:#F5F9FF;
+
+  /* Neutrals — Spectrum 2 gray ramp */
+  --ink:#1B1B1B;
+  --charcoal:#2C2C2C;
+  --charcoal-2:#141414;
+  --gray-900:#1F1F1F; --gray-800:#222222; --gray-700:#464646;
+  --gray-600:#6D6D6D; --gray-500:#909090; --gray-400:#B1B1B1;
+  --gray-300:#D5D5D5; --gray-200:#E6E6E6; --gray-100:#F8F8F8;
+  --gray-75:#FAFAFA;  --gray-50:#FDFDFD;  --white:#FFFFFF;
+
+  /* Surface layering + borders */
+  --bg-base:#FFFFFF; --bg-layer-1:#FAFAFA; --bg-layer-2:#F4F4F5;
+  --border:#E6E6E6; --border-strong:#D5D5D5;
+
+  /* Code surface */
+  --code-bg:#161616; --code-ink:#E8E8E8; --code-dim:#8E8E8E;
+
+  --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,
+         BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+
+  --radius:16px; --radius-sm:8px; --radius-pill:9999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 8px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08);
+  --focus-ring:var(--s2-blue);
+
+  --maxw:1220px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;} *{animation:none!important;transition:none!important;}
+}
+body{
+  margin:0; font-family:var(--font); color:var(--gray-800);
+  background:var(--bg-base); line-height:1.6; font-size:16px;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+::selection{background:var(--s2-blue-tint);}
+a{color:var(--s2-blue-down);text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:focus-visible, button:focus-visible, input:focus-visible, label:focus-within{
+  outline:2px solid var(--focus-ring); outline-offset:2px; border-radius:4px;
+}
+
+/* Scroll-progress bar */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:100;pointer-events:none;}
+.progress span{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;
+  background:linear-gradient(90deg,var(--coral-1),var(--coral-2));will-change:transform;}
+
+/* AI-disclosure band */
+.ai-note{background:var(--gray-100); border-bottom:1px solid var(--gray-200);}
+.ai-note-inner{max-width:var(--maxw); margin:0 auto; padding:9px 24px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  font-size:12px; line-height:1.45; color:var(--gray-600);}
+.ai-note b{color:var(--gray-700); font-weight:600;}
+.ai-note svg{flex:none; color:var(--gray-600);}
+
+/* Hero */
+.hero{
+  position:relative; overflow:hidden; color:var(--white);
+  background:
+    radial-gradient(1350px 720px at 90% -18%, rgba(255,255,255,.12),
+      rgba(255,255,255,.05) 42%, transparent 82%),
+    linear-gradient(135deg,#2d2d2d 0%,#1c1c1c 52%,#0e0e0e 100%);
+  padding:52px 24px 64px;
+}
+.hero::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:100% 34px; opacity:.5;
+  -webkit-mask:linear-gradient(#000, transparent 70%);
+          mask:linear-gradient(#000, transparent 70%);
+}
+.hero-inner{max-width:var(--maxw); margin:0 auto; position:relative; z-index:1;}
+.masthead{display:flex; align-items:center; justify-content:space-between;
+  gap:10px 16px; flex-wrap:wrap;
+  padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,.12);}
+.brandrow{display:flex; align-items:center; gap:11px;}
+.brandrow .brand-mark{height:26px; width:auto; flex:none;
+  filter:drop-shadow(0 2px 12px rgba(255,255,255,.18));}
+.brandname{font-size:19px; font-weight:800; letter-spacing:-.02em; color:var(--white);}
+.brandname span{font-weight:400; color:var(--gray-300);}
+.kicker{font-size:12px; letter-spacing:.2em; text-transform:uppercase;
+  font-weight:800; color:var(--coral-2); white-space:nowrap;}
+.hero-body{margin-top:36px;}
+.hero h1{margin:0; font-size:clamp(34px,4.6vw,56px); line-height:1.06;
+  font-weight:800; letter-spacing:-.025em; max-width:19ch; text-wrap:balance;}
+.hero h1 .hl{
+  background:linear-gradient(100deg,var(--coral-1) 0%,var(--coral-2) 100%);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent;
+  -webkit-box-decoration-break:slice; box-decoration-break:slice;
+  padding-bottom:.3em;
+}
+.hero .lead{margin:20px 0 0; font-size:clamp(17px,1.85vw,20px); color:var(--gray-300);
+  max-width:64ch; line-height:1.55;}
+.hero .lead strong{color:var(--white); font-weight:700;}
+.hero-chips{display:flex; flex-wrap:wrap; gap:10px; margin:28px 0 0; padding:0; list-style:none;}
+.hero-chips li{background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.20);
+  border-radius:var(--radius-pill); padding:8px 15px; font-size:13.5px; font-weight:500; color:var(--gray-200);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.17), 0 1px 5px rgba(0,0,0,.12);}
+.hero-chips li strong{color:var(--white); font-weight:700;}
+
+/* Narrow-viewport jump bar */
+.mobile-jump{display:none; position:sticky; top:0; z-index:45;
+  background:rgba(255,255,255,.94); backdrop-filter:saturate(180%) blur(10px);
+  border-bottom:1px solid var(--border);}
+.mobile-jump-inner{max-width:var(--maxw); margin:0 auto; padding:8px 16px;
+  display:flex; gap:6px; overflow-x:auto; scrollbar-width:none;}
+.mobile-jump-inner::-webkit-scrollbar{display:none;}
+.mobile-jump a{flex:none; font-size:12.5px; font-weight:600; color:var(--gray-700);
+  padding:6px 11px; border-radius:var(--radius-pill); background:var(--bg-layer-1);
+  border:1px solid var(--border); text-decoration:none; white-space:nowrap;
+  transition:background .15s, color .15s, border-color .15s;}
+.mobile-jump a.active{color:var(--s2-blue-down); background:var(--s2-blue-tint); border-color:var(--s2-blue);}
+
+/* Shell + left rail */
+.shell{max-width:var(--maxw); margin:0 auto; padding:0 24px 88px;
+  display:grid; grid-template-columns:224px minmax(0,1fr); gap:56px;}
+.rail{position:sticky; top:28px; align-self:start; padding-top:52px;}
+.rail-title{font-size:11px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gray-600); margin:0 0 12px; padding-left:14px;}
+.rail nav{display:flex; flex-direction:column; gap:2px;}
+.rail nav a{display:flex; align-items:center; gap:10px; padding:9px 14px;
+  border-radius:var(--radius-sm); color:var(--gray-700); font-size:13.5px;
+  font-weight:600; border-left:2px solid transparent; text-decoration:none;
+  transition:background .15s, color .15s, border-color .15s;}
+.rail nav a .num{font-size:11px; font-weight:700; color:var(--gray-600);
+  min-width:18px; font-variant-numeric:tabular-nums; font-family:var(--mono);}
+.rail nav a:hover{background:var(--gray-100); color:var(--ink); text-decoration:none;}
+.rail nav a.active{color:var(--s2-blue-down); background:var(--s2-blue-tint); border-left-color:var(--s2-blue);}
+.rail nav a.active .num{color:var(--s2-blue-down);}
+.rail nav a:focus-visible{outline:2px solid var(--focus-ring); outline-offset:-2px;}
+.rail-foot{margin:20px 0 0; padding:14px; border:1px solid var(--border); border-radius:12px;
+  background:var(--bg-layer-1); font-size:12.5px; color:var(--gray-700); line-height:1.5;}
+.rail-foot strong{display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gray-600); margin-bottom:4px;}
+
+.content{padding-top:52px; min-width:0;}
+main{counter-reset:sec;}
+section{scroll-margin-top:56px; padding-bottom:68px; counter-increment:sec;}
+section + section{
+  border-top:1px solid var(--gray-200);
+  border-image:linear-gradient(90deg,transparent,var(--gray-200) 18%,var(--gray-200) 82%,transparent) 1;
+  padding-top:64px;
+}
+
+/* Typography */
+.sec-eyebrow{font-size:12px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gray-600); margin:0 0 10px;}
+.sec-eyebrow::before{content:counter(sec,decimal-leading-zero) "  ·  ";
+  font-family:var(--mono); font-weight:700; letter-spacing:.02em; color:var(--adobe-red);}
+h2{font-size:clamp(25px,2.7vw,32px); line-height:1.16; letter-spacing:-.018em;
+  font-weight:800; color:var(--ink); margin:0 0 14px; text-wrap:balance;}
+h3{font-size:18px; line-height:1.3; letter-spacing:-.01em; font-weight:700; color:var(--ink); margin:0 0 8px;}
+.sec-intro{font-size:16.5px; color:var(--gray-700); max-width:70ch; margin:0 0 28px; line-height:1.62;}
+.sub-heading{font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--gray-600); font-family:var(--mono); margin:40px 0 14px;}
+.sub-lede{font-size:14.8px; color:var(--gray-700); max-width:72ch; margin:-4px 0 16px; line-height:1.58;}
+.small-note{font-size:12.5px; color:var(--gray-600); margin:10px 0 0; line-height:1.5;}
+
+code{font-family:var(--mono); font-size:12.5px; background:var(--bg-layer-2);
+  color:var(--ink); padding:2px 6px; border-radius:5px; border:1px solid var(--border);
+  overflow-wrap:anywhere;}
+.pill{display:inline-flex; align-items:center; gap:5px; font-family:var(--mono); font-size:11.5px;
+  font-weight:600; padding:3px 9px; border-radius:var(--radius-pill);
+  background:var(--bg-layer-2); color:var(--gray-800); border:1px solid var(--border);
+  max-width:100%; line-height:1.35;}
+.pill.solid{background:var(--ink); color:var(--white); border-color:var(--ink);}
+.pill.alert{background:var(--adobe-red-tint); color:var(--adobe-red-dark); border-color:var(--coral-2);}
+
+/* Dark one-liner */
+.oneliner{background:linear-gradient(135deg,var(--charcoal) 0%,var(--charcoal-2) 100%);
+  color:var(--white); border-radius:var(--radius); padding:24px 28px; margin:0 0 28px;
+  box-shadow:var(--shadow); border:1px solid var(--gray-800);
+  display:grid; grid-template-columns:minmax(0,1fr) auto; gap:20px; align-items:center;}
+.oneliner p{margin:0; font-size:17px; line-height:1.55; font-weight:500; color:var(--gray-200); max-width:62ch;}
+.oneliner strong{color:var(--white); font-weight:700;}
+.oneliner .em{color:var(--coral-bright); font-weight:800;}
+.oneliner-stat{border-left:1px solid rgba(255,255,255,.16); padding-left:22px;}
+.oneliner-stat .big{display:block; font-family:var(--mono); font-size:22px; font-weight:800; color:var(--white); line-height:1.15;}
+.oneliner-stat .cap{display:block; font-size:12px; color:var(--gray-300); margin-top:4px; max-width:20ch; line-height:1.35;}
+
+/* Pipeline lanes */
+.arch-diagram{background:var(--bg-layer-1); border:1px solid var(--border); border-radius:var(--radius);
+  padding:22px; margin:0 0 8px; box-shadow:var(--shadow-sm);}
+.arch-caption{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gray-600); margin:0 0 14px;}
+.arch-lanes{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px;}
+.arch-stage{position:relative; background:var(--bg-base); border:1px solid var(--border); border-radius:12px;
+  padding:16px; display:flex; flex-direction:column; justify-content:space-between;
+  box-shadow:var(--shadow-sm); transition:border-color .15s, transform .15s, box-shadow .15s;}
+.arch-stage:hover{border-color:var(--border-strong); transform:translateY(-1px); box-shadow:var(--shadow-lg);}
+.arch-stage + .arch-stage::before{content:""; position:absolute; left:-12px; top:50%; width:12px; height:1px;
+  background:var(--border-strong);}
+.arch-step{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--gray-600); margin:0 0 6px;}
+.arch-step span{color:var(--adobe-red);}
+.arch-stage h4{margin:0 0 6px; font-size:15px; font-weight:700; color:var(--ink); line-height:1.3;}
+.arch-stage p{margin:0 0 12px; font-size:13px; color:var(--gray-700); line-height:1.48;}
+.arch-foot{padding-top:10px; border-top:1px solid var(--gray-200); display:flex; flex-wrap:wrap; gap:5px;}
+
+/* Two-panel compare */
+.split-compare{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px;}
+.layer-panel{background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
+  padding:22px 24px; box-shadow:var(--shadow);}
+.layer-panel.secondary{background:var(--bg-layer-1);}
+.layer-kicker{display:block; font-family:var(--mono); font-size:11px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--gray-600); margin-bottom:4px;}
+.layer-kicker span{color:var(--adobe-red);}
+.layer-panel h3{margin:0 0 14px; padding-bottom:14px; border-bottom:1px solid var(--border); font-size:18px;}
+.resp-list{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:12px;}
+.resp-item{display:grid; grid-template-columns:28px minmax(0,1fr); gap:12px; align-items:start;}
+.resp-icon{width:28px; height:28px; border-radius:8px; background:var(--bg-layer-2);
+  border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:var(--ink);}
+.layer-panel.secondary .resp-icon{background:var(--bg-base);}
+.resp-body > strong{display:block; font-size:14.5px; font-weight:700; color:var(--ink); line-height:1.3;}
+.resp-body > span{display:block; font-size:13.8px; color:var(--gray-700); line-height:1.48; margin-top:2px;}
+
+/* Stack cards + numbered rules */
+.stack-cols{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px;}
+.stack-card{background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
+  padding:22px 24px; box-shadow:var(--shadow);}
+.stack-card-head{padding-bottom:14px; margin-bottom:16px; border-bottom:1px solid var(--border);}
+.stack-card-head .ey{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--adobe-red); display:block; margin-bottom:4px;}
+.stack-card-head h3{margin:0; font-size:18px;}
+.rule-stack{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px;}
+.rule-stack li{display:grid; grid-template-columns:26px minmax(0,1fr); gap:10px; align-items:start;}
+.r-idx{width:24px; height:24px; border-radius:6px; background:var(--bg-layer-2);
+  border:1px solid var(--border-strong); font-family:var(--mono); font-size:11.5px;
+  font-weight:700; color:var(--ink); display:flex; align-items:center; justify-content:center; margin-top:1px;}
+.r-text > strong{display:block; font-size:14.5px; font-weight:700; color:var(--ink); margin-bottom:2px; line-height:1.35;}
+.r-text > span{display:block; font-size:13.8px; color:var(--gray-700); line-height:1.52;}
+
+/* Role cards */
+.role-grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin:0 0 8px;}
+.role-card{background:var(--bg-base); border:1px solid var(--border); border-radius:14px; padding:18px;
+  box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:8px;
+  transition:border-color .15s, transform .15s, box-shadow .15s;}
+.role-card:hover{border-color:var(--border-strong); transform:translateY(-1px); box-shadow:var(--shadow-lg);}
+.role-card .cnum{font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gray-600);}
+.role-card h3{margin:0; font-size:16px;}
+.role-card p{margin:0; font-size:13.5px; color:var(--gray-700); line-height:1.5; flex:1;}
+
+/* Data tables */
+.table-wrap{border:1px solid var(--border); border-radius:var(--radius); overflow:auto;
+  box-shadow:var(--shadow); background:var(--bg-base);}
+table.data{width:100%; border-collapse:collapse; font-size:13.8px; min-width:640px;}
+table.data thead th{background:var(--bg-layer-2); color:var(--gray-700); text-align:left;
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+  padding:11px 14px; border-bottom:1px solid var(--border); white-space:nowrap;}
+table.data td{padding:12px 14px; border-bottom:1px solid var(--gray-200); vertical-align:top;
+  color:var(--gray-800); line-height:1.5; transition:background .15s;}
+table.data tbody tr:last-child td{border-bottom:none;}
+table.data tbody tr:hover td{background:var(--gray-100);}
+table.data td strong{color:var(--ink);}
+table.data td.mono{font-family:var(--mono); font-size:12.5px; color:var(--ink); overflow-wrap:break-word; word-break:normal;}
+table.data td.nw{white-space:nowrap;}
+table.data td .muted{display:block; color:var(--gray-600); font-size:12.5px; margin-top:2px;}
+.v-ok{color:var(--gray-800); font-weight:600;}
+.v-warn{color:var(--adobe-red-dark); font-weight:700;}
+.tag-fake{font-family:var(--mono); font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--gray-600); border:1px dashed var(--border-strong); border-radius:4px; padding:1px 5px; margin-left:6px;
+  white-space:nowrap;}
+
+/* Numbered steps */
+.steps{list-style:none; counter-reset:step; margin:0; padding:0; display:flex; flex-direction:column; gap:14px;}
+.step{counter-increment:step; display:grid; grid-template-columns:44px minmax(0,1fr); gap:16px;
+  background:var(--bg-base); border:1px solid var(--border); border-radius:14px; padding:18px 20px;
+  box-shadow:var(--shadow-sm); transition:border-color .15s, box-shadow .15s;}
+.step:hover{border-color:var(--border-strong); box-shadow:var(--shadow);}
+.step::before{content:counter(step,decimal-leading-zero); font-family:var(--mono); font-weight:800;
+  font-size:15px; color:var(--adobe-red); width:40px; height:40px; border-radius:10px;
+  background:var(--adobe-red-tint); border:1px solid var(--coral-2);
+  display:flex; align-items:center; justify-content:center;}
+.step h3{margin:0 0 4px; font-size:16.5px;}
+.step p{margin:0; font-size:14.3px; color:var(--gray-700); line-height:1.55;}
+.step p + p{margin-top:6px;}
+.kv{display:grid; grid-template-columns:minmax(150px,max-content) minmax(0,1fr); gap:6px 14px;
+  margin:12px 0 0; padding:12px 14px; background:var(--bg-layer-1); border:1px solid var(--border);
+  border-radius:10px; font-size:13.5px; align-items:baseline;}
+.kv dt{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+  color:var(--gray-600);}
+.kv dd{margin:0; color:var(--gray-800); min-width:0;}
+.kv dd code{background:var(--bg-base);}
+
+/* Callouts */
+.callouts{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:18px 0 0;}
+.callout{background:var(--bg-layer-1); border:1px solid var(--border); border-radius:12px; padding:16px 18px;}
+.callout.warn{background:var(--adobe-red-tint); border-color:var(--coral-2);}
+.callout.wide{margin:18px 0 0;}
+.co-label{display:block; font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gray-600); margin-bottom:6px;}
+.callout.warn .co-label{color:var(--adobe-red-dark);}
+.callout strong.co-title{display:block; font-size:15px; color:var(--ink); margin-bottom:4px; line-height:1.35;}
+.callout p{margin:0; font-size:13.8px; color:var(--gray-700); line-height:1.55;}
+.callout.warn p{color:var(--gray-800);}
+.callout p + p{margin-top:6px;}
+
+/* Code blocks */
+.codeblock{border-radius:14px; overflow:hidden; border:1px solid var(--gray-800);
+  box-shadow:var(--shadow); background:var(--code-bg); margin:0;}
+.code-head{display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:9px 12px 9px 16px; background:var(--charcoal); border-bottom:1px solid rgba(255,255,255,.08);}
+.code-name{font-family:var(--mono); font-size:12px; color:var(--gray-200); font-weight:600;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.code-name span{color:var(--gray-500); font-weight:500; margin-left:8px;}
+.copy-btn{appearance:none; font-family:var(--font); font-size:12px; font-weight:700; color:var(--gray-200);
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18); border-radius:7px;
+  padding:5px 11px; cursor:pointer; transition:background .15s, color .15s, border-color .15s; flex:none;}
+.copy-btn:hover{background:rgba(255,255,255,.14); color:var(--white);}
+.copy-btn.done{background:var(--s2-blue); border-color:var(--s2-blue); color:var(--white);}
+.codeblock pre{margin:0; padding:16px 18px; overflow:auto; max-height:520px;
+  font-family:var(--mono); font-size:12.4px; line-height:1.62; color:var(--code-ink); tab-size:2;}
+.codeblock pre .c{color:var(--code-dim); font-style:italic;}
+.codeblock.compact pre{max-height:none;}
+
+/* Tabs */
+.tabs{margin:0;}
+.tab-list{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 12px;}
+.tab-btn{appearance:none; border:1px solid var(--border); background:var(--bg-base);
+  color:var(--gray-700); font-family:var(--font); font-size:13.5px; font-weight:700;
+  padding:8px 14px; border-radius:var(--radius-sm); cursor:pointer;
+  transition:background .15s, color .15s, border-color .15s;}
+.tab-btn:hover{background:var(--gray-100); color:var(--ink); border-color:var(--border-strong);}
+.tab-btn[aria-selected="true"]{background:var(--s2-blue-tint); color:var(--s2-blue-down); border-color:var(--s2-blue);}
+.tab-panel[hidden]{display:none;}
+
+/* Spec ledger */
+.spec-ledger{background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
+  box-shadow:var(--shadow); overflow:hidden;}
+.spec-row{display:grid; grid-template-columns:200px minmax(0,1fr); gap:24px;
+  padding:18px 22px; align-items:start; transition:background .15s;}
+.spec-row + .spec-row{border-top:1px solid var(--gray-200);}
+.spec-row:hover{background:var(--gray-75);}
+.spec-metric{background:var(--bg-layer-1); border:1px solid var(--border); border-radius:12px; padding:11px 13px;}
+.spec-num{display:block; font-family:var(--mono); font-size:10.5px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--gray-600); margin-bottom:4px;}
+.spec-num span{color:var(--adobe-red);}
+.spec-val{display:block; font-size:16px; font-weight:800; letter-spacing:-.01em; color:var(--ink); line-height:1.25;
+  font-family:var(--mono);}
+.spec-body h3{margin:0 0 4px; font-size:16px;}
+.spec-body p{margin:0; font-size:14.2px; color:var(--gray-700); line-height:1.55; max-width:70ch;}
+.spec-body p + p{margin-top:6px;}
+
+/* Tree compare */
+.tree-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px;}
+.tree-panel{background:var(--bg-base); border:1px solid var(--border); border-radius:14px; overflow:hidden; box-shadow:var(--shadow-sm);}
+.tree-head{background:var(--charcoal); color:var(--gray-200); padding:10px 16px; font-family:var(--mono); font-size:11.5px;
+  display:flex; flex-direction:column; gap:2px;}
+.tree-head strong{color:var(--white); font-size:12.5px;}
+pre.tree{margin:0; padding:14px 16px; font-family:var(--mono); font-size:12.3px; line-height:1.7; color:var(--ink);
+  overflow:auto; background:var(--bg-base);}
+pre.tree .dim{color:var(--gray-500);}
+pre.tree .note{color:var(--adobe-red-dark); font-weight:600;}
+pre.tree .fd{font-weight:700;}
+
+/* Name preview tool */
+.np-tool{background:var(--bg-layer-1); border:1px solid var(--border); border-radius:var(--radius);
+  padding:18px 20px; box-shadow:var(--shadow-sm); margin:18px 0 0;}
+.np-top{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px;}
+.np-top h3{margin:0; font-size:16px;}
+.seg{display:inline-flex; border:1px solid var(--border-strong); border-radius:9px; overflow:hidden; background:var(--bg-base);}
+.seg label{position:relative; font-size:13px; font-weight:700; color:var(--gray-700); padding:6px 14px; cursor:pointer;}
+.seg label + label{border-left:1px solid var(--border-strong);}
+.seg input{position:absolute; opacity:0; inset:0; cursor:pointer;}
+.seg label.on{background:var(--s2-blue-tint); color:var(--s2-blue-down);}
+.np-row{display:grid; grid-template-columns:minmax(0,1fr) 28px minmax(0,1fr); gap:10px; align-items:center;}
+.np-row input[type="text"]{width:100%; font-family:var(--mono); font-size:14px; padding:10px 12px;
+  border:1px solid var(--border-strong); border-radius:9px; background:var(--bg-base); color:var(--ink);}
+.np-arrow{font-family:var(--mono); color:var(--gray-600); text-align:center;}
+.np-out{font-family:var(--mono); font-size:14px; font-weight:700; padding:10px 12px; border-radius:9px;
+  background:var(--bg-base); border:1px solid var(--border); color:var(--ink); min-height:42px; word-break:break-all;}
+.np-out.bad{background:var(--adobe-red-tint); border-color:var(--coral-2); color:var(--adobe-red-dark);}
+.np-note{margin:10px 0 0; font-size:13px; color:var(--gray-700); line-height:1.5;}
+.np-samples{display:flex; flex-wrap:wrap; gap:6px; margin:12px 0 0;}
+.np-samples button{appearance:none; font-family:var(--mono); font-size:11.5px; padding:4px 9px; border-radius:var(--radius-pill);
+  border:1px solid var(--border); background:var(--bg-base); color:var(--gray-700); cursor:pointer;}
+.np-samples button:hover{border-color:var(--s2-blue); color:var(--s2-blue-down);}
+
+.char-strip{display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px;
+  background:var(--bg-layer-2); border:1px solid var(--border); border-radius:12px;
+  padding:13px 18px; margin:16px 0 0; font-size:13.8px; color:var(--gray-700);}
+.char-strip strong{color:var(--ink);}
+.bad-chars{font-family:var(--mono); font-size:13px; font-weight:700; letter-spacing:.18em;
+  background:var(--adobe-red-tint); color:var(--adobe-red-dark);
+  border:1px solid var(--coral-2); border-radius:6px; padding:3px 9px;}
+.ok-chars{font-family:var(--mono); font-size:13px; font-weight:700; letter-spacing:.12em;
+  background:var(--bg-base); color:var(--ink); border:1px solid var(--border-strong); border-radius:6px; padding:3px 9px;}
+
+/* Anatomy (CSV) */
+.anatomy-box{background:var(--bg-layer-1); border:1px solid var(--border); border-radius:var(--radius);
+  padding:20px 22px; margin:0 0 22px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px;}
+.anat-col{background:var(--bg-base); border:1px solid var(--border); border-radius:12px; padding:16px 18px;}
+.anat-tag{font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.08em; color:var(--gray-600); margin-bottom:8px; display:block;}
+.anat-sample{font-family:var(--mono); font-size:13px; font-weight:700; color:var(--ink); background:var(--bg-layer-1);
+  border:1px solid var(--border); border-radius:8px; padding:9px 12px; margin-bottom:10px; word-break:break-word;}
+.anat-col ul{margin:0; padding-left:18px; font-size:13.8px; color:var(--gray-700); line-height:1.55;}
+.anat-col li + li{margin-top:5px;}
+
+/* Form mock */
+.form-mock{background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden;}
+.fm-top{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px;
+  padding:14px 20px; background:var(--bg-layer-1); border-bottom:1px solid var(--border);}
+.fm-title{font-weight:800; color:var(--ink); font-size:15px;}
+.fm-title span{font-weight:500; color:var(--gray-600); font-size:13px; margin-left:8px;}
+.fm-steps{display:flex; flex-wrap:wrap; gap:6px; list-style:none; margin:0; padding:0;}
+.fm-steps li{font-size:12px; font-weight:700; color:var(--gray-700); padding:5px 11px; border-radius:var(--radius-pill);
+  background:var(--bg-base); border:1px solid var(--border);}
+.fm-steps li b{font-family:var(--mono); color:var(--adobe-red); margin-right:5px;}
+.fm-group + .fm-group{border-top:1px solid var(--border);}
+.fm-group-title{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--gray-600); padding:14px 20px 4px;}
+.fm-group-title span{color:var(--adobe-red);}
+.fm-row{display:grid; grid-template-columns:210px minmax(0,1.1fr) minmax(0,1fr); gap:16px; padding:10px 20px;
+  align-items:center; transition:background .15s;}
+.fm-row:hover{background:var(--gray-75);}
+.fm-label{font-size:13.5px; font-weight:700; color:var(--ink);}
+.fm-label .lock{font-family:var(--mono); font-size:10px; font-weight:700; color:var(--adobe-red-dark);
+  background:var(--adobe-red-tint); border:1px solid var(--coral-2); border-radius:4px; padding:0 5px; margin-left:6px;
+  letter-spacing:.04em; text-transform:uppercase; vertical-align:1px;}
+.fm-value{font-family:var(--mono); font-size:12.8px; color:var(--ink); background:var(--bg-layer-1);
+  border:1px solid var(--border-strong); border-radius:7px; padding:7px 10px; min-height:34px; word-break:break-all;}
+.fm-value.empty{color:var(--gray-500); font-style:italic; font-family:var(--font);}
+.fm-value.check::before{content:"\2610  "; color:var(--gray-600);}
+.fm-note{font-size:12.8px; color:var(--gray-700); line-height:1.45;}
+.fm-group:last-child{padding-bottom:10px;}
+
+/* Mode cards */
+.mode-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px;}
+.mode-card{background:var(--bg-base); border:1px solid var(--border); border-radius:14px; padding:18px;
+  box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:8px;
+  transition:border-color .15s, transform .15s, box-shadow .15s;}
+.mode-card:hover{border-color:var(--border-strong); transform:translateY(-1px); box-shadow:var(--shadow-lg);}
+.mode-card.rec{border-color:var(--gray-700);}
+.mode-card .cnum{font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-600);}
+.mode-card h3{margin:0; font-size:17px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+.mode-card p{margin:0; font-size:13.6px; color:var(--gray-700); line-height:1.5;}
+.mode-card .use{font-size:13px; color:var(--gray-800); padding-top:10px; border-top:1px solid var(--gray-200); margin-top:auto;}
+.mode-card .use b{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-600); display:block; margin-bottom:2px;}
+
+/* Do / avoid */
+.compare-stack{display:flex; flex-direction:column; gap:12px;}
+.cmp-card{background:var(--bg-base); border:1px solid var(--border); border-radius:12px; padding:16px 18px; box-shadow:var(--shadow-sm);}
+.cmp-topic{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em;
+  color:var(--gray-600); font-family:var(--mono); margin:0 0 10px;}
+.cmp-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px;}
+.cmp-side{background:var(--bg-layer-1); border:1px solid var(--border); border-radius:8px; padding:12px 14px;}
+.cmp-side.bad{background:var(--adobe-red-tint); border-color:var(--coral-2);}
+.cmp-badge{display:inline-block; font-family:var(--mono); font-size:10.5px; font-weight:700;
+  text-transform:uppercase; letter-spacing:.06em; padding:2px 7px; border-radius:4px;
+  background:var(--ink); color:var(--white); margin-bottom:6px;}
+.cmp-side.bad .cmp-badge{background:var(--adobe-red-dark);}
+.cmp-side strong{display:block; color:var(--ink); font-size:14.2px; margin-bottom:2px;}
+.cmp-side small{display:block; font-size:12.8px; color:var(--gray-700); line-height:1.45;}
+.cmp-side.bad small{color:var(--gray-800);}
+
+/* Takeaway + checklist */
+.takeaway{background:var(--bg-layer-1); border:1px solid var(--border); border-radius:var(--radius);
+  padding:24px 28px; box-shadow:var(--shadow);}
+.takeaway-top{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px;}
+.takeaway-label{display:inline-flex; align-items:center; gap:9px; font-family:var(--mono); font-size:11px; font-weight:700;
+  letter-spacing:.14em; text-transform:uppercase; color:var(--adobe-red); margin:0 0 6px;}
+.takeaway-label::before{content:""; width:20px; height:2px; background:var(--adobe-red); border-radius:2px;}
+.takeaway h3{margin:0; font-size:19px;}
+.check-tools{display:flex; align-items:center; gap:8px;}
+.check-status{font-family:var(--mono); font-size:12px; font-weight:700; padding:5px 12px; border-radius:var(--radius-pill);
+  background:var(--bg-base); border:1px solid var(--border); color:var(--gray-700);}
+.check-status.active-prog{background:var(--s2-blue-tint); color:var(--s2-blue-down); border-color:var(--s2-blue);}
+.reset-btn{appearance:none; border:none; background:transparent; color:var(--s2-blue-down); font-family:var(--font);
+  font-size:12.5px; font-weight:600; cursor:pointer; padding:5px 8px; border-radius:6px;}
+.reset-btn:hover{background:var(--s2-blue-tint-faint); text-decoration:underline;}
+.checklist{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 18px; list-style:none; padding:0; margin:0;}
+.check-group{grid-column:1 / -1; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gray-600); margin:8px 0 0;}
+.check-group:first-child{margin-top:0;}
+.check-card{background:var(--bg-base); border:1px solid var(--border); border-radius:10px; padding:11px 14px;
+  transition:border-color .15s, background .15s;}
+.check-card:hover{border-color:var(--border-strong);}
+.check-card.checked{background:var(--s2-blue-tint-faint); border-color:var(--s2-blue);}
+.check-card label{display:grid; grid-template-columns:20px minmax(0,1fr); gap:10px; align-items:start;
+  cursor:pointer; font-size:13.8px; color:var(--gray-700); line-height:1.48;}
+.check-card input[type="checkbox"]{width:17px; height:17px; margin:2px 0 0; accent-color:var(--s2-blue); cursor:pointer;}
+.check-card strong{color:var(--ink);}
+
+.src-list{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px 18px;}
+.src-list li{background:var(--bg-base); border:1px solid var(--border); border-radius:10px; padding:11px 14px; font-size:13.6px; line-height:1.45;}
+.src-list li span{display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-600); margin-bottom:2px;}
+
+/* Footer */
+.site-footer{background:var(--charcoal-2); color:var(--gray-400);}
+.foot-inner{max-width:var(--maxw); margin:0 auto; padding:30px 24px; display:flex;
+  flex-wrap:wrap; gap:14px 24px; align-items:center; justify-content:space-between;}
+.foot-brand{display:flex; align-items:center; gap:11px; color:var(--white); font-weight:800;
+  font-size:16px; letter-spacing:-.01em;}
+.foot-brand img{height:22px; width:auto; display:block;}
+.foot-brand span{font-weight:400; color:var(--gray-300);}
+.foot-right{text-align:right; line-height:1.5;}
+.foot-right .fr-1{margin:0; font-size:13px; font-weight:600; color:var(--gray-300); letter-spacing:.01em;}
+.foot-right .fr-2{margin:2px 0 0; font-size:12px; color:var(--gray-400); letter-spacing:.02em;}
+
+/* Responsive */
+@media(max-width:1100px){
+  .role-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .fm-row{grid-template-columns:180px minmax(0,1fr); }
+  .fm-note{grid-column:2;}
+}
+@media(max-width:980px){
+  .shell{grid-template-columns:1fr; gap:0;}
+  .rail{display:none;}
+  .mobile-jump{display:block;}
+  .content{padding-top:36px;}
+  .arch-lanes{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .arch-stage + .arch-stage::before{display:none;}
+  .mode-grid{grid-template-columns:1fr;}
+}
+@media(max-width:760px){
+  .oneliner{grid-template-columns:1fr;}
+  .oneliner-stat{border-left:none; border-top:1px solid rgba(255,255,255,.16); padding:14px 0 0;}
+  .split-compare, .stack-cols, .callouts, .tree-grid, .anatomy-box, .cmp-grid, .checklist, .src-list, .role-grid{grid-template-columns:1fr;}
+  .spec-row{grid-template-columns:1fr; gap:12px; padding:16px;}
+  .fm-row{grid-template-columns:1fr; gap:6px;}
+  .fm-note{grid-column:auto;}
+  .arch-lanes{grid-template-columns:1fr;}
+  .np-row{grid-template-columns:1fr;}
+  .np-arrow{transform:rotate(90deg);}
+  .kv{grid-template-columns:1fr;}
+  .hero{padding:42px 20px 50px;}
+  .kicker{white-space:normal; line-height:1.4;}
+  .shell{padding:0 18px 64px;}
+  .step{grid-template-columns:1fr; gap:10px;}
+}
+@media(max-width:620px){
+  .foot-inner{flex-direction:column; align-items:flex-start;}
+  .foot-right{text-align:left;}
+}
+@media print{
+  .progress, .rail, .mobile-jump, .copy-btn, .np-tool, .reset-btn{display:none!important;}
+  .shell{grid-template-columns:1fr;}
+  .tab-panel[hidden]{display:block!important;}
+  .codeblock pre{max-height:none;}
+}
+
+/* ===== One-pager additions: sticky top bar (Pattern B), phases, decisions ===== */
+body.onepager{--maxw:1080px;}
+body.onepager section{scroll-margin-top:76px;}
+
+.topnav{position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92);
+  backdrop-filter:saturate(180%) blur(12px); -webkit-backdrop-filter:saturate(180%) blur(12px);
+  border-bottom:1px solid var(--gray-200);}
+.topnav-inner{max-width:var(--maxw); margin:0 auto; display:flex; align-items:center; gap:16px; padding:0 24px; height:58px;}
+.nav-mark{height:22px; width:auto; flex:none;}
+.nav-title{font-weight:800; font-size:14px; letter-spacing:-.01em; white-space:nowrap; color:var(--ink);}
+.nav-links{display:flex; gap:4px; margin-left:auto; overflow-x:auto; scrollbar-width:none;}
+.nav-links::-webkit-scrollbar{display:none;}
+.nav-links a{color:var(--gray-700); font-size:13.5px; font-weight:600; padding:7px 12px; border-radius:8px;
+  white-space:nowrap; text-decoration:none; transition:color .15s, background .15s;}
+.nav-links a:hover{background:var(--gray-100); color:var(--ink); text-decoration:none;}
+.nav-links a.active{color:var(--s2-blue-down); background:var(--s2-blue-tint);}
+.nav-links a:focus-visible{outline:2px solid var(--focus-ring); outline-offset:-2px;}
+.page{max-width:var(--maxw); margin:0 auto; padding:56px 24px 88px;}
+
+/* Hero actions */
+.hero-actions{display:flex; flex-wrap:wrap; gap:10px; margin:30px 0 0;}
+.btn{display:inline-flex; align-items:center; gap:8px; font-family:var(--font); font-size:14px; font-weight:700;
+  padding:10px 18px; border-radius:var(--radius-pill); text-decoration:none; border:1px solid transparent;
+  transition:background .15s, border-color .15s, color .15s;}
+.btn:hover{text-decoration:none;}
+.btn-primary{background:var(--s2-blue); color:var(--white);}
+.btn-primary:hover{background:var(--s2-blue-down);}
+.btn-ghost{background:rgba(255,255,255,.08); color:var(--gray-200); border-color:rgba(255,255,255,.22);}
+.btn-ghost:hover{background:rgba(255,255,255,.14); color:var(--white);}
+.btn:focus-visible{outline:2px solid var(--focus-ring); outline-offset:3px;}
+
+/* Principle cards (three-up) */
+.principle-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px;}
+
+/* Phase cards */
+.phase-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px;}
+.phase-card{background:var(--bg-base); border:1px solid var(--border); border-radius:14px; padding:18px 18px 16px;
+  box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:8px;
+  transition:border-color .15s, transform .15s, box-shadow .15s;}
+.phase-card:hover{border-color:var(--border-strong); transform:translateY(-1px); box-shadow:var(--shadow-lg);}
+.ph-top{display:flex; align-items:center; justify-content:space-between; gap:8px;}
+.ph-num{font-family:var(--mono); font-weight:800; font-size:13px; color:var(--adobe-red);
+  width:34px; height:34px; border-radius:9px; background:var(--adobe-red-tint); border:1px solid var(--coral-2);
+  display:flex; align-items:center; justify-content:center;}
+.ph-when{font-family:var(--mono); font-size:11px; font-weight:700; color:var(--gray-700); letter-spacing:.04em;
+  background:var(--bg-layer-2); border:1px solid var(--border); border-radius:var(--radius-pill); padding:3px 9px;}
+.phase-card h3{margin:2px 0 0; font-size:16.5px;}
+.phase-card p{margin:0; font-size:13.8px; color:var(--gray-700); line-height:1.52; flex:1;}
+.ph-out{margin-top:6px; padding-top:10px; border-top:1px solid var(--gray-200); font-size:13px; color:var(--gray-800); line-height:1.45;}
+.ph-out b{display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-600); margin-bottom:2px;}
+.ph-owner{font-size:12.5px; color:var(--gray-600);}
+.ph-owner strong{color:var(--gray-800); font-weight:600;}
+
+/* Decision cards */
+.decision-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px;}
+.decision-card{background:var(--bg-base); border:1px solid var(--border); border-radius:14px; padding:18px 20px;
+  box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:10px;
+  transition:border-color .15s, transform .15s, box-shadow .15s;}
+.decision-card:hover{border-color:var(--border-strong); transform:translateY(-1px); box-shadow:var(--shadow-lg);}
+.decision-card .cnum{font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-600);}
+.decision-card h3{margin:0; font-size:16.5px;}
+.decision-card > p{margin:0; font-size:13.8px; color:var(--gray-700); line-height:1.52;}
+.rec{background:var(--bg-layer-1); border:1px solid var(--border); border-left:3px solid var(--adobe-red);
+  border-radius:8px; padding:10px 12px; font-size:13.8px; color:var(--gray-800); line-height:1.5; margin-top:auto;}
+.rec b{display:block; font-family:var(--mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--adobe-red); margin-bottom:2px;}
+
+/* Next-step card */
+.next-card{background:linear-gradient(135deg,var(--charcoal) 0%,var(--charcoal-2) 100%); color:var(--white);
+  border-radius:var(--radius); padding:26px 28px; margin:28px 0 0; box-shadow:var(--shadow); border:1px solid var(--gray-800);
+  display:grid; grid-template-columns:minmax(0,1fr) auto; gap:20px; align-items:center;}
+.next-card h3{color:var(--white); margin:0 0 6px; font-size:19px;}
+.next-card p{margin:0; font-size:14.5px; color:var(--gray-300); line-height:1.55; max-width:60ch;}
+.next-card .hero-actions{margin:0;}
+
+@media(max-width:980px){
+  .phase-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:760px){
+  .principle-grid, .phase-grid, .decision-grid{grid-template-columns:1fr;}
+  .next-card{grid-template-columns:1fr;}
+  .page{padding:40px 18px 64px;}
+}
+@media(max-width:620px){
+  .nav-title{display:none;}
+  .topnav-inner{padding:0 12px;}
+}
+@media print{
+  .topnav, .hero-actions{display:none!important;}
+}
+
+</style>
+</head>
+<body class="onepager">
+
+<div class="progress"><span id="progressbar"></span></div>
+
+<div class="ai-note">
+  <div class="ai-note-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/>
+      <line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span><b>Prepared with AI assistance.</b> Please review for accuracy before use
+      &mdash; this document may contain errors.</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="masthead">
+      <div class="brandrow">
+        <img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">
+        <span class="brandname">Adobe&nbsp;<span>Experience Manager Assets</span></span>
+      </div>
+      <span class="kicker">Approach Overview &middot; Bulk Import from OneDrive</span>
+    </div>
+    <div class="hero-body">
+      <h1>Move OneDrive content into AEM Assets in <span class="hl">waves</span>, not a big bang.</h1>
+      <p class="lead">How the migration works, who owns which part, and the decisions to make <strong>before anything is imported</strong>.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="bulk-import-onedrive-runbook.html">Open the detailed guide &rarr;</a>
+        <a class="btn btn-ghost" href="folder-structure-design-guide.html">Folder structure guide</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<nav class="topnav" aria-label="Section navigation">
+  <div class="topnav-inner">
+    <img class="nav-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="">
+    <span class="nav-title">OneDrive &rarr; AEM Assets</span>
+    <div class="nav-links">
+      <a href="#approach" class="active">Approach</a>
+      <a href="#fit">Fit</a>
+      <a href="#roles">Roles</a>
+      <a href="#phases">Phases</a>
+      <a href="#decisions">Decisions</a>
+      <a href="#waves">Waves</a>
+      <a href="#risks">Risks</a>
+      <a href="#success">Success</a>
+    </div>
+  </div>
+</nav>
+
+<main class="page">
+
+  <!-- ============================== 01 ============================== -->
+  <section id="approach">
+    <p class="sec-eyebrow">The approach</p>
+    <h2>Supervised waves from curated, owned OneDrive folders</h2>
+    <p class="sec-intro">AEM Assets has a built-in Bulk Import that pulls content directly from Microsoft OneDrive. It&rsquo;s fast and needs no custom code, but it works in a specific way: it reads <strong>one person&rsquo;s OneDrive</strong>, <strong>one top-level folder at a time</strong>, and copies that folder&rsquo;s structure into AEM exactly as it finds it. The approach is designed around that behavior.</p>
+
+    <div class="oneliner">
+      <p>Treat the migration as a series of <span class="em">waves</span>. Each wave is <strong>one curated OneDrive folder, imported into one place in AEM</strong>, and proven on a small pilot before it scales.</p>
+      <div class="oneliner-stat">
+        <span class="big">4 gates</span>
+        <span class="cap">before any production wave: connect, preview, pilot, sign-off</span>
+      </div>
+    </div>
+
+    <div class="principle-grid">
+      <div class="role-card"><span class="cnum">Principle 1</span><h3>Curate before you move</h3><p>Bulk Import copies everything as-is: structure, names, and clutter. It&rsquo;s faster and safer to clean up and organize in OneDrive first than to fix things in AEM afterward.</p></div>
+      <div class="role-card"><span class="cnum">Principle 2</span><h3>Prove it small, then scale</h3><p>A connection check, a preview run that imports nothing, and a pilot of about 150 assets catch almost every problem before it reaches the production library.</p></div>
+      <div class="role-card"><span class="cnum">Principle 3</span><h3>Decide ownership upfront</h3><p>Access runs through one named Microsoft&nbsp;365 account, and approving an asset makes it publicly deliverable. Both need a named owner from day one.</p></div>
+    </div>
+  </section>
+
+  <!-- ============================== 02 ============================== -->
+  <section id="fit">
+    <p class="sec-eyebrow">Fit check</p>
+    <h2>Is OneDrive the right source for this content?</h2>
+    <p class="sec-intro">OneDrive works well for planned, supervised migrations. It&rsquo;s the wrong tool for an always-on feed that nobody watches. Answer this before any other decision.</p>
+    <div class="split-compare">
+      <div class="layer-panel">
+        <span class="layer-kicker"><span>Use</span> &middot; OneDrive</span>
+        <h3>OneDrive is a good fit when&hellip;</h3>
+        <ul class="resp-list">
+          <li class="resp-item"><span class="resp-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span><div class="resp-body"><strong>One accountable owner</strong><span>The content already sits in a OneDrive that one person or one dedicated account owns.</span></div></li>
+          <li class="resp-item"><span class="resp-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span><div class="resp-body"><strong>Planned, supervised waves</strong><span>The migration runs in scheduled steps with someone watching, or an agency drop folder is curated by a named admin.</span></div></li>
+          <li class="resp-item"><span class="resp-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span><div class="resp-body"><strong>Speed over infrastructure</strong><span>Setting up separate cloud storage would delay the project more than OneDrive&rsquo;s limits cost.</span></div></li>
+        </ul>
+      </div>
+      <div class="layer-panel secondary">
+        <span class="layer-kicker"><span>Choose another route</span> &middot; cloud storage</span>
+        <h3>Stage in Azure or AWS storage when&hellip;</h3>
+        <ul class="resp-list">
+          <li class="resp-item"><span class="resp-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span><div class="resp-body"><strong>It must run unattended</strong><span>OneDrive access always runs as a named person&rsquo;s account, so it can&rsquo;t act as a background service. Adobe recommends Azure or AWS storage for unattended imports.</span></div></li>
+          <li class="resp-item"><span class="resp-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span><div class="resp-body"><strong>The content lives in SharePoint or shared folders</strong><span>Only the connected account&rsquo;s own files can be read, and SharePoint isn&rsquo;t a supported source. That content has to be copied first.</span></div></li>
+          <li class="resp-item"><span class="resp-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span><div class="resp-body"><strong>Identity policies are strict</strong><span>Frequent password, sign-in, or security policy changes would keep interrupting access that&rsquo;s tied to one person.</span></div></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 03 ============================== -->
+  <section id="roles">
+    <p class="sec-eyebrow">Who&rsquo;s involved</p>
+    <h2>Four roles, each with a clear decision</h2>
+    <p class="sec-intro">Most stalled migrations are coordination problems, not technical ones. Name these four people before planning starts. One person can hold more than one role on smaller teams.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Role</th><th>Owns</th><th>Decides or signs off</th></tr></thead>
+        <tbody>
+          <tr><td><strong>IT / Microsoft&nbsp;365 admin</strong></td><td>The secure connection between Microsoft&nbsp;365 and AEM, and its yearly renewal</td><td>Approves the access the connection needs</td></tr>
+          <tr><td><strong>Migration account owner</strong></td><td>The dedicated OneDrive account and the folders that hold each wave</td><td>Which content goes into which wave; the content freeze for each wave</td></tr>
+          <tr><td><strong>AEM Assets administrator</strong></td><td>Setting up, testing, running, and scheduling each import</td><td>When each wave runs; whether a wave is paused or re-run</td></tr>
+          <tr><td><strong>DAM lead / brand owner</strong></td><td>Target folders, naming, tags, usage rights, and what gets approved</td><td>Pilot sign-off; sign-off for each wave; retiring the OneDrive copies</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================== 04 ============================== -->
+  <section id="phases">
+    <p class="sec-eyebrow">How it runs</p>
+    <h2>Six phases from connection to business as usual</h2>
+    <p class="sec-intro">Timings are illustrative for a library of about 20,000 assets. Your pilot shows the real pace, so plan the rest of the timeline after it.</p>
+    <div class="phase-grid">
+      <div class="phase-card">
+        <div class="ph-top"><span class="ph-num">01</span><span class="ph-when">Days 1&ndash;2</span></div>
+        <h3>Connect</h3>
+        <p>IT registers a secure connection between Microsoft&nbsp;365 and AEM and approves its access to the migration account&rsquo;s OneDrive.</p>
+        <div class="ph-out"><b>Outcome</b>AEM can reach the migration account&rsquo;s files.</div>
+        <span class="ph-owner"><strong>Lead:</strong> IT admin</span>
+      </div>
+      <div class="phase-card">
+        <div class="ph-top"><span class="ph-num">02</span><span class="ph-when">Week 1</span></div>
+        <h3>Curate &amp; stage</h3>
+        <p>Remove obsolete and duplicate files, rename them to the naming standard, and arrange each wave folder exactly the way it should look in AEM.</p>
+        <div class="ph-out"><b>Outcome</b>Clean, wave-sized folders that need no renaming.</div>
+        <span class="ph-owner"><strong>Lead:</strong> migration owner + DAM lead</span>
+      </div>
+      <div class="phase-card">
+        <div class="ph-top"><span class="ph-num">03</span><span class="ph-when">Week 1</span></div>
+        <h3>Describe</h3>
+        <p>Prepare titles, tags, usage rights, and expiry dates in a spreadsheet, so assets arrive searchable and governed rather than as bare files.</p>
+        <div class="ph-out"><b>Outcome</b>A metadata sheet for each wave.</div>
+        <span class="ph-owner"><strong>Lead:</strong> DAM lead</span>
+      </div>
+      <div class="phase-card">
+        <div class="ph-top"><span class="ph-num">04</span><span class="ph-when">Week 2</span></div>
+        <h3>Validate</h3>
+        <p>Run a connection check, then a preview run that imports nothing, then a pilot of about 150 assets, first on a test environment and then in production.</p>
+        <div class="ph-out"><b>Outcome</b>Pilot signed off against agreed criteria.</div>
+        <span class="ph-owner"><strong>Lead:</strong> AEM admin + DAM lead</span>
+      </div>
+      <div class="phase-card">
+        <div class="ph-top"><span class="ph-num">05</span><span class="ph-when">Weeks 2&ndash;3</span></div>
+        <h3>Execute</h3>
+        <p>Run one wave at a time and move large video and design files overnight. Freeze content in each wave folder, and do a final catch-up run before go-live.</p>
+        <div class="ph-out"><b>Outcome</b>The full library is live and searchable in AEM.</div>
+        <span class="ph-owner"><strong>Lead:</strong> AEM admin</span>
+      </div>
+      <div class="phase-card">
+        <div class="ph-top"><span class="ph-num">06</span><span class="ph-when">Week 3+</span></div>
+        <h3>Hand over</h3>
+        <p>Retire the OneDrive copies after sign-off. Optionally, set up a scheduled intake folder where agencies can drop new work.</p>
+        <div class="ph-out"><b>Outcome</b>Business as usual, with named owners.</div>
+        <span class="ph-owner"><strong>Lead:</strong> DAM lead</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 05 ============================== -->
+  <section id="decisions">
+    <p class="sec-eyebrow">Decisions to make</p>
+    <h2>Six decisions to agree before the first import</h2>
+    <p class="sec-intro">Each one is cheap to settle in a planning meeting and expensive to change halfway through. Each card includes the recommended default.</p>
+    <div class="decision-grid">
+      <div class="decision-card">
+        <span class="cnum">Decision 1 &middot; Route</span>
+        <h3>Supervised migration or unattended feed?</h3>
+        <p>OneDrive access is tied to a person&rsquo;s account, so it pauses whenever that account&rsquo;s sign-in changes.</p>
+        <div class="rec"><b>Recommended</b>Use OneDrive for supervised waves and curated drop folders. Use Azure or AWS storage for anything that must run with nobody watching.</div>
+      </div>
+      <div class="decision-card">
+        <span class="cnum">Decision 2 &middot; Account</span>
+        <h3>Whose OneDrive holds the content?</h3>
+        <p>Only files owned by the connected account are read. Shared folders and SharePoint sites aren&rsquo;t.</p>
+        <div class="rec"><b>Recommended</b>A dedicated, named migration account, not an employee&rsquo;s personal drive, so access survives staff changes.</div>
+      </div>
+      <div class="decision-card">
+        <span class="cnum">Decision 3 &middot; Existing assets</span>
+        <h3>What happens if an asset is already in AEM?</h3>
+        <p>Imports can skip existing assets, add a new version, or overwrite them.</p>
+        <div class="rec"><b>Recommended</b>Skip by default, so re-running a wave only adds what&rsquo;s missing. Use new versions to refresh assets already in use. Overwrite only to fix a bad load.</div>
+      </div>
+      <div class="decision-card">
+        <span class="cnum">Decision 4 &middot; Source copy</span>
+        <h3>Keep or delete the OneDrive copy after import?</h3>
+        <p>Imports can delete each file from OneDrive once it&rsquo;s safely in AEM.</p>
+        <div class="rec"><b>Recommended</b>Keep the copy during the migration as your rollback. Turn on automatic deletion only for recurring intake folders.</div>
+      </div>
+      <div class="decision-card">
+        <span class="cnum">Decision 5 &middot; Approval</span>
+        <h3>Should assets be approved on arrival?</h3>
+        <p>With Dynamic Media with OpenAPI, an approved asset can be delivered publicly right away. Approval is effectively publishing.</p>
+        <div class="rec"><b>Recommended</b>Auto-approve only content that&rsquo;s already cleared, such as brand logos. Everything else goes through the normal review in AEM.</div>
+      </div>
+      <div class="decision-card">
+        <span class="cnum">Decision 6 &middot; Sequencing</span>
+        <h3>One big import or several waves?</h3>
+        <p>A single large import is harder to check, harder to pause, and more likely to be slowed by Microsoft&rsquo;s rate limits.</p>
+        <div class="rec"><b>Recommended</b>Run waves in dependency order: brand foundation, then products, then campaigns. Move heavy files overnight.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== 06 ============================== -->
+  <section id="waves">
+    <p class="sec-eyebrow">Wave plan</p>
+    <h2>An example wave plan</h2>
+    <p class="sec-intro">Each wave is one OneDrive folder, imported into a destination the DAM lead has already set up. Volumes are illustrative.</p>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Wave</th><th>Content</th><th>Volume</th><th>When</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="nw"><strong>Pilot</strong></td><td>A representative sample: every file type, the deepest folder, local-language titles, one large video</td><td class="nw">~150</td><td class="nw">Day 1</td><td>Test environment first, then production</td></tr>
+          <tr><td class="nw"><strong>Wave 1</strong></td><td>Brand foundation: logos, icons, guidelines</td><td class="nw">~900</td><td class="nw">Day 3</td><td>Already cleared, so approved on arrival</td></tr>
+          <tr><td class="nw"><strong>Wave 2</strong></td><td>Product imagery</td><td class="nw">~9,000</td><td class="nw">Days 4&ndash;5</td><td>Runs off-peak</td></tr>
+          <tr><td class="nw"><strong>Wave 3</strong></td><td>Campaigns 2025&ndash;2026: images and documents, then large videos and design files</td><td class="nw">~6,800</td><td class="nw">Day 6 + overnight</td><td>Heavy files in a separate overnight run</td></tr>
+          <tr><td class="nw"><strong>Catch-up</strong></td><td>Files added after each wave&rsquo;s content freeze</td><td class="nw">As needed</td><td class="nw">Day before go-live</td><td>Safe to re-run: only new files are added</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================== 07 ============================== -->
+  <section id="risks">
+    <p class="sec-eyebrow">Risks &amp; mitigations</p>
+    <h2>What typically goes wrong, and how the approach prevents it</h2>
+    <div class="table-wrap">
+      <table class="data">
+        <thead><tr><th>Risk</th><th>What it looks like</th><th>Mitigation</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Access tied to one person</strong></td><td>Imports stop after a password reset or a sign-in policy change, or when the account owner leaves</td><td>A dedicated migration account, a named owner, and a reminder for the yearly renewal</td></tr>
+          <tr><td><strong>Names change on the way in</strong></td><td>Folder names become lowercase with hyphens; some special characters get encoded</td><td>Rename to the naming standard in OneDrive first. A pre-flight check flags anything AEM would change</td></tr>
+          <tr><td><strong>Duplicates and clutter</strong></td><td>The same image ends up in several folders; obsolete files arrive with the rest</td><td>Curate before staging. The pre-flight check also flags duplicate file names</td></tr>
+          <tr><td><strong>Metadata doesn&rsquo;t land</strong></td><td>Assets arrive without titles, tags, or rights</td><td>Verify metadata on the pilot. If needed, apply the same spreadsheet after import, so no work is lost</td></tr>
+          <tr><td><strong>Approval means publication</strong></td><td>Unreviewed assets become publicly deliverable</td><td>Auto-approve only cleared folders; everything else goes through normal review</td></tr>
+          <tr><td><strong>Slow or throttled waves</strong></td><td>Large waves slow down or pause because of Microsoft rate limits</td><td>Smaller waves, heavy files overnight, and safe re-runs that pick up where they stopped</td></tr>
+          <tr><td><strong>Content changes mid-wave</strong></td><td>Counts don&rsquo;t match the plan; late files are missed</td><td>A content freeze for each wave, plus a catch-up run before go-live</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================== 08 ============================== -->
+  <section id="success">
+    <p class="sec-eyebrow">What done looks like</p>
+    <h2>Six signs the migration succeeded</h2>
+    <div class="stack-cols">
+      <div class="stack-card">
+        <ol class="rule-stack">
+          <li><span class="r-idx">1</span><div class="r-text"><strong>Every asset accounted for</strong><span>Counts match the plan, and every exception has an explanation.</span></div></li>
+          <li><span class="r-idx">2</span><div class="r-text"><strong>Findable on day one</strong><span>Titles, tags, and rights are in place. Search works in English and in local languages.</span></div></li>
+          <li><span class="r-idx">3</span><div class="r-text"><strong>Structure matches the design</strong><span>Folders follow the folder-structure guide, with no clean-up backlog.</span></div></li>
+        </ol>
+      </div>
+      <div class="stack-card">
+        <ol class="rule-stack">
+          <li><span class="r-idx">4</span><div class="r-text"><strong>Delivery-ready</strong><span>Approved assets render through Dynamic Media with OpenAPI, with crops in place.</span></div></li>
+          <li><span class="r-idx">5</span><div class="r-text"><strong>Safe to repeat</strong><span>Re-running any wave adds nothing new and reports no failures.</span></div></li>
+          <li><span class="r-idx">6</span><div class="r-text"><strong>Owned going forward</strong><span>Named owners for the connection, its yearly renewal, and any intake folder.</span></div></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="next-card">
+      <div>
+        <h3>Ready to execute?</h3>
+        <p>The detailed guide covers the hands-on steps: setting up the connection, pre-flight scripts, the metadata template, import settings, validation gates, and troubleshooting.</p>
+      </div>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="bulk-import-onedrive-runbook.html">Detailed guide &rarr;</a>
+      </div>
+    </div>
+
+    <p class="sub-heading">References</p>
+    <ul class="src-list">
+      <li><span>Experience League</span><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/assets-view/bulk-import-assets-view">Bulk import assets using Assets view</a></li>
+      <li><span>Experience League &middot; Video</span><a href="https://experienceleague.adobe.com/en/docs/experience-manager-learn/assets/authoring/bulk-import">Bulk import with the Assets view (OneDrive demo)</a></li>
+      <li><span>Experience League</span><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/manage/add-assets">Add digital assets: planning large ingestions</a></li>
+      <li><span>Experience League &middot; DM with OpenAPI</span><a href="https://experienceleague.adobe.com/en/docs/experience-manager-cloud-service/content/assets/dynamicmedia/dynamic-media-open-apis/approve-assets">Approve assets for delivery and Content Hub</a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="foot-inner">
+    <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe&nbsp;<span>Experience Manager Assets</span></div>
+    <div class="foot-right">
+      <p class="fr-1">Customer Solutions &middot; Approach Overview &middot; Bulk Import from OneDrive</p>
+      <p class="fr-2">&copy; 2026 Adobe &middot; Volumes and timings are illustrative.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* Scrollspy — left rail, compact jump bar, or sticky top bar */
+  var allLinks = Array.prototype.slice.call(document.querySelectorAll('#spy-nav a, #mobile-spy-nav a, .nav-links a'));
+  var seen = {};
+  var sections = allLinks.map(function(l){ return l.getAttribute('href').slice(1); })
+    .filter(function(id){ if(seen[id]) return false; seen[id] = true; return true; })
+    .map(function(id){ return document.getElementById(id); }).filter(Boolean);
+  var currentId = null;
+  function setActive(id){
+    if(id === currentId) return;
+    currentId = id;
+    allLinks.forEach(function(l){
+      var on = l.getAttribute('href') === '#' + id;
+      l.classList.toggle('active', on);
+      if(on && (l.parentNode.id === 'mobile-spy-nav' || l.parentNode.classList.contains('nav-links'))){
+        var bar = l.parentNode, left = l.offsetLeft - bar.offsetLeft - 16;
+        if(left < bar.scrollLeft || left + l.offsetWidth + 32 > bar.scrollLeft + bar.clientWidth){ bar.scrollLeft = Math.max(0, left); }
+      }
+    });
+  }
+  /* Position-based: the active section is the last one whose top has crossed 28% of the viewport */
+  var ticking = false;
+  function spy(){
+    ticking = false;
+    if(!sections.length) return;
+    var line = window.innerHeight * 0.28, cur = sections[0].id;
+    for(var i = 0; i < sections.length; i++){
+      if(sections[i].getBoundingClientRect().top - line <= 0) cur = sections[i].id; else break;
+    }
+    if(window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = sections[sections.length - 1].id;
+    setActive(cur);
+  }
+  window.addEventListener('scroll', function(){ if(!ticking){ ticking = true; window.requestAnimationFrame(spy); } }, {passive:true});
+  window.addEventListener('resize', spy);
+  spy();
+
+  /* Scroll-progress bar */
+  var pb = document.getElementById('progressbar');
+  if(pb){
+    var upd = function(){
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.transform = 'scaleX(' + Math.min(1, Math.max(0, h > 0 ? window.scrollY / h : 0)) + ')';
+    };
+    window.addEventListener('scroll', upd, {passive:true});
+    window.addEventListener('resize', upd);
+    upd();
+  }
+
+  /* Copy-to-clipboard (Clipboard API with execCommand fallback for file:// and locked-down browsers) */
+  function fallbackCopy(text){
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    var ok = false; try { ok = document.execCommand('copy'); } catch(e) {}
+    document.body.removeChild(ta); return ok;
+  }
+  Array.prototype.slice.call(document.querySelectorAll('[data-copy]')).forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var src = document.getElementById(btn.getAttribute('data-copy'));
+      if(!src) return;
+      var text = src.textContent;
+      var done = function(ok){
+        btn.textContent = ok ? 'Copied' : 'Press Ctrl+C';
+        btn.classList.toggle('done', ok);
+        if(!ok){ var r = document.createRange(); r.selectNodeContents(src); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+        setTimeout(function(){ btn.textContent = 'Copy'; btn.classList.remove('done'); }, 1800);
+      };
+      if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(text).then(function(){ done(true); }, function(){ done(fallbackCopy(text)); });
+      } else { done(fallbackCopy(text)); }
+    });
+  });
+
+  /* Tabs (ARIA tabs with arrow-key support) */
+  Array.prototype.slice.call(document.querySelectorAll('[data-tabs]')).forEach(function(root){
+    var tabs = Array.prototype.slice.call(root.querySelectorAll('[role="tab"]'));
+    function select(tab){
+      tabs.forEach(function(t){
+        var on = t === tab;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.setAttribute('tabindex', on ? '0' : '-1');
+        var p = document.getElementById(t.getAttribute('aria-controls'));
+        if(p) p.hidden = !on;
+      });
+    }
+    tabs.forEach(function(t, i){
+      t.addEventListener('click', function(){ select(t); });
+      t.addEventListener('keydown', function(e){
+        if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+          e.preventDefault();
+          var n = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+          n.focus(); select(n);
+        }
+      });
+    });
+  });
+
+  /* Name preview — Adobe's published Bulk Import sanitization rules */
+  var npIn = document.getElementById('np-input'), npOut = document.getElementById('np-out'), npNote = document.getElementById('np-note');
+  var radios = Array.prototype.slice.call(document.querySelectorAll('input[name="np-type"]'));
+  var FOLDER_BAD = /["#%&*+.:;?\[\]^{}|\\\t ]/g;
+  var FILE_MAP = {'"':'%22','%':'%25',"'":'%27','*':'%2A','/':'%2F',':':'%3A','[':'%5B',']':'%5D','|':'%7C','\n':'%0A','\r':'%0D','\t':'%09'};
+  function npType(){ var r = radios.filter(function(x){ return x.checked; })[0]; return r ? r.value : 'folder'; }
+  function runPreview(){
+    if(!npIn) return;
+    var name = npIn.value, type = npType(), notes = [], out;
+    radios.forEach(function(r){ r.parentNode.classList.toggle('on', r.checked); });
+    npOut.classList.remove('bad');
+    if(!name){ npOut.textContent = '\u2014'; npNote.textContent = 'Type a OneDrive folder or file name.'; return; }
+    if(/[\x00-\x1F\u0081\uE000]/.test(name) || /\.$/.test(name)){
+      npOut.textContent = 'Skipped'; npOut.classList.add('bad');
+      npNote.textContent = 'Names ending in a dot or containing control characters are skipped and marked failed. Rename it in OneDrive.';
+      return;
+    }
+    if(/[*:<>?\/\\|"]/.test(name)) notes.push('OneDrive itself rejects " * : < > ? / \\ |, so this name can\u2019t exist in the source.');
+    if(type === 'folder'){
+      out = name.toLowerCase().replace(FOLDER_BAD, '-');
+    } else {
+      out = name.replace(/["%'*\/:\[\]|\n\r\t]/g, function(c){ return FILE_MAP[c]; });
+      if(/\s/.test(name)) notes.push('Spaces are kept, but become %20 in delivery URLs.');
+      if(/[A-Z]/.test(name)) notes.push('Uppercase is kept in file names. Prefer lowercase slugs.');
+    }
+    if(/[^\x00-\x7F]/.test(name)) notes.push('Unicode is kept. Consider an ASCII slug plus a localized dc:title.');
+    npOut.textContent = out;
+    var lead = out === name ? 'Unchanged \u2713' : 'Renamed. The original name is kept as the ' + type + ' title.';
+    if(type === 'file' && out !== name) npOut.classList.add('bad');
+    npNote.textContent = [lead].concat(notes).join(' ');
+  }
+  if(npIn){
+    npIn.addEventListener('input', runPreview);
+    radios.forEach(function(r){ r.addEventListener('change', runPreview); });
+    Array.prototype.slice.call(document.querySelectorAll('.np-samples button')).forEach(function(b){
+      b.addEventListener('click', function(){
+        npIn.value = b.getAttribute('data-name');
+        radios.forEach(function(r){ r.checked = r.value === b.getAttribute('data-type'); });
+        runPreview(); npIn.focus();
+      });
+    });
+    runPreview();
+  }
+
+  /* Go-live checklist counter */
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('.pf-box'));
+  var counter = document.getElementById('check-counter');
+  function syncChecks(){
+    var n = 0;
+    boxes.forEach(function(b){ if(b.checked) n++; var c = b.closest('.check-card'); if(c) c.classList.toggle('checked', b.checked); });
+    if(counter){ counter.textContent = n + ' of ' + boxes.length + ' verified'; counter.classList.toggle('active-prog', n > 0); }
+  }
+  boxes.forEach(function(b){ b.addEventListener('change', syncChecks); });
+  var reset = document.getElementById('check-reset');
+  if(reset) reset.addEventListener('click', function(){ boxes.forEach(function(b){ b.checked = false; }); syncChecks(); });
+  syncChecks();
+})();
+
+</script>
+</body>
+</html>

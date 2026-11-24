@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AEM Assets Folder Structure Design Guide — Architecture &amp; Governance</title>
+<title>AEM Assets Folder Structure Design Guide — Practical Best Practices</title>
 <style>
 :root{
   /* Brand — kept for the mark and for editorial accents (see Accent policy) */
@@ -52,7 +52,7 @@ html{scroll-behavior:smooth;}
 }
 body{
   margin:0; font-family:var(--font); color:var(--gray-800);
-  background:var(--bg-base); line-height:1.58; font-size:16px;
+  background:var(--bg-base); line-height:1.6; font-size:16px;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
 }
 ::selection{background:var(--s2-blue-tint);}
@@ -115,7 +115,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visibl
   padding-bottom:.3em;
 }
 .hero .lead{margin:18px 0 0; font-size:clamp(17px,1.85vw,20px); color:var(--gray-300);
-  max-width:64ch; line-height:1.52;}
+  max-width:63ch; line-height:1.54;}
 .hero .lead strong{color:var(--white); font-weight:700;}
 
 .hero-chips{display:flex; flex-wrap:wrap; gap:10px; margin:26px 0 0; padding:0; list-style:none;}
@@ -168,11 +168,11 @@ h3{font-size:17.5px; line-height:1.3; letter-spacing:-.01em; font-weight:700; co
 
 /* Inline code & pills */
 code{
-  font-family:var(--mono); font-size:12.3px; background:var(--bg-layer-2);
+  font-family:var(--mono); font-size:12.2px; background:var(--bg-layer-2);
   color:var(--ink); padding:2px 6px; border-radius:5px; border:1px solid var(--border);
   overflow-wrap:break-word;
 }
-.hero code, .hub-diagram code, .openapi-url-box code, .dam-topbar code, .site-footer code{
+.hero code, .hub-diagram code, .dam-topbar code, .site-footer code{
   background:rgba(255,255,255,.11); color:var(--white);
   border-color:rgba(255,255,255,.22); padding:1px 6px;
 }
@@ -186,7 +186,7 @@ code{
 .pill.alert{background:var(--adobe-red-tint); color:var(--adobe-red-dark); border-color:var(--coral-2);}
 
 /* ==========================================================================
-   SECTION 01: Visual Hub-and-Spoke Diagram + 5-vs-5 Matrix
+   SECTION 01: Visual Hub-and-Spoke Diagram + Folder vs. Search Split
    ========================================================================== */
 .hub-diagram{
   background:linear-gradient(135deg,var(--charcoal) 0%,var(--charcoal-2) 100%);
@@ -198,7 +198,7 @@ code{
   text-transform:uppercase; color:var(--coral-2); margin:0 0 16px;
 }
 .hub-grid{
-  display:grid; grid-template-columns:minmax(0,1fr) 44px minmax(220px,1.08fr) 44px minmax(0,1fr);
+  display:grid; grid-template-columns:minmax(0,1fr) 46px minmax(230px,1.12fr) 46px minmax(0,1fr);
   gap:10px; align-items:center;
 }
 .hub-col{display:flex; flex-direction:column; gap:8px;}
@@ -255,10 +255,10 @@ code{
 }
 .layer-panel.secondary .resp-icon{background:var(--bg-base);}
 .resp-body > strong{display:block; font-size:14px; font-weight:700; color:var(--ink); line-height:1.3;}
-.resp-body > span{display:block; font-size:13.3px; color:var(--gray-700); line-height:1.45; margin-top:2px;}
+.resp-body > span{display:block; font-size:13.4px; color:var(--gray-700); line-height:1.46; margin-top:2px;}
 
 /* ==========================================================================
-   SECTION 02: Visual Depth & Density Diagrams + Compact 2x3 Rule Grid
+   SECTION 02: Visual Depth Ladder & File-Count Meter + 6 Golden Rules
    ========================================================================== */
 .physics-grid{display:grid; grid-template-columns:1.15fr .85fr; gap:18px; margin:0 0 20px;}
 .vis-box{
@@ -276,7 +276,7 @@ code{
   background:var(--bg-base); border:1px solid var(--border); color:var(--ink);
   display:flex; align-items:center; justify-content:space-between; gap:10px; flex:1;
 }
-.d-bar small{font-family:var(--font); font-weight:500; font-size:11.5px; color:var(--gray-600);}
+.d-bar small{font-family:var(--font); font-weight:500; font-size:11.5px; color:var(--gray-600); white-space:nowrap; flex:none;}
 .d-step.l1 .d-bar{margin-left:10px;}
 .d-step.l2 .d-bar{margin-left:22px;}
 .d-step.l3 .d-bar{margin-left:34px;}
@@ -319,7 +319,7 @@ code{
 .guard-top{display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:8px;}
 .guard-id{font-family:var(--mono); font-size:11px; font-weight:700; color:var(--gray-600); text-transform:uppercase; letter-spacing:.08em;}
 .guard-id span{color:var(--adobe-red);}
-.guard-kpi{font-family:var(--mono); font-size:12px; font-weight:700; color:var(--ink); background:var(--bg-layer-2); padding:2px 8px; border-radius:6px;}
+.guard-kpi{font-family:var(--mono); font-size:11.5px; font-weight:700; color:var(--ink); background:var(--bg-layer-2); padding:2px 8px; border-radius:6px;}
 .guard-card h3{font-size:15.5px; margin:0 0 6px;}
 .guard-card p{margin:0; font-size:13.5px; color:var(--gray-700); line-height:1.5;}
 
@@ -457,9 +457,7 @@ details.vt-folder[open] > summary .caret{transform:rotate(90deg); color:var(--s2
   border-radius:4px; background:var(--bg-layer-2); color:var(--gray-700); border:1px solid var(--border);
 }
 .vt-lvl.leaf-tag{background:var(--ink); color:var(--white); border-color:var(--ink);}
-.vt-note{font-size:12px; color:var(--gray-600); margin:4px 0 4px 12px;}
 
-/* Leaf folder static row + sample file tray */
 .vt-leaf-box{
   display:flex; flex-direction:column; gap:6px;
   background:var(--bg-layer-1); border:1px solid var(--border); border-radius:9px;
@@ -475,10 +473,10 @@ details.vt-folder[open] > summary .caret{transform:rotate(90deg); color:var(--s2
 }
 
 /* ==========================================================================
-   SECTION 04: Folder Dual-ID + Filename-to-OpenAPI URL Mapping Diagram
+   SECTION 04: Folder Display Title vs URL Name + Blocked Chars + Naming Formula
    ========================================================================== */
 .anatomy-box{
-  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin:0 0 18px;
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin:0 0 16px;
 }
 .anat-col{
   background:var(--bg-layer-1); border:1px solid var(--border); border-radius:14px; padding:18px 20px;
@@ -490,21 +488,25 @@ details.vt-folder[open] > summary .caret{transform:rotate(90deg); color:var(--s2
 .anat-sample.mono{font-family:var(--mono); font-size:14.5px;}
 .anat-col p{margin:0; font-size:13.5px; color:var(--gray-700); line-height:1.5;}
 
-.char-strip{
-  display:flex; flex-wrap:wrap; align-items:center; gap:10px 14px;
+.char-grid{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin:0 0 18px;
+}
+.char-card{
   background:var(--bg-layer-2); border:1px solid var(--border); border-radius:12px;
-  padding:12px 16px; margin:0 0 18px; font-size:13.3px; color:var(--gray-700);
+  padding:13px 16px; font-size:13px; color:var(--gray-700);
 }
+.char-card strong{display:block; color:var(--ink); font-size:13.2px; margin-bottom:6px;}
 .bad-chars{
-  font-family:var(--mono); font-size:12.5px; font-weight:700; letter-spacing:.18em;
+  display:inline-block; font-family:var(--mono); font-size:12.2px; font-weight:700; letter-spacing:.16em;
   background:var(--adobe-red-tint); color:var(--adobe-red-dark);
-  border:1px solid var(--coral-2); border-radius:6px; padding:3px 9px;
+  border:1px solid var(--coral-2); border-radius:6px; padding:4px 9px; margin-bottom:5px;
 }
+.char-card small{display:block; font-size:12px; color:var(--gray-600); line-height:1.4;}
 
-/* Filename -> OpenAPI URL Visual Mapper */
-.url-mapper{
+/* Visual Asset Filename Formula */
+.formula-box{
   background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
-  padding:22px 24px; margin:0 0 22px; box-shadow:var(--shadow);
+  padding:20px 22px; margin:0 0 20px; box-shadow:var(--shadow);
 }
 .formula-head{
   display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center;
@@ -518,23 +520,11 @@ details.vt-folder[open] > summary .caret{transform:rotate(90deg); color:var(--s2
 }
 .ftok small{display:block; font-family:var(--font); font-size:10.5px; font-weight:500; color:var(--gray-600); margin-top:2px;}
 .fsep{display:flex; align-items:center; font-family:var(--mono); font-weight:700; color:var(--gray-600);}
-
-.url-arrow-bar{
-  display:flex; align-items:center; gap:10px; margin:14px 0;
-  font-family:var(--mono); font-size:11px; color:var(--gray-600);
+.formula-foot{
+  margin-top:14px; padding-top:12px; border-top:1px solid var(--border);
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px 16px;
+  font-size:13.3px; color:var(--gray-700);
 }
-.url-arrow-bar::before, .url-arrow-bar::after{content:""; flex:1; height:1px; background:var(--border);}
-
-.openapi-url-box{
-  background:var(--charcoal); color:var(--gray-200); border-radius:12px; padding:14px 16px;
-}
-.url-parts{display:flex; flex-wrap:wrap; gap:6px; align-items:stretch;}
-.upart{
-  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.16);
-  border-radius:7px; padding:7px 10px; font-family:var(--mono); font-size:11.5px; color:var(--white);
-}
-.upart.hl-part{border-color:var(--coral-2); background:rgba(240,74,46,.16);}
-.upart span{display:block; font-family:var(--font); font-size:10.5px; color:var(--gray-300); margin-top:3px;}
 
 /* Compact 3-Column Do vs Avoid Grid */
 .cmp-table{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px;}
@@ -556,7 +546,7 @@ details.vt-folder[open] > summary .caret{transform:rotate(90deg); color:var(--s2
 .cmp-box.avoid small{color:var(--gray-800);}
 
 /* ==========================================================================
-   SECTION 05: Unified OpenAPI Gate + 300MB->2.5MB Express Bridge Visuals
+   SECTION 05: Visual Approval Flow + 300MB->2.5MB Express Bridge + 4 Decisions
    ========================================================================== */
 .pipeline-visual{
   background:var(--bg-layer-1); border:1px solid var(--border); border-radius:var(--radius);
@@ -571,9 +561,8 @@ details.vt-folder[open] > summary .caret{transform:rotate(90deg); color:var(--s2
 .pipe-num{font-family:var(--mono); font-size:11px; font-weight:700; color:var(--gray-600); text-transform:uppercase; margin:0 0 4px;}
 .pipe-num span{color:var(--adobe-red);}
 .pipe-node h4{margin:0 0 4px; font-size:14.8px; color:var(--ink);}
-.pipe-node p{margin:0; font-size:12.8px; color:var(--gray-700); line-height:1.45;}
+.pipe-node p{margin:0; font-size:12.9px; color:var(--gray-700); line-height:1.46;}
 
-/* 300 MB -> 2.5 MB Size Bridge Visual Strip */
 .bridge-strip{
   background:var(--bg-base); border:1px solid var(--border); border-radius:12px;
   padding:14px 18px; margin:14px 0 0;
@@ -599,18 +588,18 @@ details.vt-folder[open] > summary .caret{transform:rotate(90deg); color:var(--s2
 .stack-card-head{padding-bottom:12px; margin-bottom:14px; border-bottom:1px solid var(--border);}
 .stack-card-head .ey{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--adobe-red); display:block; margin-bottom:3px;}
 .stack-card-head h3{margin:0; font-size:17.5px;}
-.rule-stack{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:13px;}
+.rule-stack{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:14px;}
 .rule-stack li{display:grid; grid-template-columns:24px minmax(0,1fr); gap:10px; align-items:start;}
 .r-idx{
   width:22px; height:22px; border-radius:6px; background:var(--bg-layer-2);
   border:1px solid var(--border-strong); font-family:var(--mono); font-size:11px;
   font-weight:700; color:var(--ink); display:flex; align-items:center; justify-content:center; margin-top:1px;
 }
-.r-text > strong{display:block; font-size:14px; font-weight:700; color:var(--ink); margin-bottom:2px; line-height:1.32;}
-.r-text > span{display:block; font-size:13.2px; color:var(--gray-700); line-height:1.48;}
+.r-text > strong{display:block; font-size:14px; font-weight:700; color:var(--ink); margin-bottom:2px; line-height:1.34;}
+.r-text > span{display:block; font-size:13.3px; color:var(--gray-700); line-height:1.48;}
 
 /* ==========================================================================
-   SECTION 06: Inheritance Cascade Diagram + Single Authority Governance Table
+   SECTION 06: Inheritance Cascade Diagram + Business Role Matrix
    ========================================================================== */
 .cascade-bar{
   background:var(--bg-layer-1); border:1px solid var(--border); border-radius:var(--radius);
@@ -624,13 +613,13 @@ details.vt-folder[open] > summary .caret{transform:rotate(90deg); color:var(--s2
 }
 .c-step .c-lvl{font-family:var(--mono); font-size:10.5px; font-weight:700; color:var(--adobe-red); text-transform:uppercase; display:block; margin-bottom:3px;}
 .c-step strong{display:block; font-size:13.8px; color:var(--ink); margin-bottom:4px;}
-.c-step span{display:block; font-size:12.3px; color:var(--gray-700); line-height:1.42;}
+.c-step span{display:block; font-size:12.4px; color:var(--gray-700); line-height:1.44;}
 
 .table-wrap{
   background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
   overflow-x:auto; box-shadow:var(--shadow);
 }
-table.data{width:100%; border-collapse:collapse; font-size:13.5px; min-width:720px;}
+table.data{width:100%; border-collapse:collapse; font-size:13.5px; min-width:700px;}
 table.data thead th{
   text-align:left; font-family:var(--mono); font-size:11px; font-weight:700;
   letter-spacing:.08em; text-transform:uppercase; color:var(--gray-600);
@@ -646,7 +635,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
 table.data tbody td code{font-size:11.5px; white-space:nowrap;}
 
 /* ==========================================================================
-   SECTION 07: Visual Path Diff Refactors + Interactive Pre-Flight Sign-Off
+   SECTION 07: Common Traps + Interactive Pre-Launch Checklist
    ========================================================================== */
 .refactor-list{display:flex; flex-direction:column; gap:10px; margin:0 0 26px;}
 .ref-item{
@@ -664,7 +653,6 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
   font-family:var(--mono); font-size:14px; color:var(--gray-700);
 }
 
-/* Interactive Pre-Flight Takeaway Card */
 .takeaway{
   background:var(--bg-layer-1); border:1px solid var(--border);
   border-radius:var(--radius); padding:24px 26px; box-shadow:var(--shadow);
@@ -699,7 +687,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
 .check-card.checked{background:var(--s2-blue-tint-faint); border-color:var(--s2-blue);}
 .check-card label{
   display:grid; grid-template-columns:20px minmax(0,1fr); gap:10px; align-items:start;
-  cursor:pointer; font-size:13.4px; color:var(--gray-700); line-height:1.45;
+  cursor:pointer; font-size:13.4px; color:var(--gray-700); line-height:1.46;
 }
 .check-card input[type="checkbox"]{
   width:17px; height:17px; margin:2px 0 0; accent-color:var(--s2-blue); cursor:pointer;
@@ -718,7 +706,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
 .foot-right .fr-1{margin:0; font-size:13px; font-weight:600; color:var(--gray-300); letter-spacing:.01em;}
 .foot-right .fr-2{margin:2px 0 0; font-size:12px; color:var(--gray-400); letter-spacing:.02em;}
 
-/* Responsive Adaptation — preserve vertical Left Rail TOC in side-panel/tablet, vertical TOC stack on phones */
+/* Responsive Adaptation — preserve vertical Left Rail TOC in side-panel/tablet, vertical stack on phones */
 @media(max-width:1020px){
   .shell{grid-template-columns:186px minmax(0,1fr); gap:28px; padding:0 20px 72px;}
   .rail{padding-top:36px;}
@@ -726,7 +714,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
   .content{padding-top:36px;}
   .hub-grid{grid-template-columns:1fr;}
   .hub-conn{flex-direction:row; gap:8px; padding:2px 0;}
-  .physics-grid{grid-template-columns:1fr;}
+  .physics-grid, .char-grid{grid-template-columns:1fr;}
   .guard-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .cmp-table{grid-template-columns:1fr;}
   .pipe-track, .cascade-steps{grid-template-columns:repeat(2,minmax(0,1fr));}
@@ -779,15 +767,15 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
         <img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">
         <span class="brandname">Adobe&nbsp;<span>Experience Manager Assets</span></span>
       </div>
-      <span class="kicker">Architecture &amp; Governance Guide &middot; AEM Assets</span>
+      <span class="kicker">Best Practices Guide &middot; AEM Assets</span>
     </div>
     <div class="hero-body">
       <h1>Design folders for <span class="hl">governance,</span> not browsing.</h1>
-      <p class="lead">A visual reference architecture for structuring <strong>AEM Assets as a Cloud Service</strong> repositories paired with <strong>Dynamic Media with OpenAPI</strong> and <strong>Adobe Express</strong>.</p>
+      <p class="lead">A practical guide to organizing <strong>AEM Assets</strong> folders so permissions, metadata, <strong>Dynamic Media</strong> image delivery, and <strong>Adobe Express</strong> self-service stay effortless as your library grows.</p>
       <ul class="hero-chips">
-        <li><strong>3&ndash;5 levels max:</strong> binaries in leaf folders only</li>
-        <li><strong>&le;1,000 assets/folder:</strong> unordered <code>sling:Folder</code> scale</li>
-        <li><strong>OpenAPI + Express ready:</strong> approval-gated UID delivery &amp; remix drop zones</li>
+        <li><strong>3&ndash;5 levels max:</strong> place files only in lowest folders</li>
+        <li><strong>&le;1,000 files/folder:</strong> split by year or product line</li>
+        <li><strong>Express + Dynamic Media ready:</strong> approved masters &amp; clean remix drop zones</li>
       </ul>
     </div>
   </div>
@@ -797,13 +785,13 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
   <aside class="rail" aria-label="Section navigation">
     <p class="rail-title">Contents</p>
     <nav id="spy-nav">
-      <a href="#mental-model" class="active"><span class="num">01</span> Mental Model</a>
-      <a href="#guardrails"><span class="num">02</span> JCR Guardrails</a>
+      <a href="#mental-model" class="active"><span class="num">01</span> Core Principle</a>
+      <a href="#guardrails"><span class="num">02</span> Golden Rules</a>
       <a href="#blueprints"><span class="num">03</span> Sample Structures</a>
-      <a href="#naming"><span class="num">04</span> Naming &amp; URLs</a>
-      <a href="#express-dm"><span class="num">05</span> OpenAPI &amp; Express</a>
-      <a href="#governance"><span class="num">06</span> Governance Matrix</a>
-      <a href="#antipatterns"><span class="num">07</span> Anti-Patterns</a>
+      <a href="#naming"><span class="num">04</span> Naming Standards</a>
+      <a href="#express-dm"><span class="num">05</span> Express &amp; Dynamic Media</a>
+      <a href="#governance"><span class="num">06</span> Roles &amp; Permissions</a>
+      <a href="#antipatterns"><span class="num">07</span> Pitfalls &amp; Checklist</a>
     </nav>
   </aside>
 
@@ -811,37 +799,37 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
     <main>
 
       <!-- ==================================================================
-           SECTION 01 · MENTAL MODEL
+           SECTION 01 · CORE PRINCIPLE
            ================================================================== -->
       <section id="mental-model">
-        <p class="sec-eyebrow">Mental Model</p>
-        <h2>One physical home per asset; infinite virtual views</h2>
-        <p class="sec-intro">Avoid rebuilding a 9-level shared network drive for browsing. In AEM Assets, folders exist to <strong>inherit security, metadata, and processing rules</strong>, while Omnisearch, AI Search, Collections, and OpenAPI URLs handle discovery and multi-channel delivery.</p>
+        <p class="sec-eyebrow">Core Principle</p>
+        <h2>One home folder per asset; search and tags do the finding</h2>
+        <p class="sec-intro">The most common mistake in a new DAM is recreating an 8-level shared drive where teams click through folders to hunt for files. In AEM Assets, folders are the <strong>foundation of the house</strong>&mdash;they automate who has access and what rules apply on upload&mdash;while Search, Filters, and Collections let users find assets in seconds.</p>
 
-        <div class="hub-diagram" aria-label="Architecture diagram: Folder inheritance vs. virtual discovery and OpenAPI delivery">
-          <p class="hub-caption">Architecture Principle &middot; 1 Canonical JCR Path &rarr; N Downstream Surfaces</p>
+        <div class="hub-diagram" aria-label="Diagram showing one master asset folder feeding multiple search and delivery experiences">
+          <p class="hub-caption">How AEM Assets Works &middot; Store Once, Find &amp; Reuse Everywhere</p>
           <div class="hub-grid">
             <div class="hub-col">
-              <div class="hub-node"><strong>Folder ACLs</strong>Group Read / Write / Delete</div>
-              <div class="hub-node"><strong>Schemas &amp; Profiles</strong>Form tabs + auto-stamped tags</div>
-              <div class="hub-node"><strong>Image Profiles</strong>Focal-point Smart Crop ratios</div>
+              <div class="hub-node"><strong>Team Permissions</strong>Who can view, upload, or edit</div>
+              <div class="hub-node"><strong>Auto-Applied Metadata</strong>Default Brand, Campaign, or Market</div>
+              <div class="hub-node"><strong>Smart Crop Rules</strong>Automatic square, portrait, or banner crops</div>
             </div>
 
-            <div class="hub-conn" aria-hidden="true">&rarr;<span>Inherits</span></div>
+            <div class="hub-conn" aria-hidden="true">&rarr;<span>Applies</span></div>
 
             <div class="hub-center">
               <span class="hc-badge">Single Source of Truth</span>
               <span class="hc-title">1 Master Asset</span>
               <span class="hc-path">/products/cards/platinum-hero.tif</span>
-              <span class="hc-sub">Delivered by reference via UID URLs&mdash;zero binary copies</span>
+              <span class="hc-sub">Never duplicate the same file into separate Web, Social, or Email folders</span>
             </div>
 
-            <div class="hub-conn" aria-hidden="true">&rarr;<span>Surfaces</span></div>
+            <div class="hub-conn" aria-hidden="true">&rarr;<span>Powers</span></div>
 
             <div class="hub-col">
-              <div class="hub-node"><strong>Omnisearch &amp; Collections</strong>Faceted filter + cross-folder kits</div>
-              <div class="hub-node"><strong>Express Content Advisor</strong>AI Search + brief matching</div>
-              <div class="hub-node"><strong>DM with OpenAPI</strong>On-the-fly WebP/AVIF &amp; crops</div>
+              <div class="hub-node"><strong>Search &amp; Collections</strong>Filter by tag or bundle virtual kits</div>
+              <div class="hub-node"><strong>Adobe Express</strong>Browse approved assets &amp; AI Search</div>
+              <div class="hub-node"><strong>Dynamic Media</strong>Deliver web-ready sizes from one master</div>
             </div>
           </div>
         </div>
@@ -850,31 +838,31 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
           <div class="layer-panel">
             <div class="layer-head">
               <div>
-                <span class="layer-kicker"><span>Layer A</span> &middot; Storage &amp; Inheritance</span>
-                <h3>Split a folder only when these 5 differ</h3>
+                <span class="layer-kicker"><span>Create a Folder</span> &middot; Governance</span>
+                <h3>Split into a new folder only when these differ</h3>
               </div>
-              <span class="pill solid">Folder Tree</span>
+              <span class="pill solid">Folder Job</span>
             </div>
             <ul class="resp-list">
               <li class="resp-item">
                 <span class="resp-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
-                <div class="resp-body"><strong>Access Control Lists (ACLs)</strong><span>Different user groups need Read, Create, Modify, or Delete rights.</span></div>
+                <div class="resp-body"><strong>Team Access Rights</strong><span>Different groups need permission to view, upload, edit, or approve files.</span></div>
               </li>
               <li class="resp-item">
                 <span class="resp-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></span>
-                <div class="resp-body"><strong>Metadata Schemas &amp; Profiles</strong><span>Assets need distinct property forms or auto-stamped Brand/Campaign/Market values.</span></div>
+                <div class="resp-body"><strong>Metadata Forms &amp; Default Tags</strong><span>Product photos need SKU fields; campaign folders auto-tag the Campaign Name and Year.</span></div>
               </li>
               <li class="resp-item">
                 <span class="resp-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>
-                <div class="resp-body"><strong>Processing &amp; Smart Crop Profiles</strong><span>Ecommerce packshots (<code>1:1</code>, <code>4:5</code>) vs. campaign heroes (<code>16:9</code>, <code>9:16</code>).</span></div>
+                <div class="resp-body"><strong>Automatic Image Crop Ratios</strong><span>Product packshots need <code>1:1</code> &amp; <code>4:5</code> crops; campaign heroes need <code>16:9</code> &amp; <code>9:16</code>.</span></div>
               </li>
               <li class="resp-item">
                 <span class="resp-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg></span>
-                <div class="resp-body"><strong>OpenAPI Auto-Approval Policy</strong><span>Curated brand kits auto-approved on upload vs. folders gated by manual review.</span></div>
+                <div class="resp-body"><strong>Auto-Approval vs. Review Gate</strong><span>Official brand logos can auto-approve on upload; campaign &amp; Express outputs wait for review.</span></div>
               </li>
               <li class="resp-item">
                 <span class="resp-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></span>
-                <div class="resp-body"><strong>Lifecycle Stage</strong><span>Isolating raw studio WIP and retired archives from active production libraries.</span></div>
+                <div class="resp-body"><strong>Content Lifecycle Stage</strong><span>Keep unfinished studio shoots (WIP) and retired archives out of everyday libraries.</span></div>
               </li>
             </ul>
           </div>
@@ -882,31 +870,31 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
           <div class="layer-panel secondary">
             <div class="layer-head">
               <div>
-                <span class="layer-kicker"><span>Layer B</span> &middot; Discovery &amp; Delivery</span>
-                <h3>Never create folders for these 5</h3>
+                <span class="layer-kicker"><span>Use Tags &amp; Collections</span> &middot; Discovery</span>
+                <h3>Never create separate folders for these</h3>
               </div>
-              <span class="pill">Metadata &amp; API</span>
+              <span class="pill">Metadata Job</span>
             </div>
             <ul class="resp-list">
               <li class="resp-item">
                 <span class="resp-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></span>
-                <div class="resp-body"><strong>File Format &amp; Orientation</strong><span>Built-in MIME type, extension, and dimension facets filter these automatically.</span></div>
+                <div class="resp-body"><strong>File Format or Orientation</strong><span>AEM Search and Adobe Express let users filter by JPG, PNG, PDF, SVG, or landscape/portrait in one click.</span></div>
               </li>
               <li class="resp-item">
                 <span class="resp-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
-                <div class="resp-body"><strong>Delivery Channels (Web, Social, Email)</strong><span>Tag channels in metadata; generate channel sizes on demand via OpenAPI URL modifiers.</span></div>
+                <div class="resp-body"><strong>Marketing Channels (Web, Email, Social)</strong><span>Tag intended channels in metadata and let Dynamic Media resize the single approved master.</span></div>
               </li>
               <li class="resp-item">
                 <span class="resp-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></span>
-                <div class="resp-body"><strong>Seasonal Kits &amp; Agency Handoffs</strong><span>Bundle assets across folders virtually with static or Smart Search <strong>Collections</strong>.</span></div>
+                <div class="resp-body"><strong>Seasonal Kits &amp; Agency Packs</strong><span>Group assets from multiple folders into a shareable <strong>Collection</strong> (like a playlist) without copying files.</span></div>
               </li>
               <li class="resp-item">
                 <span class="resp-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
-                <div class="resp-body"><strong>Publish Windows, DRM &amp; IMS Restrictions</strong><span><code>On/Off Time</code>, <code>Expiration Date</code>, and IMS roles enforce access at the OpenAPI CDN edge.</span></div>
+                <div class="resp-body"><strong>Launch Dates &amp; Usage Expiration</strong><span>Set scheduled go-live/end dates and license expiry on the asset&mdash;delivery stops automatically when expired.</span></div>
               </li>
               <li class="resp-item">
                 <span class="resp-icon" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
-                <div class="resp-body"><strong>Intent, Synonyms &amp; Campaign Briefs</strong><span>Content Advisor AI Search matches multilingual queries and PDF/DOCX/TXT briefs to metadata.</span></div>
+                <div class="resp-body"><strong>Topic, Mood &amp; Campaign Briefs</strong><span>AI Search in AEM and Adobe Express understands synonyms, multiple languages, and uploaded brief documents.</span></div>
               </li>
             </ul>
           </div>
@@ -914,44 +902,44 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
       </section>
 
       <!-- ==================================================================
-           SECTION 02 · JCR GUARDRAILS
+           SECTION 02 · SIX GOLDEN RULES
            ================================================================== -->
       <section id="guardrails">
-        <p class="sec-eyebrow">JCR Guardrails</p>
-        <h2>Repository physics: depth, leaf density, and node scale</h2>
-        <p class="sec-intro">AEM Assets runs on Apache Jackrabbit Oak (JCR). Designing inside these technical boundaries keeps Assets View and Admin View responsive as your library scales.</p>
+        <p class="sec-eyebrow">Golden Rules</p>
+        <h2>Six sizing and structure guardrails</h2>
+        <p class="sec-intro">Following these six rules keeps folder navigation intuitive for everyday marketers and keeps the AEM Assets interface fast as your library scales into tens of thousands of files.</p>
 
         <div class="physics-grid">
           <div class="vis-box" aria-label="Folder depth and leaf-only placement diagram">
-            <span class="sub-label">Visual Depth Budget (3&ndash;5 Levels) &amp; Leaf-Only Files</span>
+            <span class="sub-label">Keep Depth to 3&ndash;5 Levels &amp; Put Files Only at the Bottom</span>
             <div class="depth-bars">
-              <div class="d-step"><span class="d-lvl">L0</span><div class="d-bar"><span>/content/dam/meridian</span><small>Tenant root</small></div></div>
-              <div class="d-step l1"><span class="d-lvl">L1</span><div class="d-bar"><span>/campaigns</span><small>Folders only</small></div></div>
-              <div class="d-step l2"><span class="d-lvl">L2</span><div class="d-bar"><span>/2026</span><small>Year partition</small></div></div>
-              <div class="d-step l3"><span class="d-lvl">L3</span><div class="d-bar"><span>/autumn-rewards</span><small>Campaign profile</small></div></div>
-              <div class="d-step leaf"><span class="d-lvl">L4</span><div class="d-bar"><span>/master-toolkit &bull; 140 files</span><small>Leaf: binaries here</small></div></div>
-              <div class="d-step over"><span class="d-lvl">L6+</span><div class="d-bar"><span>/q3/social/ig/stories/final/v2</span><small>Avoid deep nesting</small></div></div>
+              <div class="d-step"><span class="d-lvl">Root</span><div class="d-bar"><span>meridian/</span><small>Organization home</small></div></div>
+              <div class="d-step l1"><span class="d-lvl">L1</span><div class="d-bar"><span>campaigns/</span><small>Subfolders only</small></div></div>
+              <div class="d-step l2"><span class="d-lvl">L2</span><div class="d-bar"><span>2026/</span><small>Year split</small></div></div>
+              <div class="d-step l3"><span class="d-lvl">L3</span><div class="d-bar"><span>autumn-rewards/</span><small>Auto-tags campaign</small></div></div>
+              <div class="d-step leaf"><span class="d-lvl">L4</span><div class="d-bar"><span>master-toolkit/ &bull; 140 files</span><small>Leaf: upload files here</small></div></div>
+              <div class="d-step over"><span class="d-lvl">L6+</span><div class="d-bar"><span>q3/social/ig/stories/final/v2/</span><small>Too deep &mdash; use tags</small></div></div>
             </div>
           </div>
 
-          <div class="vis-box" aria-label="Assets per leaf folder scale meter">
-            <span class="sub-label">Leaf Folder Asset Ceiling (&le;1,000 Direct Child Nodes)</span>
+          <div class="vis-box" aria-label="Assets per folder scale meter">
+            <span class="sub-label">How Many Files Belong in One Folder?</span>
             <div class="gauge-wrap">
-              <div class="gauge-track" role="img" aria-label="0 to 500 optimal, 500 to 1000 ceiling, above 1000 UI degradation">
+              <div class="gauge-track" role="img" aria-label="0 to 500 ideal, 500 to 1000 ceiling, above 1000 split folder">
                 <div class="g-opt"></div>
                 <div class="g-warn"></div>
                 <div class="g-bad"></div>
               </div>
               <div class="gauge-ticks">
                 <span>0</span>
-                <span>500 (Optimal)</span>
-                <span>1,000 (Max)</span>
+                <span>500 (Ideal)</span>
+                <span>1,000 (Limit)</span>
                 <span>5,000+</span>
               </div>
               <div class="gauge-legend">
-                <div><span><strong>0&ndash;500 files:</strong> Instant UI cards, bulk edit &amp; reprocess</span><span class="pill solid">Target</span></div>
-                <div><span><strong>500&ndash;1,000 files:</strong> Add split key (year / product line)</span><span class="pill">Ceiling</span></div>
-                <div><span><strong>&gt;1,000 files:</strong> Slow listing, browser memory &amp; tree lag</span><span class="pill alert">Split Now</span></div>
+                <div><span><strong>Up to 500 files:</strong> Fast browsing &amp; easy bulk tagging</span><span class="pill solid">Sweet Spot</span></div>
+                <div><span><strong>500&ndash;1,000 files:</strong> Plan a subfolder split (by year or line)</span><span class="pill">Upper Limit</span></div>
+                <div><span><strong>Over 1,000 files:</strong> Slows page scrolling &amp; visual review</span><span class="pill alert">Too Crowded</span></div>
               </div>
             </div>
           </div>
@@ -960,33 +948,33 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
         <div class="guard-grid">
           <div class="guard-card">
             <div class="guard-top"><span class="guard-id">Rule <span>01</span></span><span class="guard-kpi">3&ndash;5 Levels</span></div>
-            <h3>Keep paths shallow</h3>
-            <p>Short paths make upload locations obvious for contributors and keep breadcrumbs legible inside Adobe Express.</p>
+            <h3>Keep folders shallow</h3>
+            <p>Short paths make it obvious where contributors should upload files and keep folder breadcrumbs readable inside Adobe Express.</p>
           </div>
           <div class="guard-card">
-            <div class="guard-top"><span class="guard-id">Rule <span>02</span></span><span class="guard-kpi">&le;1,000 / Leaf</span></div>
-            <h3>Partition high-volume branches</h3>
-            <p>Introduce deterministic partition folders (<code>/2026/</code>, <code>/&lt;product-line&gt;/</code>) before any folder crosses 1,000 assets.</p>
+            <div class="guard-top"><span class="guard-id">Rule <span>02</span></span><span class="guard-kpi">&le;1,000 Files</span></div>
+            <h3>Split large branches early</h3>
+            <p>Break high-volume areas by <strong>Year</strong> (<code>2026/</code>) or <strong>Product Line</strong> so no single folder becomes a 10,000-file dumping ground.</p>
           </div>
           <div class="guard-card">
-            <div class="guard-top"><span class="guard-id">Rule <span>03</span></span><span class="guard-kpi">Leaf Only</span></div>
-            <h3>No loose files in parent nodes</h3>
-            <p>Upper folders hold subfolders only; mixing hundreds of binaries with child folders slows UI tree expansion and muddies inheritance.</p>
+            <div class="guard-top"><span class="guard-id">Rule <span>03</span></span><span class="guard-kpi">Leaf Folders Only</span></div>
+            <h3>Store files in the lowest folder</h3>
+            <p>Upper folders should hold subfolders only. Mixing loose files alongside subfolders slows folder-tree loading and causes confusion.</p>
           </div>
           <div class="guard-card">
-            <div class="guard-top"><span class="guard-id">Rule <span>04</span></span><span class="guard-kpi">sling:Folder</span></div>
-            <h3>Use unordered JCR folders</h3>
-            <p>Always script <code>sling:Folder</code> (AEM default), never <code>sling:OrderedFolder</code>, which bottlenecks Oak with an ordered child-list array.</p>
+            <div class="guard-top"><span class="guard-id">Rule <span>04</span></span><span class="guard-kpi">Uncheck &ldquo;Orderable&rdquo;</span></div>
+            <h3>Use standard auto-sorted folders</h3>
+            <p>When creating folders, leave <strong>Orderable</strong> unchecked&mdash;checking it slows large folders and disables AEM <strong>Folder Sharing</strong>.</p>
           </div>
           <div class="guard-card">
-            <div class="guard-top"><span class="guard-id">Rule <span>05</span></span><span class="guard-kpi">Deactivate &rarr; Move</span></div>
-            <h3>Clear approval before moving</h3>
-            <p>Revoke <code>Approved</code> status (&lt;10m OpenAPI TTL) and unpublish before moving/archiving. <strong>Reprocess</strong> unapproved files moved into bulk-approved folders.</p>
+            <div class="guard-top"><span class="guard-id">Rule <span>05</span></span><span class="guard-kpi">Global &rarr; Local</span></div>
+            <h3>Put region at the bottom</h3>
+            <p>Avoid top-level <code>/apac</code> or <code>/emea</code> silos; nest market folders <em>under</em> the shared campaign so teams see and reuse global masters.</p>
           </div>
           <div class="guard-card">
-            <div class="guard-top"><span class="guard-id">Rule <span>06</span></span><span class="guard-kpi">Locale at Leaf</span></div>
-            <h3>Global top, market at leaf</h3>
-            <p>Avoid Level-1 <code>/apac</code> or <code>/emea</code> silos unless required by data-residency law; nest market folders beneath shared campaigns.</p>
+            <div class="guard-top"><span class="guard-id">Rule <span>06</span></span><span class="guard-kpi">Deactivate First</span></div>
+            <h3>Unapprove before moving</h3>
+            <p>Remove <strong>Approved</strong> status (and unpublish if live) before moving or archiving folders. <strong>Reprocess</strong> files moved into auto-approved folders.</p>
           </div>
         </div>
       </section>
@@ -996,15 +984,15 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
            ================================================================== -->
       <section id="blueprints">
         <p class="sec-eyebrow">Sample Folder Structures</p>
-        <h2>Three visual folder blueprints &mdash; from root to sample leaf files</h2>
-        <p class="sec-intro">Each sample structure pairs a <strong>bird&rsquo;s-eye topology diagram</strong> with an <strong>interactive AEM folder &amp; sample-file tree</strong> so you can see where structural folders stop and terminal leaf binaries live (role &amp; schema bindings in <a href="#governance">Section 06</a>).</p>
+        <h2>Three real-world folder blueprints &mdash; visualized</h2>
+        <p class="sec-intro">Select the model that fits your organization. Each blueprint includes an <strong>at-a-glance map</strong> plus an <strong>interactive folder tree</strong> showing where subfolders end and sample asset files live (team permissions are mapped in <a href="#governance">Section 06</a>).</p>
 
         <div class="bp-shell" id="bp-explorer">
           <div class="bp-tabs-bar">
             <div class="bp-tabs" role="tablist" aria-label="Sample folder structure blueprints">
               <button type="button" class="bp-tab" role="tab" id="tab-hybrid" aria-controls="panel-hybrid" aria-selected="true">Sample A &middot; Enterprise Hybrid (Recommended)</button>
-              <button type="button" class="bp-tab" role="tab" id="tab-multibrand" aria-controls="panel-multibrand" aria-selected="false">Sample B &middot; Multi-Brand Portfolio</button>
-              <button type="button" class="bp-tab" role="tab" id="tab-global" aria-controls="panel-global" aria-selected="false">Sample C &middot; Global-to-Local Hub</button>
+              <button type="button" class="bp-tab" role="tab" id="tab-multibrand" aria-controls="panel-multibrand" aria-selected="false">Sample B &middot; Multi-Brand Group</button>
+              <button type="button" class="bp-tab" role="tab" id="tab-global" aria-controls="panel-global" aria-selected="false">Sample C &middot; Global-to-Local Campaign</button>
             </div>
             <button type="button" class="bp-toggle-all" id="bp-toggle-btn" aria-pressed="false">Compare all 3 side-by-side</button>
           </div>
@@ -1012,82 +1000,72 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
           <!-- ==================== SAMPLE A: ENTERPRISE HYBRID ==================== -->
           <div class="bp-panel is-open" id="panel-hybrid" role="tabpanel" aria-labelledby="tab-hybrid">
             <div class="bp-header">
-              <h3>Sample A: Enterprise Hybrid Topology <span class="pill solid">Recommended Default</span></h3>
-              <p>Single-brand or master-brand structure separating <strong>4 OpenAPI-eligible branches</strong> (evergreen identity, product catalog, time-partitioned campaigns, shared stock) from <strong>2 internal-only branches</strong> (studio WIP and admin archive).</p>
+              <h3>Sample A: Enterprise Hybrid Structure <span class="pill solid">Recommended Default</span></h3>
+              <p>Best for single-brand or master-brand teams: <strong>4 business-ready branches</strong> (approved logos, evergreen products, annual campaigns, shared photography) cleanly separated from <strong>2 internal-only branches</strong> (unfinished studio work and retired archives).</p>
             </div>
 
             <!-- Inline SVG Topology Map for Sample A -->
             <div class="svg-arch-frame">
               <div class="svg-arch-head">
-                <span class="svg-arch-title">Topology Map &middot; /content/dam/meridian/</span>
+                <span class="svg-arch-title">Visual Map &middot; All Assets &rsaquo; meridian</span>
                 <div class="svg-legend">
-                  <span><i class="leg-dot d-live"></i>OpenAPI Eligible (Approved)</span>
-                  <span><i class="leg-dot d-gate"></i>Review-Gated Remix Zone</span>
-                  <span><i class="leg-dot d-off"></i>Internal Only (No OpenAPI)</span>
+                  <span><i class="leg-dot d-live"></i>Approved for Delivery &amp; Express</span>
+                  <span><i class="leg-dot d-gate"></i>Express Drop Zone (Needs Review)</span>
+                  <span><i class="leg-dot d-off"></i>Internal Only (Hidden from Delivery)</span>
                 </div>
               </div>
-              <svg class="arch-svg" viewBox="0 0 880 244" role="img" aria-label="Enterprise Hybrid folder tree diagram from /content/dam/meridian into 6 branches">
-                <!-- Root Node -->
-                <rect x="315" y="8" width="250" height="34" rx="8" fill="var(--ink)"/>
-                <text x="440" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="var(--white)" font-family="var(--mono)">/content/dam/meridian/</text>
+              <svg class="arch-svg" viewBox="0 0 880 244" role="img" aria-label="Enterprise Hybrid folder tree diagram from meridian root into 6 branches">
+                <rect x="330" y="8" width="220" height="34" rx="8" fill="var(--ink)"/>
+                <text x="440" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="var(--white)" font-family="var(--mono)">All Assets / meridian/</text>
 
-                <!-- Top Trunk into 2 Zones (never crosses zone titles) -->
                 <path d="M440 42 V56 M296 56 H734 M296 56 V70 M734 56 V70" stroke="var(--gray-400)" stroke-width="1.6" fill="none"/>
 
-                <!-- Zone backdrops -->
                 <rect x="8" y="70" width="576" height="166" rx="12" fill="var(--bg-layer-1)" stroke="var(--border)"/>
-                <text x="296" y="88" text-anchor="middle" font-size="10" font-weight="700" fill="var(--gray-600)" font-family="var(--mono)" letter-spacing="0.8">OPENAPI &amp; EXPRESS-ELIGIBLE ZONE (4 BRANCHES)</text>
+                <text x="296" y="88" text-anchor="middle" font-size="10" font-weight="700" fill="var(--gray-600)" font-family="var(--mono)" letter-spacing="0.8">PRODUCTION &amp; EXPRESS-READY BRANCHES (4)</text>
 
                 <rect x="596" y="70" width="276" height="166" rx="12" fill="var(--adobe-red-tint)" stroke="var(--coral-2)" stroke-dasharray="5 4"/>
-                <text x="734" y="88" text-anchor="middle" font-size="10" font-weight="700" fill="var(--adobe-red-dark)" font-family="var(--mono)" letter-spacing="0.8">INTERNAL ZONE &middot; NO OPENAPI (2)</text>
+                <text x="734" y="88" text-anchor="middle" font-size="10" font-weight="700" fill="var(--adobe-red-dark)" font-family="var(--mono)" letter-spacing="0.8">INTERNAL ONLY &middot; NOT DELIVERED (2)</text>
 
-                <!-- Internal Zone Buses (below zone titles) -->
                 <path d="M81 100 H508 M81 100 V116 M218 100 V116 M362 100 V116 M508 100 V116" stroke="var(--gray-400)" stroke-width="1.5" fill="none"/>
                 <path d="M667 100 H799 M667 100 V116 M799 100 V116" stroke="var(--coral-2)" stroke-width="1.5" fill="none"/>
 
-                <!-- Branch 1 -->
                 <rect x="20" y="116" width="122" height="50" rx="8" fill="var(--ink)"/>
                 <text x="81" y="137" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--white)" font-family="var(--mono)">brand-foundation</text>
                 <text x="81" y="154" text-anchor="middle" font-size="10" fill="var(--gray-300)">Auto-Approved Kit</text>
-                <text x="81" y="188" text-anchor="middle" font-size="10" fill="var(--gray-600)" font-family="var(--mono)">logos/ &bull; icons-svg/</text>
+                <text x="81" y="188" text-anchor="middle" font-size="10" fill="var(--gray-600)" font-family="var(--mono)">logos/ &bull; icons/</text>
                 <text x="81" y="203" text-anchor="middle" font-size="10" fill="var(--gray-600)" font-family="var(--mono)">guidelines/</text>
 
-                <!-- Branch 2 -->
                 <rect x="156" y="116" width="124" height="50" rx="8" fill="var(--ink)"/>
                 <text x="218" y="137" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--white)" font-family="var(--mono)">products</text>
-                <text x="218" y="154" text-anchor="middle" font-size="10" fill="var(--gray-300)">SKU Catalog + Crops</text>
+                <text x="218" y="154" text-anchor="middle" font-size="10" fill="var(--gray-300)">Evergreen Catalog</text>
                 <text x="218" y="188" text-anchor="middle" font-size="10" fill="var(--gray-600)" font-family="var(--mono)">cards/platinum/</text>
                 <text x="218" y="203" text-anchor="middle" font-size="10" fill="var(--gray-600)" font-family="var(--mono)">loans/home/</text>
 
-                <!-- Branch 3 (Campaigns with split leaves) -->
                 <rect x="294" y="116" width="136" height="50" rx="8" fill="var(--ink)"/>
                 <text x="362" y="137" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--white)" font-family="var(--mono)">campaigns/2026</text>
-                <text x="362" y="154" text-anchor="middle" font-size="10" fill="var(--gray-300)">Year-Partitioned</text>
+                <text x="362" y="154" text-anchor="middle" font-size="10" fill="var(--gray-300)">Split by Year</text>
                 <rect x="294" y="176" width="136" height="22" rx="5" fill="var(--ink)"/>
                 <text x="362" y="191" text-anchor="middle" font-size="9.8" font-weight="600" fill="var(--white)" font-family="var(--mono)">master-toolkit/</text>
                 <rect x="294" y="202" width="136" height="22" rx="5" fill="var(--bg-base)" stroke="var(--gray-700)" stroke-width="1.4"/>
                 <text x="362" y="217" text-anchor="middle" font-size="9.8" font-weight="700" fill="var(--ink)" font-family="var(--mono)">express-adaptations/</text>
 
-                <!-- Branch 4 -->
                 <rect x="444" y="116" width="128" height="50" rx="8" fill="var(--ink)"/>
                 <text x="508" y="137" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--white)" font-family="var(--mono)">shared-media</text>
-                <text x="508" y="154" text-anchor="middle" font-size="10" fill="var(--gray-300)">DRM + IMS Roles</text>
+                <text x="508" y="154" text-anchor="middle" font-size="10" fill="var(--gray-300)">Usage Rights Tracked</text>
                 <text x="508" y="188" text-anchor="middle" font-size="10" fill="var(--gray-600)" font-family="var(--mono)">lifestyle/ &bull; venues/</text>
                 <text x="508" y="203" text-anchor="middle" font-size="10" fill="var(--gray-600)" font-family="var(--mono)">licensed-stock/</text>
 
-                <!-- Branch 5 (WIP) -->
                 <rect x="608" y="116" width="118" height="50" rx="8" fill="var(--bg-base)" stroke="var(--adobe-red-dark)" stroke-width="1.4" stroke-dasharray="4 3"/>
                 <text x="667" y="137" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--adobe-red-dark)" font-family="var(--mono)">wip-studio</text>
-                <text x="667" y="154" text-anchor="middle" font-size="10" fill="var(--gray-700)">Drafts &amp; Agencies</text>
+                <text x="667" y="154" text-anchor="middle" font-size="10" fill="var(--gray-700)">Shoots &amp; Agencies</text>
                 <text x="667" y="188" text-anchor="middle" font-size="10" fill="var(--gray-700)" font-family="var(--mono)">internal/&lt;proj&gt;/</text>
-                <text x="667" y="203" text-anchor="middle" font-size="10" fill="var(--gray-700)" font-family="var(--mono)">agency-&lt;vendor&gt;/</text>
+                <text x="667" y="203" text-anchor="middle" font-size="10" fill="var(--gray-700)" font-family="var(--mono)">agency-&lt;partner&gt;/</text>
 
-                <!-- Branch 6 (Archive) -->
                 <rect x="738" y="116" width="122" height="50" rx="8" fill="var(--bg-base)" stroke="var(--adobe-red-dark)" stroke-width="1.4" stroke-dasharray="4 3"/>
                 <text x="799" y="137" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--adobe-red-dark)" font-family="var(--mono)">archive</text>
-                <text x="799" y="154" text-anchor="middle" font-size="10" fill="var(--gray-700)">Admin Vault</text>
+                <text x="799" y="154" text-anchor="middle" font-size="10" fill="var(--gray-700)">Retired Vault</text>
                 <text x="799" y="188" text-anchor="middle" font-size="10" fill="var(--gray-700)" font-family="var(--mono)">2024/ &bull; 2025/</text>
-                <text x="799" y="203" text-anchor="middle" font-size="10" fill="var(--gray-700)" font-family="var(--mono)">Approval Cleared</text>
+                <text x="799" y="203" text-anchor="middle" font-size="10" fill="var(--gray-700)" font-family="var(--mono)">Admin Only</text>
               </svg>
             </div>
 
@@ -1101,15 +1079,15 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
                 </div>
               </div>
               <div class="visual-tree">
-                <div class="vt-root-pill"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> /content/dam/meridian/</div>
+                <div class="vt-root-pill"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> meridian/</div>
                 <ul class="vt-list">
                   <li class="vt-node">
                     <details class="vt-folder" open>
-                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">brand-foundation/</span><span class="vt-title">Brand Identity Kit</span><span class="vt-lvl">L1</span><span class="pill solid">Auto-Approved &rarr; OpenAPI</span></summary>
+                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">brand-foundation/</span><span class="vt-title">Brand Foundation</span><span class="vt-lvl">L1</span><span class="pill solid">Auto-Approved</span></summary>
                       <ul class="vt-list">
                         <li class="vt-node">
                           <div class="vt-leaf-box">
-                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">logos/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="vt-title">Read-only SVG/PNG marks in Express Content Advisor</span></div>
+                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">logos/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="vt-title">Official logos &amp; marks (read-only for Express users)</span></div>
                             <div class="vt-files">
                               <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-logo-primary-rgb.svg</span>
                               <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-logo-reverse-white.png</span>
@@ -1118,7 +1096,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
                         </li>
                         <li class="vt-node">
                           <div class="vt-leaf-box">
-                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">guidelines/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="vt-title">Scrollable PDF brand books</span></div>
+                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">guidelines/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="vt-title">Brand &amp; tone-of-voice reference guides</span></div>
                             <div class="vt-files"><span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-brand-guidelines-2026.pdf</span></div>
                           </div>
                         </li>
@@ -1128,15 +1106,15 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
 
                   <li class="vt-node">
                     <details class="vt-folder" open>
-                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">products/</span><span class="vt-title">Evergreen Product Catalog</span><span class="vt-lvl">L1</span><span class="pill solid">Approved &rarr; OpenAPI</span></summary>
+                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">products/</span><span class="vt-title">Products (Evergreen Catalog)</span><span class="vt-lvl">L1</span><span class="pill solid">Approved on Sign-Off</span></summary>
                       <ul class="vt-list">
                         <li class="vt-node">
                           <details class="vt-folder" open>
-                            <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">cards/</span><span class="vt-title">Product Line Partition (no loose files here)</span><span class="vt-lvl">L2</span></summary>
+                            <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">cards/</span><span class="vt-title">Product Line (subfolders only &mdash; no loose files here)</span><span class="vt-lvl">L2</span></summary>
                             <ul class="vt-list">
                               <li class="vt-node">
                                 <div class="vt-leaf-box">
-                                  <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">platinum-metal/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="vt-title">PDP Smart Crops (1:1, 4:5) + spec sheets</span></div>
+                                  <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">platinum-metal/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="vt-title">Product photos (1:1, 4:5 Smart Crops) &amp; fact sheets</span></div>
                                   <div class="vt-files">
                                     <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-cc-platinum-metal-front.tif</span>
                                     <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-cc-platinum-benefits-sheet.pdf</span>
@@ -1152,27 +1130,27 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
 
                   <li class="vt-node">
                     <details class="vt-folder" open>
-                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">campaigns/</span><span class="vt-title">Time-Bound Marketing Campaigns</span><span class="vt-lvl">L1</span></summary>
+                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">campaigns/</span><span class="vt-title">Campaigns</span><span class="vt-lvl">L1</span></summary>
                       <ul class="vt-list">
                         <li class="vt-node">
                           <details class="vt-folder" open>
-                            <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">2026/autumn-rewards/</span><span class="vt-title">Stamps Campaign = Autumn Rewards 2026</span><span class="vt-lvl">L2&ndash;L3</span></summary>
+                            <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">2026/autumn-rewards/</span><span class="vt-title">Auto-tags Campaign = Autumn Rewards 2026</span><span class="vt-lvl">L2&ndash;L3</span></summary>
                             <ul class="vt-list">
                               <li class="vt-node">
                                 <div class="vt-leaf-box">
-                                  <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">master-toolkit/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">Approved &rarr; OpenAPI</span><span class="vt-title">Hero crops + MP4s up to 50 GB / 2 hrs</span></div>
+                                  <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">master-toolkit/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">Approved Masters</span><span class="vt-title">Hero photography &amp; campaign assets (16:9, 9:16 crops)</span></div>
                                   <div class="vt-files">
                                     <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-autumn26-couple-hero-16x9.tif</span>
-                                    <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-autumn26-launch-anthem.mp4</span>
+                                    <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-autumn26-offer-key-visual.psd</span>
                                   </div>
                                 </div>
                               </li>
                               <li class="vt-node">
                                 <div class="vt-leaf-box">
-                                  <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">express-adaptations/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill">Review-Gated</span><span class="vt-title">Save-back folder for Adobe Express remixes</span></div>
+                                  <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">express-adaptations/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill">Needs Review</span><span class="vt-title">Where marketers save social/display designs from Adobe Express</span></div>
                                   <div class="vt-files">
                                     <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-autumn26-cashback-story-9x16-sg.png</span>
-                                    <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-autumn26-linkedin-carousel.pdf</span>
+                                    <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-autumn26-web-banner-4x5-sg.jpg</span>
                                   </div>
                                 </div>
                               </li>
@@ -1185,11 +1163,11 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
 
                   <li class="vt-node">
                     <details class="vt-folder">
-                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">shared-media/</span><span class="vt-title">Cross-Campaign Lifestyle &amp; Licensed Stock</span><span class="vt-lvl">L1</span><span class="pill solid">DRM + Expiry Governed</span></summary>
+                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">shared-media/</span><span class="vt-title">Shared Photography &amp; Licensed Stock</span><span class="vt-lvl">L1</span><span class="pill solid">Expiry Tracked</span></summary>
                       <ul class="vt-list">
                         <li class="vt-node">
                           <div class="vt-leaf-box">
-                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">licensed-stock/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="vt-title">Auto-halts OpenAPI delivery on Expiration Date</span></div>
+                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">licensed-stock/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="vt-title">Automatically stops delivery when license Expiration Date passes</span></div>
                             <div class="vt-files"><span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-stock-airport-lounge-2026.jpg</span></div>
                           </div>
                         </li>
@@ -1199,12 +1177,12 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
 
                   <li class="vt-node">
                     <details class="vt-folder restricted-folder">
-                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">wip-studio/</span><span class="vt-title">Raw Shoots &amp; Agency Intake</span><span class="vt-lvl">L1</span><span class="pill alert">Excluded from OpenAPI &amp; Express</span></summary>
+                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">wip-studio/</span><span class="vt-title">Unfinished Studio Work &amp; Agency Uploads</span><span class="vt-lvl">L1</span><span class="pill alert">Internal Only</span></summary>
                       <ul class="vt-list">
                         <li class="vt-node">
                           <div class="vt-leaf-box">
-                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">agency-ogilvy/autumn-shoot-raw/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="vt-title">Layered working files; promoted to master-toolkit on sign-off</span></div>
-                            <div class="vt-files"><span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-autumn26-key-visual-working.psd</span></div>
+                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">agency-partner/autumn-shoot-raw/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="vt-title">Raw selects &amp; drafts; final picks move to master-toolkit</span></div>
+                            <div class="vt-files"><span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-autumn26-key-visual-draft.psd</span></div>
                           </div>
                         </li>
                       </ul>
@@ -1213,11 +1191,11 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
 
                   <li class="vt-node">
                     <details class="vt-folder restricted-folder">
-                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">archive/</span><span class="vt-title">Retired &amp; Rights-Expired Vault</span><span class="vt-lvl">L1</span><span class="pill alert">Admin Only &middot; Approval Cleared</span></summary>
+                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">archive/</span><span class="vt-title">Retired &amp; Expired Assets</span><span class="vt-lvl">L1</span><span class="pill alert">Admin Only</span></summary>
                       <ul class="vt-list">
                         <li class="vt-node">
                           <div class="vt-leaf-box">
-                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">2024/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="vt-title">Retained for audit; hidden from Omnisearch &amp; OpenAPI</span></div>
+                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">2024/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="vt-title">Approval removed first; kept for compliance &amp; hidden from search</span></div>
                             <div class="vt-files"><span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-spring24-retired-promo.jpg</span></div>
                           </div>
                         </li>
@@ -1232,21 +1210,19 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
           <!-- ==================== SAMPLE B: MULTI-BRAND ==================== -->
           <div class="bp-panel" id="panel-multibrand" role="tabpanel" aria-labelledby="tab-multibrand">
             <div class="bp-header">
-              <h3>Sample B: Multi-Brand / Holding Group Topology</h3>
-              <p>Hosts distinct commercial brands in one AEM repository&mdash;isolating brand permissions, Express Brand Kits, and auto-stamped <code>Brand</code> Metadata Profiles while repeating an <strong>identical Level-2 skeleton</strong> inside every brand root.</p>
+              <h3>Sample B: Multi-Brand Group Structure</h3>
+              <p>Use when one DAM serves distinct commercial brands&mdash;isolating each brand&rsquo;s teams and auto-tagging <code>Brand</code> on upload while repeating the <strong>exact same subfolder layout</strong> inside every brand (note: curate corresponding Brand Kits separately inside Adobe Express using approved assets from each brand&rsquo;s <code>brand-foundation/</code> folder).</p>
             </div>
 
-            <!-- Inline SVG Topology Map for Sample B -->
             <div class="svg-arch-frame">
               <div class="svg-arch-head">
-                <span class="svg-arch-title">Topology Map &middot; Identical L2 Skeleton Repeated Across Brand Roots</span>
+                <span class="svg-arch-title">Visual Map &middot; Same Subfolder Pattern Repeated Inside Each Brand</span>
               </div>
-              <svg class="arch-svg" viewBox="0 0 880 218" role="img" aria-label="Multi-brand folder topology under /content/dam/">
+              <svg class="arch-svg" viewBox="0 0 880 218" role="img" aria-label="Multi-brand folder topology">
                 <rect x="340" y="10" width="200" height="34" rx="8" fill="var(--ink)"/>
-                <text x="440" y="32" text-anchor="middle" font-size="13" font-weight="700" fill="var(--white)" font-family="var(--mono)">/content/dam/</text>
+                <text x="440" y="32" text-anchor="middle" font-size="13" font-weight="700" fill="var(--white)" font-family="var(--mono)">All Assets</text>
                 <path d="M440 44 V62 M115 62 H765 M115 62 V88 M332 62 V88 M552 62 V88 M765 62 V88" stroke="var(--gray-400)" stroke-width="1.6" fill="none"/>
 
-                <!-- Col 1: Group Corporate -->
                 <rect x="24" y="88" width="182" height="44" rx="8" fill="var(--charcoal)"/>
                 <text x="115" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="var(--white)" font-family="var(--mono)">group-corporate/</text>
                 <text x="115" y="123" text-anchor="middle" font-size="10" fill="var(--gray-300)">Shared Across All Brands</text>
@@ -1255,25 +1231,22 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
                 <text x="115" y="179" text-anchor="middle" font-size="10.5" fill="var(--ink)" font-family="var(--mono)">investor-relations/</text>
                 <text x="115" y="196" text-anchor="middle" font-size="10.5" fill="var(--ink)" font-family="var(--mono)">group-licensed-stock/</text>
 
-                <!-- Col 2: Brand Aurora -->
                 <rect x="236" y="88" width="192" height="44" rx="8" fill="var(--ink)"/>
                 <text x="332" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="var(--white)" font-family="var(--mono)">brand-aurora/</text>
-                <text x="332" y="123" text-anchor="middle" font-size="10" fill="var(--coral-2)">Stamps Brand = Aurora</text>
+                <text x="332" y="123" text-anchor="middle" font-size="10" fill="var(--coral-2)">Auto-Tags Brand = Aurora</text>
                 <rect x="236" y="142" width="192" height="62" rx="8" fill="var(--bg-layer-1)" stroke="var(--border-strong)"/>
                 <text x="332" y="160" text-anchor="middle" font-size="10.2" font-weight="600" fill="var(--ink)" font-family="var(--mono)">brand-foundation/ &bull; products/</text>
                 <text x="332" y="177" text-anchor="middle" font-size="10.2" font-weight="600" fill="var(--ink)" font-family="var(--mono)">campaigns/2026/ &bull; shared/</text>
-                <text x="332" y="194" text-anchor="middle" font-size="10.2" fill="var(--gray-600)" font-family="var(--mono)">wip-studio/ (Aurora groups)</text>
+                <text x="332" y="194" text-anchor="middle" font-size="10.2" fill="var(--gray-600)" font-family="var(--mono)">wip-studio/ (Aurora team)</text>
 
-                <!-- Col 3: Brand Solstice -->
                 <rect x="456" y="88" width="192" height="44" rx="8" fill="var(--ink)"/>
                 <text x="552" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="var(--white)" font-family="var(--mono)">brand-solstice/</text>
-                <text x="552" y="123" text-anchor="middle" font-size="10" fill="var(--coral-2)">Stamps Brand = Solstice</text>
+                <text x="552" y="123" text-anchor="middle" font-size="10" fill="var(--coral-2)">Auto-Tags Brand = Solstice</text>
                 <rect x="456" y="142" width="192" height="62" rx="8" fill="var(--bg-layer-1)" stroke="var(--border-strong)"/>
                 <text x="552" y="160" text-anchor="middle" font-size="10.2" font-weight="600" fill="var(--ink)" font-family="var(--mono)">brand-foundation/ &bull; products/</text>
                 <text x="552" y="177" text-anchor="middle" font-size="10.2" font-weight="600" fill="var(--ink)" font-family="var(--mono)">campaigns/2026/ &bull; shared/</text>
-                <text x="552" y="194" text-anchor="middle" font-size="10.2" fill="var(--gray-600)" font-family="var(--mono)">wip-studio/ (Solstice groups)</text>
+                <text x="552" y="194" text-anchor="middle" font-size="10.2" fill="var(--gray-600)" font-family="var(--mono)">wip-studio/ (Solstice team)</text>
 
-                <!-- Col 4: Central Archive -->
                 <rect x="674" y="88" width="182" height="44" rx="8" fill="var(--adobe-red-tint)" stroke="var(--adobe-red-dark)" stroke-width="1.4" stroke-dasharray="4 3"/>
                 <text x="765" y="108" text-anchor="middle" font-size="12" font-weight="700" fill="var(--adobe-red-dark)" font-family="var(--mono)">archive/</text>
                 <text x="765" y="123" text-anchor="middle" font-size="10" fill="var(--adobe-red-dark)">Central Admin Vault</text>
@@ -1285,22 +1258,22 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
 
             <div class="dam-window">
               <div class="dam-topbar">
-                <div class="dam-crumb"><span class="dam-dots"><i></i><i></i><i></i></span>Assets &rsaquo; Files &rsaquo; <strong>Multi-Brand Root</strong></div>
+                <div class="dam-crumb"><span class="dam-dots"><i></i><i></i><i></i></span>Assets &rsaquo; Files &rsaquo; <strong>Multi-Brand Portfolio</strong></div>
                 <div class="dam-actions">
                   <button type="button" class="tree-ctrl-btn" data-tree-action="expand">Expand all folders</button>
                   <button type="button" class="tree-ctrl-btn" data-tree-action="collapse">Collapse</button>
                 </div>
               </div>
               <div class="visual-tree">
-                <div class="vt-root-pill"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> /content/dam/</div>
+                <div class="vt-root-pill"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> All Assets</div>
                 <ul class="vt-list">
                   <li class="vt-node">
                     <details class="vt-folder" open>
-                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">group-corporate/</span><span class="vt-title">Shared Enterprise Pool (R: All Brands)</span><span class="vt-lvl">L1</span></summary>
+                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">group-corporate/</span><span class="vt-title">Shared Enterprise Assets (Viewable by All Brands)</span><span class="vt-lvl">L1</span></summary>
                       <ul class="vt-list">
                         <li class="vt-node">
                           <div class="vt-leaf-box">
-                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">investor-relations/2026/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">Approved &rarr; OpenAPI</span></div>
+                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">investor-relations/2026/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">Approved</span></div>
                             <div class="vt-files"><span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> holding-group-annual-report-2026.pdf</span></div>
                           </div>
                         </li>
@@ -1309,17 +1282,17 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
                   </li>
                   <li class="vt-node">
                     <details class="vt-folder" open>
-                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">brand-aurora/</span><span class="vt-title">Scoped to aurora-* groups &middot; Stamps Brand = Aurora</span><span class="vt-lvl">L1</span></summary>
+                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">brand-aurora/</span><span class="vt-title">Aurora Teams Only &middot; Auto-Tags Brand = Aurora</span><span class="vt-lvl">L1</span></summary>
                       <ul class="vt-list">
                         <li class="vt-node">
                           <div class="vt-leaf-box">
-                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">campaigns/2026/lny/master-toolkit/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">Approved &rarr; OpenAPI</span></div>
+                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">campaigns/2026/lny/master-toolkit/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">Approved Masters</span></div>
                             <div class="vt-files"><span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> aurora-lny26-wealth-hero-16x9.jpg</span></div>
                           </div>
                         </li>
                         <li class="vt-node">
                           <div class="vt-leaf-box">
-                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">campaigns/2026/lny/express-adaptations/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill">Review-Gated</span></div>
+                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">campaigns/2026/lny/express-adaptations/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill">Needs Review</span></div>
                             <div class="vt-files"><span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> aurora-lny26-red-packet-story-9x16.png</span></div>
                           </div>
                         </li>
@@ -1328,11 +1301,11 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
                   </li>
                   <li class="vt-node">
                     <details class="vt-folder" open>
-                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">brand-solstice/</span><span class="vt-title">Mirrors identical L2 subfolder grammar &middot; Stamps Brand = Solstice</span><span class="vt-lvl">L1</span></summary>
+                      <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">brand-solstice/</span><span class="vt-title">Mirrors Same Subfolder Pattern &middot; Auto-Tags Brand = Solstice</span><span class="vt-lvl">L1</span></summary>
                       <ul class="vt-list">
                         <li class="vt-node">
                           <div class="vt-leaf-box">
-                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">products/resort-wear/summer26/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">Approved &rarr; OpenAPI</span></div>
+                            <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">products/resort-wear/summer26/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">Approved</span></div>
                             <div class="vt-files"><span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> solstice-summer26-linen-packshot-4x5.tif</span></div>
                           </div>
                         </li>
@@ -1347,70 +1320,60 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
           <!-- ==================== SAMPLE C: GLOBAL TO LOCAL ==================== -->
           <div class="bp-panel" id="panel-global" role="tabpanel" aria-labelledby="tab-global">
             <div class="bp-header">
-              <h3>Sample C: Global-to-Regional Localization Hub</h3>
-              <p>Places regional adaptation folders <strong>at the leaf beneath each shared campaign</strong> instead of splitting Level 1 into <code>/apac</code> and <code>/emea</code> silos&mdash;so global toolkits flow directly into regional Adobe Express remixes.</p>
+              <h3>Sample C: Global-to-Local Campaign Hub</h3>
+              <p>Places regional adaptation folders <strong>inside each shared campaign</strong> instead of locking regions into separate top-level <code>/apac</code> or <code>/emea</code> silos&mdash;making it effortless for local marketers to adapt HQ masters in Adobe Express.</p>
             </div>
 
-            <!-- Inline SVG Topology Map for Sample C -->
             <div class="svg-arch-frame">
               <div class="svg-arch-head">
-                <span class="svg-arch-title">Topology Map &middot; Global Master Toolkit Feeding Regional Express Hubs</span>
+                <span class="svg-arch-title">Visual Map &middot; HQ Master Toolkit Feeding Local Market Express Folders</span>
               </div>
-              <svg class="arch-svg" viewBox="0 0 880 220" role="img" aria-label="Global to local folder tree under /campaigns/2026/summer-travel/">
-                <!-- Shared Campaign Parent -->
+              <svg class="arch-svg" viewBox="0 0 880 220" role="img" aria-label="Global to local folder tree under campaigns/2026/summer-travel/">
                 <rect x="230" y="10" width="420" height="36" rx="8" fill="var(--ink)"/>
-                <text x="440" y="33" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--white)" font-family="var(--mono)">/campaigns/2026/summer-travel/ (Shared R: All)</text>
+                <text x="440" y="33" text-anchor="middle" font-size="12.5" font-weight="700" fill="var(--white)" font-family="var(--mono)">campaigns/2026/summer-travel/ (Viewable by All)</text>
 
                 <path d="M440 46 V64 M115 64 H765 M115 64 V92 M332 64 V92 M552 64 V92 M765 64 V92" stroke="var(--gray-400)" stroke-width="1.6" fill="none"/>
 
-                <!-- 01 Global Masters -->
                 <rect x="22" y="92" width="186" height="54" rx="8" fill="var(--ink)"/>
                 <text x="115" y="114" text-anchor="middle" font-size="11.8" font-weight="700" fill="var(--white)" font-family="var(--mono)">01-global-masters/</text>
-                <text x="115" y="132" text-anchor="middle" font-size="10" fill="var(--coral-2)">W: global-studio &bull; OpenAPI Live</text>
+                <text x="115" y="132" text-anchor="middle" font-size="10" fill="var(--coral-2)">Uploaded by Global Studio</text>
 
-                <!-- Remix flow arrow from Global Masters to Regional Express Hubs -->
                 <path d="M115 146 V182 H765 V150" stroke="var(--gray-400)" stroke-width="1.3" stroke-dasharray="4 3" fill="none"/>
-                <rect x="290" y="170" width="300" height="24" rx="12" fill="var(--bg-layer-2)" stroke="var(--border-strong)"/>
-                <text x="440" y="186" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--gray-700)">Marketers pull OpenAPI Smart Crops into Adobe Express &rarr;</text>
+                <rect x="275" y="170" width="330" height="24" rx="12" fill="var(--bg-layer-2)" stroke="var(--border-strong)"/>
+                <text x="440" y="186" text-anchor="middle" font-size="10.5" font-weight="600" fill="var(--gray-700)">Local teams pull approved Smart Crops into Adobe Express &rarr;</text>
 
-                <!-- Regional Leaf Folders -->
                 <rect x="236" y="92" width="192" height="54" rx="8" fill="var(--bg-base)" stroke="var(--gray-700)" stroke-width="1.4"/>
                 <text x="332" y="114" text-anchor="middle" font-size="11.8" font-weight="700" fill="var(--ink)" font-family="var(--mono)">02-apac-sg/</text>
-                <text x="332" y="132" text-anchor="middle" font-size="10" fill="var(--gray-600)">W: mktg-apac-sg (en-SG)</text>
+                <text x="332" y="132" text-anchor="middle" font-size="10" fill="var(--gray-600)">Singapore Team Uploads</text>
 
                 <rect x="456" y="92" width="192" height="54" rx="8" fill="var(--bg-base)" stroke="var(--gray-700)" stroke-width="1.4"/>
                 <text x="552" y="114" text-anchor="middle" font-size="11.8" font-weight="700" fill="var(--ink)" font-family="var(--mono)">03-apac-hk/</text>
-                <text x="552" y="132" text-anchor="middle" font-size="10" fill="var(--gray-600)">W: mktg-apac-hk (zh-HK / en-HK)</text>
+                <text x="552" y="132" text-anchor="middle" font-size="10" fill="var(--gray-600)">Hong Kong Team Uploads</text>
 
                 <rect x="672" y="92" width="186" height="54" rx="8" fill="var(--bg-base)" stroke="var(--gray-700)" stroke-width="1.4"/>
                 <text x="765" y="114" text-anchor="middle" font-size="11.8" font-weight="700" fill="var(--ink)" font-family="var(--mono)">04-emea-uk/</text>
-                <text x="765" y="132" text-anchor="middle" font-size="10" fill="var(--gray-600)">W: mktg-emea-uk (en-GB)</text>
+                <text x="765" y="132" text-anchor="middle" font-size="10" fill="var(--gray-600)">UK Team Uploads</text>
               </svg>
             </div>
 
             <div class="dam-window">
               <div class="dam-topbar">
                 <div class="dam-crumb"><span class="dam-dots"><i></i><i></i><i></i></span>Assets &rsaquo; meridian &rsaquo; campaigns &rsaquo; 2026 &rsaquo; <strong>summer-travel</strong></div>
-                <div class="dam-actions">
-                  <button type="button" class="tree-ctrl-btn" data-tree-action="expand">Expand all folders</button>
-                  <button type="button" class="tree-ctrl-btn" data-tree-action="collapse">Collapse</button>
-                </div>
               </div>
               <div class="visual-tree">
-                <div class="vt-root-pill"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> /content/dam/meridian/campaigns/2026/summer-travel/</div>
+                <div class="vt-root-pill"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> campaigns/2026/summer-travel/</div>
                 <ul class="vt-list">
                   <li class="vt-node">
                     <div class="vt-leaf-box">
-                      <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">01-global-masters/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">Approved &rarr; OpenAPI</span><span class="vt-title">Textless key visuals &amp; clean video beds</span></div>
+                      <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">01-global-masters/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">Approved Masters</span><span class="vt-title">Textless hero photography ready for local adaptation</span></div>
                       <div class="vt-files">
                         <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-summer26-beach-textless-master.tif</span>
-                        <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-summer26-miles-clean-bed.mp4</span>
                       </div>
                     </div>
                   </li>
                   <li class="vt-node">
                     <div class="vt-leaf-box">
-                      <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">02-apac-sg/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill">Stamps Market=SG, en-SG</span><span class="vt-title">Singapore Express SGD promos &amp; local T&amp;Cs</span></div>
+                      <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">02-apac-sg/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill">Auto-Tags Market = SG</span><span class="vt-title">Singapore Adobe Express promos &amp; local disclaimers</span></div>
                       <div class="vt-files">
                         <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-summer26-miles-story-9x16-en-sg.png</span>
                       </div>
@@ -1418,7 +1381,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
                   </li>
                   <li class="vt-node">
                     <div class="vt-leaf-box">
-                      <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">03-apac-hk/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill">Stamps Market=HK, zh-HK</span><span class="vt-title">Hong Kong Traditional Chinese &amp; English Express exports</span></div>
+                      <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">03-apac-hk/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill">Auto-Tags Market = HK</span><span class="vt-title">Hong Kong Traditional Chinese &amp; English Express adaptations</span></div>
                       <div class="vt-files">
                         <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-summer26-miles-story-9x16-zh-hk.png</span>
                         <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-summer26-miles-banner-16x9-en-hk.jpg</span>
@@ -1427,7 +1390,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
                   </li>
                   <li class="vt-node">
                     <div class="vt-leaf-box">
-                      <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">04-emea-uk/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill">Stamps Market=UK, en-GB</span><span class="vt-title">UK adaptations (visible read-only to APAC/Americas peers)</span></div>
+                      <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">04-emea-uk/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill">Auto-Tags Market = UK</span><span class="vt-title">UK adaptations (viewable by other markets for inspiration)</span></div>
                       <div class="vt-files">
                         <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> meridian-summer26-avios-feed-4x5-en-gb.png</span>
                       </div>
@@ -1442,141 +1405,142 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
       </section>
 
       <!-- ==================================================================
-           SECTION 04 · NAMING & OPENAPI URL ANATOMY
+           SECTION 04 · NAMING STANDARDS
            ================================================================== -->
       <section id="naming">
-        <p class="sec-eyebrow">Naming &amp; URL Anatomy</p>
-        <h2>How folder slugs and filenames map to OpenAPI URLs</h2>
-        <p class="sec-intro">Separate human display labels from machine-safe slugs, and structure filenames so they power clean SEO delivery URLs and unmistakable search cards in Adobe Express.</p>
+        <p class="sec-eyebrow">Naming Standards</p>
+        <h2>Clear folder titles, clean URL names, and self-describing files</h2>
+        <p class="sec-intro">Every AEM folder has both a <strong>Display Title</strong> for people and a <strong>Folder Name</strong> used in web links. Agreeing on simple naming rules up front prevents broken links, blocked uploads, and confusing search results.</p>
 
         <div class="anatomy-box">
           <div class="anat-col">
-            <span class="sub-label">1 &middot; Folder UI Title (<code>jcr:title</code> &mdash; Editable)</span>
+            <span class="sub-label">1 &middot; Folder Display Title (Easy to Read &amp; Change)</span>
             <div class="anat-sample">Autumn Rewards &mdash; APAC (2026)</div>
-            <p>Human-readable title case for breadcrumbs and cards. Safe to rename anytime without changing the JCR path or OpenAPI asset UID. Use consistent plural nouns (<em>Campaigns</em>, <em>Products</em>) and drop redundant words like &ldquo;Folder&rdquo;.</p>
+            <p>Shown on folder cards and breadcrumbs. Use normal title case and spaces, stick to plural nouns for categories (<em>Campaigns</em>, <em>Products</em>, <em>Logos</em>), and skip redundant words like &ldquo;Folder&rdquo;. Editing the Display Title later never breaks links.</p>
           </div>
           <div class="anat-col">
-            <span class="sub-label">2 &middot; JCR Node Slug (Path Name &mdash; Immutable)</span>
+            <span class="sub-label">2 &middot; Folder URL Name (Lowercase &amp; Permanent)</span>
             <div class="anat-sample mono">autumn-rewards-apac-2026</div>
-            <p>Lowercase ASCII letters, digits, and hyphens only (spaces in titles auto-convert to <code>-</code> on creation). Use sortable ISO prefixes (<code>2026-09</code>) and locale codes (<code>en-sg</code>, <code>zh-hk</code>).</p>
+            <p>Used in the folder&rsquo;s address. Use lowercase letters, numbers, and hyphens only (AEM turns spaces into <code>-</code> automatically when you create a folder). Use <code>YYYY</code> or <code>YYYY-MM</code> dates so folders sort in calendar order.</p>
           </div>
         </div>
 
-        <div class="char-strip" role="note" aria-label="Disallowed characters in AEM Assets">
-          <strong>Disallowed AEM filename characters:</strong>
-          <span class="bad-chars">* / : [ \ ] | # % { } ? &amp;</span>
-          <span>Also avoid spaces, accents, and punctuation (<code>! @ $ ^ + = ~ ,</code>) to prevent URL percent-encoding.</span>
+        <!-- Split Folder vs File Blocked Characters -->
+        <div class="char-grid" role="note" aria-label="Blocked characters in AEM folder and file names">
+          <div class="char-card">
+            <strong>Characters blocked in Folder Names (stricter)</strong>
+            <span class="bad-chars">* / : [ \ ] | # % { } ? &amp; &quot; . ^ ; +</span>
+            <small>AEM blocks dots (<code>.</code>), quotes, pluses, and tabs in folder names&mdash;stick to letters, numbers, and hyphens.</small>
+          </div>
+          <div class="char-card">
+            <strong>Characters blocked in File Names</strong>
+            <span class="bad-chars">* / : [ \ ] | # % { } ? &amp; ;=</span>
+            <small>Also avoid spaces and accents in filenames so web delivery links stay clean and readable.</small>
+          </div>
         </div>
 
-        <div class="url-mapper" aria-label="Filename to Dynamic Media OpenAPI delivery URL mapping">
+        <div class="formula-box" aria-label="Recommended asset file naming pattern">
           <div class="formula-head">
-            <span class="sub-label" style="margin:0">Asset Filename Formula (50&ndash;75 chars) &rarr; OpenAPI Endpoint</span>
-            <span class="pill">Upload edits as AEM Versions &middot; Updates live URL in &lt;10m</span>
+            <span class="sub-label" style="margin:0">Recommended File Naming Pattern (Aim for 50&ndash;75 Characters)</span>
+            <span class="pill">Keep under 100 chars (longer names auto-shorten in Dynamic Media)</span>
           </div>
           <div class="formula-tokens">
             <span class="ftok">[brand]<small>meridian</small></span>
             <span class="fsep">-</span>
-            <span class="ftok">[campaign/line]<small>autumn26</small></span>
+            <span class="ftok">[campaign-or-line]<small>autumn26</small></span>
             <span class="fsep">-</span>
             <span class="ftok">[subject]<small>platinum-couple</small></span>
             <span class="fsep">-</span>
-            <span class="ftok">[variant]<small>hero-16x9</small></span>
+            <span class="ftok">[ratio-or-use]<small>hero-16x9</small></span>
             <span class="fsep">-</span>
-            <span class="ftok">[locale]<small>en-sg</small></span>
+            <span class="ftok">[market]<small>en-sg</small></span>
             <span class="fsep">.</span>
             <span class="ftok">[ext]<small>jpg</small></span>
           </div>
-
-          <div class="url-arrow-bar">&darr; Maps directly into Dynamic Media with OpenAPI Delivery URL</div>
-
-          <div class="openapi-url-box">
-            <div class="url-parts">
-              <div class="upart">https://delivery-pXXXX-eYYYY.adobeaemcloud.com/adobe/assets/<span>Delivery tier (or custom CDN domain)</span></div>
-              <div class="upart">urn:aaid:aem:8f4e...c91a<span>Obfuscated UUID (prevents name collisions)</span></div>
-              <div class="upart hl-part">/as/meridian-autumn26-platinum-couple-hero-16x9-en-sg.webp<span>SEO slug + web-optimized format</span></div>
-              <div class="upart">?width=1200&amp;quality=85<span>On-the-fly modifiers / Smart Crop</span></div>
-            </div>
+          <div class="formula-foot">
+            <span><strong>Example (52 chars):</strong> <code>meridian-autumn26-platinum-couple-hero-16x9-en-sg.jpg</code></span>
+            <span><strong>Revisions:</strong> Upload edits as a <strong>New Version</strong> of the same file&mdash;never <code>_FINAL_v2.jpg</code>.</span>
           </div>
         </div>
 
         <div class="cmp-table">
           <div class="cmp-col">
-            <p class="cmp-title">1 &middot; Campaign Folder Slug</p>
-            <div class="cmp-box"><span class="cmp-tag">Do</span><code>/campaigns/2026/lunar-new-year</code><small>Chronological year parent + lowercase hyphenated slug.</small></div>
-            <div class="cmp-box avoid"><span class="cmp-tag">Avoid</span><code>/Campaigns Folder/Q1_2026_LNY!/</code><small>Redundant &ldquo;Folder&rdquo;, uppercase, underscores, and unsafe <code>!</code>.</small></div>
+            <p class="cmp-title">1 &middot; Campaign Folder</p>
+            <div class="cmp-box"><span class="cmp-tag">Do</span><code>/campaigns/2026/lunar-new-year</code><small>Year parent + clean hyphenated folder name.</small></div>
+            <div class="cmp-box avoid"><span class="cmp-tag">Avoid</span><code>/Campaigns Folder/Q1.2026_LNY!/</code><small>Redundant &ldquo;Folder&rdquo;, blocked dot (<code>.</code>) in folder name, and underscores.</small></div>
           </div>
           <div class="cmp-col">
-            <p class="cmp-title">2 &middot; Search &amp; SEO Uniqueness</p>
-            <div class="cmp-box"><span class="cmp-tag">Do</span><code>meridian-lny26-family-hero.jpg</code><small>Descriptive <code>/as/{seoName}</code> slug and unambiguous card in Express.</small></div>
-            <div class="cmp-box avoid"><span class="cmp-tag">Avoid</span><code>hero-banner.jpg</code> (in 40 folders)<small>Wastes SEO slug value and floods Omnisearch/Express with identical titles.</small></div>
+            <p class="cmp-title">2 &middot; Search &amp; Web Link Clarity</p>
+            <div class="cmp-box"><span class="cmp-tag">Do</span><code>meridian-lny26-family-hero.jpg</code><small>Creates SEO-friendly web links and clear cards in Express search.</small></div>
+            <div class="cmp-box avoid"><span class="cmp-tag">Avoid</span><code>hero-banner.jpg</code> (in 40 folders)<small>40 identical filenames make search results impossible to tell apart.</small></div>
           </div>
           <div class="cmp-col">
-            <p class="cmp-title">3 &middot; Express Export Naming</p>
-            <div class="cmp-box"><span class="cmp-tag">Do</span><code>.../express-adaptations/</code><code>meridian-lny26-story-9x16-sg.png</code><small>Saved in scoped remix folder with ratio and market code.</small></div>
-            <div class="cmp-box avoid"><span class="cmp-tag">Avoid</span><code>/brand-foundation/Untitled (3).png</code><small>Default canvas name saved into an auto-approved brand folder.</small></div>
+            <p class="cmp-title">3 &middot; Adobe Express Exports</p>
+            <div class="cmp-box"><span class="cmp-tag">Do</span><code>.../express-adaptations/</code><code>meridian-lny26-story-9x16-sg.png</code><small>Saved into the Express output folder with campaign, ratio, and market.</small></div>
+            <div class="cmp-box avoid"><span class="cmp-tag">Avoid</span><code>/brand-foundation/Untitled (3).png</code><small>Default Express title saved into an auto-approved brand folder.</small></div>
           </div>
         </div>
       </section>
 
       <!-- ==================================================================
-           SECTION 05 · OPENAPI & ADOBE EXPRESS INTEGRATION
+           SECTION 05 · ADOBE EXPRESS & DYNAMIC MEDIA
            ================================================================== -->
       <section id="express-dm">
-        <p class="sec-eyebrow">Stack Integration</p>
-        <h2>Approval gates and rendition bridging across OpenAPI &amp; Express</h2>
-        <p class="sec-intro"><strong>Dynamic Media with OpenAPI</strong> serves <em>only</em> the approved, latest version of an asset, while <strong>Adobe Express</strong> consumes those approved renditions via Content Advisor and writes adaptations back into governed folders.</p>
+        <p class="sec-eyebrow">Express &amp; Dynamic Media</p>
+        <h2>Four ways Dynamic Media and Express shape your folders</h2>
+        <p class="sec-intro">When AEM Assets is paired with <strong>Dynamic Media (OpenAPI)</strong> for image delivery and <strong>Adobe Express</strong> for self-service design, your folder boundaries control what goes live, how images auto-crop, and where marketers save adaptations.</p>
 
-        <div class="pipeline-visual" aria-label="End-to-end governance pipeline and 80 MB Express size bridge">
-          <span class="sub-label">End-to-End Lifecycle Gate &amp; File-Size Bridge</span>
+        <div class="pipeline-visual" aria-label="Approval flow from Studio WIP to Master DAM to Adobe Express">
+          <span class="sub-label">How an Image Moves Across Folders</span>
           <div class="pipe-track">
             <div class="pipe-node wip">
               <div>
-                <p class="pipe-num"><span>01</span> &middot; Studio WIP</p>
+                <p class="pipe-num"><span>01</span> &middot; Studio Drafts</p>
                 <h4>/wip-studio/</h4>
-                <p>Raw shoots &amp; layered PSD/INDD drafts stay unapproved&mdash;invisible to OpenAPI and Express.</p>
+                <p>Raw shoots &amp; working PSD/INDD files stay unapproved and private to creative teams.</p>
               </div>
-              <span class="pill alert">dam:status &ne; approved</span>
+              <span class="pill alert">Not Approved</span>
             </div>
             <div class="pipe-node">
               <div>
-                <p class="pipe-num"><span>02</span> &middot; Approval Gate</p>
+                <p class="pipe-num"><span>02</span> &middot; Master Library</p>
                 <h4>.../master-toolkit/</h4>
-                <p>Approver sets <code>Status = Approved</code> + <code>Target = Delivery</code>; live on OpenAPI CDN in &lt;10 mins.</p>
+                <p>Final images are marked <strong>Approved</strong>&mdash;going live on Dynamic Media in under 10 minutes.</p>
               </div>
-              <span class="pill solid">OpenAPI Eligible</span>
+              <span class="pill solid">Approved &amp; Live</span>
             </div>
             <div class="pipe-node">
               <div>
-                <p class="pipe-num"><span>03</span> &middot; Express Remix</p>
-                <h4>Content Advisor</h4>
-                <p>Connected to <strong>Author</strong> repo; marketers place OpenAPI Smart Crops &amp; preview modifiers live.</p>
+                <p class="pipe-num"><span>03</span> &middot; Self-Service Remix</p>
+                <h4>Adobe Express</h4>
+                <p>Marketers browse the <strong>Author</strong> repository and place crisp Dynamic Media renditions onto templates.</p>
               </div>
-              <span class="pill">DM &rarr; OpenAPI Tab</span>
+              <span class="pill">Read-Only Source</span>
             </div>
             <div class="pipe-node">
               <div>
-                <p class="pipe-num"><span>04</span> &middot; Remix Review</p>
+                <p class="pipe-num"><span>04</span> &middot; Governed Save-Back</p>
                 <h4>.../express-adaptations/</h4>
-                <p>Saved exports land unapproved; withheld from downstream channels until approver sign-off.</p>
+                <p>Express exports land unapproved until a marketing lead reviews and approves them.</p>
               </div>
-              <span class="pill">Review-Gated</span>
+              <span class="pill">Awaits Review</span>
             </div>
           </div>
 
-          <div class="bridge-strip" aria-label="How OpenAPI bridges the 80 MB Adobe Express import limit">
+          <div class="bridge-strip" aria-label="Why you do not need low-res folders for Adobe Express">
             <div class="b-box">
               <span class="b-size">300 MB</span>
-              <div class="b-txt"><strong>Master TIFF in AEM</strong><span>Too heavy for direct Express upload</span></div>
+              <div class="b-txt"><strong>High-Res Master TIFF</strong><span>Stored once in AEM Assets</span></div>
             </div>
             <span class="b-arr" aria-hidden="true">&rarr;</span>
             <div class="b-box">
               <span class="b-size slim">~2.5 MB</span>
-              <div class="b-txt"><strong>OpenAPI Rendition</strong><span>Placed via Content Advisor DM tab</span></div>
+              <div class="b-txt"><strong>Dynamic Media Rendition</strong><span>Placed from the Dynamic Media tab in Express</span></div>
             </div>
             <span class="b-arr" aria-hidden="true">&rarr;</span>
             <div class="b-box">
-              <span class="b-size cap">&le;80 MB Cap</span>
-              <div class="b-txt"><strong>Express Web Limit Bypassed</strong><span>40 MB mobile &middot; 200 MB MP4 &middot; 250 KB SVG</span></div>
+              <span class="b-size cap">&le;80 MB</span>
+              <div class="b-txt"><strong>No &ldquo;Low-Res&rdquo; Folders Needed</strong><span>Fits Express 80 MB web / 40 MB mobile cap</span></div>
             </div>
           </div>
         </div>
@@ -1584,36 +1548,22 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
         <div class="stack-cols">
           <div class="stack-card">
             <div class="stack-card-head">
-              <span class="ey">Dynamic Media with OpenAPI</span>
-              <h3>4 configuration mechanics tied to folders</h3>
+              <span class="ey">Dynamic Media (OpenAPI)</span>
+              <h3>Folder decisions for image delivery</h3>
             </div>
             <ol class="rule-stack">
               <li>
                 <span class="r-idx">1</span>
                 <div class="r-text">
-                  <strong>Approval Target &amp; bulk-approval Metadata Profiles</strong>
-                  <span><code>Delivery</code> exposes approved assets to both OpenAPI and Content Hub; <code>Content Hub</code> scopes them to internal org users only. <code>Rejected</code> or <code>Changes requested</code> blocks delivery immediately.</span>
+                  <strong>Separate auto-approved kits from review-gated folders</strong>
+                  <span>Only <strong>Approved</strong> assets (latest version) are delivered downstream. Auto-approve trusted folders like <code>/brand-foundation</code> via folder profile, while keeping <code>/wip-studio</code> and <code>express-adaptations/</code> unapproved until reviewed.</span>
                 </div>
               </li>
               <li>
                 <span class="r-idx">2</span>
                 <div class="r-text">
-                  <strong>Field-level security on <code>Review Status</code></strong>
-                  <span>Generic folder write access does <em>not</em> grant approval rights&mdash;enable and restrict edit access on the <code>Review Status</code> field inside each folder&rsquo;s Metadata Schema.</span>
-                </div>
-              </li>
-              <li>
-                <span class="r-idx">3</span>
-                <div class="r-text">
-                  <strong>Lean Smart Crop profiles (~5 ratios) &amp; zero-config video</strong>
-                  <span>Keep Image Profiles around ~5 focal-point ratios per folder (&gt;5&ndash;10 slows ingestion; limit 100; N/A for PDF/GIF/INDD). OpenAPI serves adaptive HLS/DASH video dynamically up to <strong>50 GB / 2 hrs</strong> without Video Profiles (note: DM Prime omits AVIF Smart Imaging).</span>
-                </div>
-              </li>
-              <li>
-                <span class="r-idx">4</span>
-                <div class="r-text">
-                  <strong>Edge-enforced <code>On/Off Time</code>, Expiry &amp; IMS roles</strong>
-                  <span>Scheduled <code>jcr:content/onTime</code> &amp; <code>offTime</code>, asset expiration, and Adobe IMS user/group restrictions (Bearer token or <code>delivery-token</code> cookie; unauthorized returns <code>404</code>) take effect in &lt;10 minutes.</span>
+                  <strong>Align folders with Smart Crop aspect ratios (~5 per folder)</strong>
+                  <span>Keep <code>/products</code> (square <code>1:1</code>, portrait <code>4:5</code>) separate from <code>/campaigns</code> (widescreen <code>16:9</code>, vertical <code>9:16</code>) so each folder gets a lean, relevant Image Profile (assigned by Admins under <em>Tools &rsaquo; Assets &rsaquo; Image Profiles</em>; note: Smart Crop requires Dynamic Media Ultimate).</span>
                 </div>
               </li>
             </ol>
@@ -1622,35 +1572,21 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
           <div class="stack-card">
             <div class="stack-card-head">
               <span class="ey">Adobe Express</span>
-              <h3>4 repository &amp; save-back rules</h3>
+              <h3>Folder decisions for self-service teams</h3>
             </div>
             <ol class="rule-stack">
               <li>
                 <span class="r-idx">1</span>
                 <div class="r-text">
-                  <strong>Select the AEM Author repository (never Delivery)</strong>
-                  <span>Only the <strong>Author</strong> repo in Express exposes folders, Collections, Saved Searches, AI Search, and brief uploads (AEM release &ge;<code>21994</code> + GenAI Rider). <em>Delivery</em> repos flatten all files to root.</span>
+                  <strong>Connect Express to the &ldquo;Author&rdquo; repository</strong>
+                  <span>Always select the <strong>Author</strong> repository inside Express Content Advisor so users see your folders, Collections, and Saved Searches (selecting a <em>Delivery</em> repository flattens everything into a single unorganized list).</span>
                 </div>
               </li>
               <li>
                 <span class="r-idx">2</span>
                 <div class="r-text">
-                  <strong>Preview real-time modifiers without mutating masters</strong>
-                  <span>Designers can test OpenAPI modifiers (resize, rotate, flip, quality) live inside Content Advisor before placing onto the canvas&mdash;preview modifiers never overwrite the DAM asset.</span>
-                </div>
-              </li>
-              <li>
-                <span class="r-idx">3</span>
-                <div class="r-text">
-                  <strong>Plan for multi-page canvas subfolder creation</strong>
-                  <span>When saving back via <em>Share &rarr; AEM Assets</em>, exporting <em>All Pages</em> as PNG/JPEG automatically creates a new child folder inside <code>express-adaptations/</code> (PDF exports as a single file).</span>
-                </div>
-              </li>
-              <li>
-                <span class="r-idx">4</span>
-                <div class="r-text">
-                  <strong>Disable Content Hub Auto-approval</strong>
-                  <span>When Embedded Express saves to Content Hub (where mandatory <em>Project/Campaign Name</em> metadata auto-derives hydrated folders), turn off <strong>Auto-approval</strong> so drafts don&rsquo;t auto-publish within 5 minutes.</span>
+                  <strong>Give Express users dedicated <code>express-adaptations/</code> folders</strong>
+                  <span>Keep master folders read-only. Note three save-back behaviors: exporting <em>All Pages</em> as PNG/JPG creates a new subfolder automatically; JPG/PNG edits can save as a new version (PDFs save as new files); and if using Content Hub, turn off <strong>Auto-approval</strong>.</span>
                 </div>
               </li>
             </ol>
@@ -1659,35 +1595,35 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
       </section>
 
       <!-- ==================================================================
-           SECTION 06 · GOVERNANCE & INHERITANCE MATRIX
+           SECTION 06 · ROLES & PERMISSIONS MATRIX
            ================================================================== -->
       <section id="governance">
-        <p class="sec-eyebrow">Governance Matrix</p>
-        <h2>Top-down inheritance &amp; authoritative role mapping</h2>
-        <p class="sec-intro">Assign permissions exclusively to <strong>role-based User Groups</strong> (never individuals), use an <strong>allow-centric top-down ACL model</strong> (avoiding brittle deep <code>Deny</code> rules), and layer AEMaaCS <strong>Metadata-Driven Permissions</strong> where visibility varies by attribute inside a shared branch.</p>
+        <p class="sec-eyebrow">Roles &amp; Permissions</p>
+        <h2>Set rules at the top and let subfolders inherit them</h2>
+        <p class="sec-intro">Always grant access to <strong>Role Groups</strong> (never individual people) so staff changes never require folder updates, and grant permissions <strong>top-down</strong> rather than adding complex &ldquo;Deny&rdquo; exceptions deep inside subfolders.</p>
 
         <div class="cascade-bar" aria-label="4-level folder inheritance cascade">
-          <span class="sub-label" style="margin:0">How Configuration Cascades Down the JCR Tree</span>
+          <span class="sub-label" style="margin:0">How Folder Rules Flow Down Automatically</span>
           <div class="cascade-steps">
             <div class="c-step">
-              <span class="c-lvl">L0 &middot; Tenant Root</span>
-              <strong>/content/dam/meridian</strong>
-              <span>Lock structure to Admins; bind base corporate schema + approval fields.</span>
+              <span class="c-lvl">Root &middot; meridian/</span>
+              <strong>Lock Top Structure</strong>
+              <span>Only DAM Admins create top-level folders so structure stays clean.</span>
             </div>
             <div class="c-step">
-              <span class="c-lvl">L1 &middot; Domain Branch</span>
-              <strong>/products, /campaigns</strong>
-              <span>Bind primary Group ACLs, domain Metadata Schema, and Image Profile.</span>
+              <span class="c-lvl">Level 1 &middot; Domain</span>
+              <strong>products/, campaigns/</strong>
+              <span>Set primary team access, metadata form, and Smart Crop ratios once.</span>
             </div>
             <div class="c-step">
-              <span class="c-lvl">L2/L3 &middot; Partition</span>
-              <strong>/2026/autumn-rewards</strong>
-              <span>Attach Metadata Profile to auto-stamp <code>Campaign</code> &amp; <code>Year</code> on upload.</span>
+              <span class="c-lvl">Level 2&ndash;3 &middot; Campaign</span>
+              <strong>2026/autumn-rewards/</strong>
+              <span>Auto-stamp <code>Campaign Name</code> and <code>Year</code> on every uploaded file.</span>
             </div>
             <div class="c-step">
-              <span class="c-lvl">L4 &middot; Terminal Leaf</span>
-              <strong>.../express-adaptations</strong>
-              <span>Override write/approval group only where contributor role changes.</span>
+              <span class="c-lvl">Leaf &middot; Drop Zone</span>
+              <strong>.../express-adaptations/</strong>
+              <span>Open upload rights for Express marketers while keeping approval with leads.</span>
             </div>
           </div>
         </div>
@@ -1696,62 +1632,62 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
           <table class="data">
             <thead>
               <tr>
-                <th style="width:20%">Folder Branch</th>
-                <th style="width:16%">Read / Browse</th>
-                <th style="width:17%">Create / Modify</th>
-                <th style="width:15%">Approve (<code>dam:status</code>)</th>
-                <th style="width:32%">Bound Schema, Profiles &amp; OpenAPI State</th>
+                <th style="width:21%">Folder Branch</th>
+                <th style="width:18%">Can View &amp; Use</th>
+                <th style="width:18%">Can Upload &amp; Edit</th>
+                <th style="width:15%">Can Approve</th>
+                <th style="width:28%">Automatic Folder Rules</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td><code>/brand-foundation</code></td>
-                <td><code>dam-users</code><br><code>express-creators</code></td>
-                <td><code>brand-stewards</code></td>
-                <td><em>Auto via Profile</em><br>(<code>brand-stewards</code>)</td>
-                <td><strong>Brand Schema</strong> &middot; Bulk-Approval Profile (<code>Target = Delivery</code>) &middot; <span class="pill solid">OpenAPI: Live</span></td>
+                <td>All DAM &amp; Express Users</td>
+                <td>Brand Managers</td>
+                <td><em>Auto-Approved</em><br>(Brand Managers)</td>
+                <td>Auto-approves on upload &middot; Read-only kit in Express &middot; <span class="pill solid">Live</span></td>
               </tr>
               <tr>
                 <td><code>/products</code></td>
-                <td><code>dam-users</code><br><code>express-creators</code></td>
-                <td><code>product-authors</code></td>
-                <td><code>product-approvers</code></td>
-                <td><strong>Product Schema</strong> (SKU, Line, Launch) &middot; PDP Smart Crops (<code>1:1</code>, <code>4:5</code>) &middot; <span class="pill solid">On Approval</span></td>
+                <td>All DAM &amp; Express Users</td>
+                <td>Product Marketing</td>
+                <td>Product Leads</td>
+                <td>Product metadata form (SKU, Line) &middot; <code>1:1</code> &amp; <code>4:5</code> Smart Crops &middot; <span class="pill solid">On Approval</span></td>
               </tr>
               <tr>
                 <td><code>/campaigns</code><br><small><code>&rarr; master-toolkit/</code></small></td>
-                <td><code>dam-users</code><br><code>express-creators</code></td>
-                <td><code>creative-producers</code></td>
-                <td><code>mktg-approvers</code></td>
-                <td><strong>Campaign Profile</strong> (Campaign + Year) &middot; Hero Crops (<code>16:9</code>, <code>9:16</code>) + Video &middot; <span class="pill solid">On Approval</span></td>
+                <td>All DAM &amp; Express Users</td>
+                <td>Creative Studio</td>
+                <td>Marketing Leads</td>
+                <td>Auto-tags Campaign &amp; Year &middot; <code>16:9</code> &amp; <code>9:16</code> Hero Crops &middot; <span class="pill solid">On Approval</span></td>
               </tr>
               <tr>
                 <td><code>/campaigns</code><br><small><code>&rarr; express-adaptations/</code></small></td>
-                <td><code>dam-users</code><br><code>express-creators</code></td>
-                <td><code>express-creators</code><br><code>creative-producers</code></td>
-                <td><code>mktg-approvers</code></td>
-                <td>Stamps <code>Source = Express</code> (unapproved default) &middot; <span class="pill">Withheld Until Approved</span></td>
+                <td>All DAM &amp; Express Users</td>
+                <td>Express Marketers &amp; Studio</td>
+                <td>Marketing Leads</td>
+                <td>Auto-tags <code>Source = Express</code> &middot; Lands unapproved &middot; <span class="pill">Needs Review</span></td>
               </tr>
               <tr>
                 <td><code>/shared-media</code></td>
-                <td><code>dam-users</code><br><code>express-creators</code></td>
-                <td><code>dam-librarians</code></td>
-                <td><code>dam-librarians</code></td>
-                <td><strong>DRM Schema</strong> (Expiration Date, <code>On/Off Time</code>, IMS Group Role) &middot; <span class="pill solid">Edge-Governed</span></td>
+                <td>All DAM &amp; Express Users</td>
+                <td>DAM Librarians</td>
+                <td>DAM Librarians</td>
+                <td>Requires Usage Rights &amp; Expiration Date (optional scheduled On/Off dates) &middot; <span class="pill solid">Tracked</span></td>
               </tr>
               <tr>
                 <td><code>/wip-studio</code></td>
-                <td><code>creative-producers</code><br><code>agency-&lt;partner&gt;</code></td>
-                <td><code>creative-producers</code><br><code>agency-&lt;partner&gt;</code></td>
-                <td><span class="pill alert">Disabled</span></td>
-                <td>Draft Schema &middot; No Smart Crop Profile &middot; <span class="pill alert">Excluded from OpenAPI</span></td>
+                <td>Creative Studio &amp; Assigned Agency</td>
+                <td>Creative Studio &amp; Assigned Agency</td>
+                <td><span class="pill alert">Not Allowed</span></td>
+                <td>No crop overhead &middot; Hidden from general marketers, Express &amp; delivery</td>
               </tr>
               <tr>
                 <td><code>/archive</code></td>
-                <td><code>dam-administrators</code></td>
-                <td><code>dam-administrators</code></td>
-                <td><span class="pill alert">Cleared First</span></td>
-                <td>Historical metadata preserved &middot; <span class="pill alert">Excluded &amp; Hidden</span></td>
+                <td>DAM Admins Only</td>
+                <td>DAM Admins Only</td>
+                <td><span class="pill alert">Removed First</span></td>
+                <td>Historical metadata kept &middot; Hidden from everyday search &amp; Express</td>
               </tr>
             </tbody>
           </table>
@@ -1759,81 +1695,81 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
       </section>
 
       <!-- ==================================================================
-           SECTION 07 · ANTI-PATTERNS & PRE-FLIGHT SIGN-OFF
+           SECTION 07 · COMMON PITFALLS & PRE-LAUNCH CHECKLIST
            ================================================================== -->
       <section id="antipatterns">
-        <p class="sec-eyebrow">Anti-Patterns &amp; Checklist</p>
-        <h2>Five structural traps to refactor before migration</h2>
-        <p class="sec-intro">Validate your proposed taxonomy against these five anti-patterns before running bulk ingestion or CSV metadata imports.</p>
+        <p class="sec-eyebrow">Pitfalls &amp; Checklist</p>
+        <h2>Five folder traps to avoid &mdash; and your pre-launch checklist</h2>
+        <p class="sec-intro">Catching these five habits before migrating files saves months of manual cleanup later.</p>
 
         <div class="refactor-list">
           <div class="ref-item">
             <div class="ref-trap">
-              <span class="lbl">Trap 01 &middot; Org-Chart Paths</span>
-              <strong><code>/dept-mktg-squad-b/q2/</code></strong>
-              <p>Reorgs every 12&ndash;24 months force costly folder moves, ACL rewrites, and asset reprocessing.</p>
+              <span class="lbl">Trap 01 &middot; Naming Folders After Teams</span>
+              <strong><code>/marketing-dept-team-b/</code></strong>
+              <p>Teams reorganize every 1&ndash;2 years, turning team-named folders into outdated mazes.</p>
             </div>
             <div class="ref-arrow" aria-hidden="true">&rarr;</div>
             <div class="ref-fix">
-              <span class="lbl">Refactor</span>
-              <strong><code>/campaigns/2026/&lt;campaign-slug&gt;/</code></strong>
-              <p>Anchor Level 1 on enduring business domains (<code>/products</code>, <code>/campaigns</code>) that outlast team changes.</p>
+              <span class="lbl">Better Approach</span>
+              <strong><code>/products/</code> &middot; <code>/campaigns/2026/</code></strong>
+              <p>Organize around stable business topics (products, campaigns, brand) that survive reorgs.</p>
             </div>
           </div>
 
           <div class="ref-item">
             <div class="ref-trap">
-              <span class="lbl">Trap 02 &middot; MIME-Type Silos</span>
-              <strong><code>/images/...</code> &middot; <code>/videos/...</code> &middot; <code>/pdfs/...</code></strong>
-              <p>Splits one campaign across three trees and triples Metadata Profile maintenance.</p>
+              <span class="lbl">Trap 02 &middot; Top-Level File-Type Folders</span>
+              <strong><code>/images/</code> &middot; <code>/videos/</code> &middot; <code>/pdfs/</code></strong>
+              <p>Scatters one campaign across three separate trees and triples folder administration.</p>
             </div>
             <div class="ref-arrow" aria-hidden="true">&rarr;</div>
             <div class="ref-fix">
-              <span class="lbl">Refactor</span>
-              <strong><code>/campaigns/2026/&lt;slug&gt;/master-toolkit/</code></strong>
-              <p>Keep mixed campaign formats together; filter by <strong>File Type</strong> in Omnisearch and Content Advisor.</p>
+              <span class="lbl">Better Approach</span>
+              <strong>Keep campaign assets together</strong>
+              <p>Store all formats for a campaign in one branch and use Search&rsquo;s built-in <strong>File Type</strong> filter.</p>
             </div>
           </div>
 
           <div class="ref-item">
             <div class="ref-trap">
-              <span class="lbl">Trap 03 &middot; Per-Channel Copies</span>
+              <span class="lbl">Trap 03 &middot; Duplicating Files Per Channel</span>
               <strong><code>/web/hero.jpg</code> + <code>/social/hero.jpg</code></strong>
-              <p>Creates separate OpenAPI UIDs&mdash;version updates or rights expirations miss duplicate copies.</p>
+              <p>Wastes storage and creates a compliance risk when an expired image is updated in only one place.</p>
             </div>
             <div class="ref-arrow" aria-hidden="true">&rarr;</div>
             <div class="ref-fix">
-              <span class="lbl">Refactor</span>
-              <strong>One approved master + OpenAPI URL modifiers</strong>
-              <p>Serve channel sizes from one UID and curate cross-folder kits via <strong>Collections</strong>.</p>
+              <span class="lbl">Better Approach</span>
+              <strong>One approved master + Dynamic Media crops</strong>
+              <p>Deliver every channel size from one file and curate seasonal bundles with <strong>Collections</strong>.</p>
             </div>
           </div>
 
           <div class="ref-item">
             <div class="ref-trap">
-              <span class="lbl">Trap 04 &middot; Ad-Hoc Folder Sprawl</span>
+              <span class="lbl">Trap 04 &middot; Letting Everyone Create Top Folders</span>
               <strong><code>/Johns_Test/</code> &middot; <code>/New Folder (2)/</code></strong>
-              <p>Open root creation spawns thousands of folders missing approval schemas and Smart Crops.</p>
+              <p>Results in hundreds of ad-hoc folders with no default metadata, approval gates, or Smart Crops.</p>
             </div>
             <div class="ref-arrow" aria-hidden="true">&rarr;</div>
             <div class="ref-fix">
-              <span class="lbl">Refactor</span>
-              <strong>Lock Levels 1&ndash;2 to <code>dam-administrators</code></strong>
-              <p>Allow contributor subfolder creation only inside <code>/campaigns/&lt;YYYY&gt;/</code> and <code>/wip-studio/</code>.</p>
+              <span class="lbl">Better Approach</span>
+              <strong>Lock Levels 1&ndash;2 to DAM Admins</strong>
+              <p>Allow contributors to add subfolders only inside <code>/campaigns/2026/</code> and <code>/wip-studio/</code>.</p>
             </div>
           </div>
 
           <div class="ref-item">
             <div class="ref-trap">
-              <span class="lbl">Trap 05 &middot; Blanket Auto-Approval &amp; Crop Bloat</span>
-              <strong>12,000 legacy files dumped with 15+ Smart Crops</strong>
-              <p>Publishes unvetted files to OpenAPI endpoints and throttles ingestion queues.</p>
+              <span class="lbl">Trap 05 &middot; Dumping Legacy Drives As-Is</span>
+              <strong>12,000 old files in <code>/legacy-import/</code></strong>
+              <p>Slows folder browsing and exposes unreviewed or expired files if bulk-approved by mistake.</p>
             </div>
             <div class="ref-arrow" aria-hidden="true">&rarr;</div>
             <div class="ref-fix">
-              <span class="lbl">Refactor</span>
-              <strong>Partitioned staging + CSV metadata + ~5 crops</strong>
-              <p>Auto-approve only curated brand kits, enrich batch metadata via CSV, and scope lean Image Profiles.</p>
+              <span class="lbl">Better Approach</span>
+              <strong>Curate in batches (&le;1,000/folder) + CSV tags</strong>
+              <p>Migrate only active, rights-cleared assets into partitioned folders and apply metadata in bulk via CSV.</p>
             </div>
           </div>
         </div>
@@ -1841,8 +1777,8 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
         <div class="takeaway">
           <div class="takeaway-top">
             <div>
-              <p class="takeaway-label">Pre-Flight Sign-Off</p>
-              <h3>Six checks before bulk upload</h3>
+              <p class="takeaway-label">Pre-Launch Readiness</p>
+              <h3>Six sign-off checks before uploading assets</h3>
             </div>
             <span class="check-status" id="check-counter" aria-live="polite">0 of 6 verified</span>
           </div>
@@ -1850,37 +1786,37 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
             <li class="check-card">
               <label>
                 <input type="checkbox" class="pf-box">
-                <span><strong>Lock L1&ndash;L2 &amp; protect OpenAPI config:</strong> Root domains are admin-locked, and <code>/conf/global/settings/dam/assets-configurations/assetdelivery</code> is excluded from deployment packages.</span>
+                <span><strong>Top levels locked:</strong> Levels 1&ndash;2 reflect enduring business domains and only DAM Admins can add top-level folders.</span>
               </label>
             </li>
             <li class="check-card">
               <label>
                 <input type="checkbox" class="pf-box">
-                <span><strong>Verify leaf partitioning:</strong> Every leaf branch has a split key (year, product line, campaign) keeping direct child assets &le;1,000 on unordered <code>sling:Folder</code> nodes.</span>
+                <span><strong>Folders sized for growth:</strong> High-volume branches split by Year or Product Line (&le;1,000 files/folder) with <strong>Orderable</strong> left unchecked.</span>
               </label>
             </li>
             <li class="check-card">
               <label>
                 <input type="checkbox" class="pf-box">
-                <span><strong>Configure OpenAPI schema controls:</strong> Folder schemas expose <code>Review Status</code> (restricted to approvers), <code>Approval Target</code>, and <code>On/Off Time</code>.</span>
+                <span><strong>Metadata &amp; Smart Crops attached first:</strong> Default Metadata Profiles and lean Image Profiles (~5 crops) are applied <em>before</em> bulk upload.</span>
               </label>
             </li>
             <li class="check-card">
               <label>
                 <input type="checkbox" class="pf-box">
-                <span><strong>Bind Profiles prior to ingest:</strong> Default Metadata Profiles and targeted Smart Crop Image Profiles (~5 ratios) are attached <em>before</em> uploading binaries.</span>
+                <span><strong>Approval rights restricted:</strong> Only designated Approvers can mark assets <strong>Approved</strong> for Dynamic Media delivery.</span>
               </label>
             </li>
             <li class="check-card">
               <label>
                 <input type="checkbox" class="pf-box">
-                <span><strong>Validate Express + OpenAPI loop:</strong> Content Advisor points to <strong>Author</strong>, <code>express-adaptations/</code> is review-gated, and Content Hub Auto-approval is off.</span>
+                <span><strong>Adobe Express paths tested:</strong> Express points to the <strong>Author</strong> repo, master folders are read-only, and <code>express-adaptations/</code> requires review.</span>
               </label>
             </li>
             <li class="check-card">
               <label>
                 <input type="checkbox" class="pf-box">
-                <span><strong>Enforce move &amp; archive SOPs:</strong> Reprocess unapproved files moved into bulk-approved folders, and clear <code>Approved</code> status before archiving.</span>
+                <span><strong>Move &amp; archive rules agreed:</strong> Teams unapprove files before archiving, and reprocess unapproved files moved into auto-approved folders.</span>
               </label>
             </li>
           </ul>
@@ -1895,7 +1831,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
   <div class="foot-inner">
     <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe&nbsp;<span>Experience Manager Assets</span></div>
     <div class="foot-right">
-      <p class="fr-1">Customer Solutions &middot; Architecture &amp; Governance Reference</p>
+      <p class="fr-1">Customer Solutions &middot; DAM Folder Design Reference</p>
       <p class="fr-2">&copy; 2026 Adobe</p>
     </div>
   </div>
@@ -1993,7 +1929,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
     });
   });
 
-  /* Interactive Pre-Flight Sign-Off Counter */
+  /* Interactive Pre-Launch Sign-Off Counter */
   var boxes = Array.prototype.slice.call(document.querySelectorAll('.pf-box'));
   var counter = document.getElementById('check-counter');
   function syncChecks(){

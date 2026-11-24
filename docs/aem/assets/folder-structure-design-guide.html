@@ -189,45 +189,87 @@ code{
    SECTION 01: Visual Hub-and-Spoke Diagram + Folder vs. Search Split
    ========================================================================== */
 .hub-diagram{
-  background:linear-gradient(135deg,var(--charcoal) 0%,var(--charcoal-2) 100%);
-  color:var(--white); border-radius:var(--radius); padding:24px; margin:0 0 24px;
-  box-shadow:var(--shadow); border:1px solid var(--gray-800);
+  background:var(--bg-layer-1); border:1px solid var(--border);
+  border-radius:var(--radius); padding:22px 24px 24px; margin:0 0 24px;
+  box-shadow:var(--shadow);
+}
+.hub-topbar{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  gap:8px 14px; padding-bottom:14px; margin-bottom:16px; border-bottom:1px solid var(--border);
 }
 .hub-caption{
-  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.12em;
-  text-transform:uppercase; color:var(--coral-2); margin:0 0 16px;
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gray-600); margin:0;
 }
 .hub-grid{
-  display:grid; grid-template-columns:minmax(0,1fr) 46px minmax(230px,1.12fr) 46px minmax(0,1fr);
-  gap:10px; align-items:center;
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 58px minmax(236px,1.08fr) 58px minmax(0,1fr);
+  gap:0; align-items:stretch;
 }
-.hub-col{display:flex; flex-direction:column; gap:8px;}
+.hub-lane{display:flex; flex-direction:column;}
+.hub-lane-label{
+  font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--gray-600); margin:0 0 10px;
+  display:flex; align-items:flex-end; min-height:15px;
+}
+.hub-lane-label.center-lbl{justify-content:center; text-align:center; color:var(--adobe-red);}
+.hub-col{
+  display:grid; grid-template-rows:repeat(3,1fr); gap:10px; flex:1;
+}
 .hub-node{
-  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16);
-  border-radius:10px; padding:10px 13px; font-size:13px; color:var(--gray-200); line-height:1.4;
+  background:var(--bg-base); border:1px solid var(--border);
+  border-radius:11px; padding:11px 13px; box-shadow:var(--shadow-sm);
+  display:grid; grid-template-columns:28px minmax(0,1fr); gap:10px; align-items:center;
 }
-.hub-node strong{display:block; color:var(--white); font-size:13px; margin-bottom:2px;}
+.hn-ico{
+  width:28px; height:28px; border-radius:7px; background:var(--bg-layer-2);
+  border:1px solid var(--border); display:flex; align-items:center; justify-content:center;
+  color:var(--ink); flex:none;
+}
+.hn-txt strong{display:block; color:var(--ink); font-size:13.5px; font-weight:700; line-height:1.25; margin-bottom:2px;}
+.hn-txt span{display:block; color:var(--gray-600); font-size:12.3px; line-height:1.38;}
+
+/* SVG 3->1 and 1->3 Branching Connectors */
+.hub-conn{
+  display:flex; flex-direction:column; justify-content:flex-end; padding-top:25px;
+}
+.hub-conn svg{display:block; width:100%; height:100%; min-height:210px; overflow:visible;}
+.hub-conn-mobile{
+  display:none; align-items:center; justify-content:center; gap:7px;
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--gray-600); padding:10px 0;
+}
+.hub-conn-mobile i{color:var(--adobe-red); font-style:normal; font-size:14px;}
+
+/* Focal Dark Master Asset Card in Center */
 .hub-center{
-  background:rgba(255,255,255,.12); border:1.5px solid rgba(255,255,255,.34);
-  border-radius:14px; padding:18px 16px; text-align:center;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.22);
+  flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center;
+  background:linear-gradient(145deg,var(--charcoal) 0%,var(--charcoal-2) 100%);
+  border:1px solid var(--gray-800); border-radius:14px; padding:20px 18px; text-align:center;
+  box-shadow:var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.14); color:var(--white);
 }
 .hub-center .hc-badge{
-  display:inline-block; font-family:var(--mono); font-size:10.5px; font-weight:700;
-  letter-spacing:.08em; text-transform:uppercase; color:var(--coral-2); margin-bottom:6px;
+  display:inline-block; font-family:var(--mono); font-size:10px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; color:var(--coral-2); margin-bottom:6px;
 }
-.hub-center .hc-title{display:block; font-size:18px; font-weight:800; color:var(--white); margin-bottom:6px;}
-.hub-center .hc-path{
-  display:inline-block; font-family:var(--mono); font-size:11.2px; color:var(--white);
-  background:rgba(0,0,0,.38); border:1px solid rgba(255,255,255,.18);
-  padding:4px 9px; border-radius:6px; margin-bottom:8px; white-space:nowrap; max-width:100%; overflow-x:auto;
+.hub-center .hc-title{display:block; font-size:20px; font-weight:800; letter-spacing:-.015em; color:var(--white); margin-bottom:12px;}
+.hc-asset-card{
+  width:100%; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.18);
+  border-radius:10px; padding:10px 12px; margin-bottom:12px; text-align:left;
 }
-.hub-center .hc-sub{display:block; font-size:12px; color:var(--gray-300); line-height:1.4;}
-.hub-conn{
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  color:var(--coral-2); font-family:var(--mono); font-size:18px; font-weight:700;
+.hc-crumb{
+  display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:11px;
+  color:var(--gray-300); margin-bottom:5px;
 }
-.hub-conn span{font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--gray-300); margin-top:2px;}
+.hc-crumb svg{width:13px; height:13px; color:var(--coral-2); flex:none;}
+.hc-file{
+  display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:12px;
+  font-weight:700; color:var(--white); background:rgba(0,0,0,.34);
+  border:1px solid rgba(255,255,255,.14); border-radius:6px; padding:5px 8px;
+  overflow-wrap:anywhere;
+}
+.hc-file svg{width:13px; height:13px; color:var(--gray-300); flex:none;}
+.hub-center .hc-sub{display:block; font-size:12.2px; color:var(--gray-300); line-height:1.45; max-width:26ch;}
 
 .split-compare{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:20px;}
 .layer-panel{
@@ -760,7 +802,9 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
   .rail nav a{padding:8px 11px; font-size:13px; gap:8px;}
   .content{padding-top:36px;}
   .hub-grid{grid-template-columns:1fr;}
-  .hub-conn{flex-direction:row; gap:8px; padding:2px 0;}
+  .hub-conn{display:none;}
+  .hub-conn-mobile{display:flex;}
+  .hub-lane-label.center-lbl{justify-content:flex-start; text-align:left;}
   .physics-grid, .char-grid{grid-template-columns:1fr;}
   .guard-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
   .cmp-table{grid-template-columns:1fr;}
@@ -857,29 +901,92 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
         <p class="sec-intro">The most common mistake in a new DAM is recreating an 8-level shared drive where teams click through folders to hunt for files. In AEM Assets, folders are the <strong>foundation of the house</strong>&mdash;they automate who has access and what rules apply on upload&mdash;while Search, Filters, and Collections let users find assets in seconds.</p>
 
         <div class="hub-diagram" aria-label="Diagram showing one master asset folder feeding multiple search and delivery experiences">
-          <p class="hub-caption">How AEM Assets Works &middot; Store Once, Find &amp; Reuse Everywhere</p>
+          <div class="hub-topbar">
+            <p class="hub-caption">How AEM Assets Works &middot; Store Once, Find &amp; Reuse Everywhere</p>
+            <span class="pill solid">1 Home Folder &middot; 0 Duplicate Copies</span>
+          </div>
+
           <div class="hub-grid">
-            <div class="hub-col">
-              <div class="hub-node"><strong>Team Permissions</strong>Who can view, upload, or edit</div>
-              <div class="hub-node"><strong>Auto-Applied Metadata</strong>Default Brand, Campaign, or Market</div>
-              <div class="hub-node"><strong>Smart Crop Rules</strong>Automatic square, portrait, or banner crops</div>
+            <!-- Left Lane: Folder Rules -->
+            <div class="hub-lane">
+              <p class="hub-lane-label">1 &middot; Folder Rules</p>
+              <div class="hub-col">
+                <div class="hub-node">
+                  <span class="hn-ico" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                  <div class="hn-txt"><strong>Team Permissions</strong><span>Who can view, upload, or edit</span></div>
+                </div>
+                <div class="hub-node">
+                  <span class="hn-ico" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span>
+                  <div class="hn-txt"><strong>Auto-Applied Metadata</strong><span>Default Brand, Campaign, or Market</span></div>
+                </div>
+                <div class="hub-node">
+                  <span class="hn-ico" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6.13 1L6 16a2 2 0 0 0 2 2h15"/><path d="M1 6.13L16 6a2 2 0 0 1 2 2v15"/></svg></span>
+                  <div class="hn-txt"><strong>Smart Crop Rules</strong><span>Square, portrait &amp; banner ratios</span></div>
+                </div>
+              </div>
             </div>
 
-            <div class="hub-conn" aria-hidden="true">&rarr;<span>Applies</span></div>
+            <!-- Left Fan-In Connector (3 -> 1) -->
+            <div class="hub-conn" aria-hidden="true">
+              <svg viewBox="0 0 58 220" preserveAspectRatio="none">
+                <path d="M2 36 C28 36, 26 110, 50 110" fill="none" stroke="var(--gray-400)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+                <path d="M2 110 H50" fill="none" stroke="var(--gray-400)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+                <path d="M2 184 C28 184, 26 110, 50 110" fill="none" stroke="var(--gray-400)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+                <polygon points="55,110 47,105.5 47,114.5" fill="var(--adobe-red)"/>
+              </svg>
+            </div>
+            <div class="hub-conn-mobile" aria-hidden="true"><i>&darr;</i> Folder rules apply automatically</div>
 
-            <div class="hub-center">
-              <span class="hc-badge">Single Source of Truth</span>
-              <span class="hc-title">1 Master Asset</span>
-              <span class="hc-path">/products/cards/platinum-hero.tif</span>
-              <span class="hc-sub">Never duplicate the same file into separate Web, Social, or Email folders</span>
+            <!-- Center Focal Hub: Single Master Asset -->
+            <div class="hub-lane">
+              <p class="hub-lane-label center-lbl">2 &middot; Home Folder</p>
+              <div class="hub-center">
+                <span class="hc-badge">Single Source of Truth</span>
+                <span class="hc-title">1 Master Asset</span>
+                <div class="hc-asset-card">
+                  <span class="hc-crumb">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                    products / cards /
+                  </span>
+                  <span class="hc-file">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    platinum-hero.tif
+                  </span>
+                </div>
+                <span class="hc-sub">Never copy the same file into separate Web, Social, or Email folders</span>
+              </div>
             </div>
 
-            <div class="hub-conn" aria-hidden="true">&rarr;<span>Powers</span></div>
+            <!-- Right Fan-Out Connector (1 -> 3) -->
+            <div class="hub-conn" aria-hidden="true">
+              <svg viewBox="0 0 58 220" preserveAspectRatio="none">
+                <path d="M3 110 C28 110, 28 36, 50 36" fill="none" stroke="var(--gray-400)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+                <path d="M3 110 H50" fill="none" stroke="var(--gray-400)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+                <path d="M3 110 C28 110, 28 184, 50 184" fill="none" stroke="var(--gray-400)" stroke-width="1.6" vector-effect="non-scaling-stroke"/>
+                <polygon points="55,36 47,31.5 47,40.5" fill="var(--ink)"/>
+                <polygon points="55,110 47,105.5 47,114.5" fill="var(--ink)"/>
+                <polygon points="55,184 47,179.5 47,188.5" fill="var(--ink)"/>
+              </svg>
+            </div>
+            <div class="hub-conn-mobile" aria-hidden="true"><i>&darr;</i> Powers every surface &amp; channel</div>
 
-            <div class="hub-col">
-              <div class="hub-node"><strong>Search &amp; Collections</strong>Filter by tag or bundle virtual kits</div>
-              <div class="hub-node"><strong>Adobe Express</strong>Browse approved assets &amp; AI Search</div>
-              <div class="hub-node"><strong>Dynamic Media</strong>Deliver web-ready sizes from one master</div>
+            <!-- Right Lane: Virtual Discovery & Reuse -->
+            <div class="hub-lane">
+              <p class="hub-lane-label">3 &middot; Every Surface</p>
+              <div class="hub-col">
+                <div class="hub-node">
+                  <span class="hn-ico" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
+                  <div class="hn-txt"><strong>Search &amp; Collections</strong><span>Filter by tag or share virtual kits</span></div>
+                </div>
+                <div class="hub-node">
+                  <span class="hn-ico" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+                  <div class="hn-txt"><strong>Adobe Express</strong><span>Browse approved assets &amp; AI Search</span></div>
+                </div>
+                <div class="hub-node">
+                  <span class="hn-ico" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
+                  <div class="hn-txt"><strong>Dynamic Media</strong><span>Deliver web-ready sizes on demand</span></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

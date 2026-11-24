@@ -328,30 +328,77 @@ code{
    ========================================================================== */
 .bp-shell{
   background:var(--bg-layer-1); border:1px solid var(--border);
-  border-radius:var(--radius); padding:22px; box-shadow:var(--shadow);
+  border-radius:var(--radius); padding:20px 22px 22px; box-shadow:var(--shadow);
 }
 .bp-tabs-bar{
-  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
-  gap:12px; padding-bottom:16px; border-bottom:1px solid var(--border); margin-bottom:18px;
+  padding-bottom:16px; border-bottom:1px solid var(--border); margin-bottom:18px;
 }
-.bp-tabs{display:flex; flex-wrap:wrap; gap:8px;}
-.bp-tab{
-  appearance:none; border:1px solid var(--border); background:var(--bg-base);
-  color:var(--gray-700); font-family:var(--font); font-size:13.5px; font-weight:700;
-  padding:9px 14px; border-radius:var(--radius-sm); cursor:pointer;
-  transition:background .15s, color .15s, border-color .15s, box-shadow .15s;
+.bp-toolbar{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  margin-bottom:10px;
 }
-.bp-tab:hover{background:var(--gray-100); color:var(--ink); border-color:var(--border-strong);}
-.bp-tab[aria-selected="true"]{
-  background:var(--s2-blue-tint); color:var(--s2-blue-down);
-  border-color:var(--s2-blue); box-shadow:var(--shadow-sm);
+.bp-bar-label{
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gray-600);
 }
 .bp-toggle-all{
-  appearance:none; border:none; background:transparent; color:var(--s2-blue-down);
-  font-family:var(--font); font-size:13px; font-weight:600; cursor:pointer; padding:6px 10px;
-  border-radius:6px;
+  appearance:none; border:1px solid var(--border-strong); background:var(--bg-base);
+  color:var(--gray-700); font-family:var(--font); font-size:12px; font-weight:600;
+  cursor:pointer; padding:5px 12px; border-radius:var(--radius-pill);
+  display:inline-flex; align-items:center; gap:6px; white-space:nowrap;
+  transition:background .15s, color .15s, border-color .15s, box-shadow .15s;
 }
-.bp-toggle-all:hover{background:var(--s2-blue-tint-faint); text-decoration:underline;}
+.bp-toggle-all:hover{background:var(--gray-100); color:var(--ink); border-color:var(--gray-500);}
+.bp-toggle-all[aria-pressed="true"]{
+  background:var(--s2-blue-tint); color:var(--s2-blue-down); border-color:var(--s2-blue);
+}
+
+.bp-tabs{
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px;
+  background:var(--bg-layer-2); border:1px solid var(--border);
+  padding:5px; border-radius:12px;
+}
+.bp-tab{
+  appearance:none; border:1.5px solid transparent; background:transparent;
+  color:var(--gray-700); font-family:var(--font); text-align:left;
+  padding:10px 13px; border-radius:9px; cursor:pointer;
+  display:flex; flex-direction:column; gap:3px; min-width:0;
+  transition:background .15s, color .15s, border-color .15s, box-shadow .15s;
+}
+.bp-tab:hover{background:rgba(255,255,255,.65); color:var(--ink);}
+.bp-tab .bt-top{
+  display:flex; align-items:center; justify-content:space-between; gap:6px; width:100%;
+}
+.bp-tab .bt-kicker{
+  font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; color:var(--gray-600);
+}
+.bp-tab .bt-badge{
+  font-family:var(--mono); font-size:9.5px; font-weight:700; letter-spacing:.04em;
+  text-transform:uppercase; padding:1px 6px; border-radius:var(--radius-pill);
+  background:var(--ink); color:var(--white); flex:none;
+}
+.bp-tab .bt-title{
+  font-size:14px; font-weight:800; color:var(--ink); letter-spacing:-.01em; line-height:1.25;
+}
+.bp-tab .bt-sub{
+  font-size:12px; font-weight:500; color:var(--gray-600); line-height:1.35;
+}
+.bp-tab[aria-selected="true"]{
+  background:var(--bg-base); border-color:var(--s2-blue);
+  box-shadow:var(--shadow-sm);
+}
+.bp-tab[aria-selected="true"] .bt-kicker,
+.bp-tab[aria-selected="true"] .bt-title{
+  color:var(--s2-blue-down);
+}
+.bp-shell.show-all .bp-tab[aria-selected="true"]{
+  border-color:var(--border-strong);
+}
+.bp-shell.show-all .bp-tab[aria-selected="true"] .bt-kicker,
+.bp-shell.show-all .bp-tab[aria-selected="true"] .bt-title{
+  color:var(--ink);
+}
 
 .bp-panel{display:none;}
 .bp-panel.is-open{display:block;}
@@ -729,12 +776,15 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
   .ref-item{grid-template-columns:1fr; gap:8px;}
   .ref-arrow{transform:rotate(90deg);}
   .d-step.l1 .d-bar, .d-step.l2 .d-bar, .d-step.l3 .d-bar, .d-step.leaf .d-bar, .d-step.over .d-bar{margin-left:0;}
+  .d-bar{flex-wrap:wrap; gap:4px 8px;}
+  .d-bar small{white-space:normal;}
   .vt-files{padding-left:0;}
   .hero{padding:42px 20px 50px;}
   .kicker{white-space:normal; line-height:1.4;}
   .bp-shell{padding:16px;}
 }
 @media(max-width:620px){
+  .bp-tabs{grid-template-columns:1fr;}
   .foot-inner{flex-direction:column; align-items:flex-start;}
   .foot-right{text-align:left;}
 }
@@ -989,12 +1039,27 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
 
         <div class="bp-shell" id="bp-explorer">
           <div class="bp-tabs-bar">
-            <div class="bp-tabs" role="tablist" aria-label="Sample folder structure blueprints">
-              <button type="button" class="bp-tab" role="tab" id="tab-hybrid" aria-controls="panel-hybrid" aria-selected="true">Sample A &middot; Enterprise Hybrid (Recommended)</button>
-              <button type="button" class="bp-tab" role="tab" id="tab-multibrand" aria-controls="panel-multibrand" aria-selected="false">Sample B &middot; Multi-Brand Group</button>
-              <button type="button" class="bp-tab" role="tab" id="tab-global" aria-controls="panel-global" aria-selected="false">Sample C &middot; Global-to-Local Campaign</button>
+            <div class="bp-toolbar">
+              <span class="bp-bar-label">Choose Organization Model</span>
+              <button type="button" class="bp-toggle-all" id="bp-toggle-btn" aria-pressed="false">Show all 3 models</button>
             </div>
-            <button type="button" class="bp-toggle-all" id="bp-toggle-btn" aria-pressed="false">Compare all 3 side-by-side</button>
+            <div class="bp-tabs" role="tablist" aria-label="Sample folder structure blueprints">
+              <button type="button" class="bp-tab" role="tab" id="tab-hybrid" aria-controls="panel-hybrid" aria-selected="true">
+                <span class="bt-top"><span class="bt-kicker">Sample A</span><span class="bt-badge">Default</span></span>
+                <span class="bt-title">Enterprise Hybrid</span>
+                <span class="bt-sub">Single or master brand</span>
+              </button>
+              <button type="button" class="bp-tab" role="tab" id="tab-multibrand" aria-controls="panel-multibrand" aria-selected="false">
+                <span class="bt-top"><span class="bt-kicker">Sample B</span></span>
+                <span class="bt-title">Multi-Brand Group</span>
+                <span class="bt-sub">Distinct brands in one DAM</span>
+              </button>
+              <button type="button" class="bp-tab" role="tab" id="tab-global" aria-controls="panel-global" aria-selected="false">
+                <span class="bt-top"><span class="bt-kicker">Sample C</span></span>
+                <span class="bt-title">Global-to-Local</span>
+                <span class="bt-sub">HQ toolkit + market hubs</span>
+              </button>
+            </div>
           </div>
 
           <!-- ==================== SAMPLE A: ENTERPRISE HYBRID ==================== -->
@@ -1889,7 +1954,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
       explorer.classList.remove('show-all');
       if(toggleBtn){
         toggleBtn.setAttribute('aria-pressed', 'false');
-        toggleBtn.textContent = 'Compare all 3 side-by-side';
+        toggleBtn.textContent = 'Show all 3 models';
       }
     }
     var targetId = tab.getAttribute('aria-controls');
@@ -1913,7 +1978,7 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
     toggleBtn.addEventListener('click', function(){
       var allOpen = explorer.classList.toggle('show-all');
       toggleBtn.setAttribute('aria-pressed', allOpen ? 'true' : 'false');
-      toggleBtn.textContent = allOpen ? 'Collapse to tabs' : 'Compare all 3 side-by-side';
+      toggleBtn.textContent = allOpen ? 'Back to single model' : 'Show all 3 models';
     });
   }
 

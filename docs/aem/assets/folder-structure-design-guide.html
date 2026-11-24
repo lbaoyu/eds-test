@@ -115,7 +115,7 @@ a:focus-visible, button:focus-visible, input:focus-visible{
   padding-bottom:.3em;
 }
 .hero .lead{margin:20px 0 0; font-size:clamp(17px,1.85vw,20px); color:var(--gray-300);
-  max-width:64ch; line-height:1.55;}
+  max-width:65ch; line-height:1.55;}
 .hero .lead strong{color:var(--white); font-weight:700;}
 
 .hero-chips{display:flex; flex-wrap:wrap; gap:10px; margin:28px 0 0; padding:0; list-style:none;}
@@ -254,7 +254,7 @@ code{
 .resp-body > span{display:block; font-size:13.8px; color:var(--gray-700); line-height:1.48; margin-top:2px;}
 
 /* ==========================================================================
-   SECTION 02: Structured 6-Rule Specification Ledger (replaces generic card wall)
+   SECTION 02: Structured 6-Rule Specification Ledger
    ========================================================================== */
 .spec-ledger{
   background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
@@ -336,7 +336,7 @@ code{
   background:var(--bg-layer-2); border-style:dashed; border-color:var(--border-strong);
 }
 .zone-label{
-  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:8px;
   font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase;
   letter-spacing:.08em; color:var(--gray-600); margin-bottom:10px;
 }
@@ -702,11 +702,11 @@ table.data tbody tr:hover td{background:var(--gray-75);}
     </div>
     <div class="hero-body">
       <h1>Design folders for <span class="hl">governance,</span> not browsing.</h1>
-      <p class="lead">A practical taxonomy blueprint for structuring <strong>AEM Assets</strong> repositories that scale permissions, metadata inheritance, <strong>Dynamic Media</strong> delivery, and <strong>Adobe Express</strong> self-service without creating content silos.</p>
+      <p class="lead">A practical taxonomy blueprint for structuring <strong>AEM Assets as a Cloud Service</strong> repositories that scale permissions, metadata inheritance, <strong>Dynamic Media with OpenAPI</strong> delivery, and <strong>Adobe Express</strong> self-service without creating content silos.</p>
       <ul class="hero-chips">
         <li><strong>3&ndash;5 levels max:</strong> shallow paths, binaries in leaf nodes</li>
         <li><strong>&le;1,000 assets/folder:</strong> unordered JCR folders for UI speed</li>
-        <li><strong>Express + Dynamic Media ready:</strong> clean sync, Smart Crop &amp; remix boundaries</li>
+        <li><strong>DM with OpenAPI + Express:</strong> approval-gated delivery, Smart Crops &amp; remix drop zones</li>
       </ul>
     </div>
   </div>
@@ -719,7 +719,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
     <a href="#guardrails">02 Guardrails</a>
     <a href="#blueprints">03 Folder Blueprints</a>
     <a href="#naming">04 Naming</a>
-    <a href="#express-dm">05 Express &amp; DM</a>
+    <a href="#express-dm">05 OpenAPI &amp; Express</a>
     <a href="#governance">06 Governance</a>
     <a href="#antipatterns">07 Anti-Patterns</a>
   </div>
@@ -733,7 +733,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
       <a href="#guardrails"><span class="num">02</span> Guardrails</a>
       <a href="#blueprints"><span class="num">03</span> Folder Blueprints</a>
       <a href="#naming"><span class="num">04</span> Naming Standards</a>
-      <a href="#express-dm"><span class="num">05</span> Express &amp; Dynamic Media</a>
+      <a href="#express-dm"><span class="num">05</span> DM OpenAPI &amp; Express</a>
       <a href="#governance"><span class="num">06</span> Governance Matrix</a>
       <a href="#antipatterns"><span class="num">07</span> Anti-Patterns &amp; Checklist</a>
     </nav>
@@ -751,10 +751,10 @@ table.data tbody tr:hover td{background:var(--gray-75);}
         <p class="sec-intro">The single biggest mistake in Digital Asset Management (DAM) implementations is rebuilding a shared network drive&mdash;nesting 9 levels of folders to anticipate every way someone might browse for a file. In AEM Assets, folder paths are permanent infrastructure whose primary job is <strong>inheritance and operational control</strong>.</p>
 
         <div class="oneliner">
-          <p>Treat your folder hierarchy as the <span class="em">structural foundation</span> of the house, and Omnisearch, AI Search, faceted metadata, and Collections as how teams move through it. <strong>Store every master asset in one canonical folder</strong> and surface it everywhere else dynamically.</p>
+          <p>Treat your folder hierarchy as the <span class="em">structural foundation</span> of the house, and Omnisearch, AI Search, faceted metadata, and Collections as how teams move through it. <strong>Store every master asset in one canonical folder</strong> and deliver it everywhere by reference via Dynamic Media with OpenAPI.</p>
           <div class="oneliner-stat">
             <span class="big">1 Asset : 1 Path</span>
-            <span class="cap">Zero duplicate files across channel or team folders</span>
+            <span class="cap">Delivered by reference via UID URLs&mdash;zero binary copies</span>
           </div>
         </div>
 
@@ -776,7 +776,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                 </span>
                 <div class="resp-body">
                   <strong>Access Control Lists (ACLs)</strong>
-                  <span>Group-based Read, Modify, Create, Delete, and Publish permissions inherited down the subtree.</span>
+                  <span>Group-based Read, Modify, Create, and Delete permissions inherited automatically down the subtree.</span>
                 </div>
               </li>
               <li class="resp-item">
@@ -785,7 +785,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                 </span>
                 <div class="resp-body">
                   <strong>Metadata Schemas &amp; Metadata Profiles</strong>
-                  <span>Which property form tabs display, plus auto-stamped defaults on upload (Brand, Campaign, Region).</span>
+                  <span>Which form tabs and approval controls appear, plus auto-stamped defaults on upload (Brand, Campaign, Region).</span>
                 </div>
               </li>
               <li class="resp-item">
@@ -793,17 +793,17 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
                 </span>
                 <div class="resp-body">
-                  <strong>Processing, Image &amp; Video Profiles</strong>
-                  <span>Folder-assigned renditions, Dynamic Media Smart Crop aspect ratios, and video encoding presets.</span>
+                  <strong>Processing &amp; Smart Crop Image Profiles</strong>
+                  <span>Folder-assigned processing and focal-point Smart Crop aspect ratios (while OpenAPI handles adaptive video encodes dynamically).</span>
                 </div>
               </li>
               <li class="resp-item">
                 <span class="resp-icon" aria-hidden="true">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
                 </span>
                 <div class="resp-body">
-                  <strong>Publication &amp; Dynamic Media Sync Scope</strong>
-                  <span>Controlling which subtrees sync to Dynamic Media CDN delivery versus staying author-only.</span>
+                  <strong>Approval-Gated OpenAPI Eligibility</strong>
+                  <span>Whether folders auto-approve uploads (<code>dam:status = approved</code>) for OpenAPI <code>Delivery</code> / <code>Content Hub</code> or require manual review.</span>
                 </div>
               </li>
               <li class="resp-item">
@@ -812,7 +812,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                 </span>
                 <div class="resp-body">
                   <strong>Lifecycle Stage Isolation</strong>
-                  <span>Cleanly separating studio Work-in-Progress (WIP) from approved production libraries and admin archives.</span>
+                  <span>Separating unapproved studio Work-in-Progress (WIP) from approved production libraries and admin archives.</span>
                 </div>
               </li>
             </ul>
@@ -827,7 +827,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
               </div>
               <span class="pill">Virtual Facets</span>
             </div>
-            <p class="layer-sub">Never split or duplicate folders for dimensions that AEM Assets natively indexes, filters, or groups virtually:</p>
+            <p class="layer-sub">Never split or duplicate folders for dimensions that AEM Assets natively indexes, filters, or transforms on demand:</p>
             <ul class="resp-list">
               <li class="resp-item">
                 <span class="resp-icon" aria-hidden="true">
@@ -835,7 +835,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                 </span>
                 <div class="resp-body">
                   <strong>File Type, Format &amp; Orientation</strong>
-                  <span>Omnisearch and Adobe Express Content Advisor include out-of-the-box MIME type, format, and size filters.</span>
+                  <span>Omnisearch and Adobe Express Content Advisor include out-of-the-box MIME type, format, and dimension filters.</span>
                 </div>
               </li>
               <li class="resp-item">
@@ -843,8 +843,8 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
                 </span>
                 <div class="resp-body">
-                  <strong>Multi-Channel Reuse</strong>
-                  <span>One master image serving web, email, and social stays in one folder&mdash;tag channels in metadata and deliver crops via Dynamic Media.</span>
+                  <strong>Multi-Channel Formats &amp; Sizes</strong>
+                  <span>One approved master serves web, mobile, email, and social via real-time OpenAPI URL modifiers (WebP, width, crop, quality).</span>
                 </div>
               </li>
               <li class="resp-item">
@@ -861,8 +861,8 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                 </span>
                 <div class="resp-body">
-                  <strong>Approval Status &amp; DRM Expiration</strong>
-                  <span>Track <code>Asset Status</code>, <code>Usage Rights</code>, and <code>Expiration Date</code> in metadata instead of moving files daily.</span>
+                  <strong>Time Windows, Expiry &amp; IMS Roles</strong>
+                  <span>Enforce <code>On Time</code>, <code>Off Time</code>, <code>Expiration Date</code>, and IMS role restrictions directly in metadata&mdash;OpenAPI enforces them at the CDN edge.</span>
                 </div>
               </li>
               <li class="resp-item">
@@ -885,7 +885,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
       <section id="guardrails">
         <p class="sec-eyebrow">Repository Guardrails</p>
         <h2>Six technical rules for scalable JCR hierarchies</h2>
-        <p class="sec-intro">Under the hood, AEM Assets stores folders and assets as nodes inside Apache Jackrabbit Oak (JCR). Designing within these six technical boundaries keeps the Author UI fast, simplifies permission audits, and prevents broken CDN links.</p>
+        <p class="sec-intro">Under the hood, AEM Assets stores folders and assets as nodes inside Apache Jackrabbit Oak (JCR). Designing within these six technical boundaries keeps the Author UI fast, simplifies permission audits, and protects live downstream delivery.</p>
 
         <div class="spec-ledger">
           <div class="spec-row">
@@ -896,7 +896,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
             <div class="spec-body">
               <h3>Keep folder hierarchies shallow under <code>/content/dam/&lt;org&gt;</code></h3>
               <p>Structure paths as <code>/org/domain/category/leaf</code>. Shallow hierarchies make upload destinations unmistakable for contributors and keep folder breadcrumbs readable inside Adobe Express.</p>
-              <p class="spec-why"><strong>Why it matters:</strong> Deep 8&ndash;10 level trees hide inherited ACL overrides and bloat delivery URLs.</p>
+              <p class="spec-why"><strong>Why it matters:</strong> Deep 8&ndash;10 level trees hide inherited ACL overrides and slow contributor navigation.</p>
             </div>
           </div>
 
@@ -907,8 +907,8 @@ table.data tbody tr:hover td{background:var(--gray-75);}
             </div>
             <div class="spec-body">
               <h3>Cap direct child assets per leaf folder at 1,000</h3>
-              <p>Partition growing branches predictably (by year, product line, or campaign) before any single folder exceeds 1,000 files. While AEM as a Cloud Service scales higher than AEM 6.5, keeping leaf counts under 1,000 preserves instant card/list rendering.</p>
-              <p class="spec-why"><strong>Why it matters:</strong> Multi-thousand-node folders slow UI scrolling, bulk metadata edits, and browser memory.</p>
+              <p>Partition growing branches predictably (by year, product line, or campaign) before any single folder exceeds 1,000 files. Keeping leaf counts under 1,000 preserves instant card/list rendering in both Assets View and Admin View.</p>
+              <p class="spec-why"><strong>Why it matters:</strong> Multi-thousand-node folders slow UI scrolling, bulk metadata edits, and folder reprocessing.</p>
             </div>
           </div>
 
@@ -938,13 +938,13 @@ table.data tbody tr:hover td{background:var(--gray-75);}
 
           <div class="spec-row">
             <div class="spec-metric">
-              <span class="spec-num">Rule <span>05</span> &middot; Moves</span>
-              <span class="spec-val">Unpublish First</span>
+              <span class="spec-num">Rule <span>05</span> &middot; Lifecycle</span>
+              <span class="spec-val">Deactivate First</span>
             </div>
             <div class="spec-body">
-              <h3>Unpublish folders or assets before moving, renaming, or archiving</h3>
-              <p>Treat JCR folder slugs as permanent system paths once live. Whenever restructuring or retiring content, unpublish the subtree from AEM Publish and Dynamic Media <em>before</em> moving it.</p>
-              <p class="spec-why"><strong>Why it matters:</strong> Moving published paths directly leaves orphaned, unreachable &ldquo;stranded assets&rdquo; live on Publish/CDN tiers.</p>
+              <h3>Revoke approval &amp; unpublish before moving or archiving folders</h3>
+              <p>Treat JCR folder slugs as permanent once live. Before moving or retiring a subtree, clear <code>Approved</code> status (which cuts off OpenAPI delivery within its 10-minute CDN TTL) and unpublish any AEM Publish replications. If moving unapproved files <em>into</em> a bulk-approved folder, run <strong>Reprocess</strong> so they inherit approval.</p>
+              <p class="spec-why"><strong>Why it matters:</strong> Moving active subtrees without lifecycle cleanup strands published paths or leaves moved assets unapproved.</p>
             </div>
           </div>
 
@@ -968,7 +968,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
       <section id="blueprints">
         <p class="sec-eyebrow">Reference Architectures</p>
         <h2>Three proven folder blueprints with real-world examples</h2>
-        <p class="sec-intro">High-performing AEM Assets deployments converge on three repeatable topologies. Switch tabs below to inspect exact JCR paths, group permissions, Metadata/Image Profiles, Dynamic Media sync rules, and Adobe Express drop zones.</p>
+        <p class="sec-intro">High-performing AEM Assets deployments converge on three repeatable topologies. Switch tabs below to inspect exact JCR paths, group permissions, Metadata/Smart Crop Profiles, <strong>Dynamic Media with OpenAPI</strong> approval gates, and <strong>Adobe Express</strong> drop zones.</p>
 
         <div class="bp-shell" id="bp-explorer">
           <div class="bp-tabs-bar">
@@ -984,31 +984,31 @@ table.data tbody tr:hover td{background:var(--gray-75);}
           <div class="bp-panel is-open" id="panel-hybrid" role="tabpanel" aria-labelledby="tab-hybrid">
             <div class="bp-header">
               <h3>Blueprint A: Enterprise Hybrid Architecture <span class="pill solid">Recommended Default</span></h3>
-              <p>Best for single-brand or master-brand enterprises running <strong>AEM Assets + Dynamic Media + Adobe Express</strong>. Notice how the 6 top-level branches cleanly divide into <strong>4 delivery-enabled branches</strong> (synced to Dynamic Media &amp; visible in Express) and <strong>2 restricted operational branches</strong> (WIP &amp; Archive, excluded from DM sync).</p>
+              <p>Best for single-brand or master-brand enterprises running <strong>AEM Assets + Dynamic Media with OpenAPI + Adobe Express</strong>. Notice how the 6 top-level branches cleanly divide into <strong>4 delivery-eligible branches</strong> (governed by <code>Approved</code> status for OpenAPI &amp; Express) and <strong>2 unapproved internal branches</strong> (WIP &amp; Archive, never exposed to OpenAPI endpoints).</p>
             </div>
 
             <!-- Visual 2-Zone At-a-Glance Map -->
             <div class="zone-map" aria-label="Level-1 branch overview">
               <div class="zone-group">
                 <div class="zone-label">
-                  <span>Production &amp; Express-Accessible Branches (4)</span>
-                  <span class="pill">DM Sync: Enabled</span>
+                  <span>OpenAPI &amp; Express-Eligible Branches (4)</span>
+                  <span class="pill">Target: Delivery / Content Hub</span>
                 </div>
                 <div class="zone-branches">
-                  <div class="zchip"><code>/brand-foundation</code><span>Logos, icons, guidelines (Read-only kit)</span></div>
-                  <div class="zchip"><code>/products</code><span>Evergreen SKU packshots &amp; PDP Smart Crops</span></div>
-                  <div class="zchip"><code>/campaigns</code><span>Masters + <code>express-adaptations/</code> drop zone</span></div>
-                  <div class="zchip"><code>/shared-media</code><span>Lifestyle, venues &amp; DRM-governed stock</span></div>
+                  <div class="zchip"><code>/brand-foundation</code><span>Auto-approved brand kit (Read-only in Express)</span></div>
+                  <div class="zchip"><code>/products</code><span>Approved SKU packshots &amp; PDP Smart Crops</span></div>
+                  <div class="zchip"><code>/campaigns</code><span>Approved masters + gated <code>express-adaptations/</code></span></div>
+                  <div class="zchip"><code>/shared-media</code><span>Lifestyle, venues &amp; expiry/IMS-governed stock</span></div>
                 </div>
               </div>
               <div class="zone-group restricted">
                 <div class="zone-label">
-                  <span>Restricted (2)</span>
-                  <span class="pill alert">DM Sync: Off</span>
+                  <span>Internal Branches (2)</span>
+                  <span class="pill alert">Not Approved &middot; No OpenAPI</span>
                 </div>
                 <div class="zone-branches">
                   <div class="zchip"><code>/wip-studio</code><span>Raw shoots &amp; agency drafts (Studio only)</span></div>
-                  <div class="zchip"><code>/archive</code><span>Unpublished retired assets (Admin only)</span></div>
+                  <div class="zchip"><code>/archive</code><span>Retired / expired vault (Admin only)</span></div>
                 </div>
               </div>
             </div>
@@ -1020,7 +1020,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                 <div class="exp-legend">
                   <span><strong>R:</strong> Read / Browse</span>
                   <span><strong>W:</strong> Upload / Edit</span>
-                  <span><strong>DM:</strong> Dynamic Media</span>
+                  <span><strong>OpenAPI:</strong> Requires <code>Status = Approved</code></span>
                 </div>
               </div>
 
@@ -1033,10 +1033,10 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   </div>
                 </div>
                 <div class="meta-cell">
-                  <p class="meta-desc">Single organization root. Intentionally named differently from the Dynamic Media Company alias to avoid Smart Crop link collisions.</p>
+                  <p class="meta-desc">Single tenant root. Default Metadata Schema exposes <code>Review Status</code> (<code>dam:status</code>) and <code>Approval Target</code> (<code>delivery</code> / <code>contenthub</code>) to authorized approvers.</p>
                   <div class="meta-pills">
                     <span class="pill">Structure: DAM Admins</span>
-                    <span class="pill">Base Corporate Schema</span>
+                    <span class="pill">Base Schema + Approval Controls</span>
                   </div>
                 </div>
               </div>
@@ -1050,11 +1050,11 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   </div>
                 </div>
                 <div class="meta-cell">
-                  <p class="meta-desc">Leaves: <code>logos/</code>, <code>icons-svg/</code>, <code>guidelines/</code>, <code>typography/</code>. Approved SVG/PNG/PDF identity elements consumed read-only in Adobe Express Content Advisor.</p>
+                  <p class="meta-desc">Leaves: <code>logos/</code>, <code>icons-svg/</code>, <code>guidelines/</code>, <code>typography/</code>. Bulk-approval Metadata Profile auto-sets <code>dam:status = approved</code> &amp; <code>Target = Delivery</code> on upload.</p>
                   <div class="meta-pills">
                     <span class="pill">R: All DAM + Express</span>
                     <span class="pill">W: brand-stewards</span>
-                    <span class="pill solid">DM Sync: On</span>
+                    <span class="pill solid">Auto-Approved &rarr; OpenAPI</span>
                   </div>
                 </div>
               </div>
@@ -1068,12 +1068,12 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   </div>
                 </div>
                 <div class="meta-cell">
-                  <p class="meta-desc">Leaves: <code>&lt;line&gt;/&lt;family&gt;/</code> (e.g., <code>cards/platinum/</code>, <code>loans/home/</code>). Master SKU packshots, 360 spins, and product sheets.</p>
+                  <p class="meta-desc">Leaves: <code>&lt;line&gt;/&lt;family&gt;/</code> (e.g., <code>cards/platinum/</code>, <code>loans/home/</code>). Master SKU packshots and product PDFs served by reference via OpenAPI UID URLs.</p>
                   <div class="meta-pills">
                     <span class="pill">R: All DAM + Express</span>
                     <span class="pill">W: product-mktg</span>
-                    <span class="pill">Product Schema + PDP Smart Crop (1:1, 4:5)</span>
-                    <span class="pill solid">DM Sync: On</span>
+                    <span class="pill">Product Schema + PDP Smart Crops (1:1, 4:5)</span>
+                    <span class="pill solid">Approved &rarr; OpenAPI</span>
                   </div>
                 </div>
               </div>
@@ -1090,7 +1090,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   <p class="meta-desc">Partitioned by <code>&lt;YYYY&gt;/&lt;campaign-slug&gt;/</code> to keep leaf volume under 1,000. Folder Metadata Profile auto-stamps <code>Campaign = Autumn Rewards 2026</code> on every child upload.</p>
                   <div class="meta-pills">
                     <span class="pill">Auto-Tag: Campaign + Year</span>
-                    <span class="pill">Splits Masters vs. Express Outputs below</span>
+                    <span class="pill">Splits Approved Masters vs. Express Drop Zone</span>
                   </div>
                 </div>
               </div>
@@ -1104,12 +1104,12 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   </div>
                 </div>
                 <div class="meta-cell">
-                  <p class="meta-desc">Final key visuals, high-res photography, and master MP4s. Express users pull lightweight ~2.5 MB Dynamic Media renditions from here without touching 300 MB TIFFs.</p>
+                  <p class="meta-desc">Approved key visuals and master MP4s (up to 50 GB / 2 hrs). Express users pull lightweight WebP/JPEG renditions from Content Advisor&rsquo;s <em>Dynamic Media &rarr; OpenAPI</em> tab.</p>
                   <div class="meta-pills">
                     <span class="pill">R: All DAM + Express</span>
                     <span class="pill">W: creative-producers</span>
-                    <span class="pill">Hero Crops (16:9, 9:16) + Video Profile</span>
-                    <span class="pill solid">DM Sync: On</span>
+                    <span class="pill">Hero Smart Crops (16:9, 9:16) + Dynamic Video</span>
+                    <span class="pill solid">Approved &rarr; OpenAPI</span>
                   </div>
                 </div>
               </div>
@@ -1123,12 +1123,11 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   </div>
                 </div>
                 <div class="meta-cell">
-                  <p class="meta-desc">Dedicated destination folder when marketers click <em>Share &rarr; AEM Assets</em> in Adobe Express. Isolates self-service social/banner exports from master assets.</p>
+                  <p class="meta-desc">Destination folder when marketers click <em>Share &rarr; AEM Assets</em> in Express. Uploads land unapproved&mdash;withheld from OpenAPI delivery until <code>mktg-approvers</code> set <code>Status = Approved</code>.</p>
                   <div class="meta-pills">
                     <span class="pill">R/W: mktg-express-creators</span>
-                    <span class="pill">Pub: mktg-approvers</span>
-                    <span class="pill">Stamps Source=Express, Status=In Review</span>
-                    <span class="pill">Publish: On Activation</span>
+                    <span class="pill">Approve: mktg-approvers</span>
+                    <span class="pill">Stamps Source=Express, Status=Changes Requested/Review</span>
                   </div>
                 </div>
               </div>
@@ -1142,12 +1141,12 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   </div>
                 </div>
                 <div class="meta-cell">
-                  <p class="meta-desc">Leaves: <code>lifestyle/</code>, <code>branches-venues/</code>, <code>executives/</code>, <code>licensed-stock/</code>. Reusable cross-campaign photography and B-roll.</p>
+                  <p class="meta-desc">Leaves: <code>lifestyle/</code>, <code>branches-venues/</code>, <code>executives/</code>, <code>licensed-stock/</code>. Supports scheduled <code>On/Off Time</code> and IMS role-restricted OpenAPI delivery.</p>
                   <div class="meta-pills">
                     <span class="pill">R: All DAM + Express</span>
                     <span class="pill">W: dam-librarians</span>
-                    <span class="pill">DRM Schema (Mandatory Expiration Date)</span>
-                    <span class="pill solid">DM Sync: On</span>
+                    <span class="pill">DRM Schema (Auto-halts OpenAPI on Expiry)</span>
+                    <span class="pill solid">Approved &rarr; OpenAPI</span>
                   </div>
                 </div>
               </div>
@@ -1161,10 +1160,10 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   </div>
                 </div>
                 <div class="meta-cell">
-                  <p class="meta-desc">Leaves: <code>internal/&lt;project&gt;/</code> and <code>agency-intake/&lt;vendor&gt;/</code>. Raw camera shoots, unapproved cuts, and layered INDD/PSD working files. Promoted to <code>master-toolkit/</code> upon approval.</p>
+                  <p class="meta-desc">Leaves: <code>internal/&lt;project&gt;/</code> and <code>agency-intake/&lt;vendor&gt;/</code>. Raw camera shoots and layered INDD/PSD files; no Smart Crop profile overhead and never approved in place.</p>
                   <div class="meta-pills">
                     <span class="pill">R/W: creative-producers &amp; scoped agency-&lt;x&gt;</span>
-                    <span class="pill alert">DM Sync: Disabled</span>
+                    <span class="pill alert">Unapproved &middot; Excluded from OpenAPI</span>
                     <span class="pill alert">Hidden from Express</span>
                   </div>
                 </div>
@@ -1179,11 +1178,11 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   </div>
                 </div>
                 <div class="meta-cell">
-                  <p class="meta-desc">Leaves: <code>2024/</code>, <code>2025/</code>. Unpublished, retired, or rights-expired assets moved via archival workflow for legal audit history without cluttering Omnisearch.</p>
+                  <p class="meta-desc">Leaves: <code>2024/</code>, <code>2025/</code>. Approval revoked prior to archival move; retained for compliance audit while invisible in Omnisearch, Express, and OpenAPI endpoints.</p>
                   <div class="meta-pills">
                     <span class="pill">R/W: dam-administrators only</span>
-                    <span class="pill alert">Unpublished Before Move</span>
-                    <span class="pill alert">DM Sync: Disabled</span>
+                    <span class="pill alert">Approval Cleared Before Move</span>
+                    <span class="pill alert">Excluded from OpenAPI</span>
                   </div>
                 </div>
               </div>
@@ -1194,7 +1193,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
           <div class="bp-panel" id="panel-multibrand" role="tabpanel" aria-labelledby="tab-multibrand">
             <div class="bp-header">
               <h3>Blueprint B: Multi-Brand / Holding Group Topology</h3>
-              <p>Use when a single AEM Assets environment hosts distinct commercial brands (e.g., banking subsidiaries, retail banners, or hospitality flags) needing separate user permissions, brand-specific Metadata Profiles, and separate Adobe Express Brand Kits.</p>
+              <p>Use when a single AEM Assets environment hosts distinct commercial brands (e.g., banking subsidiaries, retail banners, or hospitality flags) needing separate user permissions, brand-specific Metadata Profiles, IMS delivery restrictions, and separate Adobe Express Brand Kits.</p>
             </div>
 
             <div class="explorer">
@@ -1212,11 +1211,11 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   </div>
                 </div>
                 <div class="meta-cell">
-                  <p class="meta-desc">Leaves: <code>investor-relations/</code>, <code>enterprise-logos/</code>, <code>group-licensed-stock/</code>. Assets shared across every brand in the holding group.</p>
+                  <p class="meta-desc">Leaves: <code>investor-relations/</code>, <code>enterprise-logos/</code>, <code>group-licensed-stock/</code>. Shared across every brand in the group.</p>
                   <div class="meta-pills">
                     <span class="pill">R: All brand groups</span>
                     <span class="pill">W: corp-comms</span>
-                    <span class="pill solid">DM Sync: On</span>
+                    <span class="pill solid">Approved &rarr; OpenAPI</span>
                   </div>
                 </div>
               </div>
@@ -1264,10 +1263,10 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   </div>
                 </div>
                 <div class="meta-cell">
-                  <p class="meta-desc">Leaves: <code>brand-aurora/2025/</code>, <code>brand-solstice/2025/</code>. Single admin-governed archive keeps expired files out of all brand searches and Express panels.</p>
+                  <p class="meta-desc">Leaves: <code>brand-aurora/2025/</code>, <code>brand-solstice/2025/</code>. Approval cleared before move so retired files vanish from OpenAPI Search/Delivery and Express.</p>
                   <div class="meta-pills">
                     <span class="pill">R/W: dam-administrators only</span>
-                    <span class="pill alert">DM Sync: Disabled</span>
+                    <span class="pill alert">Excluded from OpenAPI</span>
                   </div>
                 </div>
               </div>
@@ -1278,7 +1277,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
           <div class="bp-panel" id="panel-global" role="tabpanel" aria-labelledby="tab-global">
             <div class="bp-header">
               <h3>Blueprint C: Global-to-Regional Localization Topology</h3>
-              <p>Built for multinational APAC/EMEA/Americas teams where global headquarters delivers master campaign toolkits and regional marketers localize copy, offers, and aspect ratios in Adobe Express&mdash;without creating regional silos at Level 1.</p>
+              <p>Built for multinational APAC/EMEA/Americas teams where global headquarters delivers approved master campaign toolkits and regional marketers localize copy, offers, and aspect ratios in Adobe Express&mdash;without creating regional silos at Level 1.</p>
             </div>
 
             <div class="explorer">
@@ -1313,11 +1312,11 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   </div>
                 </div>
                 <div class="meta-cell">
-                  <p class="meta-desc">Textless key visuals, clean video beds, and approved hero imagery. Regional marketers pull Dynamic Media Smart Crops from here into Express.</p>
+                  <p class="meta-desc">Approved textless key visuals and clean video beds. Regional marketers pull OpenAPI renditions &amp; Smart Crops directly into Express.</p>
                   <div class="meta-pills">
                     <span class="pill">R: All Regions</span>
                     <span class="pill">W: global-studio</span>
-                    <span class="pill solid">DM Sync: On</span>
+                    <span class="pill solid">Approved &rarr; OpenAPI</span>
                   </div>
                 </div>
               </div>
@@ -1331,7 +1330,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   </div>
                 </div>
                 <div class="meta-cell">
-                  <p class="meta-desc">Singapore Adobe Express adaptations, local regulatory footers, and SGD promotional lockups.</p>
+                  <p class="meta-desc">Singapore Adobe Express adaptations, local regulatory footers, and SGD promotional lockups; approved locally by SG marketing lead.</p>
                   <div class="meta-pills">
                     <span class="pill">R: All Regions</span>
                     <span class="pill">W: mktg-apac-sg</span>
@@ -1367,7 +1366,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                   </div>
                 </div>
                 <div class="meta-cell">
-                  <p class="meta-desc">UK market adaptations&mdash;viewable by peer markets for inspiration, editable only by UK marketing.</p>
+                  <p class="meta-desc">UK market adaptations&mdash;viewable by peer markets for inspiration, editable and approvable only by UK marketing.</p>
                   <div class="meta-pills">
                     <span class="pill">R: All Regions</span>
                     <span class="pill">W: mktg-emea-uk</span>
@@ -1385,8 +1384,8 @@ table.data tbody tr:hover td{background:var(--gray-75);}
            ================================================================== -->
       <section id="naming">
         <p class="sec-eyebrow">Naming Standards</p>
-        <h2>Decouple human titles from immutable JCR node slugs</h2>
-        <p class="sec-intro">Every AEM folder stores two separate values: a business-friendly <strong>Folder Title</strong> shown in cards and breadcrumbs, and a machine-safe <strong>Node Name</strong> used in JCR paths and delivery URLs. Keep titles readable while locking down strict slug and filename rules.</p>
+        <h2>Decouple human titles from immutable JCR &amp; SEO slugs</h2>
+        <p class="sec-intro">Every AEM folder stores two separate values: a business-friendly <strong>Folder Title</strong> shown in cards and breadcrumbs, and a machine-safe <strong>Node Name</strong> used in JCR paths. Meanwhile, <strong>Dynamic Media with OpenAPI</strong> delivers assets via obfuscated UIDs paired with an SEO slug (<code>/adobe/assets/urn:aaid:aem:&lt;UUID&gt;/as/{seoName}.{format}</code>)&mdash;making clean, descriptive filenames directly valuable for SEO and search clarity.</p>
 
         <!-- Dual Identifier Visual Anatomy -->
         <div class="anatomy-box">
@@ -1395,7 +1394,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
             <div class="anat-sample">Autumn Rewards &mdash; APAC (2026)</div>
             <ul>
               <li><strong>Human-friendly:</strong> Title case, spaces, and readable labels for business authors and Express users.</li>
-              <li><strong>Safe to refine:</strong> Updating <code>jcr:title</code> later does <em>not</em> change the underlying repository path or break published links.</li>
+              <li><strong>Safe to refine:</strong> Updating <code>jcr:title</code> later does <em>not</em> change the underlying JCR path or OpenAPI asset UID.</li>
               <li><strong>Consistent grammar:</strong> Choose plural nouns for containers (<em>Campaigns</em>, <em>Products</em>, <em>Logos</em>) and omit redundant words like &ldquo;Folder&rdquo;.</li>
             </ul>
           </div>
@@ -1404,7 +1403,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
             <div class="anat-sample mono">autumn-rewards-apac-2026</div>
             <ul>
               <li><strong>Strict slug syntax:</strong> Lowercase ASCII letters, digits, and hyphens only (spaces in folder titles auto-convert to <code>-</code> on creation).</li>
-              <li><strong>Treat as immutable:</strong> Never rename live node slugs without unpublishing first.</li>
+              <li><strong>Treat as immutable:</strong> Keep node slugs stable so saved references and author bookmarks never break.</li>
               <li><strong>Sortable ISO prefixes:</strong> Use <code>YYYY</code> or <code>YYYY-MM</code> (<code>2026-09</code>) and ISO locale codes (<code>en-sg</code>, <code>zh-hk</code>) for chronological sorting.</li>
             </ul>
           </div>
@@ -1413,14 +1412,14 @@ table.data tbody tr:hover td{background:var(--gray-75);}
         <div class="char-strip" role="note" aria-label="Disallowed characters in AEM Assets">
           <strong>Disallowed AEM Assets filename characters:</strong>
           <span class="bad-chars">* / : [ \ ] | # % { } ? &amp;</span>
-          <span>Also avoid spaces, accents, and punctuation (<code>! @ $ ^ + = ~ ,</code>) to prevent URL percent-encoding bugs across CDNs.</span>
+          <span>Also avoid spaces, accents, and punctuation (<code>! @ $ ^ + = ~ ,</code>) to keep OpenAPI <code>{seoName}</code> URLs clean without percent-encoding.</span>
         </div>
 
         <!-- Filename Formula Builder -->
         <div class="formula-card">
           <div class="formula-head">
-            <p class="formula-label">Recommended Asset Filename Formula</p>
-            <span class="pill">Target 50&ndash;75 chars &middot; Critical info in first 100 chars (Dynamic Media)</span>
+            <p class="formula-label">Recommended Asset Filename &amp; OpenAPI SEO Slug Formula</p>
+            <span class="pill">Target 50&ndash;75 chars &middot; Powers OpenAPI /as/{seoName}.webp</span>
           </div>
           <div class="formula-tokens">
             <span class="ftok">[brand]<small>meridian</small></span>
@@ -1437,7 +1436,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
           </div>
           <div class="formula-example">
             <span><strong>Compiled result (56 chars):</strong> <code>meridian-autumn26-platinum-card-couple-hero-16x9-en-sg.jpg</code></span>
-            <span>Upload revisions as a new <strong>AEM Version</strong> of the same file&mdash;never <code>_FINAL_v2_REAL.jpg</code>.</span>
+            <span>Upload revisions as a new <strong>AEM Version</strong>&mdash;when approved, OpenAPI updates the existing delivery URL in <strong>&lt;10 minutes</strong>.</span>
           </div>
         </div>
 
@@ -1460,18 +1459,18 @@ table.data tbody tr:hover td{background:var(--gray-75);}
           </div>
 
           <div class="cmp-card">
-            <p class="cmp-topic">Scenario 2 &middot; Hero Assets Across Two Separate Campaigns (Dynamic Media Trap)</p>
+            <p class="cmp-topic">Scenario 2 &middot; OpenAPI SEO Slugs &amp; Omnisearch Disambiguation</p>
             <div class="cmp-grid">
               <div class="cmp-side">
                 <span class="cmp-badge">Recommended</span><br>
                 <code>meridian-lny26-family-dinner-hero.jpg</code><br>
                 <code>meridian-midautumn26-family-hero.jpg</code>
-                <small>Globally unique across the entire repository; each asset gets a deterministic Dynamic Media URL.</small>
+                <small>Produces SEO-friendly <code>/as/meridian-lny26-family-dinner-hero.webp</code> delivery URLs and unmistakable search cards in Express.</small>
               </div>
               <div class="cmp-side bad">
                 <span class="cmp-badge">Avoid</span><br>
                 <code>/lny/hero-banner.jpg</code> &amp; <code>/midautumn/hero-banner.jpg</code>
-                <small>Dynamic Media flattens folder paths into a global Asset ID&mdash;duplicate names overwrite each other or spawn <code>hero-banner-1</code> URLs.</small>
+                <small>Even though OpenAPI UIDs prevent binary overwrites, 40 identical <code>hero-banner.jpg</code> cards confuse Express users and waste SEO value.</small>
               </div>
             </div>
           </div>
@@ -1488,7 +1487,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
               <div class="cmp-side bad">
                 <span class="cmp-badge">Avoid</span><br>
                 <code>/brand-foundation/logos/Untitled Design (3).png</code>
-                <small>Default Express canvas title saved directly into a master brand folder with spaces and parentheses.</small>
+                <small>Default Express canvas title saved directly into an auto-approved master brand folder with spaces and parentheses.</small>
               </div>
             </div>
           </div>
@@ -1496,16 +1495,16 @@ table.data tbody tr:hover td{background:var(--gray-75);}
       </section>
 
       <!-- ==================================================================
-           SECTION 05 · ADOBE EXPRESS & DYNAMIC MEDIA INTEGRATION
+           SECTION 05 · DYNAMIC MEDIA WITH OPENAPI & ADOBE EXPRESS
            ================================================================== -->
       <section id="express-dm">
         <p class="sec-eyebrow">Stack Integration</p>
-        <h2>How Dynamic Media and Adobe Express shape your folder tree</h2>
-        <p class="sec-intro">Because your environment combines <strong>AEM Assets</strong>, <strong>Dynamic Media</strong>, and <strong>Adobe Express</strong>, folder boundaries directly govern CDN sync costs, Smart Crop automation, 80 MB file-size bridging, and self-service brand safety.</p>
+        <h2>How Dynamic Media with OpenAPI and Adobe Express shape your folders</h2>
+        <p class="sec-intro">Unlike legacy Scene7 Dynamic Media, <strong>Dynamic Media with OpenAPI</strong> is cloud-native, UID-addressed, and strictly <strong>approval-gated</strong>. Pairing it with <strong>Adobe Express</strong> turns your folder tree into an automated governance pipeline&mdash;controlling what becomes deliverable, which Smart Crops generate, and where self-service remixes land.</p>
 
         <!-- End-to-End Visual Architecture Swimlane -->
-        <div class="arch-diagram" aria-label="Asset flow across AEM Assets, Dynamic Media, and Adobe Express">
-          <p class="arch-caption">End-to-End Folder &amp; Rendition Flow</p>
+        <div class="arch-diagram" aria-label="Asset flow across AEM Assets, Dynamic Media with OpenAPI, and Adobe Express">
+          <p class="arch-caption">End-to-End Folder, Approval &amp; OpenAPI Rendition Flow</p>
           <div class="arch-lanes">
             <div class="arch-stage muted-stage">
               <div>
@@ -1515,43 +1514,43 @@ table.data tbody tr:hover td{background:var(--gray-75);}
               </div>
               <div class="arch-foot">
                 <code>/wip-studio/...</code>
-                <span class="pill alert">DM Sync: Disabled</span>
+                <span class="pill alert">Unapproved &middot; Not in OpenAPI</span>
               </div>
             </div>
 
             <div class="arch-stage">
               <div>
                 <p class="arch-step"><span>02</span> &middot; Master DAM</p>
-                <h4>Approve &amp; Process</h4>
-                <p>Approved masters move to canonical product or campaign folders, inheriting Metadata &amp; Smart Crop Profiles.</p>
+                <h4>Approve for Delivery</h4>
+                <p>Masters land in domain folders, inherit Smart Crop profiles, and get marked <code>Status = Approved</code> (<code>Target = Delivery</code>).</p>
               </div>
               <div class="arch-foot">
                 <code>.../master-toolkit/</code>
-                <span class="pill solid">DM Sync: Enabled</span>
+                <span class="pill solid">Live on OpenAPI (&lt;10m TTL)</span>
               </div>
             </div>
 
             <div class="arch-stage">
               <div>
                 <p class="arch-step"><span>03</span> &middot; Adobe Express</p>
-                <h4>Discover &amp; Remix</h4>
-                <p>Content Advisor connects to <strong>Author</strong> repo; marketers pull ~2.5 MB DM renditions onto Express canvases.</p>
+                <h4>Pull OpenAPI Renditions</h4>
+                <p>Content Advisor (<strong>Author</strong> repo &rarr; <em>Dynamic Media &rarr; OpenAPI</em>) places web-optimized renditions onto Express canvases.</p>
               </div>
               <div class="arch-foot">
-                <code>Content Advisor &rarr; DM Tab</code>
+                <code>Content Advisor &rarr; OpenAPI</code>
                 <span class="pill">Bridges 80 MB Cap</span>
               </div>
             </div>
 
             <div class="arch-stage">
               <div>
-                <p class="arch-step"><span>04</span> &middot; Save &amp; Deliver</p>
-                <h4>Governed Output</h4>
-                <p>Express exports save to <code>express-adaptations/</code> (stamped <em>In Review</em>), publish on approval, and retire to <code>/archive</code>.</p>
+                <p class="arch-step"><span>04</span> &middot; Save &amp; Govern</p>
+                <h4>Review Before Live</h4>
+                <p>Express exports save to <code>express-adaptations/</code> unapproved; once approved, OpenAPI serves them; expired assets auto-cutoff.</p>
               </div>
               <div class="arch-foot">
                 <code>.../express-adaptations/</code>
-                <span class="pill">Publish: On Activation</span>
+                <span class="pill">Gated by Review Status</span>
               </div>
             </div>
           </div>
@@ -1561,36 +1560,36 @@ table.data tbody tr:hover td{background:var(--gray-75);}
         <div class="stack-cols">
           <div class="stack-card">
             <div class="stack-card-head">
-              <span class="ey">Dynamic Media</span>
-              <h3>4 folder rules for clean CDN delivery</h3>
+              <span class="ey">Dynamic Media with OpenAPI</span>
+              <h3>4 folder rules for cloud-native delivery</h3>
             </div>
             <ol class="rule-stack">
               <li>
                 <span class="r-idx">1</span>
                 <div class="r-text">
-                  <strong>Enforce globally unique filenames across all folders</strong>
-                  <span>Dynamic Media (Scene7) uses a flat global Asset ID rather than the JCR folder path. Two files named <code>banner.jpg</code> in separate folders overwrite one another or generate <code>-1</code> / <code>-2</code> URL suffixes.</span>
+                  <strong>Use folders to separate Auto-Approved vs. Review-Gated assets</strong>
+                  <span>OpenAPI exposes <strong>only the approved, latest version</strong> (<code>dam:status = approved</code>, <code>dam:activationTarget = delivery</code>). Bind a bulk-approval Metadata Profile on trusted evergreen folders (<code>/brand-foundation</code>), while keeping <code>/wip-studio</code> and <code>express-adaptations/</code> unapproved by default. <em>Note: moving unapproved files into a bulk-approved folder requires running <strong>Reprocess</strong> or bulk metadata edit.</em></span>
                 </div>
               </li>
               <li>
                 <span class="r-idx">2</span>
                 <div class="r-text">
-                  <strong>Never match a Level-1 folder name to the DM Company name</strong>
-                  <span>Keep root <code>/content/dam/&lt;folder&gt;</code> slugs distinct from your Dynamic Media Company alias, and assign a dedicated DM Company per AEM environment (Dev/Stage/Prod) to prevent shared Smart Crop link collisions.</span>
+                  <strong>Lock approval rights inside folder Metadata Schemas</strong>
+                  <span>Permission to change <code>Review Status</code> is controlled on the <strong>Review Status field</strong> inside the Metadata Schema applied to a folder&mdash;not by generic write access. Restrict field edit rights to Brand/Marketing Approvers.</span>
                 </div>
               </li>
               <li>
                 <span class="r-idx">3</span>
                 <div class="r-text">
-                  <strong>Scope <code>Dynamic Media sync mode</code> per folder branch</strong>
-                  <span>Uncheck global <em>Sync all content</em> so you can set <strong>Enable for subfolders</strong> on master libraries and <strong>Disabled for subfolders</strong> on <code>/wip-studio</code> and <code>/archive</code>.</span>
+                  <strong>Apply Smart Crop Image Profiles selectively (~5 ratios max)</strong>
+                  <span>Bind Image Profiles only to folders needing focal-point crops&mdash;e.g., <code>/products</code> (<code>1:1</code>, <code>4:5</code>) vs. <code>/campaigns/.../master-toolkit</code> (<code>16:9</code>, <code>9:16</code>)&mdash;as &gt;5&ndash;10 ratios slow ingestion. OpenAPI generates adaptive HLS/DASH video encodes dynamically (up to 50 GB / 2 hrs) with zero Video Profile setup.</span>
                 </div>
               </li>
               <li>
                 <span class="r-idx">4</span>
                 <div class="r-text">
-                  <strong>Group folders by Smart Crop &amp; Selective Publish needs</strong>
-                  <span>Image and Video Profiles attach at the folder level: separate <code>/products</code> (<code>1:1</code>, <code>4:5</code> PDP crops) from <code>/campaigns</code> (<code>16:9</code>, <code>9:16</code> hero crops), and use <strong>On Activation</strong> or <strong>Selective Publish</strong> so drafts are not live on public URLs prematurely.</span>
+                  <strong>Expose <code>On/Off Time</code>, Expiry &amp; IMS role fields per branch</strong>
+                  <span>OpenAPI supports restricted delivery (IMS Bearer tokens / <code>delivery-token</code> cookies), scheduled <code>On/Off Time</code>, and automatic cutoff when assets hit <code>Expired</code>&mdash;all propagating across the CDN in <strong>under 10 minutes</strong>.</span>
                 </div>
               </li>
             </ol>
@@ -1606,28 +1605,28 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                 <span class="r-idx">1</span>
                 <div class="r-text">
                   <strong>Always select the AEM Author repository in Content Advisor</strong>
-                  <span>Selecting the <strong>Author</strong> repository in Adobe Express preserves your folder tree, Collections, Saved Searches, AI Search, and brief upload. A <em>Delivery</em> repository flattens all assets to root and disables Content Advisor.</span>
+                  <span>Selecting the <strong>Author</strong> repository in Adobe Express preserves your folder hierarchy, Collections, Saved Searches, AI Search, and brief upload. A <em>Delivery</em> repository flattens all assets to root and hides Content Advisor.</span>
                 </div>
               </li>
               <li>
                 <span class="r-idx">2</span>
                 <div class="r-text">
-                  <strong>Use DM-enabled folders to bridge Express&rsquo;s 80 MB import cap</strong>
-                  <span>Adobe Express web caps direct raster uploads at 80 MB (40 MB mobile). Enabling Dynamic Media on master folders lets users drag a crisp ~2.5 MB DM rendition of a 300 MB master TIFF straight from the asset&rsquo;s <em>Dynamic Media</em> tab.</span>
+                  <strong>Bridge Express&rsquo;s 80 MB cap via Approved OpenAPI renditions</strong>
+                  <span>Express web caps direct raster imports at 80 MB (40 MB mobile). Once masters in <code>/products</code> or <code>master-toolkit/</code> are marked <strong>Approved</strong>, Express users can open the <em>Dynamic Media &rarr; OpenAPI</em> tab, preview real-time modifiers, and place a ~2.5 MB rendition of a 300 MB TIFF.</span>
                 </div>
               </li>
               <li>
                 <span class="r-idx">3</span>
                 <div class="r-text">
                   <strong>Carve out dedicated <code>express-adaptations/</code> write folders</strong>
-                  <span>Keep <code>/brand-foundation</code> and <code>/products</code> read-only for marketers and open write access on campaign output folders. Exporting <em>All Pages</em> of a multi-page canvas as PNG/JPEG auto-creates a child folder inside that destination.</span>
+                  <span>Keep <code>/brand-foundation</code> and <code>/products</code> read-only for marketers and grant write access on campaign output folders. Exporting <em>All Pages</em> of a multi-page canvas as PNG/JPEG auto-creates a child folder inside that destination.</span>
                 </div>
               </li>
               <li>
                 <span class="r-idx">4</span>
                 <div class="r-text">
                   <strong>Disable Content Hub Auto-approval for Embedded Express</strong>
-                  <span>When saving to Content Hub (where mandatory <em>Project/Campaign Name</em> metadata routes files into hydrated folders), disable <strong>Auto-approval</strong> and stamp <code>Status = Under Review</code> via Metadata Profile so unvetted drafts do not publish automatically.</span>
+                  <span>If also saving to Content Hub (where mandatory <em>Project/Campaign Name</em> metadata routes files into hydrated folders), disable <strong>Auto-approval</strong> so unreviewed Express exports are not auto-approved and exposed downstream within minutes.</span>
                 </div>
               </li>
             </ol>
@@ -1640,21 +1639,21 @@ table.data tbody tr:hover td{background:var(--gray-75);}
            ================================================================== -->
       <section id="governance">
         <p class="sec-eyebrow">Governance Matrix</p>
-        <h2>Bind permissions and metadata profiles high in the tree</h2>
-        <p class="sec-intro">Configure security and automation once at Level 1 or Level 2 and let inheritance carry them downward. Follow three operational rules to keep access clean and auditable:</p>
+        <h2>Bind permissions, schemas, and approval targets high in the tree</h2>
+        <p class="sec-intro">Configure security and automation once at Level 1 or Level 2 and let inheritance carry them downward. Follow three operational rules across every environment:</p>
 
         <div class="gov-strip">
           <div class="gov-mini">
             <strong>1. Groups, never individuals</strong>
-            <p>Assign every ACL to role-based groups (<code>express-creators</code>, <code>brand-stewards</code>) so onboarding or offboarding never requires folder edits.</p>
+            <p>Assign every folder ACL and IMS delivery restriction to role-based groups (<code>express-creators</code>, <code>brand-stewards</code>) for effortless auditing.</p>
           </div>
           <div class="gov-mini">
             <strong>2. Allow-centric inheritance</strong>
-            <p>Start restrictive and grant explicit <code>Allow</code> privileges top-down; avoid deep subfolder <code>Deny</code> rules that become brittle to debug.</p>
+            <p>Start restrictive and grant explicit <code>Allow</code> privileges top-down; avoid deep subfolder <code>Deny</code> overrides that become brittle to debug.</p>
           </div>
           <div class="gov-mini">
-            <strong>3. Metadata-Driven Permissions</strong>
-            <p>In AEMaaCS, layer attribute policies (e.g., <code>Status = Approved</code>) when visibility must vary inside the same folder branch.</p>
+            <strong>3. Schema-gated approval</strong>
+            <p>Combine AEMaaCS <strong>Metadata-Driven Permissions</strong> with schema-locked <code>Review Status</code> edit rights so only approvers expose assets to OpenAPI.</p>
           </div>
         </div>
 
@@ -1663,10 +1662,10 @@ table.data tbody tr:hover td{background:var(--gray-75);}
             <thead>
               <tr>
                 <th style="width:20%">Folder Branch</th>
-                <th style="width:17%">Read / Browse</th>
-                <th style="width:18%">Create / Modify</th>
-                <th style="width:14%">Publish Rights</th>
-                <th style="width:31%">Inherited Schema, Profiles &amp; Sync</th>
+                <th style="width:16%">Read / Browse</th>
+                <th style="width:17%">Create / Modify</th>
+                <th style="width:15%">Approve (<code>dam:status</code>)</th>
+                <th style="width:32%">Inherited Schema, Profiles &amp; OpenAPI State</th>
               </tr>
             </thead>
             <tbody>
@@ -1674,50 +1673,50 @@ table.data tbody tr:hover td{background:var(--gray-75);}
                 <td><code>/brand-foundation</code></td>
                 <td><code>dam-users</code><br><code>express-creators</code></td>
                 <td><code>brand-stewards</code></td>
-                <td><code>brand-stewards</code></td>
-                <td><strong>Brand Schema</strong> &middot; Stamps <code>Usage = Approved Brand Kit</code> &middot; <span class="pill solid">DM Sync: On</span></td>
+                <td><em>Auto via Profile</em><br>(<code>brand-stewards</code>)</td>
+                <td><strong>Brand Schema</strong> &middot; Bulk-Approval Metadata Profile (<code>Target = Delivery</code>) &middot; <span class="pill solid">OpenAPI: Live</span></td>
               </tr>
               <tr>
                 <td><code>/products</code></td>
                 <td><code>dam-users</code><br><code>express-creators</code></td>
                 <td><code>product-authors</code></td>
                 <td><code>product-approvers</code></td>
-                <td><strong>Product Schema</strong> (SKU, Line, Launch Date) &middot; PDP Smart Crop Profile &middot; <span class="pill solid">DM Sync: On</span></td>
+                <td><strong>Product Schema</strong> (SKU, Line, Launch Date) &middot; PDP Smart Crop Profile (~5 ratios) &middot; <span class="pill solid">OpenAPI: On Approval</span></td>
               </tr>
               <tr>
                 <td><code>/campaigns</code><br><small><code>&rarr; master-toolkit/</code></small></td>
                 <td><code>dam-users</code><br><code>express-creators</code></td>
                 <td><code>creative-producers</code></td>
                 <td><code>mktg-approvers</code></td>
-                <td><strong>Campaign Profile</strong> (auto-stamps Campaign &amp; Year) &middot; Hero Image/Video Profiles &middot; <span class="pill solid">DM Sync: On</span></td>
+                <td><strong>Campaign Profile</strong> (stamps Campaign &amp; Year) &middot; Hero Crops + Dynamic Video &middot; <span class="pill solid">OpenAPI: On Approval</span></td>
               </tr>
               <tr>
                 <td><code>/campaigns</code><br><small><code>&rarr; express-adaptations/</code></small></td>
                 <td><code>dam-users</code><br><code>express-creators</code></td>
                 <td><code>express-creators</code><br><code>creative-producers</code></td>
                 <td><code>mktg-approvers</code></td>
-                <td>Stamps <code>Source = Adobe Express</code>, <code>Status = Under Review</code> &middot; <span class="pill">On-Activation Publish</span></td>
+                <td>Stamps <code>Source = Adobe Express</code> (unapproved default) &middot; <span class="pill">Withheld Until Approved</span></td>
               </tr>
               <tr>
                 <td><code>/shared-media</code></td>
                 <td><code>dam-users</code><br><code>express-creators</code></td>
                 <td><code>dam-librarians</code></td>
                 <td><code>dam-librarians</code></td>
-                <td><strong>DRM Schema</strong> (mandatory Expiration Date, Territory, Talent Rights) &middot; <span class="pill solid">DM Sync: On</span></td>
+                <td><strong>DRM Schema</strong> (Expiration Date, <code>On/Off Time</code>, optional IMS Group Role) &middot; <span class="pill solid">OpenAPI: Governed</span></td>
               </tr>
               <tr>
                 <td><code>/wip-studio</code></td>
                 <td><code>creative-producers</code><br><code>agency-&lt;partner&gt;</code></td>
                 <td><code>creative-producers</code><br><code>agency-&lt;partner&gt;</code></td>
-                <td><span class="pill alert">Blocked</span></td>
-                <td>Lightweight Draft Schema &middot; <span class="pill alert">DM Sync: Disabled</span> (no CDN or Express exposure)</td>
+                <td><span class="pill alert">Disabled</span></td>
+                <td>Lightweight Draft Schema &middot; No Smart Crop Profile &middot; <span class="pill alert">Not Exposed in OpenAPI</span></td>
               </tr>
               <tr>
                 <td><code>/archive</code></td>
                 <td><code>dam-administrators</code></td>
                 <td><code>dam-administrators</code></td>
-                <td><span class="pill alert">Unpublished First</span></td>
-                <td>Historical metadata retained &middot; <span class="pill alert">DM Sync: Disabled</span> &middot; Hidden from Omnisearch</td>
+                <td><span class="pill alert">Cleared First</span></td>
+                <td>Historical metadata retained &middot; <span class="pill alert">Not Exposed in OpenAPI</span> &middot; Hidden from Omnisearch</td>
               </tr>
             </tbody>
           </table>
@@ -1737,7 +1736,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
             <div class="ref-trap">
               <span class="lbl">Trap 01 &middot; Org-Chart Folders</span>
               <strong>Mirroring internal team names (<code>/mktg-squad-b/</code>)</strong>
-              <p>Teams reorganize every 12&ndash;24 months; renaming published JCR paths breaks live links or strands CDN assets.</p>
+              <p>Teams reorganize every 12&ndash;24 months; constantly moving folders forces ACL rewrites and reprocessing overhead.</p>
             </div>
             <div class="ref-arrow" aria-hidden="true">&rarr;</div>
             <div class="ref-fix">
@@ -1765,13 +1764,13 @@ table.data tbody tr:hover td{background:var(--gray-75);}
             <div class="ref-trap">
               <span class="lbl">Trap 03 &middot; Channel Duplication</span>
               <strong>Copying files per channel (<code>/web/hero.jpg</code>, <code>/social/hero.jpg</code>)</strong>
-              <p>Triples storage, splits version history, triggers Dynamic Media ID collisions, and leaves expired copies live.</p>
+              <p>Triples storage, fractures version history, and creates multiple OpenAPI UIDs so updates or expirations miss copies.</p>
             </div>
             <div class="ref-arrow" aria-hidden="true">&rarr;</div>
             <div class="ref-fix">
               <span class="lbl">Best-Practice Refactor</span>
-              <strong>Store one master; deliver crops via Dynamic Media</strong>
-              <p>Keep one canonical file, serve channel ratios via <strong>Smart Crop / Image Presets</strong>, and bundle kits with <strong>Collections</strong>.</p>
+              <strong>Store one approved master; transform via OpenAPI</strong>
+              <p>Deliver channel sizes on demand via <strong>OpenAPI modifiers &amp; Smart Crops</strong> (updates propagate everywhere in &lt;10 mins).</p>
             </div>
           </div>
 
@@ -1779,7 +1778,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
             <div class="ref-trap">
               <span class="lbl">Trap 04 &middot; Open Folder Sprawl</span>
               <strong>Letting all contributors create root or Level-2 folders</strong>
-              <p>Spawns thousands of ungoverned folders (<code>/Johns_Test</code>, <code>/New Folder 2</code>) missing Metadata and Image Profiles.</p>
+              <p>Spawns thousands of ungoverned folders (<code>/Johns_Test</code>, <code>/New Folder 2</code>) missing approval schemas and Smart Crops.</p>
             </div>
             <div class="ref-arrow" aria-hidden="true">&rarr;</div>
             <div class="ref-fix">
@@ -1791,15 +1790,15 @@ table.data tbody tr:hover td{background:var(--gray-75);}
 
           <div class="ref-item">
             <div class="ref-trap">
-              <span class="lbl">Trap 05 &middot; Unpartitioned Dumps</span>
-              <strong>Bulk-uploading 12,000 legacy files into <code>/legacy-import</code></strong>
-              <p>Breaches the 1,000-asset ceiling, slows UI listings, and syncs unvetted files into Dynamic Media and Express.</p>
+              <span class="lbl">Trap 05 &middot; Blanket Auto-Approval</span>
+              <strong>Applying bulk-approval or 15+ Smart Crops to every folder</strong>
+              <p>Exposes unvetted migration dumps on public OpenAPI endpoints and throttles ingestion with unnecessary crop processing.</p>
             </div>
             <div class="ref-arrow" aria-hidden="true">&rarr;</div>
             <div class="ref-fix">
               <span class="lbl">Best-Practice Refactor</span>
-              <strong>Stage in batches + enrich via CSV bulk metadata</strong>
-              <p>Partition folders first, apply required metadata via CSV import, and promote only active, rights-cleared assets.</p>
+              <strong>Scope bulk-approval &amp; lean (~5 ratio) Image Profiles</strong>
+              <p>Auto-approve only curated brand folders, gate campaign/Express outputs behind review, and attach targeted Smart Crop profiles.</p>
             </div>
           </div>
         </div>
@@ -1817,7 +1816,7 @@ table.data tbody tr:hover td{background:var(--gray-75);}
             <li class="check-card">
               <label>
                 <input type="checkbox" class="pf-box">
-                <span><strong>Lock Levels 1&ndash;2:</strong> Top-level branches map to enduring domains and do not match the Dynamic Media Company name.</span>
+                <span><strong>Lock Levels 1&ndash;2 &amp; protect config:</strong> Top-level domains are admin-locked, and <code>/conf/global/settings/dam/assets-configurations/assetdelivery</code> is excluded from code packages.</span>
               </label>
             </li>
             <li class="check-card">
@@ -1829,25 +1828,25 @@ table.data tbody tr:hover td{background:var(--gray-75);}
             <li class="check-card">
               <label>
                 <input type="checkbox" class="pf-box">
-                <span><strong>Bind profiles before upload:</strong> Metadata Schemas, Metadata Profiles, and DM Image/Video Profiles are attached <em>prior</em> to ingest.</span>
+                <span><strong>Configure OpenAPI schema fields:</strong> Folder Metadata Schemas expose <code>Review Status</code>, <code>Approval Target</code> (<code>delivery</code>/<code>contenthub</code>), and <code>On/Off Time</code> to approvers.</span>
               </label>
             </li>
             <li class="check-card">
               <label>
                 <input type="checkbox" class="pf-box">
-                <span><strong>Scope Dynamic Media sync:</strong> DM sync is disabled on <code>/wip-studio</code> and <code>/archive</code>; globally unique naming is enforced.</span>
+                <span><strong>Bind lean Smart Crop &amp; Metadata Profiles:</strong> Targeted Image Profiles (~5 ratios) and default Metadata Profiles are attached <em>before</em> ingesting files.</span>
               </label>
             </li>
             <li class="check-card">
               <label>
                 <input type="checkbox" class="pf-box">
-                <span><strong>Validate Adobe Express paths:</strong> Content Advisor points to the <strong>Author</strong> repo; <code>express-adaptations/</code> write access is tested.</span>
+                <span><strong>Validate Adobe Express + OpenAPI flow:</strong> Content Advisor points to <strong>Author</strong>, Approved assets appear under <em>Dynamic Media &rarr; OpenAPI</em>, and <code>express-adaptations/</code> is review-gated.</span>
               </label>
             </li>
             <li class="check-card">
               <label>
                 <input type="checkbox" class="pf-box">
-                <span><strong>Document ACL &amp; archival SOPs:</strong> Role-based User Groups are mapped and unpublish-before-move workflows are in place.</span>
+                <span><strong>Document move &amp; archival SOPs:</strong> Teams know to reprocess unapproved files moved into bulk-approved folders, and clear <code>Approved</code> status before archiving.</span>
               </label>
             </li>
           </ul>

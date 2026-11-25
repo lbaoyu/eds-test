@@ -615,23 +615,56 @@ details.vt-folder[open] > summary .caret{transform:rotate(90deg); color:var(--s2
   font-size:13.3px; color:var(--gray-700);
 }
 
-/* Compact 3-Column Do vs Avoid Grid */
-.cmp-table{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px;}
-.cmp-col{
-  background:var(--bg-base); border:1px solid var(--border); border-radius:12px;
-  padding:15px; box-shadow:var(--shadow-sm); display:flex; flex-direction:column; gap:10px;
+/* Compact 3-Column Do vs Avoid Grid — Subgrid-aligned across all 3 cards */
+.cmp-table{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-template-rows:auto auto auto 1fr auto auto 1fr;
+  column-gap:14px;
 }
-.cmp-title{font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; color:var(--gray-600); margin:0;}
-.cmp-box{background:var(--bg-layer-1); border:1px solid var(--border); border-radius:8px; padding:10px 12px; flex:1;}
-.cmp-box.avoid{background:var(--adobe-red-tint); border-color:var(--coral-2);}
+.cmp-col{
+  grid-row:1 / -1;
+  display:grid;
+  grid-template-rows:subgrid;
+  background:var(--bg-base); border:1px solid var(--border); border-radius:14px;
+  padding:14px; box-shadow:var(--shadow-sm);
+}
+.cmp-title{
+  font-family:var(--mono); font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.07em; color:var(--gray-600); margin:0 0 12px;
+}
+.cmp-box{
+  grid-row:2 / 5;
+  display:grid;
+  grid-template-rows:subgrid;
+  background:var(--bg-layer-1); border:1px solid var(--border); border-radius:10px;
+  padding:12px; margin-bottom:10px;
+}
+.cmp-box.avoid{
+  grid-row:5 / 8;
+  background:var(--adobe-red-tint); border-color:var(--coral-2);
+  margin-bottom:0;
+}
 .cmp-tag{
+  justify-self:start; align-self:start;
   display:inline-block; font-family:var(--mono); font-size:10px; font-weight:700;
-  text-transform:uppercase; padding:2px 6px; border-radius:4px;
-  background:var(--ink); color:var(--white); margin-bottom:5px;
+  letter-spacing:.05em; text-transform:uppercase; padding:2px 7px; border-radius:4px;
+  background:var(--ink); color:var(--white); margin-bottom:8px;
 }
 .cmp-box.avoid .cmp-tag{background:var(--adobe-red-dark);}
-.cmp-box > code{background:var(--bg-base); display:block; margin:3px 0; font-size:11.5px; font-weight:600;}
-.cmp-box small{display:block; font-size:12px; color:var(--gray-700); margin-top:4px; line-height:1.42;}
+.cmp-box > code{
+  display:flex; flex-direction:column; justify-content:center; gap:1px;
+  background:var(--bg-base); border:1px solid var(--border); border-radius:6px;
+  padding:7px 9px; margin:0 0 8px; font-size:10.8px; letter-spacing:-.01em;
+  font-weight:700; line-height:1.38; overflow-wrap:anywhere;
+}
+.cmp-box.avoid > code{border-color:rgba(183,16,0,.18);}
+.cmp-code-dir{
+  display:block; font-weight:500; font-size:10.3px; letter-spacing:0; color:var(--gray-600);
+}
+.cmp-box small{
+  display:block; font-size:12.3px; color:var(--gray-700); margin:0; line-height:1.45;
+}
 .cmp-box.avoid small{color:var(--gray-800);}
 
 /* ==========================================================================
@@ -767,7 +800,9 @@ table.data .rule-line{display:block; margin-bottom:6px;}
   .hub-lane-label.center-lbl{justify-content:flex-start; text-align:left;}
   .physics-grid, .char-grid{grid-template-columns:1fr;}
   .guard-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
-  .cmp-table{grid-template-columns:1fr;}
+  .cmp-table{grid-template-columns:1fr; grid-template-rows:none; row-gap:12px;}
+  .cmp-col{grid-row:auto; display:flex; flex-direction:column;}
+  .cmp-box, .cmp-box.avoid{grid-row:auto; display:flex; flex-direction:column;}
   .pipe-track, .cascade-steps{grid-template-columns:repeat(2,minmax(0,1fr));}
   .bridge-strip{grid-template-columns:1fr; gap:8px;}
   .b-arr{display:none;}
@@ -1598,18 +1633,42 @@ table.data .rule-line{display:block; margin-bottom:6px;}
         <div class="cmp-table">
           <div class="cmp-col">
             <p class="cmp-title">1 &middot; Campaign Folder</p>
-            <div class="cmp-box"><span class="cmp-tag">Do</span><code>/campaigns/2026/lunar-new-year</code><small>Year parent + clean hyphenated folder name.</small></div>
-            <div class="cmp-box avoid"><span class="cmp-tag">Avoid</span><code>/Campaigns Folder/Q1.2026_LNY!/</code><small>Redundant &ldquo;Folder&rdquo;, blocked dot (<code>.</code>) in folder name, and underscores.</small></div>
+            <div class="cmp-box">
+              <span class="cmp-tag">Do</span>
+              <code><span class="cmp-code-dir">/campaigns/2026/</span>lunar-new-year</code>
+              <small>Year parent + clean hyphenated folder name.</small>
+            </div>
+            <div class="cmp-box avoid">
+              <span class="cmp-tag">Avoid</span>
+              <code><span class="cmp-code-dir">/Campaigns Folder/</span>Q1.2026_LNY!/</code>
+              <small>Redundant &ldquo;Folder&rdquo;, blocked dot (.) in folder name, and underscores.</small>
+            </div>
           </div>
           <div class="cmp-col">
             <p class="cmp-title">2 &middot; Search &amp; Web Link Clarity</p>
-            <div class="cmp-box"><span class="cmp-tag">Do</span><code>meridian-lny26-family-hero.jpg</code><small>Creates SEO-friendly web links and clear cards in Express search.</small></div>
-            <div class="cmp-box avoid"><span class="cmp-tag">Avoid</span><code>hero-banner.jpg</code> (in 40 folders)<small>40 identical filenames make search results impossible to tell apart.</small></div>
+            <div class="cmp-box">
+              <span class="cmp-tag">Do</span>
+              <code><span class="cmp-code-dir">.../master-toolkit/</span>meridian-lny26-family-hero.jpg</code>
+              <small>Creates SEO-friendly web links and clear cards in Express search.</small>
+            </div>
+            <div class="cmp-box avoid">
+              <span class="cmp-tag">Avoid</span>
+              <code><span class="cmp-code-dir">Repeated in 40 folders:</span>hero-banner.jpg</code>
+              <small>40 identical filenames make search results impossible to tell apart.</small>
+            </div>
           </div>
           <div class="cmp-col">
             <p class="cmp-title">3 &middot; Adobe Express Exports</p>
-            <div class="cmp-box"><span class="cmp-tag">Do</span><code>.../express-adaptations/</code><code>meridian-lny26-story-9x16-sg.png</code><small>Saved into the Express output folder with campaign, ratio, and market.</small></div>
-            <div class="cmp-box avoid"><span class="cmp-tag">Avoid</span><code>/brand-foundation/Untitled (3).png</code><small>Default Express title saved into an auto-approved brand folder.</small></div>
+            <div class="cmp-box">
+              <span class="cmp-tag">Do</span>
+              <code><span class="cmp-code-dir">.../express-adaptations/</span>meridian-lny26-story-9x16-sg.png</code>
+              <small>Saved into the Express output folder with campaign, ratio, and market.</small>
+            </div>
+            <div class="cmp-box avoid">
+              <span class="cmp-tag">Avoid</span>
+              <code><span class="cmp-code-dir">/brand-foundation/</span>Untitled (3).png</code>
+              <small>Default Express title saved into an auto-approved brand folder.</small>
+            </div>
           </div>
         </div>
       </section>

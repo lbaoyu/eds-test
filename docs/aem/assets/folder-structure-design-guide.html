@@ -722,6 +722,7 @@ table.data tbody tr:last-child td{border-bottom:none;}
 table.data tbody tr{transition:background .15s;}
 table.data tbody tr:hover td{background:var(--gray-75);}
 table.data tbody td code{font-size:11.5px; white-space:nowrap;}
+table.data .rule-line{display:block; margin-bottom:6px;}
 
 /* ==========================================================================
    SECTION 07: Common Pitfalls
@@ -1763,11 +1764,11 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
           <table class="data">
             <thead>
               <tr>
-                <th style="width:21%">Folder Branch</th>
-                <th style="width:18%">Can View &amp; Use</th>
-                <th style="width:18%">Can Upload &amp; Edit</th>
+                <th style="width:20%">Folder Branch</th>
+                <th style="width:17%">Can View &amp; Use</th>
+                <th style="width:17%">Can Upload &amp; Edit</th>
                 <th style="width:15%">Can Approve</th>
-                <th style="width:28%">Automatic Folder Rules</th>
+                <th style="width:31%">Folder Rules &amp; Dynamic Media Delivery</th>
               </tr>
             </thead>
             <tbody>
@@ -1776,49 +1777,70 @@ table.data tbody td code{font-size:11.5px; white-space:nowrap;}
                 <td>All DAM &amp; Express Users</td>
                 <td>Brand Managers</td>
                 <td><em>Auto-Approved</em><br>(Brand Managers)</td>
-                <td>Auto-approves on upload &middot; Read-only kit in Express &middot; <span class="pill solid">Live</span></td>
+                <td>
+                  <span class="rule-line">Auto-approves on upload &middot; Read-only kit in Express</span>
+                  <span class="pill solid">DM Delivery: Live Immediately on Upload</span>
+                </td>
               </tr>
               <tr>
                 <td><code>/products</code></td>
                 <td>All DAM &amp; Express Users</td>
                 <td>Product Marketing</td>
                 <td>Product Leads</td>
-                <td>Product metadata form (SKU, Line) &middot; <code>1:1</code> &amp; <code>4:5</code> Smart Crops &middot; <span class="pill solid">On Approval</span></td>
+                <td>
+                  <span class="rule-line">Product metadata form (SKU, Line) &middot; <code>1:1</code> &amp; <code>4:5</code> Smart Crops</span>
+                  <span class="pill solid">DM Delivery: Goes Live After Approval</span>
+                </td>
               </tr>
               <tr>
                 <td><code>/campaigns</code><br><small><code>&rarr; master-toolkit/</code></small></td>
                 <td>All DAM &amp; Express Users</td>
                 <td>Creative Studio</td>
                 <td>Marketing Leads</td>
-                <td>Auto-tags Campaign &amp; Year &middot; <code>16:9</code> &amp; <code>9:16</code> Hero Crops &middot; <span class="pill solid">On Approval</span></td>
+                <td>
+                  <span class="rule-line">Auto-tags Campaign &amp; Year &middot; <code>16:9</code> &amp; <code>9:16</code> Hero Crops</span>
+                  <span class="pill solid">DM Delivery: Goes Live After Approval</span>
+                </td>
               </tr>
               <tr>
                 <td><code>/campaigns</code><br><small><code>&rarr; express-adaptations/</code></small></td>
                 <td>All DAM &amp; Express Users</td>
                 <td>Express Marketers &amp; Studio</td>
                 <td>Marketing Leads</td>
-                <td>Auto-tags <code>Source = Express</code> &middot; Lands unapproved &middot; <span class="pill">Needs Review</span></td>
+                <td>
+                  <span class="rule-line">Auto-tags <code>Source = Express</code> &middot; Lands unapproved</span>
+                  <span class="pill">DM Delivery: Held Until Reviewed &amp; Approved</span>
+                </td>
               </tr>
               <tr>
                 <td><code>/shared-media</code></td>
                 <td>All DAM &amp; Express Users</td>
                 <td>DAM Librarians</td>
                 <td>DAM Librarians</td>
-                <td>Requires Usage Rights &amp; Expiration Date (optional scheduled On/Off dates) &middot; <span class="pill solid">Tracked</span></td>
+                <td>
+                  <span class="rule-line">Requires Usage Rights &amp; Expiration Date (optional On/Off dates)</span>
+                  <span class="pill solid">DM Delivery: Live Until Expiration Date</span>
+                </td>
               </tr>
               <tr>
                 <td><code>/wip-studio</code></td>
                 <td>Creative Studio &amp; Assigned Agency</td>
                 <td>Creative Studio &amp; Assigned Agency</td>
-                <td><span class="pill alert">Not Allowed</span></td>
-                <td>No crop overhead &middot; Hidden from general marketers, Express &amp; delivery</td>
+                <td><em>Approval disabled</em></td>
+                <td>
+                  <span class="rule-line">No crop overhead &middot; Hidden from general marketers &amp; Express</span>
+                  <span class="pill alert">DM Delivery: Never Delivered (Internal Drafts)</span>
+                </td>
               </tr>
               <tr>
                 <td><code>/archive</code></td>
                 <td>DAM Admins Only</td>
                 <td>DAM Admins Only</td>
-                <td><span class="pill alert">Removed First</span></td>
-                <td>Historical metadata kept &middot; Hidden from everyday search &amp; Express</td>
+                <td><em>Unapproved before move</em></td>
+                <td>
+                  <span class="rule-line">Historical metadata kept &middot; Hidden from everyday search &amp; Express</span>
+                  <span class="pill alert">DM Delivery: Stopped Before Archiving</span>
+                </td>
               </tr>
             </tbody>
           </table>

@@ -113,6 +113,44 @@ h3{font-size:19px;line-height:1.25;letter-spacing:-.01em;font-weight:800;margin:
 .src::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;}
 .src-abv::before{background:var(--charcoal);}
 .src-man::before{border:2px solid var(--gray-500);background:var(--white);width:9px;height:9px;}
+.src-bc::before{background:var(--gray-500);}
+.measured .src + .src{margin-left:14px;}
+
+/* Brand Claims flow (section 2) */
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:stretch;margin:0 0 24px;}
+.flow-node{background:var(--bg-base);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:18px 20px;
+  transition:border-color .15s,transform .15s,box-shadow .15s;}
+.flow-node:hover{border-color:var(--border-strong);transform:translateY(-1px);box-shadow:var(--shadow-lg);}
+.flow-node.focus{border-color:var(--charcoal);box-shadow:var(--shadow);}
+.flow-node .fn-step{display:block;margin:0 0 10px;}
+.flow-node .fn-q{display:block;font-size:17px;font-weight:800;letter-spacing:-.01em;color:var(--ink);margin:0 0 6px;}
+.flow-node .fn-d{display:block;font-size:14px;color:var(--gray-600);line-height:1.5;}
+.flow-arrow{display:flex;align-items:center;justify-content:center;}
+.flow-arrow svg{stroke:var(--gray-400);}
+.status{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border-radius:var(--radius-pill);padding:4px 10px;white-space:nowrap;border:1px solid var(--border-strong);}
+.status-ga{background:var(--charcoal);border-color:var(--charcoal);color:var(--white);}
+.status-ea{background:var(--white);color:var(--gray-700);border-style:dashed;}
+.impact{margin:26px 0 0;}
+.impact h3{margin:0 0 14px;}
+.impact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.impact-item{background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 18px;}
+.impact-item b{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-500);margin:0 0 6px;}
+.impact-item p{margin:0;font-size:14.5px;color:var(--gray-700);line-height:1.5;}
+.manual-box{margin:22px 0 0;border:1px dashed var(--border-strong);border-radius:var(--radius);padding:20px 24px;background:var(--bg-base);}
+.manual-box .mb-head{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:0 0 10px;}
+.manual-box .mb-head strong{font-size:16px;}
+.manual-box ul{margin:0;padding-left:18px;columns:2;column-gap:36px;font-size:15px;color:var(--gray-700);}
+.manual-box li{margin:0 0 8px;break-inside:avoid;}
+.manual-box li::marker{color:var(--gray-400);}
+.card-head h3 .status{margin-left:8px;vertical-align:3px;font-size:10px;padding:3px 8px;letter-spacing:.08em;}
+.caveat{margin:16px 0 0;font-size:13.5px;color:var(--gray-600);max-width:90ch;}
+@media(max-width:1020px){.impact-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:860px){
+  .flow{grid-template-columns:1fr;}
+  .flow-arrow{transform:rotate(90deg);height:20px;}
+  .impact-grid{grid-template-columns:1fr;}
+  .manual-box ul{columns:1;}
+}
 
 /* split cards (section 1) */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
@@ -232,11 +270,11 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
     </div>
     <div class="hero-body">
       <h1>Measuring the trial, <span class="hl">topic</span> <span class="hl">by</span> <span class="hl">topic</span></h1>
-      <p class="lead">What <strong>ABV Brand Presence</strong> reports, what needs a <strong>manual answer review</strong>, and which metrics to prioritize for each of the six topics Marketing and Freight want to explore.</p>
+      <p class="lead">What <strong>ABV Brand Presence</strong> and <strong>Brand Claims</strong> report, what still needs a <strong>manual answer review</strong>, and which metrics to prioritize for each of the six topics Marketing and Freight want to explore.</p>
       <ul class="hero-chips">
         <li><strong>6</strong> priority topics</li>
         <li><strong>100</strong> tracked prompts</li>
-        <li><strong>ABV Brand Presence</strong> + manual review</li>
+        <li><strong>Brand Presence</strong> + <strong>Brand Claims</strong> + manual review</li>
       </ul>
     </div>
   </div>
@@ -248,6 +286,7 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
     <span class="nav-title">Australia Post <span>&middot; Trial measures</span></span>
     <div class="nav-links">
       <a href="#reporting">Reporting model</a>
+      <a href="#claims">Brand Claims</a>
       <a href="#objectives">Trial objectives</a>
       <a href="#topics">Metrics by topic</a>
       <a href="#using">Using the measures</a>
@@ -292,8 +331,84 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
 
     <div class="oneliner">
       <span class="ol-label">Read it this way</span>
-      <p>The Visibility Score shows <strong>whether Australia Post shows up</strong> in answers to tracked prompts. It is <span class="em">not a factual-accuracy score</span>. Only the manual review shows whether what the answer says is right.</p>
+      <p>The Visibility Score shows <strong>whether Australia Post shows up</strong> in answers to tracked prompts. It is <span class="em">not a factual-accuracy score</span>. Only the manual review confirms whether what the answer says is right.</p>
     </div>
+  </section>
+
+  <section id="claims">
+    <p class="sec-eyebrow">Brand Claims</p>
+    <h2>Use Brand Claims to target the manual review</h2>
+    <p class="intro"><strong>Brand Claims</strong> analyzes the same Brand Presence responses and extracts the individual statements AI systems make about Australia Post. It shows <strong>what is being said</strong>; a surfaced claim is not verified as fact. That makes it the bridge between visibility reporting and the manual review.</p>
+
+    <div class="flow">
+      <div class="flow-node">
+        <span class="fn-step"><span class="src src-abv">ABV Brand Presence</span></span>
+        <span class="fn-q">Is Australia Post visible?</span>
+        <span class="fn-d">Visibility Score, mentions, citations, sentiment and competitor comparisons.</span>
+      </div>
+      <span class="flow-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      <div class="flow-node focus">
+        <span class="fn-step"><span class="src src-bc">ABV Brand Claims</span></span>
+        <span class="fn-q">What is AI saying about it?</span>
+        <span class="fn-d">Claims grouped by recurrence, with sentiment, category and cited sources.</span>
+      </div>
+      <span class="flow-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      <div class="flow-node">
+        <span class="fn-step"><span class="src src-man">Manual review</span></span>
+        <span class="fn-q">Is it right?</span>
+        <span class="fn-d">Accuracy, completeness, freshness and citation support against approved information.</span>
+      </div>
+    </div>
+
+    <div class="split">
+      <div class="card">
+        <div class="card-head"><span class="src src-bc">ABV Brand Claims</span><span class="status status-ga">Generally available</span></div>
+        <h3>What AI systems say, claim by claim</h3>
+        <p class="csub">Built from the responses to the tracked prompts.</p>
+        <ul class="mlist">
+          <li><b>Claims</b><span>Individual statements extracted from responses, with similar claims grouped into clusters.</span></li>
+          <li><b>Signals</b><span>Sentiment, category, brand relevance, claim type, recurrence and cited sources.</span></li>
+          <li><b>Primary sources</b><span>Whether claims draw on Australia Post&rsquo;s own site or on external sources.</span></li>
+          <li><b>Recommendations</b><span>Owned and earned actions per claim; <em>Create this Strategy</em> adds them to the Opportunity Workspace.</span></li>
+          <li><b>Offsite</b><span>Links cited sources such as YouTube, Reddit and Wikipedia to offsite opportunities, when available.</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="src src-bc">Fact Checking</span><span class="status status-ea">Early access</span></div>
+        <h3>Evidence check on selected claims</h3>
+        <p class="csub">Part of Brand Claims. Use it to triage, not to score.</p>
+        <ul class="mlist">
+          <li><b>Verdicts</b><span>Supported, Contradicted, Not verified or Not checked.</span></li>
+          <li><b>Evidence</b><span>Australia Post&rsquo;s own content and the open web, not an Australia Post-approved fact set.</span></li>
+          <li><b>Coverage</b><span>Only claims that also receive recommendations are checked, so many show Not checked.</span></li>
+          <li><b>Limits</b><span>Verdicts reflect retrieved evidence only. Not verified does not mean false, and inaccurate claims without retrievable evidence are not flagged.</span></li>
+        </ul>
+        <p class="cfoot">Confirm early access is enabled for Australia Post&rsquo;s organization before including it in trial reporting.</p>
+      </div>
+    </div>
+
+    <div class="impact">
+      <h3>What it adds to the trial</h3>
+      <div class="impact-grid">
+        <div class="impact-item"><b>Accuracy</b><p>Review recurring and unfavorable claims first, and Contradicted claims where Fact Checking is enabled, instead of a random sample.</p></div>
+        <div class="impact-item"><b>Sentiment</b><p>Claim-level favorable, neutral and unfavorable detail explains what drives Brand Presence sentiment.</p></div>
+        <div class="impact-item"><b>Competitive</b><p>Comparative claims show how Australia Post is described against alternatives. Visibility versus competitors stays in Brand Presence.</p></div>
+        <div class="impact-item"><b>Content action</b><p>Sources and recommendations show which owned pages to clarify and which external sources shape the answer.</p></div>
+      </div>
+    </div>
+
+    <div class="manual-box">
+      <div class="mb-head"><span class="src src-man">Manual review</span><strong>Still checked manually</strong></div>
+      <ul>
+        <li>The final accuracy call against Australia Post-approved information.</li>
+        <li>Completeness of steps, options, eligibility and conditions.</li>
+        <li>Freshness of hours, closures, cut-offs and peak-period dates for the place and period.</li>
+        <li>Whether a tracking answer implies access to an individual parcel&rsquo;s live status.</li>
+        <li>Whether each citation supports the claim it accompanies.</li>
+        <li>Australia Post&rsquo;s position when options are listed.</li>
+      </ul>
+    </div>
+    <p class="caveat">Claims come only from tracked-prompt responses, so Brand Claims cannot surface claims about subjects those responses never mention; prompt coverage still matters. Check how claim categories map to the six trial topics before reporting claims by topic.</p>
   </section>
 
   <section id="objectives">
@@ -309,6 +424,7 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
         <div class="measured"><span class="lbl">Measured mainly in</span><span class="src src-man">Manual review</span></div>
         <ul>
           <li>Score a sample of responses for accuracy, completeness and freshness against Australia Post-approved information.</li>
+          <li>Use Brand Claims to choose the sample: recurring and unfavorable claims first, plus Contradicted claims where Fact Checking is enabled.</li>
           <li>Check that each citation supports the claim it accompanies.</li>
           <li>This is the first priority for parcel tracking, missed deliveries and collection, Post Office and peak-period topics, and the app.</li>
         </ul>
@@ -319,9 +435,10 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
         <span class="cnum">Objective 02</span>
         <h3>Sentiment across topics and intents</h3>
         <p class="ask">Is Australia Post described positively, negatively or neutrally, and does that vary by topic, customer need or platform?</p>
-        <div class="measured"><span class="lbl">Measured in</span><span class="src src-abv">ABV Brand Presence</span></div>
+        <div class="measured"><span class="lbl">Measured in</span><span class="src src-abv">ABV Brand Presence</span><span class="src src-bc">ABV Brand Claims</span></div>
         <ul>
           <li>Report sentiment for the tracked prompts; compare by topic and available AI platform.</li>
+          <li>Brand Claims adds claim-level sentiment, showing which statements drive favorable or unfavorable portrayal.</li>
           <li>Sentiment is a supporting measure for fast and same-day delivery and the app, and is also reported for small-business shipping.</li>
           <li>Reading sentiment by intent depends on prompt coverage: confirm each topic&rsquo;s prompts cover the intended customer needs at setup.</li>
         </ul>
@@ -336,6 +453,7 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
         <ul>
           <li>Visibility Score, mentions, citations and competitor comparisons on the same tracked prompts.</li>
           <li>This is the first priority for fast and same-day delivery and for small-business shipping / MyPost Business.</li>
+          <li>Comparative claims in Brand Claims show how Australia Post is described against alternatives.</li>
           <li>During manual review, record Australia Post&rsquo;s position when options are listed.</li>
           <li>Use AI Visibility for broader market context, not as a substitute for tracked-prompt results.</li>
         </ul>
@@ -416,18 +534,26 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
         </tbody>
       </table>
     </div>
-    <p class="tnote">Interim topic list from Marketing and Freight, to be finalized as the basis for the trial.</p>
+    <p class="tnote">Interim topic list from Marketing and Freight, to be finalized as the basis for the trial. Brand Claims applies across all six topics; for accuracy-led topics, use it to choose which claims to review first.</p>
   </section>
 
   <section id="using">
     <p class="sec-eyebrow">Using the measures</p>
     <h2>How to use the measures in the trial</h2>
-    <p class="intro">Each measure has one job. Keep outcome reporting, setup checks, market context and manual scoring separate.</p>
+    <p class="intro">Each measure has one job. Keep outcome reporting, review targeting, setup checks, market context and manual scoring separate.</p>
 
     <div class="use-grid">
       <div class="card use">
         <div class="card-head"><h3>ABV Brand Presence</h3><span class="role">Outcome reporting</span></div>
         <p>Report Visibility Score, mentions, citations, sentiment and competitor comparisons for the same tracked prompts. Compare trends by topic and available AI platform.</p>
+      </div>
+      <div class="card use">
+        <div class="card-head"><h3>Brand Claims</h3><span class="role">Review targeting</span></div>
+        <p>Review the claims extracted from the same tracked-prompt responses. Use recurrence, sentiment and sources to choose which claims the manual review checks first, and route recommendations to the Opportunity Workspace.</p>
+      </div>
+      <div class="card use">
+        <div class="card-head"><h3>Fact Checking <span class="status status-ea">Early access</span></h3><span class="role">Triage</span></div>
+        <p>Where enabled, use Contradicted claims as a triage list for the manual review. Verdicts reflect evidence retrieved from Australia Post&rsquo;s site and the open web; they are not accuracy scores.</p>
       </div>
       <div class="card use">
         <div class="card-head"><h3>Prompt Strategy / Prompt Library</h3><span class="role">Setup check</span></div>

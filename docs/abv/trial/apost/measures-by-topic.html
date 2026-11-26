@@ -107,7 +107,7 @@ strong{color:var(--ink);}
 .mnav a.active{color:var(--s2-blue-down);background:var(--s2-blue-tint);}
 .mnav a:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px;}
 @media(max-width:980px){
-  .shell{grid-template-columns:1fr;gap:0;}
+  .shell{grid-template-columns:minmax(0,1fr);gap:0;}
   .rail{display:none;}
   .mnav{display:block;}
   section{scroll-margin-top:72px;}
@@ -199,10 +199,10 @@ details.more li{margin:0 0 6px;}
 @media(max-width:1100px){.obj{grid-template-columns:1fr;}.obj-r{padding:16px 0 0;border-left:0;border-top:1px solid var(--gray-200);margin-top:16px;}}
 
 /* topic table */
-.table-wrap{border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;background:var(--bg-base);}
+.table-wrap{position:relative;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;background:var(--bg-base);}
 table.topics{width:100%;border-collapse:collapse;table-layout:fixed;}
 table.topics caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
-table.topics col.c1{width:25%;} table.topics col.c2{width:38%;} table.topics col.c3{width:37%;}
+table.topics col.c1{width:24%;} table.topics col.c2{width:42%;} table.topics col.c3{width:34%;}
 table.topics thead th{background:var(--bg-layer-2);text-align:left;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-700);padding:14px 20px;border-bottom:1px solid var(--border);}
 table.topics tr.grp th{background:var(--bg-layer-1);text-align:left;padding:14px 20px;border-bottom:1px solid var(--border);border-top:1px solid var(--border);font-weight:400;scroll-margin-top:24px;}
 table.topics tbody:first-of-type tr.grp th{border-top:0;}
@@ -212,35 +212,64 @@ table.topics tbody:first-of-type tr.grp th{border-top:0;}
 .grp-meta .grp-lead .src{font-size:11.5px;}
 table.topics th.c-topic,table.topics td{padding:20px;vertical-align:top;border-bottom:1px solid var(--gray-200);font-size:15px;color:var(--gray-700);text-align:left;font-weight:400;transition:background .15s;}
 table.topics tbody tr:last-child th,table.topics tbody tr:last-child td{border-bottom:0;}
-table.topics tbody tr:not(.grp):hover th,table.topics tbody tr:not(.grp):hover td{background:var(--gray-75);}
 .c-topic .t-num{display:block;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;color:var(--gray-600);margin:0 0 6px;}
 .c-topic .t-name{display:block;font-size:17px;font-weight:800;line-height:1.3;letter-spacing:-.01em;color:var(--ink);}
 .c-topic .t-note{display:block;font-size:14px;color:var(--gray-700);margin:6px 0 0;line-height:1.45;}
-ol.pri{list-style:none;counter-reset:p;margin:0;padding:0;}
-ol.pri li{counter-increment:p;position:relative;padding:0 0 0 34px;margin:0 0 11px;line-height:1.5;}
-ol.pri li:last-child{margin-bottom:0;}
-ol.pri li + li strong{font-weight:inherit;color:inherit;}
-ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;height:22px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11.5px;font-weight:700;
   color:var(--adobe-red-dark);background:var(--adobe-red-tint);}
-.src-block{margin:0 0 14px;}
-.src-block:last-child{margin:0;}
-.src-block p{margin:5px 0 0;line-height:1.5;}
-.src-block + .src-block{padding-top:14px;border-top:1px dashed var(--gray-200);}
 .tnote{margin:14px 0 0;font-size:14px;color:var(--gray-700);max-width:40em;}
 
-/* topic details */
-table.topics tr.has-dtl th,table.topics tr.has-dtl td{border-bottom:0;padding-bottom:10px;}
-table.topics tr.dtl td{padding:0 20px 18px;border-bottom:1px solid var(--gray-200);}
-table.topics tbody tr.dtl:last-child td{border-bottom:0;}
-details.more.tdl{margin:0;border-top:0;padding-top:0;}
-.dgrid{display:grid;grid-template-columns:1.4fr 1fr;gap:22px;margin:12px 0 0;padding:18px 20px;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius-sm);}
-.dgrid ul{margin:0;padding-left:18px;font-size:14px;line-height:1.5;color:var(--gray-800);}
-.dgrid li{margin:0 0 7px;}
-.dgrid li:last-child{margin:0;}
-.dgrid li::marker{color:var(--gray-500);}
-.dgrid .where{display:block;font-size:13px;color:var(--gray-600);margin-top:2px;}
-.dgrid p{margin:0;font-size:14px;line-height:1.5;color:var(--gray-800);}
+/* priority badges */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+.pb{display:inline-flex;align-items:center;justify-content:center;flex:none;width:24px;height:24px;border-radius:50%;font-family:var(--mono);font-size:12px;font-weight:700;line-height:1;}
+.pb-1{background:var(--adobe-red-dark);color:var(--white);}
+.pb-2,.pb-3{background:var(--adobe-red-tint);color:var(--adobe-red-dark);}
+.pb-plus{background:var(--white);border:1.5px solid var(--gray-500);color:var(--gray-700);font-size:14px;}
+.pb-legend{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;margin:0 0 14px;font-size:14px;color:var(--gray-700);}
+.pb-legend span.k{display:inline-flex;align-items:center;gap:8px;}
+.pb-legend .pb + .pb{margin-left:-4px;}
+.sub-h{margin:34px 0 12px;}
+.sub-h:first-of-type{margin-top:0;}
+
+/* at-a-glance matrix */
+.mx-wrap{position:relative;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);background:var(--bg-base);overflow-x:auto;}
+table.mx{width:100%;min-width:720px;border-collapse:collapse;table-layout:fixed;}
+table.mx caption{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+table.mx col.mx-c0{width:26%;}
+table.mx th,table.mx td{padding:10px 8px;text-align:center;vertical-align:middle;border-bottom:1px solid var(--gray-200);}
+table.mx tr.mx-h1 th{padding:14px 8px 4px;background:var(--bg-layer-2);border-bottom:0;}
+table.mx tr.mx-h1 td{background:var(--bg-layer-2);border-bottom:0;}
+table.mx tr.mx-h2 th{background:var(--bg-layer-2);font-size:12.5px;hyphens:manual;font-weight:700;line-height:1.3;color:var(--gray-800);padding:6px 8px 14px;vertical-align:bottom;border-bottom:1px solid var(--border);}
+table.mx .mx-split{border-left:1px solid var(--border-strong);}
+table.mx th.mx-man{border-left:1px solid var(--border-strong);}
+table.mx th.mx-topic{text-align:left;padding-left:20px;}
+table.mx tbody th.mx-topic{font-size:15px;font-weight:700;line-height:1.35;}
+table.mx tbody th.mx-topic a{color:var(--ink);}
+table.mx tbody th.mx-topic a:hover{color:var(--s2-blue-down);}
+table.mx tbody th.mx-topic .t-num{display:block;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.1em;color:var(--gray-600);margin:0 0 2px;}
+table.mx tr.mx-grp th{background:var(--bg-layer-1);text-align:left;padding:12px 20px;font-size:15px;font-weight:800;color:var(--ink);border-bottom:1px solid var(--border);scroll-margin-top:24px;}
+table.mx tr.mx-grp th > span{margin-left:14px;font-size:14px;font-weight:400;color:var(--gray-700);}
+table.mx tr.mx-grp th .src{font-size:11.5px;}
+table.mx tbody tr:not(.mx-grp):hover th,table.mx tbody tr:not(.mx-grp):hover td{background:var(--gray-75);}
+table.mx tbody:last-of-type tr:last-child th,table.mx tbody:last-of-type tr:last-child td{border-bottom:0;}
+.mx-note{margin:12px 0 0;font-size:14px;color:var(--gray-700);max-width:46em;}
+.mx-hint{display:none;margin:0 0 8px;font-size:13px;color:var(--gray-600);}
+
+/* topic-by-topic table */
+table.topics tr.t-row th,table.topics tr.t-row td{border-bottom:0;padding-bottom:12px;}
+table.topics tr.watch td{padding:0 20px 18px;border-bottom:1px solid var(--gray-200);}
+table.topics tbody tr.watch:last-child td{border-bottom:0;}
+tr.watch .w-in{display:flex;gap:14px;align-items:baseline;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;}
+tr.watch .label{flex:none;margin:0;}
+tr.watch p{margin:0;font-size:14px;line-height:1.5;color:var(--gray-800);}
+table.topics tr.t-row{scroll-margin-top:24px;}
+table.topics thead th .src{font-size:11.5px;}
+ul.ms{list-style:none;margin:0;padding:0;}
+ul.ms li{display:flex;gap:12px;align-items:flex-start;margin:0 0 12px;}
+ul.ms li:last-child{margin:0;}
+ul.ms li p{margin:1px 0 0;line-height:1.5;color:var(--gray-700);}
+ul.ms li strong{color:var(--ink);font-weight:700;}
+ul.ms .where{display:block;margin-top:3px;font-size:13px;color:var(--gray-600);}
 
 /* jobs list */
 .jobs{list-style:none;margin:0;padding:0;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;background:var(--bg-base);}
@@ -274,9 +303,14 @@ details.more.tdl{margin:0;border-top:0;padding-top:0;}
   table.topics td.c-pri::before,table.topics td.c-src::before{content:attr(data-label);display:block;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-600);margin:0 0 10px;}
   .grp-name{display:block;margin:0 0 6px;}
   .jobs li{grid-template-columns:1fr;gap:10px;padding:18px 20px;}
-  table.topics tr.has-dtl{border-bottom:0;padding-bottom:0;}
-  table.topics tr.dtl td{padding:4px 20px 18px;}
-  .dgrid{grid-template-columns:1fr;gap:16px;}
+  .mx-hint{display:block;}
+  table.mx th.mx-topic{position:sticky;left:0;z-index:1;background:var(--bg-base);}
+  table.mx tr.mx-h2 th.mx-topic{background:var(--bg-layer-2);}
+  table.topics tr.t-row{border-bottom:0;padding-bottom:0;}
+  table.topics tr.watch td{padding:4px 20px 18px;}
+  tr.watch .w-in{display:block;}
+  tr.watch .label{margin:0 0 6px;}
+  table.topics td.c-abv::before,table.topics td.c-man::before{content:attr(data-label);display:block;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-600);margin:0 0 10px;}
   .oneliner{grid-template-columns:1fr;gap:10px;}
 }
 
@@ -399,102 +433,77 @@ details.more.tdl{margin:0;border-top:0;padding-top:0;}
   <section id="topics">
     <p class="sec-eyebrow">Candidate topics</p>
     <h2>Four accuracy-led, two visibility-led candidates</h2>
-    <p class="intro">Six candidate topics from Marketing and Freight, each with draft metrics in priority order. <strong>Not every topic will necessarily be used</strong>; the grouping shows which trial objective each one serves.</p>
+    <p class="intro">Six candidate topics from Marketing and Freight, with the <strong>ABV metrics</strong> and <strong>manual review checks</strong> each one uses, in priority order. <strong>Not every topic will necessarily be used.</strong></p>
 
+    <h3 class="sub-h">At a glance</h3>
+    <div class="pb-legend" aria-hidden="true">
+      <span class="k"><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span>Lead metric</span>
+      <span class="k"><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span><span class="pb pb-3" title="Priority 3">3</span><span class="sr">Priority 3</span>Next priorities</span>
+      <span class="k"><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span>Supporting measure</span>
+    </div>
+    <p class="mx-hint">Swipe sideways to see all metrics.</p>
+    <div class="mx-wrap">
+        <table class="mx">
+          <caption>Which ABV metrics and manual checks each candidate topic uses, by priority</caption>
+          <colgroup><col class="mx-c0"><col><col><col><col><col><col><col><col></colgroup>
+          <thead><tr class="mx-h1"><td></td><th scope="colgroup" colspan="4" class="mx-abv"><span class="src src-abv">ABV metrics</span></th><th scope="colgroup" colspan="4" class="mx-man"><span class="src src-man">Manual review checks</span></th></tr><tr class="mx-h2"><th scope="col" class="mx-topic">Topic</th><th scope="col" class="">Visibility &amp; mentions</th><th scope="col" class="">Citations</th><th scope="col" class="">Sentiment</th><th scope="col" class="">Share of Voice</th><th scope="col" class="mx-split">Accuracy</th><th scope="col" class="">Complete&shy;ness</th><th scope="col" class="">Freshness</th><th scope="col" class="">Position in lists</th></tr></thead><tbody><tr class="mx-grp"><th colspan="9" scope="colgroup" id="grp-acc">Accuracy-led<span>4 topics &middot; <span class="src src-man">Manual review</span> first &middot; serves <a href="#obj-1">Objective 01 · Accuracy</a></span></th></tr><tr><th scope="row" class="mx-topic"><a href="#t01"><span class="t-num">T01</span>Parcel tracking and delivery</a></th><td class=""><span class="pb pb-3" title="Priority 3">3</span><span class="sr">Priority 3</span></td><td class=""><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span></td><td class=""><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span></td><td class=""><span class="sr">Not used</span></td><td class="mx-split"><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span></td><td class=""><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span></td><td class=""><span class="sr">Not used</span></td><td class=""><span class="sr">Not used</span></td></tr><tr><th scope="row" class="mx-topic"><a href="#t02"><span class="t-num">T02</span>Missed deliveries, Parcel Lockers and collection</a></th><td class=""><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span></td><td class=""><span class="pb pb-3" title="Priority 3">3</span><span class="sr">Priority 3</span></td><td class=""><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span></td><td class=""><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span></td><td class="mx-split"><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span></td><td class=""><span class="sr">Not used</span></td><td class=""><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span></td><td class=""><span class="sr">Not used</span></td></tr><tr><th scope="row" class="mx-topic"><a href="#t03"><span class="t-num">T03</span>Post Office and peak-period topics</a></th><td class=""><span class="pb pb-3" title="Priority 3">3</span><span class="sr">Priority 3</span></td><td class=""><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span></td><td class=""><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span></td><td class=""><span class="sr">Not used</span></td><td class="mx-split"><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span></td><td class=""><span class="sr">Not used</span></td><td class=""><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span></td><td class=""><span class="sr">Not used</span></td></tr><tr><th scope="row" class="mx-topic"><a href="#t04"><span class="t-num">T04</span>App</a></th><td class=""><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span></td><td class=""><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span></td><td class=""><span class="pb pb-3" title="Priority 3">3</span><span class="sr">Priority 3</span></td><td class=""><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span></td><td class="mx-split"><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span></td><td class=""><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span></td><td class=""><span class="sr">Not used</span></td><td class=""><span class="sr">Not used</span></td></tr></tbody><tbody><tr class="mx-grp"><th colspan="9" scope="colgroup" id="grp-vis">Visibility-led<span>2 topics &middot; <span class="src src-abv">ABV Brand Presence</span> first &middot; serves <a href="#obj-3">Objective 03 · Competitive benchmarking</a></span></th></tr><tr><th scope="row" class="mx-topic"><a href="#t05"><span class="t-num">T05</span>Fast and same-day delivery</a></th><td class=""><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span></td><td class=""><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span></td><td class=""><span class="pb pb-3" title="Priority 3">3</span><span class="sr">Priority 3</span></td><td class=""><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span></td><td class="mx-split"><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span></td><td class=""><span class="sr">Not used</span></td><td class=""><span class="sr">Not used</span></td><td class=""><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span></td></tr><tr><th scope="row" class="mx-topic"><a href="#t06"><span class="t-num">T06</span>Small business and ecommerce shipping / MyPost Business</a></th><td class=""><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span></td><td class=""><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span></td><td class=""><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span></td><td class=""><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span></td><td class="mx-split"><span class="pb pb-3" title="Priority 3">3</span><span class="sr">Priority 3</span></td><td class=""><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span></td><td class=""><span class="sr">Not used</span></td><td class=""><span class="sr">Not used</span></td></tr></tbody>
+        </table>
+    </div>
+    <p class="mx-note">Every topic also uses Brand Claims to choose which claims the manual review checks first, and the manual check that each citation supports the claim it accompanies.</p>
+
+    <h3 class="sub-h">Topic by topic</h3>
     <div class="table-wrap">
       <table class="topics">
-        <caption>Candidate topics grouped by lead measure, with metrics in priority order and where each is measured</caption>
+        <caption>ABV metrics and manual review checks for each candidate topic, in priority order</caption>
         <colgroup><col class="c1"><col class="c2"><col class="c3"></colgroup>
-        <thead><tr><th scope="col">Topic</th><th scope="col">Metrics to prioritize</th><th scope="col">Where it&rsquo;s measured</th></tr></thead>
-        <tbody class="grp-body">
-          <tr class="grp"><th colspan="3" scope="colgroup" id="grp-acc">
+        <thead><tr><th scope="col">Topic</th><th scope="col"><span class="src src-abv">ABV metrics</span></th><th scope="col"><span class="src src-man">Manual review checks</span></th></tr></thead>
+        <tbody>
+          <tr class="grp"><th colspan="3" scope="colgroup">
             <span class="grp-name">Accuracy-led</span>
             <span class="grp-meta"><span>4 topics</span><span class="grp-lead"><span class="src src-man">Manual review</span> first</span><span>Serves <a href="#obj-1">Objective 01 · Accuracy</a></span></span>
           </th></tr>
-          <tr class="has-dtl">
+          <tr class="t-row" id="t01">
             <th scope="row" class="c-topic"><span class="t-num">T01</span><span class="t-name">Parcel tracking and delivery</span></th>
-            <td class="c-pri" data-label="Metrics to prioritize"><ol class="pri"><li><strong>Accuracy and completeness</strong> of tracking instructions and next steps.</li><li><strong>Relevant citations</strong> to Australia Post information.</li><li><strong>Mentions / Visibility Score</strong> as supporting visibility measures.</li></ol></td>
-            <td class="c-src" data-label="Where it&rsquo;s measured"><div class="src-block"><span class="src src-man">Manual review</span><p>Check answer accuracy and completeness, including whether it avoids implying access to an individual parcel&rsquo;s live status.</p></div><div class="src-block"><span class="src src-abv">ABV Brand Presence</span><p>Mentions, Visibility Score, citations and trends.</p></div></td>
+            <td class="c-abv" data-label="ABV metrics"><ul class="ms"><li><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span><div><p><strong>Citations</strong> to Australia Post information; track owned citation share (owned &divide; all citations).</p><span class="where">Brand Presence · URL Inspector</span></div></li><li><span class="pb pb-3" title="Priority 3">3</span><span class="sr">Priority 3</span><div><p><strong>Mentions and Visibility Score</strong> as supporting visibility measures, with trends.</p><span class="where">Brand Presence</span></div></li><li><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span><div><p><strong>Sentiment</strong> by AI platform on delay and support prompts.</p><span class="where">Brand Presence</span></div></li><li><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span><div><p><strong>Recurring unfavorable claims</strong>, such as wrong escalation steps or wait times.</p><span class="where">Brand Claims</span></div></li></ul></td>
+            <td class="c-man" data-label="Manual review"><ul class="ms"><li><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span><div><p><strong>Accuracy and completeness</strong> of tracking instructions and next steps, including whether the answer avoids implying access to an individual parcel&rsquo;s live status.</p></div></li></ul></td>
           </tr>
-          <tr class="dtl"><td colspan="3">
-            <details class="more tdl"><summary>Extra ABV signals and watch-out</summary>
-              <div class="dgrid">
-                <div class="sig"><span class="label">Extra ABV signals</span><ul><li>Owned citation share (owned ÷ all citations): whether answers draw on Australia Post&rsquo;s tracking help rather than forums<span class="where">Data Insights · URL Inspector</span></li><li>Negative sentiment by AI platform on delay and support prompts<span class="where">Brand Presence sentiment</span></li><li>Recurring unfavorable claims, such as wrong escalation steps or wait times<span class="where">Brand Claims</span></li></ul></div>
-                <div><span class="label">Watch-out</span><p>Community forums and review sites can shape these answers. Clear tracking-status definitions and delay steps on auspost.com.au give AI systems an owned source to cite.</p></div>
-              </div>
-            </details>
-          </td></tr>
-          <tr class="has-dtl">
+          <tr class="watch"><td colspan="3"><div class="w-in"><span class="label">Watch-out</span><p>Community forums and review sites can shape these answers. Clear tracking-status definitions and delay steps on auspost.com.au give AI systems an owned source to cite.</p></div></td></tr>
+          <tr class="t-row" id="t02">
             <th scope="row" class="c-topic"><span class="t-num">T02</span><span class="t-name">Missed deliveries, Parcel Lockers and collection</span></th>
-            <td class="c-pri" data-label="Metrics to prioritize"><ol class="pri"><li><strong>Accuracy</strong> of the options, steps and eligibility information.</li><li><strong>Freshness</strong> of any deadlines or conditions.</li><li><strong>Relevant citations.</strong></li></ol></td>
-            <td class="c-src" data-label="Where it&rsquo;s measured"><div class="src-block"><span class="src src-man">Manual review</span><p>Check process, eligibility and time-sensitive claims.</p></div><div class="src-block"><span class="src src-abv">ABV Brand Presence</span><p>Citations, mentions and competitor comparisons when prompts ask about alternatives.</p></div></td>
+            <td class="c-abv" data-label="ABV metrics"><ul class="ms"><li><span class="pb pb-3" title="Priority 3">3</span><span class="sr">Priority 3</span><div><p><strong>Relevant citations</strong>, including owned citations on collection and locker answers.</p><span class="where">Brand Presence</span></div></li><li><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span><div><p><strong>Mentions and competitor comparisons</strong> when prompts ask about alternatives, including Share of Voice on non-branded locker queries.</p><span class="where">Brand Presence</span></div></li><li><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span><div><p><strong>Sentiment</strong> on missed-delivery prompts compared with Parcel Locker convenience prompts.</p><span class="where">Brand Presence</span></div></li><li><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span><div><p><strong>Policy claims</strong> about collection and Parcel Lockers.</p><span class="where">Brand Claims</span></div></li></ul></td>
+            <td class="c-man" data-label="Manual review"><ul class="ms"><li><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span><div><p><strong>Accuracy</strong> of the options, steps and eligibility information.</p></div></li><li><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span><div><p><strong>Freshness</strong> of any deadlines or conditions; check time-sensitive claims.</p></div></li></ul></td>
           </tr>
-          <tr class="dtl"><td colspan="3">
-            <details class="more tdl"><summary>Extra ABV signals and watch-out</summary>
-              <div class="dgrid">
-                <div class="sig"><span class="label">Extra ABV signals</span><ul><li>Policy-claim accuracy and owned citations on collection and locker answers<span class="where">Brand Claims · Data Insights</span></li><li>Sentiment contrast between missed-delivery and Parcel Locker convenience prompts<span class="where">Brand Presence sentiment</span></li><li>Share of Voice on non-branded parcel locker queries<span class="where">Brand Presence · non-branded filter</span></li></ul></div>
-                <div><span class="label">Watch-out</span><p>Holding periods and collection ID rules are easy for AI answers to mix up between Post Office and Parcel Locker collection. Collection and Parcel Locker FAQs are strong candidates for clearer summaries.</p></div>
-              </div>
-            </details>
-          </td></tr>
-          <tr class="has-dtl">
+          <tr class="watch"><td colspan="3"><div class="w-in"><span class="label">Watch-out</span><p>Holding periods and collection ID rules are easy for AI answers to mix up between Post Office and Parcel Locker collection.</p></div></td></tr>
+          <tr class="t-row" id="t03">
             <th scope="row" class="c-topic"><span class="t-num">T03</span><span class="t-name">Post Office and peak-period topics</span><span class="t-note">e.g. last sending dates, extended opening hours, nearest Post Office and closures</span></th>
-            <td class="c-pri" data-label="Metrics to prioritize"><ol class="pri"><li><strong>Location- and date-specific accuracy and freshness.</strong></li><li><strong>Citations</strong> to relevant location or seasonal information.</li><li><strong>Mentions / Visibility Score</strong> as supporting visibility measures.</li></ol></td>
-            <td class="c-src" data-label="Where it&rsquo;s measured"><div class="src-block"><span class="src src-man">Manual review</span><p>Verify hours, closures and dates for the specified place and period.</p></div><div class="src-block"><span class="src src-abv">ABV Brand Presence</span><p>Citations, mentions and trends for the tracked prompts.</p></div></td>
+            <td class="c-abv" data-label="ABV metrics"><ul class="ms"><li><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span><div><p><strong>Citations</strong> to relevant location or seasonal information, including whether cited pages are current-season or prior-year.</p><span class="where">Brand Presence · URL Inspector</span></div></li><li><span class="pb pb-3" title="Priority 3">3</span><span class="sr">Priority 3</span><div><p><strong>Mentions and Visibility Score</strong>, with trends for the tracked prompts.</p><span class="where">Brand Presence</span></div></li><li><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span><div><p><strong>Peak-period sentiment</strong>.</p><span class="where">Brand Presence · Brand Claims</span></div></li></ul></td>
+            <td class="c-man" data-label="Manual review"><ul class="ms"><li><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span><div><p><strong>Location- and date-specific accuracy and freshness</strong>: verify hours, closures and dates for the specified place and period.</p></div></li></ul></td>
           </tr>
-          <tr class="dtl"><td colspan="3">
-            <details class="more tdl"><summary>Extra ABV signals and watch-out</summary>
-              <div class="dgrid">
-                <div class="sig"><span class="label">Extra ABV signals</span><ul><li>Times cited and freshness of cited pages: current-season versus prior-year URLs<span class="where">URL Inspector</span></li><li>Owned citation share and cut-off-date accuracy<span class="where">Data Insights · manual check</span></li><li>Peak-period sentiment<span class="where">Brand Presence sentiment · Brand Claims</span></li></ul></div>
-                <div><span class="label">Watch-out</span><p>Weekly runs cannot catch same-day closures, and interactive store-locator results may not be readable by AI crawlers. Focus on stable pages for annual cut-offs and Post Office directories.</p></div>
-              </div>
-            </details>
-          </td></tr>
-          <tr class="has-dtl">
+          <tr class="watch"><td colspan="3"><div class="w-in"><span class="label">Watch-out</span><p>Weekly runs cannot catch same-day closures, and interactive store-locator results may not be readable by AI crawlers. Stable pages for annual cut-offs and Post Office directories are easier to measure.</p></div></td></tr>
+          <tr class="t-row" id="t04">
             <th scope="row" class="c-topic"><span class="t-num">T04</span><span class="t-name">App</span></th>
-            <td class="c-pri" data-label="Metrics to prioritize"><ol class="pri"><li><strong>Accuracy and completeness</strong> of app-feature and support answers.</li><li><strong>Mentions and citations.</strong></li><li><strong>Sentiment</strong> about the app experience.</li></ol></td>
-            <td class="c-src" data-label="Where it&rsquo;s measured"><div class="src-block"><span class="src src-man">Manual review</span><p>Check feature and support claims.</p></div><div class="src-block"><span class="src src-abv">ABV Brand Presence</span><p>Mentions, citations, sentiment and competitor comparisons where prompts are comparative.</p></div></td>
+            <td class="c-abv" data-label="ABV metrics"><ul class="ms"><li><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span><div><p><strong>Mentions and citations</strong>; compare owned citations with app store listings and forums.</p><span class="where">Brand Presence · URL Inspector</span></div></li><li><span class="pb pb-3" title="Priority 3">3</span><span class="sr">Priority 3</span><div><p><strong>Sentiment</strong> about the app experience, across AI platforms.</p><span class="where">Brand Presence · Brand Claims</span></div></li><li><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span><div><p><strong>Competitor comparisons</strong> where prompts are comparative.</p><span class="where">Brand Presence</span></div></li></ul></td>
+            <td class="c-man" data-label="Manual review"><ul class="ms"><li><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span><div><p><strong>Accuracy and completeness</strong> of app-feature and support answers, including scam-safety guidance.</p></div></li></ul></td>
           </tr>
-          <tr class="dtl"><td colspan="3">
-            <details class="more tdl"><summary>Extra ABV signals and watch-out</summary>
-              <div class="dgrid">
-                <div class="sig"><span class="label">Extra ABV signals</span><ul><li>Owned versus all citations: official app pages versus app store listings and forums<span class="where">Data Insights · URL Inspector</span></li><li>App sentiment across AI platforms<span class="where">Brand Presence sentiment · Brand Claims</span></li><li>Completeness of feature and scam-safety claims<span class="where">Brand Claims · manual check</span></li></ul></div>
-                <div><span class="label">Watch-out</span><p>Citations to apps.apple.com and play.google.com count as external, not owned, and can bring app-store review complaints into answers.</p></div>
-              </div>
-            </details>
-          </td></tr>
+          <tr class="watch"><td colspan="3"><div class="w-in"><span class="label">Watch-out</span><p>Citations to apps.apple.com and play.google.com count as external, not owned, and can bring app-store review complaints into answers.</p></div></td></tr>
         </tbody>
-        <tbody class="grp-body">
-          <tr class="grp"><th colspan="3" scope="colgroup" id="grp-vis">
+        <tbody>
+          <tr class="grp"><th colspan="3" scope="colgroup">
             <span class="grp-name">Visibility-led</span>
             <span class="grp-meta"><span>2 topics</span><span class="grp-lead"><span class="src src-abv">ABV Brand Presence</span> first</span><span>Serves <a href="#obj-3">Objective 03 · Competitive benchmarking</a></span></span>
           </th></tr>
-          <tr class="has-dtl">
+          <tr class="t-row" id="t05">
             <th scope="row" class="c-topic"><span class="t-num">T05</span><span class="t-name">Fast and same-day delivery</span></th>
-            <td class="c-pri" data-label="Metrics to prioritize"><ol class="pri"><li><strong>Visibility and competitor comparison</strong> on customer-choice prompts.</li><li><strong>Accuracy</strong> of service availability and conditions.</li><li><strong>Sentiment</strong> as a supporting measure of how Australia Post is portrayed.</li></ol></td>
-            <td class="c-src" data-label="Where it&rsquo;s measured"><div class="src-block"><span class="src src-abv">ABV Brand Presence</span><p>Visibility Score, mentions, citations, sentiment and competitor comparisons.</p></div><div class="src-block"><span class="src src-man">Manual review</span><p>Verify location, cut-off and service-condition claims; record Australia Post&rsquo;s position when options are listed.</p></div></td>
+            <td class="c-abv" data-label="ABV metrics"><ul class="ms"><li><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span><div><p><strong>Visibility and competitor comparison</strong> on customer-choice prompts: Visibility Score, mentions and Share of Voice on non-branded prompts, plus Market Tracking against up to five competitors.</p><span class="where">Brand Presence</span></div></li><li><span class="pb pb-3" title="Priority 3">3</span><span class="sr">Priority 3</span><div><p><strong>Sentiment</strong> as a supporting measure of how Australia Post is portrayed.</p><span class="where">Brand Presence</span></div></li><li><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span><div><p><strong>Citations</strong>, including the third-party comparison sources behind competitor recommendations.</p><span class="where">Brand Presence · AI Visibility</span></div></li></ul></td>
+            <td class="c-man" data-label="Manual review"><ul class="ms"><li><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span><div><p><strong>Accuracy</strong> of service availability and conditions: verify location, cut-off and service-condition claims.</p></div></li><li><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span><div><p><strong>Position</strong>: record where Australia Post appears when options are listed.</p></div></li></ul></td>
           </tr>
-          <tr class="dtl"><td colspan="3">
-            <details class="more tdl"><summary>Extra ABV signals and watch-out</summary>
-              <div class="dgrid">
-                <div class="sig"><span class="label">Extra ABV signals</span><ul><li>Share of Voice and Visibility Score on non-branded prompts: is Australia Post recommended first?<span class="where">Brand Presence · non-branded filter</span></li><li>Competitor mentions and citations on the same prompts<span class="where">Market Tracking (up to five competitors)</span></li><li>Third-party comparison sources that drive competitor recommendations<span class="where">AI Visibility · Brand Claims sources</span></li></ul></div>
-                <div><span class="label">Watch-out</span><p>The trial tracks one domain, so startrack.com.au citations count as external, not owned. If Freight wants a combined view, track StarTrack in a Market Tracking slot.</p></div>
-              </div>
-            </details>
-          </td></tr>
-          <tr class="has-dtl">
+          <tr class="watch"><td colspan="3"><div class="w-in"><span class="label">Watch-out</span><p>The trial tracks one domain, so startrack.com.au citations count as external, not owned. If Freight wants a combined view, track StarTrack in a Market Tracking slot.</p></div></td></tr>
+          <tr class="t-row" id="t06">
             <th scope="row" class="c-topic"><span class="t-num">T06</span><span class="t-name">Small business and ecommerce shipping / MyPost Business</span></th>
-            <td class="c-pri" data-label="Metrics to prioritize"><ol class="pri"><li><strong>Visibility and competitor comparison</strong> on small-business shipping prompts.</li><li><strong>Citations</strong> to relevant Australia Post information.</li><li><strong>Accuracy</strong> of product, eligibility and pricing or terms claims.</li></ol></td>
-            <td class="c-src" data-label="Where it&rsquo;s measured"><div class="src-block"><span class="src src-abv">ABV Brand Presence</span><p>Visibility Score, mentions, citations, sentiment and competitor comparisons.</p></div><div class="src-block"><span class="src src-man">Manual review</span><p>Check product and commercial claims for accuracy and completeness.</p></div></td>
+            <td class="c-abv" data-label="ABV metrics"><ul class="ms"><li><span class="pb pb-1" title="Priority 1">1</span><span class="sr">Priority 1</span><div><p><strong>Visibility and competitor comparison</strong> on small-business shipping prompts: Visibility Score, mentions and Share of Voice on non-branded prompts, plus Market Tracking.</p><span class="where">Brand Presence</span></div></li><li><span class="pb pb-2" title="Priority 2">2</span><span class="sr">Priority 2</span><div><p><strong>Citations</strong> to relevant Australia Post information, and the cited sources behind competitor recommendations.</p><span class="where">Brand Presence · AI Visibility</span></div></li><li><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span><div><p><strong>Sentiment</strong>, including how pricing competitiveness is framed.</p><span class="where">Brand Presence · Brand Claims</span></div></li></ul></td>
+            <td class="c-man" data-label="Manual review"><ul class="ms"><li><span class="pb pb-3" title="Priority 3">3</span><span class="sr">Priority 3</span><div><p><strong>Accuracy</strong> of product, eligibility and pricing or terms claims, including savings tiers and integrations.</p></div></li><li><span class="pb pb-plus" title="Supporting measure">+</span><span class="sr">Supporting</span><div><p><strong>Completeness</strong> of product and commercial claims.</p></div></li></ul></td>
           </tr>
-          <tr class="dtl"><td colspan="3">
-            <details class="more tdl"><summary>Extra ABV signals and watch-out</summary>
-              <div class="dgrid">
-                <div class="sig"><span class="label">Extra ABV signals</span><ul><li>Share of Voice and mentions across non-branded small-business shipping prompts<span class="where">Brand Presence · Market Tracking</span></li><li>Cited sources driving competitor recommendations, such as small-business and ecommerce blogs<span class="where">AI Visibility · Brand Claims sources</span></li><li>Accuracy of savings tiers, integrations and terms<span class="where">Brand Claims · URL Inspector on business pages</span></li></ul></div>
-                <div><span class="label">Watch-out</span><p>The broadest topic across all three objectives, which is why it has the largest suggested size. Check that answers state current MyPost Business savings tiers and terms; outdated thresholds are a risk.</p></div>
-              </div>
-            </details>
-          </td></tr>
+          <tr class="watch"><td colspan="3"><div class="w-in"><span class="label">Watch-out</span><p>Check that answers state current MyPost Business savings tiers and terms; outdated thresholds are a risk.</p></div></td></tr>
         </tbody>
       </table>
     </div>

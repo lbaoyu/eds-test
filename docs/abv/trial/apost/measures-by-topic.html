@@ -229,6 +229,19 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
 .src-block + .src-block{padding-top:14px;border-top:1px dashed var(--gray-200);}
 .tnote{margin:14px 0 0;font-size:14px;color:var(--gray-700);max-width:40em;}
 
+/* topic details */
+table.topics tr.has-dtl th,table.topics tr.has-dtl td{border-bottom:0;padding-bottom:10px;}
+table.topics tr.dtl td{padding:0 20px 18px;border-bottom:1px solid var(--gray-200);}
+table.topics tbody tr.dtl:last-child td{border-bottom:0;}
+details.more.tdl{margin:0;border-top:0;padding-top:0;}
+.dgrid{display:grid;grid-template-columns:1.4fr 1fr;gap:22px;margin:12px 0 0;padding:18px 20px;background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius-sm);}
+.dgrid ul{margin:0;padding-left:18px;font-size:14px;line-height:1.5;color:var(--gray-800);}
+.dgrid li{margin:0 0 7px;}
+.dgrid li:last-child{margin:0;}
+.dgrid li::marker{color:var(--gray-500);}
+.dgrid .where{display:block;font-size:13px;color:var(--gray-600);margin-top:2px;}
+.dgrid p{margin:0;font-size:14px;line-height:1.5;color:var(--gray-800);}
+
 /* jobs list */
 .jobs{list-style:none;margin:0;padding:0;border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;background:var(--bg-base);}
 .jobs li{display:grid;grid-template-columns:250px 1fr;gap:20px;padding:18px 24px;border-bottom:1px solid var(--gray-200);transition:background .15s;}
@@ -261,6 +274,9 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
   table.topics td.c-pri::before,table.topics td.c-src::before{content:attr(data-label);display:block;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-600);margin:0 0 10px;}
   .grp-name{display:block;margin:0 0 6px;}
   .jobs li{grid-template-columns:1fr;gap:10px;padding:18px 20px;}
+  table.topics tr.has-dtl{border-bottom:0;padding-bottom:0;}
+  table.topics tr.dtl td{padding:4px 20px 18px;}
+  .dgrid{grid-template-columns:1fr;gap:16px;}
   .oneliner{grid-template-columns:1fr;gap:10px;}
 }
 
@@ -356,13 +372,13 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
       <div class="card">
         <div class="card-head"><span class="src src-abv">ABV Brand Presence</span></div>
         <h3>How visible Australia Post is</h3>
-        <p class="csub">For the same tracked prompts, by topic and available AI platform.</p>
+        <p class="csub">For the same tracked prompts, by topic, AI platform and branded or non-branded prompts.</p>
         <ul class="mlist">
           <li><b>Visibility Score</b><span>Headline indicator. Read movement through its component metrics.</span></li>
           <li><b>Mentions</b><span>Whether Australia Post appears in the answer.</span></li>
-          <li><b>Citations</b><span>Whether answers cite Australia Post information.</span></li>
+          <li><b>Citations</b><span>Whether answers cite Australia Post information; Data Insights separates owned citations from all citations.</span></li>
           <li><b>Sentiment</b><span>How Australia Post is portrayed: positive, neutral or negative.</span></li>
-          <li><b>Competitor comparisons</b><span>Australia Post&rsquo;s visibility relative to alternatives.</span></li>
+          <li><b>Competitor comparisons</b><span>Share of Voice, and Market Tracking against up to five competitors.</span></li>
           <li><b>Trends</b><span>Change over time on the tracked prompts.</span></li>
         </ul>
       </div>
@@ -395,42 +411,90 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
             <span class="grp-name">Accuracy-led</span>
             <span class="grp-meta"><span>4 topics</span><span class="grp-lead"><span class="src src-man">Manual review</span> first</span><span>Serves <a href="#obj-1">Objective 01 · Accuracy</a></span></span>
           </th></tr>
-          <tr>
+          <tr class="has-dtl">
             <th scope="row" class="c-topic"><span class="t-num">T01</span><span class="t-name">Parcel tracking and delivery</span></th>
             <td class="c-pri" data-label="Metrics to prioritize"><ol class="pri"><li><strong>Accuracy and completeness</strong> of tracking instructions and next steps.</li><li><strong>Relevant citations</strong> to Australia Post information.</li><li><strong>Mentions / Visibility Score</strong> as supporting visibility measures.</li></ol></td>
             <td class="c-src" data-label="Where it&rsquo;s measured"><div class="src-block"><span class="src src-man">Manual review</span><p>Check answer accuracy and completeness, including whether it avoids implying access to an individual parcel&rsquo;s live status.</p></div><div class="src-block"><span class="src src-abv">ABV Brand Presence</span><p>Mentions, Visibility Score, citations and trends.</p></div></td>
           </tr>
-          <tr>
+          <tr class="dtl"><td colspan="3">
+            <details class="more tdl"><summary>Extra ABV signals and watch-out</summary>
+              <div class="dgrid">
+                <div class="sig"><span class="label">Extra ABV signals</span><ul><li>Owned citation share (owned ÷ all citations): whether answers draw on Australia Post&rsquo;s tracking help rather than forums<span class="where">Data Insights · URL Inspector</span></li><li>Negative sentiment by AI platform on delay and support prompts<span class="where">Brand Presence sentiment</span></li><li>Recurring unfavorable claims, such as wrong escalation steps or wait times<span class="where">Brand Claims</span></li></ul></div>
+                <div><span class="label">Watch-out</span><p>Community forums and review sites can shape these answers. Clear tracking-status definitions and delay steps on auspost.com.au give AI systems an owned source to cite.</p></div>
+              </div>
+            </details>
+          </td></tr>
+          <tr class="has-dtl">
             <th scope="row" class="c-topic"><span class="t-num">T02</span><span class="t-name">Missed deliveries, Parcel Lockers and collection</span></th>
             <td class="c-pri" data-label="Metrics to prioritize"><ol class="pri"><li><strong>Accuracy</strong> of the options, steps and eligibility information.</li><li><strong>Freshness</strong> of any deadlines or conditions.</li><li><strong>Relevant citations.</strong></li></ol></td>
             <td class="c-src" data-label="Where it&rsquo;s measured"><div class="src-block"><span class="src src-man">Manual review</span><p>Check process, eligibility and time-sensitive claims.</p></div><div class="src-block"><span class="src src-abv">ABV Brand Presence</span><p>Citations, mentions and competitor comparisons when prompts ask about alternatives.</p></div></td>
           </tr>
-          <tr>
+          <tr class="dtl"><td colspan="3">
+            <details class="more tdl"><summary>Extra ABV signals and watch-out</summary>
+              <div class="dgrid">
+                <div class="sig"><span class="label">Extra ABV signals</span><ul><li>Policy-claim accuracy and owned citations on collection and locker answers<span class="where">Brand Claims · Data Insights</span></li><li>Sentiment contrast between missed-delivery and Parcel Locker convenience prompts<span class="where">Brand Presence sentiment</span></li><li>Share of Voice on non-branded parcel locker queries<span class="where">Brand Presence · non-branded filter</span></li></ul></div>
+                <div><span class="label">Watch-out</span><p>Holding periods and collection ID rules are easy for AI answers to mix up between Post Office and Parcel Locker collection. Collection and Parcel Locker FAQs are strong candidates for clearer summaries.</p></div>
+              </div>
+            </details>
+          </td></tr>
+          <tr class="has-dtl">
             <th scope="row" class="c-topic"><span class="t-num">T03</span><span class="t-name">Post Office and peak-period topics</span><span class="t-note">e.g. last sending dates, extended opening hours, nearest Post Office and closures</span></th>
             <td class="c-pri" data-label="Metrics to prioritize"><ol class="pri"><li><strong>Location- and date-specific accuracy and freshness.</strong></li><li><strong>Citations</strong> to relevant location or seasonal information.</li><li><strong>Mentions / Visibility Score</strong> as supporting visibility measures.</li></ol></td>
             <td class="c-src" data-label="Where it&rsquo;s measured"><div class="src-block"><span class="src src-man">Manual review</span><p>Verify hours, closures and dates for the specified place and period.</p></div><div class="src-block"><span class="src src-abv">ABV Brand Presence</span><p>Citations, mentions and trends for the tracked prompts.</p></div></td>
           </tr>
-          <tr>
+          <tr class="dtl"><td colspan="3">
+            <details class="more tdl"><summary>Extra ABV signals and watch-out</summary>
+              <div class="dgrid">
+                <div class="sig"><span class="label">Extra ABV signals</span><ul><li>Times cited and freshness of cited pages: current-season versus prior-year URLs<span class="where">URL Inspector</span></li><li>Owned citation share and cut-off-date accuracy<span class="where">Data Insights · manual check</span></li><li>Peak-period sentiment<span class="where">Brand Presence sentiment · Brand Claims</span></li></ul></div>
+                <div><span class="label">Watch-out</span><p>Weekly runs cannot catch same-day closures, and interactive store-locator results may not be readable by AI crawlers. Focus on stable pages for annual cut-offs and Post Office directories.</p></div>
+              </div>
+            </details>
+          </td></tr>
+          <tr class="has-dtl">
             <th scope="row" class="c-topic"><span class="t-num">T04</span><span class="t-name">App</span></th>
             <td class="c-pri" data-label="Metrics to prioritize"><ol class="pri"><li><strong>Accuracy and completeness</strong> of app-feature and support answers.</li><li><strong>Mentions and citations.</strong></li><li><strong>Sentiment</strong> about the app experience.</li></ol></td>
             <td class="c-src" data-label="Where it&rsquo;s measured"><div class="src-block"><span class="src src-man">Manual review</span><p>Check feature and support claims.</p></div><div class="src-block"><span class="src src-abv">ABV Brand Presence</span><p>Mentions, citations, sentiment and competitor comparisons where prompts are comparative.</p></div></td>
           </tr>
+          <tr class="dtl"><td colspan="3">
+            <details class="more tdl"><summary>Extra ABV signals and watch-out</summary>
+              <div class="dgrid">
+                <div class="sig"><span class="label">Extra ABV signals</span><ul><li>Owned versus all citations: official app pages versus app store listings and forums<span class="where">Data Insights · URL Inspector</span></li><li>App sentiment across AI platforms<span class="where">Brand Presence sentiment · Brand Claims</span></li><li>Completeness of feature and scam-safety claims<span class="where">Brand Claims · manual check</span></li></ul></div>
+                <div><span class="label">Watch-out</span><p>Citations to apps.apple.com and play.google.com count as external, not owned, and can bring app-store review complaints into answers.</p></div>
+              </div>
+            </details>
+          </td></tr>
         </tbody>
         <tbody class="grp-body">
           <tr class="grp"><th colspan="3" scope="colgroup" id="grp-vis">
             <span class="grp-name">Visibility-led</span>
             <span class="grp-meta"><span>2 topics</span><span class="grp-lead"><span class="src src-abv">ABV Brand Presence</span> first</span><span>Serves <a href="#obj-3">Objective 03 · Competitive benchmarking</a></span></span>
           </th></tr>
-          <tr>
+          <tr class="has-dtl">
             <th scope="row" class="c-topic"><span class="t-num">T05</span><span class="t-name">Fast and same-day delivery</span></th>
             <td class="c-pri" data-label="Metrics to prioritize"><ol class="pri"><li><strong>Visibility and competitor comparison</strong> on customer-choice prompts.</li><li><strong>Accuracy</strong> of service availability and conditions.</li><li><strong>Sentiment</strong> as a supporting measure of how Australia Post is portrayed.</li></ol></td>
             <td class="c-src" data-label="Where it&rsquo;s measured"><div class="src-block"><span class="src src-abv">ABV Brand Presence</span><p>Visibility Score, mentions, citations, sentiment and competitor comparisons.</p></div><div class="src-block"><span class="src src-man">Manual review</span><p>Verify location, cut-off and service-condition claims; record Australia Post&rsquo;s position when options are listed.</p></div></td>
           </tr>
-          <tr>
+          <tr class="dtl"><td colspan="3">
+            <details class="more tdl"><summary>Extra ABV signals and watch-out</summary>
+              <div class="dgrid">
+                <div class="sig"><span class="label">Extra ABV signals</span><ul><li>Share of Voice and Visibility Score on non-branded prompts: is Australia Post recommended first?<span class="where">Brand Presence · non-branded filter</span></li><li>Competitor mentions and citations on the same prompts<span class="where">Market Tracking (up to five competitors)</span></li><li>Third-party comparison sources that drive competitor recommendations<span class="where">AI Visibility · Brand Claims sources</span></li></ul></div>
+                <div><span class="label">Watch-out</span><p>The trial tracks one domain, so startrack.com.au citations count as external, not owned. If Freight wants a combined view, track StarTrack in a Market Tracking slot.</p></div>
+              </div>
+            </details>
+          </td></tr>
+          <tr class="has-dtl">
             <th scope="row" class="c-topic"><span class="t-num">T06</span><span class="t-name">Small business and ecommerce shipping / MyPost Business</span></th>
             <td class="c-pri" data-label="Metrics to prioritize"><ol class="pri"><li><strong>Visibility and competitor comparison</strong> on small-business shipping prompts.</li><li><strong>Citations</strong> to relevant Australia Post information.</li><li><strong>Accuracy</strong> of product, eligibility and pricing or terms claims.</li></ol></td>
             <td class="c-src" data-label="Where it&rsquo;s measured"><div class="src-block"><span class="src src-abv">ABV Brand Presence</span><p>Visibility Score, mentions, citations, sentiment and competitor comparisons.</p></div><div class="src-block"><span class="src src-man">Manual review</span><p>Check product and commercial claims for accuracy and completeness.</p></div></td>
           </tr>
+          <tr class="dtl"><td colspan="3">
+            <details class="more tdl"><summary>Extra ABV signals and watch-out</summary>
+              <div class="dgrid">
+                <div class="sig"><span class="label">Extra ABV signals</span><ul><li>Share of Voice and mentions across non-branded small-business shipping prompts<span class="where">Brand Presence · Market Tracking</span></li><li>Cited sources driving competitor recommendations, such as small-business and ecommerce blogs<span class="where">AI Visibility · Brand Claims sources</span></li><li>Accuracy of savings tiers, integrations and terms<span class="where">Brand Claims · URL Inspector on business pages</span></li></ul></div>
+                <div><span class="label">Watch-out</span><p>The broadest topic across all three objectives, which is why it has the largest suggested size. Check that answers state current MyPost Business savings tiers and terms; outdated thresholds are a risk.</p></div>
+              </div>
+            </details>
+          </td></tr>
         </tbody>
       </table>
     </div>
@@ -453,9 +517,9 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
         </div>
         <div class="obj-r">
           <ul>
-            <li>Score a sample of responses for accuracy, completeness and freshness against Australia Post-approved information.</li>
+            <li>Score a sample of responses for accuracy, completeness and freshness against Australia Post-approved information, and check that each citation supports its claim.</li>
+            <li>Track <strong>owned citation share</strong> (owned &divide; all citations in Data Insights) as a leading signal that answers draw on Australia Post content.</li>
             <li>Use Brand Claims to choose the sample: recurring and unfavorable claims first, plus Contradicted claims where Fact Checking is enabled.</li>
-            <li>Check that each citation supports the claim it accompanies.</li>
             <li>Leads the metrics for the <a href="#grp-acc">four accuracy-led topics</a>.</li>
           </ul>
         </div>
@@ -471,10 +535,10 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
         </div>
         <div class="obj-r">
           <ul>
-            <li>Report sentiment for the tracked prompts; compare by topic and available AI platform.</li>
+            <li>Report sentiment for the tracked prompts; compare by topic, AI platform, and branded versus non-branded prompts.</li>
             <li>Brand Claims adds claim-level sentiment, showing which statements drive favorable or unfavorable portrayal.</li>
+            <li>The trial has no user-intent filter, so <strong>tag topic names by intent at setup</strong> (for example, &ldquo;Tracking &middot; Support&rdquo; or &ldquo;Small business &middot; Compare&rdquo;) to read sentiment by intent.</li>
             <li>A supporting measure for fast and same-day delivery and the app, and also reported for small-business shipping.</li>
-            <li>Reading sentiment by intent depends on prompt coverage: confirm each selected topic&rsquo;s prompts cover the intended customer needs.</li>
           </ul>
         </div>
       </div>
@@ -489,10 +553,10 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
         </div>
         <div class="obj-r">
           <ul>
-            <li>Visibility Score, mentions, citations and competitor comparisons on the same tracked prompts; leads the <a href="#grp-vis">two visibility-led topics</a>.</li>
+            <li><strong>Share of Voice</strong>, Visibility Score, mentions and citations on <strong>non-branded prompts</strong>; leads the <a href="#grp-vis">two visibility-led topics</a>. Branded help prompts would inflate Australia Post&rsquo;s standing, so keep them out of Share of Voice readouts.</li>
+            <li>Market Tracking compares Australia Post with up to five competitors on the same prompts. AI Visibility adds broader market context but does not substitute for tracked-prompt results.</li>
             <li>Comparative claims in Brand Claims show how Australia Post is described against alternatives.</li>
             <li>During manual review, record Australia Post&rsquo;s position when options are listed.</li>
-            <li>Use AI Visibility for broader market context, not as a substitute for tracked-prompt results.</li>
           </ul>
         </div>
       </div>
@@ -557,7 +621,7 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
 
     <ul class="jobs">
       <li><div class="j-name"><strong>ABV Brand Presence</strong><span class="role">Outcome reporting</span></div>
-        <p>Report Visibility Score, mentions, citations, sentiment and competitor comparisons for the same tracked prompts. Compare trends by topic and available AI platform.</p></li>
+        <p>Report Visibility Score, mentions, citations, sentiment and competitor comparisons for the same tracked prompts. Compare trends by topic and available AI platform, and read Share of Voice on non-branded prompts.</p></li>
       <li><div class="j-name"><strong>Brand Claims</strong><span class="role">Review targeting</span></div>
         <p>Use recurrence, sentiment and sources to choose which claims the manual review checks first, and route recommendations to the Opportunity Workspace.</p></li>
       <li><div class="j-name"><strong>Fact Checking</strong><span class="j-tags"><span class="role">Triage</span><span class="status status-ea">Early access</span></span></div>

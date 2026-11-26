@@ -29,7 +29,6 @@
   --scanline:rgba(255,255,255,.03);
   --chip-fill:rgba(255,255,255,.09);--chip-border:rgba(255,255,255,.20);--chip-edge:rgba(255,255,255,.17);
   --chip-shadow:rgba(0,0,0,.12);--glow:rgba(255,255,255,.18);
-  --nav-fill:rgba(255,255,255,.9);
   --maxw:1200px;
 }
 *{box-sizing:border-box;}
@@ -81,23 +80,26 @@ strong{color:var(--ink);}
   box-shadow:inset 0 1px 0 var(--chip-edge),0 1px 5px var(--chip-shadow);}
 .hero-chips li strong{color:var(--white);font-weight:700;}
 
-/* top nav */
-.nav{position:sticky;top:0;z-index:50;background:var(--nav-fill);backdrop-filter:saturate(180%) blur(12px);-webkit-backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--gray-200);}
-.nav-inner{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:16px;padding:0 24px;height:58px;}
-.nav-mark{height:22px;width:auto;flex:none;}
-.nav-title{font-weight:800;font-size:14px;letter-spacing:-.01em;white-space:nowrap;color:var(--ink);}
-.nav-title span{font-weight:400;color:var(--gray-600);}
-.nav-links{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none;}
-.nav-links::-webkit-scrollbar{display:none;}
-.nav-links a{color:var(--gray-700);font-size:13.5px;font-weight:600;padding:7px 13px;border-radius:8px;white-space:nowrap;transition:color .15s,background .15s;}
-.nav-links a:hover{background:var(--gray-100);color:var(--ink);text-decoration:none;}
-.nav-links a.active{color:var(--s2-blue-down);background:var(--s2-blue-tint);}
-.nav-links a:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px;}
-@media(max-width:860px){.nav-title{display:none;}.nav-links{margin-left:0;}}
+/* left rail TOC */
+.shell{max-width:var(--maxw);margin:0 auto;padding:0 24px 40px;display:grid;grid-template-columns:220px minmax(0,1fr);gap:56px;}
+.rail{position:sticky;top:24px;align-self:start;padding-top:56px;}
+.rail-title{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-500);margin:0 0 14px;padding-left:14px;}
+.rail nav{display:flex;flex-direction:column;gap:2px;}
+.rail nav a{display:flex;align-items:center;gap:11px;padding:10px 15px;border-radius:var(--radius-sm);color:var(--gray-600);font-size:14px;font-weight:600;
+  border-left:2px solid transparent;transition:background .15s,color .15s,border-color .15s;}
+.rail nav a .num{font-size:11px;font-weight:700;color:var(--gray-300);min-width:16px;font-variant-numeric:tabular-nums;font-family:var(--mono);}
+.rail nav a:hover{background:var(--gray-100);color:var(--ink);text-decoration:none;}
+.rail nav a.active{color:var(--s2-blue-down);background:var(--s2-blue-tint);border-left-color:var(--s2-blue);}
+.rail nav a.active .num{color:var(--s2-blue);}
+.rail nav a:focus-visible{outline:2px solid var(--focus-ring);outline-offset:-2px;}
+.rail-meta{margin:22px 0 0;padding:16px 0 0 14px;border-top:1px solid var(--gray-200);font-size:12.5px;line-height:1.5;color:var(--gray-500);}
+.rail-meta b{display:block;color:var(--gray-700);font-weight:700;margin:0 0 2px;}
+.content{min-width:0;}
+@media(max-width:980px){.shell{grid-template-columns:1fr;gap:0;}.rail{display:none;}}
 
 /* sections */
-main{max-width:var(--maxw);margin:0 auto;padding:56px 24px 40px;counter-reset:sec;}
-section{scroll-margin-top:80px;padding-bottom:64px;counter-increment:sec;}
+main{min-width:0;padding-top:56px;counter-reset:sec;}
+section{scroll-margin-top:24px;padding-bottom:64px;counter-increment:sec;}
 section + section{border-top:1px solid var(--gray-200);
   border-image:linear-gradient(90deg,transparent,var(--gray-200) 18%,var(--gray-200) 82%,transparent) 1;padding-top:60px;}
 .sec-eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gray-500);margin:0 0 14px;}
@@ -132,7 +134,7 @@ h3{font-size:19px;line-height:1.25;letter-spacing:-.01em;font-weight:800;margin:
 .status-ea{background:var(--white);color:var(--gray-700);border-style:dashed;}
 .impact{margin:26px 0 0;}
 .impact h3{margin:0 0 14px;}
-.impact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+.impact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
 .impact-item{background:var(--bg-layer-1);border:1px solid var(--border);border-radius:var(--radius-sm);padding:16px 18px;}
 .impact-item b{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-500);margin:0 0 6px;}
 .impact-item p{margin:0;font-size:14.5px;color:var(--gray-700);line-height:1.5;}
@@ -144,7 +146,6 @@ h3{font-size:19px;line-height:1.25;letter-spacing:-.01em;font-weight:800;margin:
 .manual-box li::marker{color:var(--gray-400);}
 .card-head h3 .status{margin-left:8px;vertical-align:3px;font-size:10px;padding:3px 8px;letter-spacing:.08em;}
 .caveat{margin:16px 0 0;font-size:13.5px;color:var(--gray-600);max-width:90ch;}
-@media(max-width:1020px){.impact-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:860px){
   .flow{grid-template-columns:1fr;}
   .flow-arrow{transform:rotate(90deg);height:20px;}
@@ -160,7 +161,7 @@ h3{font-size:19px;line-height:1.25;letter-spacing:-.01em;font-weight:800;margin:
 .card .cnum{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-500);margin:0 0 10px;}
 .card .csub{font-size:14.5px;color:var(--gray-600);margin:0 0 16px;}
 .mlist{list-style:none;margin:0;padding:0;border-top:1px solid var(--gray-200);}
-.mlist li{display:grid;grid-template-columns:150px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--gray-200);font-size:15px;}
+.mlist li{display:grid;grid-template-columns:132px 1fr;gap:14px;padding:11px 0;border-bottom:1px solid var(--gray-200);font-size:15px;}
 .mlist li b{color:var(--ink);font-weight:700;}
 .mlist li span{color:var(--gray-700);}
 .card .cfoot{margin:14px 0 0;font-size:13.5px;color:var(--gray-600);}
@@ -178,10 +179,14 @@ h3{font-size:19px;line-height:1.25;letter-spacing:-.01em;font-weight:800;margin:
 .oneliner .em{color:var(--coral-bright);font-weight:800;}
 
 /* objectives (section 2) */
-.obj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-.obj{display:flex;flex-direction:column;}
-.obj .ask{font-size:14.5px;color:var(--gray-600);margin:0 0 16px;padding-bottom:16px;border-bottom:1px solid var(--gray-200);}
-.obj .measured{margin:0 0 12px;}
+.obj-grid{display:grid;grid-template-columns:1fr;gap:18px;}
+.obj{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.45fr);gap:0 34px;}
+.obj-l{display:flex;flex-direction:column;}
+.obj-r{display:flex;flex-direction:column;padding-left:34px;border-left:1px solid var(--gray-200);}
+@media(max-width:1100px){.obj{grid-template-columns:1fr;}.obj-r{padding-left:0;border-left:0;}}
+.obj .ask{font-size:14.5px;color:var(--gray-600);margin:0 0 16px;}
+.obj .measured{margin:2px 0 0;padding-top:14px;border-top:1px solid var(--gray-200);}
+@media(max-width:1100px){.obj .measured{margin:0 0 16px;}}
 .obj .measured .lbl{display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-500);margin:0 0 6px;}
 .obj ul{margin:0 0 16px;padding-left:18px;font-size:15px;color:var(--gray-700);}
 .obj ul li{margin:0 0 8px;}
@@ -280,19 +285,19 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
   </div>
 </header>
 
-<nav class="nav" aria-label="Sections">
-  <div class="nav-inner">
-    <img class="nav-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="">
-    <span class="nav-title">Australia Post <span>&middot; Trial measures</span></span>
-    <div class="nav-links">
-      <a href="#reporting">Reporting model</a>
-      <a href="#claims">Brand Claims</a>
-      <a href="#objectives">Trial objectives</a>
-      <a href="#topics">Metrics by topic</a>
-      <a href="#using">Using the measures</a>
-    </div>
-  </div>
-</nav>
+<div class="shell">
+  <aside class="rail" aria-label="Contents">
+    <p class="rail-title">Contents</p>
+    <nav id="spy-nav">
+      <a href="#reporting"><span class="num">01</span> Reporting model</a>
+      <a href="#claims"><span class="num">02</span> Brand Claims</a>
+      <a href="#objectives"><span class="num">03</span> Trial objectives</a>
+      <a href="#topics"><span class="num">04</span> Metrics by topic</a>
+      <a href="#using"><span class="num">05</span> Using the measures</a>
+    </nav>
+    <div class="rail-meta"><b>Australia Post</b>ABV trial &middot; 6 topics &middot; 100 prompts</div>
+  </aside>
+  <div class="content">
 
 <main>
 
@@ -417,39 +422,39 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
     <p class="intro">The three objectives from Australia Post&rsquo;s brief, mapped to the measure that answers each one.</p>
 
     <div class="obj-grid">
-      <div class="card obj">
+      <div class="card obj"><div class="obj-l">
         <span class="cnum">Objective 01</span>
         <h3>Accuracy of AI responses</h3>
         <p class="ask">Are answers about products, services, and help and support accurate, complete and up to date?</p>
-        <div class="measured"><span class="lbl">Measured mainly in</span><span class="src src-man">Manual review</span></div>
+        <div class="measured"><span class="lbl">Measured mainly in</span><span class="src src-man">Manual review</span></div></div><div class="obj-r">
         <ul>
           <li>Score a sample of responses for accuracy, completeness and freshness against Australia Post-approved information.</li>
           <li>Use Brand Claims to choose the sample: recurring and unfavorable claims first, plus Contradicted claims where Fact Checking is enabled.</li>
           <li>Check that each citation supports the claim it accompanies.</li>
           <li>This is the first priority for parcel tracking, missed deliveries and collection, Post Office and peak-period topics, and the app.</li>
         </ul>
-        <div class="out"><b>Output</b>Incorrect and missing information, and the content to clarify or strengthen.</div>
+        <div class="out"><b>Output</b>Incorrect and missing information, and the content to clarify or strengthen.</div></div>
       </div>
 
-      <div class="card obj">
+      <div class="card obj"><div class="obj-l">
         <span class="cnum">Objective 02</span>
         <h3>Sentiment across topics and intents</h3>
         <p class="ask">Is Australia Post described positively, negatively or neutrally, and does that vary by topic, customer need or platform?</p>
-        <div class="measured"><span class="lbl">Measured in</span><span class="src src-abv">ABV Brand Presence</span><span class="src src-bc">ABV Brand Claims</span></div>
+        <div class="measured"><span class="lbl">Measured in</span><span class="src src-abv">ABV Brand Presence</span><span class="src src-bc">ABV Brand Claims</span></div></div><div class="obj-r">
         <ul>
           <li>Report sentiment for the tracked prompts; compare by topic and available AI platform.</li>
           <li>Brand Claims adds claim-level sentiment, showing which statements drive favorable or unfavorable portrayal.</li>
           <li>Sentiment is a supporting measure for fast and same-day delivery and the app, and is also reported for small-business shipping.</li>
           <li>Reading sentiment by intent depends on prompt coverage: confirm each topic&rsquo;s prompts cover the intended customer needs at setup.</li>
         </ul>
-        <div class="out"><b>Output</b>Where portrayal varies by topic, customer need or AI platform.</div>
+        <div class="out"><b>Output</b>Where portrayal varies by topic, customer need or AI platform.</div></div>
       </div>
 
-      <div class="card obj">
+      <div class="card obj"><div class="obj-l">
         <span class="cnum">Objective 03</span>
         <h3>Competitive benchmarking</h3>
         <p class="ask">How are Australia Post&rsquo;s offerings represented against competitors, and where are others recommended first?</p>
-        <div class="measured"><span class="lbl">Measured in</span><span class="src src-abv">ABV Brand Presence</span></div>
+        <div class="measured"><span class="lbl">Measured in</span><span class="src src-abv">ABV Brand Presence</span></div></div><div class="obj-r">
         <ul>
           <li>Visibility Score, mentions, citations and competitor comparisons on the same tracked prompts.</li>
           <li>This is the first priority for fast and same-day delivery and for small-business shipping / MyPost Business.</li>
@@ -457,7 +462,7 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
           <li>During manual review, record Australia Post&rsquo;s position when options are listed.</li>
           <li>Use AI Visibility for broader market context, not as a substitute for tracked-prompt results.</li>
         </ul>
-        <div class="out"><b>Output</b>Where competitors lead, and where content and market presence can be strengthened.</div>
+        <div class="out"><b>Output</b>Where competitors lead, and where content and market presence can be strengthened.</div></div>
       </div>
     </div>
   </section>
@@ -571,6 +576,8 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
   </section>
 
 </main>
+  </div>
+</div>
 
 <footer class="site-footer">
   <div class="foot-inner">
@@ -584,11 +591,12 @@ ol.pri li::before{content:counter(p);position:absolute;left:0;top:0;width:22px;h
 
 <script>
 (function(){
-  var SPY_SELECTOR = '.nav-links a';
+  var SPY_SELECTOR = '#spy-nav a';
   var links = Array.prototype.slice.call(document.querySelectorAll(SPY_SELECTOR));
   var map = {}; links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
   var sections = links.map(function(l){ return document.getElementById(l.getAttribute('href').slice(1)); }).filter(Boolean);
   function setActive(id){ links.forEach(function(l){ l.classList.remove('active'); }); if(map[id]) map[id].classList.add('active'); }
+  if(links[0]) links[0].classList.add('active');
   if('IntersectionObserver' in window){
     var vis = {};
     var obs = new IntersectionObserver(function(entries){

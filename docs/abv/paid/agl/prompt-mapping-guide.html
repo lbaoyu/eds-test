@@ -204,6 +204,7 @@ tbody tr:hover td{background:var(--gray-100);}
 .tsemi{font-family:var(--mono); font-size:12px; color:var(--gray-400); margin:0 5px 0 2px;}
 .tag-table td:first-child{font-family:var(--mono); font-weight:700; color:var(--ink); white-space:nowrap;}
 .tag-table td.ex{color:var(--gray-600); font-size:14px;}
+.tag-table{min-width:600px;}
 
 /* Format rules */
 .fmt{margin-top:22px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:18px; align-items:start;}
@@ -247,6 +248,111 @@ tbody tr:hover td{background:var(--gray-100);}
 .refs h3{font-size:13px; font-family:var(--mono); font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-500); margin-bottom:10px;}
 .refs ul{margin:0; padding:0; list-style:none; display:grid; gap:6px; font-size:15px;}
 .refs li::before{content:"↗"; color:var(--gray-400); margin-right:8px;}
+
+/* Intro line */
+.intro{font-size:16.5px; color:var(--gray-700); max-width:74ch; margin:-6px 0 24px;}
+.fig-label{display:block; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-500); margin:0 0 12px;}
+
+/* Anatomy of one prompt */
+.anatomy{margin:0 0 26px; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-layer-1); padding:20px 22px 22px;}
+.an-prompt{font-size:19px; line-height:1.4; font-weight:700; color:var(--ink); margin:0 0 18px; letter-spacing:-.005em;}
+.an-groups{display:grid; grid-template-columns:minmax(0,2fr) minmax(0,1fr); gap:0;}
+.an-group{padding-right:22px;}
+.an-group.auto{padding:0 0 0 22px; border-left:1px solid var(--border-strong);}
+.an-title{display:block; font-size:12.5px; font-weight:700; color:var(--gray-600); margin:0 0 9px;}
+.an-chips{display:flex; flex-wrap:wrap; gap:8px;}
+.kv{display:inline-flex; align-items:center; gap:7px; font-size:14px; font-weight:600; color:var(--ink); background:var(--bg-base);
+  border:1px solid var(--border-strong); border-radius:var(--radius-sm); padding:5px 10px;}
+.kv .k{font-family:var(--mono); font-size:11px; font-weight:600; color:var(--gray-500);}
+.kv.dark{background:var(--charcoal); border-color:var(--charcoal); color:#fff;}
+.kv.dark .k{color:var(--gray-400);}
+@media(max-width:700px){ .an-groups{grid-template-columns:1fr; gap:16px;} .an-group{padding:0;}
+  .an-group.auto{padding:16px 0 0; border-left:0; border-top:1px solid var(--border-strong);} .an-prompt{font-size:17px;} }
+
+/* Branded vs non-branded comparison */
+.compare{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px;}
+.cmp{border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-base); padding:20px 22px; box-shadow:var(--shadow);}
+.cmp-tag{display:inline-block; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+  border-radius:var(--radius-pill); padding:3px 10px; background:var(--charcoal); color:#fff; margin:0 0 12px;}
+.cmp-tag.nb{background:var(--bg-base); color:var(--charcoal); border:1px solid var(--charcoal); padding:2px 9px;}
+.cmp h3{margin:0 0 10px;}
+.cmp-ex{margin:0 0 12px; padding:10px 14px; background:var(--bg-layer-2); border-radius:var(--radius-sm); font-size:15px; color:var(--ink);}
+.cmp-why{margin:0; font-size:14.5px; color:var(--gray-700);}
+.cmp-why b{color:var(--ink);}
+@media(max-width:760px){ .compare{grid-template-columns:1fr;} }
+
+/* Flow */
+.flow{list-style:none; margin:22px 0 0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:30px; counter-reset:none;}
+.flow-node{position:relative; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-layer-1); padding:16px 18px;
+  display:flex; flex-direction:column; gap:3px; transition:border-color .15s, transform .15s, box-shadow .15s;}
+.flow-node:hover{border-color:var(--border-strong); transform:translateY(-1px); box-shadow:var(--shadow-lg);}
+.flow-node + .flow-node::before{content:"\2192"; position:absolute; left:-23px; top:50%; transform:translateY(-50%); color:var(--gray-400); font-size:16px;}
+.fn-step{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--gray-500);}
+.flow-node b{font-size:15.5px; color:var(--ink);}
+.flow-node span:not(.fn-step){font-size:14px; color:var(--gray-600); line-height:1.45;}
+@media(max-width:760px){ .flow{grid-template-columns:1fr; gap:22px;}
+  .flow-node + .flow-node::before{content:"\2193"; left:50%; top:-20px; transform:translateX(-50%);} }
+
+/* Hierarchy diagram */
+.hier{margin:0 0 26px; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-layer-1); padding:22px 22px 18px;}
+.h-k{display:block; font-family:var(--mono); font-size:10.5px; font-weight:600; letter-spacing:.06em; color:var(--gray-500); margin-bottom:1px;}
+.h-root{position:relative; width:max-content; margin:0 auto; padding:8px 18px; border-radius:var(--radius-sm); background:var(--charcoal);
+  color:#fff; font-weight:800; font-size:16px; text-align:center;}
+.h-root .h-k{color:var(--gray-400);}
+.h-root::after{content:""; position:absolute; left:50%; top:100%; height:20px; border-left:1px solid var(--gray-400);}
+.h-cols{position:relative; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin-top:20px; padding-top:20px;}
+.h-cols::before{content:""; position:absolute; top:0; left:calc((100% - 32px)/6); right:calc((100% - 32px)/6); border-top:1px solid var(--gray-400);}
+.h-col{position:relative;}
+.h-col::before{content:""; position:absolute; top:-20px; left:50%; height:20px; border-left:1px solid var(--gray-400);}
+.h-cat{background:var(--bg-base); border:1px solid var(--border-strong); border-radius:var(--radius-sm); padding:8px 12px; font-weight:800; color:var(--ink); text-align:center;}
+.h-subs{list-style:none; margin:10px 0 0 14px; padding:0 0 0 14px; border-left:1px solid var(--gray-300); display:grid; gap:6px;}
+.h-subs li{position:relative; font-size:14px; color:var(--gray-700); background:var(--bg-base); border:1px solid var(--border); border-radius:6px; padding:4px 9px;}
+.h-subs li::before{content:""; position:absolute; left:-15px; top:50%; width:14px; border-top:1px solid var(--gray-300);}
+.h-subs li.shared,.h-cap .sw{background:var(--adobe-red-tint); border-color:#F8CFCA; color:var(--adobe-red-dark); font-weight:700;}
+.h-cap{display:flex; align-items:center; gap:9px; margin:16px 0 0; font-size:13.5px; color:var(--gray-600);}
+.h-cap .sw{flex:none; width:14px; height:14px; border:1px solid #F8CFCA; border-radius:4px;}
+@media(max-width:700px){ .h-cols{grid-template-columns:1fr; gap:14px; padding-top:14px;} .h-cols::before,.h-col::before{display:none;}
+  .h-root::after{height:14px;} .h-cols{margin-top:14px;} }
+
+/* Field spec rows */
+.spec{margin:0; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-base); box-shadow:var(--shadow); overflow:hidden;}
+.spec-row{display:grid; grid-template-columns:220px minmax(0,1fr); gap:20px; padding:18px 22px;}
+.spec-row + .spec-row{border-top:1px solid var(--gray-200);}
+.spec dt code{font-size:15px; font-weight:700; color:var(--ink);}
+.spec dt span{display:block; font-size:13px; color:var(--gray-600); margin-top:3px;}
+.spec dd{margin:0;}
+.spec dd p{margin:0; font-size:15px; color:var(--gray-700);}
+.spec .pills{margin-top:10px;}
+@media(max-width:700px){ .spec-row{grid-template-columns:1fr; gap:8px;} }
+
+/* Warning callout */
+.warn{display:flex; gap:12px; align-items:flex-start; margin-top:18px; padding:14px 18px; border-radius:var(--radius);
+  background:var(--adobe-red-tint); border:1px solid #F8CFCA; color:var(--adobe-red-dark);}
+.warn svg{flex:none; margin-top:2px;}
+.warn p{margin:0; font-size:15px; color:var(--gray-800);}
+.warn strong{color:var(--adobe-red-dark);}
+
+/* Funnel vs intent alignment */
+.align{margin:0 0 30px; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-layer-1); padding:20px 22px;}
+.al-row{display:grid; grid-template-columns:130px minmax(0,1fr); gap:16px; align-items:stretch;}
+.al-row + .al-row{margin-top:10px;}
+.al-label{font-weight:800; font-size:14.5px; color:var(--ink); align-self:center;}
+.al-label small{display:block; font-weight:500; font-size:12.5px; color:var(--gray-500); margin-top:1px;}
+.al-cells{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px;}
+.al-cell{border:1px solid var(--border-strong); background:var(--bg-base); border-radius:var(--radius-sm); padding:10px 12px; display:flex; flex-direction:column; gap:4px;}
+.al-cell b{font-size:15px; color:var(--ink);}
+.al-cell.hi{background:var(--adobe-red-tint); border-color:#F8CFCA;}
+.al-cell.hi b{color:var(--adobe-red-dark);}
+.al-cell.auto{background:var(--charcoal); border-color:var(--charcoal); align-items:center; justify-content:center; text-align:center;}
+.al-cell.auto b{color:#fff;}
+.al-cell.span2{grid-column:span 2;}
+.al-ex{font-size:13px; color:var(--gray-600); line-height:1.4;}
+.al-note{margin:14px 0 0; font-size:14px; color:var(--gray-600);}
+@media(max-width:700px){ .al-row{grid-template-columns:1fr; gap:6px;} .al-ex{display:none;} .al-cell{padding:8px 8px;} .al-cell b{font-size:13.5px;} }
+
+/* Step connectors */
+.steps li{position:relative;}
+.steps li:not(:last-child)::after{content:""; position:absolute; left:37px; top:54px; bottom:-15px; border-left:2px solid #F8CFCA;}
 
 /* Footer */
 .site-footer{background:var(--charcoal-2); color:#8a8a8a; margin-top:40px;}
@@ -332,6 +438,28 @@ tbody tr:hover td{background:var(--gray-100);}
   <section id="mapping">
     <p class="sec-eyebrow">Column mapping</p>
     <h2>Where each dimension goes in ABV</h2>
+    <figure class="anatomy">
+      <figcaption class="fig-label">One prompt, every dimension</figcaption>
+      <p class="an-prompt">&ldquo;Is the AGL Three for Free plan worth it for a family that&rsquo;s home during the day?&rdquo;</p>
+      <div class="an-groups">
+        <div class="an-group">
+          <span class="an-title">Set in the CSV</span>
+          <div class="an-chips">
+            <span class="kv"><span class="k">category</span>Electricity</span>
+            <span class="kv"><span class="k">subcategory</span>Plans &amp; Pricing</span>
+            <span class="kv"><span class="k">tags</span>Funnel &gt; Commercial</span>
+            <span class="kv"><span class="k">tags</span>Plan &gt; Three for Free</span>
+          </div>
+        </div>
+        <div class="an-group auto">
+          <span class="an-title">Added by ABV</span>
+          <div class="an-chips">
+            <span class="kv dark"><span class="k">branding</span>Branded</span>
+            <span class="kv dark"><span class="k">intent</span>e.g. Commercial</span>
+          </div>
+        </div>
+      </div>
+    </figure>
     <div class="map" role="table" aria-label="Column mapping">
       <div class="map-head" role="row"><span role="columnheader">Dimension</span><span></span><span role="columnheader">ABV field</span></div>
 
@@ -382,62 +510,96 @@ tbody tr:hover td{background:var(--gray-100);}
     </div>
   </section>
 
-  <section id="branded">
+    <section id="branded">
     <p class="sec-eyebrow">Branded vs. non-branded</p>
     <h2>Branded vs. non-branded is automatic</h2>
-    <div class="grid g2">
-      <div class="card">
-        <h3>Classified for every prompt</h3>
-        <p>The Prompt Library shows the branded / unbranded balance and flags when the branded share drifts outside a healthy range.</p>
+    <p class="intro">ABV labels every prompt, so no column or category is needed. Adobe guidance is not to create categories for brand / non-brand or geography.</p>
+    <div class="compare">
+      <div class="cmp">
+        <span class="cmp-tag">Branded</span>
+        <h3>Names AGL or an AGL plan</h3>
+        <p class="cmp-ex">&ldquo;How does the AGL Three for Free plan work?&rdquo;</p>
+        <p class="cmp-why"><b>Protects existing awareness</b> &mdash; how AI describes AGL when asked about it.</p>
       </div>
-      <div class="card">
-        <h3>Filtered in Brand Presence</h3>
-        <p>Brand Presence filters by branded vs. non-branded. Adobe guidance is not to create categories for brand / non-brand or geography.</p>
+      <div class="cmp">
+        <span class="cmp-tag nb">Non-branded</span>
+        <h3>No brand named</h3>
+        <p class="cmp-ex">&ldquo;Who has the cheapest electricity rates in NSW?&rdquo;</p>
+        <p class="cmp-why"><b>Expands reach</b> &mdash; whether AI brings up AGL when the question doesn&rsquo;t name it.</p>
       </div>
     </div>
+    <ol class="flow" aria-label="How branded labeling works">
+      <li class="flow-node"><span class="fn-step">Step 1</span><b>Import the prompt</b><span>No branded column in the CSV.</span></li>
+      <li class="flow-node"><span class="fn-step">Step 2</span><b>ABV labels it</b><span>Branded or non-branded. Brand aliases count as AGL.</span></li>
+      <li class="flow-node"><span class="fn-step">Step 3</span><b>Read it in reporting</b><span>Prompt Library balance tile &middot; Brand Presence filter.</span></li>
+    </ol>
     <div class="tip">
       <p><strong>Add AGL plan and product names as brand aliases.</strong> In Brands Management &rsaquo; Aliases, add names such as <em>Three for Free</em> so mentions of them count toward AGL.</p>
     </div>
   </section>
 
-  <section id="category">
+    <section id="category">
     <p class="sec-eyebrow">Category &amp; subcategory</p>
     <h2>Product line, then topic</h2>
-    <div class="grid g2">
-      <div class="card">
-        <h3><code class="fname">category</code> &mdash; product line</h3>
-        <p>Match the teams who own the pages and act on the results. Changing categories later resets historical data.</p>
-        <ul class="pills dark">
-          <li>Electricity</li><li>Gas</li><li>Internet</li><li>Mobile</li><li>Solar &amp; Batteries</li>
-        </ul>
+    <figure class="hier" aria-label="Category and subcategory structure">
+      <div class="h-root"><span class="h-k">Brand</span>AGL</div>
+      <div class="h-cols">
+        <div class="h-col">
+          <div class="h-cat"><span class="h-k">category</span>Electricity</div>
+          <ul class="h-subs"><li class="shared">Plans &amp; Pricing</li><li>Tariffs &amp; Billing</li><li>Energy Saving &amp; Usage</li><li>Reviews &amp; Comparisons</li></ul>
+        </div>
+        <div class="h-col">
+          <div class="h-cat"><span class="h-k">category</span>Gas</div>
+          <ul class="h-subs"><li class="shared">Plans &amp; Pricing</li><li>Tariffs &amp; Billing</li><li>Moving &amp; Switching</li></ul>
+        </div>
+        <div class="h-col">
+          <div class="h-cat"><span class="h-k">category</span>Internet</div>
+          <ul class="h-subs"><li class="shared">Plans &amp; Pricing</li><li>Reviews &amp; Comparisons</li><li>Account &amp; Support</li></ul>
+        </div>
       </div>
-      <div class="card">
-        <h3><code class="fname">subcategory</code> &mdash; topic</h3>
-        <p>Reuse the same topic names across product lines so topics compare cleanly.</p>
-        <ul class="pills">
-          <li>Plans &amp; Pricing</li><li>Tariffs &amp; Billing</li><li>Energy Saving &amp; Usage</li>
-          <li>Renewables &amp; Sustainability</li><li>Reviews &amp; Comparisons</li><li>Moving &amp; Switching</li><li>Account &amp; Support</li>
-        </ul>
+      <figcaption class="h-cap"><span class="sw" aria-hidden="true"></span>The same subcategory name under each product line gives one comparable view of that topic across AGL.</figcaption>
+    </figure>
+    <dl class="spec">
+      <div class="spec-row">
+        <dt><code>category</code><span>Product line &middot; one per prompt</span></dt>
+        <dd><p>Match the teams who own the pages and act on the results.</p>
+          <ul class="pills dark"><li>Electricity</li><li>Gas</li><li>Internet</li><li>Mobile</li><li>Solar &amp; Batteries</li></ul></dd>
       </div>
+      <div class="spec-row">
+        <dt><code>subcategory</code><span>Topic &middot; at most one per prompt</span></dt>
+        <dd><p>Keep a short list and reuse the names across product lines.</p>
+          <ul class="pills"><li>Plans &amp; Pricing</li><li>Tariffs &amp; Billing</li><li>Energy Saving &amp; Usage</li><li>Renewables &amp; Sustainability</li><li>Reviews &amp; Comparisons</li><li>Moving &amp; Switching</li><li>Account &amp; Support</li></ul></dd>
+      </div>
+    </dl>
+    <div class="warn" role="note">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      <p><strong>Set categories before importing.</strong> Changing categories later resets historical data.</p>
     </div>
   </section>
 
   <section id="tags">
     <p class="sec-eyebrow">Intent &amp; custom tags</p>
     <h2>Tags for AGL&rsquo;s own reporting views</h2>
-    <div class="grid g2">
-      <div class="card">
-        <h3>Intent is classified automatically</h3>
-        <p>Each prompt gets one of five intents, and the Prompt Library tracks intent coverage.</p>
-        <ul class="pills">
-          <li>Informational</li><li>Navigational</li><li>Commercial</li><li>Transactional</li><li>Task</li>
-        </ul>
+    <p class="intro">ABV assigns each prompt one of five intents &mdash; Informational, Navigational, Commercial, Transactional, Task &mdash; and tracks intent coverage. Tags add the views AGL needs on top.</p>
+    <figure class="align" aria-label="Funnel tag compared with ABV intent">
+      <figcaption class="fig-label">Why Awareness needs a tag</figcaption>
+      <div class="al-row">
+        <span class="al-label">Funnel tag<small>set in the CSV</small></span>
+        <div class="al-cells">
+          <div class="al-cell hi"><b>Awareness</b><span class="al-ex">&ldquo;How can I lower my electricity bill without being cold in winter?&rdquo;</span></div>
+          <div class="al-cell"><b>Informational</b><span class="al-ex">&ldquo;What is the daily supply charge on an electricity bill?&rdquo;</span></div>
+          <div class="al-cell"><b>Commercial</b><span class="al-ex">&ldquo;Who has the cheapest electricity rates in NSW?&rdquo;</span></div>
+        </div>
       </div>
-      <div class="card">
-        <h3>A funnel tag separates Awareness</h3>
-        <p>&ldquo;How can I lower my electricity bill&hellip;&rdquo; and &ldquo;What is the daily supply charge&hellip;&rdquo; are both Informational intent. A <code>Funnel &gt; Awareness</code> tag reports the first one separately.</p>
+      <div class="al-row">
+        <span class="al-label">Intent<small>added by ABV</small></span>
+        <div class="al-cells">
+          <div class="al-cell auto span2"><b>Informational</b></div>
+          <div class="al-cell auto"><b>Commercial</b></div>
+        </div>
       </div>
-    </div>
+      <p class="al-note">Both early-stage prompts typically share Informational intent. The funnel tag is what reports Awareness on its own.</p>
+    </figure>
 
     <h3 class="sub-h">Suggested tag groups</h3>
     <div class="table-wrap">

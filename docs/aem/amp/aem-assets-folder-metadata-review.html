@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AMP — AEM Assets Folder &amp; Metadata Structure Review</title>
+<style>
+:root{
+  /* Brand — kept for the mark and for editorial accents */
+  --adobe-red:#EB1000;
+  --adobe-red-dark:#B71000;
+  --adobe-red-tint:#FDECEA;
+  --coral-1:#F04A2E; --coral-2:#F9A392; --coral-bright:#FB6A4E;
+
+  /* Spectrum 2 interactive accent — owns links / active nav / focus / selection */
+  --s2-blue:#3B63FB; --s2-blue-down:#274DEA; --s2-blue-active:#1D3ECF;
+  --s2-blue-tint:#E5F0FE; --s2-blue-tint-faint:#F5F9FF;
+
+  /* Neutrals — Spectrum 2 gray ramp */
+  --ink:#1B1B1B;
+  --charcoal:#2C2C2C;
+  --charcoal-2:#141414;
+  --gray-900:#1F1F1F; --gray-800:#222222; --gray-700:#464646;
+  --gray-600:#6D6D6D; --gray-500:#909090; --gray-400:#B1B1B1;
+  --gray-300:#D5D5D5; --gray-200:#E6E6E6; --gray-100:#F8F8F8;
+  --gray-75:#FAFAFA;  --gray-50:#FDFDFD;  --white:#FFFFFF;
+
+  /* Spectrum 2 surface layering + borders */
+  --bg-base:#FFFFFF; --bg-layer-1:#FAFAFA; --bg-layer-2:#F4F4F5;
+  --border:#E6E6E6; --border-strong:#D5D5D5;
+
+  /* Type */
+  --font:"adobe-clean","Source Sans 3","Source Sans Pro",-apple-system,
+         BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"SF Mono",ui-monospace,"Cascadia Code",Menlo,Consolas,monospace;
+
+  /* Radius / shadow */
+  --radius:16px; --radius-sm:8px; --radius-pill:9999px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.06);
+  --shadow:0 2px 4px rgba(0,0,0,.05),0 8px 20px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 8px rgba(0,0,0,.06),0 16px 40px rgba(0,0,0,.08);
+  --focus-ring:var(--s2-blue);
+  --maxw:1220px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;} *{animation:none!important;transition:none!important;}
+}
+body{
+  margin:0; font-family:var(--font); color:var(--gray-800);
+  background:var(--bg-base); line-height:1.6; font-size:16px;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+}
+::selection{background:var(--s2-blue-tint);}
+a{color:var(--s2-blue-down); text-decoration:none;}
+a:hover{text-decoration:underline;}
+a:focus-visible, button:focus-visible, summary:focus-visible{
+  outline:2px solid var(--focus-ring); outline-offset:2px; border-radius:4px;
+}
+
+/* 2px Scroll-progress bar */
+.progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:100;pointer-events:none;}
+.progress span{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:0 50%;
+  background:linear-gradient(90deg,var(--coral-1),var(--coral-2));will-change:transform;}
+
+/* AI-disclosure band (fixed house wording) */
+.ai-note{background:var(--gray-100); border-bottom:1px solid var(--gray-200);}
+.ai-note-inner{max-width:var(--maxw); margin:0 auto; padding:9px 24px;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  font-size:12px; line-height:1.45; color:var(--gray-600);}
+.ai-note b{color:var(--gray-700); font-weight:600;}
+.ai-note svg{flex:none; color:var(--gray-600);}
+
+/* Hero */
+.hero{
+  position:relative; overflow:hidden; color:var(--white);
+  background:
+    radial-gradient(1350px 720px at 90% -18%, rgba(255,255,255,.12),
+      rgba(255,255,255,.05) 42%, transparent 82%),
+    linear-gradient(135deg,#2d2d2d 0%,#1c1c1c 52%,#0e0e0e 100%);
+  padding:50px 24px 60px;
+}
+.hero::after{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background-image:linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size:100% 34px; opacity:.5;
+  -webkit-mask:linear-gradient(#000, transparent 70%);
+          mask:linear-gradient(#000, transparent 70%);
+}
+.hero-inner{max-width:var(--maxw); margin:0 auto; position:relative; z-index:1;}
+
+.masthead{display:flex; align-items:center; justify-content:space-between;
+  gap:10px 16px; flex-wrap:wrap;
+  padding-bottom:22px; border-bottom:1px solid rgba(255,255,255,.12);}
+.brandrow{display:flex; align-items:center; gap:11px;}
+.brandrow .brand-mark{height:26px; width:auto; flex:none;
+  filter:drop-shadow(0 2px 12px rgba(255,255,255,.18));}
+.brandname{font-size:19px; font-weight:800; letter-spacing:-.02em; color:var(--white);}
+.brandname span{font-weight:400; color:var(--gray-300);}
+.kicker{font-size:12px; letter-spacing:.2em; text-transform:uppercase;
+  font-weight:800; color:var(--coral-2); white-space:nowrap;}
+
+.hero-body{margin-top:34px;}
+.customer-tag{
+  display:inline-flex; align-items:center; gap:8px; margin:0 0 12px;
+  font-family:var(--mono); font-size:11.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gray-300);
+}
+.customer-tag::before{content:""; width:18px; height:2px; background:var(--adobe-red);}
+.hero h1{margin:0; font-size:clamp(34px,4.4vw,52px); line-height:1.07;
+  font-weight:800; letter-spacing:-.025em; max-width:21ch; text-wrap:balance;}
+.hero h1 .hl{
+  background:linear-gradient(100deg,var(--coral-1) 0%,var(--coral-2) 100%);
+  -webkit-background-clip:text; background-clip:text;
+  -webkit-text-fill-color:transparent; color:transparent;
+  -webkit-box-decoration-break:slice; box-decoration-break:slice;
+  padding-bottom:.3em;
+}
+.hero .lead{margin:18px 0 0; font-size:clamp(17px,1.85vw,19.5px); color:var(--gray-300);
+  max-width:65ch; line-height:1.54;}
+.hero .lead strong{color:var(--white); font-weight:700;}
+.hero .lead a{color:#9CC0FF; text-decoration:underline; text-underline-offset:3px;}
+
+.hero-chips{display:flex; flex-wrap:wrap; gap:10px; margin:26px 0 0; padding:0; list-style:none;}
+.hero-chips li{background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.20);
+  border-radius:var(--radius-pill); padding:8px 15px; font-size:13.5px; font-weight:500; color:var(--gray-200);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.17), 0 1px 5px rgba(0,0,0,.12);}
+.hero-chips li strong{color:var(--white); font-weight:700;}
+
+/* Shell & Vertical Left Rail TOC (Pattern A) */
+.shell{max-width:var(--maxw); margin:0 auto; padding:0 24px 88px;
+  display:grid; grid-template-columns:220px minmax(0,1fr); gap:56px;}
+.rail{position:sticky; top:24px; align-self:start; padding-top:52px;}
+.rail-title{font-size:11px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gray-600); margin:0 0 12px; padding-left:14px;}
+.rail nav{display:flex; flex-direction:column; gap:2px;}
+.rail nav a{display:flex; align-items:center; gap:10px; padding:9px 14px;
+  border-radius:var(--radius-sm); color:var(--gray-700); font-size:13.5px;
+  font-weight:600; border-left:2px solid transparent; text-decoration:none;
+  transition:background .15s, color .15s, border-color .15s;}
+.rail nav a .num{font-size:11px; font-weight:700; color:var(--gray-600);
+  min-width:18px; font-variant-numeric:tabular-nums; font-family:var(--mono);}
+.rail nav a:hover{background:var(--gray-100); color:var(--ink); text-decoration:none;}
+.rail nav a.active{color:var(--s2-blue-down); background:var(--s2-blue-tint);
+  border-left-color:var(--s2-blue);}
+.rail nav a.active .num{color:var(--s2-blue-down);}
+.rail nav a:focus-visible{outline:2px solid var(--focus-ring); outline-offset:-2px;}
+
+.rail-companion{
+  margin-top:22px; padding:14px; background:var(--bg-layer-1); border:1px solid var(--border);
+  border-radius:12px; font-size:12.5px; line-height:1.45; color:var(--gray-700);
+}
+.rail-companion strong{display:block; color:var(--ink); font-size:12px; margin-bottom:4px;}
+.rail-companion a{font-weight:700; display:inline-block; margin-top:4px;}
+
+.content{padding-top:52px; min-width:0;}
+main{counter-reset:sec;}
+section{scroll-margin-top:24px; padding-bottom:64px; counter-increment:sec;}
+section + section{
+  border-top:1px solid var(--gray-200);
+  border-image:linear-gradient(90deg,transparent,var(--gray-200) 18%,var(--gray-200) 82%,transparent) 1;
+  padding-top:60px;
+}
+
+/* Section Typography */
+.sec-eyebrow{font-size:12px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--gray-600); margin:0 0 10px;}
+.sec-eyebrow::before{content:counter(sec,decimal-leading-zero) "  ·  ";
+  font-family:var(--mono); font-weight:700; letter-spacing:.02em; color:var(--adobe-red);}
+h2{font-size:clamp(25px,2.7vw,32px); line-height:1.15; letter-spacing:-.018em;
+  font-weight:800; color:var(--ink); margin:0 0 12px; text-wrap:balance;}
+h3{font-size:17.5px; line-height:1.3; letter-spacing:-.01em; font-weight:700; color:var(--ink); margin:0 0 8px;}
+.sec-intro{font-size:16px; color:var(--gray-700); max-width:68ch; margin:0 0 24px; line-height:1.6;}
+
+/* Code & Pills */
+code{
+  font-family:var(--mono); font-size:12.2px; background:var(--bg-layer-2);
+  color:var(--ink); padding:2px 6px; border-radius:5px; border:1px solid var(--border);
+  overflow-wrap:break-word;
+}
+.hero code, .verdict-banner code, .dam-topbar code, .site-footer code{
+  background:rgba(255,255,255,.11); color:var(--white);
+  border-color:rgba(255,255,255,.22); padding:1px 6px;
+}
+.pill{
+  display:inline-flex; align-items:center; gap:5px; font-family:var(--mono); font-size:11px;
+  font-weight:600; padding:3px 9px; border-radius:var(--radius-pill);
+  background:var(--bg-layer-2); color:var(--gray-800); border:1px solid var(--border);
+  max-width:100%; line-height:1.35; white-space:nowrap;
+}
+.pill.solid{background:var(--ink); color:var(--white); border-color:var(--ink);}
+.pill.alert{background:var(--adobe-red-tint); color:var(--adobe-red-dark); border-color:var(--coral-2);}
+
+/* ==========================================================================
+   SECTION 01: Verdict Banner + Side-by-Side Draft vs. Refined Comparison
+   ========================================================================== */
+.verdict-banner{
+  background:linear-gradient(135deg,var(--charcoal) 0%,var(--charcoal-2) 100%);
+  color:var(--white); border-radius:var(--radius); padding:22px 26px; margin:0 0 24px;
+  box-shadow:var(--shadow); border:1px solid var(--gray-800);
+}
+.verdict-banner .vb-kicker{
+  display:inline-flex; align-items:center; gap:8px; font-family:var(--mono);
+  font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--coral-2); margin:0 0 8px;
+}
+.verdict-banner p{margin:0; font-size:16.5px; line-height:1.55; color:var(--gray-200); max-width:68ch;}
+.verdict-banner strong{color:var(--white); font-weight:700;}
+.verdict-banner .em{color:var(--coral-bright); font-weight:800;}
+
+.draft-compare{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-rows:auto repeat(8,auto) 1fr;
+  column-gap:20px;
+}
+.dc-panel{
+  grid-row:1 / -1;
+  display:grid;
+  grid-template-rows:subgrid;
+  background:var(--bg-layer-1); border:1px solid var(--border);
+  border-radius:var(--radius); padding:22px 24px; box-shadow:var(--shadow-sm);
+}
+.dc-panel.recommended{
+  background:var(--bg-base); border-color:var(--border-strong); box-shadow:var(--shadow);
+}
+.dc-head{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+  padding-bottom:14px; margin-bottom:14px; border-bottom:1px solid var(--border);
+}
+.dc-kicker{
+  display:block; font-family:var(--mono); font-size:10.5px; font-weight:700;
+  letter-spacing:.1em; text-transform:uppercase; color:var(--gray-600); margin-bottom:3px;
+}
+.dc-kicker span{color:var(--adobe-red);}
+.dc-head h3{margin:0; font-size:18px; line-height:1.25;}
+
+.proposal-list{
+  grid-row:2 / 10;
+  display:grid;
+  grid-template-rows:subgrid;
+  list-style:none; margin:0; padding:0;
+}
+.proposal-list li{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:9px;
+  padding:9px 12px; margin-bottom:8px; font-size:13.5px;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.dc-panel.recommended .proposal-list li{background:var(--bg-layer-1);}
+.proposal-list li.sub-item{margin-left:18px; font-size:13px; padding:8px 11px;}
+.proposal-list li.dim-item{background:var(--adobe-red-tint); border-color:var(--coral-2);}
+.p-label{
+  display:flex; flex-direction:column; gap:2px; min-width:0;
+  font-weight:700; color:var(--ink); line-height:1.3;
+}
+.p-label code{
+  align-self:flex-start; background:var(--bg-base); font-size:11.8px; font-weight:700;
+}
+.p-code-pair{display:flex; flex-wrap:wrap; align-items:center; gap:5px;}
+.ref-card p code{white-space:nowrap;}
+.p-label small{display:block; font-weight:400; color:var(--gray-600); font-size:12px; line-height:1.35;}
+
+.dc-foot{
+  align-self:end;
+  margin-top:8px; padding-top:14px; border-top:1px solid var(--border);
+  font-size:13px; color:var(--gray-700); line-height:1.48;
+}
+.meta-chip-row{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
+.mchip{
+  font-family:var(--mono); font-size:11px; font-weight:600; padding:3px 8px;
+  border-radius:6px; background:var(--bg-base); border:1px solid var(--border); color:var(--gray-800);
+}
+.mchip.added{background:var(--ink); color:var(--white); border-color:var(--ink);}
+
+/* ==========================================================================
+   SECTION 02: 4 Targeted Folder Refinements (2x2 Equal Grid)
+   ========================================================================== */
+.refine-grid{
+  display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px;
+}
+.ref-card{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
+  padding:22px 24px; box-shadow:var(--shadow); display:flex; flex-direction:column; gap:12px;
+  transition:border-color .15s, transform .15s, box-shadow .15s;
+}
+.ref-card:hover{border-color:var(--border-strong); transform:translateY(-1px); box-shadow:var(--shadow-lg);}
+.rc-top{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+.rc-num{
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gray-600);
+}
+.rc-num span{color:var(--adobe-red);}
+.ref-card h3{margin:0; font-size:17.5px; line-height:1.28;}
+.ref-card p{margin:0; font-size:14px; color:var(--gray-700); line-height:1.54;}
+
+.shift-strip{
+  margin-top:auto; background:var(--bg-layer-1); border:1px solid var(--border);
+  border-radius:10px; padding:10px 12px; display:grid;
+  grid-template-columns:minmax(0,1fr) auto minmax(0,1.15fr); gap:8px; align-items:center;
+  font-family:var(--mono); font-size:11.3px;
+}
+.sh-from{
+  background:var(--adobe-red-tint); color:var(--adobe-red-dark); border:1px solid var(--coral-2);
+  border-radius:6px; padding:5px 8px; font-weight:600; overflow-wrap:anywhere;
+}
+.sh-arr{color:var(--gray-500); font-weight:700;}
+.sh-to{
+  background:var(--bg-base); color:var(--ink); border:1px solid var(--border-strong);
+  border-radius:6px; padding:5px 8px; font-weight:700; overflow-wrap:anywhere;
+}
+
+/* ==========================================================================
+   SECTION 03: AMP Visual Topology Map + Interactive Folder Tree
+   ========================================================================== */
+.svg-arch-frame{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
+  padding:18px 20px 16px; margin-bottom:18px; overflow-x:auto; box-shadow:var(--shadow-sm);
+}
+.svg-arch-head{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between;
+  gap:8px; margin-bottom:12px;
+}
+.svg-arch-title{
+  font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--gray-600);
+}
+.svg-legend{display:flex; flex-wrap:wrap; gap:12px; font-size:11.5px; color:var(--gray-700); align-items:center;}
+.leg-dot{display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:5px; vertical-align:-1px;}
+.leg-dot.d-bu{background:var(--ink);}
+.leg-dot.d-shared{background:var(--charcoal);}
+.leg-dot.d-off{background:var(--adobe-red-tint); border:1.5px dashed var(--adobe-red-dark);}
+.arch-svg{display:block; width:100%; min-width:720px; height:auto; font-family:var(--font);}
+
+.dam-window{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
+  overflow:hidden; box-shadow:var(--shadow);
+}
+.dam-topbar{
+  background:var(--charcoal); color:var(--gray-200); padding:10px 16px;
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px;
+  font-size:12px;
+}
+.dam-crumb{display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:12px; color:var(--gray-300);}
+.dam-crumb strong{color:var(--white);}
+.dam-dots{display:inline-flex; gap:5px; margin-right:6px;}
+.dam-dots i{width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.24); display:inline-block;}
+.dam-actions{display:flex; gap:8px;}
+.tree-ctrl-btn{
+  appearance:none; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.22);
+  color:var(--white); font-family:var(--font); font-size:11.5px; font-weight:600;
+  padding:4px 10px; border-radius:6px; cursor:pointer; transition:background .15s;
+}
+.tree-ctrl-btn:hover{background:rgba(255,255,255,.2);}
+
+.visual-tree{padding:18px 20px 22px; font-size:13.5px;}
+.vt-root-pill{
+  display:inline-flex; align-items:center; gap:8px; background:var(--ink); color:var(--white);
+  font-family:var(--mono); font-size:12.5px; font-weight:700; padding:7px 13px; border-radius:8px;
+  margin-bottom:6px;
+}
+.vt-root-pill svg{width:16px; height:16px; color:var(--coral-2);}
+
+ul.vt-list{list-style:none; margin:0; padding:0 0 0 22px; position:relative;}
+ul.vt-list::before{
+  content:""; position:absolute; left:9px; top:0; bottom:16px; width:1.5px; background:var(--gray-300);
+}
+li.vt-node{position:relative; padding:6px 0 2px;}
+li.vt-node::before{
+  content:""; position:absolute; left:-13px; top:19px; width:13px; height:1.5px; background:var(--gray-300);
+}
+li.vt-node:last-child::after{
+  content:""; position:absolute; left:-14px; top:20.5px; bottom:0; width:4px; background:var(--bg-base);
+}
+
+details.vt-folder > summary{
+  list-style:none; cursor:pointer; display:inline-flex; flex-wrap:wrap; align-items:center; gap:7px 9px;
+  padding:5px 10px; border-radius:8px; border:1px solid var(--border); background:var(--bg-layer-1);
+  transition:background .15s, border-color .15s; max-width:100%;
+}
+details.vt-folder > summary::-webkit-details-marker{display:none;}
+details.vt-folder > summary:hover{background:var(--gray-100); border-color:var(--border-strong);}
+details.vt-folder[open] > summary{background:var(--bg-base); border-color:var(--border-strong); box-shadow:var(--shadow-sm);}
+details.vt-folder.restricted-folder > summary{
+  background:var(--bg-layer-2); border-style:dashed; border-color:var(--border-strong);
+}
+
+.caret{
+  font-family:var(--mono); font-size:10px; color:var(--gray-600); width:12px; text-align:center;
+  transition:transform .15s; display:inline-block;
+}
+details.vt-folder[open] > summary .caret{transform:rotate(90deg); color:var(--s2-blue-down);}
+
+.t-ico{width:16px; height:16px; flex:none;}
+.t-ico.folder{color:var(--ink);}
+.restricted-folder > summary .t-ico.folder{color:var(--adobe-red-dark);}
+.t-ico.file{color:var(--gray-600); width:14px; height:14px;}
+
+.vt-slug{font-family:var(--mono); font-size:12.8px; font-weight:700; color:var(--ink);}
+.vt-title{font-size:12.3px; color:var(--gray-600); font-weight:500;}
+.vt-lvl{
+  font-family:var(--mono); font-size:10px; font-weight:700; padding:1px 6px;
+  border-radius:4px; background:var(--bg-layer-2); color:var(--gray-700); border:1px solid var(--border);
+}
+.vt-lvl.leaf-tag{background:var(--ink); color:var(--white); border-color:var(--ink);}
+
+.vt-leaf-box{
+  display:flex; flex-direction:column; gap:6px;
+  background:var(--bg-layer-1); border:1px solid var(--border); border-radius:9px;
+  padding:8px 12px; margin:2px 0;
+}
+.vt-leaf-head{display:flex; flex-wrap:wrap; align-items:center; gap:7px 9px;}
+.vt-files{display:flex; flex-wrap:wrap; gap:6px; padding-left:24px;}
+.file-chip{
+  display:inline-flex; align-items:center; gap:5px;
+  font-family:var(--mono); font-size:11.2px; color:var(--gray-800);
+  background:var(--bg-base); border:1px solid var(--border); border-radius:6px;
+  padding:3px 8px; box-shadow:var(--shadow-sm);
+}
+
+/* ==========================================================================
+   SECTION 04: Metadata Alignment Table
+   ========================================================================== */
+.table-wrap{
+  background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius);
+  overflow-x:auto; box-shadow:var(--shadow);
+}
+table.data{width:100%; border-collapse:collapse; font-size:13.6px; min-width:680px;}
+table.data thead th{
+  text-align:left; font-family:var(--mono); font-size:11px; font-weight:700;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--gray-600);
+  background:var(--bg-layer-1); padding:13px 16px; border-bottom:1px solid var(--border);
+}
+table.data tbody td{
+  padding:13px 16px; border-bottom:1px solid var(--gray-200); vertical-align:top;
+  color:var(--gray-700); line-height:1.5;
+}
+table.data tbody tr:last-child td{border-bottom:none;}
+table.data tbody tr{transition:background .15s;}
+table.data tbody tr:hover td{background:var(--gray-75);}
+table.data tr.row-added td{background:var(--s2-blue-tint-faint);}
+table.data tr.row-added:hover td{background:var(--s2-blue-tint);}
+
+/* Footer */
+.site-footer{background:var(--charcoal-2); color:var(--gray-400);}
+.foot-inner{max-width:var(--maxw); margin:0 auto; padding:30px 24px; display:flex;
+  flex-wrap:wrap; gap:14px 24px; align-items:center; justify-content:space-between;}
+.foot-brand{display:flex; align-items:center; gap:11px; color:var(--white); font-weight:800;
+  font-size:16px; letter-spacing:-.01em;}
+.foot-brand img{height:22px; width:auto; display:block;}
+.foot-brand span{font-weight:400; color:var(--gray-300);}
+.foot-right{text-align:right; line-height:1.5;}
+.foot-right .fr-1{margin:0; font-size:13px; font-weight:600; color:var(--gray-300); letter-spacing:.01em;}
+.foot-right .fr-2{margin:2px 0 0; font-size:12px; color:var(--gray-400); letter-spacing:.02em;}
+.foot-right a{color:#9CC0FF; text-decoration:underline;}
+
+/* Responsive Adaptation — preserve vertical Left Rail TOC in side-panel/tablet */
+@media(max-width:1020px){
+  .shell{grid-template-columns:186px minmax(0,1fr); gap:28px; padding:0 20px 72px;}
+  .rail{padding-top:36px;}
+  .rail nav a{padding:8px 11px; font-size:13px; gap:8px;}
+  .content{padding-top:36px;}
+  .draft-compare{grid-template-columns:1fr; grid-template-rows:none; row-gap:18px;}
+  .dc-panel{grid-row:auto; display:flex; flex-direction:column;}
+  .proposal-list{grid-row:auto; display:flex; flex-direction:column;}
+  .refine-grid{grid-template-columns:1fr;}
+}
+@media(max-width:720px){
+  .shell{grid-template-columns:1fr; gap:0; padding:0 18px 64px;}
+  .rail{position:static; padding:24px 0 20px; border-bottom:1px solid var(--border);}
+  .content{padding-top:28px;}
+  .dc-panel, .ref-card{padding:18px;}
+  .dc-head, .proposal-list li{flex-wrap:wrap;}
+  .proposal-list li.sub-item{margin-left:10px;}
+  .pill{white-space:normal;}
+  .shift-strip{grid-template-columns:1fr; gap:6px;}
+  .sh-arr{display:none;}
+  .vt-files{padding-left:0;}
+  .hero{padding:42px 20px 50px;}
+  .kicker{white-space:normal; line-height:1.4;}
+}
+@media(max-width:620px){
+  .foot-inner{flex-direction:column; align-items:flex-start;}
+  .foot-right{text-align:left;}
+}
+@media print{
+  .progress, .rail, .dam-actions{display:none!important;}
+  .shell{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="progress"><span id="progressbar"></span></div>
+
+<div class="ai-note">
+  <div class="ai-note-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/>
+      <line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+    <span><b>Prepared with AI assistance.</b> Please review for accuracy before use
+      &mdash; this document may contain errors.</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="masthead">
+      <div class="brandrow">
+        <img class="brand-mark" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">
+        <span class="brandname">Adobe&nbsp;<span>Experience Manager Assets</span></span>
+      </div>
+      <span class="kicker">Folder &amp; Metadata Review &middot; AEM Assets</span>
+    </div>
+    <div class="hero-body">
+      <p class="customer-tag">AMP &nbsp;&middot;&nbsp; Architecture Feedback</p>
+      <h1>Strong foundation. <span class="hl">Four</span> <span class="hl">refinements.</span></h1>
+      <p class="lead">Practical guidance on AMP&rsquo;s proposed Business Unit folder structure and metadata model&mdash;tuned for <strong>AEM Assets</strong>, <strong>Dynamic Media</strong> image delivery, and <strong>Adobe Express</strong> self-service (companion to the <a href="../assets/folder-structure-design-guide.html">Folder Structure Design Guide</a>).</p>
+      <ul class="hero-chips">
+        <li><strong>Keep BU Level-1 split:</strong> North, Bank, Super, Foundation, AMP Enterprise</li>
+        <li><strong>Drop format silos:</strong> fold Video into Campaign &amp; Product folders</li>
+        <li><strong>Express + Dynamic Media ready:</strong> separate masters, remixes &amp; studio WIP</li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="rail" aria-label="Section navigation">
+    <p class="rail-title">In This Review</p>
+    <nav id="spy-nav">
+      <a href="#assessment" class="active"><span class="num">01</span> Draft Assessment</a>
+      <a href="#refinements"><span class="num">02</span> Four Refinements</a>
+      <a href="#amp-tree"><span class="num">03</span> Recommended Tree</a>
+      <a href="#metadata"><span class="num">04</span> Metadata Review</a>
+    </nav>
+    <div class="rail-companion">
+      <strong>Full Best-Practices Guide</strong>
+      Core DAM folder rules, naming formulas &amp; pitfalls.
+      <br><a href="../assets/folder-structure-design-guide.html">Open Design Guide &rarr;</a>
+    </div>
+  </aside>
+
+  <div class="content">
+    <main>
+
+      <!-- ==================================================================
+           SECTION 01 · EXECUTIVE ASSESSMENT (PROPOSED VS REFINED)
+           ================================================================== -->
+      <section id="assessment">
+        <p class="sec-eyebrow">Draft Assessment</p>
+        <h2>Your proposed model gets the fundamentals right</h2>
+        <p class="sec-intro">Starting with <strong>Business Units at Level 1</strong> while keeping the tree shallow and pushing discovery attributes into metadata is aligned with Adobe best practice. With four small adjustments below, the structure will scale cleanly across permissions, automatic tagging, Dynamic Media Smart Crops, and Adobe Express.</p>
+
+        <div class="verdict-banner">
+          <p class="vb-kicker">Overall Recommendation</p>
+          <p><strong>Keep</strong> the 5-unit top level (<code>North</code>, <code>Bank</code>, <code>Super</code>, <code>Foundation</code>, <code>AMP Enterprise</code>) and metadata-first discovery&mdash;then <span class="em">remove format-based folders</span> and <span class="em">separate approved masters from Express outputs &amp; WIP drafts</span>.</p>
+        </div>
+
+        <div class="draft-compare">
+          <!-- Left: Customer Proposed Draft -->
+          <div class="dc-panel">
+            <div class="dc-head">
+              <div>
+                <span class="dc-kicker">Current Proposal</span>
+                <h3>What AMP shared</h3>
+              </div>
+              <span class="pill">Draft Input</span>
+            </div>
+            <ul class="proposal-list">
+              <li>
+                <span class="p-label"><span>Business Unit Root</span><small>North / Bank / Super / Foundation / AMP Enterprise</small></span>
+                <span class="pill solid">Keep</span>
+              </li>
+              <li>
+                <span class="p-label"><span>&rsaquo; Brand assets</span><small>Logos &amp; icons per Business Unit</small></span>
+                <span class="pill solid">Keep</span>
+              </li>
+              <li>
+                <span class="p-label"><span>&rsaquo; Campaign assets &rsaquo; Year</span><small>Annual campaign partition</small></span>
+                <span class="pill solid">Keep</span>
+              </li>
+              <li class="sub-item dim-item">
+                <span class="p-label"><span>&rsaquo; Campaign Type</span><small>Nested under Year in draft</small></span>
+                <span class="pill alert">Move to Metadata</span>
+              </li>
+              <li>
+                <span class="p-label"><span>&rsaquo; Product assets</span><small>Single container in draft</small></span>
+                <span class="pill solid">Keep + Split Line</span>
+              </li>
+              <li>
+                <span class="p-label"><span>&rsaquo; Photography</span><small>Evergreen imagery container</small></span>
+                <span class="pill">Broaden: shared-media</span>
+              </li>
+              <li class="dim-item">
+                <span class="p-label"><span>&rsaquo; Video</span><small>Standalone file-format folder</small></span>
+                <span class="pill alert">Drop Format Folder</span>
+              </li>
+              <li>
+                <span class="p-label"><span>&rsaquo; Templates</span><small>Templates container in draft</small></span>
+                <span class="pill">Clarify Scope</span>
+              </li>
+            </ul>
+            <div class="dc-foot">
+              <strong>Proposed metadata (7):</strong>
+              <div class="meta-chip-row">
+                <span class="mchip">Campaign name</span>
+                <span class="mchip">Audience</span>
+                <span class="mchip">Channel</span>
+                <span class="mchip">Year</span>
+                <span class="mchip">Asset Type</span>
+                <span class="mchip">Status</span>
+                <span class="mchip">Usage Rights</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Recommended Refined Skeleton -->
+          <div class="dc-panel recommended">
+            <div class="dc-head">
+              <div>
+                <span class="dc-kicker"><span>Recommended</span> &middot; Target Skeleton</span>
+                <h3>Refined BU structure</h3>
+              </div>
+              <span class="pill solid">Best Practice</span>
+            </div>
+            <ul class="proposal-list">
+              <li>
+                <span class="p-label"><code>/&lt;business-unit&gt;/</code><small>Auto-tags BU across all 5 roots</small></span>
+                <span class="pill solid">5 Roots</span>
+              </li>
+              <li>
+                <span class="p-label"><code>brand-foundation/</code><small>Logos, icons &amp; brand guidelines</small></span>
+                <span class="pill solid">Auto-Approved</span>
+              </li>
+              <li>
+                <span class="p-label"><code>campaigns/&lt;YYYY&gt;/&lt;campaign&gt;/</code><small>Auto-stamps Year &amp; Campaign Name</small></span>
+                <span class="pill solid">Auto-Tags Both</span>
+              </li>
+              <li class="sub-item">
+                <span class="p-label"><span class="p-code-pair"><code>master-toolkit/</code><span>+</span><code>express-adaptations/</code></span><small>Separates approved masters from Express saves</small></span>
+                <span class="pill">2 Subfolders</span>
+              </li>
+              <li>
+                <span class="p-label"><code>products/&lt;product-line&gt;/</code><small>Product visuals, PDS &amp; fact sheets</small></span>
+                <span class="pill solid">1:1 &amp; 4:5 Crops</span>
+              </li>
+              <li>
+                <span class="p-label"><code>shared-media/</code><small>Evergreen photo, B-roll &amp; doc templates</small></span>
+                <span class="pill solid">Rights Tracked</span>
+              </li>
+              <li>
+                <span class="p-label"><code>wip-studio/</code><small>Raw agency &amp; studio working drafts</small></span>
+                <span class="pill alert">Internal Only</span>
+              </li>
+              <li>
+                <span class="p-label"><code>/archive/</code><small>Central Admin-only retired vault</small></span>
+                <span class="pill alert">Hidden</span>
+              </li>
+            </ul>
+            <div class="dc-foot">
+              <strong>Refined metadata (7 kept + 3 enhancements):</strong>
+              <div class="meta-chip-row">
+                <span class="mchip added">+ Business Unit (Auto)</span>
+                <span class="mchip added">+ Campaign Type</span>
+                <span class="mchip added">+ Expiration Date</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           SECTION 02 · FOUR TARGETED FOLDER REFINEMENTS
+           ================================================================== -->
+      <section id="refinements">
+        <p class="sec-eyebrow">Folder Guidance</p>
+        <h2>Four refinements to make the structure scale</h2>
+        <p class="sec-intro">Each adjustment below solves a real operational bottleneck once teams start uploading campaigns, delivering images via Dynamic Media, and adapting designs in Adobe Express.</p>
+
+        <div class="refine-grid">
+          <!-- Card 1 -->
+          <article class="ref-card">
+            <div class="rc-top">
+              <span class="rc-num">Refinement <span>01</span> &middot; File Formats</span>
+              <span class="pill alert">High Impact</span>
+            </div>
+            <h3>Merge Video into domain folders &amp; broaden Photography</h3>
+            <p>Splitting Level 2 by file format scatters a single campaign&rsquo;s assets across two trees and duplicates folder tagging. Keep campaign and product videos inside their matching Campaign or Product folder&mdash;AEM Search and Adobe Express filter by format in one click. Rename <code>Photography</code> to <code>shared-media/</code> for reusable evergreen lifestyle, executive portraits, and licensed stock.</p>
+            <div class="shift-strip">
+              <span class="sh-from">&gt; Photography / &gt; Video</span>
+              <span class="sh-arr" aria-hidden="true">&rarr;</span>
+              <span class="sh-to">shared-media/ + format filter</span>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="ref-card">
+            <div class="rc-top">
+              <span class="rc-num">Refinement <span>02</span> &middot; Campaigns</span>
+              <span class="pill solid">Automation Win</span>
+            </div>
+            <h3>Nest Campaign Name under Year (move Type to metadata)</h3>
+            <p><em>Campaign Type</em> (Acquisition, Retention, Seasonal) works best as a search filter, whereas grouping all campaigns of one type together quickly breaches the 1,000-file folder ceiling. Using <code>campaigns / 2026 / &lt;campaign-name&gt;/</code> keeps folders lean and lets a folder Metadata Profile auto-stamp both <strong>Year</strong> and <strong>Campaign Name</strong> on upload.</p>
+            <div class="shift-strip">
+              <span class="sh-from">campaigns / 2026 / &lt;type&gt;</span>
+              <span class="sh-arr" aria-hidden="true">&rarr;</span>
+              <span class="sh-to">campaigns / 2026 / &lt;campaign&gt;</span>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="ref-card">
+            <div class="rc-top">
+              <span class="rc-num">Refinement <span>03</span> &middot; Lifecycle</span>
+              <span class="pill solid">Governance Gate</span>
+            </div>
+            <h3>Separate approved masters, Express saves &amp; studio WIP</h3>
+            <p>Without a dedicated save-back zone, marketers save unreviewed Adobe Express exports straight into master folders. Split each campaign into read-only <code>master-toolkit/</code> (approved building blocks + Dynamic Media Smart Crops) and <code>express-adaptations/</code> (lands unapproved for review), plus add BU-level <code>wip-studio/</code> for raw agency drafts and an Admin-only <code>/archive/</code>.</p>
+            <div class="shift-strip">
+              <span class="sh-from">Single flat campaign folder</span>
+              <span class="sh-arr" aria-hidden="true">&rarr;</span>
+              <span class="sh-to">master-toolkit/ + express-adaptations/</span>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="ref-card">
+            <div class="rc-top">
+              <span class="rc-num">Refinement <span>04</span> &middot; Brand &amp; Templates</span>
+              <span class="pill">Express Clarity</span>
+            </div>
+            <h3>Standardize Brand Foundation &amp; clarify Templates</h3>
+            <p>Housing logos, icons, and guidelines in <code>brand-foundation/</code> under each BU (plus enterprise marks under <code>amp-enterprise/</code>) lets Brand Managers auto-approve official identity kits while keeping them read-only for marketers. Use DAM <code>templates/</code> for downloadable <code>.pptx</code> / <code>.dotx</code> / <code>.indd</code> files&mdash;live <strong>Adobe Express templates</strong> belong in Express Brands &amp; Libraries.</p>
+            <div class="shift-strip">
+              <span class="sh-from">Ambiguous &gt; Templates</span>
+              <span class="sh-arr" aria-hidden="true">&rarr;</span>
+              <span class="sh-to">DAM docs vs. Express Brand Libraries</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           SECTION 03 · VISUAL RECOMMENDED AMP TREE
+           ================================================================== -->
+      <section id="amp-tree">
+        <p class="sec-eyebrow">Recommended Folder Tree</p>
+        <h2>How the refined structure looks across AMP&rsquo;s Business Units</h2>
+        <p class="sec-intro">Repeating the <strong>exact same Level-2 folder pattern</strong> inside <code>amp-enterprise</code>, <code>north</code>, <code>bank</code>, <code>super</code>, and <code>foundation</code> means cross-BU marketers, brand stewards, and Admins only learn one navigation pattern.</p>
+
+        <!-- Inline SVG Multi-BU Topology Map -->
+        <div class="svg-arch-frame">
+          <div class="svg-arch-head">
+            <span class="svg-arch-title">AMP Multi-BU Topology &middot; Identical Subfolder Grammar Repeated Per Unit</span>
+            <div class="svg-legend">
+              <span><i class="leg-dot d-shared"></i>Shared Enterprise Root</span>
+              <span><i class="leg-dot d-bu"></i>Business Unit Roots (Isolated Permissions)</span>
+              <span><i class="leg-dot d-off"></i>Admin-Only Vault</span>
+            </div>
+          </div>
+          <svg class="arch-svg" viewBox="0 0 900 232" role="img" aria-label="AMP folder topology across AMP Enterprise, North, Bank, Super, Foundation, and central Archive">
+            <!-- Root -->
+            <rect x="350" y="8" width="200" height="34" rx="8" fill="var(--ink)"/>
+            <text x="450" y="30" text-anchor="middle" font-size="13" font-weight="700" fill="var(--white)" font-family="var(--mono)">All Assets (AMP Root)</text>
+
+            <!-- Connectors -->
+            <path d="M450 42 V60 M82 60 H818 M82 60 V84 M230 60 V84 M378 60 V84 M526 60 V84 M674 60 V84 M818 60 V84" stroke="var(--gray-400)" stroke-width="1.6" fill="none"/>
+
+            <!-- Col 1: AMP Enterprise -->
+            <rect x="14" y="84" width="136" height="44" rx="8" fill="var(--charcoal)"/>
+            <text x="82" y="104" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--white)" font-family="var(--mono)">amp-enterprise/</text>
+            <text x="82" y="119" text-anchor="middle" font-size="9.8" fill="var(--coral-2)">Shared Group Assets</text>
+
+            <!-- Col 2: North -->
+            <rect x="162" y="84" width="136" height="44" rx="8" fill="var(--ink)"/>
+            <text x="230" y="104" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--white)" font-family="var(--mono)">north/</text>
+            <text x="230" y="119" text-anchor="middle" font-size="9.8" fill="var(--gray-300)">Auto-Tags BU = North</text>
+
+            <!-- Col 3: Bank -->
+            <rect x="310" y="84" width="136" height="44" rx="8" fill="var(--ink)"/>
+            <text x="378" y="104" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--white)" font-family="var(--mono)">bank/</text>
+            <text x="378" y="119" text-anchor="middle" font-size="9.8" fill="var(--gray-300)">Auto-Tags BU = Bank</text>
+
+            <!-- Col 4: Super -->
+            <rect x="458" y="84" width="136" height="44" rx="8" fill="var(--ink)"/>
+            <text x="526" y="104" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--white)" font-family="var(--mono)">super/</text>
+            <text x="526" y="119" text-anchor="middle" font-size="9.8" fill="var(--gray-300)">Auto-Tags BU = Super</text>
+
+            <!-- Col 5: Foundation -->
+            <rect x="606" y="84" width="136" height="44" rx="8" fill="var(--ink)"/>
+            <text x="674" y="104" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--white)" font-family="var(--mono)">foundation/</text>
+            <text x="674" y="119" text-anchor="middle" font-size="9.8" fill="var(--gray-300)">Auto-Tags BU = Foundation</text>
+
+            <!-- Col 6: Central Archive -->
+            <rect x="754" y="84" width="132" height="44" rx="8" fill="var(--adobe-red-tint)" stroke="var(--adobe-red-dark)" stroke-width="1.4" stroke-dasharray="4 3"/>
+            <text x="820" y="104" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--adobe-red-dark)" font-family="var(--mono)">archive/</text>
+            <text x="820" y="119" text-anchor="middle" font-size="9.8" fill="var(--adobe-red-dark)">Admin-Only Vault</text>
+
+            <!-- Shared Standard Subfolder Band across the 5 BU roots -->
+            <rect x="14" y="142" width="728" height="78" rx="10" fill="var(--bg-layer-1)" stroke="var(--border-strong)"/>
+            <text x="378" y="161" text-anchor="middle" font-size="10.2" font-weight="700" fill="var(--gray-600)" font-family="var(--mono)" letter-spacing="0.6">STANDARD LEVEL-2 PATTERN REPEATED INSIDE EVERY BUSINESS UNIT</text>
+            <text x="378" y="182" text-anchor="middle" font-size="11.2" font-weight="700" fill="var(--ink)" font-family="var(--mono)">brand-foundation/  &bull;  campaigns/2026/&lt;campaign&gt;/  &bull;  products/&lt;line&gt;/  &bull;  shared-media/</text>
+            <text x="378" y="203" text-anchor="middle" font-size="10.8" fill="var(--gray-700)" font-family="var(--mono)">+ wip-studio/ (internal agency &amp; studio drafts &mdash; excluded from Dynamic Media &amp; Express)</text>
+
+            <!-- Archive sub-box -->
+            <rect x="754" y="142" width="132" height="78" rx="10" fill="var(--bg-layer-2)" stroke="var(--border)" stroke-dasharray="4 3"/>
+            <text x="820" y="168" text-anchor="middle" font-size="10.3" fill="var(--gray-700)" font-family="var(--mono)">north/2025/</text>
+            <text x="820" y="186" text-anchor="middle" font-size="10.3" fill="var(--gray-700)" font-family="var(--mono)">bank/2025/</text>
+            <text x="820" y="204" text-anchor="middle" font-size="10.3" fill="var(--gray-700)" font-family="var(--mono)">super/2025/ ...</text>
+          </svg>
+        </div>
+
+        <!-- Interactive Folder Tree Mockup -->
+        <div class="dam-window">
+          <div class="dam-topbar">
+            <div class="dam-crumb"><span class="dam-dots"><i></i><i></i><i></i></span>Assets &rsaquo; Files &rsaquo; <strong>AMP Repository</strong> (Worked Example: <code>north/</code> expanded)</div>
+            <div class="dam-actions">
+              <button type="button" class="tree-ctrl-btn" data-tree-action="expand">Expand all</button>
+              <button type="button" class="tree-ctrl-btn" data-tree-action="collapse">Collapse</button>
+            </div>
+          </div>
+
+          <div class="visual-tree">
+            <div class="vt-root-pill"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> All Assets</div>
+            <ul class="vt-list">
+
+              <!-- AMP Enterprise -->
+              <li class="vt-node">
+                <details class="vt-folder">
+                  <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">amp-enterprise/</span><span class="vt-title">AMP Enterprise (Viewable across all Business Units)</span><span class="vt-lvl">L1</span><span class="pill solid">Auto-Tags BU = AMP Enterprise</span></summary>
+                  <ul class="vt-list">
+                    <li class="vt-node">
+                      <div class="vt-leaf-box">
+                        <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">brand-foundation/logos/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">Auto-Approved</span><span class="vt-title">Master AMP corporate marks &amp; icons</span></div>
+                        <div class="vt-files"><span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> amp-enterprise-master-logo-rgb.svg</span></div>
+                      </div>
+                    </li>
+                    <li class="vt-node">
+                      <div class="vt-leaf-box">
+                        <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">shared-media/templates/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="vt-title">Downloadable corporate PPTX, Word &amp; InDesign templates</span></div>
+                        <div class="vt-files"><span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> amp-corporate-deck-template-2026.pptx</span></div>
+                      </div>
+                    </li>
+                  </ul>
+                </details>
+              </li>
+
+              <!-- North (Expanded Worked Example) -->
+              <li class="vt-node">
+                <details class="vt-folder" open>
+                  <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">north/</span><span class="vt-title">North Business Unit (Worked Example)</span><span class="vt-lvl">L1</span><span class="pill solid">Auto-Tags BU = North</span></summary>
+                  <ul class="vt-list">
+                    <li class="vt-node">
+                      <div class="vt-leaf-box">
+                        <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">brand-foundation/logos/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">DM Live on Upload</span><span class="vt-title">North logos, icons &amp; guidelines (read-only in Express)</span></div>
+                        <div class="vt-files">
+                          <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> north-logo-primary-rgb.svg</span>
+                          <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> north-brand-guidelines-2026.pdf</span>
+                        </div>
+                      </div>
+                    </li>
+
+                    <li class="vt-node">
+                      <details class="vt-folder" open>
+                        <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">campaigns/2026/eofy-adviser-push/</span><span class="vt-title">Auto-tags Year = 2026 &amp; Campaign = EOFY Adviser Push</span><span class="vt-lvl">L2&ndash;L4</span></summary>
+                        <ul class="vt-list">
+                          <li class="vt-node">
+                            <div class="vt-leaf-box">
+                              <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">master-toolkit/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">DM Live After Approval</span><span class="vt-title">Approved key visuals &amp; campaign videos (16:9, 9:16 Smart Crops)</span></div>
+                              <div class="vt-files">
+                                <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> north-eofy26-adviser-hero-16x9.tif</span>
+                                <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> north-eofy26-platform-overview.mp4</span>
+                              </div>
+                            </div>
+                          </li>
+                          <li class="vt-node">
+                            <div class="vt-leaf-box">
+                              <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">express-adaptations/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill">Held Until Reviewed</span><span class="vt-title">Social &amp; banner exports saved back from Adobe Express</span></div>
+                              <div class="vt-files">
+                                <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> north-eofy26-linkedin-card-4x5.png</span>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </details>
+                    </li>
+
+                    <li class="vt-node">
+                      <div class="vt-leaf-box">
+                        <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">products/investment-wrap/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">DM Live After Approval</span><span class="vt-title">Product imagery (1:1, 4:5 crops), PDS &amp; product sheets</span></div>
+                        <div class="vt-files">
+                          <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> north-wrap-dashboard-packshot.png</span>
+                          <span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> north-wrap-product-fact-sheet.pdf</span>
+                        </div>
+                      </div>
+                    </li>
+
+                    <li class="vt-node">
+                      <div class="vt-leaf-box">
+                        <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">shared-media/lifestyle/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill solid">Live Until Expiration Date</span><span class="vt-title">Evergreen photography, B-roll &amp; downloadable templates</span></div>
+                        <div class="vt-files"><span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> north-retirees-coastal-walk-stock.jpg</span></div>
+                      </div>
+                    </li>
+
+                    <li class="vt-node">
+                      <div class="vt-leaf-box">
+                        <div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">wip-studio/agency-drafts/</span><span class="vt-lvl leaf-tag">LEAF</span><span class="pill alert">Never Delivered</span><span class="vt-title">Raw shoots &amp; working INDD/PSD files before sign-off</span></div>
+                        <div class="vt-files"><span class="file-chip"><svg class="t-ico file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> north-eofy26-concept-working.indd</span></div>
+                      </div>
+                    </li>
+                  </ul>
+                </details>
+              </li>
+
+              <!-- Bank, Super, Foundation collapsed -->
+              <li class="vt-node">
+                <details class="vt-folder">
+                  <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">bank/</span><span class="vt-title">AMP Bank &mdash; repeats identical L2 pattern</span><span class="vt-lvl">L1</span><span class="pill solid">Auto-Tags BU = Bank</span></summary>
+                  <ul class="vt-list">
+                    <li class="vt-node"><div class="vt-leaf-box"><div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">brand-foundation/ &bull; campaigns/2026/ &bull; products/home-loans/ &bull; shared-media/ &bull; wip-studio/</span></div></div></li>
+                  </ul>
+                </details>
+              </li>
+
+              <li class="vt-node">
+                <details class="vt-folder">
+                  <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">super/</span><span class="vt-title">AMP Super &mdash; repeats identical L2 pattern</span><span class="vt-lvl">L1</span><span class="pill solid">Auto-Tags BU = Super</span></summary>
+                  <ul class="vt-list">
+                    <li class="vt-node"><div class="vt-leaf-box"><div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">brand-foundation/ &bull; campaigns/2026/ &bull; products/super-choice/ &bull; shared-media/ &bull; wip-studio/</span></div></div></li>
+                  </ul>
+                </details>
+              </li>
+
+              <li class="vt-node">
+                <details class="vt-folder">
+                  <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">foundation/</span><span class="vt-title">AMP Foundation &mdash; repeats identical L2 pattern</span><span class="vt-lvl">L1</span><span class="pill solid">Auto-Tags BU = Foundation</span></summary>
+                  <ul class="vt-list">
+                    <li class="vt-node"><div class="vt-leaf-box"><div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">brand-foundation/ &bull; campaigns/2026/ &bull; programs/grants/ &bull; shared-media/ &bull; wip-studio/</span></div></div></li>
+                  </ul>
+                </details>
+              </li>
+
+              <!-- Central Archive -->
+              <li class="vt-node">
+                <details class="vt-folder restricted-folder">
+                  <summary><span class="caret">&#9654;</span><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">archive/</span><span class="vt-title">Central Retired Vault (DAM Admins only &middot; unapproved before move)</span><span class="vt-lvl">L1</span><span class="pill alert">Hidden from Search &amp; Express</span></summary>
+                  <ul class="vt-list">
+                    <li class="vt-node"><div class="vt-leaf-box"><div class="vt-leaf-head"><svg class="t-ico folder" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg><span class="vt-slug">north/2025/ &bull; bank/2025/ &bull; super/2025/</span><span class="vt-lvl leaf-tag">LEAF</span></div></div></li>
+                  </ul>
+                </details>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           SECTION 04 · METADATA STRUCTURE REVIEW
+           ================================================================== -->
+      <section id="metadata">
+        <p class="sec-eyebrow">Metadata Review</p>
+        <h2>How your 7 proposed fields pair with folder automation</h2>
+        <p class="sec-intro">Your proposed metadata list is lean and practical. The key to high user adoption is <strong>auto-stamping predictable fields via Folder Metadata Profiles</strong> so uploaders only fill in 2&ndash;3 controlled dropdowns&mdash;plus adding three high-value fields highlighted below.</p>
+
+        <div class="table-wrap">
+          <table class="data">
+            <thead>
+              <tr>
+                <th style="width:20%">Metadata Field</th>
+                <th style="width:16%">Review Status</th>
+                <th style="width:24%">How to Populate</th>
+                <th style="width:40%">Guidance for AMP</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Campaign Name</strong></td>
+                <td><span class="pill solid">Keep</span></td>
+                <td>Auto-stamped by <code>&lt;campaign&gt;/</code> folder profile</td>
+                <td>Saves authors from typing campaign names manually on every upload and powers cross-BU Search &amp; Express filters.</td>
+              </tr>
+              <tr>
+                <td><strong>Year</strong></td>
+                <td><span class="pill solid">Keep</span></td>
+                <td>Auto-stamped by <code>2026/</code> folder profile</td>
+                <td>Auto-fill on campaign folders; leave optional on evergreen Brand and Product assets that span multiple years.</td>
+              </tr>
+              <tr>
+                <td><strong>Audience</strong></td>
+                <td><span class="pill solid">Keep</span></td>
+                <td>Controlled multi-select dropdown / tag</td>
+                <td>Use standardized values (e.g., <em>Advisers, Retail Members, Homebuyers, Brokers, Internal</em>)&mdash;never free text.</td>
+              </tr>
+              <tr>
+                <td><strong>Channel</strong></td>
+                <td><span class="pill solid">Keep</span></td>
+                <td>Controlled multi-select dropdown / tag</td>
+                <td>Replaces channel folders so a single approved image can serve Web, Social, Email, and Adviser Portals at once.</td>
+              </tr>
+              <tr>
+                <td><strong>Asset Type</strong></td>
+                <td><span class="pill">Refine Meaning</span></td>
+                <td>Controlled single-select dropdown</td>
+                <td>Define as <strong>Business Asset Type</strong> (<em>Key Visual, Packshot, Logo, Fact Sheet, Executive Bio</em>)&mdash;AEM already extracts technical file formats (<code>JPG</code>, <code>MP4</code>, <code>PDF</code>) automatically.</td>
+              </tr>
+              <tr>
+                <td><strong>Status</strong></td>
+                <td><span class="pill solid">Keep (Critical)</span></td>
+                <td>System <code>Review Status</code> field</td>
+                <td>Directly gates <strong>Dynamic Media (OpenAPI)</strong> delivery and surfaces approved renditions inside Adobe Express. Restrict edit rights on this field to designated Approvers.</td>
+              </tr>
+              <tr>
+                <td><strong>Usage Rights</strong></td>
+                <td><span class="pill solid">Keep</span></td>
+                <td>Dropdown + mandatory on <code>shared-media/</code></td>
+                <td>Capture license scope (e.g., <em>Owned Perpetual, Licensed Paid Stock, Talent Restricted</em>) so Express users know where an image is cleared to run.</td>
+              </tr>
+              <tr class="row-added">
+                <td><strong>+ Expiration Date</strong></td>
+                <td><span class="pill solid">Add (Essential)</span></td>
+                <td>System Expiration Date picker</td>
+                <td>Pair with <code>Usage Rights</code>: when an asset passes its Expiration Date, AEM flags it and <strong>Dynamic Media automatically stops serving it</strong>.</td>
+              </tr>
+              <tr class="row-added">
+                <td><strong>+ Business Unit</strong></td>
+                <td><span class="pill solid">Add (Auto)</span></td>
+                <td>Auto-stamped at L1 BU root folder</td>
+                <td>Zero effort for users&mdash;stamps <code>North</code>, <code>Bank</code>, <code>Super</code>, <code>Foundation</code>, or <code>AMP Enterprise</code> automatically so global search can filter by BU.</td>
+              </tr>
+              <tr class="row-added">
+                <td><strong>+ Campaign Type</strong></td>
+                <td><span class="pill">Move from Folder</span></td>
+                <td>Controlled dropdown on Campaign schema</td>
+                <td>Moved out of the folder path so marketers can slice campaigns by <em>Acquisition, Retention, Brand, Regulatory,</em> or <em>Event</em> in Search without deep folders.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="foot-inner">
+    <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe&nbsp;<span>Experience Manager Assets</span></div>
+    <div class="foot-right">
+      <p class="fr-1">AMP &middot; Folder &amp; Metadata Architecture Review</p>
+      <p class="fr-2"><a href="../assets/folder-structure-design-guide.html">Full Folder Design Guide</a> &nbsp;&middot;&nbsp; &copy; 2026 Adobe</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* Scrollspy — Pattern A vertical Left Rail TOC (#spy-nav) */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#spy-nav a'));
+  var map = {};
+  links.forEach(function(l){ map[l.getAttribute('href').slice(1)] = l; });
+  var sections = links.map(function(l){
+    return document.getElementById(l.getAttribute('href').slice(1));
+  }).filter(Boolean);
+
+  function setActive(id){
+    links.forEach(function(l){ l.classList.remove('active'); });
+    if(map[id]) map[id].classList.add('active');
+  }
+
+  if('IntersectionObserver' in window){
+    var vis = {};
+    var obs = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ vis[e.target.id] = e.isIntersecting ? e.intersectionRatio : 0; });
+      var best = null, bestR = 0;
+      Object.keys(vis).forEach(function(k){ if(vis[k] > bestR){ bestR = vis[k]; best = k; } });
+      if(best) setActive(best);
+    }, { rootMargin:'-15% 0px -68% 0px', threshold:[0, 0.15, 0.5, 1] });
+    sections.forEach(function(s){ obs.observe(s); });
+  }
+  links.forEach(function(l){
+    l.addEventListener('click', function(){ setActive(l.getAttribute('href').slice(1)); });
+  });
+
+  /* Scroll-progress bar */
+  var pb = document.getElementById('progressbar');
+  if(pb){
+    var upd = function(){
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      pb.style.transform = 'scaleX(' + Math.min(1, Math.max(0, h > 0 ? window.scrollY / h : 0)) + ')';
+    };
+    window.addEventListener('scroll', upd, {passive:true});
+    window.addEventListener('resize', upd);
+    upd();
+  }
+
+  /* Expand / Collapse all folders inside the AEM Tree Window */
+  Array.prototype.slice.call(document.querySelectorAll('.tree-ctrl-btn')).forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var win = btn.closest('.dam-window');
+      if(!win) return;
+      var expand = btn.getAttribute('data-tree-action') === 'expand';
+      Array.prototype.slice.call(win.querySelectorAll('details.vt-folder')).forEach(function(d){
+        d.open = expand;
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

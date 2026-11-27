@@ -76,11 +76,6 @@ p{margin:0 0 14px;}
   -webkit-box-decoration-break:slice; box-decoration-break:slice; padding-bottom:.3em;}
 .hero .lead{margin:20px 0 0; font-size:clamp(17px,2vw,20px); color:#d3d3d3; max-width:60ch;}
 .hero .lead strong{color:#fff; font-weight:700;}
-.hero-chips{display:flex; flex-wrap:wrap; gap:12px; margin:32px 0 0; padding:0; list-style:none;}
-.hero-chips li{background:rgba(255,255,255,.09); border:1px solid rgba(255,255,255,.20); border-radius:var(--radius-pill);
-  padding:9px 16px; font-size:13.5px; font-weight:500; color:#ececec;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.17), 0 1px 5px rgba(0,0,0,.12);}
-.hero-chips li strong{color:#fff; font-weight:700;}
 
 /* Shell + vertical TOC (left rail) */
 .shell{max-width:var(--maxw); margin:0 auto; padding:0 24px 40px; display:grid;
@@ -98,8 +93,6 @@ p{margin:0 0 14px;}
 .rail nav a.active,.mnav nav a.active{color:var(--s2-blue-down); background:var(--s2-blue-tint); border-left-color:var(--s2-blue);}
 .rail nav a.active .num,.mnav nav a.active .num{color:var(--s2-blue);}
 .rail nav a:focus-visible,.mnav nav a:focus-visible{outline:2px solid var(--focus-ring); outline-offset:-2px;}
-.rail-meta{margin:22px 0 0; padding:16px 15px 0; border-top:1px solid var(--gray-200); font-size:12.5px; line-height:1.5; color:var(--gray-500);}
-.rail-meta strong{display:block; color:var(--gray-700); font-weight:700; font-size:13px;}
 .content{padding-top:56px; min-width:0;}
 
 /* Mobile: TOC collapses into a sticky dropdown */
@@ -137,17 +130,6 @@ h3{font-size:18px; line-height:1.3; font-weight:800; margin:0 0 8px; color:var(-
 .muted{color:var(--gray-600);}
 .small{font-size:14px;}
 
-/* In-short takeaway */
-.takeaway{background:var(--bg-layer-1); border:1px solid var(--border);
-  border-radius:var(--radius-sm); padding:14px 20px 15px; margin:0 0 30px; max-width:78ch;}
-.takeaway .tk-label{display:flex; align-items:center; gap:9px; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.14em;
-  text-transform:uppercase; color:var(--adobe-red); margin:0 0 5px;}
-.takeaway .tk-label::before{content:""; width:18px; height:2px; background:var(--adobe-red); border-radius:2px;}
-.takeaway p{margin:0; font-size:18px; line-height:1.5; color:var(--ink); font-weight:600;}
-.em{color:var(--coral-1); font-weight:700;}
-.takeaway code,.desc code{font-size:.86em; font-weight:600; color:var(--ink); background:var(--bg-base);
-  border:1px solid var(--border); border-radius:5px; padding:0 5px;}
-.desc code{background:var(--bg-layer-2);}
 
 /* Mapping view */
 .map{border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-base); box-shadow:var(--shadow); overflow:hidden;}
@@ -169,11 +151,10 @@ h3{font-size:18px; line-height:1.3; font-weight:800; margin:0 0 8px; color:var(-
 .to .desc{font-size:14.5px; color:var(--gray-700); line-height:1.5;}
 .badge{display:inline-block; font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
   border-radius:var(--radius-pill); padding:3px 9px; line-height:1.4; white-space:nowrap;}
-.b-keep{background:var(--gray-100); color:var(--gray-600); border:1px solid var(--gray-200);}
+.b-req{background:var(--adobe-red-tint); color:var(--adobe-red-dark); border:1px solid #F8CFCA;}
+.b-rec{background:var(--gray-100); color:var(--gray-700); border:1px solid var(--gray-300);}
+.b-opt{background:var(--bg-base); color:var(--gray-600); border:1px dashed var(--gray-300);}
 .b-auto{background:var(--charcoal); color:#fff; border:1px solid var(--charcoal);}
-.b-change{background:var(--adobe-red-tint); color:var(--adobe-red-dark); border:1px solid #F8CFCA;}
-.map-legend{display:flex; flex-wrap:wrap; gap:8px 18px; margin:14px 2px 0; font-size:13px; color:var(--gray-600);}
-.map-legend span{display:inline-flex; align-items:center; gap:7px;}
 
 /* Cards */
 .grid{display:grid; gap:18px;}
@@ -183,19 +164,17 @@ h3{font-size:18px; line-height:1.3; font-weight:800; margin:0 0 8px; color:var(-
 .card{background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius); padding:22px 22px 20px;
   box-shadow:var(--shadow); transition:border-color .15s, transform .15s, box-shadow .15s;}
 .card:hover{border-color:var(--border-strong); transform:translateY(-1px); box-shadow:var(--shadow-lg);}
-.card .cnum{display:block; font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase;
-  color:var(--gray-500); margin:0 0 10px;}
 .card p{font-size:15px; color:var(--gray-700); margin:0;}
 .card p + p{margin-top:10px;}
+.card h3 .fname{font-size:.9em;}
+.desc code,.card code{font-size:.86em; font-weight:600; color:var(--ink); background:var(--bg-layer-2);
+  border:1px solid var(--border); border-radius:5px; padding:0 5px;}
+.sub-h{margin:32px 0 12px;}
 
-.tip{display:flex; gap:14px; align-items:flex-start; margin-top:20px; padding:16px 20px; border-radius:var(--radius);
+.tip{ margin-top:20px; padding:16px 20px; border-radius:var(--radius);
   background:var(--bg-layer-1); border:1px solid var(--border);}
-.tip .ti{flex:none; width:28px; height:28px; border-radius:50%; background:var(--charcoal); color:#fff;
-  display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; margin-top:1px;}
 .tip p{margin:0; font-size:15px; color:var(--gray-700);}
 .tip p strong{color:var(--ink);}
-.quote{margin:18px 0 0; padding:0 0 0 16px; border-left:2px solid var(--gray-300); font-size:14.5px; color:var(--gray-600); font-style:italic;}
-.quote cite{display:block; font-style:normal; font-size:12.5px; color:var(--gray-500); margin-top:4px;}
 
 /* Pills */
 .pills{display:flex; flex-wrap:wrap; gap:7px; margin:14px 0 0; padding:0; list-style:none;}
@@ -203,15 +182,6 @@ h3{font-size:18px; line-height:1.3; font-weight:800; margin:0 0 8px; color:var(-
   border-radius:var(--radius-pill); padding:4px 12px;}
 .pills.dark li{background:var(--charcoal); border-color:var(--charcoal); color:#fff;}
 
-/* Tree */
-.tree{margin-top:22px; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-layer-1); padding:20px 22px;}
-.tree-title{font-family:var(--mono); font-size:11px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gray-500); margin:0 0 12px;}
-.tree ul{list-style:none; margin:0; padding:0;}
-.tree .root{font-weight:800; color:var(--ink); font-size:16px;}
-.tree .kids{margin:8px 0 0 6px; border-left:1px solid var(--gray-300); padding-left:18px; display:grid; gap:6px;}
-.tree .kids li{position:relative; display:flex; justify-content:space-between; gap:12px; max-width:440px; font-size:15px; color:var(--gray-700);}
-.tree .kids li::before{content:""; position:absolute; left:-18px; top:.8em; width:12px; border-top:1px solid var(--gray-300);}
-.tree .cnt{font-family:var(--mono); font-size:12.5px; color:var(--gray-500); white-space:nowrap;}
 
 /* Tables */
 .table-wrap{border:1px solid var(--border); border-radius:var(--radius); overflow:auto; box-shadow:var(--shadow); background:var(--bg-base);}
@@ -296,8 +266,7 @@ tbody tr:hover td{background:var(--gray-100);}
   .map-row{grid-template-columns:1fr; gap:8px; padding:16px 18px;}
   .arrow{display:none;}
   .from .col::after{content:" →"; color:var(--gray-400); font-weight:400;}
-  .takeaway p{font-size:17px;}
-}
+  }
 @media print{
   .rail,.mnav,.progress,.btns{display:none;} .shell{display:block;} .hero{-webkit-print-color-adjust:exact; print-color-adjust:exact;}
   section{break-inside:avoid-page;} .card,.map,.table-wrap{box-shadow:none;}
@@ -325,22 +294,17 @@ tbody tr:hover td{background:var(--gray-100);}
     </div>
     <div class="hero-body">
       <h1>How to map AGL prompts in <span class="hl">ABV</span></h1>
-      <p class="lead">You&rsquo;re on the right track. <strong>One change</strong> lets ABV handle branded vs. non-branded and intent for you.</p>
-      <ul class="hero-chips">
-        <li><strong>Branded:</strong> detected automatically</li>
-        <li><strong>Category › Subcategory:</strong> product line › topic</li>
-        <li><strong>Tags:</strong> funnel stage, state, plan</li>
-      </ul>
+      <p class="lead">ABV detects <strong>branded vs. non-branded</strong> and <strong>intent</strong> automatically. Category, subcategory, and tags organize the rest.</p>
     </div>
   </div>
 </header>
 
 <nav class="mnav" aria-label="Contents">
   <details id="m-details">
-    <summary><span class="lbl">Contents</span><span class="cur" id="m-cur">At a glance</span>
+    <summary><span class="lbl">Contents</span><span class="cur" id="m-cur">Column mapping</span>
       <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg></summary>
     <nav id="m-nav">
-      <a href="#at-a-glance"><span class="num">01</span>At a glance</a>
+      <a href="#mapping"><span class="num">01</span>Column mapping</a>
       <a href="#branded"><span class="num">02</span>Branded vs. non-branded</a>
       <a href="#category"><span class="num">03</span>Category &amp; subcategory</a>
       <a href="#tags"><span class="num">04</span>Intent &amp; custom tags</a>
@@ -354,185 +318,128 @@ tbody tr:hover td{background:var(--gray-100);}
 <aside class="rail" aria-label="Contents">
   <p class="rail-title">Contents</p>
   <nav id="spy-nav">
-    <a href="#at-a-glance"><span class="num">01</span>At a glance</a>
+    <a href="#mapping"><span class="num">01</span>Column mapping</a>
     <a href="#branded"><span class="num">02</span>Branded vs. non-branded</a>
     <a href="#category"><span class="num">03</span>Category &amp; subcategory</a>
     <a href="#tags"><span class="num">04</span>Intent &amp; custom tags</a>
     <a href="#sample"><span class="num">05</span>Sample CSV</a>
     <a href="#next-steps"><span class="num">06</span>Next steps</a>
   </nav>
-  <p class="rail-meta"><strong>Prepared for AGL</strong>Prompt mapping for Adobe Brand Visibility</p>
 </aside>
 
 <div class="content">
 <main>
-  <!-- 01 -->
-  <section id="at-a-glance">
-    <p class="sec-eyebrow">At a glance</p>
-    <h2>Your columns, mapped to ABV</h2>
-    <div class="takeaway">
-      <span class="tk-label">In short</span>
-      <p>Keep your prompts and product lines. <span class="em">Drop the Branded / Non-branded column</span>, add a topic as the subcategory, and move intent into tags.</p>
-    </div>
-
+  <section id="mapping">
+    <p class="sec-eyebrow">Column mapping</p>
+    <h2>Where each dimension goes in ABV</h2>
     <div class="map" role="table" aria-label="Column mapping">
-      <div class="map-head" role="row"><span role="columnheader">Your column</span><span></span><span role="columnheader">In ABV</span></div>
+      <div class="map-head" role="row"><span role="columnheader">Dimension</span><span></span><span role="columnheader">ABV field</span></div>
 
       <div class="map-row" role="row">
-        <div class="from" role="cell"><span class="col">Parent Category</span><span class="ex">Branded · Non-branded</span></div>
+        <div class="from" role="cell"><span class="col">Branded / non-branded</span><span class="ex">Whether the prompt names AGL</span></div>
         <div class="arrow" aria-hidden="true">→</div>
         <div class="to" role="cell">
-          <div class="line"><span class="badge b-auto">Automatic</span><span class="field auto">no column needed</span></div>
-          <span class="desc">ABV classifies every prompt as branded or non-branded on its own.</span>
+          <div class="line"><span class="badge b-auto">Automatic</span><span class="field auto">no column</span></div>
+          <span class="desc">ABV classifies every prompt as branded or non-branded.</span>
         </div>
       </div>
 
       <div class="map-row" role="row">
-        <div class="from" role="cell"><span class="col">Category</span><span class="ex">Electricity · Internet · Gas</span></div>
+        <div class="from" role="cell"><span class="col">Product line</span><span class="ex">Electricity · Gas · Internet</span></div>
         <div class="arrow" aria-hidden="true">→</div>
         <div class="to" role="cell">
-          <div class="line"><span class="badge b-keep">Keep</span><span class="field">category</span></div>
-          <span class="desc">Your product line. One per prompt.</span>
+          <div class="line"><span class="badge b-rec">Recommended</span><span class="field">category</span></div>
+          <span class="desc">One per prompt.</span>
         </div>
       </div>
 
       <div class="map-row" role="row">
-        <div class="from" role="cell"><span class="col none">New</span><span class="ex">Topic within the product line</span></div>
+        <div class="from" role="cell"><span class="col">Topic</span><span class="ex">Plans &amp; Pricing · Tariffs &amp; Billing</span></div>
         <div class="arrow" aria-hidden="true">→</div>
         <div class="to" role="cell">
-          <div class="line"><span class="badge b-change">Add</span><span class="field">subcategory</span></div>
-          <span class="desc">A reusable topic, such as Plans &amp; Pricing or Tariffs &amp; Billing.</span>
+          <div class="line"><span class="badge b-opt">Optional</span><span class="field">subcategory</span></div>
+          <span class="desc">At most one per prompt, nested under its category.</span>
         </div>
       </div>
 
       <div class="map-row" role="row">
-        <div class="from" role="cell"><span class="col">Tag</span><span class="ex">Awareness · Informational · Commercial</span></div>
+        <div class="from" role="cell"><span class="col">Funnel stage, state, plan</span><span class="ex">Awareness · NSW · Three for Free</span></div>
         <div class="arrow" aria-hidden="true">→</div>
         <div class="to" role="cell">
-          <div class="line"><span class="badge b-change">Reformat</span><span class="field">tags</span></div>
-          <span class="desc">Write as <code>Funnel &gt; Awareness</code>. Add more tags (state, plan) as needed.</span>
+          <div class="line"><span class="badge b-opt">Optional</span><span class="field">tags</span></div>
+          <span class="desc">Written as <code>Funnel &gt; Awareness</code>. Several per prompt.</span>
         </div>
       </div>
 
       <div class="map-row" role="row">
-        <div class="from" role="cell"><span class="col">Prompt</span><span class="ex">The question itself</span></div>
+        <div class="from" role="cell"><span class="col">Prompt</span><span class="ex">The question a customer asks</span></div>
         <div class="arrow" aria-hidden="true">→</div>
         <div class="to" role="cell">
-          <div class="line"><span class="badge b-keep">Keep</span><span class="field">prompt</span></div>
-          <span class="desc">No change. Natural, conversational phrasing works well.</span>
+          <div class="line"><span class="badge b-req">Required</span><span class="field">prompt</span></div>
+          <span class="desc">Phrased the way a customer would ask an AI assistant.</span>
         </div>
       </div>
-    </div>
-    <div class="map-legend" aria-hidden="true">
-      <span><span class="badge b-auto">Automatic</span> handled by ABV</span>
-      <span><span class="badge b-keep">Keep</span> as you have it</span>
-      <span><span class="badge b-change">Add</span> / <span class="badge b-change">Reformat</span> small change</span>
     </div>
   </section>
 
-  <!-- 02 -->
   <section id="branded">
     <p class="sec-eyebrow">Branded vs. non-branded</p>
-    <h2>Let ABV detect branded prompts</h2>
-    <div class="takeaway">
-      <span class="tk-label">In short</span>
-      <p>Tracking branded vs. non-branded is the right goal &mdash; but ABV does it for you, so don&rsquo;t spend a category on it.</p>
-    </div>
-    <div class="grid g3">
+    <h2>Branded vs. non-branded is automatic</h2>
+    <div class="grid g2">
       <div class="card">
-        <span class="cnum">Why · 1</span>
-        <h3>It&rsquo;s detected for you</h3>
-        <p>ABV labels each prompt branded or non-branded. The Prompt Library shows the balance and flags when the branded share drifts outside a healthy range.</p>
+        <h3>Classified for every prompt</h3>
+        <p>The Prompt Library shows the branded / unbranded balance and flags when the branded share drifts outside a healthy range.</p>
       </div>
       <div class="card">
-        <span class="cnum">Why · 2</span>
-        <h3>You can already filter by it</h3>
-        <p>Brand Presence filters by branded vs. non-branded, so a category for it would duplicate a built-in view.</p>
-      </div>
-      <div class="card">
-        <span class="cnum">Why · 3</span>
-        <h3>Categories anchor history</h3>
-        <p>Changing categories later resets historical data. Keep them for a stable dimension: AGL&rsquo;s product lines.</p>
+        <h3>Filtered in Brand Presence</h3>
+        <p>Brand Presence filters by branded vs. non-branded. Adobe guidance is not to create categories for brand / non-brand or geography.</p>
       </div>
     </div>
-    <blockquote class="quote">&ldquo;Do not add categories/filters for brand/non-brand/geographic as you can filter specifically for this in the Brand Presence dashboard.&rdquo;
-      <cite>Adobe Brand Visibility best practices, Experience League</cite></blockquote>
     <div class="tip">
-      <span class="ti" aria-hidden="true">+</span>
       <p><strong>Add AGL plan and product names as brand aliases.</strong> In Brands Management &rsaquo; Aliases, add names such as <em>Three for Free</em> so mentions of them count toward AGL.</p>
     </div>
   </section>
 
-  <!-- 03 -->
   <section id="category">
     <p class="sec-eyebrow">Category &amp; subcategory</p>
     <h2>Product line, then topic</h2>
-    <div class="takeaway">
-      <span class="tk-label">In short</span>
-      <p>Use <code>category</code> for the product line and <code>subcategory</code> for the topic. Reuse the same topic names across product lines.</p>
-    </div>
     <div class="grid g2">
       <div class="card">
-        <span class="cnum">category · Product line</span>
-        <h3>Who owns it</h3>
-        <p>One per prompt. Mirrors the teams who own the pages and act on the results.</p>
+        <h3><code class="fname">category</code> &mdash; product line</h3>
+        <p>Match the teams who own the pages and act on the results. Changing categories later resets historical data.</p>
         <ul class="pills dark">
           <li>Electricity</li><li>Gas</li><li>Internet</li><li>Mobile</li><li>Solar &amp; Batteries</li>
         </ul>
       </div>
       <div class="card">
-        <span class="cnum">subcategory · Topic</span>
-        <h3>What it&rsquo;s about</h3>
-        <p>At most one per prompt. Keep a short, consistent list so topics compare cleanly across product lines.</p>
+        <h3><code class="fname">subcategory</code> &mdash; topic</h3>
+        <p>Reuse the same topic names across product lines so topics compare cleanly.</p>
         <ul class="pills">
           <li>Plans &amp; Pricing</li><li>Tariffs &amp; Billing</li><li>Energy Saving &amp; Usage</li>
           <li>Renewables &amp; Sustainability</li><li>Reviews &amp; Comparisons</li><li>Moving &amp; Switching</li><li>Account &amp; Support</li>
         </ul>
       </div>
     </div>
-    <div class="tree">
-      <p class="tree-title">Your sample, grouped</p>
-      <ul>
-        <li><span class="root">Electricity</span>
-          <ul class="kids">
-            <li><span>Reviews &amp; Comparisons</span><span class="cnt">4 prompts</span></li>
-            <li><span>Tariffs &amp; Billing</span><span class="cnt">3 prompts</span></li>
-            <li><span>Plans &amp; Pricing</span><span class="cnt">2 prompts</span></li>
-            <li><span>Energy Saving &amp; Usage</span><span class="cnt">1 prompt</span></li>
-            <li><span>Renewables &amp; Sustainability</span><span class="cnt">1 prompt</span></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
   </section>
 
-  <!-- 04 -->
   <section id="tags">
     <p class="sec-eyebrow">Intent &amp; custom tags</p>
-    <h2>Use tags for AGL&rsquo;s own views</h2>
-    <div class="takeaway">
-      <span class="tk-label">In short</span>
-      <p>ABV classifies intent natively. Add a <code>Funnel</code> tag only to split <span class="em">Awareness</span> from Informational &mdash; and use more tags for state and plan.</p>
-    </div>
+    <h2>Tags for AGL&rsquo;s own reporting views</h2>
     <div class="grid g2">
       <div class="card">
-        <span class="cnum">Built in · Intent</span>
-        <h3>What ABV classifies on its own</h3>
-        <p>Every prompt gets one of five intents, and the Prompt Library tracks intent coverage.</p>
+        <h3>Intent is classified automatically</h3>
+        <p>Each prompt gets one of five intents, and the Prompt Library tracks intent coverage.</p>
         <ul class="pills">
           <li>Informational</li><li>Navigational</li><li>Commercial</li><li>Transactional</li><li>Task</li>
         </ul>
       </div>
       <div class="card">
-        <span class="cnum">Your choice · Funnel tag</span>
-        <h3>Why add a funnel tag</h3>
-        <p>ABV would treat both <em>&ldquo;How can I lower my electricity bill&hellip;&rdquo;</em> and <em>&ldquo;What is the daily supply charge&hellip;&rdquo;</em> as Informational.</p>
-        <p>If AGL wants to report Awareness separately, as your list does, tag it.</p>
+        <h3>A funnel tag separates Awareness</h3>
+        <p>&ldquo;How can I lower my electricity bill&hellip;&rdquo; and &ldquo;What is the daily supply charge&hellip;&rdquo; are both Informational intent. A <code>Funnel &gt; Awareness</code> tag reports the first one separately.</p>
       </div>
     </div>
 
-    <h3 style="margin-top:32px;">Suggested tag groups</h3>
-    <p class="muted small">A prompt can carry several tags, so these stack.</p>
+    <h3 class="sub-h">Suggested tag groups</h3>
     <div class="table-wrap">
       <table class="tag-table">
         <thead><tr><th>Tag</th><th>Sub-tags</th><th>Example prompt</th></tr></thead>
@@ -554,21 +461,16 @@ tbody tr:hover td{background:var(--gray-100);}
         <li><span>Separate tags with a semicolon <code>;</code></span></li>
         <li><span>Nest a sub-tag with <code>&gt;</code>, as in <code>Tag &gt; Sub-tag</code></span></li>
         <li><span>Tags that don&rsquo;t exist yet are created on import</span></li>
-        <li><span>Avoid reserved names: <code>category</code> <code>tag</code> <code>intent</code> <code>origin</code> <code>type</code> <code>source</code> &mdash; hence <code>Funnel</code>, not <code>Intent</code></span></li>
+        <li><span>Reserved names can&rsquo;t be tags: <code>category</code> <code>tag</code> <code>intent</code> <code>origin</code> <code>type</code> <code>source</code> &mdash; hence <code>Funnel</code>, not <code>Intent</code></span></li>
       </ul>
     </div>
   </section>
 
-  <!-- 05 -->
   <section id="sample">
     <p class="sec-eyebrow">Sample</p>
-    <h2>Your list in ABV&rsquo;s import format</h2>
-    <div class="takeaway">
-      <span class="tk-label">In short</span>
-      <p>Same 11 prompts, four columns. Headers match the CSV import exactly &mdash; download it as a starting template.</p>
-    </div>
+    <h2>Sample import file</h2>
     <div class="toolbar">
-      <span class="meta">Columns: <code>category</code> · <code>subcategory</code> · <code>tags</code> · <code>prompt</code></span>
+      <span class="meta">Headers match the Prompt Library CSV import. Only <code>prompt</code> is required.</span>
       <div class="btns">
         <button class="btn btn-ghost" id="copy-csv" type="button"><span class="lbl">Copy CSV</span><span class="ok">Copied</span></button>
         <button class="btn btn-primary" id="dl-csv" type="button"><span class="lbl">Download CSV</span><span class="ok">Downloaded</span></button>
@@ -594,15 +496,14 @@ tbody tr:hover td{background:var(--gray-100);}
     </div>
   </section>
 
-  <!-- 06 -->
   <section id="next-steps">
     <p class="sec-eyebrow">Next steps</p>
     <h2>From list to live tracking</h2>
     <ol class="steps">
-      <li><div><h3>Consolidate the full list</h3><p>Use the four columns above across your priority product lines. Save as a UTF-8 CSV.</p></div></li>
-      <li><div><h3>Send it over for a quick check</h3><p>Even a rough first cut. We&rsquo;ll sanity-check subcategories, tags, aliases, and formatting before loading.</p></div></li>
+      <li><div><h3>Build the full list</h3><p>Use the four columns above for each priority product line. Save as UTF-8 CSV.</p></div></li>
+      <li><div><h3>Review names before import</h3><p>Confirm subcategory names, tag names, and brand aliases with the Adobe team.</p></div></li>
       <li><div><h3>Import the CSV</h3><p class="path">Prompt Management<span class="sep">›</span>Prompt Library<span class="sep">›</span>select the AGL brand and market<span class="sep">›</span>Import CSV</p></div></li>
-      <li><div><h3>Allow up to 24 hours, then review</h3><p>New prompts need processing before they appear in Brand Presence. Then check the Branded / Unbranded and Intent coverage tiles in the Prompt Library.</p></div></li>
+      <li><div><h3>Review after processing</h3><p>New prompts take up to 24 hours to appear in Brand Presence. Then check the Branded / Unbranded and Intent coverage tiles in the Prompt Library.</p></div></li>
     </ol>
     <div class="refs">
       <h3>References</h3>
@@ -621,7 +522,7 @@ tbody tr:hover td{background:var(--gray-100);}
   <div class="foot-inner">
     <div class="foot-brand"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2aWV3Qm94PSIwIDAgMjUwIDI0NSI+PGcgZGF0YS1uYW1lPSJMYXllciAxIiBzdHlsZT0iaXNvbGF0aW9uOmlzb2xhdGUiPjxpbWFnZSB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQVB3QUFBRDJDQVlBQUFEeU1Pb0JBQUFBQ1hCSVdYTUFBQXNTQUFBTEVnSFMzWDc4QUFBUU4wbEVRVlI0WHUyZGUxTVVTeEpIZjRPS29pS0lyL3ZjMkx2Zi96dHR4TzVldlhwRkJlUWw0T3dmV1VsbDEvUU1Jd3hNUTU0VFVkSERhOFFJVHVXanFxdEg0L0ZZUTJVMEdvMHUraDZBb1RFZXNGU2pJZjF1UWZCcFY0QWhNKzY3RG1rQ1dLcndUUVFmaGJIU1hIMEFESlZ4R04rYnF3Lzd4aVZLZC8raWI3Z09ta2dlNVY2UmRDK00rK1VheFFjWUdsSDBNMG1uNWVyanU4SWs0SC8reXhEL1JpTjhFVDFHY1JmOGZoa1B5bGlWOUxCY0g1U3ZJVDBNa1NqN3FhUVRTZDhrSFpmclNSbW5xaE5CbkFER055bitqUWpmSTNvVS9HRVpqOHBZay9TNFhOZks1MVpsRXdNMVBReUpXS3VmeVFRL2tuUll4a0c1SHBWeFhFYWNBRzVVL0dzVmZvcm9MdmtqbWRoUEpEMlZ0QjVlUHkydlhYd1hma1VBdzhOVCtXK3FvdTlMK2xyR3ZxUzk4UHBBZFFKdytXOUUvR3VwNFpzYTNldHhUOVBYWkVJL2s3UXBhU05jbjJsUytFZXlTUUxoWWFpNDhDY3lrVnZoZHlYdFNQb1NycnZsYTRlcTZmK1pwTFByclBFWExueUk2bDZmZTBSL0xJdmlHNUsySkwwb1kwdlNjNW4wTHJ1bjgxN0h4eG9lWUdqRUd0N3JkMC9yWGZvdmtqNUwraVJwdTR4UHNnbGdUelpKZU1RL1UybnVMVnI2aFFvZlpQZEdYQlI5VXliNHF6QmV5b1Rma0ludUVYMVZWWFM2OURCMCtycjAzMVJyK2dPWjlEc3l5VDlLK2p1TWJkbUVFTVUvVlluMmk1UitJVFY4U09FOXFxK3FwdTZiTXJGZlMzcFR4dXZ5dWVleU5QNkpxdWplMEd0RlIzWVlNdTA2dkl2djhoL0owdnhkV2FUL0tPbURwUGRsZkNpZis2S2E2bnVhLzExYVRJcC81UWpmcFBBeHFtL0lJdnByU1Q5TCtrWFNUK1hqRjZwUjNadHlzVTV2SXpxeXcyMGdkdTFkZkpmL3NicTlxN2FzZFI4K3lDTCtqcnJSZmlFcC9wV0ViMUw0QjdJby9WUVd1Vi9KUlArMWpKL0w1enlxUDVaTkRsSDBOcG9qT3R3bS9PL1ZwVndwci90V3AzeGxxcTlwN2Yycno3Sm9mNlJTMjE5Vitrc0xYMlJ2VS9oMTJZejFSdEp2WWZ3a2szMVRscjZ2cVlydTYrdElEbmVGK0xjYzVmZS85eWgvWElwZVYxMmhpaVh1bmtLS1B4cU52bDlXK2tzSkgyVDNGUDZKYklaNktZdmt2MG42WFZWMlQrRTlxbnVOVG4wT2Q1MVdmcytJdmJIdHk5VWUrWDNFbGFxUHNoUi9YeVhGdjZ6MFB5eDhJN3VuOEZ1eXFQNkxxdXkveW1UZmtzMWM3UVlhUklkcytOKzhpeCszbHNlbzd6dE80MjdUQjZyZUhPbVMwditROEUzTi9sQW0rMHVaNkw5TCtrZTUvaXhyemowdjN4Ti9ZZGJUSVR1alpyVGlyNm9iOGFNL1VsZ1IrTkdhZm03aEc5bFhaV244bGt6MmYwcjZReWI4TDdKSllGUGRGSjZvRHRERlpXL0ZqOUw3NXJONzVXZStoekhXRHpieTVoYStzQ0w3WmRaa05ma2JXVVQvUTlLL1pHbjhLMW0zc1c4UFBMSURkSEVudktjVm8zMjhXMVNxMjNmYi9mZG5tcE81aE8rcDI5ZFZVL2wvbFBHckxJM2ZVTGNMVDFRSG1JMzcwVWI3V1A3R0RUeEg2bTdLR2M5YnoxOG8vSlM2L1lWcU4vNDMxVFRlTy9HeHdZRHNBUFBSUm52LytMdTZOK2I0RFRmeC92cTU2dm1ad3ZmVTdZOWxqVGhmWi85ZFZYWlA0NUVkNFBMRWFPL2xjN3dUN3pBTVAyRGpUSFBXOHhkR2VOVlUzdXYyVitvdXZYa2FUMlFIV0F5dDlJL1ZUZWxkZUwrbjNpUDloZlg4Vk9IblRPVi9ra1g4SitxZVNvUHNBRmNqcHZlK0toYWw5M3Z1UGIwL1VlbmV6NHJ5c3lLOHkrNHp6S1lzbXZ2ZWVOOVU4MVEySVNBN3dHS0owbnZROWRRK0hyRFJ1Y2xHTmRwUDBDdDhUM1QzcnJ6ZkRQT3pMTnF2eTdyMmNaMGRBQmFIZCt6akN0a0wxWHZzL2VTYzlzNjZVVitVbnhiaC9SL3hWT0s1TExyL0lwUGRPL0t4U1FjQTEwZTdCOFpQMDlsUlBUWG5VTjBtM3NYQ2granVOOFo0N2Y1RzlhNjM1N0kwZjFVMDZRQ3VtOWpFaTZ0bCs3SURNejZwbnBQbjB2ZEcrYjdJN05IZFp4TS9zY1pQcXZFbW5kZnRwUElBMTQ5NzZXVjJ6THpmcUc1bmI1ZkdPM1NFbnhMZC9UQ0wxN0ltM1ROUnR3TXNnN2FlZnlaejhyVnE1dTFOOVBzeXBUdCs5a1g0OWczOTRNbDRRMHo3WUFnQXVCbThtZTZwdldmZ3IyU3V0Z0c1dy9rblFuU1BpLzErMHF3Zk9Na1NITUJ5YVZmUVBBdC9LWFBWZy9KNVdoK2pmRHNEdERXQ0g3Ym5xWHg3VXd3QTNEd3V2UGZaUExYZlVqMUdMdmJZem9rZjlOWHZHN0xaWTBQc3BnTVlDakhLKzlKNWRMVlR4eXU0MmhmaDR3TC9SbmlEOXBnZEFGZ2VzZnoybytiYzEzWkQzRGtyVW0vOUhwLy90aTRhZFFCRHBHM2dyYXQ3MVBWRUhkK205RjRYK0l3Umo4emxtQ3FBNFJDRHRHZmw4Y2pyK0JEV2laVGVmekRPRnY3REh0MVpkd2NZRmxGNDk5YURkTXpLejcxdEk3dzM3TmJLRDhXSFJpQTd3UEJvUy9Ib2JXemNTWkpXbXZvOVJuZy9ETjhmQjBVNkR6QXMydDZiQjJ2M3R4UGhSNlBScUsrRzkrTngvUkQ4OXVSWkFCZ1dNVmpIaDFkTU5OcGpEUitqdkorTDdVVS8wUjFnbVB5UXUzMGJiKzcxREdRSEdDNXp1OXVtNmFNWkF3Q0d5MXp1VHF2TEVSM2dkakxUWFJweEFJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUloQWVJQkVJRDVBSWhBZElCTUlESkFMaEFSS0I4QUNKUUhpQVJDQThRQ0lRSGlBUkNBK1FDSVFIU0FUQ0F5UUM0UUVTZ2ZBQWlVQjRnRVFnUEVBaUVCNGdFUWdQa0FpRUIwZ0V3Z01rQXVFQkVvSHdBSWxBZUlCRUlEeEFJaEFlSUJFSUQ1QUloQWRJQk1JREpBTGhBUktCOEFDSlFIaUFSQ0E4UUNJUUhpQVJDQStRQ0lRSFNBVENBeVFDNFFFU2dmQUFpVUI0Z0VRZ1BFQWlFQjRnRVFnUGtBaUVCMGdFd2dNa0F1RUJFb0h3QUlsQWVJQkVJRHhBSWhBZUlCRUlENUFJaEFkSUJNSURKQUxoQVJLQjhBQ0pRSGlBUkNBOFFDSVFIaUFSQ0ErUUNJUUhTQVRDQXlRQzRRRVNnZkFBaVVCNGdFUWdQRUFpRUI0Z0VRZ1BrQWlFQjBnRXdnTWtBdUVCRW9Id0FJbEFlSUJFSUR4QUl2cUVINFVCQUhlSUtQeG94Z0NBTzRBTDcyS3ZsSEV2dkVaNmdEdENGSG9rRS8xK0dQZWFyd1BBTFNhbTlCN1pINFRoa1I0QTdnQjlLZjI5TUVqcEFlNFFSRytBUkxqdzR6SytTem9MNDN2NEdnRGNjbUtFZDlsUHduRHBBZUFPc0tJYXdjY3l3VTlsc3ArV2orUFhBZUFXTTA5SzcyazlBQXlmbVFFNnB2UlIraWcrMFIxZytJeG5qSE5hNFYxMlQrZHAzQUVNbjFpU3Q2UGpibDlLN3pYOE45VmFIdWtCaGtsYmprZDNKd0oyRytIUHlqY2ZTVG9zNDF2NFFRQVlIaTc3TjFWdmoxVGRyUkYrUEI2M004UTNTUWRsSEVvNmxzMFdSSG1BWVJIZFBaRzVlcWpxYnd6VzQvRjRQRzRqL0duNG9mMHlEdFVWSGdDR1F4Uys5ZlpZNW5SdkRkOUcrSDFKWDFWbmlsakxBOER5aVgwMzkvYXJ6TjJKQ0MvMTEvQW5zdnovYS9qaEk5RzhBeGdTYmFQOVNEVklmeTBmZStPdUcrR2JPdDVUZzYrU2RpWHRxVHRiSUR2QU1JaU45Z09acTdzeWR6dWxlSEY4NG02NU9GdnNTZG9wSTg0WXBQVUF5eWNHYU0vSTNkYzlkYlB5Yy9wMjJubmp6dC9nYzdudXF4dmxrUjVnT2JoL0h0MzMxWFgxcTdvTnU0bW1uZU9OdStQeUpsOGtmU3BqVnpWTklMVUhXQjZ4MzNZb2M5TTkvU0p6OTFnOSsyZk9oZStwNHcvS0QyOUwraWliUFh6bUlNb0RMSWNZM1QwVC95eHpkRnZtN0lGNjZuZXAvOFNiV01mdmxqZjVXL2FHL21ZMDhBQ1dROXVvK3lKejgyK1pxN3VhVXI5TGpmQWh5c2M2L3JQc3pUNm9wdmJ0TWgwQVhEL3RNcHluOGg5a2pzWXMvRlJOZEpmc0tPcVdkbm5PWjVEM2tsNUkycEQwUk5LcTZqSFdmdGdsQUZ3UDdtWHNzWDJXeWY1ZU5RT2Z1VE4yUXZqeGVEd2VqVVp0bE4rV3ZlbVdwRTJaOEEvTHowZlprUjVnOGNUK21xZnlubm4vSlhOeld4ZEVkNmsvd2t2ZE40OHp5VVlaVHlXdHFaNWQ3dyt4QUlEcklXYmRPN0tJL2s3U1c1bWJuMVdYenFlVzJyM0NoeWp2NmNPZTdCOTRLdWxadVQ3V1pKUW50UWRZTEczZHZpZUw1dThrL1ZtdUg4dm56MWZRK3FLN05EM0NTOTIxUHU4R2ZwREovbFNXMWo5Uzl3azFwUFlBaTZOdkNlNlRMSTMvczR3UDZpN0Z6Vnc5bXlwOGlmSlM5eC9ibHFYeVQyUVIvcEdzZVJlZlErZXBQZElEWEo0b2V5eXQvNUwwdnpMZXFWdTd6NHp1MHV3STczZzY0YlhEUTVub2EyVkU2V05xTHlFOXdHV0lUVHJQc0hkazBmeFBTZitWQ2Y5MytmeWhwcXk3dDh3VXZvbnlzVHU0cWlxOFN4OGJlQStFOUFDWG9aWGR0ODUrbERYb1hQYjNNaGM3RytGbVJYZHBqZ2cvSmJXL0w0djBhNnFwZlpROGR2QWxwQWVZaDVqR3R4MzV0N3BDS3U5Y0tMeDBMbjNiS2Z3b0V6Mm05RktkbmRaVU4rY1E3UUdtNDZMNnhoby9qSEpYbHJiL0tlay9aYnhWN2NxZjczaWRSM1pwVHVFRDdWcGdmSTY4MUQzaWVsT1RTM2NTMGdORVlncnZtOTNpSHZtM010SC9MVXZuMzZ2VzdiNmpibTdtRnI2bm50K1hTZXdpKytlUFZZL0lmUzVid29zcFAydjFBSWFMM2g1azRSdmQzc2trLzArNXZwVXR5M1hPcHBnM3Vrcy9JTHpVVzgrN3VQRVg5aU55WGZvVFNldWFUUEZIUW56SVNZenFNWVhmVTNlZDNSdDBiMldSL1pNdVViZEhma2g0cWJlZWp4M0YrQUFMUHd6L1NQV21tNWppZTBjZjhTRUw0ekRPMUUzaGQyU05PRjluZDlsOUo1MmZPdVY3NWVldTJ5TS9MTHcwSVgyc1B6eWxkK0VQMUkzNGZ1Tk43T0pIOFNYa2g3dkZPRnhkOU5pRjk1T2wvRWFZLzRYaE44WHNxWGtLMUdWa2x5NHB2TlNSdmsxUFhQeDRiTzVldWI2UzFmWFBWS045dXpVWCtlRzIwMG9lL2ZBbnhCekl1dkIrMTV2dmpmZjk4ZkgrOXM2UjA1ZVZYYnFDOE5KRVRkLzNuNHJIWGUvSVpyTFhxaW0rMzNXM3FxNzRiWTJQK0hBYmFFWDNocHc3NGJXNkh4QzdMV3ZPL1NXcjA5K1ZqN2ZMMXc4VVVuaGRVWGJwaXNKTE02V1A5WW4vQnovSi9qT3ZKYjFVamZaK0k0NnY1M3VOM3hmMUFZWklYelEvMVdURzYxSDlvK3JoRmUvTGF6L0V3cytWajArTzBWVmxseFlndkZSL2tTYkZuNWErK0JsNXIyVFNiNmxHKzNoRFRyd3BoNjQrREpscFphMkwzZ1k5UDRQT2h4OCs2UTk5OGFoKzVSUytaYlRBOTVJa2pTemNqMlNTM3BPbDZnOWxNcS9MNU42U3BmVXZ5dXZuc29hZTMzcnJlL1FmYXZMR0hJQ2hNYXR4N1k5KytpSUxlSjdsYnBmWC91QUlGOTFyOVlXazhDMExGMTQ2bDE0eVFiMFR2NnE2Lzk0UDB0aVVUUUIrOWNNMS9INzd1RTgvYnRFRkdCS3hUdmVJSHAvekZudFlmbzJQaERwV1RkKzlORjVJQ3Q5eUxjSTdJZHA3eEwrdkd2RWZ5WVIrSWhOOFBieU93dmZ0eVFjWUV1MEdtbGI0ZmRXVktuK3k2NUZxUkk4blFDODhxa2V1Vlhobml2aFJmcDhBL0Q1N0Z6M2ViKy9yOVFwWGdHVVN1L0l1Zk54OGRxRHVCclJqZFNXL01kR2RHeEhlNlJIZjYvdzRBVHhRVGY5OXVTN1c4TWdPUXlJMjdPTE5ZNTZtbjZncnVOZm5OeXE2YzZQQ08wMk5IMC9KOFFuQUIxMTZ1QTMwZGVuUHdvaUMrL1ZhYXZTTFdJcndUaEJmcWtLM2swRDhQTUJRR2FzcmZyejZzRzljb25STEZiNmxpZng5VjRBaE0rNjdMbFB3bGtFSjM5SmtBQUMzZ2lFSjN2Si9DbFZUajlYd3RCMEFBQUFBU1VWT1JLNUNZSUk9IiB3aWR0aD0iMjUyIiBoZWlnaHQ9IjI0NiIgc3R5bGU9Im9wYWNpdHk6LjQ7bWl4LWJsZW5kLW1vZGU6bXVsdGlwbHkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xIC0xKSIvPjxyZWN0IHdpZHRoPSIyNDAiIGhlaWdodD0iMjM0IiB4PSI1IiB5PSIzIiByeD0iNDIuNSIgc3R5bGU9ImZpbGw6I2ZmZiIvPjxwYXRoIGQ9Ik0xOTIgMTc5aC0yOWE2IDYgMCAwIDEtNi00bC0zMS03MmExIDEgMCAwIDAtMiAwbC0yMCA0NmEyIDIgMCAwIDAgMiAyaDIxYTMgMyAwIDAgMSAzIDJsOSAyMWE0IDQgMCAwIDEtMyA1SDU5YTQgNCAwIDAgMS0zLTVsNDktMTE3YTcgNyAwIDAgMSA2LTRoMjhhNyA3IDAgMCAxIDYgNGw1MCAxMTdhNCA0IDAgMCAxLTMgNVoiIGRhdGEtbmFtZT0iMjU2IiBzdHlsZT0iZmlsbDojZmEwZjAwIi8+PC9nPjwvc3ZnPg==" alt="Adobe">Adobe&nbsp;<span>Brand Visibility</span></div>
     <div class="foot-right">
-      <p class="fr-1">Prompt mapping guide · Prepared for AGL</p>
+      <p class="fr-1">Prompt mapping guide · AGL</p>
       <p class="fr-2">&copy; 2026 Adobe</p>
     </div>
   </div>

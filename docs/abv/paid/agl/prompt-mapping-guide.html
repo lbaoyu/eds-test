@@ -204,20 +204,21 @@ tbody tr:hover td{background:var(--gray-100);}
 .tsemi{font-family:var(--mono); font-size:12px; color:var(--gray-400); margin:0 5px 0 2px;}
 .tag-table td:first-child{font-family:var(--mono); font-weight:700; color:var(--ink); white-space:nowrap;}
 .tag-table td.ex{color:var(--gray-600); font-size:14px;}
-.tag-table{min-width:600px;}
+.tag-table{min-width:720px;}
 
 /* Format rules */
-.fmt{margin-top:22px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:18px; align-items:start;}
+.fmt{margin-top:22px; display:grid; grid-template-columns:1fr; gap:18px;}
 @media(max-width:860px){ .fmt{grid-template-columns:1fr;} }
 .code{background:var(--charcoal-2); color:#eaeaea; border-radius:var(--radius); padding:20px 22px; font-family:var(--mono); font-size:14px;
   line-height:1.7; overflow:auto;}
 .code .lbl{display:block; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#8a8a8a; margin-bottom:8px;}
 .code .k{color:var(--coral-2);}
 .code .d{color:#8a8a8a;}
-.rules{list-style:none; margin:0; padding:0; display:grid; gap:10px;}
+.rules{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px 28px;}
+@media(max-width:860px){ .rules{grid-template-columns:1fr; gap:10px;} }
 .rules li{display:grid; grid-template-columns:22px minmax(0,1fr); gap:10px; font-size:15px; color:var(--gray-700);}
 .rules li::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--gray-400); margin:9px 0 0 6px;}
-.rules code{font-size:13px; background:var(--bg-layer-2); border:1px solid var(--border); border-radius:5px; padding:0 5px; color:var(--ink);}
+.rules code{white-space:nowrap; font-size:13px; background:var(--bg-layer-2); border:1px solid var(--border); border-radius:5px; padding:0 5px; color:var(--ink);}
 
 /* Sample toolbar */
 .toolbar{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin:0 0 14px;}
@@ -332,23 +333,32 @@ tbody tr:hover td{background:var(--gray-100);}
 .warn p{margin:0; font-size:15px; color:var(--gray-800);}
 .warn strong{color:var(--adobe-red-dark);}
 
-/* Funnel vs intent alignment */
-.align{margin:0 0 30px; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-layer-1); padding:20px 22px;}
-.al-row{display:grid; grid-template-columns:130px minmax(0,1fr); gap:16px; align-items:stretch;}
-.al-row + .al-row{margin-top:10px;}
-.al-label{font-weight:800; font-size:14.5px; color:var(--ink); align-self:center;}
-.al-label small{display:block; font-weight:500; font-size:12.5px; color:var(--gray-500); margin-top:1px;}
-.al-cells{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px;}
-.al-cell{border:1px solid var(--border-strong); background:var(--bg-base); border-radius:var(--radius-sm); padding:10px 12px; display:flex; flex-direction:column; gap:4px;}
-.al-cell b{font-size:15px; color:var(--ink);}
-.al-cell.hi{background:var(--adobe-red-tint); border-color:#F8CFCA;}
-.al-cell.hi b{color:var(--adobe-red-dark);}
-.al-cell.auto{background:var(--charcoal); border-color:var(--charcoal); align-items:center; justify-content:center; text-align:center;}
-.al-cell.auto b{color:#fff;}
-.al-cell.span2{grid-column:span 2;}
-.al-ex{font-size:13px; color:var(--gray-600); line-height:1.4;}
-.al-note{margin:14px 0 0; font-size:14px; color:var(--gray-600);}
-@media(max-width:700px){ .al-row{grid-template-columns:1fr; gap:6px;} .al-ex{display:none;} .al-cell{padding:8px 8px;} .al-cell b{font-size:13.5px;} }
+/* Intent vs tags comparison */
+.vs-wrap{margin:0 0 26px;}
+.vs-table thead th{font-family:var(--font); font-size:15px; letter-spacing:0; color:var(--ink); font-weight:800; padding:12px 18px;}
+.vs-table thead th .badge{margin-right:6px; vertical-align:2px;}
+.vs-table th[scope=row]{text-align:left; font-size:13px; font-weight:700; color:var(--gray-600); padding:12px 18px; white-space:nowrap;
+  border-bottom:1px solid var(--gray-200); vertical-align:top; width:180px; background:var(--bg-layer-1);}
+.vs-table tbody tr:last-child th{border-bottom:0;}
+.vs-table td{width:40%; color:var(--ink);}
+.vs-table code{font-size:13px; background:var(--bg-layer-2); border:1px solid var(--border); border-radius:5px; padding:0 5px;}
+
+/* Journey stage vs intent */
+.stages{margin:0 0 30px; border:1px solid var(--border); border-radius:var(--radius); background:var(--bg-layer-1); padding:20px 22px;}
+.st-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; align-items:start;}
+.st-col{display:grid; gap:8px;}
+.st-head{background:var(--adobe-red-tint); border:1px solid #F8CFCA; border-radius:var(--radius-sm); padding:9px 12px; font-weight:800; font-size:15.5px; color:var(--adobe-red-dark);}
+.st-head .k{font-family:var(--mono); font-size:11px; font-weight:600; margin-right:5px; color:var(--adobe-red-dark); opacity:.75;}
+.st-head small{display:block; font-weight:500; font-size:12.5px; color:var(--gray-600); margin-top:1px;}
+.st-card{background:var(--bg-base); border:1px solid var(--border); border-radius:var(--radius-sm); padding:10px 12px; display:flex; flex-direction:column; gap:8px; align-items:flex-start;}
+.st-card p{margin:0; font-size:14px; line-height:1.45; color:var(--ink);}
+.ichip{display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:700; color:#fff; background:var(--charcoal); border-radius:6px; padding:3px 8px;}
+.ichip .k{font-family:var(--mono); font-size:10.5px; font-weight:600; color:var(--gray-400);}
+.st-note{margin:14px 0 0; font-size:14px; color:var(--gray-600);}
+.st-note code{font-size:12.5px; background:var(--bg-base); border:1px solid var(--border); border-radius:5px; padding:0 5px; color:var(--ink);}
+@media(max-width:760px){ .st-grid{grid-template-columns:1fr;}
+  .vs-table{font-size:13.5px;} .vs-table th[scope=row]{width:84px; white-space:normal; padding:10px 10px; font-size:12px;}
+  .vs-table td{padding:10px 10px;} .vs-table thead th{padding:10px; font-size:14px;} .vs-table thead th .badge{display:none;} }
 
 /* Step connectors */
 .steps li{position:relative;}
@@ -447,7 +457,7 @@ tbody tr:hover td{background:var(--gray-100);}
           <div class="an-chips">
             <span class="kv"><span class="k">category</span>Electricity</span>
             <span class="kv"><span class="k">subcategory</span>Plans &amp; Pricing</span>
-            <span class="kv"><span class="k">tags</span>Funnel &gt; Commercial</span>
+            <span class="kv"><span class="k">tags</span>Stage &gt; Decision</span>
             <span class="kv"><span class="k">tags</span>Plan &gt; Three for Free</span>
           </div>
         </div>
@@ -491,11 +501,11 @@ tbody tr:hover td{background:var(--gray-100);}
       </div>
 
       <div class="map-row" role="row">
-        <div class="from" role="cell"><span class="col">Funnel stage, state, plan</span><span class="ex">Awareness · NSW · Three for Free</span></div>
+        <div class="from" role="cell"><span class="col">Journey stage, state, plan</span><span class="ex">Awareness · NSW · Three for Free</span></div>
         <div class="arrow" aria-hidden="true">→</div>
         <div class="to" role="cell">
           <div class="line"><span class="badge b-opt">Optional</span><span class="field">tags</span></div>
-          <span class="desc">Written as <code>Funnel &gt; Awareness</code>. Several per prompt.</span>
+          <span class="desc">Written as <code>Stage &gt; Awareness</code>. Several per prompt.</span>
         </div>
       </div>
 
@@ -577,39 +587,52 @@ tbody tr:hover td{background:var(--gray-100);}
     </div>
   </section>
 
-  <section id="tags">
+    <section id="tags">
     <p class="sec-eyebrow">Intent &amp; custom tags</p>
-    <h2>Tags for AGL&rsquo;s own reporting views</h2>
-    <p class="intro">ABV assigns each prompt one of five intents &mdash; Informational, Navigational, Commercial, Transactional, Task &mdash; and tracks intent coverage. Tags add the views AGL needs on top.</p>
-    <figure class="align" aria-label="Funnel tag compared with ABV intent">
-      <figcaption class="fig-label">Why Awareness needs a tag</figcaption>
-      <div class="al-row">
-        <span class="al-label">Funnel tag<small>set in the CSV</small></span>
-        <div class="al-cells">
-          <div class="al-cell hi"><b>Awareness</b><span class="al-ex">&ldquo;How can I lower my electricity bill without being cold in winter?&rdquo;</span></div>
-          <div class="al-cell"><b>Informational</b><span class="al-ex">&ldquo;What is the daily supply charge on an electricity bill?&rdquo;</span></div>
-          <div class="al-cell"><b>Commercial</b><span class="al-ex">&ldquo;Who has the cheapest electricity rates in NSW?&rdquo;</span></div>
+    <h2>Intent is automatic; tags add AGL&rsquo;s own views</h2>
+    <p class="intro">Both are filters in Brand Presence. Keep them separate: let ABV handle intent, and use tags only for context that intent can&rsquo;t express.</p>
+    <div class="table-wrap vs-wrap">
+      <table class="vs-table">
+        <thead><tr><th></th><th><span class="badge b-auto">Automatic</span> Intent</th><th><span class="badge b-opt">Optional</span> Tags</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Set by</th><td>ABV, from each prompt&rsquo;s Semrush topic</td><td>AGL, in the CSV <code>tags</code> column</td></tr>
+          <tr><th scope="row">Per prompt</th><td>One</td><td>Several</td></tr>
+          <tr><th scope="row">Values</th><td>Informational · Navigational · Commercial · Transactional · Task</td><td>AGL&rsquo;s own: journey stage, state, plan, feature</td></tr>
+          <tr><th scope="row">Brand Presence filter</th><td>Topic intent</td><td>Tags</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <figure class="stages" aria-label="Journey stage compared with intent">
+      <figcaption class="fig-label">Journey stage and intent are different dimensions</figcaption>
+      <div class="st-grid">
+        <div class="st-col">
+          <div class="st-head"><span class="k">Stage &gt;</span>Awareness<small>Learning about a need</small></div>
+          <div class="st-card"><p>&ldquo;What is the daily supply charge on an electricity bill?&rdquo;</p><span class="ichip"><span class="k">intent</span>Informational</span></div>
+          <div class="st-card"><p>&ldquo;How can I lower my electricity bill without being cold in winter?&rdquo;</p><span class="ichip"><span class="k">intent</span>Informational</span></div>
+        </div>
+        <div class="st-col">
+          <div class="st-head"><span class="k">Stage &gt;</span>Consideration<small>Comparing options</small></div>
+          <div class="st-card"><p>&ldquo;How does the AGL Three for Free plan work?&rdquo;</p><span class="ichip"><span class="k">intent</span>Informational</span></div>
+          <div class="st-card"><p>&ldquo;Who has the cheapest electricity rates in NSW?&rdquo;</p><span class="ichip"><span class="k">intent</span>Commercial</span></div>
+        </div>
+        <div class="st-col">
+          <div class="st-head"><span class="k">Stage &gt;</span>Decision<small>Choosing or switching</small></div>
+          <div class="st-card"><p>&ldquo;Is the AGL Three for Free plan worth it for a family that&rsquo;s home during the day?&rdquo;</p><span class="ichip"><span class="k">intent</span>Commercial</span></div>
         </div>
       </div>
-      <div class="al-row">
-        <span class="al-label">Intent<small>added by ABV</small></span>
-        <div class="al-cells">
-          <div class="al-cell auto span2"><b>Informational</b></div>
-          <div class="al-cell auto"><b>Commercial</b></div>
-        </div>
-      </div>
-      <p class="al-note">Both early-stage prompts typically share Informational intent. The funnel tag is what reports Awareness on its own.</p>
+      <p class="st-note">Informational intent spans two stages, and Consideration mixes two intents. Report the journey with a <code>Stage</code> tag; intent values shown are typical.</p>
     </figure>
 
     <h3 class="sub-h">Suggested tag groups</h3>
     <div class="table-wrap">
       <table class="tag-table">
-        <thead><tr><th>Tag</th><th>Sub-tags</th><th>Example prompt</th></tr></thead>
+        <thead><tr><th>Tag</th><th>Sub-tags</th><th>Use it to report</th><th>Example prompt</th></tr></thead>
         <tbody>
-          <tr><td>Funnel</td><td>Awareness · Informational · Commercial</td><td class="ex">How can I lower my electricity bill without being cold in winter?</td></tr>
-          <tr><td>State</td><td>NSW · QLD · VIC · SA · ACT</td><td class="ex">Who has the cheapest electricity rates in NSW?</td></tr>
-          <tr><td>Plan</td><td>Three for Free · other AGL plans</td><td class="ex">How does the AGL Three for Free plan work?</td></tr>
-          <tr><td>Feature</td><td>GreenPower · other features</td><td class="ex">Does AGL offer GreenPower so I can match my electricity use with renewable energy?</td></tr>
+          <tr><td>Stage</td><td>Awareness · Consideration · Decision · Customer</td><td>Visibility across the customer journey</td><td class="ex">What is the daily supply charge on an electricity bill?</td></tr>
+          <tr><td>State</td><td>NSW · QLD · VIC · SA · ACT</td><td>Visibility and share of voice by state</td><td class="ex">Who has the cheapest electricity rates in NSW?</td></tr>
+          <tr><td>Plan</td><td>One per plan, e.g. Three for Free</td><td>How AI describes each plan</td><td class="ex">How does the AGL Three for Free plan work?</td></tr>
+          <tr><td>Feature</td><td>One per feature, e.g. GreenPower</td><td>Visibility for product features</td><td class="ex">Does AGL offer GreenPower so I can match my electricity use with renewable energy?</td></tr>
         </tbody>
       </table>
     </div>
@@ -617,13 +640,15 @@ tbody tr:hover td{background:var(--gray-100);}
     <div class="fmt">
       <div class="code" aria-label="Tags column format">
         <span class="lbl">tags column</span>
-        <span class="k">Funnel</span> <span class="d">&gt;</span> Commercial<span class="d">;</span> <span class="k">State</span> <span class="d">&gt;</span> NSW
+        <span class="k">Stage</span> <span class="d">&gt;</span> Consideration<span class="d">;</span> <span class="k">State</span> <span class="d">&gt;</span> NSW
       </div>
       <ul class="rules">
         <li><span>Separate tags with a semicolon <code>;</code></span></li>
-        <li><span>Nest a sub-tag with <code>&gt;</code>, as in <code>Tag &gt; Sub-tag</code></span></li>
+        <li><span>Nest with <code>&gt;</code>; deeper levels also work, as in <code>Tag &gt; Sub-tag &gt; Sub-sub-tag</code></span></li>
         <li><span>Tags that don&rsquo;t exist yet are created on import</span></li>
-        <li><span>Reserved names can&rsquo;t be tags: <code>category</code> <code>tag</code> <code>intent</code> <code>origin</code> <code>type</code> <code>source</code> &mdash; hence <code>Funnel</code>, not <code>Intent</code></span></li>
+        <li><span>Use letters, numbers, spaces and <code>. &amp; - $ + &#39; # , ?</code> &mdash; other characters become spaces (<code>Solar/Batteries</code> &rarr; <code>Solar Batteries</code>)</span></li>
+        <li><span>Reserved names can&rsquo;t be tags: <code>category</code> <code>tag</code> <code>intent</code> <code>origin</code> <code>type</code> <code>source</code></span></li>
+        <li><span>Filtering by a parent tag, such as <code>State</code>, includes all its sub-tags</span></li>
       </ul>
     </div>
   </section>
@@ -642,17 +667,17 @@ tbody tr:hover td{background:var(--gray-100);}
       <table>
         <thead><tr><th>category</th><th>subcategory</th><th>tags</th><th>prompt</th></tr></thead>
         <tbody>
-<tr><td class="c-cat">Electricity</td><td class="c-sub">Reviews &amp; Comparisons</td><td class="c-tags"><span class="tchip"><span class="tg">Funnel</span><span class="tsep">&gt;</span>Commercial</span><span class="tsemi">;</span><span class="tchip"><span class="tg">State</span><span class="tsep">&gt;</span>NSW</span></td><td class="c-prompt">Are AGL electricity prices competitive compared with other retailers in NSW?</td></tr>
-<tr><td class="c-cat">Electricity</td><td class="c-sub">Plans &amp; Pricing</td><td class="c-tags"><span class="tchip"><span class="tg">Funnel</span><span class="tsep">&gt;</span>Informational</span><span class="tsemi">;</span><span class="tchip"><span class="tg">Plan</span><span class="tsep">&gt;</span>Three for Free</span></td><td class="c-prompt">How does the AGL Three for Free plan work?</td></tr>
-<tr><td class="c-cat">Electricity</td><td class="c-sub">Plans &amp; Pricing</td><td class="c-tags"><span class="tchip"><span class="tg">Funnel</span><span class="tsep">&gt;</span>Commercial</span><span class="tsemi">;</span><span class="tchip"><span class="tg">Plan</span><span class="tsep">&gt;</span>Three for Free</span></td><td class="c-prompt">Is the AGL Three for Free plan worth it for a family that&#x27;s home during the day?</td></tr>
-<tr><td class="c-cat">Electricity</td><td class="c-sub">Renewables &amp; Sustainability</td><td class="c-tags"><span class="tchip"><span class="tg">Funnel</span><span class="tsep">&gt;</span>Informational</span><span class="tsemi">;</span><span class="tchip"><span class="tg">Feature</span><span class="tsep">&gt;</span>GreenPower</span></td><td class="c-prompt">Does AGL offer GreenPower so I can match my electricity use with renewable energy?</td></tr>
-<tr><td class="c-cat">Electricity</td><td class="c-sub">Reviews &amp; Comparisons</td><td class="c-tags"><span class="tchip"><span class="tg">Funnel</span><span class="tsep">&gt;</span>Commercial</span></td><td class="c-prompt">What are AGL&#x27;s electricity customer reviews like?</td></tr>
-<tr><td class="c-cat">Electricity</td><td class="c-sub">Energy Saving &amp; Usage</td><td class="c-tags"><span class="tchip"><span class="tg">Funnel</span><span class="tsep">&gt;</span>Awareness</span></td><td class="c-prompt">How can I lower my electricity bill without being cold in winter?</td></tr>
-<tr><td class="c-cat">Electricity</td><td class="c-sub">Tariffs &amp; Billing</td><td class="c-tags"><span class="tchip"><span class="tg">Funnel</span><span class="tsep">&gt;</span>Informational</span></td><td class="c-prompt">What is the difference between single-rate and time-of-use electricity tariffs?</td></tr>
-<tr><td class="c-cat">Electricity</td><td class="c-sub">Tariffs &amp; Billing</td><td class="c-tags"><span class="tchip"><span class="tg">Funnel</span><span class="tsep">&gt;</span>Informational</span></td><td class="c-prompt">What is the daily supply charge on an electricity bill?</td></tr>
-<tr><td class="c-cat">Electricity</td><td class="c-sub">Tariffs &amp; Billing</td><td class="c-tags"><span class="tchip"><span class="tg">Funnel</span><span class="tsep">&gt;</span>Informational</span></td><td class="c-prompt">What is the Default Market Offer and how does it affect my electricity price?</td></tr>
-<tr><td class="c-cat">Electricity</td><td class="c-sub">Reviews &amp; Comparisons</td><td class="c-tags"><span class="tchip"><span class="tg">Funnel</span><span class="tsep">&gt;</span>Commercial</span><span class="tsemi">;</span><span class="tchip"><span class="tg">State</span><span class="tsep">&gt;</span>NSW</span></td><td class="c-prompt">Who has the cheapest electricity rates in NSW?</td></tr>
-<tr><td class="c-cat">Electricity</td><td class="c-sub">Reviews &amp; Comparisons</td><td class="c-tags"><span class="tchip"><span class="tg">Funnel</span><span class="tsep">&gt;</span>Commercial</span><span class="tsemi">;</span><span class="tchip"><span class="tg">State</span><span class="tsep">&gt;</span>QLD</span></td><td class="c-prompt">Best electricity providers in Queensland</td></tr>
+<tr><td class="c-cat">Electricity</td><td class="c-sub">Reviews &amp; Comparisons</td><td class="c-tags"><span class="tchip"><span class="tg">Stage</span><span class="tsep">&gt;</span>Consideration</span><span class="tsemi">;</span><span class="tchip"><span class="tg">State</span><span class="tsep">&gt;</span>NSW</span></td><td class="c-prompt">Are AGL electricity prices competitive compared with other retailers in NSW?</td></tr>
+<tr><td class="c-cat">Electricity</td><td class="c-sub">Plans &amp; Pricing</td><td class="c-tags"><span class="tchip"><span class="tg">Stage</span><span class="tsep">&gt;</span>Consideration</span><span class="tsemi">;</span><span class="tchip"><span class="tg">Plan</span><span class="tsep">&gt;</span>Three for Free</span></td><td class="c-prompt">How does the AGL Three for Free plan work?</td></tr>
+<tr><td class="c-cat">Electricity</td><td class="c-sub">Plans &amp; Pricing</td><td class="c-tags"><span class="tchip"><span class="tg">Stage</span><span class="tsep">&gt;</span>Decision</span><span class="tsemi">;</span><span class="tchip"><span class="tg">Plan</span><span class="tsep">&gt;</span>Three for Free</span></td><td class="c-prompt">Is the AGL Three for Free plan worth it for a family that&#x27;s home during the day?</td></tr>
+<tr><td class="c-cat">Electricity</td><td class="c-sub">Renewables &amp; Sustainability</td><td class="c-tags"><span class="tchip"><span class="tg">Stage</span><span class="tsep">&gt;</span>Consideration</span><span class="tsemi">;</span><span class="tchip"><span class="tg">Feature</span><span class="tsep">&gt;</span>GreenPower</span></td><td class="c-prompt">Does AGL offer GreenPower so I can match my electricity use with renewable energy?</td></tr>
+<tr><td class="c-cat">Electricity</td><td class="c-sub">Reviews &amp; Comparisons</td><td class="c-tags"><span class="tchip"><span class="tg">Stage</span><span class="tsep">&gt;</span>Consideration</span></td><td class="c-prompt">What are AGL&#x27;s electricity customer reviews like?</td></tr>
+<tr><td class="c-cat">Electricity</td><td class="c-sub">Energy Saving &amp; Usage</td><td class="c-tags"><span class="tchip"><span class="tg">Stage</span><span class="tsep">&gt;</span>Awareness</span></td><td class="c-prompt">How can I lower my electricity bill without being cold in winter?</td></tr>
+<tr><td class="c-cat">Electricity</td><td class="c-sub">Tariffs &amp; Billing</td><td class="c-tags"><span class="tchip"><span class="tg">Stage</span><span class="tsep">&gt;</span>Awareness</span></td><td class="c-prompt">What is the difference between single-rate and time-of-use electricity tariffs?</td></tr>
+<tr><td class="c-cat">Electricity</td><td class="c-sub">Tariffs &amp; Billing</td><td class="c-tags"><span class="tchip"><span class="tg">Stage</span><span class="tsep">&gt;</span>Awareness</span></td><td class="c-prompt">What is the daily supply charge on an electricity bill?</td></tr>
+<tr><td class="c-cat">Electricity</td><td class="c-sub">Tariffs &amp; Billing</td><td class="c-tags"><span class="tchip"><span class="tg">Stage</span><span class="tsep">&gt;</span>Awareness</span></td><td class="c-prompt">What is the Default Market Offer and how does it affect my electricity price?</td></tr>
+<tr><td class="c-cat">Electricity</td><td class="c-sub">Reviews &amp; Comparisons</td><td class="c-tags"><span class="tchip"><span class="tg">Stage</span><span class="tsep">&gt;</span>Consideration</span><span class="tsemi">;</span><span class="tchip"><span class="tg">State</span><span class="tsep">&gt;</span>NSW</span></td><td class="c-prompt">Who has the cheapest electricity rates in NSW?</td></tr>
+<tr><td class="c-cat">Electricity</td><td class="c-sub">Reviews &amp; Comparisons</td><td class="c-tags"><span class="tchip"><span class="tg">Stage</span><span class="tsep">&gt;</span>Consideration</span><span class="tsemi">;</span><span class="tchip"><span class="tg">State</span><span class="tsep">&gt;</span>QLD</span></td><td class="c-prompt">Best electricity providers in Queensland</td></tr>
         </tbody>
       </table>
     </div>
@@ -665,7 +690,7 @@ tbody tr:hover td{background:var(--gray-100);}
       <li><div><h3>Build the full list</h3><p>Use the four columns above for each priority product line. Save as UTF-8 CSV.</p></div></li>
       <li><div><h3>Review names before import</h3><p>Confirm subcategory names, tag names, and brand aliases with the Adobe team.</p></div></li>
       <li><div><h3>Import the CSV</h3><p class="path">Prompt Management<span class="sep">›</span>Prompt Library<span class="sep">›</span>select the AGL brand and market<span class="sep">›</span>Import CSV</p></div></li>
-      <li><div><h3>Review after processing</h3><p>New prompts take up to 24 hours to appear in Brand Presence. Then check the Branded / Unbranded and Intent coverage tiles in the Prompt Library.</p></div></li>
+      <li><div><h3>Review after processing</h3><p>New prompts take up to 24 hours to appear in Brand Presence. Then check the Branded / Unbranded and Topic intent alignment tiles in the Prompt Library.</p></div></li>
     </ol>
     <div class="refs">
       <h3>References</h3>
@@ -721,7 +746,7 @@ tbody tr:hover td{background:var(--gray-100);}
     pb.style.transform='scaleX('+Math.min(1,Math.max(0,h>0?window.scrollY/h:0))+')'; };
     window.addEventListener('scroll',upd,{passive:true}); window.addEventListener('resize',upd); upd(); }
 
-  var CSV = "category,subcategory,tags,prompt\r\n\"Electricity\",\"Reviews & Comparisons\",\"Funnel > Commercial; State > NSW\",\"Are AGL electricity prices competitive compared with other retailers in NSW?\"\r\n\"Electricity\",\"Plans & Pricing\",\"Funnel > Informational; Plan > Three for Free\",\"How does the AGL Three for Free plan work?\"\r\n\"Electricity\",\"Plans & Pricing\",\"Funnel > Commercial; Plan > Three for Free\",\"Is the AGL Three for Free plan worth it for a family that's home during the day?\"\r\n\"Electricity\",\"Renewables & Sustainability\",\"Funnel > Informational; Feature > GreenPower\",\"Does AGL offer GreenPower so I can match my electricity use with renewable energy?\"\r\n\"Electricity\",\"Reviews & Comparisons\",\"Funnel > Commercial\",\"What are AGL's electricity customer reviews like?\"\r\n\"Electricity\",\"Energy Saving & Usage\",\"Funnel > Awareness\",\"How can I lower my electricity bill without being cold in winter?\"\r\n\"Electricity\",\"Tariffs & Billing\",\"Funnel > Informational\",\"What is the difference between single-rate and time-of-use electricity tariffs?\"\r\n\"Electricity\",\"Tariffs & Billing\",\"Funnel > Informational\",\"What is the daily supply charge on an electricity bill?\"\r\n\"Electricity\",\"Tariffs & Billing\",\"Funnel > Informational\",\"What is the Default Market Offer and how does it affect my electricity price?\"\r\n\"Electricity\",\"Reviews & Comparisons\",\"Funnel > Commercial; State > NSW\",\"Who has the cheapest electricity rates in NSW?\"\r\n\"Electricity\",\"Reviews & Comparisons\",\"Funnel > Commercial; State > QLD\",\"Best electricity providers in Queensland\"\r\n";
+  var CSV = "category,subcategory,tags,prompt\r\n\"Electricity\",\"Reviews & Comparisons\",\"Stage > Consideration; State > NSW\",\"Are AGL electricity prices competitive compared with other retailers in NSW?\"\r\n\"Electricity\",\"Plans & Pricing\",\"Stage > Consideration; Plan > Three for Free\",\"How does the AGL Three for Free plan work?\"\r\n\"Electricity\",\"Plans & Pricing\",\"Stage > Decision; Plan > Three for Free\",\"Is the AGL Three for Free plan worth it for a family that's home during the day?\"\r\n\"Electricity\",\"Renewables & Sustainability\",\"Stage > Consideration; Feature > GreenPower\",\"Does AGL offer GreenPower so I can match my electricity use with renewable energy?\"\r\n\"Electricity\",\"Reviews & Comparisons\",\"Stage > Consideration\",\"What are AGL's electricity customer reviews like?\"\r\n\"Electricity\",\"Energy Saving & Usage\",\"Stage > Awareness\",\"How can I lower my electricity bill without being cold in winter?\"\r\n\"Electricity\",\"Tariffs & Billing\",\"Stage > Awareness\",\"What is the difference between single-rate and time-of-use electricity tariffs?\"\r\n\"Electricity\",\"Tariffs & Billing\",\"Stage > Awareness\",\"What is the daily supply charge on an electricity bill?\"\r\n\"Electricity\",\"Tariffs & Billing\",\"Stage > Awareness\",\"What is the Default Market Offer and how does it affect my electricity price?\"\r\n\"Electricity\",\"Reviews & Comparisons\",\"Stage > Consideration; State > NSW\",\"Who has the cheapest electricity rates in NSW?\"\r\n\"Electricity\",\"Reviews & Comparisons\",\"Stage > Consideration; State > QLD\",\"Best electricity providers in Queensland\"\r\n";
   function flash(btn){ btn.classList.add('done'); setTimeout(function(){ btn.classList.remove('done'); }, 1800); }
   var copyBtn = document.getElementById('copy-csv');
   copyBtn.addEventListener('click', function(){

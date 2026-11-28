@@ -257,6 +257,67 @@ td.muted{color:var(--gray-600);}
 @media(max-width:700px){.companion{grid-template-columns:1fr;}}
 .inline-link{font-weight:600;}
 
+@media(max-width:480px){.kicker{white-space:normal;letter-spacing:.14em;}}
+/* Q chips */
+.qchip{display:inline-flex;align-items:center;justify-content:center;min-width:30px;font-family:var(--mono);font-size:11.5px;font-weight:700;
+  letter-spacing:.02em;padding:3px 7px;margin:0 5px 4px 0;border-radius:var(--radius-sm);background:var(--s2-blue-tint);
+  color:var(--s2-blue-down);border:1px solid transparent;vertical-align:middle;line-height:1.3;transition:background .15s,border-color .15s;}
+a.qchip:hover{text-decoration:none;border-color:var(--s2-blue);}
+.qchip.sup{background:var(--bg-base);border-color:var(--border-strong);color:var(--gray-700);}
+a.qchip.sup:hover{border-color:var(--s2-blue);color:var(--s2-blue-down);}
+.qchip.demo{margin:0 4px 0 0;}
+.legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:12px 2px 0;font-size:13px;color:var(--gray-600);}
+.legend .qchip,.legend .mk{margin:0 0 0 0;}
+.responds-line{display:flex;flex-wrap:wrap;align-items:center;gap:2px;margin:-12px 0 28px;}
+.responds-line .rl-label{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-500);margin-right:10px;}
+.responds-line .qchip{margin-bottom:0;}
+.sum-tbl td.t-q{white-space:nowrap;}
+.start .card p .qchip{margin:0 2px;}
+
+/* Trace: what you told us -> how this SA responds */
+.trace{display:grid;gap:10px;margin:14px 0 0;}
+.trace-head{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);padding:0 4px;font-family:var(--mono);font-size:11px;
+  font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--gray-500);}
+.trace-head span:last-child{padding-left:22px;}
+.trace .tr{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);border:1px solid var(--border);border-radius:var(--radius);
+  overflow:hidden;background:var(--bg-base);transition:border-color .15s,box-shadow .15s;}
+.trace .tr:hover{border-color:var(--border-strong);box-shadow:var(--shadow);}
+.trace .said{display:flex;gap:12px;align-items:flex-start;padding:16px 18px;background:var(--bg-layer-1);border-right:1px solid var(--border);}
+.trace .said .qchip{flex:none;margin:1px 0 0;}
+.trace .said p{margin:0;font-size:15px;line-height:1.55;}
+.trace .said p.quote{color:var(--gray-800);}
+.trace .said p.summary{color:var(--gray-700);font-style:italic;}
+.trace .resp{position:relative;padding:16px 18px 16px 22px;}
+.trace .resp p{margin:0;font-size:15px;color:var(--ink);font-weight:500;line-height:1.55;}
+@media(max-width:760px){
+  .trace-head{display:none;}
+  .trace .tr{grid-template-columns:1fr;}
+  .trace .said{border-right:0;border-bottom:1px solid var(--border);}
+  .trace .resp::before{content:"How this Success Accelerator responds";display:block;font-family:var(--mono);font-size:10.5px;font-weight:700;
+    letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);margin:0 0 6px;}
+}
+
+/* Mapping matrix */
+.map-tbl{min-width:760px;}
+.map-tbl td,.map-tbl th{vertical-align:middle;}
+.map-tbl td.c-q{width:56px;scroll-margin-top:90px;}
+.map-tbl .qnum{display:inline-flex;align-items:center;justify-content:center;min-width:34px;font-family:var(--mono);font-size:12px;font-weight:700;
+  padding:4px 7px;border-radius:var(--radius-sm);background:var(--s2-blue-tint);color:var(--s2-blue-down);}
+.map-tbl td.c-q:target .qnum{background:var(--s2-blue);color:var(--white);}
+.map-tbl tr:has(td.c-q:target) td{background:var(--s2-blue-tint-faint);}
+.map-tbl td.c-title b{display:block;font-size:15px;color:var(--ink);margin:0 0 3px;}
+.map-tbl td.c-title span{display:block;font-size:14px;font-weight:400;color:var(--gray-600);line-height:1.5;}
+.map-tbl td:first-child{font-weight:400;}
+.map-tbl th.c-sa{text-align:center;width:92px;}
+.map-tbl th.c-sa a{display:block;color:var(--ink);font-size:12px;}
+.map-tbl th.c-sa a:hover{color:var(--s2-blue-down);}
+.map-tbl th.c-sa small{display:block;margin-top:2px;font-size:10.5px;font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--gray-500);}
+.map-tbl td.c-mk{text-align:center;position:relative;}
+.mk{display:inline-block;width:14px;height:14px;border-radius:50%;vertical-align:middle;}
+.mk.p{background:var(--gray-800);}
+.mk.s{background:var(--bg-base);border:2px solid var(--gray-500);}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+
 /* Start cards */
 .start .card h3{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 </style>
@@ -287,7 +348,7 @@ td.muted{color:var(--gray-600);}
       <ul class="hero-chips">
         <li><strong>4</strong> focused themes</li>
         <li><strong>~40 hours</strong> each</li>
-        <li><strong>Guided</strong> by your priorities</li>
+        <li><strong>Mapped</strong> to all 8 questions</li>
       </ul>
     </div>
   </div>
@@ -298,11 +359,12 @@ td.muted{color:var(--gray-600);}
     <p class="rail-title">Contents</p>
     <nav id="spy-nav">
       <a href="#overview"><span class="num">01</span> Overview</a>
-      <a href="#sa-native-app"><span class="num">02</span> SA 1 · Native app</a>
-      <a href="#sa-authoring"><span class="num">03</span> SA 2 · Authoring patterns</a>
-      <a href="#sa-secure-channels"><span class="num">04</span> SA 3 · Secure channels</a>
-      <a href="#sa-governance"><span class="num">05</span> SA 4 · Governance</a>
-      <a href="#where-to-start"><span class="num">06</span> Where to start</a>
+      <a href="#mapping"><span class="num">02</span> Your responses, mapped</a>
+      <a href="#sa-native-app"><span class="num">03</span> SA 1 · Native app</a>
+      <a href="#sa-authoring"><span class="num">04</span> SA 2 · Authoring patterns</a>
+      <a href="#sa-secure-channels"><span class="num">05</span> SA 3 · Secure channels</a>
+      <a href="#sa-governance"><span class="num">06</span> SA 4 · Governance</a>
+      <a href="#where-to-start"><span class="num">07</span> Where to start</a>
     </nav>
   </aside>
   <div class="content"><main>
@@ -311,11 +373,11 @@ td.muted{color:var(--gray-600);}
   <p class="sec-eyebrow">Overview</p>
   <h2>Four focused ways we could support you</h2>
   <div class="prose">
-    <p>Thank you and Karen for the detailed questionnaire responses. They gave us a clear picture of where AEM and Adobe Target are working well for you and where there's friction. Rather than jumping straight to fixes, we've outlined four focused <strong>Success Accelerators</strong> that we could work through together, each built around a theme you raised.</p>
+    <p>Thank you and Karen for the detailed questionnaire responses. They gave us a clear picture of where AEM and Adobe Target are working well for you and where there's friction. Rather than jumping straight to fixes, we've outlined four focused <strong>Success Accelerators</strong> that we could work through together, each built directly on what you told us.</p>
     <p>These are proposals for discussion. Each one can be adjusted, combined or reordered to suit your priorities.</p>
   </div>
   <div class="grid g3">
-    <div class="card"><span class="cnum">Focused</span><h3>One theme each</h3><p>Every Success Accelerator responds to a specific area from your responses, with a clear objective and deliverables.</p></div>
+    <div class="card"><span class="cnum">Grounded in your responses</span><h3>One theme each</h3><p>Every Success Accelerator traces back to specific questions and answers from your questionnaire.</p></div>
     <div class="card"><span class="cnum">Right-sized</span><h3>Around 40 hours each</h3><p>Short, focused engagements with Adobe experts, sized to fit around your teams' availability.</p></div>
     <div class="card"><span class="cnum">Advisory</span><h3>Your teams own the build</h3><p>We help you understand the situation, explore options and agree an approach. Implementation stays with your teams or partners.</p></div>
   </div>
@@ -325,14 +387,37 @@ td.muted{color:var(--gray-600);}
     <table class="sum-tbl">
       <thead><tr><th></th><th>Success Accelerator</th><th>Type</th><th>Responds to</th><th>Effort</th></tr></thead>
       <tbody>
-<tr><td>SA 1</td><td class="t-name"><a href="#sa-native-app">Native app personalization: use cases and pilot design</a></td><td class="t-type">Use Case Mapping to Solution Capability</td><td>Personalizing native app screens such as Explore</td><td class="t-hrs">~40h</td></tr>
-<tr><td>SA 2</td><td class="t-name"><a href="#sa-authoring">Personalization authoring patterns and template</a></td><td class="t-type">Solution Review</td><td>A personalization template, small variations, reuse and Elevate</td><td class="t-hrs">~40h</td></tr>
-<tr><td>SA 3</td><td class="t-name"><a href="#sa-secure-channels">Personalization in secure channels and dynamic experiences</a></td><td class="t-type">Adoption Review</td><td>NAB Connect, Internet Banking, forms, mini-apps and broad-page changes</td><td class="t-hrs">~40h</td></tr>
-<tr><td>SA 4</td><td class="t-name"><a href="#sa-governance">Personalization content governance and lifecycle</a></td><td class="t-type">Tool Workflow & Governance Optimization</td><td>Approvals, localization, expiry, reuse and duplicate content</td><td class="t-hrs">~40h</td></tr>
+<tr><td>SA 1</td><td class="t-name"><a href="#sa-native-app">Native app personalization: use cases and pilot design</a></td><td class="t-type">Use Case Mapping to Solution Capability</td><td class="t-q"><a class="qchip " href="#q-1" title="Question 1: Which content flows from AEM into Target, and where it isn't used yet">Q1</a><a class="qchip sup" href="#q-5" title="Question 5: Where structured content and Content Fragments support downstream experiences">Q5</a></td><td class="t-hrs">~40h</td></tr>
+<tr><td>SA 2</td><td class="t-name"><a href="#sa-authoring">Personalization authoring patterns and template</a></td><td class="t-type">Solution Review</td><td class="t-q"><a class="qchip " href="#q-4" title="Question 4: Whether Experience Fragment patterns work well at scale">Q4</a><a class="qchip " href="#q-7" title="Question 7: What has limited extending AEM-authored content">Q7</a><a class="qchip " href="#q-8" title="Question 8: The one improvement with the greatest impact">Q8</a><a class="qchip sup" href="#q-3" title="Question 3: Which high-value experiences are slow or difficult to vary">Q3</a></td><td class="t-hrs">~40h</td></tr>
+<tr><td>SA 3</td><td class="t-name"><a href="#sa-secure-channels">Personalization in secure channels and dynamic experiences</a></td><td class="t-type">Adoption Review</td><td class="t-q"><a class="qchip " href="#q-1" title="Question 1: Which content flows from AEM into Target, and where it isn't used yet">Q1</a><a class="qchip " href="#q-2" title="Question 2: Where content is duplicated in AEM and Target">Q2</a><a class="qchip " href="#q-3" title="Question 3: Which high-value experiences are slow or difficult to vary">Q3</a></td><td class="t-hrs">~40h</td></tr>
+<tr><td>SA 4</td><td class="t-name"><a href="#sa-governance">Personalization content governance and lifecycle</a></td><td class="t-type">Tool Workflow & Governance Optimization</td><td class="t-q"><a class="qchip " href="#q-6" title="Question 6: How workflows support localization, approvals, legal changes and expiry">Q6</a><a class="qchip " href="#q-7" title="Question 7: What has limited extending AEM-authored content">Q7</a><a class="qchip sup" href="#q-2" title="Question 2: Where content is duplicated in AEM and Target">Q2</a><a class="qchip sup" href="#q-5" title="Question 5: Where structured content and Content Fragments support downstream experiences">Q5</a></td><td class="t-hrs">~40h</td></tr>
       </tbody>
     </table>
   </div>
+  <p class="legend"><span class="qchip demo">Q1</span> Main focus <span class="qchip sup demo">Q5</span> Also addresses. Select any question number to see it in the mapping.</p>
   <div class="note"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg><span><strong>Companion guide:</strong> shared alongside this proposal, the <a class="inline-link" href="https://main--eds-test--lbaoyu.aem.live/docs/aem/nab/native-app-personalization.html" target="_blank" rel="noopener">native app personalization guide</a> answers your Explore page question and is the starting point for <a class="inline-link" href="#sa-native-app">SA 1</a>.</span></div>
+</section>
+
+<section id="mapping">
+  <p class="sec-eyebrow">Your responses, mapped</p>
+  <h2>How each proposal connects to your questionnaire</h2>
+  <div class="prose"><p>Each of the eight questions you answered is picked up by at least one Success Accelerator. Each proposal below then quotes the specific answers it responds to.</p></div>
+  <div class="tbl-wrap">
+    <table class="map-tbl">
+      <thead><tr><th></th><th>Question and what you told us</th><th class="c-sa"><a href="#sa-native-app">SA 1</a><small>Native app</small></th><th class="c-sa"><a href="#sa-authoring">SA 2</a><small>Authoring patterns</small></th><th class="c-sa"><a href="#sa-secure-channels">SA 3</a><small>Secure channels</small></th><th class="c-sa"><a href="#sa-governance">SA 4</a><small>Governance</small></th></tr></thead>
+      <tbody>
+<tr><td class="c-q" id="q-1"><span class="qnum">Q1</span></td><td class="c-title"><b>Which content flows from AEM into Target, and where it isn't used yet</b><span>XFs are used widely on nab.com.au, but mini-apps don't always export, only a few secure-channel locations use mboxes, and native app pages don't use Target yet.</span></td><td class="c-mk"><span class="mk p" aria-hidden="true"></span><span class="sr">Main focus</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="mk p" aria-hidden="true"></span><span class="sr">Main focus</span></td><td class="c-mk"><span class="sr">Not covered</span></td></tr>
+<tr><td class="c-q" id="q-2"><span class="qnum">Q2</span></td><td class="c-title"><b>Where content is duplicated in AEM and Target</b><span>Minor and mini-app tests are built in Target. The two NAB Connect locations are hard to keep current and can break when the HTML changes.</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="mk p" aria-hidden="true"></span><span class="sr">Main focus</span></td><td class="c-mk"><span class="mk s" aria-hidden="true"></span><span class="sr">Also addresses</span></td></tr>
+<tr><td class="c-q" id="q-3"><span class="qnum">Q3</span></td><td class="c-title"><b>Which high-value experiences are slow or difficult to vary</b><span>Elevate isn't in AEM yet, form content is replaced on back and forward navigation, and broad-page changes can render incorrectly.</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="mk s" aria-hidden="true"></span><span class="sr">Also addresses</span></td><td class="c-mk"><span class="mk p" aria-hidden="true"></span><span class="sr">Main focus</span></td><td class="c-mk"><span class="sr">Not covered</span></td></tr>
+<tr><td class="c-q" id="q-4"><span class="qnum">Q4</span></td><td class="c-title"><b>Whether Experience Fragment patterns work well at scale</b><span>Harder when variations differ only slightly. Authors would like structure separated from variable content.</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="mk p" aria-hidden="true"></span><span class="sr">Main focus</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="sr">Not covered</span></td></tr>
+<tr><td class="c-q" id="q-5"><span class="qnum">Q5</span></td><td class="c-title"><b>Where structured content and Content Fragments support downstream experiences</b><span>Content Fragments are used for product rates, fees and disclaimers.</span></td><td class="c-mk"><span class="mk s" aria-hidden="true"></span><span class="sr">Also addresses</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="mk s" aria-hidden="true"></span><span class="sr">Also addresses</span></td></tr>
+<tr><td class="c-q" id="q-6"><span class="qnum">Q6</span></td><td class="c-title"><b>How workflows support localization, approvals, legal changes and expiry</b><span>AEM workflows aren't currently used for personalized content.</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="mk p" aria-hidden="true"></span><span class="sr">Main focus</span></td></tr>
+<tr><td class="c-q" id="q-7"><span class="qnum">Q7</span></td><td class="c-title"><b>What has limited extending AEM-authored content</b><span>Patterns can become restrictive, and it's hard to know what already exists and can be reused.</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="mk p" aria-hidden="true"></span><span class="sr">Main focus</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="mk p" aria-hidden="true"></span><span class="sr">Main focus</span></td></tr>
+<tr><td class="c-q" id="q-8"><span class="qnum">Q8</span></td><td class="c-title"><b>The one improvement with the greatest impact</b><span>A personalization-specific template, measured by consistency, asset creation speed and activity delivery time.</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="mk p" aria-hidden="true"></span><span class="sr">Main focus</span></td><td class="c-mk"><span class="sr">Not covered</span></td><td class="c-mk"><span class="sr">Not covered</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="legend"><span class="mk p" aria-hidden="true"></span> Main focus <span class="mk s" aria-hidden="true"></span> Also addresses</p>
 </section>
 
 
@@ -340,9 +425,10 @@ td.muted{color:var(--gray-600);}
   <p class="sec-eyebrow">Success Accelerator 1</p>
   <h2><span class="sa-badge">SA 1</span>Native app personalization: use cases and pilot design</h2>
   <div class="sa-meta"><span class="tag">Use Case Mapping to Solution Capability</span><span class="tag">Adobe Target · AEM as a Cloud Service</span><span class="tag">~40 hours</span></div>
+  <p class="responds-line"><span class="rl-label">Responds to</span><a class="qchip " href="#q-1" title="Question 1: Which content flows from AEM into Target, and where it isn't used yet">Q1</a><a class="qchip sup" href="#q-5" title="Question 5: Where structured content and Content Fragments support downstream experiences">Q5</a></p>
 
-  <h3>What you shared</h3>
-  <ul class="why"><li>You'd like to test different copy and links on native app screens such as Explore.</li><li>Target isn't used within native app screens yet.</li><li>The native app guide shared alongside this proposal sets out a possible direction and is the starting point here.</li></ul>
+  <h3>What you told us, and how this Success Accelerator responds</h3>
+  <div class="trace"><div class="trace-head"><span>What you told us</span><span>How this Success Accelerator responds</span></div><div class="tr"><div class="said"><a class="qchip " href="#q-1" title="Question 1: Which content flows from AEM into Target, and where it isn't used yet">Q1</a><p class="quote">&ldquo;Is the above also possible in native mobile app pages? &hellip; We want to be able to test different copy/links here, but not sure how that could work via Target.&rdquo;</p></div><div class="resp"><p>Validates the direction in the companion guide with your teams and designs a pilot, starting from the Explore screen.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-1" title="Question 1: Which content flows from AEM into Target, and where it isn't used yet">Q1</a><p class="quote">&ldquo;We haven't used Target within a native mobile app page yet.&rdquo;</p></div><div class="resp"><p>Reviews the app's current SDK, identity and consent setup, and the options for getting started.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-5" title="Question 5: Where structured content and Content Fragments support downstream experiences">Q5</a><p class="quote">&ldquo;We use CFs for product rates and fees and disclaimers where available in our Target activities today.&rdquo;</p></div><div class="resp"><p>Considers how your existing rate, fee and disclaimer fragments could feed native app slots.</p></div></div></div>
   <div class="objective"><span class="ob-label">Objective</span><p>Turn the direction into an agreed, prioritized pilot design that your app teams can plan around.</p></div>
 
   <div class="grid g2">
@@ -368,9 +454,10 @@ td.muted{color:var(--gray-600);}
   <p class="sec-eyebrow">Success Accelerator 2</p>
   <h2><span class="sa-badge">SA 2</span>Personalization authoring patterns and template</h2>
   <div class="sa-meta"><span class="tag">Solution Review</span><span class="tag">AEM as a Cloud Service (Sites)</span><span class="tag">~40 hours</span></div>
+  <p class="responds-line"><span class="rl-label">Responds to</span><a class="qchip " href="#q-4" title="Question 4: Whether Experience Fragment patterns work well at scale">Q4</a><a class="qchip " href="#q-7" title="Question 7: What has limited extending AEM-authored content">Q7</a><a class="qchip " href="#q-8" title="Question 8: The one improvement with the greatest impact">Q8</a><a class="qchip sup" href="#q-3" title="Question 3: Which high-value experiences are slow or difficult to vary">Q3</a></p>
 
-  <h3>What you shared</h3>
-  <ul class="why"><li>A personalization-specific template was the improvement you felt would have the greatest impact.</li><li>Small content differences currently need a new Experience Fragment each time.</li><li>Existing patterns can feel restrictive, and reuse gets harder as the library grows.</li><li>Elevate components aren't available in AEM yet.</li></ul>
+  <h3>What you told us, and how this Success Accelerator responds</h3>
+  <div class="trace"><div class="trace-head"><span>What you told us</span><span>How this Success Accelerator responds</span></div><div class="tr"><div class="said"><a class="qchip " href="#q-8" title="Question 8: The one improvement with the greatest impact">Q8</a><p class="quote">&ldquo;Create a personalisation specific template with the component and layout predefined. Currently Authors manually insert the same component every time we create an XF for personalisation.&rdquo;</p></div><div class="resp"><p>Produces a template specification with layout, responsive behavior, styles and badge predefined, plus author guardrails.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-8" title="Question 8: The one improvement with the greatest impact">Q8</a><p class="quote">&ldquo;Success measures - improved consistency, asset creation speed and activity delivery time.&rdquo;</p></div><div class="resp"><p>Suggests an approach for baselining these measures, so any improvement can be seen.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-4" title="Question 4: Whether Experience Fragment patterns work well at scale">Q4</a><p class="quote">&ldquo;Authors would benefit from greater separation between reusable experience structure and variable content, allowing a common XF to support different content combinations without having to create a new variation each time.&rdquo;</p></div><div class="resp"><p>Assesses XF and Content Fragment variation options that separate structure from content.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-7" title="Question 7: What has limited extending AEM-authored content">Q7</a><p class="quote">&ldquo;Existing AEM patterns work well for defined use cases, but they can become restrictive when teams need different layouts, content combinations or audience specific variations.&rdquo;</p></div><div class="resp"><p>Recommends when to use an XF vs. a Content Fragment, and which patterns to standardize.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-3" title="Question 3: Which high-value experiences are slow or difficult to vary">Q3</a><p class="quote">&ldquo;As that new system wasn't available in AEM, we needed to recreate those components in HTML/CSS.&rdquo;</p></div><div class="resp"><p>Considers how Elevate components could fit the pattern once they're available in AEM.</p></div></div></div>
   <div class="objective"><span class="ob-label">Objective</span><p>Recommend a reusable authoring pattern that separates experience structure from variable content and reduces manual setup.</p></div>
 
   <div class="grid g2">
@@ -387,9 +474,10 @@ td.muted{color:var(--gray-600);}
   <p class="sec-eyebrow">Success Accelerator 3</p>
   <h2><span class="sa-badge">SA 3</span>Personalization in secure channels and dynamic experiences</h2>
   <div class="sa-meta"><span class="tag">Adoption Review</span><span class="tag">Adobe Target</span><span class="tag">~40 hours</span></div>
+  <p class="responds-line"><span class="rl-label">Responds to</span><a class="qchip " href="#q-1" title="Question 1: Which content flows from AEM into Target, and where it isn't used yet">Q1</a><a class="qchip " href="#q-2" title="Question 2: Where content is duplicated in AEM and Target">Q2</a><a class="qchip " href="#q-3" title="Question 3: Which high-value experiences are slow or difficult to vary">Q3</a></p>
 
-  <h3>What you shared</h3>
-  <ul class="why"><li>The two NAB Connect mbox locations rely on hard-coded experiences that can break when the HTML changes, and product promotion content is hard to keep current.</li><li>Internet Banking is being Target-enabled next.</li><li>Content inserted into forms can be replaced when customers move back and forth between steps.</li><li>Mini-apps don't always work when exported as Experience Fragments.</li><li>Experiences that span much of a page can render incorrectly when the default page changes.</li></ul>
+  <h3>What you told us, and how this Success Accelerator responds</h3>
+  <div class="trace"><div class="trace-head"><span>What you told us</span><span>How this Success Accelerator responds</span></div><div class="tr"><div class="said"><a class="qchip " href="#q-2" title="Question 2: Where content is duplicated in AEM and Target">Q2</a><p class="quote">&ldquo;One of the locations promotes products, so managing within Target makes keeping information up to date difficult.&rdquo;</p></div><div class="resp"><p>Looks at how product and rate content in NAB Connect could be sourced from AEM rather than maintained in Target.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-2" title="Question 2: Where content is duplicated in AEM and Target">Q2</a><p class="quote">&ldquo;The HTML structure of the other location changes often. So any hard-coded activity we push live there can &lsquo;break&rsquo; when the HTML changes.&rdquo;</p></div><div class="resp"><p>Reviews both NAB Connect locations and outlines options that depend less on page markup.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-1" title="Question 1: Which content flows from AEM into Target, and where it isn't used yet">Q1</a><p class="quote">&ldquo;There are only a small number of locations that have been target-enabled in our secure channels, via mboxes. This has been done in NAB Connect, soon to be done in IB.&rdquo;</p></div><div class="resp"><p>Provides a checklist for enabling new Target locations, such as Internet Banking.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-1" title="Question 1: Which content flows from AEM into Target, and where it isn't used yet">Q1</a><p class="quote">&ldquo;Miniapps (forms, calculators) don't always work if we try to export them to Target via an XF.&rdquo;</p></div><div class="resp"><p>Includes mini-app export behavior in the root-cause analysis.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-3" title="Question 3: Which high-value experiences are slow or difficult to vary">Q3</a><p class="quote">&ldquo;Anything we insert via Target gets replaced if the user navigates back/forth between pages in the form.&rdquo;</p></div><div class="resp"><p>Reviews one form to understand the cause and the options.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-3" title="Question 3: Which high-value experiences are slow or difficult to vary">Q3</a><p class="quote">&ldquo;If we insert a section somewhere on a page, a change to the control can cause what we've done in the challenger to appear incorrectly.&rdquo;</p></div><div class="resp"><p>Reviews one broad-page activity and outlines more resilient approaches.</p></div></div></div>
   <div class="objective"><span class="ob-label">Objective</span><p>Understand the root causes and outline options for more resilient personalization in these scenarios.</p></div>
 
   <div class="grid g2">
@@ -406,9 +494,10 @@ td.muted{color:var(--gray-600);}
   <p class="sec-eyebrow">Success Accelerator 4</p>
   <h2><span class="sa-badge">SA 4</span>Personalization content governance and lifecycle</h2>
   <div class="sa-meta"><span class="tag">Tool Workflow & Governance Optimization</span><span class="tag">AEM as a Cloud Service · Adobe Target</span><span class="tag">~40 hours</span></div>
+  <p class="responds-line"><span class="rl-label">Responds to</span><a class="qchip " href="#q-6" title="Question 6: How workflows support localization, approvals, legal changes and expiry">Q6</a><a class="qchip " href="#q-7" title="Question 7: What has limited extending AEM-authored content">Q7</a><a class="qchip sup" href="#q-2" title="Question 2: Where content is duplicated in AEM and Target">Q2</a><a class="qchip sup" href="#q-5" title="Question 5: Where structured content and Content Fragments support downstream experiences">Q5</a></p>
 
-  <h3>What you shared</h3>
-  <ul class="why"><li>AEM workflows aren't currently used for approvals, localization or expiry of personalized content.</li><li>As the library grows, it's hard for authors to know what already exists.</li><li>Some content is maintained in both AEM and Target.</li><li>Unpublishing an Experience Fragment in AEM doesn't retire the matching offer in Target.</li></ul>
+  <h3>What you told us, and how this Success Accelerator responds</h3>
+  <div class="trace"><div class="trace-head"><span>What you told us</span><span>How this Success Accelerator responds</span></div><div class="tr"><div class="said"><a class="qchip " href="#q-6" title="Question 6: How workflows support localization, approvals, legal changes and expiry">Q6</a><p class="summary">AEM workflows aren't currently used for localization, approvals, legal or brand changes, or content expiry for personalized experiences.</p></div><div class="resp"><p>Maps the current process and recommends a lightweight workflow covering approvals, localization and expiry.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-7" title="Question 7: What has limited extending AEM-authored content">Q7</a><p class="quote">&ldquo;As the content library grows, it can become difficult for Authors to know what already exists and what can be reused.&rdquo;</p></div><div class="resp"><p>Recommends naming, folder and tagging conventions that make existing content easier to find and reuse.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-2" title="Question 2: Where content is duplicated in AEM and Target">Q2</a><p class="quote">&ldquo;Content is managed directly in Target when testing a minor change, testing something within a miniapp where it wouldn't make sense to insert an AEM component.&rdquo;</p></div><div class="resp"><p>Helps clarify when content can stay in Target and when it's better sourced from AEM.</p></div></div><div class="tr"><div class="said"><a class="qchip " href="#q-5" title="Question 5: Where structured content and Content Fragments support downstream experiences">Q5</a><p class="quote">&ldquo;We use CFs for product rates and fees and disclaimers where available in our Target activities today.&rdquo;</p></div><div class="resp"><p>Adds an offer lifecycle checklist, including retiring offers in Target, so rates and disclaimers stay current.</p></div></div></div>
   <div class="objective"><span class="ob-label">Objective</span><p>A lightweight governance model for personalization content, from request to retirement.</p></div>
 
   <div class="grid g2">
@@ -427,8 +516,8 @@ td.muted{color:var(--gray-600);}
   <h2>Guided by your priorities</h2>
   <div class="prose"><p>We'd be glad to follow your lead on which of these, if any, would be most useful, and in what order.</p></div>
   <div class="grid g3 start">
-    <div class="card"><span class="cnum">SA 2 · Authoring patterns</span><h3>Your top improvement</h3><p>Responds to the improvement you named as having the greatest impact, so it may be a natural first candidate.</p></div>
-    <div class="card"><span class="cnum">SA 1 · Native app</span><h3>Builds on the guide</h3><p>Continues from the accompanying native app guide, moving from direction to a pilot design.</p></div>
+    <div class="card"><span class="cnum">SA 2 · Authoring patterns</span><h3>Your top improvement</h3><p>Responds to the improvement you named as having the greatest impact <a class="qchip " href="#q-8" title="Question 8: The one improvement with the greatest impact">Q8</a>, so it may be a natural first candidate.</p></div>
+    <div class="card"><span class="cnum">SA 1 · Native app</span><h3>Builds on the guide</h3><p>Continues from the accompanying native app guide <a class="qchip " href="#q-1" title="Question 1: Which content flows from AEM into Target, and where it isn't used yet">Q1</a>, moving from direction to a pilot design.</p></div>
     <div class="card"><span class="cnum">SA 3 and SA 4</span><h3>Fits around your teams</h3><p>Secure channels and governance can be planned around your teams' availability.</p></div>
   </div>
   <div class="takeaway"><span class="tk-label">Next step</span><p>Happy to walk through any of these together and shape the scope with you.</p></div>
